@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "247661112249",
+    "project_id": "masterg-ac593",
+    "storage_bucket": "masterg-ac593.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:247661112249:android:aaa6005fd1b2576af72468",
+        "android_client_info": {
+          "package_name": "com.learn_build"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "247661112249-jb0eocftkphg890o6l9is3g3f0om4l60.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.learn_build",
+            "certificate_hash": "2d0ecab98d881466465e12c5a2dc5b1792e5651e"
+          }
+        },
+        {
+          "client_id": "247661112249-vg2chtnjtp8ludkqgfumqt9f3mriqkpg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnGKUlAY2n90iOv6rY7A8wOVx-1XL3Rs0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "247661112249-vg2chtnjtp8ludkqgfumqt9f3mriqkpg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

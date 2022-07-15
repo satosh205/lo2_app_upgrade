@@ -1,0 +1,201 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masterg/blocs/bloc_manager.dart';
+import 'package:masterg/blocs/home_bloc.dart';
+import 'package:masterg/data/api/api_service.dart';
+import 'package:masterg/data/models/response/home_response/master_language_response.dart';
+import 'package:masterg/local/pref/Preference.dart';
+import 'package:masterg/main.dart';
+import 'package:masterg/pages/auth_pages/sign_up_screen.dart';
+import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
+import 'package:masterg/utils/Log.dart';
+import 'package:masterg/utils/Strings.dart';
+import 'package:masterg/utils/Styles.dart';
+import 'package:masterg/utils/resource/colors.dart';
+import 'package:masterg/utils/widget_size.dart';
+
+class ChooseLanguage extends StatefulWidget {
+  ChooseLanguage({Key? key}) : super(key: key);
+
+  @override
+  _ChooseLanguageState createState() => _ChooseLanguageState();
+}
+
+class _ChooseLanguageState extends State<ChooseLanguage> {
+  var selected = 0;
+
+  bool _isLoading = false;
+  List<ListLanguage>? myList;
+  var localeCodes = {
+    'english': "en",
+    'hindi': "hi",
+    'kannada': "kn",
+    'marathi': "mr",
+    'tamil': "ta",
+    'telugu': "te",
+    'bengali': "bn",
+    'malyalam': 'ml'
+  };
+
+  @override
+  void initState() {
+    super.initState();
+    _getLanguage();
+  }
+
+  void setCurrentLanguage() async {
+    setState(() {
+      MyApp.setLocale(context, Locale(localeCodes['english']!));
+      selected = 0;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocManager(
+      initState: (context) {},
+      child: BlocListener<HomeBloc, HomeState>(
+        listener: (context, state) {
+          if (state is MasterLanguageState) _handleResponse(state);
+        },
+        child: Builder(builder: (_context) {
+          return Scaffold(
+            backgroundColor: Colors.white,
+            body: ScreenWithLoader(
+              isLoading: _isLoading,
+              body: SafeArea(
+                  child: SingleChildScrollView(
+                // physics: BouncingScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Image.asset(
+                      'assets/images/app_icon.jpg',
+                      height: 100,
+                      width: 150,
+                    ),
+                    SizedBox(height: 40),
+                    Center(
+                      child: Text(
+                        '${Strings.of(context)?.chooseAppLanguage}',
+                        style: Styles.bold(size: 18),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        child: Image.asset('assets/images/signupimage.png')),
+                    SizedBox(height: 40),
+                    Container(
+                      height: 200,
+                      child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: myList?.length ?? 0,
+                        itemBuilder: (BuildContext context, int index) {
+                          return languageCard(myList![index], index);
+                        },
+                      ),
+                    ),
+                    InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignUpScreen()));
+                        },
+                        child: Container(
+                          margin: EdgeInsets.all(12),
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.height *
+                              WidgetSize.AUTH_BUTTON_SIZE,
+                          decoration: BoxDecoration(
+                              color: ColorConstants.APPBAR_COLOR,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Center(
+                              child: Text(
+                            '${Strings.of(context)?.continueStr}',
+                            style: Styles.regular(
+                              color: ColorConstants.WHITE,
+                            ),
+                          )),
+                        ))
+                  ],
+                ),
+              )),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+
+  void _handleResponse(MasterLanguageState state) {
+    var loginState = state;
+    setState(() {
+      switch (loginState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          _isLoading = true;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("UserProfileState....................");
+          _isLoading = false;
+          myList = state.response!.data!.listData;
+          setCurrentLanguage();
+          break;
+        case ApiStatus.ERROR:
+          _isLoading = false;
+          Log.v("Error..........................");
+          Log.v("Error..........................${loginState.error}");
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
+  }
+
+  void _getLanguage() {
+    BlocProvider.of<HomeBloc>(context).add(MasterLanguageEvent());
+  }
+
+  Widget languageCard(langauge, index) {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          selected = index;
+          Preference.setInt(Preference.APP_LANGUAGE, langauge.languageId);
+          Preference.setString(
+              Preference.LANGUAGE, langauge.languageCode.toLowerCase());
+          MyApp.setLocale(context,
+              Locale(localeCodes[langauge.englishName.toLowerCase()]!));
+        });
+      },
+      child: Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+          margin: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                  width: 1,
+                  color: index == selected
+                      ? ColorConstants.GREEN
+                      : ColorConstants.DARK_GREY)),
+          child: Center(
+              child: Text(
+            '${langauge.name}',
+            style: Styles.regular(
+                size: 18,
+                color: index == selected
+                    ? ColorConstants.GREEN
+                    : ColorConstants.BLACK),
+          ))),
+    );
+  }
+}
