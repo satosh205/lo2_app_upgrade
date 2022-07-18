@@ -194,9 +194,10 @@ class _VerifyOtpState extends State<VerifyOtp> {
                 title: "Invalid OTP",
                 text: "",
                 icon: 'assets/images/circle_alert_fill.svg',
+                oKText: 'Ok',
                 showCancel: false,
                 onOkClick: () async {
-                  Navigator.pop(context);
+                  // Navigator.pop(context);
                 });
           }
 

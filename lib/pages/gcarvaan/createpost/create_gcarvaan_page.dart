@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
+import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
 import 'package:masterg/data/models/response/home_response/create_post_response.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
@@ -73,6 +74,9 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
         providers: [
           ChangeNotifierProvider<CreatePostProvider>(
             create: (context) => CreatePostProvider(widget.filesPath),
+          ),
+          ChangeNotifierProvider<MenuListProvider>(
+            create: (context) => MenuListProvider([]),
           ),
         ],
         child: WillPopScope(
@@ -192,7 +196,10 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                                     child: Row(
                                       children: [
                                         SvgPicture.asset(
-                                            'assets/images/image.svg'),
+                                          'assets/images/image.svg',
+                                          color:
+                                              ColorConstants().primaryColor(),
+                                        ),
                                         Padding(
                                           padding:
                                               const EdgeInsets.only(left: 5.0),
@@ -223,7 +230,10 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                                     child: Row(
                                       children: [
                                         SvgPicture.asset(
-                                            'assets/images/camera_y.svg'),
+                                          'assets/images/camera_y.svg',
+                                          color:
+                                              ColorConstants().primaryColor(),
+                                        ),
                                         Padding(
                                           padding:
                                               const EdgeInsets.only(left: 5.0),
@@ -278,41 +288,45 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                       ),
                     ),
                   ),
-                  Positioned(
-                    bottom: 0,
-                    child: Container(
-                      width: size.width,
-                      height: size.height * 0.09,
-                      decoration: BoxDecoration(
-                        color: ColorConstants.WHITE,
-                      ),
-                      child: InkWell(
-                        onTap: () {
-                          if (value.files!.length != 0) createPost();
-                        },
-                        child: Container(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: size.width * 0.05,
-                              vertical: size.width * 0.03),
-                          decoration: BoxDecoration(
-                            color: ColorConstants().buttonColor(),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(
-                            child: Text('${Strings.of(context)?.Share} ',
-                                style: Styles.regular(
-                                    size: 16, color: ColorConstants.BLACK)),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
+                  Consumer<MenuListProvider>(
+                      builder: (context, menuProvider, child) => Positioned(
+                            bottom: 0,
+                            child: Container(
+                              width: size.width,
+                              height: size.height * 0.09,
+                              decoration: BoxDecoration(
+                                color: ColorConstants.WHITE,
+                              ),
+                              child: InkWell(
+                                onTap: () {
+                                  if (value.files!.length != 0)
+                                    createPost(menuProvider);
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: size.width * 0.05,
+                                      vertical: size.width * 0.03),
+                                  decoration: BoxDecoration(
+                                    color: ColorConstants().buttonColor(),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                        '${Strings.of(context)?.Share} ',
+                                        style: Styles.regular(
+                                            size: 16,
+                                            color: ColorConstants.BLACK)),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ))
                 ]),
               ),
             ));
   }
 
-  void createPost() {
+  void createPost(MenuListProvider provider) {
     if (!widget.isReelsPost) {
       Navigator.pushAndRemoveUntil(
           context,
@@ -324,6 +338,7 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                 desc: '${postDescriptionController.value.text}',
                 filesPath: widget.filesPath,
                 isFromCreatePost: true,
+                bottomMenu: provider.list,
               ),
               isMaintainState: true),
           (route) => false);

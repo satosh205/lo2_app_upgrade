@@ -97,9 +97,10 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
         url: url,
         savedDir: savePath,
         showNotification: true,
-        headers: {"auth": "test_for_sql_encoding"},
+        // headers: {"auth": "test_for_sql_encoding"},
         openFileFromNotification: true,
       );
+      FlutterDownloader.open(taskId: taskId!);
       print(taskId);
     } catch (e) {
       print(e);

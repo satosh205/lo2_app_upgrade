@@ -59,41 +59,6 @@ class _CreatePostPageState extends State<CreatePostPage> {
     super.dispose();
   }
 
-  // void setLocalData() async {
-  //   box = await Hive.openBox(DB.CONTENT);
-
-  //   localFiles = pickedList.map((File e) => e.path).toList();
-  //   String data = localFiles.toString();
-  //   data = data.substring(1, data.length - 1).replaceAll(' ', '');
-
-  //   await box.put('pickedList', data);
-  // }
-
-  // void getLocalData() async {
-  //   print('getting data');
-  //   box = await Hive.openBox(DB.CONTENT);
-  //   String data = box.get('pickedList');
-  //   localFiles.clear();
-  //   localFiles = data.split(',');
-  //   print(localFiles);
-  //   if (widget.isReelsPage) {
-  //     for (int i = 0; i < localFiles.length; i++) {
-  //       if (localFiles[i].contains('.mp4')) {
-  //         pickedList.add(File(localFiles[i]));
-  //       }
-  //     }
-  //   } else {
-  //     for (int i = 0; i < localFiles.length; i++) {
-  //       pickedList.add(File(localFiles[i]));
-  //     }
-  //   }
-
-  //   readyToPost.add(pickedList.first);
-  //   pickedFile = pickedList.first;
-
-  //   setState(() {});
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,25 +70,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
           widget.isReelsPage ? 'New Reels' : 'New Post',
           style: Styles.bold(size: 14, color: ColorConstants.BLACK),
         ),
-        // title: Column(children: [
-        //   SizedBox(
-        //     height: 10,
-        //   ),
-        //   Container(
-        //     height: 5,
-        //     width: 48,
-        //     decoration: BoxDecoration(
-        //         color: ColorConstants.START_GREY_BG,
-        //         borderRadius: BorderRadius.circular(8)),
-        //   ),
-        //   SizedBox(
-        //     height: 10,
-        //   ),
-        //   Text(
-        //     widget.isReelsPage ? 'New Reels' : 'New Post',
-        //     style: Styles.bold(size: 14, color: ColorConstants.BLACK),
-        //   )
-        // ]),
+
         centerTitle: true,
         actions: [
           if (pickedFile != null)
@@ -145,21 +92,6 @@ class _CreatePostPageState extends State<CreatePostPage> {
                                   filesPath: readyToPost
                                       .map((e) => e!.path)
                                       .toList())));
-                      // showModalBottomSheet(
-                      //     context: context,
-                      //     backgroundColor: Colors.black,
-                      //     isScrollControlled: true,
-                      //     builder: (context) {
-                      //       return FractionallySizedBox(
-                      //           heightFactor: 0.97,
-                      //           child: SharePost(
-                      //               postDocPath: pickedFile,
-                      //               fileToUpload: listFiles,
-                      //               isReelsPost: widget.isReelsPage,
-                      //               filesPath: readyToPost
-                      //                   .map((e) => e.path)
-                      //                   .toList()));
-                      //     });
                     }
                   },
                   child: Text(
@@ -268,6 +200,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                           'assets/images/camera_icon.svg',
                           height: 20,
                           width: 20,
+                          color: ColorConstants().primaryColor(),
                           allowDrawingOutsideViewBox: true,
                         ),
                         Padding(

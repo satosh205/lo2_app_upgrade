@@ -194,6 +194,8 @@ class _MyCoursesState extends State<MyCourses> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text('${courseList1![index].name}',
+                                          overflow: TextOverflow.fade,
+                                          maxLines: 2,
                                           style: Styles.bold(size: 16)),
                                       SizedBox(height: 4),
                                       Row(

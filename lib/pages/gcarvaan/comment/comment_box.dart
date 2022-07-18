@@ -87,13 +87,6 @@ class _CommentBoxState extends State<CommentBox> {
                       hintText: 'Write your comment',
                       hintStyle: Styles.regular(
                           size: 14, color: ColorConstants.GREY_4),
-                      // suffixIcon: Transform.scale(
-                      //   scale: 0.8,
-                      //   child: SvgPicture.asset(
-                      //     'assets/images/emoji_icon.svg',
-                      //     allowDrawingOutsideViewBox: true,
-                      //   ),
-                      // ),
                     ),
                     // controller: fieldText,
                   ),
@@ -103,6 +96,7 @@ class _CommentBoxState extends State<CommentBox> {
                 onTap: widget.sendButtonMethod,
                 child: SvgPicture.asset(
                   'assets/images/send_icon.svg',
+                  color: ColorConstants().primaryColor(),
                   height: 50,
                   width: 50,
                   allowDrawingOutsideViewBox: true,

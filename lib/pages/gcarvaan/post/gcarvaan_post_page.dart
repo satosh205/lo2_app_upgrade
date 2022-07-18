@@ -73,7 +73,6 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
   }
 
   void _getPosts(callCount, {postId}) {
-    print('');
     //box = Hive.box(DB.CONTENT);
     BlocProvider.of<HomeBloc>(context)
         .add(GCarvaanPostEvent(callCount: callCount, postId: postId));
@@ -219,7 +218,11 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                           builder: (context, value, child) => Container(
                             color: ColorConstants.WHITE,
                             width: MediaQuery.of(context).size.width,
-                            padding: EdgeInsets.only(left: 10.0, top: 10.0, right: 10.0, bottom: 10.0),
+                            padding: EdgeInsets.only(
+                                left: 10.0,
+                                top: 10.0,
+                                right: 10.0,
+                                bottom: 10.0),
                             // height: 80,
                             child: Column(
                               children: [
@@ -267,12 +270,14 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                   children: [
                                     InkWell(
                                       onTap: () async {
-                                         _initFilePiker(value, false);
+                                        _initFilePiker(value, false);
                                       },
                                       child: Row(
                                         children: [
                                           SvgPicture.asset(
                                             'assets/images/image.svg',
+                                            color:
+                                                ColorConstants().primaryColor(),
                                             allowDrawingOutsideViewBox: true,
                                           ),
                                           SizedBox(width: 4),
@@ -284,12 +289,14 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                     SizedBox(width: 20.0),
                                     InkWell(
                                       onTap: () async {
-                                         _initFilePiker(value, true);
+                                        _initFilePiker(value, true);
                                       },
                                       child: Row(
                                         children: [
                                           SvgPicture.asset(
                                             'assets/images/video.svg',
+                                            color:
+                                                ColorConstants().primaryColor(),
                                             allowDrawingOutsideViewBox: true,
                                           ),
                                           SizedBox(width: 4),
@@ -332,7 +339,9 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
     if (await Permission.storage.request().isGranted) {
       if (Platform.isIOS) {
         result = await FilePicker.platform.pickFiles(
-            allowMultiple: true, type: isVideo ? FileType.video : FileType.image, allowedExtensions: []);
+            allowMultiple: true,
+            type: isVideo ? FileType.video : FileType.image,
+            allowedExtensions: []);
       } else {
         result = await FilePicker.platform.pickFiles(
             allowMultiple: true,

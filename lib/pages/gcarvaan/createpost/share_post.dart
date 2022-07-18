@@ -9,6 +9,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
+import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
 import 'package:masterg/data/models/response/home_response/create_post_response.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
@@ -19,6 +20,7 @@ import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
 class SharePost extends StatefulWidget {
@@ -91,17 +93,24 @@ class _SharePostState extends State<SharePost> {
         ]),
         centerTitle: true,
       ),
-      body: BlocManager(
-          initState: (BuildContext context) {
-            //createPost();
-          },
-          child: BlocListener<HomeBloc, HomeState>(
-            listener: (context, state) {
-              if (state is CreatePostState) _handleCreatePostResponse(state);
+      body: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<MenuListProvider>(
+            create: (context) => MenuListProvider([]),
+          ),
+        ],
+        child: BlocManager(
+            initState: (BuildContext context) {
+              //createPost();
             },
-            child:
-                ScreenWithLoader(isLoading: isPostedLoading, body: _content()),
-          )),
+            child: BlocListener<HomeBloc, HomeState>(
+              listener: (context, state) {
+                if (state is CreatePostState) _handleCreatePostResponse(state);
+              },
+              child: ScreenWithLoader(
+                  isLoading: isPostedLoading, body: _content()),
+            )),
+      ),
     );
   }
 
@@ -202,63 +211,47 @@ class _SharePostState extends State<SharePost> {
                                 ),
                               )
                             : SizedBox(),
-
-                    // ClipRRect(
-                    // borderRadius: BorderRadius.circular(10),
-                    //   child: Container(
-                    //       child: widget.postDocPath != null
-                    //           ? widget.postDocPath.path.contains('.pdf')
-                    //               ? PDFScreen(path: widget.postDocPath.path)
-                    //               : widget.postDocPath.path.contains('.mp4')
-                    //                   ? FlickVideoPlayer(
-                    //                       flickManager: flickManager)
-                    //                   : Image.file(
-                    //                       widget.postDocPath,
-                    //                       height: 280,
-                    //                       fit: BoxFit.cover,
-                    //                     )
-                    //           : SizedBox()),
-                    // ),
                   ],
                 ),
               ),
             ),
           ),
-          Positioned(
-            bottom: 0,
-            child: Container(
-              width: size.width,
-              height: size.height * 0.09,
-              decoration: BoxDecoration(
-                color: ColorConstants.WHITE,
-              ),
-              child: InkWell(
-                onTap: () {
-                  createPost();
-                },
-                child: Container(
-                  margin: EdgeInsets.symmetric(
-                      horizontal: size.width * 0.05,
-                      vertical: size.width * 0.03),
-                  decoration: BoxDecoration(
-                    color: ColorConstants().buttonColor(),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                    child: Text('${Strings.of(context)?.Share} ',
-                        style: Styles.regular(
-                            size: 21.12, color: ColorConstants.BLACK)),
-                  ),
-                ),
-              ),
-            ),
-          )
+          Consumer<MenuListProvider>(
+              builder: (context, value, child) => Positioned(
+                    bottom: 0,
+                    child: Container(
+                      width: size.width,
+                      height: size.height * 0.09,
+                      decoration: BoxDecoration(
+                        color: ColorConstants.WHITE,
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          createPost(value);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: size.width * 0.05,
+                              vertical: size.width * 0.03),
+                          decoration: BoxDecoration(
+                            color: ColorConstants().buttonColor(),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                            child: Text('${value.list?.length}',
+                                style: Styles.regular(
+                                    size: 21.12, color: ColorConstants.BLACK)),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ))
         ]),
       ),
     );
   }
 
-  void createPost() {
+  void createPost(MenuListProvider value) {
     if (!widget.isReelsPost) {
       Navigator.pushAndRemoveUntil(
           context,
@@ -270,6 +263,7 @@ class _SharePostState extends State<SharePost> {
                 desc: '${postDescriptionController.value.text}',
                 filesPath: widget.filesPath,
                 isFromCreatePost: true,
+                bottomMenu: value.list,
               ),
               isMaintainState: true),
           (route) => false);

@@ -4,7 +4,10 @@ class CreatePostProvider extends ChangeNotifier {
   List<String?>? files = [];
 
   CreatePostProvider(List<String?>? files) {
-    this.files = files;
+    if (files != null) {
+      this.files = files;
+    }
+
     notifyListeners();
   }
 
@@ -22,5 +25,4 @@ class CreatePostProvider extends ChangeNotifier {
     this.files!.clear();
     notifyListeners();
   }
-
 }

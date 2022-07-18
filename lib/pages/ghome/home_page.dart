@@ -130,6 +130,9 @@ class _homePageState extends State<homePage> {
         ChangeNotifierProvider<VideoPlayerProvider>(
           create: (context) => VideoPlayerProvider(true),
         ),
+        ChangeNotifierProvider<MenuListProvider>(
+          create: (context) => MenuListProvider(widget.bottomMenu!),
+        ),
       ],
       child: Scaffold(
         key: _scaffoldKey,
@@ -163,6 +166,9 @@ class _homePageState extends State<homePage> {
                 onTap: () {},
               ),
               Divider(height: 20),
+              Consumer<MenuListProvider>(
+                  builder: (context, menuProvider, child) =>
+                      Text('${menuProvider.list?.length}')),
               ListTile(
                 title: const Text('FAQs'),
                 onTap: () {
@@ -260,7 +266,6 @@ class _homePageState extends State<homePage> {
                 ),
             ],
             onTap: (index) {
-              print('index: ${widget.bottomMenu![index].url}');
               if (widget.bottomMenu![index].linkType != 0) {
                 Navigator.push(
                     context,
@@ -284,9 +289,17 @@ class _homePageState extends State<homePage> {
                               ),
                             )));
               } else {
-                setState(() {
-                  currentIndex = index;
-                });
+                if (widget.bottomMenu![index].url == '/g-reels') {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              ReelsDashboardPage()));
+                  print('reels clicked');
+                } else
+                  setState(() {
+                    currentIndex = index;
+                  });
               }
             },
           ),

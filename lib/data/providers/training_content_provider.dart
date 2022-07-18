@@ -19,7 +19,7 @@ class TrainingContentProvier extends BaseState {
   ApiStatus apiStatus = ApiStatus.LOADING;
   Box box = Hive.box(DB.TRAININGS);
 
-  late TrainingModuleResponse trainingModuleResponse;
+  late TrainingModuleResponse trainingModuleResponse = TrainingModuleResponse();
 
   List<Map<String, dynamic>>? content = [];
 

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 BottomBarResponse bottomBarResponseFromJson(String str) =>
     BottomBarResponse.fromJson(json.decode(str));
 
@@ -107,4 +109,28 @@ class Menu {
         "label": label,
         "role": role,
       };
+}
+
+class MenuListProvider extends ChangeNotifier {
+  List<Menu>? _list = [];
+  List<Menu>? get list => _list;
+  MenuListProvider(List<Menu> list) {
+    if (list.length > 0) this._list = list;
+    print('the length of contetn is ${this._list?.length}');
+    notifyListeners();
+  }
+
+  void updateList(List<Menu> newData) {
+    this._list!.addAll(newData);
+    notifyListeners();
+  }
+
+  void refreshList(List<Menu> list) {
+    this._list = list;
+    notifyListeners();
+  }
+
+  List<Menu>? getList() {
+    return this._list;
+  }
 }
