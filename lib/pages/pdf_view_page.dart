@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -26,7 +24,7 @@ class _ViewPdfPageState extends State<ViewPdfPage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:   ColorConstants.APPBAR_COLOR,
+        backgroundColor: ColorConstants().primaryColor(),
         title: Text("Pdf"),
       ),
       body: Stack(

@@ -208,7 +208,7 @@ class _homePageState extends State<homePage> {
               const SizedBox(width: 10),
             ],
           ),
-          backgroundColor: ColorConstants.APPBAR_COLOR,
+          backgroundColor: ColorConstants().primaryColor(),
           elevation: 0.0,
           centerTitle: true,
         ),
@@ -221,7 +221,7 @@ class _homePageState extends State<homePage> {
           child: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             currentIndex: currentIndex,
-            selectedItemColor: ColorConstants.APPBAR_COLOR,
+            selectedItemColor: ColorConstants().primaryColor(),
             unselectedItemColor: Colors.blue,
             items: [
               for (int i = 0; i < widget.bottomMenu!.length; i++)
@@ -232,7 +232,7 @@ class _homePageState extends State<homePage> {
                               widget.bottomMenu!.indexOf(widget.bottomMenu![i])
                           ? SvgPicture.asset(
                               '${iconSeleted['${widget.bottomMenu?[i].url}']}',
-                              color: ColorConstants.APPBAR_COLOR,
+                              color: ColorConstants().primaryColor(),
                               // allowDrawingOutsideViewBox: true,
                             )
                           : SvgPicture.asset(
@@ -250,7 +250,7 @@ class _homePageState extends State<homePage> {
                             color: currentIndex ==
                                     widget.bottomMenu!
                                         .indexOf(widget.bottomMenu![i])
-                                ? ColorConstants.APPBAR_COLOR
+                                ? ColorConstants().primaryColor()
                                 : Colors.black.withOpacity(0.8)),
                       ),
                     ],
@@ -266,7 +266,8 @@ class _homePageState extends State<homePage> {
                     MaterialPageRoute(
                         builder: (context) => Scaffold(
                               appBar: AppBar(
-                                backgroundColor: ColorConstants.APPBAR_COLOR,
+                                backgroundColor:
+                                    ColorConstants().primaryColor(),
                                 elevation: 0.0,
                                 leading: IconButton(
                                   icon: const Icon(Icons.arrow_back),

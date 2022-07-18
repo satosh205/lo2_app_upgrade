@@ -115,7 +115,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                           height: MediaQuery.of(context).size.height *
                               WidgetSize.AUTH_BUTTON_SIZE,
                           decoration: BoxDecoration(
-                              color: ColorConstants.APPBAR_COLOR,
+                              color: ColorConstants().primaryColor(),
                               borderRadius: BorderRadius.circular(10)),
                           child: Center(
                               child: Text(

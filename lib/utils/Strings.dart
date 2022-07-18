@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:masterg/utils/config.dart';
 
 import 'en_file.dart';
 
@@ -720,7 +721,7 @@ class Strings {
 
   static const NO_INTERNET_MESSAGE = "No internet connection.";
 
-  String get appName => "LnB";
+  String get appName => APK_DETAILS['app_name']!;
 
   static Map<String, Map<String, String>> _localizedValues = {
     'en': EN_TEXT,

@@ -619,7 +619,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
             colors: VideoProgressColors(
                 backgroundColor: ColorConstants.GREY_3,
                 bufferedColor: ColorConstants.GREY_3,
-                playedColor: ColorConstants.PRIMARY_COLOR),
+                playedColor: ColorConstants().primaryColor()),
           ),
         if (selectedType == 'Videos' && selectedContentId != null)
           Container(
@@ -662,7 +662,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           color: isAllSelected == true
-                              ? ColorConstants.PRIMARY_COLOR
+                              ? ColorConstants().primaryColor()
                               : ColorConstants.WHITE),
                       child: Text('All',
                           style: Styles.regular(
@@ -689,7 +689,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                           borderRadius: BorderRadius.circular(12),
                           color: selectedType == 'Classes' &&
                                   isAllSelected == false
-                              ? ColorConstants.PRIMARY_COLOR
+                              ? ColorConstants().primaryColor()
                               : ColorConstants.WHITE),
                       child: Text('Classes',
                           style: Styles.regular(
@@ -719,7 +719,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                             borderRadius: BorderRadius.circular(12),
                             color: selectedType == 'Videos' &&
                                     isAllSelected == false
-                                ? ColorConstants.PRIMARY_COLOR
+                                ? ColorConstants().primaryColor()
                                 : ColorConstants.WHITE),
                         child: Text('Videos',
                             style: Styles.regular(
@@ -747,7 +747,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                             borderRadius: BorderRadius.circular(12),
                             color: selectedType == 'Notes' &&
                                     isAllSelected == false
-                                ? ColorConstants.PRIMARY_COLOR
+                                ? ColorConstants().primaryColor()
                                 : ColorConstants.WHITE),
                         child: Text('Notes',
                             style: Styles.regular(
@@ -775,7 +775,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                             borderRadius: BorderRadius.circular(12),
                             color: selectedType == 'Assignment' &&
                                     isAllSelected == false
-                                ? ColorConstants.PRIMARY_COLOR
+                                ? ColorConstants().primaryColor()
                                 : ColorConstants.WHITE),
                         child: Text('Assignment',
                             style: Styles.regular(
@@ -803,7 +803,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                             borderRadius: BorderRadius.circular(12),
                             color:
                                 selectedType == 'Quiz' && isAllSelected == false
-                                    ? ColorConstants.PRIMARY_COLOR
+                                    ? ColorConstants().primaryColor()
                                     : ColorConstants.WHITE),
                         child: Text('Quiz',
                             style: Styles.regular(
@@ -1045,7 +1045,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                         backgroundColor: ColorConstants.GREY_3,
                                         bufferedColor: ColorConstants.GREY_3,
                                         playedColor:
-                                            ColorConstants.PRIMARY_COLOR),
+                                            ColorConstants().primaryColor()),
                                   )),
                             ),
                         ],
@@ -1594,9 +1594,10 @@ class _FullScreenYoutubePlayerState extends State<FullScreenYoutubePlayer> {
           ProgressBar(
             isExpanded: true,
             colors: ProgressBarColors(
-                handleColor: ColorConstants.PRIMARY_COLOR,
+                handleColor: ColorConstants().primaryColor(),
                 bufferedColor: ColorConstants.BG_GREY,
-                backgroundColor: ColorConstants.PRIMARY_COLOR.withOpacity(0.3)),
+                backgroundColor:
+                    ColorConstants().primaryColor().withOpacity(0.3)),
 
             //full screen toggle button
           ),

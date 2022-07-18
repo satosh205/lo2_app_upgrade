@@ -37,7 +37,7 @@ class HomeProvider {
               method: 'GET',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -69,7 +69,7 @@ class HomeProvider {
               method: 'GET',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -101,7 +101,7 @@ class HomeProvider {
               method: 'GET',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -130,7 +130,7 @@ class HomeProvider {
         Uri.parse(_url),
         headers: {
           "Authorization": "Bearer ${UserSession.userToken}",
-          ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE,
+          ApiConstants.API_KEY: ApiConstants().APIKeyValue(),
           "Content-Type": "application/json",
         },
       );
@@ -157,7 +157,7 @@ class HomeProvider {
               method: 'GET',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -194,7 +194,7 @@ class HomeProvider {
               method: 'GET',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               responseType: ResponseType.json // or ResponseType.JSON
               ));
@@ -228,7 +228,7 @@ class HomeProvider {
               method: 'POST',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -262,7 +262,7 @@ class HomeProvider {
               method: 'GET',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -289,7 +289,7 @@ class HomeProvider {
               method: 'GET',
               headers: {
                 //"Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -321,7 +321,7 @@ class HomeProvider {
               method: 'GET',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -352,7 +352,7 @@ class HomeProvider {
               method: 'POST',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -385,7 +385,7 @@ class HomeProvider {
               method: 'POST',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -417,7 +417,7 @@ class HomeProvider {
                   method: 'GET',
                   headers: {
                     "Authorization": "Bearer ${UserSession.userToken}",
-                    ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                    ApiConstants.API_KEY: ApiConstants().APIKeyValue()
                   },
                   contentType: "application/json",
                   responseType: ResponseType.json // or ResponseType.JSON
@@ -445,7 +445,7 @@ class HomeProvider {
               method: 'POST',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -474,7 +474,7 @@ class HomeProvider {
               method: 'POST',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -501,7 +501,7 @@ class HomeProvider {
                   method: 'GET',
                   headers: {
                     "Authorization": "Bearer ${UserSession.userToken}",
-                    ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                    ApiConstants.API_KEY: ApiConstants().APIKeyValue()
                   },
                   contentType: "application/json",
                   responseType: ResponseType.json // or ResponseType.JSON
@@ -528,7 +528,7 @@ class HomeProvider {
               method: 'GET',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -557,7 +557,7 @@ class HomeProvider {
               method: 'GET',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -586,7 +586,7 @@ class HomeProvider {
                   headers: {
                     "Authorization": "Bearer ${UserSession.userToken}",
                     //"Authorization":"bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9iODBmLTE4Mi03Ni00MS01OS5uZ3Jvay5pb1wvYXBpXC9sb2dpbiIsImlhdCI6MTY0NjY0NTgzOCwiZXhwIjoxNjUwMjQ1ODM4LCJuYmYiOjE2NDY2NDU4MzgsImp0aSI6Ild6b0oxeGlub3FSdktXT3AiLCJzdWIiOjE2LCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.r8mR2JABQ7jMZRs-Rg1iRZ1SsckjSIyD1bp2L58uZdc",
-                    ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                    ApiConstants.API_KEY: ApiConstants().APIKeyValue()
                   },
                   contentType: "application/json",
                   responseType: ResponseType.json // or ResponseType.JSON
@@ -614,7 +614,7 @@ class HomeProvider {
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
                 //"Authorization":"bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9iODBmLTE4Mi03Ni00MS01OS5uZ3Jvay5pb1wvYXBpXC9sb2dpbiIsImlhdCI6MTY0NjY0NTgzOCwiZXhwIjoxNjUwMjQ1ODM4LCJuYmYiOjE2NDY2NDU4MzgsImp0aSI6Ild6b0oxeGlub3FSdktXT3AiLCJzdWIiOjE2LCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.r8mR2JABQ7jMZRs-Rg1iRZ1SsckjSIyD1bp2L58uZdc",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -641,7 +641,7 @@ class HomeProvider {
               method: 'GET',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               // contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -670,7 +670,7 @@ class HomeProvider {
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
                 //"Authorization":"bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9iODBmLTE4Mi03Ni00MS01OS5uZ3Jvay5pb1wvYXBpXC9sb2dpbiIsImlhdCI6MTY0NjY0NTgzOCwiZXhwIjoxNjUwMjQ1ODM4LCJuYmYiOjE2NDY2NDU4MzgsImp0aSI6Ild6b0oxeGlub3FSdktXT3AiLCJzdWIiOjE2LCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.r8mR2JABQ7jMZRs-Rg1iRZ1SsckjSIyD1bp2L58uZdc",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -703,7 +703,7 @@ class HomeProvider {
               method: 'GET',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -731,7 +731,7 @@ class HomeProvider {
                   method: 'GET',
                   headers: {
                     "Authorization": "Bearer ${UserSession.userToken}",
-                    ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                    ApiConstants.API_KEY: ApiConstants().APIKeyValue()
                   },
                   contentType: "application/json",
                   responseType: ResponseType.json // or ResponseType.JSON
@@ -759,7 +759,7 @@ class HomeProvider {
               method: 'POST',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -786,7 +786,7 @@ class HomeProvider {
               method: 'POST',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -817,7 +817,7 @@ class HomeProvider {
               method: 'POST',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -854,7 +854,7 @@ class HomeProvider {
               method: 'POST',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               responseType: ResponseType.json // or ResponseType.JSON
               ));
@@ -915,7 +915,7 @@ class HomeProvider {
               method: 'POST',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               responseType: ResponseType.json // or ResponseType.JSON
               ));
@@ -941,7 +941,7 @@ class HomeProvider {
               method: 'GET',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -968,7 +968,7 @@ class HomeProvider {
               method: 'GET',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -997,7 +997,7 @@ class HomeProvider {
               method: 'POST',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -1026,7 +1026,7 @@ class HomeProvider {
               method: 'POST',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -1055,7 +1055,7 @@ class HomeProvider {
               method: 'POST',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -1084,7 +1084,7 @@ class HomeProvider {
           contentType: "application/json",
           headers: {
             "Authorization": "bearer ${UserSession.userToken}",
-            ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+            ApiConstants.API_KEY: ApiConstants().APIKeyValue()
           },
           responseType: ResponseType.json, // or ResponseType.JSON
         ),
@@ -1112,7 +1112,7 @@ class HomeProvider {
           contentType: "application/json",
           headers: {
             "Authorization": "bearer ${UserSession.userToken}",
-            ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+            ApiConstants.API_KEY: ApiConstants().APIKeyValue()
           },
           responseType: ResponseType.json, // or ResponseType.JSON
         ),
@@ -1140,7 +1140,7 @@ class HomeProvider {
           contentType: "application/json",
           headers: {
             "Authorization": "bearer ${UserSession.userToken}",
-            ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+            ApiConstants.API_KEY: ApiConstants().APIKeyValue()
           },
           responseType: ResponseType.json, // or ResponseType.JSON
         ),
@@ -1167,7 +1167,7 @@ class HomeProvider {
           contentType: "application/json",
           headers: {
             "Authorization": "bearer ${UserSession.userToken}",
-            ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+            ApiConstants.API_KEY: ApiConstants().APIKeyValue()
           },
           responseType: ResponseType.json, // or ResponseType.JSON
         ),
@@ -1191,7 +1191,7 @@ class HomeProvider {
           contentType: "application/json",
           headers: {
             "Authorization": "bearer ${UserSession.userToken}",
-            ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+            ApiConstants.API_KEY: ApiConstants().APIKeyValue()
           },
           responseType: ResponseType.json, // or ResponseType.JSON
         ),

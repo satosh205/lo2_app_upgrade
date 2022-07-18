@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:masterg/utils/config.dart';
 
 extension HexColor on Color {
   /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".
@@ -109,5 +110,11 @@ class ColorConstants {
   static const APPBAR_COLOR = Color(0xff2c73d9);
   static const BUTTON_COLOR = Color(0xff2c73d9);
   /********** */
+  Color primaryColor(){
+    return HexColor.fromHex(APK_DETAILS['theme_color']!);
+  }
+
+
+
 
 }

@@ -162,7 +162,7 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
       height: 10,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black),
-        color: index ? ColorConstants.PRIMARY_COLOR : ColorConstants.WHITE,
+        color: index ? ColorConstants().primaryColor() : ColorConstants.WHITE,
         borderRadius: BorderRadius.all(
           Radius.circular(5),
         ),

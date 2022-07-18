@@ -101,7 +101,8 @@ class MgAssessmentDetailPage extends StatelessWidget {
           _size(height: 15),
           Text(
             assessmentDetailProvider.assessments.title!,
-            style: Styles.bold(size: 16, color: ColorConstants.PRIMARY_COLOR),
+            style:
+                Styles.bold(size: 16, color: ColorConstants().primaryColor()),
           ),
           _size(height: 4),
           Row(
@@ -154,7 +155,7 @@ class MgAssessmentDetailPage extends StatelessWidget {
                 Text(
                   'Instructions',
                   style: Styles.textExtraBold(
-                      size: 18, color: ColorConstants.PRIMARY_COLOR),
+                      size: 18, color: ColorConstants().primaryColor()),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 60),
@@ -197,7 +198,7 @@ class MgAssessmentDetailPage extends StatelessWidget {
                       child: Container(
                         height: 50,
                         decoration: BoxDecoration(
-                          color: ColorConstants.PRIMARY_COLOR,
+                          color: ColorConstants().primaryColor(),
                           borderRadius: BorderRadius.all(Radius.circular(5)),
                         ),
                         child: Padding(

@@ -177,7 +177,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                   // ),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                        color: ColorConstants.APPBAR_COLOR, width: 1.5),
+                        color: ColorConstants().primaryColor(), width: 1.5),
                   ),
                 ),
                 onChanged: (value) {
@@ -201,7 +201,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                   counterText: "",
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                        color: ColorConstants.APPBAR_COLOR, width: 1.5),
+                        color: ColorConstants().primaryColor(), width: 1.5),
                   ),
                 ),
                 onChanged: (value) {

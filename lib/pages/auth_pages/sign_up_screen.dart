@@ -197,7 +197,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           counterText: "",
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                                color: ColorConstants.APPBAR_COLOR, width: 1.5),
+                                color: ColorConstants().primaryColor(),
+                                width: 1.5),
                           ),
                         ),
                         onChanged: (value) {
@@ -360,7 +361,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           Animation secondaryAnimation) {
         // return object of type Dialog
         return SimpleDialog(
-          backgroundColor: ColorConstants.PRIMARY_COLOR,
+          backgroundColor: ColorConstants().primaryColor(),
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
           children: <Widget>[
@@ -369,7 +370,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
-                color: ColorConstants.PRIMARY_COLOR,
+                color: ColorConstants().primaryColor(),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,

@@ -239,7 +239,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                 //         child: Text(
                 //           'Download',
                 //           style: Styles.textExtraBold(
-                //               size: 12, color: ColorConstants.PRIMARY_COLOR),
+                //               size: 12, color: ColorConstants().primaryColor()),
                 //         ),
                 //       ),
                 //     )
@@ -357,7 +357,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                         child: Container(
                           padding: EdgeInsets.all(5),
                           decoration: BoxDecoration(
-                              color: ColorConstants.PRIMARY_COLOR,
+                              color: ColorConstants().primaryColor(),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(12))),
                           child: Padding(
@@ -407,7 +407,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                         child: Container(
                           padding: EdgeInsets.all(5),
                           decoration: BoxDecoration(
-                              color: ColorConstants.PRIMARY_COLOR,
+                              color: ColorConstants().primaryColor(),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(12))),
                           child: Padding(
@@ -455,7 +455,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                       child: Container(
                         height: 50,
                         decoration: BoxDecoration(
-                          color: ColorConstants.PRIMARY_COLOR,
+                          color: ColorConstants().primaryColor(),
                           borderRadius: BorderRadius.all(Radius.circular(5)),
                         ),
                         child: Padding(
@@ -510,7 +510,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                       child: Container(
                         height: 50,
                         decoration: BoxDecoration(
-                          //color: ColorConstants.PRIMARY_COLOR,
+                          //color: ColorConstants().primaryColor(),
                           borderRadius: BorderRadius.all(Radius.circular(5)),
                           border: Border.all(color: Colors.black),
                         ),

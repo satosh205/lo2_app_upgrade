@@ -31,8 +31,8 @@ class CustomProgressIndicator extends StatelessWidget {
                 style: Styles.boldWhite(size: 16),
               ),
               CircularProgressIndicator(
-                valueColor:
-                    AlwaysStoppedAnimation<Color>(ColorConstants.PRIMARY_COLOR),
+                valueColor: AlwaysStoppedAnimation<Color>(
+                    ColorConstants().primaryColor()),
               ),
             ],
           ),

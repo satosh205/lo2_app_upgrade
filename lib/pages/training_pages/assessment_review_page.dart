@@ -226,7 +226,7 @@ class _TestReviewPageState extends State<TestReviewPage> {
                                   width: 100,
                                   padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
-                                      color: ColorConstants.PRIMARY_COLOR,
+                                      color: ColorConstants().primaryColor(),
                                       borderRadius: BorderRadius.circular(8)),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -496,7 +496,7 @@ class _TestReviewPageState extends State<TestReviewPage> {
             //             },
             //             child: Container(
             //               padding: const EdgeInsets.all(15),
-            //               color: ColorConstants.PRIMARY_COLOR,
+            //               color: ColorConstants().primaryColor(),
             //               child: Text(
             //                 "See Solution",
             //                 style: Styles.boldWhite(),

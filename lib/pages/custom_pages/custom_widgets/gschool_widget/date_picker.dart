@@ -122,7 +122,7 @@ class _CalendarState extends State<Calendar> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: currentDateSelectedIndex == index
-                          ? ColorConstants.PRIMARY_COLOR
+                          ? ColorConstants().primaryColor()
                           : Colors.transparent,
                     ),
                     child: Column(

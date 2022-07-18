@@ -152,8 +152,8 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
           ),
           _size(height: 10),
           Text('${assignmentDetailProvider.assignments.title}',
-              style:
-                  Styles.bold(color: ColorConstants.PRIMARY_COLOR, size: 16)),
+              style: Styles.bold(
+                  color: ColorConstants().primaryColor(), size: 16)),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -169,7 +169,7 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Text('Assignment file',
                     style: Styles.bold(
-                        color: ColorConstants.PRIMARY_COLOR, size: 16)),
+                        color: ColorConstants().primaryColor(), size: 16)),
                 Row(
                   children: [
                     InkWell(
@@ -265,14 +265,14 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                   child: Text(
                     assignment.description!,
                     style: Styles.textRegular(
-                        size: 13, color: ColorConstants.PRIMARY_COLOR),
+                        size: 13, color: ColorConstants().primaryColor()),
                   ),
                 ),
                 _size(height: 20),
                 Text(
                   'User notes',
                   style: Styles.textExtraBold(
-                      size: 18, color: ColorConstants.PRIMARY_COLOR),
+                      size: 18, color: ColorConstants().primaryColor()),
                 ),
                 _size(height: 5),
                 TextFormField(
@@ -450,14 +450,14 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         border:
-                            Border.all(color: ColorConstants.PRIMARY_COLOR)),
+                            Border.all(color: ColorConstants().primaryColor())),
                     child: Center(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'View submissions',
                           style: Styles.textRegular(
-                              color: ColorConstants.PRIMARY_COLOR),
+                              color: ColorConstants().primaryColor()),
                         ),
                       ),
                     ),

@@ -1287,7 +1287,7 @@ class _TestAttemptPageState extends State<TestAttemptPage>
                 width: 100,
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                    color: ColorConstants.PRIMARY_COLOR,
+                    color: ColorConstants().primaryColor(),
                     borderRadius: BorderRadius.circular(8)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

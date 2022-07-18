@@ -73,7 +73,7 @@ class _UserProfilePageState extends State<UserProfilePage>
           appBar: AppBar(
             elevation: 0,
             leading: BackButton(color: Colors.black),
-            backgroundColor: ColorConstants.APPBAR_COLOR,
+            backgroundColor: ColorConstants().primaryColor(),
             actions: [
               IconButton(
                   onPressed: () {
@@ -111,7 +111,7 @@ class _UserProfilePageState extends State<UserProfilePage>
         Container(
           height: 80,
           decoration: BoxDecoration(
-              color: ColorConstants.APPBAR_COLOR,
+              color: ColorConstants().primaryColor(),
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(12),
                   bottomRight: Radius.circular(12))),

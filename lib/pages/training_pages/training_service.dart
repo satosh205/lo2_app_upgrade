@@ -22,7 +22,7 @@ class TrainingService {
               method: 'POST',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -53,7 +53,7 @@ class TrainingService {
                   method: 'GET',
                   headers: {
                     "Authorization": "Bearer ${UserSession.userToken}",
-                    ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                    ApiConstants.API_KEY: ApiConstants().APIKeyValue()
                   },
                   contentType: "application/json",
                   responseType: ResponseType.json // or ResponseType.JSON
@@ -80,7 +80,7 @@ class TrainingService {
                   method: 'POST',
                   headers: {
                     "Authorization": "Bearer ${UserSession.userToken}",
-                    ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                    ApiConstants.API_KEY: ApiConstants().APIKeyValue()
                   },
                   contentType: "application/json",
                   responseType: ResponseType.json // or ResponseType.JSON
@@ -112,7 +112,7 @@ class TrainingService {
               method: 'POST',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -142,7 +142,7 @@ class TrainingService {
                   method: 'POST',
                   headers: {
                     "Authorization": "Bearer ${UserSession.userToken}",
-                    ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                    ApiConstants.API_KEY: ApiConstants().APIKeyValue()
                   },
                   contentType: "application/json",
                   responseType: ResponseType.json // or ResponseType.JSON
@@ -172,7 +172,7 @@ class TrainingService {
               method: 'POST',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
@@ -202,7 +202,7 @@ class TrainingService {
                   method: 'GET',
                   headers: {
                     "Authorization": "Bearer ${UserSession.userToken}",
-                    ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                    ApiConstants.API_KEY: ApiConstants().APIKeyValue()
                   },
                   contentType: "application/json",
                   responseType: ResponseType.json // or ResponseType.JSON
@@ -224,7 +224,7 @@ class TrainingService {
   }
 
   Future<ApiResponse?> submitAssignment(
-      {int? id, String? notes,  String? path}) async {
+      {int? id, String? notes, String? path}) async {
     try {
       print(path);
       var formData = FormData.fromMap({
@@ -241,7 +241,7 @@ class TrainingService {
               method: 'POST',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "multipart/form-data"));
       print(response.data);
@@ -269,7 +269,7 @@ class TrainingService {
               method: 'GET',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON

@@ -19,7 +19,7 @@ class _TermsAndConditionState extends State<TermsAndCondition> {
       backgroundColor: ColorConstants.WHITE,
       appBar: AppBar(
         title: Text("Terms and Conditions"),
-        backgroundColor: ColorConstants.APPBAR_COLOR,
+        backgroundColor: ColorConstants().primaryColor(),
       ),
       body: Stack(
         children: <Widget>[

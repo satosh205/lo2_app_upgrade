@@ -234,7 +234,7 @@ class AlertsWidget {
                                 child: Container(
                                   height: 50.0,
                                   decoration: BoxDecoration(
-                                    color: ColorConstants.PRIMARY_COLOR,
+                                    color: ColorConstants().primaryColor(),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Align(

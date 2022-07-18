@@ -1,3 +1,6 @@
+import 'package:masterg/utils/config.dart';
+import 'package:masterg/utils/resource/colors.dart';
+
 class ApiConstants {
   /**Server url*/
 
@@ -14,8 +17,11 @@ class ApiConstants {
 
   static const API_KEY = "nlms-api-key";
   //static const API_KEY_VALUE = "0612b32b39f4b29f48c5c5363028ee916bb10MasterGV1"; //Demo Test Dev
-  static const API_KEY_VALUE =
-      "0612b32b39f4b29f48c5c5363028ee916bb99TECH"; //Demo test Client
+  static const API_KEY_VALUE = "0612b32b39f4b29f48c5c5363028ee916bb99TECH";
+
+  String APIKeyValue() {
+    return APK_DETAILS['nlms_api_key']!;
+  } //Demo test Client
 
   ///APIs
   static const LOGIN = "api/joy/signin";

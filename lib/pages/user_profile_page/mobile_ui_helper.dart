@@ -6,7 +6,7 @@ List<PlatformUiSettings>? buildUiSettings(BuildContext context) {
   return [
     AndroidUiSettings(
         toolbarTitle: '',
-        toolbarColor: ColorConstants.APPBAR_COLOR,
+        toolbarColor: ColorConstants().primaryColor(),
         toolbarWidgetColor: Colors.white,
         initAspectRatio: CropAspectRatioPreset.original,
         lockAspectRatio: false),

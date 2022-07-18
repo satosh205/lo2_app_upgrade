@@ -74,7 +74,7 @@ class _InterestPageState extends State<InterestPage> {
             ],
             child: Scaffold(
               appBar: AppBar(
-                backgroundColor: ColorConstants.PRIMARY_COLOR,
+                backgroundColor: ColorConstants().primaryColor(),
                 leading: BackButton(color: Colors.black),
                 title: Text(
                   '${Strings.of(context)?.ChooseYourInterests}',

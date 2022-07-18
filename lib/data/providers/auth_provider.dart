@@ -25,7 +25,7 @@ class AuthProvider {
           data: json.encode(request.toJson()),
           options: Options(
               method: 'POST',
-              headers: {ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE},
+              headers: {ApiConstants.API_KEY: ApiConstants().APIKeyValue()},
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
               ));
@@ -55,7 +55,7 @@ class AuthProvider {
           options: Options(
             method: 'POST',
             headers: {
-              ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE,
+              ApiConstants.API_KEY: ApiConstants().APIKeyValue(),
             },
             // responseType: ResponseType.json // or ResponseType.JSON
           ));
@@ -75,7 +75,7 @@ class AuthProvider {
           options: Options(
               method: 'GET',
               headers: {
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE,
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue(),
               },
               responseType: ResponseType.json // or ResponseType.JSON
               ));
@@ -93,7 +93,7 @@ class AuthProvider {
           data: json.encode(request.toJson()),
           options: Options(
               method: 'POST',
-              headers: {ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE},
+              headers: {ApiConstants.API_KEY: ApiConstants().APIKeyValue()},
               responseType: ResponseType.json // or ResponseType.JSON
               ));
 

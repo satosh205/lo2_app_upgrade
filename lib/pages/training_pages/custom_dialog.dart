@@ -190,7 +190,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                     child: Text(
                       'Click to join',
                       style: Styles.textSemiBold(
-                          size: 12, color: ColorConstants.PRIMARY_COLOR),
+                          size: 12, color: ColorConstants().primaryColor()),
                     ),
                   ),
                 )
@@ -330,7 +330,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
             title: Text(
               '${data.title}',
               style: Styles.textRegular(
-                  size: 14, color: ColorConstants.PRIMARY_COLOR),
+                  size: 14, color: ColorConstants().primaryColor()),
             ),
           ),
         ),
@@ -383,7 +383,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
               title: Text(
                 '${data.title}',
                 style: Styles.textRegular(
-                    size: 14, color: ColorConstants.PRIMARY_COLOR),
+                    size: 14, color: ColorConstants().primaryColor()),
               ),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -448,7 +448,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
               title: Text(
                 '${data.title}',
                 style: Styles.textRegular(
-                    size: 14, color: ColorConstants.PRIMARY_COLOR),
+                    size: 14, color: ColorConstants().primaryColor()),
               ),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -17,11 +17,11 @@ class FaqPage extends StatelessWidget {
         backgroundColor: Colors.blueGrey[100],
         appBar: AppBar(
           title: const Text('FAQs'),
-          backgroundColor: ColorConstants.PRIMARY_COLOR,
+          backgroundColor: ColorConstants().primaryColor(),
         ),
         body: Accordion(
           maxOpenSections: 1,
-          headerBackgroundColorOpened: ColorConstants.PRIMARY_COLOR,
+          headerBackgroundColorOpened: ColorConstants().primaryColor(),
           scaleWhenAnimating: true,
           openAndCloseAnimation: true,
           headerPadding:
@@ -33,7 +33,7 @@ class FaqPage extends StatelessWidget {
               isOpen: true,
               leftIcon: const Icon(Icons.insights_rounded, color: Colors.white),
               headerBackgroundColor: ColorConstants.Color_GREEN,
-              headerBackgroundColorOpened: ColorConstants.PRIMARY_COLOR,
+              headerBackgroundColorOpened: ColorConstants().primaryColor(),
               header:
                   Text('How to sign-up on the LnB app?', style: _headerStyle),
               content: Text(
@@ -46,7 +46,7 @@ class FaqPage extends StatelessWidget {
               isOpen: true,
               leftIcon: const Icon(Icons.insights_rounded, color: Colors.white),
               headerBackgroundColor: ColorConstants.Color_GREEN,
-              headerBackgroundColorOpened: ColorConstants.PRIMARY_COLOR,
+              headerBackgroundColorOpened: ColorConstants().primaryColor(),
               header: Text('How to login into the mobile app?',
                   style: _headerStyle),
               content: Text(
@@ -59,7 +59,7 @@ class FaqPage extends StatelessWidget {
               isOpen: true,
               leftIcon: const Icon(Icons.insights_rounded, color: Colors.white),
               headerBackgroundColor: ColorConstants.Color_GREEN,
-              headerBackgroundColorOpened: ColorConstants.PRIMARY_COLOR,
+              headerBackgroundColorOpened: ColorConstants().primaryColor(),
               header: Text('How to enroll in a course?', style: _headerStyle),
               content: Text(
                   'Login into your app and scroll down to find the course of your choice. Click on the course icon and then click enroll now to add the course in your cart. Enter any coupon code you have and click on Proceed To Checkout. In the next step, enter any missing details in your billing address and click on place order to successfully enroll in any course.',
@@ -71,7 +71,7 @@ class FaqPage extends StatelessWidget {
               isOpen: true,
               leftIcon: const Icon(Icons.insights_rounded, color: Colors.white),
               headerBackgroundColor: ColorConstants.Color_GREEN,
-              headerBackgroundColorOpened: ColorConstants.PRIMARY_COLOR,
+              headerBackgroundColorOpened: ColorConstants().primaryColor(),
               header: Text('How can I access the courses  I am enrolled in?',
                   style: _headerStyle),
               content: Text(
@@ -84,7 +84,7 @@ class FaqPage extends StatelessWidget {
               isOpen: true,
               leftIcon: const Icon(Icons.insights_rounded, color: Colors.white),
               headerBackgroundColor: ColorConstants.Color_GREEN,
-              headerBackgroundColorOpened: ColorConstants.PRIMARY_COLOR,
+              headerBackgroundColorOpened: ColorConstants().primaryColor(),
               header: Text(
                   'How can I attend the assessment of my course curriculum ?',
                   style: _headerStyle),
@@ -98,7 +98,7 @@ class FaqPage extends StatelessWidget {
               isOpen: true,
               leftIcon: const Icon(Icons.insights_rounded, color: Colors.white),
               headerBackgroundColor: ColorConstants.Color_GREEN,
-              headerBackgroundColorOpened: ColorConstants.PRIMARY_COLOR,
+              headerBackgroundColorOpened: ColorConstants().primaryColor(),
               header:
                   Text('Have any more queries/doubts ?', style: _headerStyle),
               content: Text(
