@@ -548,7 +548,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
     final picker = ImagePicker();
     final pickedFileC = await ImagePicker().pickImage(
         source: ImageSource.camera,
-        imageQuality: 25,
+        imageQuality: 100,
         maxWidth: 900,
         maxHeight: 450);
     if (pickedFileC != null) {

@@ -335,7 +335,8 @@ class _UserProfilePageState extends State<UserProfilePage>
     if (sourceType == 'camera') {
       final picker = ImagePicker();
       // ignore: deprecated_member_use
-      PickedFile? pickedFile = await picker.getImage(source: source);
+      PickedFile? pickedFile =
+          await picker.getImage(source: source, imageQuality: 100);
       if (pickedFile != null) {
         print('======= pickedFile =======');
         print(pickedFile.path);
@@ -351,8 +352,8 @@ class _UserProfilePageState extends State<UserProfilePage>
     } else {
       final picker = ImagePicker();
       // ignore: deprecated_member_use
-      PickedFile? pickedFile = await picker.getImage(
-          source: source, imageQuality: 25, maxWidth: 400, maxHeight: 300);
+      PickedFile? pickedFile =
+          await picker.getImage(source: source, imageQuality: 100);
       if (pickedFile != null)
         return pickedFile.path;
       else if (Platform.isAndroid) {
