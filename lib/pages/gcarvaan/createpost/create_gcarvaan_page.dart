@@ -55,9 +55,7 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
   @override
   void initState() {
     super.initState();
-    // flickManager = FlickManager(
-    //   videoPlayerController: VideoPlayerController.file(widget.postDocPath),
-    // );
+
     print('=====widget.isReelsPost======');
     print(widget.isReelsPost);
   }
@@ -369,10 +367,8 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
           isPostedLoading = false;
           responseData = state.response;
           if (responseData!.status == 1) {
-            Navigator.pushAndRemoveUntil(
-                context,
-                NextPageRoute(homePage(index: 2), isMaintainState: true),
-                (route) => false);
+            Navigator.pop(context);
+            Navigator.pop(context);
           }
           break;
         case ApiStatus.ERROR:

@@ -104,9 +104,10 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
                                                           VideoRecordingCameraPage(
                                                             provider:
                                                                 createPostProvider,
-                                                          ))).then(
-                                                  (value) => reelsProvider
-                                                      .play() // reelsProvider.pause();
+                                                          ))).then((value) {
+                                                reelsProvider.play();
+                                                _getGReels();
+                                              } // reelsProvider.pause();
                                                   );
                                             },
                                             child: Row(
@@ -308,7 +309,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
           });
           _videoController!.play();
         }));
-    print('===========>>widget.videoUrl3333');
+
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -349,15 +350,6 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
         return Material(
           child: InkWell(
             onTap: () {
-              // setState(() {
-              //   if (_videoController!.value.isPlaying) {
-              //     _videoController!.pause();
-              //     value.pause();
-              //   } else {
-              //     _videoController!.play();
-              //     value.play();
-              //   }
-              // });
               setState(() {
                 value.showVolumnIcon();
                 if (value.isMuted) {
