@@ -14,6 +14,7 @@ import 'package:masterg/pages/ghome/ghome.dart';
 import 'package:masterg/pages/reels/reels_dashboard_page.dart';
 import 'package:masterg/pages/user_profile_page/user_profile_page.dart';
 import 'package:masterg/utils/Styles.dart';
+import 'package:masterg/utils/config.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -178,8 +179,8 @@ class _homePageState extends State<homePage> {
             onPressed: () {
               _scaffoldKey.currentState?.openDrawer();
             },
-            icon: Image.asset(
-              'assets/images/app_icon.jpg',
+            icon: Image.network(
+              '${APK_DETAILS['logo_url']}',
               fit: BoxFit.cover,
             ),
           ),

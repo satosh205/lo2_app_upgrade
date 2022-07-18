@@ -240,8 +240,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 WidgetSize.AUTH_BUTTON_SIZE,
                             decoration: BoxDecoration(
                                 color: phoneController.value.text.length != 10
-                                    ? Color(0xffFDE5AD)
-                                    : ColorConstants.BUTTON_COLOR,
+                                    ? ColorConstants()
+                                        .buttonColor()
+                                        .withOpacity(0.5)
+                                    : ColorConstants().buttonColor(),
                                 borderRadius: BorderRadius.circular(10)),
                             child: Center(
                                 child: Text(

@@ -148,8 +148,8 @@ class _InterestPageState extends State<InterestPage> {
                                                   .height *
                                               WidgetSize.AUTH_BUTTON_SIZE,
                                           decoration: BoxDecoration(
-                                              color:
-                                                  ColorConstants.BUTTON_COLOR,
+                                              color: ColorConstants()
+                                                  .buttonColor(),
                                               borderRadius:
                                                   BorderRadius.circular(10)),
                                           child: Center(

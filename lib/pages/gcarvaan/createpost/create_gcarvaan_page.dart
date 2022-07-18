@@ -295,7 +295,7 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                               horizontal: size.width * 0.05,
                               vertical: size.width * 0.03),
                           decoration: BoxDecoration(
-                            color: ColorConstants.BUTTON_COLOR,
+                            color: ColorConstants().buttonColor(),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Center(
@@ -444,8 +444,8 @@ class _ShowReadyToPostState extends State<ShowReadyToPost> {
                             ? InkWell(child: PDFScreen(path: pickedFile.path))
                             : pickedFile.path.contains('.mp4') ||
                                     pickedFile.path.contains('.mov') ||
-                        pickedFile.path.contains('.hevc') ||
-                        pickedFile.path.contains('.h.265')
+                                    pickedFile.path.contains('.hevc') ||
+                                    pickedFile.path.contains('.h.265')
                                 ? ShowImage(path: pickedFile.path)
                                 /*PlayVideo(
                                     videoPath: pickedFile.path,

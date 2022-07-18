@@ -243,7 +243,7 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
   }
 
   void _moveToNext() {
-    print("MOVE TO NEXT");
+   
     if (Preference.getString(Preference.USER_TOKEN) != null) {
       if (UserSession.userAppLanguageId == 0 ||
           UserSession.userContentLanguageId == 0) {
@@ -270,10 +270,8 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
         getBottomNavigationBar();
       }
     } else {
-      Timer(Duration(seconds: 2), () {
-        Navigator.pushAndRemoveUntil(
-            context, NextPageRoute(PreBoardingPage()), (route) => false);
-      });
+      Navigator.pushAndRemoveUntil(
+          context, NextPageRoute(PreBoardingPage()), (route) => false);
     }
   }
 }

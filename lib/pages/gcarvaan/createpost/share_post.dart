@@ -241,7 +241,7 @@ class _SharePostState extends State<SharePost> {
                       horizontal: size.width * 0.05,
                       vertical: size.width * 0.03),
                   decoration: BoxDecoration(
-                    color: ColorConstants.BUTTON_COLOR,
+                    color: ColorConstants().buttonColor(),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Center(

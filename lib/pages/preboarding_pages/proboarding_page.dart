@@ -1,6 +1,7 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/main.dart';
 import 'package:masterg/pages/auth_pages/choose_language.dart';
 import 'package:masterg/pages/custom_pages/TapWidget.dart';
@@ -64,6 +65,11 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _dots(index),
+            Text('${Preference.getString(Preference.USER_TOKEN)}',
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black)),
             TapWidget(
               onTap: () {
                 Navigator.push(context, NextPageRoute(ChooseLanguage()));

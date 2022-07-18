@@ -397,8 +397,10 @@ class _VerifyOtpState extends State<VerifyOtp> {
                         height: MediaQuery.of(context).size.height * 0.08,
                         decoration: BoxDecoration(
                             color: _pin.length != 4
-                                ? Color(0xffFDE5AD)
-                                : ColorConstants.BUTTON_COLOR,
+                                ? ColorConstants()
+                                    .buttonColor()
+                                    .withOpacity(0.5)
+                                : ColorConstants().buttonColor(),
                             borderRadius: BorderRadius.circular(10)),
                         child: Center(
                             child: Text(
