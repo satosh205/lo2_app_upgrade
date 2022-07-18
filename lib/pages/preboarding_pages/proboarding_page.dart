@@ -65,11 +65,6 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _dots(index),
-            Text('${Preference.getString(Preference.USER_TOKEN)}',
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black)),
             TapWidget(
               onTap: () {
                 Navigator.push(context, NextPageRoute(ChooseLanguage()));
