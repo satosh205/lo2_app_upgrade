@@ -35,7 +35,6 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
   late AssessmentDetails data;
   List<SubmissionDetails>? _attempts = [];
   // var _swiperController = SwiperController();
-  int currentIndex = 0;
   bool _isLoading = true;
 
   @override
@@ -112,91 +111,106 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
               )
             : _attempts!.isNotEmpty
                 ? SingleChildScrollView(
-                    child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('${data.title}',
-                                style: Styles.regular(size: 14)),
-                            Text('${data.description}',
-                                style: Styles.regular(size: 14)),
-                            Text(
-                                '${Utility.convertDateFromMillis(_attempts![currentIndex].updatedAt!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
-                                style: Styles.regular(
-                                    size: 10, color: ColorConstants.GREY_3))
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Row(
-                              children: [
-                                InkWell(
-                                  onTap: () async {
-                                    _downloadSubmission(
-                                        _attempts![currentIndex].file);
-                                  },
-                                  child: SvgPicture.asset(
-                                    'assets/images/download_icon.svg',
-                                    height: 25,
-                                    width: 25,
-                                    color: ColorConstants.BLACK,
-                                    allowDrawingOutsideViewBox: true,
+                    child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    child: ListView.builder(
+                        itemCount: _attempts?.length,
+                        itemBuilder: (BuildContext context, int currentIndex) =>
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text('${data.title}',
+                                          style: Styles.regular(size: 14)),
+                                      Text('${data.description}',
+                                          style: Styles.regular(size: 14)),
+                                      Text(
+                                          '${Utility.convertDateFromMillis(_attempts![currentIndex].updatedAt!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
+                                          style: Styles.regular(
+                                              size: 10,
+                                              color: ColorConstants.GREY_3))
+                                    ],
                                   ),
-                                ),
-                                SizedBox(width: 20),
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        NextPageRoute(FullContentPage(
-                                          contentType: "1",
-                                          resourcePath:
-                                              _attempts![currentIndex].file,
-                                        )));
-                                  },
-                                  child: SvgPicture.asset(
-                                    'assets/images/view_icon.svg',
-                                    color: ColorConstants.BLACK,
-                                    height: 25,
-                                    width: 25,
-                                    allowDrawingOutsideViewBox: true,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  data.isGraded == 0
-                                      ? "Non Graded assignment"
-                                      : _attempts![currentIndex].reviewStatus ==
-                                                  1 &&
-                                              _attempts![currentIndex]
-                                                      .isPassed ==
-                                                  1
-                                          ? "Congratulations you passed!"
-                                          : _attempts![currentIndex]
-                                                          .reviewStatus ==
-                                                      1 &&
+                                  Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          InkWell(
+                                            onTap: () async {
+                                              _downloadSubmission(
                                                   _attempts![currentIndex]
-                                                          .isPassed ==
-                                                      0
-                                              ? "Sorry, you failed."
-                                              : "Under Review",
-                                  style: Styles.regular(size: 12),
-                                ),
-                                SizedBox(width: 10),
-                                Icon(Icons.info, size: 20)
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                                                      .file);
+                                            },
+                                            child: SvgPicture.asset(
+                                              'assets/images/download_icon.svg',
+                                              height: 25,
+                                              width: 25,
+                                              color: ColorConstants()
+                                                  .primaryColor(),
+                                              allowDrawingOutsideViewBox: true,
+                                            ),
+                                          ),
+                                          SizedBox(width: 20),
+                                          InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  NextPageRoute(FullContentPage(
+                                                    contentType: "1",
+                                                    resourcePath:
+                                                        _attempts![currentIndex]
+                                                            .file,
+                                                  )));
+                                            },
+                                            child: SvgPicture.asset(
+                                              'assets/images/view_icon.svg',
+                                              color: ColorConstants()
+                                                  .primaryColor(),
+                                              height: 25,
+                                              width: 25,
+                                              allowDrawingOutsideViewBox: true,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            data.isGraded == 0
+                                                ? "Non Graded assignment"
+                                                : _attempts![currentIndex]
+                                                                .reviewStatus ==
+                                                            1 &&
+                                                        _attempts![currentIndex]
+                                                                .isPassed ==
+                                                            1
+                                                    ? "Congratulations you passed!"
+                                                    : _attempts![currentIndex]
+                                                                    .reviewStatus ==
+                                                                1 &&
+                                                            _attempts![currentIndex]
+                                                                    .isPassed ==
+                                                                0
+                                                        ? "Sorry, you failed."
+                                                        : "Under Review",
+                                            style: Styles.regular(size: 12),
+                                          ),
+                                          SizedBox(width: 10),
+                                          Icon(Icons.info, size: 20)
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )),
                   ))
                 : Center(
                     child: Text(
