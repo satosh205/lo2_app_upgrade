@@ -166,9 +166,6 @@ class _homePageState extends State<homePage> {
                 onTap: () {},
               ),
               Divider(height: 20),
-              Consumer<MenuListProvider>(
-                  builder: (context, menuProvider, child) =>
-                      Text('${menuProvider.list?.length}')),
               ListTile(
                 title: const Text('FAQs'),
                 onTap: () {

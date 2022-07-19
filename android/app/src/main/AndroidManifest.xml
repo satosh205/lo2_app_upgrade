@@ -20,7 +20,17 @@
         </intent>
     </queries>
 
-    <application android:name="${applicationName}" android:icon="@mipmap/ic_launcher" android:label="Learn and Build" android:requestLegacyExternalStorage="true" android:usesCleartextTraffic="true" android:largeHeap="true" android:supportsRtl="true" android:roundIcon="@mipmap/ic_launcher_round">
+    <application android:name="${applicationName}" android:icon="@mipmap/ic_launcher" android:label="Learn and Build" android:requestLegacyExternalStorage="true" android:usesCleartextTraffic="true" android:largeHeap="true" android:supportsRtl="true"
+     android:roundIcon="@mipmap/ic_launcher_round">
+     <provider
+    android:name="vn.hunghd.flutterdownloader.DownloadedFileProvider"
+    android:authorities="${applicationId}.flutter_downloader.provider"
+    android:exported="false"
+    android:grantUriPermissions="true">
+    <meta-data
+        android:name="android.support.FILE_PROVIDER_PATHS"
+        android:resource="@xml/provider_paths"/>
+</provider>
         <activity android:name=".MainActivity" android:exported="true" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode" android:hardwareAccelerated="true" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:windowSoftInputMode="adjustResize">
             
             <!-- Specifies an Android theme to apply to this Activity as soon as
@@ -59,6 +69,8 @@
         <meta-data android:name="flutterEmbedding" android:value="2"/>
         <meta-data android:name="google_analytics_adid_collection_enabled" android:value="false"/>
     </application>
+
+    
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>

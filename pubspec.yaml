@@ -45,7 +45,7 @@ dependencies:
   flutter_bloc: ^7.1.0
   flutter_cached_pdfview: ^0.4.1
   flutter_countdown_timer: ^4.1.0
-  flutter_downloader: ^1.7.4
+  flutter_downloader: ^1.8.1
   flutter_html: ^3.0.0-alpha.3
   flutter_inappwebview: ^5.4.3+7
   flutter_linkify: ^5.0.2

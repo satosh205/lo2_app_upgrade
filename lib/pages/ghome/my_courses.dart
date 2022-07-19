@@ -150,6 +150,7 @@ class _MyCoursesState extends State<MyCourses> {
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
                     onTap: () {
+                      // print('button is clicked');
                       Navigator.push(
                           context,
                           NextPageRoute(

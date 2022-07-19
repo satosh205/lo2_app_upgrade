@@ -339,21 +339,6 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
       isPostedLoading = true;
     });
     if (!widget.isReelsPost) {
-      // Navigator.pushAndRemoveUntil(
-      //     context,
-      //     NextPageRoute(
-      //         homePage(
-      //           index: 3,
-      //           fileToUpload: widget.fileToUpload,
-      //           isReelsPost: widget.isReelsPost,
-      //           desc: '${postDescriptionController.value.text}',
-      //           filesPath: widget.filesPath,
-      //           isFromCreatePost: true,
-      //           bottomMenu: provider.list,
-      //         ),
-      //         isMaintainState: true),
-      //     (route) => false);
-
       BlocProvider.of<HomeBloc>(context).add(CreatePostEvent(
           files: widget.fileToUpload,
           contentType: 2,
@@ -372,11 +357,11 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
     }
   }
 
-  void _getPosts(callCount, {postId}) {
-    //box = Hive.box(DB.CONTENT);
-    BlocProvider.of<HomeBloc>(context)
-        .add(GCarvaanPostEvent(callCount: callCount, postId: postId));
-  }
+  // void _getPosts(callCount, {postId}) {
+  //   //box = Hive.box(DB.CONTENT);
+  //   BlocProvider.of<HomeBloc>(context)
+  //       .add(GCarvaanPostEvent(callCount: callCount, postId: postId));
+  // }
 
   void _handleGCarvaanPostResponse(
       GCarvaanPostState state, GCarvaanListModel model) {

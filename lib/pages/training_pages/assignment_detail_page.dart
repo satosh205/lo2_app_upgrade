@@ -204,6 +204,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                       },
                       child: SvgPicture.asset(
                         'assets/images/download_icon.svg',
+                        color: ColorConstants().primaryColor(),
                         height: 22,
                         width: 22,
                         allowDrawingOutsideViewBox: true,
@@ -224,6 +225,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                       },
                       child: SvgPicture.asset(
                         'assets/images/view_icon.svg',
+                        color: ColorConstants().primaryColor(),
                         height: 22,
                         width: 22,
                         allowDrawingOutsideViewBox: true,
@@ -343,7 +345,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                               padding: EdgeInsets.all(5),
                               width: MediaQuery.of(context).size.width * 0.65,
                               decoration: BoxDecoration(
-                                  color: ColorConstants.YELLOW,
+                                  color: ColorConstants().primaryColor(),
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(5))),
                               child: Padding(
@@ -403,7 +405,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                         width: MediaQuery.of(context).size.width * 0.65,
                         padding: EdgeInsets.all(5),
                         decoration: BoxDecoration(
-                            color: ColorConstants.YELLOW,
+                            color: ColorConstants().primaryColor(),
                             borderRadius: BorderRadius.all(Radius.circular(5))),
                         child: Padding(
                           padding: const EdgeInsets.only(
