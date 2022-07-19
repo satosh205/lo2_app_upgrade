@@ -111,227 +111,241 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
           ),
         ],
         child: Scaffold(
-          backgroundColor: ColorConstants.SECTION_DIVIDER,
-          body: SmartRefresher(
-            // physics: BouncingScrollPhysics(),
-            enablePullDown: true,
-            enablePullUp: true,
-            controller: _refreshController,
-            onRefresh: () async {
-              callCount = 0;
-              gcarvaanPosts = [];
-              _getPosts(++callCount);
-            },
-            onLoading: () async {
-              _getPosts(++callCount);
-            },
-            footer: CustomFooter(
-              loadStyle: LoadStyle.ShowWhenLoading,
-              builder: (context, mode) {
-                if (mode == LoadStatus.loading) {
+            backgroundColor: ColorConstants.SECTION_DIVIDER,
+            body: SmartRefresher(
+              // physics: BouncingScrollPhysics(),
+              enablePullDown: true,
+              enablePullUp: true,
+              controller: _refreshController,
+              onRefresh: () async {
+                callCount = 0;
+                gcarvaanPosts = [];
+                _getPosts(++callCount);
+              },
+              onLoading: () async {
+                _getPosts(++callCount);
+              },
+              footer: CustomFooter(
+                loadStyle: LoadStyle.ShowWhenLoading,
+                builder: (context, mode) {
+                  if (mode == LoadStatus.loading) {
+                    return Container(
+                      color: Colors.white,
+                      height: 60.0,
+                      child: Container(
+                        height: 20.0,
+                        width: 20.0,
+                        child: CupertinoActivityIndicator(),
+                      ),
+                    );
+                  } else
+                    return Container(
+                      color: Colors.white,
+                    );
+                },
+              ),
+              header: CustomHeader(
+                // height: MediaQuery.of(context).size.height * 0.1,
+                builder: (context, mode) {
                   return Container(
-                    color: Colors.white,
-                    height: 60.0,
-                    child: Container(
-                      height: 20.0,
-                      width: 20.0,
-                      child: CupertinoActivityIndicator(),
+                    height: 20.0,
+                    width: 20.0,
+                    padding: EdgeInsets.only(left: 10.0, bottom: 10),
+                    child: CupertinoActivityIndicator(
+                      radius: 10,
                     ),
                   );
-                } else
-                  return Container(
-                    color: Colors.white,
-                  );
-              },
-            ),
-            header: CustomHeader(
-              // height: MediaQuery.of(context).size.height * 0.1,
-              builder: (context, mode) {
-                return Container(
-                  height: 20.0,
-                  width: 20.0,
-                  padding: EdgeInsets.only(left: 10.0, bottom: 10),
-                  child: CupertinoActivityIndicator(
-                    radius: 10,
-                  ),
-                );
-              },
-            ),
-            child: BlocManager(
-              initState: (context) {},
-              child: BlocListener<HomeBloc, HomeState>(
-                listener: (context, state) async {
-                  if (state is GCarvaanPostState) {
-                    _handleGCarvaanPostResponse(state);
-                  }
-                  if (state is CreatePostState) {
-                    _handleCreatePostResponse(state);
-                  }
                 },
-                child: SingleChildScrollView(
-                  child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        if (isPostedLoading ||
-                            isGCarvaanPostLoading &&
-                                widget.fileToUpload != null)
-                          Container(
-                              decoration: BoxDecoration(color: Colors.white),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 16.0,
-                                    child: Shimmer.fromColors(
-                                      baseColor: Colors.blue[800]!,
-                                      highlightColor: Colors.blue[200]!,
-                                      child: Container(
-                                        margin: EdgeInsets.only(bottom: 8),
+              ),
+              child: Consumer<GCarvaanListModel>(
+                builder: (context, carvaanListModel, child) => BlocManager(
+                  initState: (context) {},
+                  child: BlocListener<HomeBloc, HomeState>(
+                    listener: (context, state) async {
+                      if (state is GCarvaanPostState) {
+                        _handleGCarvaanPostResponse(state, carvaanListModel);
+                      }
+                      if (state is CreatePostState) {
+                        _handleCreatePostResponse(
+                          state,
+                        );
+                      }
+                    },
+                    child: SingleChildScrollView(
+                      child: Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            if (isPostedLoading ||
+                                isGCarvaanPostLoading &&
+                                    widget.fileToUpload != null)
+                              Container(
+                                  decoration:
+                                      BoxDecoration(color: Colors.white),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
                                         width:
                                             MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(2)),
+                                        height: 16.0,
+                                        child: Shimmer.fromColors(
+                                          baseColor: Colors.blue[800]!,
+                                          highlightColor: Colors.blue[200]!,
+                                          child: Container(
+                                            margin: EdgeInsets.only(bottom: 8),
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(2)),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ],
-                              )),
-                        // Padding(
-                        //   padding: const EdgeInsets.only(left: 16, top: 8),
-                        //   child: Text(
-                        //     'Top MasterG',
-                        //     style: Styles.regular(
-                        //         size: 14, color: ColorConstants.GREY_2),
-                        //   ),
-                        // ),
-                        // Container(
-                        //   width: MediaQuery.of(context).size.width,
-                        //   height: 80,
-                        //   child: GCarvaanUserViewPage(),
-                        // ),
+                                    ],
+                                  )),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(left: 16, top: 8),
+                            //   child: Text(
+                            //     'Top MasterG',
+                            //     style: Styles.regular(
+                            //         size: 14, color: ColorConstants.GREY_2),
+                            //   ),
+                            // ),
+                            // Container(
+                            //   width: MediaQuery.of(context).size.width,
+                            //   height: 80,
+                            //   child: GCarvaanUserViewPage(),
+                            // ),
 
-                        Consumer<CreatePostProvider>(
-                          builder: (context, value, child) => Container(
-                            color: ColorConstants.WHITE,
-                            width: MediaQuery.of(context).size.width,
-                            padding: EdgeInsets.only(
-                                left: 10.0,
-                                top: 10.0,
-                                right: 10.0,
-                                bottom: 10.0),
-                            // height: 80,
-                            child: Column(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        //     context,
-                                        //     MaterialPageRoute(
-                                        //         builder: (context) => SharePost(
-                                        //               isReelsPost: false,
-                                        //               fileToUpload: [],
-                                        //               filesPath: value.files,
-                                        //             )));
-
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                CreateGCarvaanPage(
-                                                  isReelsPost: false,
-                                                  fileToUpload: [],
-                                                  filesPath: value.files,
-                                                  provider: value,
-                                                )));
-                                  },
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 10,
-                                      horizontal: 15,
-                                    ),
-                                    margin: EdgeInsets.symmetric(
-                                      vertical: 10,
-                                    ),
-                                    decoration: BoxDecoration(
-                                        color: ColorConstants.TEXT_FIELD_BG,
-                                        borderRadius: BorderRadius.circular(8)),
-                                    child: Text('Write a post...',
-                                        style: Styles.regular(
-                                            color: ColorConstants.GREY_4,
-                                            size: 14)),
-                                  ),
-                                ),
-                                //SizedBox(height: 10),
-                                Row(
+                            Consumer<CreatePostProvider>(
+                              builder: (context, value, child) => Container(
+                                color: ColorConstants.WHITE,
+                                width: MediaQuery.of(context).size.width,
+                                padding: EdgeInsets.only(
+                                    left: 10.0,
+                                    top: 10.0,
+                                    right: 10.0,
+                                    bottom: 10.0),
+                                // height: 80,
+                                child: Column(
                                   children: [
                                     InkWell(
-                                      onTap: () async {
-                                        _initFilePiker(value, false);
+                                      onTap: () {
+                                        Navigator.push(
+                                            //     context,
+                                            //     MaterialPageRoute(
+                                            //         builder: (context) => SharePost(
+                                            //               isReelsPost: false,
+                                            //               fileToUpload: [],
+                                            //               filesPath: value.files,
+                                            //             )));
+
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CreateGCarvaanPage(
+                                                      isReelsPost: false,
+                                                      fileToUpload: [],
+                                                      filesPath: value.files,
+                                                      provider: value,
+                                                    ))).then((value) =>
+                                            _refreshController
+                                                .requestRefresh());
                                       },
-                                      child: Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                            'assets/images/image.svg',
-                                            color:
-                                                ColorConstants().primaryColor(),
-                                            allowDrawingOutsideViewBox: true,
-                                          ),
-                                          SizedBox(width: 4),
-                                          Text('Photo',
-                                              style: Styles.regular(size: 14))
-                                        ],
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 10,
+                                          horizontal: 15,
+                                        ),
+                                        margin: EdgeInsets.symmetric(
+                                          vertical: 10,
+                                        ),
+                                        decoration: BoxDecoration(
+                                            color: ColorConstants.TEXT_FIELD_BG,
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                        child: Text('Write a post...',
+                                            style: Styles.regular(
+                                                color: ColorConstants.GREY_4,
+                                                size: 14)),
                                       ),
                                     ),
-                                    SizedBox(width: 20.0),
-                                    InkWell(
-                                      onTap: () async {
-                                        _initFilePiker(value, true);
-                                      },
-                                      child: Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                            'assets/images/video.svg',
-                                            color:
-                                                ColorConstants().primaryColor(),
-                                            allowDrawingOutsideViewBox: true,
+                                    //SizedBox(height: 10),
+                                    Row(
+                                      children: [
+                                        InkWell(
+                                          onTap: () async {
+                                            _initFilePiker(value, false);
+                                          },
+                                          child: Row(
+                                            children: [
+                                              SvgPicture.asset(
+                                                'assets/images/image.svg',
+                                                color: ColorConstants()
+                                                    .primaryColor(),
+                                                allowDrawingOutsideViewBox:
+                                                    true,
+                                              ),
+                                              SizedBox(width: 4),
+                                              Text('Photo',
+                                                  style:
+                                                      Styles.regular(size: 14))
+                                            ],
                                           ),
-                                          SizedBox(width: 4),
-                                          Text('Video',
-                                              style: Styles.regular(size: 14))
-                                        ],
-                                      ),
+                                        ),
+                                        SizedBox(width: 20.0),
+                                        InkWell(
+                                          onTap: () async {
+                                            _initFilePiker(value, true);
+                                          },
+                                          child: Row(
+                                            children: [
+                                              SvgPicture.asset(
+                                                'assets/images/video.svg',
+                                                color: ColorConstants()
+                                                    .primaryColor(),
+                                                allowDrawingOutsideViewBox:
+                                                    true,
+                                              ),
+                                              SizedBox(width: 4),
+                                              Text('Video',
+                                                  style:
+                                                      Styles.regular(size: 14))
+                                            ],
+                                          ),
+                                        )
+                                      ],
                                     )
                                   ],
-                                )
-                              ],
+                                ),
+                              ),
                             ),
-                          ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                top: 3,
+                              ),
+                              padding: const EdgeInsets.all(8),
+                              width: double.infinity,
+                              color: ColorConstants.SECTION_DIVIDER,
+                              child: Container(
+                                child: _postListWidget(
+                                    carvaanListModel.list, carvaanListModel),
+                              ),
+                            ),
+                          ],
                         ),
-                        Container(
-                          margin: const EdgeInsets.only(
-                            top: 3,
-                          ),
-                          padding: const EdgeInsets.all(8),
-                          width: double.infinity,
-                          color: ColorConstants.SECTION_DIVIDER,
-                          child: Consumer<GCarvaanListModel>(
-                            builder: (context, value, child) => Container(
-                              child: _postListWidget(value.list, value),
-                            ),
-                          ),
-                        )
-                      ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ),
-        ));
+            )));
   }
 
   void _initFilePiker(CreatePostProvider provider, isVideo) async {
@@ -747,7 +761,8 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
     );
   }
 
-  void _handleGCarvaanPostResponse(GCarvaanPostState state) {
+  void _handleGCarvaanPostResponse(
+      GCarvaanPostState state, GCarvaanListModel model) {
     var loginState = state;
     setState(() {
       switch (loginState.apiState) {
@@ -769,6 +784,10 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
           }*/
 
           gcarvaanPosts!.addAll(state.response!.data!.list!);
+
+          model.refreshList(gcarvaanPosts!);
+
+          Log.v("Data first data title is ${model.list?.first.description}");
 
           _refreshController.refreshCompleted();
           _refreshController.loadComplete();

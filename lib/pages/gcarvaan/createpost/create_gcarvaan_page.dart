@@ -12,6 +12,7 @@ import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
 import 'package:masterg/data/models/response/home_response/create_post_response.dart';
+import 'package:masterg/data/models/response/home_response/gcarvaan_post_reponse.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
@@ -51,6 +52,7 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
   bool isPostedLoading = false;
   CreatePostResponse? responseData;
   TextEditingController postDescriptionController = TextEditingController();
+  List<GCarvaanPostElement>? gcarvaanPosts;
 
   @override
   void initState() {
@@ -76,69 +78,83 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
           ChangeNotifierProvider<MenuListProvider>(
             create: (context) => MenuListProvider([]),
           ),
+          ChangeNotifierProvider<GCarvaanListModel>(
+            create: (context) => GCarvaanListModel(gcarvaanPosts),
+          ),
         ],
         child: WillPopScope(
-          // ignore: missing_return
-          onWillPop: () async {
-            widget.provider?.clearList();
-            return true;
-          },
-          child: Scaffold(
-            backgroundColor: Colors.white,
-            appBar: AppBar(
+            // ignore: missing_return
+            onWillPop: () async {
+              widget.provider?.clearList();
+              return true;
+            },
+            child: Scaffold(
               backgroundColor: Colors.white,
-              elevation: 0,
-              automaticallyImplyLeading: false,
-              leading: IconButton(
-                  onPressed: () {
-                    widget.provider?.clearList();
-                    Navigator.pop(context);
-                    //Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.close, color: ColorConstants.BLACK)),
-              title: Column(children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  '${Strings.of(context)?.CreatePost} ',
-                  style: Styles.bold(size: 14, color: ColorConstants.BLACK),
-                )
-              ]),
-              centerTitle: true,
-            ),
-            body: BlocManager(
-                initState: (BuildContext context) {
-                  //createPost();
-                },
-                child: BlocListener<HomeBloc, HomeState>(
-                  listener: (context, state) {
-                    if (state is CreatePostState)
-                      _handleCreatePostResponse(state);
-                  },
-                  child: ScreenWithLoader(
-                      isLoading: isPostedLoading, body: _content()),
-                )),
-          ),
-        ));
+              appBar: AppBar(
+                backgroundColor: Colors.white,
+                elevation: 0,
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                    onPressed: () {
+                      widget.provider?.clearList();
+                      Navigator.pop(context);
+                      //Navigator.pop(context);
+                    },
+                    icon: Icon(Icons.close, color: ColorConstants.BLACK)),
+                title: Column(children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    '${Strings.of(context)?.CreatePost} ',
+                    style: Styles.bold(size: 14, color: ColorConstants.BLACK),
+                  )
+                ]),
+                centerTitle: true,
+              ),
+              body: Consumer2<CreatePostProvider, GCarvaanListModel>(
+                builder: (context, value, gcarvaanListModel, child) =>
+                    BlocManager(
+                        initState: (BuildContext context) {
+                          //createPost();
+                        },
+                        child: BlocListener<HomeBloc, HomeState>(
+                          listener: (context, state) {
+                            if (state is CreatePostState)
+                              _handleCreatePostResponse(state);
+
+                            if (state is CreatePostState) {
+                              _handleGCarvaanCreatePostResponse(state);
+                            }
+
+                            if (state is GCarvaanPostState) {
+                              _handleGCarvaanPostResponse(
+                                  state, gcarvaanListModel);
+                            }
+                          },
+                          child: ScreenWithLoader(
+                              isLoading: isPostedLoading,
+                              body: _content(value)),
+                        )),
+              ),
+            )));
   }
 
-  Widget _content() {
+  Widget _content(CreatePostProvider value) {
     Size size = MediaQuery.of(context).size;
 
-    return Consumer<CreatePostProvider>(
-        builder: (context, value, child) => SafeArea(
-              child: Container(
-                margin: EdgeInsets.only(top: 4),
-                height: size.height,
-                child: Stack(children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SingleChildScrollView(
-                      child: Form(
-                        child: Column(
-                          children: [
-                            /*Center(
+    return SafeArea(
+      child: Container(
+        margin: EdgeInsets.only(top: 4),
+        height: size.height,
+        child: Stack(children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SingleChildScrollView(
+              child: Form(
+                child: Column(
+                  children: [
+                    /*Center(
                         child: Container(
                       margin: EdgeInsets.only(
                           top: size.height * 0.01, bottom: size.height * 0.02),
@@ -149,67 +165,65 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                         color: ColorConstants.GREY,
                       ),
                     )),*/
-                            //Text('Create Post', style: Styles.textExtraBold()),
-                            //text field with grey background height
-                            Container(
-                              margin: EdgeInsets.only(top: size.height * 0.02),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: size.width * 0.05),
-                              height: size.height * 0.2,
-                              width: size.width * 0.9,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: ColorConstants.GREY,
-                              ),
-                              child: TextFormField(
-                                keyboardType: TextInputType.multiline,
-                                maxLines: null,
-                                controller: postDescriptionController,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please enter description';
-                                  }
-                                  return null;
-                                },
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText:
-                                        '${Strings.of(context)?.WriteYourPost} ....',
-                                    hintStyle: Styles.regular(
-                                        size: 14, color: ColorConstants.GREY_3),
-                                    helperMaxLines: 4),
-                              ),
-                            ),
+                    //Text('Create Post', style: Styles.textExtraBold()),
+                    //text field with grey background height
+                    Container(
+                      margin: EdgeInsets.only(top: size.height * 0.02),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: size.width * 0.05),
+                      height: size.height * 0.2,
+                      width: size.width * 0.9,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: ColorConstants.GREY,
+                      ),
+                      child: TextFormField(
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
+                        controller: postDescriptionController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter description';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText:
+                                '${Strings.of(context)?.WriteYourPost} ....',
+                            hintStyle: Styles.regular(
+                                size: 14, color: ColorConstants.GREY_3),
+                            helperMaxLines: 4),
+                      ),
+                    ),
 
-                            SizedBox(height: size.height * 0.03),
-                            if (!widget.isReelsPost)
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  InkWell(
-                                    onTap: () async {
-                                      _initFilePiker(value);
-                                      setState(() {});
-                                    },
-                                    child: Row(
-                                      children: [
-                                        SvgPicture.asset(
-                                          'assets/images/image.svg',
-                                          color:
-                                              ColorConstants().primaryColor(),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 5.0),
-                                          child: Text('Photo/Video ',
-                                              style: Styles.regular(
-                                                  size: 14,
-                                                  color: ColorConstants.BLACK)),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  /*InkWell(
+                    SizedBox(height: size.height * 0.03),
+                    if (!widget.isReelsPost)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () async {
+                              _initFilePiker(value);
+                              setState(() {});
+                            },
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/images/image.svg',
+                                  color: ColorConstants().primaryColor(),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 5.0),
+                                  child: Text('Photo/Video ',
+                                      style: Styles.regular(
+                                          size: 14,
+                                          color: ColorConstants.BLACK)),
+                                ),
+                              ],
+                            ),
+                          ),
+                          /*InkWell(
                                     onTap: () async {
                                       await _getImages(value);
                                     },
@@ -217,133 +231,137 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                                         'assets/images/camera_y.svg'),
                                   ),*/
 
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  InkWell(
-                                    onTap: () async {
-                                      await _getImages(value);
-                                      setState(() {});
-                                    },
-                                    child: Row(
-                                      children: [
-                                        SvgPicture.asset(
-                                          'assets/images/camera_y.svg',
-                                          color:
-                                              ColorConstants().primaryColor(),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 5.0),
-                                          child: Text('Camera',
-                                              style: Styles.regular(
-                                                  size: 14,
-                                                  color: ColorConstants.BLACK)),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              await _getImages(value);
+                              setState(() {});
+                            },
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/images/camera_y.svg',
+                                  color: ColorConstants().primaryColor(),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 5.0),
+                                  child: Text('Camera',
+                                      style: Styles.regular(
+                                          size: 14,
+                                          color: ColorConstants.BLACK)),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
 
-                            value.files != null
-                                // ? Text('file path ${value.files.length}')
-                                ? ShowReadyToPost(
-                                    provider: value,
-                                  )
-                                // : widget.postDocPath != null
-                                //     ? Padding(
-                                //         padding: const EdgeInsets.only(top: 8.0),
-                                //         child: ClipRRect(
-                                //           borderRadius: BorderRadius.circular(10),
-                                //           child: Image.file(
-                                //             widget.postDocPath,
-                                //             height: 280,
-                                //             fit: BoxFit.cover,
-                                //           ),
-                                //         ),
-                                //       )
-                                : SizedBox(),
+                    value.files != null
+                        // ? Text('file path ${value.files.length}')
+                        ? ShowReadyToPost(
+                            provider: value,
+                          )
+                        // : widget.postDocPath != null
+                        //     ? Padding(
+                        //         padding: const EdgeInsets.only(top: 8.0),
+                        //         child: ClipRRect(
+                        //           borderRadius: BorderRadius.circular(10),
+                        //           child: Image.file(
+                        //             widget.postDocPath,
+                        //             height: 280,
+                        //             fit: BoxFit.cover,
+                        //           ),
+                        //         ),
+                        //       )
+                        : SizedBox(),
 
-                            // ClipRRect(
-                            // borderRadius: BorderRadius.circular(10),
-                            //   child: Container(
-                            //       child: widget.postDocPath != null
-                            //           ? widget.postDocPath.path.contains('.pdf')
-                            //               ? PDFScreen(path: widget.postDocPath.path)
-                            //               : widget.postDocPath.path.contains('.mp4')
-                            //                   ? FlickVideoPlayer(
-                            //                       flickManager: flickManager)
-                            //                   : Image.file(
-                            //                       widget.postDocPath,
-                            //                       height: 280,
-                            //                       fit: BoxFit.cover,
-                            //                     )
-                            //           : SizedBox()),
-                            // ),
-                          ],
+                    // ClipRRect(
+                    // borderRadius: BorderRadius.circular(10),
+                    //   child: Container(
+                    //       child: widget.postDocPath != null
+                    //           ? widget.postDocPath.path.contains('.pdf')
+                    //               ? PDFScreen(path: widget.postDocPath.path)
+                    //               : widget.postDocPath.path.contains('.mp4')
+                    //                   ? FlickVideoPlayer(
+                    //                       flickManager: flickManager)
+                    //                   : Image.file(
+                    //                       widget.postDocPath,
+                    //                       height: 280,
+                    //                       fit: BoxFit.cover,
+                    //                     )
+                    //           : SizedBox()),
+                    // ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Consumer<MenuListProvider>(
+              builder: (context, menuProvider, child) => Positioned(
+                    bottom: 0,
+                    child: Container(
+                      width: size.width,
+                      height: size.height * 0.09,
+                      decoration: BoxDecoration(
+                        color: ColorConstants.WHITE,
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          if (value.files!.length != 0)
+                            createPost(menuProvider);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: size.width * 0.05,
+                              vertical: size.width * 0.03),
+                          decoration: BoxDecoration(
+                            color: ColorConstants().buttonColor(),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                            child: Text('${Strings.of(context)?.Share} ',
+                                style: Styles.regular(
+                                    size: 16, color: ColorConstants.BLACK)),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Consumer<MenuListProvider>(
-                      builder: (context, menuProvider, child) => Positioned(
-                            bottom: 0,
-                            child: Container(
-                              width: size.width,
-                              height: size.height * 0.09,
-                              decoration: BoxDecoration(
-                                color: ColorConstants.WHITE,
-                              ),
-                              child: InkWell(
-                                onTap: () {
-                                  if (value.files!.length != 0)
-                                    createPost(menuProvider);
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.symmetric(
-                                      horizontal: size.width * 0.05,
-                                      vertical: size.width * 0.03),
-                                  decoration: BoxDecoration(
-                                    color: ColorConstants().buttonColor(),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                        '${Strings.of(context)?.Share} ',
-                                        style: Styles.regular(
-                                            size: 16,
-                                            color: ColorConstants.BLACK)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ))
-                ]),
-              ),
-            ));
+                  ))
+        ]),
+      ),
+    );
   }
 
   void createPost(MenuListProvider provider) {
+    setState(() {
+      isPostedLoading = true;
+    });
     if (!widget.isReelsPost) {
-      Navigator.pushAndRemoveUntil(
-          context,
-          NextPageRoute(
-              homePage(
-                index: 3,
-                fileToUpload: widget.fileToUpload,
-                isReelsPost: widget.isReelsPost,
-                desc: '${postDescriptionController.value.text}',
-                filesPath: widget.filesPath,
-                isFromCreatePost: true,
-                bottomMenu: provider.list,
-              ),
-              isMaintainState: true),
-          (route) => false);
+      // Navigator.pushAndRemoveUntil(
+      //     context,
+      //     NextPageRoute(
+      //         homePage(
+      //           index: 3,
+      //           fileToUpload: widget.fileToUpload,
+      //           isReelsPost: widget.isReelsPost,
+      //           desc: '${postDescriptionController.value.text}',
+      //           filesPath: widget.filesPath,
+      //           isFromCreatePost: true,
+      //           bottomMenu: provider.list,
+      //         ),
+      //         isMaintainState: true),
+      //     (route) => false);
+
+      BlocProvider.of<HomeBloc>(context).add(CreatePostEvent(
+          files: widget.fileToUpload,
+          contentType: 2,
+          title: '',
+          description: '${postDescriptionController.value.text}',
+          postType: 'caravan',
+          filePath: widget.filesPath));
     } else {
-      setState(() {
-        isPostedLoading = true;
-      });
       BlocProvider.of<HomeBloc>(context).add(CreatePostEvent(
           files: widget.fileToUpload,
           contentType: 1,
@@ -352,6 +370,75 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
           postType: 'reels',
           filePath: widget.filesPath));
     }
+  }
+
+  void _getPosts(callCount, {postId}) {
+    //box = Hive.box(DB.CONTENT);
+    BlocProvider.of<HomeBloc>(context)
+        .add(GCarvaanPostEvent(callCount: callCount, postId: postId));
+  }
+
+  void _handleGCarvaanPostResponse(
+      GCarvaanPostState state, GCarvaanListModel model) {
+    var loginState = state;
+    setState(() {
+      switch (loginState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          isPostedLoading = true;
+
+          break;
+        case ApiStatus.SUCCESS:
+          isPostedLoading = false;
+
+          // gcarvaanPosts!.addAll(state.response!.data!.list!);
+          // model.updateList(state.response!.data!.list!);
+          Navigator.pop(context);
+
+          break;
+        case ApiStatus.ERROR:
+          isPostedLoading = false;
+
+          Log.v(
+            "Error..........................",
+          );
+          Log.v("ErrorHome..........................${loginState.error}");
+
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
+  }
+
+  void _handleGCarvaanCreatePostResponse(CreatePostState state) {
+    var loginState = state;
+    setState(() async {
+      switch (loginState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          isPostedLoading = true;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("Success.................... create g carvaan");
+          isPostedLoading = false;
+          responseData = state.response;
+          if (responseData!.status == 1) {
+            isPostedLoading = false;
+
+            Navigator.pop(context);
+          }
+
+          break;
+        case ApiStatus.ERROR:
+          isPostedLoading = false;
+          Log.v("Error..........................");
+          Log.v("Error..........................${loginState.error}");
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
   }
 
   void _handleCreatePostResponse(CreatePostState state) {
@@ -363,13 +450,13 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
           isPostedLoading = true;
           break;
         case ApiStatus.SUCCESS:
-          Log.v("Success....................");
+          Log.v("Success.................... create post");
           isPostedLoading = false;
           responseData = state.response;
-          if (responseData!.status == 1) {
-            Navigator.pop(context);
-            Navigator.pop(context);
-          }
+          // if (responseData!.status == 1) {
+          //   Navigator.pop(context);
+          //   Navigator.pop(context);
+          // }
           break;
         case ApiStatus.ERROR:
           isPostedLoading = false;

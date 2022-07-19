@@ -266,7 +266,7 @@ class _homePageState extends State<homePage> {
                 ),
             ],
             onTap: (index) {
-              if (widget.bottomMenu![index].linkType != 0) {
+              if (widget.bottomMenu![index].linkType != 1) {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
