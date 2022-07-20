@@ -1018,20 +1018,22 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
       child: Row(children: [
         Padding(
             child: SizedBox(
-              width: MediaQuery.of(context).size.height * 0.12,
+              width: MediaQuery.of(context).size.height * 0.08,
               height: MediaQuery.of(context).size.height * 0.12,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Image.network(
                   '${yourCourses.image}',
+                  errorBuilder: (context, error, stackTrace) {
+                    return SvgPicture.asset(
+                      'assets/images/gscore_postnow_bg.svg',
+                    );
+                  },
                   fit: BoxFit.cover,
                 ),
               ),
             ),
             padding: EdgeInsets.all(10)),
-        SizedBox(
-          width: 1,
-        ),
 
         Expanded(
           child: Padding(
@@ -1040,21 +1042,31 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('${yourCourses.name}', style: Styles.semibold(size: 16)),
+                Text('${yourCourses.name}',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
+                    style: Styles.semibold(size: 16)),
                 Row(
                   children: [
                     Text('${yourCourses.enrolmentCount} Enrollments',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        softWrap: false,
                         style: Styles.regular(size: 14)),
                     Spacer(),
                     Text('₹${yourCourses.regularPrice}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
                         style: TextStyle(
                           fontSize: 14,
                           decoration: TextDecoration.lineThrough,
                         )),
-                    SizedBox(
-                      width: 2,
-                    ),
                     Text('₹${yourCourses.salePrice}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
                         style:
                             Styles.bold(size: 18, color: ColorConstants.GREEN)),
                   ],

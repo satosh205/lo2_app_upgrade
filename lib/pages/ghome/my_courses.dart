@@ -182,6 +182,10 @@ class _MyCoursesState extends State<MyCourses> {
                                 borderRadius: BorderRadius.circular(8),
                                 child: CachedNetworkImage(
                                   imageUrl: '${courseList1![index].image}',
+                                  errorWidget: (context, url, error) =>
+                                      SvgPicture.asset(
+                                    'assets/images/gscore_postnow_bg.svg',
+                                  ),
                                   fit: BoxFit.fill,
                                 ),
                               ),
@@ -189,14 +193,16 @@ class _MyCoursesState extends State<MyCourses> {
                             SizedBox(width: 10),
                             Container(
                               height: MediaQuery.of(context).size.height * 0.2,
+                              width: MediaQuery.of(context).size.width * 0.69,
                               child: Stack(children: [
                                 Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text('${courseList1![index].name}',
-                                          overflow: TextOverflow.fade,
                                           maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: false,
                                           style: Styles.bold(size: 16)),
                                       SizedBox(height: 4),
                                       Row(
@@ -212,6 +218,9 @@ class _MyCoursesState extends State<MyCourses> {
                                           ),
                                           Text(
                                               '${courseList1![index].duration}',
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              softWrap: false,
                                               style: Styles.regular(size: 10)),
                                         ],
                                       ),
