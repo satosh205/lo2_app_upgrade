@@ -841,12 +841,16 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                           children: [
                             Text(
                                 '${trainingDetailProvider.modules!.elementAt(index).name}',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: false,
                                 style: Styles.bold(size: 16)),
                             Text(
                               '${trainingDetailProvider.modules!.elementAt(index).description}',
-                              softWrap: true,
-                              style: Styles.regular(size: 14),
+                              maxLines: 1,
                               overflow: TextOverflow.ellipsis,
+                              softWrap: false,
+                              style: Styles.regular(size: 14),
                             )
                           ],
                         ),
@@ -1484,6 +1488,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                 });
               },
               child: Container(
+                width: MediaQuery.of(context).size.width,
                 color: programContentId == selectedContentId
                     ? ColorConstants.BG_GREY
                     : ColorConstants.WHITE,
@@ -1514,20 +1519,29 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                     SizedBox(
                       width: 20,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '$title',
-                          style: Styles.semibold(size: 16),
-                        ),
-                        Text(
-                          '$description',
-                          style: Styles.regular(
-                            size: 14,
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '$title',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: false,
+                            style: Styles.semibold(size: 16),
                           ),
-                        )
-                      ],
+                          Text(
+                            '$description',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: false,
+                            style: Styles.regular(
+                              size: 14,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                     Expanded(
                       child: SizedBox(),
