@@ -49,7 +49,6 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
     categoryId = Utility.getCategoryValue(ApiConstants.ANNOUNCEMENT_TYPE);
   }
 
-
   _showPopUpMenu(Offset offset) async {
     final screenSize = MediaQuery.of(context).size;
     double left = offset.dx;
@@ -221,22 +220,21 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
               borderRadius: BorderRadius.circular(10),
             ),
             child: Row(children: [
-              if(item.status == 'Completed') ...[
+              if (item.status == 'Completed') ...[
                 SvgPicture.asset(
                   'assets/images/completed_icon.svg',
                   width: 20,
                   height: 20,
                   allowDrawingOutsideViewBox: true,
                 ),
-              ]else if(item.status == 'Upcoming') ...[
+              ] else if (item.status == 'Upcoming') ...[
                 SvgPicture.asset(
                   'assets/images/upcoming_live.svg',
                   width: 20,
                   height: 20,
                   allowDrawingOutsideViewBox: true,
                 ),
-
-              ]else if(item.status == 'Pending') ...[
+              ] else if (item.status == 'Pending') ...[
                 SvgPicture.asset(
                   'assets/images/pending_icon.svg',
                   width: 20,
@@ -247,18 +245,19 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
               SizedBox(width: 20),
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text('${item.title}', style: Styles.bold(size: 16)),
-                if(item.status == 'Completed') ...[
+                if (item.status == 'Completed') ...[
                   SizedBox(height: 5),
-                  Text('${item.score}/${item.maximumMarks} Marks . ${item.attemptAllowed! - item.attemptCount!} attempts left ',
+                  Text(
+                      '${item.score}/${item.maximumMarks} Marks . ${item.attemptAllowed! - item.attemptCount!} attempts left ',
                       style: Styles.regular(size: 12, color: Colors.black)),
                   SizedBox(height: 5),
                   Text(
                       'Submit before: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
                       style: Styles.regular(size: 12))
-
-                ]else ...[
+                ] else ...[
                   SizedBox(height: 5),
-                  Text('${item.durationInMinutes} mins . ${item.maximumMarks} Marks',
+                  Text(
+                      '${item.durationInMinutes} mins . ${item.maximumMarks} Marks',
                       style: Styles.regular(size: 12, color: Colors.black)),
                   SizedBox(height: 5),
                   Text(

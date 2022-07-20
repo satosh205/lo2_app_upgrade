@@ -415,19 +415,16 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                             .WHITE)),
                                                 Row(
                                                   children: [
-                                                    if (selectedType ==
-                                                        'Assignment')
-                                                      Text(
-                                                        '${selectedData.overallScore}/${selectedData.maximumMarks} marks .  ',
-                                                        style: Styles.regular(
-                                                            size: 14,
-                                                            color:
-                                                                ColorConstants
-                                                                    .WHITE),
-                                                      ),
+                                                    Text(
+                                                      ' ${selectedData}/100 marks',
+                                                      style: Styles.regular(
+                                                          size: 14,
+                                                          color: ColorConstants
+                                                              .WHITE),
+                                                    ),
                                                     if (selectedType == 'Quiz')
                                                       Text(
-                                                        '${selectedData.score}/${selectedData.maximumMarks} marks .  ${selectedData.attemptsRemaining} attemps available',
+                                                        ' .  ${selectedData.attemptsRemaining} attemps available',
                                                         style: Styles.regular(
                                                             size: 14,
                                                             color:
