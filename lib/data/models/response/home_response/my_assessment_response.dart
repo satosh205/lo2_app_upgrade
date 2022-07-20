@@ -73,6 +73,7 @@ class AssessmentList {
   int? program;
   int? attemptedOn;
   int? score;
+  String? status;
 
   AssessmentList(
       {this.contentId,
@@ -91,7 +92,8 @@ class AssessmentList {
       this.skill,
       this.program,
       this.attemptedOn,
-      this.score});
+      this.score,
+      this.status});
 
   AssessmentList.fromJson(Map<String, dynamic> json) {
     contentId = json['content_id'];
@@ -111,6 +113,7 @@ class AssessmentList {
     program = json['program'];
     attemptedOn = json['attempted_on'];
     score = json['score'];
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -132,6 +135,7 @@ class AssessmentList {
     data['program'] = this.program;
     data['attempted_on'] = this.attemptedOn;
     data['score'] = this.score;
+    data['status'] = this.status;
     return data;
   }
 }

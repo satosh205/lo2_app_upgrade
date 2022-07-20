@@ -69,6 +69,7 @@ class AssignmentList {
   int? moduleId;
   int? totalAttempts;
   String? file;
+  String? status;
 
   AssignmentList(
       {this.contentId,
@@ -84,7 +85,8 @@ class AssignmentList {
       this.languageId,
       this.moduleId,
       this.totalAttempts,
-      this.file});
+      this.file,
+      this.status});
 
   AssignmentList.fromJson(Map<String, dynamic> json) {
     contentId = json['content_id'];
@@ -101,6 +103,7 @@ class AssignmentList {
     moduleId = json['module_id'];
     totalAttempts = json['total_attempts'];
     file = json['file'];
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -119,6 +122,7 @@ class AssignmentList {
     data['module_id'] = this.moduleId;
     data['total_attempts'] = this.totalAttempts;
     data['file'] = this.file;
+    data['status'] = this.status;
     return data;
   }
 }

@@ -114,16 +114,15 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(
-            flex: 6,
-            child: Container(
-              color: Color(0xffF7F7F7),
-              child: Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: Center(
-                  child: Image.asset(PreBoardingData.getDat()[index]['image'],
-                      height: 300, width: 300),
-                ),
+          Container(
+            height: 300,
+            width: double.infinity,
+            color: Color(0xffF7F7F7),
+            child: Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Center(
+                child: Image.asset(PreBoardingData.getDat()[index]['image'],
+                    fit: BoxFit.cover, height: 300, width: double.infinity),
               ),
             ),
           ),
@@ -201,26 +200,28 @@ class PreBoardingData {
     return {
       0: {
         'image': Images.PRE_BOARDING_1,
-        'text1': 'Take the first\nleap',
-        'text2': ''''The first step can be daunting but we're ready to guide'''
+        'text1': 'Boost your career with Learn and Build',
+        'text2': '''Leading company in providing the future and job skills in
+the technical education space and giving out the best talent
+that the industry needs.
+
+Enabled through hands-on practical training approach and
+live industry projects.
+'''
       },
       1: {
         'image': Images.PRE_BOARDING_2,
-        'text1': 'Accomplish more\nwith us',
-        'text2': "Let's travel on the path of success together."
+        'text1':
+            'Learning is a continuous process but the real\noutcome is Building carrer form that.',
+        'text2':
+            "Learn Job ready skill from Industry experts.\n\nProvide technology enthusiasts with the core and future skills that the current industry needs."
       },
       2: {
         'image': Images.PRE_BOARDING_3,
-        'text1': 'We Succeed when\nYou Succeed',
+        'text1': 'USP of Our Programs',
         'text2':
-            "We update with the expanding tech market, come succeed with us."
+            "Knowledge Booster- To learn the skills in different tech\n\nSjill-ful Impactful Internships- To get hands-n with Real-Life/Real-time projects\n\nJob Oriented- After evalution, students get hired in this program with out hiring parterns."
       },
-      // 3: {
-      //   'image': Images.PRE_BOARDING_4,
-      //   'bg': Images.PRE_BOARDING_BG_4,
-      //   'text1': 'Career set karo',
-      //   'text2': 'with ImaginXP Coach'
-      // },
     };
   }
 }

@@ -143,7 +143,6 @@ class _MyCoursesState extends State<MyCourses> {
   Widget _getCourses() {
     return courseList1 != null && courseList1!.length > 0
         ? Container(
-            height: MediaQuery.of(context).size.height,
             padding: EdgeInsets.all(15),
             decoration: BoxDecoration(color: ColorConstants.GREY),
             child: ListView.builder(
@@ -162,105 +161,99 @@ class _MyCoursesState extends State<MyCourses> {
                               isMaintainState: true));
                     },
                     child: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 7, vertical: 8),
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        height: MediaQuery.of(context).size.height * 0.15,
-                        margin:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 6),
-                        decoration: BoxDecoration(
-                            color: ColorConstants.WHITE,
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                      padding: EdgeInsets.symmetric(horizontal: 7, vertical: 8),
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.15,
+                      decoration: BoxDecoration(
+                          color: ColorConstants.WHITE,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              width: MediaQuery.of(context).size.width * 0.3,
-                              height: MediaQuery.of(context).size.height * 0.2,
+                              width: MediaQuery.of(context).size.width * 0.25,
+                              height: MediaQuery.of(context).size.height * 0.25,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
                                 child: CachedNetworkImage(
                                   imageUrl: '${courseList1![index].image}',
+                                  errorWidget: (context, url, error) =>
+                                      SvgPicture.asset(
+                                    'assets/images/gscore_postnow_bg.svg',
+                                  ),
                                   fit: BoxFit.fill,
                                 ),
                               ),
                             ),
-                            SizedBox(width: 10),
+                            Expanded(
+                              child: SizedBox(),
+                            ),
                             Container(
-                              height: MediaQuery.of(context).size.height * 0.2,
-                              child: Stack(children: [
-                                Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text('${courseList1![index].name}',
-                                          overflow: TextOverflow.fade,
-                                          maxLines: 2,
-                                          style: Styles.bold(size: 16)),
-                                      SizedBox(height: 4),
-                                      Row(
+                              width: MediaQuery.of(context).size.width * 0.62,
+                              height: MediaQuery.of(context).size.height * 0.25,
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('${courseList1![index].name}',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        softWrap: false,
+                                        style: Styles.bold(size: 16)),
+                                    SizedBox(height: 4),
+                                    Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                          'assets/images/clock_icon.svg',
+                                          width: 20,
+                                          height: 20,
+                                          allowDrawingOutsideViewBox: true,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text('${courseList1![index].duration}',
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: false,
+                                            style: Styles.regular(size: 10)),
+                                      ],
+                                    ),
+                                    SizedBox(height: 15),
+                                    Text(
+                                        '${courseList1![index].completionPer}% ${Strings.of(context)?.Completed}',
+                                        style: Styles.regular(size: 12)),
+                                    SizedBox(height: 10),
+                                    Container(
+                                      height: 10,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.6,
+                                      decoration: BoxDecoration(
+                                          color: ColorConstants.GREY,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Stack(
                                         children: [
-                                          SvgPicture.asset(
-                                            'assets/images/clock_icon.svg',
-                                            width: 20,
-                                            height: 20,
-                                            allowDrawingOutsideViewBox: true,
+                                          Container(
+                                            height: 10,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.6 *
+                                                (courseList1![index]
+                                                        .completionPer! /
+                                                    100),
+                                            decoration: BoxDecoration(
+                                                color: ColorConstants.ORANGE,
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
                                           ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                              '${courseList1![index].duration}',
-                                              style: Styles.regular(size: 10)),
                                         ],
                                       ),
-                                      SizedBox(height: 15),
-                                      Text(
-                                          '${courseList1![index].completionPer}% ${Strings.of(context)?.Completed}',
-                                          style: Styles.regular(size: 12)),
-                                      SizedBox(height: 10),
-                                      Container(
-                                        height: 10,
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.5,
-                                        decoration: BoxDecoration(
-                                            color: ColorConstants.GREY,
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: Stack(
-                                          children: [
-                                            Container(
-                                              height: 10,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.7 *
-                                                  (courseList1![index]
-                                                          .completionPer! /
-                                                      100),
-                                              decoration: BoxDecoration(
-                                                  color: ColorConstants.ORANGE,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ]),
-                                Positioned(
-                                  top: 30,
-                                  right: 0,
-                                  child: Icon(CupertinoIcons.forward,
-                                      size: 26,
-                                      color: Colors.black.withOpacity(0.6)),
-                                ),
-                              ]),
+                                    ),
+                                  ]),
                             ),
-                          ],
-                        )));
+                          ]),
+                    ));
               },
               itemCount: courseList1?.length ?? 0,
               scrollDirection: Axis.vertical,

@@ -415,16 +415,19 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                             .WHITE)),
                                                 Row(
                                                   children: [
-                                                    Text(
-                                                      '80/100 marks',
-                                                      style: Styles.regular(
-                                                          size: 14,
-                                                          color: ColorConstants
-                                                              .WHITE),
-                                                    ),
+                                                    if (selectedType ==
+                                                        'Assignment')
+                                                      Text(
+                                                        '${selectedData.overallScore}/${selectedData.maximumMarks} Marks',
+                                                        style: Styles.regular(
+                                                            size: 14,
+                                                            color:
+                                                                ColorConstants
+                                                                    .WHITE),
+                                                      ),
                                                     if (selectedType == 'Quiz')
                                                       Text(
-                                                        ' .  ${selectedData.attemptsRemaining} attemps available',
+                                                        '${selectedData.score}/${selectedData.maximumMarks} Marks .  ${selectedData.attemptsRemaining} attemps available',
                                                         style: Styles.regular(
                                                             size: 14,
                                                             color:
@@ -841,12 +844,16 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                           children: [
                             Text(
                                 '${trainingDetailProvider.modules!.elementAt(index).name}',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: false,
                                 style: Styles.bold(size: 16)),
                             Text(
                               '${trainingDetailProvider.modules!.elementAt(index).description}',
-                              softWrap: true,
-                              style: Styles.regular(size: 14),
+                              maxLines: 1,
                               overflow: TextOverflow.ellipsis,
+                              softWrap: false,
+                              style: Styles.regular(size: 14),
                             )
                           ],
                         ),
@@ -1484,6 +1491,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                 });
               },
               child: Container(
+                width: MediaQuery.of(context).size.width,
                 color: programContentId == selectedContentId
                     ? ColorConstants.BG_GREY
                     : ColorConstants.WHITE,
@@ -1514,20 +1522,56 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                     SizedBox(
                       width: 20,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '$title',
-                          style: Styles.semibold(size: 16),
-                        ),
-                        Text(
-                          '$description',
-                          style: Styles.regular(
-                            size: 14,
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '$title',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: false,
+                            style: Styles.semibold(size: 16),
                           ),
-                        )
-                      ],
+                          Text(
+                            '$description',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: false,
+                            style: Styles.regular(
+                              size: 14,
+                            ),
+                          ),
+                          if (selectedType == 'Videos' ||
+                              selectedType == 'Notes')
+                            Container(
+                              height: 10,
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              margin: EdgeInsets.only(top: 5),
+                              decoration: BoxDecoration(
+                                  color: ColorConstants.GREY,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    height: 10,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.8 *
+                                        (int.parse(data.learningShots
+                                                .elementAt(index)
+                                                .completion) /
+                                            100),
+                                    decoration: BoxDecoration(
+                                        color: ColorConstants.ORANGE,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
                     Expanded(
                       child: SizedBox(),
