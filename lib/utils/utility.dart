@@ -49,6 +49,14 @@ class Utility {
         DateTime.fromMillisecondsSinceEpoch(timeInMillis * 1000).toUtc());
   }
 
+  static String getDiffInMin(int start, int end) {
+    var diff = end - start;
+    DateTime time = DateTime.fromMillisecondsSinceEpoch(diff * 1000).toUtc();
+    //convert time to minutes
+    int minutes = time.minute;
+    return minutes.toString();
+  }
+
   static String convertDateFormat(DateTime date,
       {String format = 'MM/dd/yyyy'}) {
     var formatter = new DateFormat(format);

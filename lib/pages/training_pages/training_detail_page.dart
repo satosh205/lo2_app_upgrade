@@ -415,16 +415,19 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                             .WHITE)),
                                                 Row(
                                                   children: [
-                                                    Text(
-                                                      ' ${selectedData}/100 marks',
-                                                      style: Styles.regular(
-                                                          size: 14,
-                                                          color: ColorConstants
-                                                              .WHITE),
-                                                    ),
+                                                    if (selectedType ==
+                                                        'Assignment')
+                                                      Text(
+                                                        '${selectedData.overallScore}/${selectedData.maximumMarks} Marks',
+                                                        style: Styles.regular(
+                                                            size: 14,
+                                                            color:
+                                                                ColorConstants
+                                                                    .WHITE),
+                                                      ),
                                                     if (selectedType == 'Quiz')
                                                       Text(
-                                                        ' .  ${selectedData.attemptsRemaining} attemps available',
+                                                        '${selectedData.score}/${selectedData.maximumMarks} Marks .  ${selectedData.attemptsRemaining} attemps available',
                                                         style: Styles.regular(
                                                             size: 14,
                                                             color:
@@ -1539,7 +1542,34 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                             style: Styles.regular(
                               size: 14,
                             ),
-                          )
+                          ),
+                          if (selectedType == 'Videos' ||
+                              selectedType == 'Notes')
+                            Container(
+                              height: 10,
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              margin: EdgeInsets.only(top: 5),
+                              decoration: BoxDecoration(
+                                  color: ColorConstants.GREY,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    height: 10,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.8 *
+                                        (int.parse(data.learningShots
+                                                .elementAt(index)
+                                                .completion) /
+                                            100),
+                                    decoration: BoxDecoration(
+                                        color: ColorConstants.ORANGE,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                  ),
+                                ],
+                              ),
+                            ),
                         ],
                       ),
                     ),
