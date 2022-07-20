@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
@@ -48,6 +49,60 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
     categoryId = Utility.getCategoryValue(ApiConstants.ANNOUNCEMENT_TYPE);
   }
 
+
+  _showPopUpMenu(Offset offset) async {
+    final screenSize = MediaQuery.of(context).size;
+    double left = offset.dx;
+    double top = offset.dy;
+    double right = screenSize.width - offset.dx;
+    double bottom = screenSize.height - offset.dy;
+
+    showMenu<String>(
+      context: context,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      position: RelativeRect.fromLTRB(left, top, right, bottom),
+      items: [
+        PopupMenuItem<String>(
+            child: Row(children: [
+              SvgPicture.asset(
+                'assets/images/upcoming_live.svg',
+                width: 20,
+                height: 20,
+                allowDrawingOutsideViewBox: true,
+              ),
+              SizedBox(width: 20),
+              Text('Upcoming Quiz')
+            ]),
+            value: '1'),
+        PopupMenuItem<String>(
+            child: Row(children: [
+              SvgPicture.asset(
+                'assets/images/completed_icon.svg',
+                width: 20,
+                height: 20,
+                allowDrawingOutsideViewBox: true,
+              ),
+              SizedBox(width: 20),
+              Text('Quiz Completed')
+            ]),
+            value: '2'),
+        PopupMenuItem<String>(
+            child: Row(children: [
+              SvgPicture.asset(
+                'assets/images/pending_icon.svg',
+                width: 20,
+                height: 20,
+                allowDrawingOutsideViewBox: true,
+              ),
+              SizedBox(width: 20),
+              Text('Quiz Pending')
+            ]),
+            value: '3'),
+      ],
+      elevation: 8.0,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,6 +113,22 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
         centerTitle: false,
         backgroundColor: ColorConstants.WHITE,
         elevation: 0.0,
+        actions: [
+          GestureDetector(
+            onTapDown: (TapDownDetails detail) {
+              _showPopUpMenu(detail.globalPosition);
+            },
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 15),
+              child: SvgPicture.asset(
+                'assets/images/info_icon.svg',
+                height: 22,
+                width: 22,
+                allowDrawingOutsideViewBox: true,
+              ),
+            ),
+          )
+        ],
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -149,16 +220,58 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
               color: ColorConstants.WHITE,
               borderRadius: BorderRadius.circular(10),
             ),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text('${item.title}', style: Styles.bold(size: 16)),
-              SizedBox(height: 5),
-              Text('${item.maximumMarks} marks',
-                  style: Styles.regular(size: 12)),
-              SizedBox(height: 5),
-              Text(
-                  'Submit before ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
-                  style: Styles.regular(size: 12))
+            child: Row(children: [
+              if(item.status == 'Completed') ...[
+                SvgPicture.asset(
+                  'assets/images/completed_icon.svg',
+                  width: 20,
+                  height: 20,
+                  allowDrawingOutsideViewBox: true,
+                ),
+              ]else if(item.status == 'Upcoming') ...[
+                SvgPicture.asset(
+                  'assets/images/upcoming_live.svg',
+                  width: 20,
+                  height: 20,
+                  allowDrawingOutsideViewBox: true,
+                ),
+
+              ]else if(item.status == 'Pending') ...[
+                SvgPicture.asset(
+                  'assets/images/pending_icon.svg',
+                  width: 20,
+                  height: 20,
+                  allowDrawingOutsideViewBox: true,
+                ),
+              ],
+              SizedBox(width: 20),
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text('${item.title}', style: Styles.bold(size: 16)),
+                if(item.status == 'Completed') ...[
+                  SizedBox(height: 5),
+                  Text('${item.score}/${item.maximumMarks} Marks . ${item.attemptAllowed! - item.attemptCount!} attempts left ',
+                      style: Styles.regular(size: 12, color: Colors.black)),
+                  SizedBox(height: 5),
+                  Text(
+                      'Submit before: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
+                      style: Styles.regular(size: 12))
+
+                ]else ...[
+                  SizedBox(height: 5),
+                  Text('${item.durationInMinutes} mins . ${item.maximumMarks} Marks',
+                      style: Styles.regular(size: 12, color: Colors.black)),
+                  SizedBox(height: 5),
+                  Text(
+                      'Submit before: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
+                      style: Styles.regular(size: 12))
+                ]
+              ]),
+              /*Positioned(
+                top: 20,
+                right: 0,
+                child: Icon(CupertinoIcons.forward,
+                    size: 30, color: Colors.black.withOpacity(0.7)),
+              ),*/
             ])));
   }
 
@@ -173,7 +286,6 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
         _isLoading = false;
         //_userTrack();
         assessmentList!.clear();
-        print("45678456784567845678456789");
         /*if (state.contentType == categoryId) {
           announcementList.addAll(state.response.data.list.where((element) {
             return element.categoryId == categoryId;

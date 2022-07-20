@@ -85,9 +85,9 @@ class Images {
   static const String HEART_ICON = "assets/images/outline_heart.png";
 
   static const String LB_LOGO = "assets/images/logo_lb.png";
-  static const String PRE_BOARDING_1 = "assets/images/pb_1.png";
-  static const String PRE_BOARDING_2 = "assets/images/pb_2.png";
-  static const String PRE_BOARDING_3 = "assets/images/pb_3.png";
+  static const String PRE_BOARDING_1 = "assets/images/preboarding1.jpg";
+  static const String PRE_BOARDING_2 = "assets/images/preboarding2.jpg";
+  static const String PRE_BOARDING_3 = "assets/images/preboarding3.jpg";
 
   static const String CONTACT_US_TOP = 'assets/images/contact_us_logo.png';
   static const String PLAY_ICON = 'assets/images/play_icon.png';
