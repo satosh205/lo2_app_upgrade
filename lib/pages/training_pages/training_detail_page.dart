@@ -415,16 +415,19 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                             .WHITE)),
                                                 Row(
                                                   children: [
-                                                    Text(
-                                                      '80/100 marks',
-                                                      style: Styles.regular(
-                                                          size: 14,
-                                                          color: ColorConstants
-                                                              .WHITE),
-                                                    ),
+                                                    if (selectedType ==
+                                                        'Assignment')
+                                                      Text(
+                                                        '${selectedData.overallScore}/${selectedData.maximumMarks} marks .  ',
+                                                        style: Styles.regular(
+                                                            size: 14,
+                                                            color:
+                                                                ColorConstants
+                                                                    .WHITE),
+                                                      ),
                                                     if (selectedType == 'Quiz')
                                                       Text(
-                                                        ' .  ${selectedData.attemptsRemaining} attemps available',
+                                                        '${selectedData.score}/${selectedData.maximumMarks} marks .  ${selectedData.attemptsRemaining} attemps available',
                                                         style: Styles.regular(
                                                             size: 14,
                                                             color:
