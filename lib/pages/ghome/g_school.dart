@@ -1055,20 +1055,22 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                         softWrap: false,
                         style: Styles.regular(size: 14)),
                     Spacer(),
-                    Text('₹${yourCourses.regularPrice}',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: false,
-                        style: TextStyle(
-                          fontSize: 14,
-                          decoration: TextDecoration.lineThrough,
-                        )),
-                    Text('₹${yourCourses.salePrice}',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: false,
-                        style:
-                            Styles.bold(size: 18, color: ColorConstants.GREEN)),
+                    if (yourCourses.regularPrice != yourCourses.salePrice)
+                      Text('₹${yourCourses.regularPrice}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: false,
+                          style: TextStyle(
+                            fontSize: 14,
+                            decoration: TextDecoration.lineThrough,
+                          )),
+                    if (yourCourses.salePrice != null)
+                      Text('₹${yourCourses.salePrice}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: false,
+                          style: Styles.bold(
+                              size: 18, color: ColorConstants.GREEN)),
                   ],
                 )
               ],
