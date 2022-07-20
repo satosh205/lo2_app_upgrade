@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
@@ -52,15 +53,85 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
     categoryId = Utility.getCategoryValue(ApiConstants.ANNOUNCEMENT_TYPE);
   }
 
+  _showPopUpMenu(Offset offset) async {
+    final screenSize = MediaQuery.of(context).size;
+    double left = offset.dx;
+    double top = offset.dy;
+    double right = screenSize.width - offset.dx;
+    double bottom = screenSize.height - offset.dy;
+
+    showMenu<String>(
+      context: context,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      position: RelativeRect.fromLTRB(left, top, right, bottom),
+      items: [
+        PopupMenuItem<String>(
+            child: Row(children: [
+              SvgPicture.asset(
+                'assets/images/upcoming_live.svg',
+                width: 20,
+                height: 20,
+                allowDrawingOutsideViewBox: true,
+              ),
+              SizedBox(width: 20),
+              Text('Upcoming Assignment')
+            ]),
+            value: '1'),
+        PopupMenuItem<String>(
+            child: Row(children: [
+              SvgPicture.asset(
+                'assets/images/completed_icon.svg',
+                width: 20,
+                height: 20,
+                allowDrawingOutsideViewBox: true,
+              ),
+              SizedBox(width: 20),
+              Text('Assignment Completed')
+            ]),
+            value: '2'),
+        PopupMenuItem<String>(
+            child: Row(children: [
+              SvgPicture.asset(
+                'assets/images/pending_icon.svg',
+                width: 20,
+                height: 20,
+                allowDrawingOutsideViewBox: true,
+              ),
+              SizedBox(width: 20),
+              Text('Assignment Pending')
+            ]),
+            value: '3'),
+      ],
+      elevation: 8.0,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorConstants.GREY,
       appBar: AppBar(
         title: Text(Strings.of(context)!.MyAssignments ?? "My Assignments",
             style: Styles.bold(size: 18)),
         centerTitle: false,
         backgroundColor: Colors.white,
         elevation: 0.0,
+        actions: [
+          GestureDetector(
+            onTapDown: (TapDownDetails detail) {
+              _showPopUpMenu(detail.globalPosition);
+            },
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 15),
+              child: SvgPicture.asset(
+                'assets/images/info_icon.svg',
+                height: 22,
+                width: 22,
+                allowDrawingOutsideViewBox: true,
+              ),
+            ),
+          )
+        ],
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -191,29 +262,55 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
             width: MediaQuery.of(context).size.width * 0.9,
             margin: EdgeInsets.symmetric(vertical: 10, horizontal: 6),
             decoration: BoxDecoration(
-                color: ColorConstants.WHITE,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                    color: Colors.green, width: 1, style: BorderStyle.solid)),
+              color: ColorConstants.WHITE,
+              borderRadius: BorderRadius.circular(10),
+              /*border: Border.all(
+                    color: Colors.green, width: 1, style: BorderStyle.solid)*/
+            ),
             child: Row(children: [
-              // Icon(
-              //   Icons.circle_outlined,
-              //   color: ColorConstants.BLACK,
-              //   size: 20,
-              // ),
-              //SizedBox(width: 20),
+              if (item.status == 'Completed') ...[
+                SvgPicture.asset(
+                  'assets/images/completed_icon.svg',
+                  width: 20,
+                  height: 20,
+                  allowDrawingOutsideViewBox: true,
+                ),
+              ] else if (item.status == 'Upcoming') ...[
+                SvgPicture.asset(
+                  'assets/images/upcoming_live.svg',
+                  width: 20,
+                  height: 20,
+                  allowDrawingOutsideViewBox: true,
+                ),
+              ] else if (item.status == 'Pending') ...[
+                SvgPicture.asset(
+                  'assets/images/pending_icon.svg',
+                  width: 20,
+                  height: 20,
+                  allowDrawingOutsideViewBox: true,
+                ),
+              ],
+              SizedBox(width: 20),
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text('${item.title}', style: Styles.bold(size: 16)),
                 SizedBox(height: 5),
-                Text('${item.maximumMarks} marks',
-                    style: Styles.regular(size: 12)),
-                SizedBox(height: 5),
-                Text(
-                    'Submit before ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
-                    style: Styles.regular(size: 12)),
-                /*Text('25% Completed',
-                    style: Styles.textRegular(color: ColorConstants.BLACK)),*/
-                SizedBox(height: 5),
+                if (item.status == 'Completed') ...[
+                  Text('Submitted', style: Styles.regular(size: 12)),
+                  SizedBox(height: 5),
+                  Text(
+                      '${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
+                      style: Styles.regular(size: 12)),
+                  SizedBox(height: 5),
+                ] else if (item.status == 'Upcoming') ...[
+                  Text(
+                      'Deadline: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
+                      style: Styles.regular(size: 12)),
+                  SizedBox(height: 5),
+                ] else if (item.status == 'Pending') ...[
+                  Text('${item.status}',
+                      style: Styles.regular(
+                          size: 12, color: ColorConstants.PRIMARY_COLOR)),
+                ],
               ]),
               /*Positioned(
                 top: 20,
