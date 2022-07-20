@@ -13,7 +13,9 @@ import 'package:masterg/data/models/response/home_response/my_assignment_respons
 import 'package:masterg/data/providers/my_assignment_detail_provider.dart';
 import 'package:masterg/pages/custom_pages/card_loader.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
+import 'package:masterg/pages/custom_pages/custom_widgets/gschool_widget/date_picker.dart';
 import 'package:masterg/pages/training_pages/mg_assignment_detail_page.dart';
+import 'package:masterg/pages/training_pages/training_detail_page.dart';
 import 'package:masterg/pages/training_pages/training_service.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
@@ -41,6 +43,9 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
   Box? box;
 
   int selectedIndex = 0;
+  String selectedOption = 'All';
+  bool selectedCalanderView = false;
+  DateTime selectedDate = DateTime.now();
 
   @override
   void initState() {
@@ -200,6 +205,22 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
     });
   }
 
+  bool checkViewDate(endDate) {
+    DateTime date;
+
+    date = DateTime.fromMillisecondsSinceEpoch(endDate * 1000);
+    if (date.year >= selectedDate.year) {
+      if (date.month >= selectedDate.month) {
+        if (date.day >= selectedDate.day) return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+    return false;
+  }
+
   _announenmentList() {
     return box != null
         ? ValueListenableBuilder(
@@ -227,98 +248,180 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                   .cast<AssignmentList>()
                   .toList();
               //var list = _getFilterList();
-              return ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  scrollDirection:
-                      widget.isViewAll! ? Axis.vertical : Axis.horizontal,
-                  shrinkWrap: true,
-                  itemCount:
-                      assignmentList == null ? 0 : assignmentList!.length,
-                  itemBuilder: (context, index) {
-                    return _rowItem(assignmentList![index]);
-                  });
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text('Sort By: ', style: Styles.regular(size: 14)),
+                        DropdownButton<String>(
+                          underline: SizedBox(),
+                          hint: Text('$selectedOption',
+                              style: Styles.bold(size: 14)),
+                          items: <String>[
+                            'All',
+                            'Upcoming',
+                            'Completed',
+                            'Pending',
+                          ].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (_) {
+                            setState(() {
+                              selectedOption = _!;
+                            });
+                          },
+                        ),
+                        Expanded(child: SizedBox()),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              //selectedCalanderView = !selectedCalanderView;
+                              selectedCalanderView = false;
+                            });
+                          },
+                          child: !selectedCalanderView
+                              ? SvgPicture.asset(
+                                  'assets/images/selected_listview.svg',
+                                  height: 16,
+                                  width: 16,
+                                  allowDrawingOutsideViewBox: true,
+                                )
+                              : SvgPicture.asset(
+                                  'assets/images/unselected_listview.svg',
+                                  height: 16,
+                                  width: 16,
+                                  allowDrawingOutsideViewBox: true,
+                                ),
+                        ),
+                        SizedBox(width: 10),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              //selectedCalanderView = !selectedCalanderView;
+                              selectedCalanderView = true;
+                            });
+                          },
+                          child: selectedCalanderView
+                              ? SvgPicture.asset(
+                                  'assets/images/selected_calender.svg',
+                                  height: 20,
+                                  width: 20,
+                                  allowDrawingOutsideViewBox: true,
+                                )
+                              : SvgPicture.asset(
+                                  'assets/images/unselected_calender.svg',
+                                  height: 20,
+                                  width: 20,
+                                  allowDrawingOutsideViewBox: true,
+                                ),
+                        )
+                      ],
+                    ),
+                    if (selectedCalanderView)
+                      Calendar(
+                        sendValue: (DateTime date) {
+                          setState(() {
+                            selectedDate = date;
+                          });
+                        },
+                      ),
+                    ListView.builder(
+                        scrollDirection:
+                            widget.isViewAll! ? Axis.vertical : Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount:
+                            assignmentList == null ? 0 : assignmentList!.length,
+                        itemBuilder: (context, index) {
+                          return _rowItem(assignmentList![index]);
+                        }),
+                  ],
+                ),
+              );
             },
           )
         : CardLoader();
   }
 
   _rowItem(AssignmentList item) {
-    return InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            NextPageRoute(
-                ChangeNotifierProvider<MgAssignmentDetailProvider>(
-                    create: (c) => MgAssignmentDetailProvider(
-                        TrainingService(ApiService()), item),
-                    child: MgAssignmentDetailPage(
-                      id: item.contentId,
-                    )),
-                isMaintainState: true),
-          );
-        },
-        child: Container(
-            padding: EdgeInsets.all(10),
-            width: MediaQuery.of(context).size.width * 0.9,
-            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 6),
-            decoration: BoxDecoration(
-              color: ColorConstants.WHITE,
-              borderRadius: BorderRadius.circular(10),
-              /*border: Border.all(
-                    color: Colors.green, width: 1, style: BorderStyle.solid)*/
-            ),
-            child: Row(children: [
-              if (item.status == 'Completed') ...[
-                SvgPicture.asset(
-                  'assets/images/completed_icon.svg',
-                  width: 20,
-                  height: 20,
-                  allowDrawingOutsideViewBox: true,
-                ),
-              ] else if (item.status == 'Upcoming') ...[
-                SvgPicture.asset(
-                  'assets/images/upcoming_live.svg',
-                  width: 20,
-                  height: 20,
-                  allowDrawingOutsideViewBox: true,
-                ),
-              ] else if (item.status == 'Pending') ...[
-                SvgPicture.asset(
-                  'assets/images/pending_icon.svg',
-                  width: 20,
-                  height: 20,
-                  allowDrawingOutsideViewBox: true,
-                ),
-              ],
-              SizedBox(width: 20),
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text('${item.title}', style: Styles.bold(size: 16)),
-                SizedBox(height: 5),
+    return Visibility(
+      visible: (selectedOption == item.status || selectedOption == 'All') &&
+          checkViewDate(item.endDate),
+      child: InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              NextPageRoute(
+                  ChangeNotifierProvider<MgAssignmentDetailProvider>(
+                      create: (c) => MgAssignmentDetailProvider(
+                          TrainingService(ApiService()), item),
+                      child: MgAssignmentDetailPage(
+                        id: item.contentId,
+                      )),
+                  isMaintainState: true),
+            );
+          },
+          child: Container(
+              padding: EdgeInsets.all(10),
+              width: MediaQuery.of(context).size.width * 0.9,
+              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 6),
+              decoration: BoxDecoration(
+                color: ColorConstants.WHITE,
+                borderRadius: BorderRadius.circular(10),
+                /*border: Border.all(
+                      color: Colors.green, width: 1, style: BorderStyle.solid)*/
+              ),
+              child: Row(children: [
                 if (item.status == 'Completed') ...[
-                  Text('Submitted', style: Styles.regular(size: 12)),
-                  SizedBox(height: 5),
-                  Text(
-                      '${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
-                      style: Styles.regular(size: 12)),
-                  SizedBox(height: 5),
+                  SvgPicture.asset(
+                    'assets/images/completed_icon.svg',
+                    width: 20,
+                    height: 20,
+                    allowDrawingOutsideViewBox: true,
+                  ),
                 ] else if (item.status == 'Upcoming') ...[
-                  Text(
-                      'Deadline: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
-                      style: Styles.regular(size: 12)),
-                  SizedBox(height: 5),
+                  SvgPicture.asset(
+                    'assets/images/upcoming_live.svg',
+                    width: 20,
+                    height: 20,
+                    allowDrawingOutsideViewBox: true,
+                  ),
                 ] else if (item.status == 'Pending') ...[
-                  Text('${item.status}',
-                      style: Styles.regular(
-                          size: 12, color: ColorConstants.PRIMARY_COLOR)),
+                  SvgPicture.asset(
+                    'assets/images/pending_icon.svg',
+                    width: 20,
+                    height: 20,
+                    allowDrawingOutsideViewBox: true,
+                  ),
                 ],
-              ]),
-              /*Positioned(
-                top: 20,
-                right: 0,
-                child: Icon(CupertinoIcons.forward,
-                    size: 30, color: Colors.black.withOpacity(0.7)),
-              ),*/
-            ])));
+                SizedBox(width: 20),
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text('${item.title}', style: Styles.bold(size: 16)),
+                  SizedBox(height: 5),
+                  if (item.status == 'Completed') ...[
+                    Text('Submitted', style: Styles.regular(size: 12)),
+                    SizedBox(height: 5),
+                    Text(
+                        '${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
+                        style: Styles.regular(size: 12)),
+                    SizedBox(height: 5),
+                  ] else if (item.status == 'Upcoming') ...[
+                    Text(
+                        'Deadline: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
+                        style: Styles.regular(size: 12)),
+                    SizedBox(height: 5),
+                  ] else if (item.status == 'Pending') ...[
+                    Text('${item.status}',
+                        style: Styles.regular(
+                            size: 12, color: ColorConstants.PRIMARY_COLOR)),
+                  ],
+                ]),
+              ]))),
+    );
   }
 
   @override
