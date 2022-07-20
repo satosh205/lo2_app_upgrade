@@ -282,7 +282,7 @@ class _homePageState extends State<homePage> {
                               body: WebView(
                                 javascriptMode: JavascriptMode.unrestricted,
                                 initialUrl:
-                                    '${ApiConstants.PRODUCTION_BASE_URL}${widget.bottomMenu![index].url}?cred=${UserSession.userToken}',
+                                    '${ApiConstants().PRODUCTION_BASE_URL()}${widget.bottomMenu![index].url}?cred=${UserSession.userToken}',
                               ),
                             )));
               } else {

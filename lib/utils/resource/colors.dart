@@ -110,17 +110,11 @@ class ColorConstants {
   static const APPBAR_COLOR = Color(0xff2c73d9);
   static const BUTTON_COLOR = Color(0xff2c73d9);
   /********** */
-  Color primaryColor(){
+  Color primaryColor() {
     return HexColor.fromHex(APK_DETAILS['theme_color']!);
   }
 
-  Color buttonColor(){
+  Color buttonColor() {
     return HexColor.fromHex(APK_DETAILS['theme_color']!);
   }
-
-
-
-
-
-
 }

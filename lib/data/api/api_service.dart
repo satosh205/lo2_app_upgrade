@@ -65,7 +65,7 @@ class _Prod extends Environment {
   EnvironmentType get type => EnvironmentType.PROD;
 
   @override
-  String get baseUrl => ApiConstants.PRODUCTION_BASE_URL;
+  String get baseUrl => ApiConstants().PRODUCTION_BASE_URL();
 
   @override
   String get apiKey => "For api key";

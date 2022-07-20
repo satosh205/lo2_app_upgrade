@@ -122,8 +122,9 @@ class HomeProvider {
 
   static Future<ApiResponse?> getContentDetails({int? id}) async {
     //  Utility.hideKeyboard();
-    final _url =
-        ApiConstants.PRODUCTION_BASE_URL + "api/joy/contents/" + id.toString();
+    final _url = ApiConstants().PRODUCTION_BASE_URL() +
+        "api/joy/contents/" +
+        id.toString();
     Log.v(_url);
     try {
       final response = await http.get(

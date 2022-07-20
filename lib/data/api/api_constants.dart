@@ -1,5 +1,6 @@
 import 'package:masterg/utils/config.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:masterg/utils/config.dart';
 
 class ApiConstants {
   /**Server url*/
@@ -7,11 +8,11 @@ class ApiConstants {
   ///todo change Env to production when release to the client
   ///For Developer
   // static const PRODUCTION_BASE_URL = "https://learningoxygen.com/";
-  static const PRODUCTION_BASE_URL = "https://mylearning.learnandbuild.in/";
+  //static const PRODUCTION_BASE_URL = "https://mylearning.learnandbuild.in/";
 
   static const DEV_BASE_URL = "https://learningoxygen.com/";
 
-  static const IMAGE_BASE_URL = 'https://learningoxygen.com/joy_content/';
+  //static const IMAGE_BASE_URL = 'https://learningoxygen.com/joy_content/';
 
   //todo before share this change it to production
 
@@ -22,6 +23,10 @@ class ApiConstants {
   String APIKeyValue() {
     return APK_DETAILS['nlms_api_key']!;
   } //Demo test Client
+
+  String PRODUCTION_BASE_URL() {
+    return APK_DETAILS['domain_url']!;
+  }
 
   ///APIs
   static const LOGIN = "api/joy/signin";
