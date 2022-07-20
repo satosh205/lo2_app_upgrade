@@ -13,6 +13,7 @@ import 'package:masterg/data/models/response/home_response/my_assessment_respons
 import 'package:masterg/data/providers/mg_assessment_detail_provioder.dart';
 import 'package:masterg/pages/custom_pages/card_loader.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
+import 'package:masterg/pages/custom_pages/custom_widgets/gschool_widget/date_picker.dart';
 import 'package:masterg/pages/training_pages/mg_assessment_detail.dart';
 import 'package:masterg/pages/training_pages/training_service.dart';
 import 'package:masterg/utils/Log.dart';
@@ -41,6 +42,9 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
   Box? box;
 
   int selectedIndex = 0;
+  String selectedOption = 'All';
+  bool selectedCalanderView = false;
+  DateTime selectedDate = DateTime.now();
 
   @override
   void initState() {
@@ -153,6 +157,21 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
         ));
   }
 
+  bool checkViewDate(endDate) {
+    DateTime date;
+
+    date = DateTime.fromMillisecondsSinceEpoch(endDate * 1000);
+
+    var date1 = selectedDate.millisecondsSinceEpoch;
+    var date2 = date.millisecondsSinceEpoch;
+    if (date1 <= date2) {
+      return true;
+    } else {
+      return false;
+    }
+    
+  }
+
   _announenmentList() {
     return box != null
         ? ValueListenableBuilder(
@@ -180,16 +199,100 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
                   .cast<AssessmentList>()
                   .toList();
               //var list = _getFilterList();
-              return ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  scrollDirection:
-                      widget.isViewAll! ? Axis.vertical : Axis.horizontal,
-                  shrinkWrap: true,
-                  itemCount:
-                      assessmentList == null ? 0 : assessmentList!.length,
-                  itemBuilder: (context, index) {
-                    return _rowItem(assessmentList![index]);
-                  });
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text('Sort By: ', style: Styles.regular(size: 14)),
+                        DropdownButton<String>(
+                          underline: SizedBox(),
+                          hint: Text('$selectedOption',
+                              style: Styles.bold(size: 14)),
+                          items: <String>[
+                            'All',
+                            'Upcoming',
+                            'Completed',
+                            'Pending',
+                          ].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (_) {
+                            setState(() {
+                              selectedOption = _!;
+                            });
+                          },
+                        ),
+                        Expanded(child: SizedBox()),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              //selectedCalanderView = !selectedCalanderView;
+                              selectedCalanderView = false;
+                            });
+                          },
+                          child: !selectedCalanderView
+                              ? SvgPicture.asset(
+                                  'assets/images/selected_listview.svg',
+                                  height: 16,
+                                  width: 16,
+                                  allowDrawingOutsideViewBox: true,
+                                )
+                              : SvgPicture.asset(
+                                  'assets/images/unselected_listview.svg',
+                                  height: 16,
+                                  width: 16,
+                                  allowDrawingOutsideViewBox: true,
+                                ),
+                        ),
+                        SizedBox(width: 10),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              //selectedCalanderView = !selectedCalanderView;
+                              selectedCalanderView = true;
+                            });
+                          },
+                          child: selectedCalanderView
+                              ? SvgPicture.asset(
+                                  'assets/images/selected_calender.svg',
+                                  height: 20,
+                                  width: 20,
+                                  allowDrawingOutsideViewBox: true,
+                                )
+                              : SvgPicture.asset(
+                                  'assets/images/unselected_calender.svg',
+                                  height: 20,
+                                  width: 20,
+                                  allowDrawingOutsideViewBox: true,
+                                ),
+                        )
+                      ],
+                    ),
+                    if (selectedCalanderView)
+                      Calendar(
+                        sendValue: (DateTime date) {
+                          setState(() {
+                            selectedDate = date;
+                          });
+                        },
+                      ),
+                    ListView.builder(
+                        scrollDirection:
+                            widget.isViewAll! ? Axis.vertical : Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount:
+                            assessmentList == null ? 0 : assessmentList!.length,
+                        itemBuilder: (context, index) {
+                          return _rowItem(assessmentList![index]);
+                        }),
+                  ],
+                ),
+              );
             },
           )
         : CardLoader();
@@ -200,78 +303,82 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
   }
 
   _rowItem(AssessmentList item) {
-    return InkWell(
-        onTap: () {
-          Navigator.push(
-              context,
-              NextPageRoute(
-                  ChangeNotifierProvider<MgAssessmentDetailProvider>(
-                      create: (context) => MgAssessmentDetailProvider(
-                          TrainingService(ApiService()), item),
-                      child: MgAssessmentDetailPage()),
-                  isMaintainState: true));
-        },
-        child: Container(
-            padding: EdgeInsets.all(10),
-            width: MediaQuery.of(context).size.width * 0.9,
-            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 6),
-            decoration: BoxDecoration(
-              color: ColorConstants.WHITE,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(children: [
-              if (item.status == 'Completed') ...[
-                SvgPicture.asset(
-                  'assets/images/completed_icon.svg',
-                  width: 20,
-                  height: 20,
-                  allowDrawingOutsideViewBox: true,
-                ),
-              ] else if (item.status == 'Upcoming') ...[
-                SvgPicture.asset(
-                  'assets/images/upcoming_live.svg',
-                  width: 20,
-                  height: 20,
-                  allowDrawingOutsideViewBox: true,
-                ),
-              ] else if (item.status == 'Pending') ...[
-                SvgPicture.asset(
-                  'assets/images/pending_icon.svg',
-                  width: 20,
-                  height: 20,
-                  allowDrawingOutsideViewBox: true,
-                ),
-              ],
-              SizedBox(width: 20),
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text('${item.title}', style: Styles.bold(size: 16)),
+    return Visibility(
+      visible: (selectedOption == item.status || selectedOption == 'All') &&
+          checkViewDate(item.endDate),
+      child: InkWell(
+          onTap: () {
+            Navigator.push(
+                context,
+                NextPageRoute(
+                    ChangeNotifierProvider<MgAssessmentDetailProvider>(
+                        create: (context) => MgAssessmentDetailProvider(
+                            TrainingService(ApiService()), item),
+                        child: MgAssessmentDetailPage()),
+                    isMaintainState: true));
+          },
+          child: Container(
+              padding: EdgeInsets.all(10),
+              width: MediaQuery.of(context).size.width * 0.9,
+              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 6),
+              decoration: BoxDecoration(
+                color: ColorConstants.WHITE,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(children: [
                 if (item.status == 'Completed') ...[
-                  SizedBox(height: 5),
-                  Text(
-                      '${item.score}/${item.maximumMarks} Marks . ${item.attemptAllowed! - item.attemptCount!} attempts left ',
-                      style: Styles.regular(size: 12, color: Colors.black)),
-                  SizedBox(height: 5),
-                  Text(
-                      'Submit before: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
-                      style: Styles.regular(size: 12))
-                ] else ...[
-                  SizedBox(height: 5),
-                  Text(
-                      '${item.durationInMinutes} mins . ${item.maximumMarks} Marks',
-                      style: Styles.regular(size: 12, color: Colors.black)),
-                  SizedBox(height: 5),
-                  Text(
-                      'Submit before: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
-                      style: Styles.regular(size: 12))
-                ]
-              ]),
-              /*Positioned(
-                top: 20,
-                right: 0,
-                child: Icon(CupertinoIcons.forward,
-                    size: 30, color: Colors.black.withOpacity(0.7)),
-              ),*/
-            ])));
+                  SvgPicture.asset(
+                    'assets/images/completed_icon.svg',
+                    width: 20,
+                    height: 20,
+                    allowDrawingOutsideViewBox: true,
+                  ),
+                ] else if (item.status == 'Upcoming') ...[
+                  SvgPicture.asset(
+                    'assets/images/upcoming_live.svg',
+                    width: 20,
+                    height: 20,
+                    allowDrawingOutsideViewBox: true,
+                  ),
+                ] else if (item.status == 'Pending') ...[
+                  SvgPicture.asset(
+                    'assets/images/pending_icon.svg',
+                    width: 20,
+                    height: 20,
+                    allowDrawingOutsideViewBox: true,
+                  ),
+                ],
+                SizedBox(width: 20),
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text('${item.title}', style: Styles.bold(size: 16)),
+                  if (item.status == 'Completed') ...[
+                    SizedBox(height: 5),
+                    Text(
+                        '${item.score}/${item.maximumMarks} Marks . ${item.attemptAllowed! - item.attemptCount!} attempts left ',
+                        style: Styles.regular(size: 12, color: Colors.black)),
+                    SizedBox(height: 5),
+                    Text(
+                        'Submit before: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
+                        style: Styles.regular(size: 12))
+                  ] else ...[
+                    SizedBox(height: 5),
+                    Text(
+                        '${item.durationInMinutes} mins . ${item.maximumMarks} Marks',
+                        style: Styles.regular(size: 12, color: Colors.black)),
+                    SizedBox(height: 5),
+                    Text(
+                        'Submit before: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
+                        style: Styles.regular(size: 12))
+                  ]
+                ]),
+                /*Positioned(
+                  top: 20,
+                  right: 0,
+                  child: Icon(CupertinoIcons.forward,
+                      size: 30, color: Colors.black.withOpacity(0.7)),
+                ),*/
+              ]))),
+    );
   }
 
   void _handleAnnouncmentData(MyAssessmentState state) {
@@ -313,61 +420,4 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
     BlocProvider.of<HomeBloc>(context).add(MyAssessmentEvent(box: box));
     setState(() {});
   }
-
-  // _horizontalList() {
-  //   var list = _getFilterList();
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.center,
-  //     mainAxisAlignment: MainAxisAlignment.center,
-  //     mainAxisSize: MainAxisSize.max,
-  //     children: [
-  //       Container(
-  //           height: 200,
-  //           child: Swiper(
-  //             viewportFraction: 0.8,
-  //             itemBuilder: (BuildContext context, int index) {
-  //               return _rowItem(list[index]);
-  //             },
-  //             onIndexChanged: (page) {
-  //               setState(() {
-  //                 selectedIndex = page;
-  //               });
-  //             },
-  //             autoplay: true,
-  //             loop: false,
-  //             itemCount: min(list.length, 8),
-  //           )),
-  //       _size(height: 10),
-  //       Container(
-  //         height: 20,
-  //         child: ListView.builder(
-  //             scrollDirection: Axis.horizontal,
-  //             itemCount: min(list.length, 8),
-  //             shrinkWrap: true,
-  //             itemBuilder: (context, index) {
-  //               return Container(
-  //                 child: Align(
-  //                   alignment: Alignment.center,
-  //                   child: Container(
-  //                       height: 14,
-  //                       margin: EdgeInsets.symmetric(horizontal: 5),
-  //                       width: 14,
-  //                       child: Container(),
-  //                       decoration: BoxDecoration(
-  //                           borderRadius: BorderRadius.circular(7.0),
-  //                           color: selectedIndex == index
-  //                               ? ColorConstants.TEXT_DARK_BLACK
-  //                                   .withOpacity(0.7)
-  //                               : ColorConstants.BG_GREY,
-  //                           border: Border.all(
-  //                               width: 1,
-  //                               color: ColorConstants.TEXT_DARK_BLACK
-  //                                   .withOpacity(0.7)))),
-  //                 ),
-  //               );
-  //             }),
-  //       )
-  //     ],
-  //   );
-  // }
 }

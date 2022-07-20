@@ -209,16 +209,14 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
     DateTime date;
 
     date = DateTime.fromMillisecondsSinceEpoch(endDate * 1000);
-    if (date.year >= selectedDate.year) {
-      if (date.month >= selectedDate.month) {
-        if (date.day >= selectedDate.day) return true;
-      } else {
-        return false;
-      }
+
+    var date1 = selectedDate.millisecondsSinceEpoch;
+    var date2 = date.millisecondsSinceEpoch;
+    if (date1 <= date2) {
+      return true;
     } else {
       return false;
     }
-    return false;
   }
 
   _announenmentList() {
