@@ -176,6 +176,9 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
         title = 'View Recording';
       else if (selectedData?.liveclassAction.toString().toLowerCase() == 'live')
         title = 'Join Now';
+      else if (selectedData?.liveclassAction.toString().toLowerCase() ==
+          'scheduled')
+        title = 'Mark Your Attendance';
       else
         title = selectedData?.liveclassAction;
 
@@ -194,7 +197,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
           selectedData.attemptAllowed == selectedData.attemptsRemaining)
         title = 'Start Quiz';
       else
-        title = 'Re-Submit/ Review';
+        title = 'Re-Attempt/ Review';
       if (selectedData.attemptsRemaining == 0) {
         isButtonActive = false;
       }
@@ -427,7 +430,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                       ),
                                                     if (selectedType == 'Quiz')
                                                       Text(
-                                                        '${selectedData.score}/${selectedData.maximumMarks} Marks .  ${selectedData.attemptsRemaining} attemps available',
+                                                        '${selectedData.score}/${selectedData.maximumMarks} Marks •  ${selectedData.attemptsRemaining} attemps available',
                                                         style: Styles.regular(
                                                             size: 14,
                                                             color:
@@ -450,6 +453,12 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
 
                                                 if (selectedType == 'Classes') {
                                                   // playVideo(context);
+
+                                                  if (selectedData
+                                                          ?.liveclassAction
+                                                          .toString()
+                                                          .toLowerCase() ==
+                                                      'scheduled') {}
                                                 }
                                                 if (selectedType == 'Notes') {
                                                   playVideo(context);
@@ -472,12 +481,23 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                             ? selectedData
                                                                         .status ==
                                                                     'Active'
-                                                                ? ColorConstants
-                                                                    .PRIMARY_COLOR
+                                                                ? ColorConstants()
+                                                                    .primaryColor()
                                                                 : ColorConstants
                                                                     .GREY_2
-                                                            : ColorConstants
-                                                                .PRIMARY_COLOR,
+                                                            : selectedType ==
+                                                                    'Quiz'
+                                                                ? selectedData
+                                                                            ?.liveclassAction
+                                                                            .toString()
+                                                                            .toLowerCase() ==
+                                                                        'scheduled'
+                                                                    ? ColorConstants
+                                                                        .GREY_2
+                                                                    : ColorConstants()
+                                                                        .primaryColor()
+                                                                : ColorConstants
+                                                                    .GREY_2,
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             8)),
@@ -1213,6 +1233,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                 }
               });
               return _moduleCard(
+                  leadingid: 3,
                   '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assessments![index].title}',
                   '${capitalize(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assessments![index].contentType)}',
                   'assessment',

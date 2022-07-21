@@ -294,7 +294,13 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
   void _downloadSubmission(String? usersFile) async {
     if (await Permission.storage.request().isGranted) {
       var tempDir = await getApplicationDocumentsDirectory();
-      String localPath = (tempDir.path) + Platform.pathSeparator + 'MyCoach';
+      String localPath = "";
+      if (Platform.isAndroid) {
+        localPath = "/sdcard/download/";
+      } else {
+        localPath = (await getApplicationDocumentsDirectory()).path;
+      }
+      //String localPath = (tempDir.path) + Platform.pathSeparator + 'MyCoach';
       var savedDir = Directory(localPath);
       bool hasExisted = await savedDir.exists();
       if (!hasExisted) {

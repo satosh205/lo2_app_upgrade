@@ -15,6 +15,7 @@ import 'package:masterg/pages/custom_pages/card_loader.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/gschool_widget/date_picker.dart';
 import 'package:masterg/pages/training_pages/mg_assessment_detail.dart';
+import 'package:masterg/pages/training_pages/new_screen/assessment_your_report_page.dart';
 import 'package:masterg/pages/training_pages/training_service.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
@@ -169,7 +170,6 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
     } else {
       return false;
     }
-    
   }
 
   _announenmentList() {
@@ -307,77 +307,103 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
       visible: (selectedOption == item.status || selectedOption == 'All') &&
           checkViewDate(item.endDate),
       child: InkWell(
-          onTap: () {
-            Navigator.push(
-                context,
-                NextPageRoute(
-                    ChangeNotifierProvider<MgAssessmentDetailProvider>(
-                        create: (context) => MgAssessmentDetailProvider(
-                            TrainingService(ApiService()), item),
-                        child: MgAssessmentDetailPage()),
-                    isMaintainState: true));
-          },
-          child: Container(
-              padding: EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width * 0.9,
-              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 6),
-              decoration: BoxDecoration(
-                color: ColorConstants.WHITE,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(children: [
-                if (item.status == 'Completed') ...[
-                  SvgPicture.asset(
-                    'assets/images/completed_icon.svg',
-                    width: 20,
-                    height: 20,
-                    allowDrawingOutsideViewBox: true,
-                  ),
-                ] else if (item.status == 'Upcoming') ...[
-                  SvgPicture.asset(
-                    'assets/images/upcoming_live.svg',
-                    width: 20,
-                    height: 20,
-                    allowDrawingOutsideViewBox: true,
-                  ),
-                ] else if (item.status == 'Pending') ...[
-                  SvgPicture.asset(
-                    'assets/images/pending_icon.svg',
-                    width: 20,
-                    height: 20,
-                    allowDrawingOutsideViewBox: true,
-                  ),
-                ],
-                SizedBox(width: 20),
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text('${item.title}', style: Styles.bold(size: 16)),
+        onTap: () {
+          Navigator.push(
+              context,
+              NextPageRoute(
+                  ChangeNotifierProvider<MgAssessmentDetailProvider>(
+                      create: (context) => MgAssessmentDetailProvider(
+                          TrainingService(ApiService()), item),
+                      child: MgAssessmentDetailPage()),
+                  isMaintainState: true));
+        },
+        child: Container(
+            padding: EdgeInsets.all(10),
+            width: MediaQuery.of(context).size.width * 0.9,
+            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 6),
+            decoration: BoxDecoration(
+              color: ColorConstants.WHITE,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Stack(children: [
+              Container(
+                margin: EdgeInsets.only(bottom: 12),
+                child: Row(children: [
                   if (item.status == 'Completed') ...[
-                    SizedBox(height: 5),
-                    Text(
-                        '${item.score}/${item.maximumMarks} Marks . ${item.attemptAllowed! - item.attemptCount!} attempts left ',
-                        style: Styles.regular(size: 12, color: Colors.black)),
-                    SizedBox(height: 5),
-                    Text(
-                        'Submit before: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
-                        style: Styles.regular(size: 12))
-                  ] else ...[
-                    SizedBox(height: 5),
-                    Text(
-                        '${item.durationInMinutes} mins . ${item.maximumMarks} Marks',
-                        style: Styles.regular(size: 12, color: Colors.black)),
-                    SizedBox(height: 5),
-                    Text(
-                        'Submit before: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
-                        style: Styles.regular(size: 12))
-                  ]
+                    SvgPicture.asset(
+                      'assets/images/completed_icon.svg',
+                      width: 20,
+                      height: 20,
+                      allowDrawingOutsideViewBox: true,
+                    ),
+                  ] else if (item.status == 'Upcoming') ...[
+                    SvgPicture.asset(
+                      'assets/images/upcoming_live.svg',
+                      width: 20,
+                      height: 20,
+                      allowDrawingOutsideViewBox: true,
+                    ),
+                  ] else if (item.status == 'Pending') ...[
+                    SvgPicture.asset(
+                      'assets/images/pending_icon.svg',
+                      width: 20,
+                      height: 20,
+                      allowDrawingOutsideViewBox: true,
+                    ),
+                  ],
+                  SizedBox(width: 20),
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('${item.title}', style: Styles.bold(size: 16)),
+                        if (item.status == 'Completed') ...[
+                          SizedBox(height: 5),
+                          Text(
+                              '${item.score}/${item.maximumMarks} Marks • ${item.attemptAllowed! - item.attemptCount!} attempts left ',
+                              style: Styles.regular(
+                                  size: 12, color: Colors.black)),
+                          SizedBox(height: 5),
+                          Text(
+                              'Submit before: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
+                              style: Styles.regular(size: 12))
+                        ] else ...[
+                          SizedBox(height: 5),
+                          Text(
+                              '${item.durationInMinutes} mins . ${item.maximumMarks} Marks',
+                              style: Styles.regular(
+                                  size: 12, color: Colors.black)),
+                          SizedBox(height: 5),
+                          Text(
+                              'Submit before: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
+                              style: Styles.regular(size: 12)),
+                        ],
+                      ]),
                 ]),
-                /*Positioned(
-                  top: 20,
+              ),
+              Positioned(
                   right: 0,
-                  child: Icon(CupertinoIcons.forward,
-                      size: 30, color: Colors.black.withOpacity(0.7)),
-                ),*/
-              ]))),
+                  bottom: 0,
+                  child: Visibility(
+                    visible: item.status == 'Completed',
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              NextPageRoute(AssessmentYourReportPage(
+                                  contentId: item.contentId)));
+                        },
+                        child: Text('Report',
+                            textAlign: TextAlign.right,
+                            style: Styles.regular(
+                                size: 12,
+                                color: ColorConstants().primaryColor())),
+                      ),
+                    ),
+                  ))
+            ])),
+      ),
     );
   }
 

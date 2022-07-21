@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
@@ -19,13 +20,13 @@ import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 
-class TestReviewPage extends StatefulWidget {
+class AssessmentReviewPage extends StatefulWidget {
   final int? contentId;
 
-  TestReviewPage({this.contentId});
+  AssessmentReviewPage({this.contentId});
 
   @override
-  _TestReviewPageState createState() => _TestReviewPageState();
+  _AssessmentReviewPageState createState() => _AssessmentReviewPageState();
   var _pageViewController = PageController();
   int? _currentSection = 0;
   var _currentQuestion = 0;
@@ -59,7 +60,7 @@ class IdMapper {
   }
 }
 
-class _TestReviewPageState extends State<TestReviewPage> {
+class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
   final GlobalKey<ScaffoldState> _key = new GlobalKey<ScaffoldState>();
   var _isLoading = false;
   var _scaffoldContext;
@@ -183,15 +184,17 @@ class _TestReviewPageState extends State<TestReviewPage> {
                   ? SizedBox()
                   : BottomAppBar(
                       //color: Color.fromRGBO(238, 238, 243, 1),
-                      elevation: 0,
+                      elevation: 10,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 5),
+                            horizontal: 0, vertical: 5),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             widget._currentQuestion == 0
-                                ? SizedBox()
+                                ? SizedBox(
+                                    width: 100,
+                                  )
                                 : TapWidget(
                                     onTap: () {
                                       widget._pageViewController.previousPage(
@@ -200,51 +203,88 @@ class _TestReviewPageState extends State<TestReviewPage> {
                                     },
                                     child: Container(
                                       width: 100,
-                                      padding: const EdgeInsets.all(10),
+                                      padding:
+                                          const EdgeInsets.only(left: 20.0),
                                       decoration: BoxDecoration(
                                           //color: Color.fromRGBO(157, 191, 242, 1),
                                           borderRadius:
                                               BorderRadius.circular(8)),
-                                      child: Text(
-                                        "Back",
-                                        style: Styles.textBold(
-                                            size: 16,
-                                            color:
-                                                Color.fromRGBO(53, 68, 116, 1)),
+                                      child: Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                            'assets/images/prev.svg',
+                                            width: 15,
+                                            height: 15,
+                                            allowDrawingOutsideViewBox: true,
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            "Prev",
+                                            style: Styles.textBold(
+                                                size: 16, color: Colors.black),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
-                            if ((widget._list.length - 1) !=
-                                widget._currentQuestion)
-                              TapWidget(
-                                onTap: () {
-                                  widget._pageViewController.nextPage(
-                                      duration: Duration(milliseconds: 200),
-                                      curve: Curves.ease);
-                                },
-                                child: Container(
-                                  width: 100,
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      color: ColorConstants().primaryColor(),
-                                      borderRadius: BorderRadius.circular(8)),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "Next",
-                                        style: Styles.textBold(
-                                            size: 16, color: Colors.white),
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Icon(Icons.arrow_forward,
-                                          size: 15, color: Colors.white)
-                                    ],
+                            Container(
+                              width: 100,
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  //color: ColorConstants.PRIMARY_COLOR,
+                                  //borderRadius: BorderRadius.circular(8)
                                   ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "${(widget._currentQuestion + 1).toString() + "/" + widget._list.length.toString()}",
+                                    style: Styles.textBold(
+                                        size: 16, color: Colors.black),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            TapWidget(
+                              onTap: () {
+                                print('object');
+                                widget._pageViewController.nextPage(
+                                    duration: Duration(milliseconds: 200),
+                                    curve: Curves.ease);
+                              },
+                              child: Container(
+                                width: 100,
+                                //padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    //color: ColorConstants.PRIMARY_COLOR,
+                                    //borderRadius: BorderRadius.circular(8)
+                                    ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      ((widget._list.length - 1) ==
+                                              widget._currentQuestion)
+                                          ? ""
+                                          : "Next",
+                                      style: Styles.textBold(
+                                          size: 16, color: Colors.black),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    SvgPicture.asset(
+                                      'assets/images/next.svg',
+                                      width: 15,
+                                      height: 15,
+                                      allowDrawingOutsideViewBox: true,
+                                    ),
+                                  ],
                                 ),
-                              )
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -290,7 +330,7 @@ class _TestReviewPageState extends State<TestReviewPage> {
               ),
               child: Column(
                 children: [
-                  _questionCount(),
+                  //_questionCount(),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 19),
                     child: Divider(),
@@ -427,8 +467,8 @@ class _TestReviewPageState extends State<TestReviewPage> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _questionNumber(testAttemptBean),
-            _size(height: 10),
+            //_questionNumber(testAttemptBean),
+            //_size(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
@@ -470,7 +510,10 @@ class _TestReviewPageState extends State<TestReviewPage> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Image.network(
-                        testAttemptBean.question!.questionImage![i]),
+                      testAttemptBean.question!.questionImage![i],
+                      height: 200,
+                      width: MediaQuery.of(context).size.width,
+                    ),
                   ),
 
             _size(height: 10),
@@ -496,7 +539,7 @@ class _TestReviewPageState extends State<TestReviewPage> {
             //             },
             //             child: Container(
             //               padding: const EdgeInsets.all(15),
-            //               color: ColorConstants().primaryColor(),
+            //               color: ColorConstants.PRIMARY_COLOR,
             //               child: Text(
             //                 "See Solution",
             //                 style: Styles.boldWhite(),
@@ -869,7 +912,7 @@ class _TestReviewPageState extends State<TestReviewPage> {
         children: [
           Text(
             "Q.${(widget._currentQuestion + 1).toString().padLeft(2, "0")}",
-            style: Styles.textBold(size: 22),
+            style: Styles.textBold(size: 18),
           ),
           Spacer(),
           // Text(
@@ -887,21 +930,23 @@ class _TestReviewPageState extends State<TestReviewPage> {
   }
 
   _solutionType(String type, TestReviewBean testAttemptBean) {
+    print('============Type=============');
+    print(type);
     switch (type) {
       case "1":
         return _multiChoose(testAttemptBean); //MULTIPLE_CHOICE
 
       case "2":
-        return _options(testAttemptBean); //SINGLE_INTEGER
+      //return _options(testAttemptBean); //SINGLE_INTEGER
 
       case "3":
         return _multiChoose(testAttemptBean); //MULTIPLE_RESPONSE
 
       case "4":
-        return _chooseOne(testAttemptBean); //FILL_IN_THE_BLANK
+      //return _chooseOne(testAttemptBean); //FILL_IN_THE_BLANK
 
       case "5":
-        return _chooseOne(testAttemptBean); //TRUE_FALSE
+      //return _chooseOne(testAttemptBean); //TRUE_FALSE
 
       case "6":
       //  return _subjective(testAttemptBean); //SUBJECTIVE
@@ -964,6 +1009,51 @@ class _TestReviewPageState extends State<TestReviewPage> {
     FlutterDownloader.registerCallback(downloadCallback);
   }
 
+  // _subjective(TestReviewBean testAttemptBean) {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       Padding(
+  //         padding: const EdgeInsets.symmetric(horizontal: 20),
+  //         child: Text(
+  //           testAttemptBean.question.questionType ?? "",
+  //           style: Styles.textBold(size: 20),
+  //         ),
+  //       ),
+  //       _size(),
+  //       Padding(
+  //         padding: const EdgeInsets.symmetric(horizontal: 20.0),
+  //         child: Text(
+  //           testAttemptBean?.question?.solution?.explanation ?? "",
+  //           maxLines: 10,
+  //           style: Styles.regularBlack(),
+  //         ),
+  //       ),
+  //       _size(),
+  //       Container(
+  //         width: MediaQuery.of(context).size.width - 40,
+  //         decoration: BoxDecoration(
+  //             borderRadius: BorderRadius.all(Radius.circular(15)),
+  //             border: Border.all(color: Colors.grey)),
+  //         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+  //         margin: const EdgeInsets.only(left: 20.0),
+  //         child: Text(
+  //           testAttemptBean?.question?.studentSolution ?? "",
+  //           style: Styles.regularBlack(),
+  //           maxLines: 10,
+  //         ),
+  //       ),
+  //       _size(),
+  //       if (testAttemptBean.question.analytics.usersFile != null &&
+  //           testAttemptBean.question.analytics.usersFile.isNotEmpty)
+  //         _handleFile(
+  //             file: ApiConstants.IMAGE_BASE_URL +
+  //                 testAttemptBean.question.analytics.usersFile),
+  //       _size(),
+  //     ],
+  //   );
+  // }
+
   _options(TestReviewBean testAttemptBean) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -1003,7 +1093,7 @@ class _TestReviewPageState extends State<TestReviewPage> {
                   children: [
                     Container(
                       width: MediaQuery.of(_scaffoldContext).size.width,
-                      height: 80,
+                      height: 60,
                       child: Stack(
                         children: [
                           Positioned(
@@ -1138,23 +1228,38 @@ class _TestReviewPageState extends State<TestReviewPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
+            padding: const EdgeInsets.only(top: 15),
             child: Text(
-              testAttemptBean.question!.questionType ?? "",
-              style: Styles.textBold(size: 20),
+              'Question Type',
+              style: Styles.textRegular(size: 12, color: Colors.grey),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 1),
+            child: Text(
+              testAttemptBean.question!.questionType ?? "",
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            ),
+          ),
+          _size(height: 20),
           Column(
             children: List.generate(
               widget._list[widget._currentQuestion].question!.questionOptions!
                   .length,
               (index) {
+                Color bgColor;
+                Color txtColor;
                 Color borderColor;
                 if (widget._list[widget._currentQuestion].question!
                         .questionOptions![index].optionId ==
                     int.parse(widget._list[widget._currentQuestion].question!
                         .correctOptions!.first)) {
-                  borderColor = Color(0xff66bb6a);
+                  borderColor = Colors.green;
+                  bgColor = Colors.green;
+                  txtColor = Colors.white;
                 } else if (widget._list[widget._currentQuestion].question!
                             .questionOptions![index].optionId !=
                         int.parse(widget._list[widget._currentQuestion]
@@ -1163,25 +1268,30 @@ class _TestReviewPageState extends State<TestReviewPage> {
                             .questionOptions![index].userAnswer ==
                         1) {
                   borderColor = Colors.red;
+                  bgColor = Colors.white;
+                  txtColor = Colors.red;
                 } else {
                   borderColor = Colors.grey;
+                  bgColor = Colors.white;
+                  txtColor = Colors.black;
                 }
                 return Column(
                   children: [
                     Container(
                       width: MediaQuery.of(_scaffoldContext).size.width,
-                      height: 80,
+                      height: 52,
                       child: Stack(
                         children: [
                           Positioned(
                             bottom: 0,
                             left: 0,
                             child: Card(
+                              color: bgColor,
                               elevation: 5,
                               margin: const EdgeInsets.only(right: 20),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.all(
-                                  Radius.circular(5),
+                                  Radius.circular(6),
                                 ),
                                 side: BorderSide(
                                     color: borderColor,
@@ -1235,67 +1345,69 @@ class _TestReviewPageState extends State<TestReviewPage> {
                                 width:
                                     MediaQuery.of(_scaffoldContext).size.width -
                                         40,
-                                height: 55,
+                                height: 45,
                                 alignment: Alignment.centerLeft,
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 15),
+                                    const EdgeInsets.symmetric(horizontal: 10),
                                 child: Text(
                                   widget
                                       ._list[widget._currentQuestion]
                                       .question!
                                       .questionOptions![index]
                                       .optionStatement!,
-                                  style: Styles.textRegular(size: 12),
+                                  style: Styles.textRegular(
+                                      size: 12, color: txtColor),
                                 ),
                               ),
                             ),
                           ),
-                          Positioned(
+                          /*Positioned(
                             top: 15,
                             left: 30,
                             child:
-                                // widget._list[widget._currentQuestion].question
-                                //             .analytics.actionId !=
-                                //         1
-                                //     ? Container()
-                                //     :
-                                // widget._list[widget._currentQuestion].question
-                                //         .questionOptions[index].userAnswer==1
-                                //     ? Container(
-                                //         color: Colors.grey[300],
-                                //         child: Padding(
-                                //           padding: const EdgeInsets.symmetric(
-                                //               vertical: 3.0, horizontal: 8),
-                                //           child: Text(
-                                //             "Your answer",
-                                //             style: Styles.boldBlack(size: 10),
-                                //           ),
-                                //         ),
-                                //       )
-                                //     :
-                                widget._list[widget._currentQuestion].question!
-                                            .questionOptions![index].optionId ==
-                                        int.parse(widget
-                                            ._list[widget._currentQuestion]
-                                            .question!
-                                            .correctOptions!
-                                            .first)
-                                    ? Container(
-                                        color: Colors.grey[300],
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 3.0, horizontal: 8),
-                                          child: Text(
-                                            "Correct Answer",
-                                            style: Styles.textBold(size: 10),
-                                          ),
-                                        ),
-                                      )
-                                    : SizedBox(),
-                          ),
+                            // widget._list[widget._currentQuestion].question
+                            //             .analytics.actionId !=
+                            //         1
+                            //     ? Container()
+                            //     :
+                            // widget._list[widget._currentQuestion].question
+                            //         .questionOptions[index].userAnswer==1
+                            //     ? Container(
+                            //         color: Colors.grey[300],
+                            //         child: Padding(
+                            //           padding: const EdgeInsets.symmetric(
+                            //               vertical: 3.0, horizontal: 8),
+                            //           child: Text(
+                            //             "Your answer",
+                            //             style: Styles.boldBlack(size: 10),
+                            //           ),
+                            //         ),
+                            //       )
+                            //     :
+                            widget._list[widget._currentQuestion].question!
+                                .questionOptions![index].optionId ==
+                                int.parse(widget
+                                    ._list[widget._currentQuestion]
+                                    .question!
+                                    .correctOptions!
+                                    .first)
+                                ? Container(
+                              color: Colors.grey[300],
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 3.0, horizontal: 8),
+                                child: Text(
+                                  "Correct Answer",
+                                  style: Styles.textBold(size: 10),
+                                ),
+                              ),
+                            )
+                                : SizedBox(),
+                          ),*/
+
                           Positioned(
-                            top: 15,
-                            right: 30,
+                            top: 17,
+                            right: 10,
                             child:
                                 // widget._list[widget._currentQuestion].question
                                 //             .analytics.actionId !=
@@ -1323,15 +1435,42 @@ class _TestReviewPageState extends State<TestReviewPage> {
                                             .userAnswer ==
                                         1
                                     ? Container(
-                                        color: Colors.grey[300],
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 3.0, horizontal: 8),
-                                          child: Text(
-                                            "Your Answer",
-                                            style: Styles.textBold(size: 10),
-                                          ),
-                                        ),
+                                        //color: Colors.grey[300],
+                                        child: widget
+                                                        ._list[widget
+                                                            ._currentQuestion]
+                                                        .question!
+                                                        .questionOptions![index]
+                                                        .optionId !=
+                                                    int.parse(widget
+                                                        ._list[widget
+                                                            ._currentQuestion]
+                                                        .question!
+                                                        .correctOptions!
+                                                        .first) &&
+                                                widget
+                                                        ._list[widget
+                                                            ._currentQuestion]
+                                                        .question!
+                                                        .questionOptions![index]
+                                                        .userAnswer ==
+                                                    1
+                                            ? Icon(
+                                                Icons.close,
+                                                color: Colors.red,
+                                              )
+                                            : Icon(
+                                                Icons.done_rounded,
+                                                color: Colors.white,
+                                              ),
+                                        /*child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 3.0, horizontal: 8),
+                                child: Text(
+                                  "Your Answer",
+                                  style: Styles.textBold(size: 10),
+                                ),
+                              ),*/
                                       )
                                     : SizedBox(),
                           )

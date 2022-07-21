@@ -5,6 +5,8 @@ import 'package:masterg/pages/custom_pages/TapWidget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/training_pages/assessment_attempt_page.dart';
 import 'package:masterg/pages/training_pages/assessment_review_page.dart';
+import 'package:masterg/pages/training_pages/new_screen/assessment_attempt_page.dart';
+import 'package:masterg/pages/training_pages/new_screen/assessment_review_page.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/custom_progress_indicator.dart';
@@ -114,7 +116,7 @@ class MgAssessmentDetailPage extends StatelessWidget {
                           size: 16, color: ColorConstants.WHITE),
                     ),*/
               Text(
-                '${assessmentProvider.assessments.maximumMarks} Marks . ',
+                '${assessmentProvider.assessments.maximumMarks} Marks • ',
                 style: Styles.semibold(size: 14, color: ColorConstants.BLACK),
               ),
               Text(
@@ -191,7 +193,7 @@ class MgAssessmentDetailPage extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                             mContext!,
-                            NextPageRoute(TestReviewPage(
+                            NextPageRoute(AssessmentReviewPage(
                                 contentId: assessmentDetailProvider
                                     .assessments.contentId)));
                       },
@@ -232,7 +234,7 @@ class MgAssessmentDetailPage extends StatelessWidget {
                       } else {
                         await Navigator.push(
                             mContext!,
-                            NextPageRoute(TestAttemptPage(
+                            NextPageRoute(AssessmentAttemptPage(
                                 contentId: assessmentDetailProvider
                                     .assessments.contentId)));
                         assessmentDetailProvider.getDetails();

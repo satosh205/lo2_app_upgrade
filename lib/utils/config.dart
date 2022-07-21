@@ -11,3 +11,6 @@ const APK_DETAILS = {
   "domain_url": "https://qa.learningoxygen.com/",
   "enable_boarding_screen": "0"
 };
+
+
+  // "domain_url": "https://qa.learningoxygen.com/"

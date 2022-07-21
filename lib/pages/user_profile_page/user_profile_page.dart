@@ -17,6 +17,7 @@ import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/auth_pages/sign_up_screen.dart';
 import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
+import 'package:masterg/pages/custom_pages/faq_page.dart';
 import 'package:masterg/pages/user_profile_page/mobile_ui_helper.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
@@ -70,6 +71,7 @@ class _UserProfilePageState extends State<UserProfilePage>
           }
         },
         child: Scaffold(
+          backgroundColor: Colors.grey[200],
           appBar: AppBar(
             elevation: 0,
             leading: BackButton(color: Colors.black),
@@ -120,7 +122,7 @@ class _UserProfilePageState extends State<UserProfilePage>
         Container(
           alignment: Alignment.center,
           margin: EdgeInsets.fromLTRB(0, 26, 0, 10),
-          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+          // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
           child: Column(
             children: [
               Container(
@@ -223,6 +225,8 @@ class _UserProfilePageState extends State<UserProfilePage>
               ),
               Container(
                 padding: EdgeInsets.all(10),
+                color: ColorConstants.WHITE,
+                margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
                 child: Column(
                   children: <Widget>[
                     Container(
@@ -262,6 +266,49 @@ class _UserProfilePageState extends State<UserProfilePage>
                   ],
                 ),
               ),
+
+              Container(
+                height: 100,
+                color: ColorConstants.WHITE,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(context, NextPageRoute(FaqPage()));
+                        },
+                        child: Row(
+                          children: [
+                            Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: ColorConstants().primaryColor(),
+                                ),
+                                child: Icon(
+                                  Icons.info,
+                                  color: ColorConstants.WHITE,
+                                  size: 20,
+                                )),
+                            SizedBox(width: 10),
+                            Text('FAQ', style: Styles.regular()),
+                            Expanded(child: SizedBox()),
+                            Icon(Icons.arrow_forward_ios, size: 15),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      indent: 60,
+                    )
+                  ],
+                ),
+              ),
+
               Expanded(child: SizedBox()),
             ],
           ),

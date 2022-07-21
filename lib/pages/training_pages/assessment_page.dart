@@ -5,6 +5,8 @@ import 'package:masterg/pages/custom_pages/TapWidget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/training_pages/assessment_attempt_page.dart';
 import 'package:masterg/pages/training_pages/assessment_review_page.dart';
+import 'package:masterg/pages/training_pages/new_screen/assessment_attempt_page.dart';
+import 'package:masterg/pages/training_pages/new_screen/assessment_review_page.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/custom_progress_indicator.dart';
@@ -153,7 +155,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                           size: 16, color: ColorConstants.WHITE),
                     ),*/
               Text(
-                '${assignmentDetailProvider.assignments.maximumMarks} Marks . ',
+                '${assignmentDetailProvider.assignments.maximumMarks} Marks • ',
                 style:
                     Styles.textExtraBold(size: 16, color: ColorConstants.BLACK),
               ),
@@ -448,7 +450,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                       onTap: () {
                         Navigator.push(
                             mContext!,
-                            NextPageRoute(TestReviewPage(
+                            NextPageRoute(AssessmentReviewPage(
                                 contentId: assessmentDetailProvider
                                     .assignments.programContentId)));
                       },
@@ -496,10 +498,9 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                       } else {
                         await Navigator.push(
                             mContext!,
-                            NextPageRoute(TestAttemptPage(
+                            NextPageRoute(AssessmentAttemptPage(
                                 contentId: assessmentDetailProvider
                                     .assignments.programContentId)));
-                        assessmentDetailProvider.getDetails();
                       }
                     },
                     child: Visibility(

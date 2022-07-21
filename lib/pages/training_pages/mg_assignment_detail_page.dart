@@ -9,6 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterg/data/models/response/home_response/assignment_detail_response.dart';
 import 'package:masterg/data/providers/my_assignment_detail_provider.dart';
 import 'package:masterg/pages/custom_pages/TapWidget.dart';
+import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/training_pages/assignment_submissions.dart';
 import 'package:masterg/utils/Strings.dart';
@@ -80,8 +81,29 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
     FlutterDownloader.registerCallback(downloadCallback);
   }
 
-  Future download(String url, String savePath) async {
-    print("HERE!");
+  void _downloadSubmission(String? usersFile) async {
+    if (await Permission.storage.request().isGranted) {
+      String localPath = "";
+      if (Platform.isAndroid) {
+        localPath = "/sdcard/download/";
+      } else {
+        localPath = (await getApplicationDocumentsDirectory()).path;
+      }
+      //String localPath = (tempDir.path) + Platform.pathSeparator + 'MyCoach';
+      var savedDir = Directory(localPath);
+      bool hasExisted = await savedDir.exists();
+      if (!hasExisted) {
+        savedDir = await savedDir.create();
+      }
+      download2(usersFile!, localPath);
+    } else {
+      Utility.showSnackBar(
+          scaffoldContext: context,
+          message: "Please enable storage permission");
+    }
+  }
+
+  Future download2(String url, String savePath) async {
     try {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -117,7 +139,7 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
           color: Colors.black, //change your color here
         ),
         title: Text(
-          'Assessment',
+          'Assignment',
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.white,
@@ -157,9 +179,17 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                '${assignmentDetailProvider.assignments.maximumMarks} Marks',
-                style: Styles.bold(size: 14, color: ColorConstants.BLACK),
+              Row(
+                children: [
+                  Text(
+                    '${assignmentDetailProvider.assignments.maximumMarks} Marks',
+                    style: Styles.bold(size: 14, color: ColorConstants.BLACK),
+                  ),
+                  Text(
+                    ' . ${assignmentDetailProvider.assignments.totalAttempts} Total Attempts',
+                    style: Styles.bold(size: 14, color: ColorConstants.BLACK),
+                  ),
+                ],
               ),
               _size(height: 10),
               Text('${assignmentDetailProvider.assignments.description}',
@@ -193,8 +223,8 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                             }
                           }
 
-                          download(assignmentDetailProvider.assignment!.file!,
-                              localPath);
+                          _downloadSubmission(
+                              assignmentDetailProvider.assignment!.file!);
                         } else {
                           Utility.showSnackBar(
                               scaffoldContext: context,
@@ -261,15 +291,6 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _size(),
-                Padding(
-                  padding: const EdgeInsets.only(right: 60),
-                  child: Text(
-                    assignment.description!,
-                    style: Styles.textRegular(
-                        size: 13, color: ColorConstants().primaryColor()),
-                  ),
-                ),
                 _size(height: 20),
                 Text(
                   'User notes',
@@ -338,7 +359,23 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                     file == null
                         ? TapWidget(
                             onTap: () {
-                              _attachFile();
+                              if (assignmentDetailProvider
+                                          .assignments.allowMultiple ==
+                                      0 &&
+                                  assignmentDetailProvider
+                                          .assignments.totalAttempts ==
+                                      1)
+                                AlertsWidget.showCustomDialog(
+                                    context: context,
+                                    title: "Reached maximum attempts",
+                                    text: "",
+                                    icon: 'assets/images/circle_alert_fill.svg',
+                                    showCancel: false,
+                                    onOkClick: () async {
+                                      // Navigator.pop(context);
+                                    });
+                              else
+                                _attachFile();
                             },
                             child: Container(
                               padding: EdgeInsets.all(5),
