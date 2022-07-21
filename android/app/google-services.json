@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:247661112249:android:aaa6005fd1b2576af72468",
         "android_client_info": {
-          "package_name": "com.learn_build"
+          "package_name": "com.at.masterg"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "247661112249-jb0eocftkphg890o6l9is3g3f0om4l60.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.learn_build",
+            "package_name": "com.at.masterg",
             "certificate_hash": "2d0ecab98d881466465e12c5a2dc5b1792e5651e"
           }
         },
@@ -37,6 +37,13 @@
             {
               "client_id": "247661112249-vg2chtnjtp8ludkqgfumqt9f3mriqkpg.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "247661112249-v4gp6k91vtpgi4ef6o5iv62r2satedtg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.at.masterg"
+              }
             }
           ]
         }

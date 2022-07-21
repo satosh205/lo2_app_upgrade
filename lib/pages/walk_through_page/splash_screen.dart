@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masterg/blocs/auth_bloc.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
+import 'package:masterg/utils/config.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
@@ -20,6 +21,7 @@ import 'package:masterg/utils/utility.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../utils/resource/images.dart';
+import '../auth_pages/choose_language.dart';
 import '../preboarding_pages/proboarding_page.dart';
 
 class EntryAnimationPage extends StatefulWidget {
@@ -243,7 +245,6 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
   }
 
   void _moveToNext() {
-   
     if (Preference.getString(Preference.USER_TOKEN) != null) {
       if (UserSession.userAppLanguageId == 0 ||
           UserSession.userContentLanguageId == 0) {
@@ -270,8 +271,12 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
         getBottomNavigationBar();
       }
     } else {
-      Navigator.pushAndRemoveUntil(
-          context, NextPageRoute(PreBoardingPage()), (route) => false);
+      if (APK_DETAILS["enable_boarding_screen"] == "0") {
+        Navigator.push(context, NextPageRoute(ChooseLanguage()));
+      } else {
+        Navigator.pushAndRemoveUntil(
+            context, NextPageRoute(PreBoardingPage()), (route) => false);
+      }
     }
   }
 }
