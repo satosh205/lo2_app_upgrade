@@ -346,7 +346,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
           icon: 'assets/images/circle_alert_fill.svg',
           showCancel: false,
           onOkClick: () async {
-            Navigator.pop(context);
+            // Navigator.pop(context);
           });
     }
   }
