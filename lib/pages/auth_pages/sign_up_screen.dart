@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:masterg/utils/config.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:masterg/blocs/auth_bloc.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
@@ -23,6 +24,7 @@ import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
+import 'package:masterg/utils/config.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
@@ -136,8 +138,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Center(
                         child: Column(
                           children: [
-                            Image.asset(
-                              'assets/images/app_icon.jpg',
+                            Image.network(
+                              APK_DETAILS['logo_url']!,
                               height: 100,
                               width: 150,
                             ),

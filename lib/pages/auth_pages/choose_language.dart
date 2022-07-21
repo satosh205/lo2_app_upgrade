@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
+import 'package:masterg/utils/config.dart';
 import 'package:masterg/data/models/response/home_response/master_language_response.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/main.dart';
@@ -73,8 +74,8 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                     SizedBox(
                       height: 50,
                     ),
-                    Image.asset(
-                      'assets/images/app_icon.jpg',
+                    Image.network(
+                      APK_DETAILS['logo_url']!,
                       height: 100,
                       width: 150,
                     ),

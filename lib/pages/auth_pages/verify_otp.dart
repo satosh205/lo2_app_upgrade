@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masterg/utils/config.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
@@ -245,8 +246,8 @@ class _VerifyOtpState extends State<VerifyOtp> {
                   Center(
                     child: Column(
                       children: [
-                        Image.asset(
-                          'assets/images/app_icon.jpg',
+                        Image.network(
+                          APK_DETAILS['logo_url']!,
                           height: 100,
                           width: 150,
                         ),
