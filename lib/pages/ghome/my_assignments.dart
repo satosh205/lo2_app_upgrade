@@ -11,6 +11,7 @@ import 'package:masterg/data/api/api_constants.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/my_assignment_response.dart';
 import 'package:masterg/data/providers/my_assignment_detail_provider.dart';
+import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/card_loader.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/gschool_widget/date_picker.dart';
@@ -351,6 +352,18 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
           checkViewDate(item.endDate),
       child: InkWell(
           onTap: () {
+            // if (item.status == 'Upcoming')
+            //   AlertsWidget.showCustomDialog(
+            //       context: context,
+            //       title: "Assignment is not ready for submission",
+            //       text: "",
+            //       icon: 'assets/images/circle_alert_fill.svg',
+            //       showCancel: false,
+            //       oKText: 'Ok',
+            //       onOkClick: () async {
+            //         // Navigator.pop(context);
+            //       });
+            // else
             Navigator.push(
               context,
               NextPageRoute(

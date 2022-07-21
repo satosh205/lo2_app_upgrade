@@ -155,7 +155,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                           size: 16, color: ColorConstants.WHITE),
                     ),*/
               Text(
-                '${assignmentDetailProvider.assignments.maximumMarks} Marks . ',
+                '${assignmentDetailProvider.assignments.maximumMarks} Marks • ',
                 style:
                     Styles.textExtraBold(size: 16, color: ColorConstants.BLACK),
               ),
@@ -448,7 +448,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                     ),*/
                     child: TapWidget(
                       onTap: () {
-                       Navigator.push(
+                        Navigator.push(
                             mContext!,
                             NextPageRoute(AssessmentReviewPage(
                                 contentId: assessmentDetailProvider
@@ -496,7 +496,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                             scaffoldContext: mContext,
                             message: "Maximum attempts reached.");
                       } else {
-                         await Navigator.push(
+                        await Navigator.push(
                             mContext!,
                             NextPageRoute(AssessmentAttemptPage(
                                 contentId: assessmentDetailProvider

@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:injector/injector.dart';
 import 'package:masterg/data/api/api_service.dart';
-import 'package:masterg/data/models/request/auth_request/change_password_request.dart';
 import 'package:masterg/data/models/request/auth_request/email_request.dart';
 import 'package:masterg/data/models/request/auth_request/login_request.dart';
 import 'package:masterg/data/models/request/auth_request/signup_request.dart';

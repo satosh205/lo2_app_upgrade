@@ -137,44 +137,44 @@ class _homePageState extends State<homePage> {
       child: Scaffold(
         key: _scaffoldKey,
         backgroundColor: ColorConstants.GREY,
-        drawer: Drawer(
-          // Add a ListView to the drawer. This ensures the user can scroll
-          // through the options in the drawer if there isn't enough vertical
-          // space to fit everything.
-          child: ListView(
-            // Important: Remove any padding from the ListView.
-            padding: EdgeInsets.zero,
-            children: [
-              SizedBox(
-                height: 50,
-              ),
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: CircleAvatar(
-                    backgroundImage:
-                        NetworkImage(UserSession.userImageUrl ?? ""),
-                    radius: 30.0),
-                title: Text(
-                  '${UserSession.firstName}',
-                  style: Styles.textExtraBold(color: (ColorConstants.WHITE)),
-                ),
-                subtitle: Text(
-                  UserSession.email ?? '',
-                  style: Styles.textExtraBold(
-                      size: 12, color: (ColorConstants.WHITE)),
-                ),
-                onTap: () {},
-              ),
-              Divider(height: 20),
-              ListTile(
-                title: const Text('FAQs'),
-                onTap: () {
-                  Navigator.push(context, NextPageRoute(FaqPage()));
-                },
-              ),
-            ],
-          ),
-        ),
+        // drawer: Drawer(
+        //   // Add a ListView to the drawer. This ensures the user can scroll
+        //   // through the options in the drawer if there isn't enough vertical
+        //   // space to fit everything.
+        //   child: ListView(
+        //     // Important: Remove any padding from the ListView.
+        //     padding: EdgeInsets.zero,
+        //     children: [
+        //       SizedBox(
+        //         height: 50,
+        //       ),
+        //       ListTile(
+        //         contentPadding: EdgeInsets.zero,
+        //         leading: CircleAvatar(
+        //             backgroundImage:
+        //                 NetworkImage(UserSession.userImageUrl ?? ""),
+        //             radius: 30.0),
+        //         title: Text(
+        //           '${UserSession.firstName}',
+        //           style: Styles.textExtraBold(color: (ColorConstants.WHITE)),
+        //         ),
+        //         subtitle: Text(
+        //           UserSession.email ?? '',
+        //           style: Styles.textExtraBold(
+        //               size: 12, color: (ColorConstants.WHITE)),
+        //         ),
+        //         onTap: () {},
+        //       ),
+        //       Divider(height: 20),
+        //       ListTile(
+        //         title: const Text('FAQs'),
+        //         onTap: () {
+        //           Navigator.push(context, NextPageRoute(FaqPage()));
+        //         },
+        //       ),
+        //     ],
+        //   ),
+        // ),
 
         appBar: AppBar(
           automaticallyImplyLeading: false,

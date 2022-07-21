@@ -116,7 +116,7 @@ class MgAssessmentDetailPage extends StatelessWidget {
                           size: 16, color: ColorConstants.WHITE),
                     ),*/
               Text(
-                '${assessmentProvider.assessments.maximumMarks} Marks . ',
+                '${assessmentProvider.assessments.maximumMarks} Marks • ',
                 style: Styles.semibold(size: 14, color: ColorConstants.BLACK),
               ),
               Text(
