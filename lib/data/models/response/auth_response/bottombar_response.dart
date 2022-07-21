@@ -83,7 +83,7 @@ class Menu {
         isCheckedMobile: json["is_checked_mobile"],
         label: json["label"],
         role: json["role"],
-        inAppOrder: json["in_app_order"],
+        inAppOrder: json["order_in_app"],
       );
 
   Map<String, dynamic> toJson() => {
