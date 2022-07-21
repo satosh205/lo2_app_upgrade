@@ -117,7 +117,7 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
           color: Colors.black, //change your color here
         ),
         title: Text(
-          'Assessment',
+          'Assignment',
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.white,

@@ -964,51 +964,6 @@ class _TestReviewPageState extends State<TestReviewPage> {
     FlutterDownloader.registerCallback(downloadCallback);
   }
 
-  // _subjective(TestReviewBean testAttemptBean) {
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: [
-  //       Padding(
-  //         padding: const EdgeInsets.symmetric(horizontal: 20),
-  //         child: Text(
-  //           testAttemptBean.question.questionType ?? "",
-  //           style: Styles.textBold(size: 20),
-  //         ),
-  //       ),
-  //       _size(),
-  //       Padding(
-  //         padding: const EdgeInsets.symmetric(horizontal: 20.0),
-  //         child: Text(
-  //           testAttemptBean?.question?.solution?.explanation ?? "",
-  //           maxLines: 10,
-  //           style: Styles.regularBlack(),
-  //         ),
-  //       ),
-  //       _size(),
-  //       Container(
-  //         width: MediaQuery.of(context).size.width - 40,
-  //         decoration: BoxDecoration(
-  //             borderRadius: BorderRadius.all(Radius.circular(15)),
-  //             border: Border.all(color: Colors.grey)),
-  //         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
-  //         margin: const EdgeInsets.only(left: 20.0),
-  //         child: Text(
-  //           testAttemptBean?.question?.studentSolution ?? "",
-  //           style: Styles.regularBlack(),
-  //           maxLines: 10,
-  //         ),
-  //       ),
-  //       _size(),
-  //       if (testAttemptBean.question.analytics.usersFile != null &&
-  //           testAttemptBean.question.analytics.usersFile.isNotEmpty)
-  //         _handleFile(
-  //             file: ApiConstants.IMAGE_BASE_URL +
-  //                 testAttemptBean.question.analytics.usersFile),
-  //       _size(),
-  //     ],
-  //   );
-  // }
-
   _options(TestReviewBean testAttemptBean) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),

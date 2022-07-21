@@ -183,112 +183,112 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
               bottomNavigationBar: widget._list.length == 0
                   ? SizedBox()
                   : BottomAppBar(
-                //color: Color.fromRGBO(238, 238, 243, 1),
-                elevation: 10,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 0, vertical: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      widget._currentQuestion == 0
-                          ? SizedBox(width: 100,)
-                          : TapWidget(
-                        onTap: () {
-                          widget._pageViewController.previousPage(
-                              duration: Duration(milliseconds: 200),
-                              curve: Curves.ease);
-                        },
-                        child: Container(
-                          width: 100,
-                          padding: const EdgeInsets.only(left: 20.0),
-                          decoration: BoxDecoration(
-                            //color: Color.fromRGBO(157, 191, 242, 1),
-                              borderRadius: BorderRadius.circular(8)),
-                          child:
-                          Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/images/prev.svg',
-                                width: 15,
-                                height: 15,
-                                allowDrawingOutsideViewBox: true,
+                      //color: Color.fromRGBO(238, 238, 243, 1),
+                      elevation: 10,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 0, vertical: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            widget._currentQuestion == 0
+                                ? SizedBox(
+                                    width: 100,
+                                  )
+                                : TapWidget(
+                                    onTap: () {
+                                      widget._pageViewController.previousPage(
+                                          duration: Duration(milliseconds: 200),
+                                          curve: Curves.ease);
+                                    },
+                                    child: Container(
+                                      width: 100,
+                                      padding:
+                                          const EdgeInsets.only(left: 20.0),
+                                      decoration: BoxDecoration(
+                                          //color: Color.fromRGBO(157, 191, 242, 1),
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
+                                      child: Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                            'assets/images/prev.svg',
+                                            width: 15,
+                                            height: 15,
+                                            allowDrawingOutsideViewBox: true,
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            "Prev",
+                                            style: Styles.textBold(
+                                                size: 16, color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                            Container(
+                              width: 100,
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  //color: ColorConstants.PRIMARY_COLOR,
+                                  //borderRadius: BorderRadius.circular(8)
+                                  ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "${(widget._currentQuestion + 1).toString() + "/" + widget._list.length.toString()}",
+                                    style: Styles.textBold(
+                                        size: 16, color: Colors.black),
+                                  ),
+                                ],
                               ),
-                              const SizedBox(
-                                width: 5,
+                            ),
+                            TapWidget(
+                              onTap: () {
+                                print('object');
+                                widget._pageViewController.nextPage(
+                                    duration: Duration(milliseconds: 200),
+                                    curve: Curves.ease);
+                              },
+                              child: Container(
+                                width: 100,
+                                //padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    //color: ColorConstants.PRIMARY_COLOR,
+                                    //borderRadius: BorderRadius.circular(8)
+                                    ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      ((widget._list.length - 1) ==
+                                              widget._currentQuestion)
+                                          ? ""
+                                          : "Next",
+                                      style: Styles.textBold(
+                                          size: 16, color: Colors.black),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    SvgPicture.asset(
+                                      'assets/images/next.svg',
+                                      width: 15,
+                                      height: 15,
+                                      allowDrawingOutsideViewBox: true,
+                                    ),
+                                  ],
+                                ),
                               ),
-                              Text(
-                                "Prev",
-                                style: Styles.textBold(
-                                    size: 16,
-                                    color:
-                                    Colors.black),
-                              ),
-                            ],
-                          ),
+                            )
+                          ],
                         ),
                       ),
-                      Container(
-                          width: 100,
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              //color: ColorConstants.PRIMARY_COLOR,
-                              //borderRadius: BorderRadius.circular(8)
-                            ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text("${(widget._currentQuestion + 1).toString()+"/"+ widget._list.length.toString()}",
-                                style: Styles.textBold(
-                                    size: 16, color: Colors.black),
-                              ),
-
-                            ],
-                          ),
-                        ),
-
-                      TapWidget(
-                        onTap: () {
-                          print('object');
-                          widget._pageViewController.nextPage(
-                              duration: Duration(milliseconds: 200),
-                              curve: Curves.ease);
-                        },
-                        child: Container(
-                          width: 100,
-                          //padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              //color: ColorConstants.PRIMARY_COLOR,
-                              //borderRadius: BorderRadius.circular(8)
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                ((widget._list.length - 1) ==
-                                    widget._currentQuestion)
-                                    ? "Save"
-                                    : "Next",
-                                style: Styles.textBold(
-                                    size: 16, color: Colors.black),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              SvgPicture.asset(
-                                'assets/images/next.svg',
-                                width: 15,
-                                height: 15,
-                                allowDrawingOutsideViewBox: true,
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
+                    ),
               body: SafeArea(
                 child: ScreenWithLoader(
                   body: widget._list.length == 0
@@ -510,7 +510,10 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Image.network(
-                        testAttemptBean.question!.questionImage![i], height: 200, width: MediaQuery.of(context).size.width,),
+                      testAttemptBean.question!.questionImage![i],
+                      height: 200,
+                      width: MediaQuery.of(context).size.width,
+                    ),
                   ),
 
             _size(height: 10),
@@ -927,7 +930,6 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
   }
 
   _solutionType(String type, TestReviewBean testAttemptBean) {
-
     print('============Type=============');
     print(type);
     switch (type) {
@@ -935,16 +937,16 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
         return _multiChoose(testAttemptBean); //MULTIPLE_CHOICE
 
       case "2":
-        //return _options(testAttemptBean); //SINGLE_INTEGER
+      //return _options(testAttemptBean); //SINGLE_INTEGER
 
       case "3":
         return _multiChoose(testAttemptBean); //MULTIPLE_RESPONSE
 
       case "4":
-        //return _chooseOne(testAttemptBean); //FILL_IN_THE_BLANK
+      //return _chooseOne(testAttemptBean); //FILL_IN_THE_BLANK
 
       case "5":
-        //return _chooseOne(testAttemptBean); //TRUE_FALSE
+      //return _chooseOne(testAttemptBean); //TRUE_FALSE
 
       case "6":
       //  return _subjective(testAttemptBean); //SUBJECTIVE
@@ -1138,7 +1140,8 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
                               ),
                               child: Container(
                                 width:
-                                MediaQuery.of(_scaffoldContext).size.width - 40,
+                                    MediaQuery.of(_scaffoldContext).size.width -
+                                        40,
                                 height: 55,
                                 alignment: Alignment.centerLeft,
                                 padding:
@@ -1226,23 +1229,27 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 15),
-            child: Text('Question Type',
+            child: Text(
+              'Question Type',
               style: Styles.textRegular(size: 12, color: Colors.grey),
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 1),
             child: Text(
               testAttemptBean.question!.questionType ?? "",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
             ),
           ),
-
           _size(height: 20),
           Column(
             children: List.generate(
-              widget._list[widget._currentQuestion].question!.questionOptions!.length, (index) {
+              widget._list[widget._currentQuestion].question!.questionOptions!
+                  .length,
+              (index) {
                 Color bgColor;
                 Color txtColor;
                 Color borderColor;
@@ -1250,7 +1257,6 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
                         .questionOptions![index].optionId ==
                     int.parse(widget._list[widget._currentQuestion].question!
                         .correctOptions!.first)) {
-
                   borderColor = Colors.green;
                   bgColor = Colors.green;
                   txtColor = Colors.white;
@@ -1261,11 +1267,9 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
                     widget._list[widget._currentQuestion].question!
                             .questionOptions![index].userAnswer ==
                         1) {
-
                   borderColor = Colors.red;
                   bgColor = Colors.white;
                   txtColor = Colors.red;
-
                 } else {
                   borderColor = Colors.grey;
                   bgColor = Colors.white;
@@ -1339,18 +1343,20 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
                               ),
                               child: Container(
                                 width:
-                                MediaQuery.of(_scaffoldContext).size.width - 40,
+                                    MediaQuery.of(_scaffoldContext).size.width -
+                                        40,
                                 height: 45,
                                 alignment: Alignment.centerLeft,
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 10),
+                                    const EdgeInsets.symmetric(horizontal: 10),
                                 child: Text(
                                   widget
                                       ._list[widget._currentQuestion]
                                       .question!
                                       .questionOptions![index]
                                       .optionStatement!,
-                                  style: Styles.textRegular(size: 12, color: txtColor),
+                                  style: Styles.textRegular(
+                                      size: 12, color: txtColor),
                                 ),
                               ),
                             ),
@@ -1403,42 +1409,61 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
                             top: 17,
                             right: 10,
                             child:
-                            // widget._list[widget._currentQuestion].question
-                            //             .analytics.actionId !=
-                            //         1
-                            //     ? Container()
-                            //     :
-                            // widget._list[widget._currentQuestion].question
-                            //         .questionOptions[index].userAnswer==1
-                            //     ? Container(
-                            //         color: Colors.grey[300],
-                            //         child: Padding(
-                            //           padding: const EdgeInsets.symmetric(
-                            //               vertical: 3.0, horizontal: 8),
-                            //           child: Text(
-                            //             "Your answer",
-                            //             style: Styles.boldBlack(size: 10),
-                            //           ),
-                            //         ),
-                            //       )
-                            //     :
-                            widget
-                                ._list[widget._currentQuestion]
-                                .question!
-                                .questionOptions![index]
-                                .userAnswer ==
-                                1
-                                ? Container(
-                              //color: Colors.grey[300],
-                              child: widget._list[widget._currentQuestion].question!
-                                  .questionOptions![index].optionId !=
-                                  int.parse(widget._list[widget._currentQuestion]
-                                      .question!.correctOptions!.first) &&
-                                  widget._list[widget._currentQuestion].question!
-                                      .questionOptions![index].userAnswer ==
-                                      1 ? Icon(Icons.close, color: Colors.red,):
-                              Icon(Icons.done_rounded, color: Colors.white,),
-                              /*child: Padding(
+                                // widget._list[widget._currentQuestion].question
+                                //             .analytics.actionId !=
+                                //         1
+                                //     ? Container()
+                                //     :
+                                // widget._list[widget._currentQuestion].question
+                                //         .questionOptions[index].userAnswer==1
+                                //     ? Container(
+                                //         color: Colors.grey[300],
+                                //         child: Padding(
+                                //           padding: const EdgeInsets.symmetric(
+                                //               vertical: 3.0, horizontal: 8),
+                                //           child: Text(
+                                //             "Your answer",
+                                //             style: Styles.boldBlack(size: 10),
+                                //           ),
+                                //         ),
+                                //       )
+                                //     :
+                                widget
+                                            ._list[widget._currentQuestion]
+                                            .question!
+                                            .questionOptions![index]
+                                            .userAnswer ==
+                                        1
+                                    ? Container(
+                                        //color: Colors.grey[300],
+                                        child: widget
+                                                        ._list[widget
+                                                            ._currentQuestion]
+                                                        .question!
+                                                        .questionOptions![index]
+                                                        .optionId !=
+                                                    int.parse(widget
+                                                        ._list[widget
+                                                            ._currentQuestion]
+                                                        .question!
+                                                        .correctOptions!
+                                                        .first) &&
+                                                widget
+                                                        ._list[widget
+                                                            ._currentQuestion]
+                                                        .question!
+                                                        .questionOptions![index]
+                                                        .userAnswer ==
+                                                    1
+                                            ? Icon(
+                                                Icons.close,
+                                                color: Colors.red,
+                                              )
+                                            : Icon(
+                                                Icons.done_rounded,
+                                                color: Colors.white,
+                                              ),
+                                        /*child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 3.0, horizontal: 8),
                                 child: Text(
@@ -1446,8 +1471,8 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
                                   style: Styles.textBold(size: 10),
                                 ),
                               ),*/
-                            )
-                                : SizedBox(),
+                                      )
+                                    : SizedBox(),
                           )
                         ],
                       ),

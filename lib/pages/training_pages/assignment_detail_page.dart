@@ -80,8 +80,30 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
     FlutterDownloader.registerCallback(downloadCallback);
   }
 
-  Future download(String url, String savePath) async {
-    print("HERE!");
+  void download(String? usersFile) async {
+    if (await Permission.storage.request().isGranted) {
+      var tempDir = await getApplicationDocumentsDirectory();
+      String localPath = "";
+      if (Platform.isAndroid) {
+        localPath = "/sdcard/download/";
+      } else {
+        localPath = (await getApplicationDocumentsDirectory()).path;
+      }
+      //String localPath = (tempDir.path) + Platform.pathSeparator + 'MyCoach';
+      var savedDir = Directory(localPath);
+      bool hasExisted = await savedDir.exists();
+      if (!hasExisted) {
+        savedDir = await savedDir.create();
+      }
+      download2(usersFile!, localPath);
+    } else {
+      Utility.showSnackBar(
+          scaffoldContext: context,
+          message: "Please enable storage permission");
+    }
+  }
+
+  Future download2(String url, String savePath) async {
     try {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -97,10 +119,9 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
         url: url,
         savedDir: savePath,
         showNotification: true,
-        // headers: {"auth": "test_for_sql_encoding"},
+        headers: {"auth": "test_for_sql_encoding"},
         openFileFromNotification: true,
       );
-      FlutterDownloader.open(taskId: taskId!);
       print(taskId);
     } catch (e) {
       print(e);
@@ -118,7 +139,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
           color: Colors.black, //change your color here
         ),
         title: Text(
-          'Assessment',
+          'Assignment',
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.white,
@@ -194,8 +215,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                             }
                           }
 
-                          download(assignmentDetailProvider.assignment!.file!,
-                              localPath);
+                          download(assignmentDetailProvider.assignment!.file!);
                         } else {
                           Utility.showSnackBar(
                               scaffoldContext: context,
