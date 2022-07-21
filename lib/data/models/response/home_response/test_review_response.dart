@@ -55,6 +55,7 @@ class AssessmentReview {
   int? durationInMinutes;
   int? totalAttempts;
   int? attemptCount;
+  int? score;
   List<Questions>? questions;
 
   AssessmentReview(
@@ -81,6 +82,7 @@ class AssessmentReview {
     durationInMinutes = json['duration_in_minutes'];
     totalAttempts = json['total_attempts'];
     attemptCount = json['attempt_count'];
+    score = json['score'];
     if (json['questions'] != null) {
       questions = <Questions>[];
       json['questions'].forEach((v) {
@@ -101,6 +103,7 @@ class AssessmentReview {
     data['duration_in_minutes'] = this.durationInMinutes;
     data['total_attempts'] = this.totalAttempts;
     data['attempt_count'] = this.attemptCount;
+    data['score'] = this.score;
     if (this.questions != null) {
       data['questions'] = this.questions!.map((v) => v.toJson()).toList();
     }

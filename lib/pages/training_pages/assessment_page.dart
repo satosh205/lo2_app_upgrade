@@ -5,6 +5,8 @@ import 'package:masterg/pages/custom_pages/TapWidget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/training_pages/assessment_attempt_page.dart';
 import 'package:masterg/pages/training_pages/assessment_review_page.dart';
+import 'package:masterg/pages/training_pages/new_screen/assessment_attempt_page.dart';
+import 'package:masterg/pages/training_pages/new_screen/assessment_review_page.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/custom_progress_indicator.dart';
@@ -446,9 +448,9 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                     ),*/
                     child: TapWidget(
                       onTap: () {
-                        Navigator.push(
+                       Navigator.push(
                             mContext!,
-                            NextPageRoute(TestReviewPage(
+                            NextPageRoute(AssessmentReviewPage(
                                 contentId: assessmentDetailProvider
                                     .assignments.programContentId)));
                       },
@@ -494,12 +496,11 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                             scaffoldContext: mContext,
                             message: "Maximum attempts reached.");
                       } else {
-                        await Navigator.push(
+                         await Navigator.push(
                             mContext!,
-                            NextPageRoute(TestAttemptPage(
+                            NextPageRoute(AssessmentAttemptPage(
                                 contentId: assessmentDetailProvider
                                     .assignments.programContentId)));
-                        assessmentDetailProvider.getDetails();
                       }
                     },
                     child: Visibility(
