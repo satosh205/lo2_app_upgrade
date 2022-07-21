@@ -210,7 +210,7 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
         case ApiStatus.SUCCESS:
           Log.v("Success....................");
           menuList = state.response?.data?.menu;
-          menuList?.sort((a, b) => a.order!.compareTo(b.order!));
+          menuList?.sort((a, b) => a.inAppOrder!.compareTo(b.order!));
           if (menuList?.length == 0) {
             AlertsWidget.alertWithOkBtn(
                 context: context,
@@ -243,7 +243,6 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
   }
 
   void _moveToNext() {
-   
     if (Preference.getString(Preference.USER_TOKEN) != null) {
       if (UserSession.userAppLanguageId == 0 ||
           UserSession.userContentLanguageId == 0) {

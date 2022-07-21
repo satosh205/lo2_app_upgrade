@@ -13,17 +13,11 @@ class BottomBarResponse {
     this.status,
     this.data,
     this.error,
-    this.name,
-    this.founded,
-    this.members,
   });
 
   int? status;
   Data? data;
   List<dynamic>? error;
-  String? name;
-  int? founded;
-  List<String>? members;
 
   factory BottomBarResponse.fromJson(Map<String, dynamic> json) =>
       BottomBarResponse(
@@ -32,11 +26,6 @@ class BottomBarResponse {
         error: json["error"] == null
             ? null
             : List<dynamic>.from(json["error"].map((x) => x)),
-        name: json["name"],
-        founded: json["founded"],
-        members: json["members"] == null
-            ? null
-            : List<String>.from(json["members"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -44,10 +33,6 @@ class BottomBarResponse {
         "data": data?.toJson(),
         "error":
             error == null ? null : List<dynamic>.from(error!.map((x) => x)),
-        "name": name,
-        "founded": founded,
-        "members":
-            members == null ? null : List<dynamic>.from(members!.map((x) => x)),
       };
 }
 
@@ -68,16 +53,16 @@ class Data {
 }
 
 class Menu {
-  Menu({
-    this.order,
-    this.url,
-    this.linkType,
-    this.image,
-    this.isChecked,
-    this.isCheckedMobile,
-    this.label,
-    this.role,
-  });
+  Menu(
+      {this.order,
+      this.url,
+      this.linkType,
+      this.image,
+      this.isChecked,
+      this.isCheckedMobile,
+      this.label,
+      this.role,
+      this.inAppOrder});
 
   String? order;
   String? url;
@@ -87,6 +72,7 @@ class Menu {
   int? isCheckedMobile;
   String? label;
   String? role;
+  String? inAppOrder;
 
   factory Menu.fromJson(Map<String, dynamic> json) => Menu(
         order: json["order"],
@@ -97,6 +83,7 @@ class Menu {
         isCheckedMobile: json["is_checked_mobile"],
         label: json["label"],
         role: json["role"],
+        inAppOrder: json["in_app_order"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -108,6 +95,7 @@ class Menu {
         "is_checked_mobile": isCheckedMobile,
         "label": label,
         "role": role,
+        "order_in_app": inAppOrder,
       };
 }
 
@@ -116,7 +104,6 @@ class MenuListProvider extends ChangeNotifier {
   List<Menu>? get list => _list;
   MenuListProvider(List<Menu> list) {
     if (list.length > 0) this._list = list;
-    print('the length of contetn is ${this._list?.length}');
     notifyListeners();
   }
 
