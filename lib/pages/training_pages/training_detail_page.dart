@@ -1112,14 +1112,14 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
 
     return Column(
       children: [
-        if (traininDetailProvider.trainingModuleResponse.data?.module![0]
+        if (traininDetailProvider.trainingModuleResponse?.data?.module![0]
                     .content?.sessions?.length !=
                 0 &&
             (selectedType == 'Classes' || isAllSelected == true))
           ListView.builder(
               physics: BouncingScrollPhysics(),
               shrinkWrap: true,
-              itemCount: traininDetailProvider.trainingModuleResponse.data
+              itemCount: traininDetailProvider.trainingModuleResponse?.data
                   ?.module![0].content?.sessions?.length,
               itemBuilder: (BuildContext context, int index) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -1128,7 +1128,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                     setState(() {
                       selectedContentId = traininDetailProvider
                           .trainingModuleResponse
-                          .data
+                          ?.data
                           ?.module![0]
                           .content
                           ?.sessions
@@ -1138,7 +1138,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                     _controller.pause();
                     String? videoUrl = traininDetailProvider
                         .trainingModuleResponse
-                        .data
+                        ?.data
                         ?.module![0]
                         .content
                         ?.sessions
@@ -1150,11 +1150,11 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
 
                     widget.sendValue!(
                       controller,
-                      '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions?.first.title}',
+                      '${traininDetailProvider.trainingModuleResponse?.data?.module![0].content?.sessions?.first.title}',
                       true,
-                      '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions?.first.url}',
-                      '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions?.first.image}',
-                      traininDetailProvider.trainingModuleResponse.data
+                      '${traininDetailProvider.trainingModuleResponse?.data?.module![0].content?.sessions?.first.url}',
+                      '${traininDetailProvider.trainingModuleResponse?.data?.module![0].content?.sessions?.first.image}',
+                      traininDetailProvider.trainingModuleResponse?.data
                           ?.module![0].content?.sessions?.first,
                       isYoutubeController: true,
                     );
@@ -1163,7 +1163,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                 return _moduleCard(
                     leadingid: traininDetailProvider
                                 .trainingModuleResponse
-                                .data
+                                ?.data
                                 ?.module![0]
                                 .content
                                 ?.sessions![index]
@@ -1172,7 +1172,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                         ? 2
                         : traininDetailProvider
                                     .trainingModuleResponse
-                                    .data
+                                    ?.data
                                     ?.module![0]
                                     .content
                                     ?.sessions![index]
@@ -1180,29 +1180,29 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                                 'Join Class'
                             ? 3
                             : 1,
-                    '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].title}',
-                    '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].description}',
+                    '${traininDetailProvider.trainingModuleResponse?.data?.module![0].content?.sessions![index].title}',
+                    '${traininDetailProvider.trainingModuleResponse?.data?.module![0].content?.sessions![index].description}',
                     'session',
                     traininDetailProvider
-                        .trainingModuleResponse.data?.module![0].content,
+                        .trainingModuleResponse?.data?.module![0].content,
                     index,
                     context,
                     traininDetailProvider
                         .trainingModuleResponse
-                        .data
+                        ?.data
                         ?.module![0]
                         .content
                         ?.sessions![index]
                         .programContentId);
               }),
-        if (traininDetailProvider.trainingModuleResponse.data?.module![0]
+        if (traininDetailProvider.trainingModuleResponse?.data?.module![0]
                     .content?.assessments?.length !=
                 0 &&
             (selectedType == 'Quiz' || isAllSelected == true))
           ListView.builder(
             physics: BouncingScrollPhysics(),
             shrinkWrap: true,
-            itemCount: traininDetailProvider.trainingModuleResponse.data
+            itemCount: traininDetailProvider.trainingModuleResponse?.data
                 ?.module![0].content?.assessments?.length,
             itemBuilder: (BuildContext context, int index) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -1211,19 +1211,19 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                   _controller.pause();
                   widget.sendValue!(
                     VideoPlayerController.network(
-                        '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assessments?.first.url}'),
-                    '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assessments?.first.title}',
+                        '${traininDetailProvider.trainingModuleResponse?.data?.module![0].content?.assessments?.first.url}'),
+                    '${traininDetailProvider.trainingModuleResponse?.data?.module![0].content?.assessments?.first.title}',
                     true,
-                    '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assessments?.first.url}',
+                    '${traininDetailProvider.trainingModuleResponse?.data?.module![0].content?.assessments?.first.url}',
                     '',
-                    traininDetailProvider.trainingModuleResponse.data
+                    traininDetailProvider.trainingModuleResponse?.data
                         ?.module![0].content?.assessments?.first,
                   );
 
                   setState(() {
                     selectedContentId = traininDetailProvider
                         .trainingModuleResponse
-                        .data
+                        ?.data
                         ?.module![0]
                         .content
                         ?.assessments
@@ -1234,25 +1234,25 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
               });
               return _moduleCard(
                   leadingid: 3,
-                  '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assessments![index].title}',
-                  '${capitalize(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assessments![index].contentType)}',
+                  '${traininDetailProvider.trainingModuleResponse?.data?.module![0].content?.assessments![index].title}',
+                  '${capitalize(traininDetailProvider.trainingModuleResponse?.data?.module![0].content?.assessments![index].contentType)}',
                   'assessment',
                   traininDetailProvider
-                      .trainingModuleResponse.data?.module![0].content,
+                      .trainingModuleResponse?.data?.module![0].content,
                   index,
                   context,
-                  traininDetailProvider.trainingModuleResponse.data?.module![0]
+                  traininDetailProvider.trainingModuleResponse?.data?.module![0]
                       .content?.assessments![index].programContentId);
             },
           ),
-        if (traininDetailProvider.trainingModuleResponse.data?.module![0]
+        if (traininDetailProvider.trainingModuleResponse?.data?.module![0]
                     .content?.assignments?.length !=
                 0 &&
             (selectedType == 'Assignment' || isAllSelected == true))
           ListView.builder(
               physics: BouncingScrollPhysics(),
               shrinkWrap: true,
-              itemCount: traininDetailProvider.trainingModuleResponse.data
+              itemCount: traininDetailProvider.trainingModuleResponse?.data
                   ?.module![0].content?.assignments?.length,
               itemBuilder: (BuildContext context, int index) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -1261,7 +1261,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                       selectedType = 'Assignment';
                       selectedContentId = traininDetailProvider
                           .trainingModuleResponse
-                          .data
+                          ?.data
                           ?.module![0]
                           .content
                           ?.assignments![0]
@@ -1269,33 +1269,33 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                       _controller.pause();
                       widget.sendValue!(
                           VideoPlayerController.network(
-                              '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assignments![0].url}'),
-                          '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assignments![0].title}',
+                              '${traininDetailProvider.trainingModuleResponse?.data?.module![0].content?.assignments![0].url}'),
+                          '${traininDetailProvider.trainingModuleResponse?.data?.module![0].content?.assignments![0].title}',
                           true,
-                          '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assignments![0].url}',
+                          '${traininDetailProvider.trainingModuleResponse?.data?.module![0].content?.assignments![0].url}',
                           'https://qa.learningoxygen.com/images/programs/2095.jpeg',
-                          traininDetailProvider.trainingModuleResponse.data
+                          traininDetailProvider.trainingModuleResponse?.data
                               ?.module![0].content?.assignments![0]);
                     }
                   });
                 });
                 return _moduleCard(
-                    '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assignments![index].title}',
-                    '${capitalize(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assignments![index].contentType)}',
+                    '${traininDetailProvider.trainingModuleResponse?.data?.module![0].content?.assignments![index].title}',
+                    '${capitalize(traininDetailProvider.trainingModuleResponse?.data?.module![0].content?.assignments![index].contentType)}',
                     'assignment',
                     traininDetailProvider
-                        .trainingModuleResponse.data?.module![0].content,
+                        .trainingModuleResponse?.data?.module![0].content,
                     index,
                     context,
                     traininDetailProvider
                         .trainingModuleResponse
-                        .data
+                        ?.data
                         ?.module![0]
                         .content
                         ?.assignments![index]
                         .programContentId);
               }),
-        if (traininDetailProvider.trainingModuleResponse.data?.module![0]
+        if (traininDetailProvider.trainingModuleResponse?.data?.module![0]
                     .content?.learningShots?.length !=
                 0 &&
             (selectedType == 'Videos' ||
@@ -1305,7 +1305,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
             builder: (context, value, child) => ListView.builder(
               physics: BouncingScrollPhysics(),
               shrinkWrap: true,
-              itemCount: traininDetailProvider.trainingModuleResponse.data
+              itemCount: traininDetailProvider.trainingModuleResponse?.data
                   ?.module![0].content?.learningShots?.length,
               itemBuilder: (BuildContext context, int index) {
                 dynamic list;
@@ -1315,8 +1315,8 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                       if (selectedType == 'Videos') {
                         selectedType = 'Videos';
                         opacityLevel = 0.0;
-                        list = traininDetailProvider.trainingModuleResponse.data
-                            ?.module![0].content?.learningShots
+                        list = traininDetailProvider.trainingModuleResponse
+                            ?.data?.module![0].content?.learningShots
                             ?.where((element) =>
                                 element.contentType == 'video' ||
                                 element.contentType?.toLowerCase() ==
@@ -1355,7 +1355,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                         selectedType = 'Notes';
                         selectedContentId = traininDetailProvider
                             .trainingModuleResponse
-                            .data
+                            ?.data
                             ?.module![0]
                             .content
                             ?.learningShots
@@ -1367,12 +1367,12 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                         _controller.pause();
                         widget.sendValue!(
                             VideoPlayerController.network(
-                                '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots!.first.url}'),
-                            '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots!.first.title}',
+                                '${traininDetailProvider.trainingModuleResponse?.data?.module![0].content?.learningShots!.first.url}'),
+                            '${traininDetailProvider.trainingModuleResponse?.data?.module![0].content?.learningShots!.first.title}',
                             true,
-                            '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots!.first.url}',
-                            '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots!.first.image}',
-                            traininDetailProvider.trainingModuleResponse.data
+                            '${traininDetailProvider.trainingModuleResponse?.data?.module![0].content?.learningShots!.first.url}',
+                            '${traininDetailProvider.trainingModuleResponse?.data?.module![0].content?.learningShots!.first.image}',
+                            traininDetailProvider.trainingModuleResponse?.data
                                 ?.module![0].content?.learningShots!.first);
                       }
                     });
@@ -1383,7 +1383,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                         selectedType.toLowerCase().substring(0, 4) ==
                             traininDetailProvider
                                 .trainingModuleResponse
-                                .data
+                                ?.data
                                 ?.module![0]
                                 .content
                                 ?.learningShots![index]
@@ -1391,16 +1391,16 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                                 ?.toLowerCase()
                                 .substring(0, 4),
                     child: _moduleCard(
-                        '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots![index].title}',
-                        '${capitalize(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots![index].contentType)}',
+                        '${traininDetailProvider.trainingModuleResponse?.data?.module![0].content?.learningShots![index].title}',
+                        '${capitalize(traininDetailProvider.trainingModuleResponse?.data?.module![0].content?.learningShots![index].contentType)}',
                         'learningShots',
                         traininDetailProvider
-                            .trainingModuleResponse.data?.module![0].content,
+                            .trainingModuleResponse?.data?.module![0].content,
                         index,
                         context,
                         traininDetailProvider
                             .trainingModuleResponse
-                            .data
+                            ?.data
                             ?.module![0]
                             .content
                             ?.learningShots![index]

@@ -19,7 +19,7 @@ class TrainingContentProvier extends BaseState {
   ApiStatus apiStatus = ApiStatus.LOADING;
   Box box = Hive.box(DB.TRAININGS);
 
-  late TrainingModuleResponse trainingModuleResponse;
+  TrainingModuleResponse? trainingModuleResponse;
 
   List<Map<String, dynamic>>? content = [];
 
@@ -71,7 +71,7 @@ class TrainingContentProvier extends BaseState {
 
   void updateContentData() {
     content!.clear();
-    if (trainingModuleResponse.data!.module!
+    if (trainingModuleResponse!.data!.module!
             .elementAt(0)
             .content!
             .scorm!
@@ -79,11 +79,11 @@ class TrainingContentProvier extends BaseState {
         0) {
       Map<String, dynamic> data = {};
       data['data'] =
-          trainingModuleResponse.data!.module!.elementAt(0).content!.scorm;
+          trainingModuleResponse?.data!.module!.elementAt(0).content!.scorm;
       data['type'] = 'scorm';
       content!.add(data);
     }
-    if (trainingModuleResponse.data!.module!
+    if (trainingModuleResponse!.data!.module!
             .elementAt(0)
             .content!
             .sessions!
@@ -91,53 +91,53 @@ class TrainingContentProvier extends BaseState {
         0) {
       Map<String, dynamic> data = {};
       data['data'] =
-          trainingModuleResponse.data!.module!.elementAt(0).content!.sessions;
+          trainingModuleResponse?.data!.module!.elementAt(0).content!.sessions;
       data['type'] = 'sessions';
       content!.add(data);
     }
-    if (trainingModuleResponse.data!.module!
+    if (trainingModuleResponse!.data!.module!
             .elementAt(0)
             .content!
             .learningShots!
             .length >
         0) {
       Map<String, dynamic> data = {};
-      data['data'] = trainingModuleResponse.data!.module!
+      data['data'] = trainingModuleResponse?.data!.module!
           .elementAt(0)
           .content!
           .learningShots;
       data['type'] = 'notes';
       content!.add(data);
     }
-    if (trainingModuleResponse.data!.module!
+    if (trainingModuleResponse!.data!.module!
             .elementAt(0)
             .content!
             .assignments!
             .length >
         0) {
       Map<String, dynamic> data = {};
-      data['data'] = trainingModuleResponse.data!.module!
+      data['data'] = trainingModuleResponse?.data!.module!
           .elementAt(0)
           .content!
           .assignments;
       data['type'] = 'assignments';
       content!.add(data);
     }
-    if (trainingModuleResponse.data!.module!
+    if (trainingModuleResponse!.data!.module!
             .elementAt(0)
             .content!
             .assessments!
             .length >
         0) {
       Map<String, dynamic> data = {};
-      data['data'] = trainingModuleResponse.data!.module!
+      data['data'] = trainingModuleResponse?.data!.module!
           .elementAt(0)
           .content!
           .assessments;
       data['type'] = 'assessments';
       content!.add(data);
     }
-    if (trainingModuleResponse.data!.module!
+    if (trainingModuleResponse!.data!.module!
             .elementAt(0)
             .content!
             .survey!
@@ -145,11 +145,11 @@ class TrainingContentProvier extends BaseState {
         0) {
       Map<String, dynamic> data = {};
       data['data'] =
-          trainingModuleResponse.data!.module!.elementAt(0).content!.survey;
+          trainingModuleResponse?.data!.module!.elementAt(0).content!.survey;
       data['type'] = 'survey';
       content!.add(data);
     }
-    if (trainingModuleResponse.data!.module!
+    if (trainingModuleResponse!.data!.module!
             .elementAt(0)
             .content!
             .polls!
@@ -157,7 +157,7 @@ class TrainingContentProvier extends BaseState {
         0) {
       Map<String, dynamic> data = {};
       data['data'] =
-          trainingModuleResponse.data!.module!.elementAt(0).content!.polls;
+          trainingModuleResponse?.data!.module!.elementAt(0).content!.polls;
       data['type'] = 'polls';
       content!.add(data);
     }
