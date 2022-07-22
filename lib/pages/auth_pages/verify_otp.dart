@@ -103,7 +103,6 @@ class _VerifyOtpState extends State<VerifyOtp> {
         case ApiStatus.SUCCESS:
           Log.v("Success....................");
           menuList = state.response!.data!.menu;
-          menuList?.sort((a, b) => a.inAppOrder!.compareTo(b.order!));
 
           if (menuList?.length == 0) {
             AlertsWidget.alertWithOkBtn(
@@ -113,6 +112,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                   FocusScope.of(context).unfocus();
                 });
           } else {
+            menuList?.sort((a, b) => a.inAppOrder!.compareTo(b.order!));
             Navigator.pushAndRemoveUntil(
                 context,
                 NextPageRoute(

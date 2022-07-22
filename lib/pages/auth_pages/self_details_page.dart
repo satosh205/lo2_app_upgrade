@@ -292,12 +292,13 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
 
           AlertsWidget.showCustomDialog(
               context: context,
-              title: "${Strings.of(context)?.PhoneAlreadyRegisterd}",
-              text: "${Strings.of(context)?.UseAnotherPhone}",
+              title: "${loginState.error}",
+              text: "",
               icon: 'assets/images/circle_alert_fill.svg',
               showCancel: false,
+              oKText: "Ok",
               onOkClick: () async {
-                Navigator.pop(context);
+                // Navigator.pop(context);
               });
 
           break;
@@ -331,6 +332,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
         mobileNo: phoneController.text.toString(),
         alternateMobileNo: phoneController.text.toString(),
         emailAddress: emailController.text.toString(),
+        username: emailController.text.toString(),
         firmName: '',
         lastName: '',
         gender: '',
@@ -355,7 +357,8 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
   Future<String> _getImages(ImageSource source) async {
     final picker = ImagePicker();
     PickedFile? pickedFile = await picker.getImage(
-        source: source, imageQuality: 50, maxWidth: 300, maxHeight: 300);
+      source: source,
+    );
     if (pickedFile != null)
       return pickedFile.path;
     else if (Platform.isAndroid) {

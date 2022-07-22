@@ -149,16 +149,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             await authRepository.signUpCall(request: event.request);
 
         if (response.status == 1) {
-          Log.v("sign up data");
           yield SignUpState(ApiStatus.SUCCESS, response: response);
         } else {
           yield SignUpState(
             ApiStatus.ERROR,
-            error: 'Something went wrong',
+            error: response.error?.first,
           );
         }
       } catch (e) {
-        Log.v("ERROR DATA : ");
+        Log.v("Expection DATA : ");
+
         yield SignUpState(ApiStatus.ERROR, error: Strings.somethingWentWrong);
       }
     } else if (event is VerifyOtpEvent) {

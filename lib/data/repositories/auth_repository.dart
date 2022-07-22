@@ -36,10 +36,7 @@ class AuthRepository {
       SignUpResponse users = SignUpResponse.fromJson(response.body);
       return users;
     } else {
-      return SignUpResponse(
-          error: response.body == null
-              ? "Something went wrong:" as List<dynamic>?
-              : response.body);
+      return SignUpResponse(error: response.body);
     }
   }
 

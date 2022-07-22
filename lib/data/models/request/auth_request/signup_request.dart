@@ -9,18 +9,20 @@ class SignUpRequest {
   String? dateOfBirth;
   String? profilePic;
   String? dbCode;
+  String? username;
 
   SignUpRequest(
       {this.firmName,
       this.firstName,
       this.lastName,
-    this.gender,
+      this.gender,
       this.mobileNo,
       this.alternateMobileNo,
       this.dbCode,
       this.emailAddress,
       this.dateOfBirth,
-      this.profilePic});
+      this.profilePic,
+      this.username});
 
   SignUpRequest.fromJson(Map<String, dynamic> json) {
     firmName = json['firm_name'];
@@ -33,6 +35,7 @@ class SignUpRequest {
     dateOfBirth = json['date_of_birth'];
     profilePic = json['profile_pic'];
     dbCode = json['db_code'];
+    username = json['username'];
   }
 
   Map<String, dynamic> toJson() {
@@ -47,6 +50,7 @@ class SignUpRequest {
     data['date_of_birth'] = this.dateOfBirth;
     data['profile_pic'] = this.profilePic;
     data['db_code'] = this.dbCode;
+    data['username'] = this.username;
     return data;
   }
 }

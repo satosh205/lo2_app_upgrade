@@ -6,8 +6,6 @@ import 'package:masterg/data/models/response/auth_response/bottombar_response.da
 import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/data/providers/video_player_provider.dart';
 import 'package:masterg/local/pref/Preference.dart';
-import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
-import 'package:masterg/pages/custom_pages/faq_page.dart';
 import 'package:masterg/pages/gcarvaan/post/gcarvaan_post_page.dart';
 import 'package:masterg/pages/ghome/g_school.dart';
 import 'package:masterg/pages/ghome/ghome.dart';

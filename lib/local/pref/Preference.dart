@@ -42,6 +42,7 @@ class Preference {
   // static late CacheStore store;
 
   static Future<SharedPreferences?> load() async {
+    _prefs = await SharedPreferences.getInstance();
     return _prefs;
   }
 
