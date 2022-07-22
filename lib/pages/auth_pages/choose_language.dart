@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/utils/config.dart';
 import 'package:masterg/data/models/response/home_response/master_language_response.dart';
@@ -50,9 +51,12 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
       selected = 0;
     });
   }
-
+  
   @override
+  
   Widget build(BuildContext context) {
+    String appBarImagePath = 'assets/images/${APK_DETAILS['logo_url']}';
+    
     return BlocManager(
       initState: (context) {},
       child: BlocListener<HomeBloc, HomeState>(
@@ -74,11 +78,15 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                     SizedBox(
                       height: 50,
                     ),
-                    Image.network(
-                      APK_DETAILS['logo_url']!,
-                      height: 100,
-                      width: 150,
-                    ),
+                    appBarImagePath.split('.').last == 'svg'
+                    ? SvgPicture.asset(
+                        appBarImagePath,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset(
+                        appBarImagePath,
+                        fit: BoxFit.cover,
+                      )!,
                     SizedBox(height: 40),
                     Center(
                       child: Text(
