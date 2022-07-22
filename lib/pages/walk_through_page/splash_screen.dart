@@ -73,7 +73,7 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
                       child: CustomCard("Entry.scale()"),
                     ),
                     // _logo(),
-                    imagePath.split('.').last == '.svg'
+                    imagePath.split('.').last == 'svg'
                         ? SvgPicture.asset(
                             imagePath,
                             height: 150,

@@ -182,7 +182,7 @@ class _homePageState extends State<homePage> {
             onPressed: () {
               _scaffoldKey.currentState?.openDrawer();
             },
-            icon: appBarImagePath.split('.').last == '.svg'
+            icon: appBarImagePath.split('.').last == 'svg'
                 ? SvgPicture.asset(
                     appBarImagePath,
                     fit: BoxFit.cover,
