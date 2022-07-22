@@ -442,77 +442,112 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                               ],
                                             ),
                                           ),
-                                        Positioned(
-                                          bottom: 10,
-                                          left: 50,
-                                          right: 50,
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              if (isButtonActive) {
-                                                _controller.pause();
+                                        !(selectedType == 'Classes' &&
+                                                selectedData?.liveclassAction
+                                                        .toString()
+                                                        .toLowerCase() ==
+                                                    'concluded')
+                                            ? Positioned(
+                                                bottom: 10,
+                                                left: 50,
+                                                right: 50,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    if (isButtonActive) {
+                                                      _controller.pause();
 
-                                                if (selectedType == 'Classes') {
-                                                  // playVideo(context);
+                                                      if (selectedType ==
+                                                          'Classes') {
+                                                        // playVideo(context);
 
-                                                  if (selectedData
-                                                          ?.liveclassAction
-                                                          .toString()
-                                                          .toLowerCase() ==
-                                                      'scheduled') {}
-                                                }
-                                                if (selectedType == 'Notes') {
-                                                  playVideo(context);
-                                                } else if (selectedType ==
-                                                    'Assignment') {
-                                                  openAssignment(selectedData);
-                                                } else if (selectedType ==
-                                                    'Quiz') {
-                                                  openAssessment(selectedData);
-                                                }
-                                              }
-                                            },
-                                            child: Container(
-                                                width: 150,
-                                                height: 38,
-                                                decoration: BoxDecoration(
-                                                    color: !isButtonActive
-                                                        ? ColorConstants.GREY_2
-                                                        : selectedType == 'Quiz'
-                                                            ? selectedData
-                                                                        .status ==
-                                                                    'Active'
-                                                                ? ColorConstants()
-                                                                    .primaryColor()
-                                                                : ColorConstants
-                                                                    .GREY_2
-                                                            : selectedType ==
-                                                                    'Quiz'
-                                                                ? selectedData
-                                                                            ?.liveclassAction
-                                                                            .toString()
-                                                                            .toLowerCase() ==
-                                                                        'scheduled'
-                                                                    ? ColorConstants
-                                                                        .GREY_2
-                                                                    : ColorConstants()
-                                                                        .primaryColor()
-                                                                : ColorConstants
-                                                                    .GREY_2,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8)),
-                                                child: Center(
-                                                  child: Text(
-                                                    '$title',
-                                                    style: Styles.regular(
-                                                        size: 14,
-                                                        color: ColorConstants
-                                                            .WHITE),
-                                                    textAlign: TextAlign.center,
+                                                        if (selectedData
+                                                                ?.liveclassAction
+                                                                .toString()
+                                                                .toLowerCase() ==
+                                                            'scheduled') {}
+                                                      }
+                                                      if (selectedType ==
+                                                          'Notes') {
+                                                        playVideo(context);
+                                                      } else if (selectedType ==
+                                                          'Assignment') {
+                                                        openAssignment(
+                                                            selectedData);
+                                                      } else if (selectedType ==
+                                                          'Quiz') {
+                                                        openAssessment(
+                                                            selectedData);
+                                                      }
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                      width: 150,
+                                                      height: 38,
+                                                      decoration: BoxDecoration(
+                                                          color: !isButtonActive
+                                                              ? ColorConstants
+                                                                  .GREY_2
+                                                              : selectedType ==
+                                                                      'Quiz'
+                                                                  ? selectedData
+                                                                              .status ==
+                                                                          'Active'
+                                                                      ? ColorConstants()
+                                                                          .primaryColor()
+                                                                      : ColorConstants
+                                                                          .GREY_2
+                                                                  : selectedType ==
+                                                                          'Quiz'
+                                                                      ? selectedData?.liveclassAction.toString().toLowerCase() ==
+                                                                              'scheduled'
+                                                                          ? ColorConstants
+                                                                              .GREY_2
+                                                                          : ColorConstants()
+                                                                              .primaryColor()
+                                                                      : ColorConstants
+                                                                          .GREY_2,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8)),
+                                                      child: Center(
+                                                        child: Text(
+                                                          '$title',
+                                                          style: Styles.regular(
+                                                              size: 14,
+                                                              color:
+                                                                  ColorConstants
+                                                                      .WHITE),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
+                                                      )),
+                                                ),
+                                              )
+                                            : Positioned(
+                                                bottom: 10,
+                                                left: 50,
+                                                right: 50,
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 16,
+                                                      horizontal: 4),
+                                                  decoration: BoxDecoration(
+                                                      color: ColorConstants
+                                                          .BLACK
+                                                          .withOpacity(0.3),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4)),
+                                                  child: Center(
+                                                    child: Text(
+                                                        'Your class is finished',
+                                                        style: Styles.regular(
+                                                            size: 14,
+                                                            color:
+                                                                ColorConstants
+                                                                    .WHITE)),
                                                   ),
                                                 )),
-                                          ),
-                                        ),
                                       ],
                                     )),
                           transitionOnUserGestures: true,
@@ -1533,6 +1568,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                                 ? Icon(
                                     Icons.check_circle,
                                     color: ColorConstants.GREEN,
+                                    size: 20.0,
                                   )
                                 : SvgPicture.asset(
                                     'assets/images/circle_red.svg',

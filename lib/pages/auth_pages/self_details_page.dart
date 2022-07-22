@@ -341,10 +341,11 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
     } else {
       AlertsWidget.showCustomDialog(
           context: context,
-          title: "${Strings.of(context)?.ChooseImage}",
+          title: "Upload your profile picture",
           text: "",
           icon: 'assets/images/circle_alert_fill.svg',
           showCancel: false,
+          oKText: "Ok",
           onOkClick: () async {
             // Navigator.pop(context);
           });

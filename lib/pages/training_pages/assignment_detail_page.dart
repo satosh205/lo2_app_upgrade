@@ -343,9 +343,6 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                 style: Styles.bold(size: 14, color: ColorConstants.BLACK),
               ),
               _size(height: 10),
-              Text('${assignmentDetailProvider.assignments.description}',
-                  style: Styles.regular(size: 14)),
-              _size(height: 30),
               Divider(),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Text('Assignment file',
