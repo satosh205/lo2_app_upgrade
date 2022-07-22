@@ -257,8 +257,8 @@ class _CustomCardState extends State<CustomCard> {
         child: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.height,
-          decoration: const BoxDecoration(
-              shape: BoxShape.circle, color: ColorConstants.PRIMARY_COLOR),
+          decoration: BoxDecoration(
+              shape: BoxShape.circle, color: ColorConstants().primaryColor()),
         ),
       ),
     );
