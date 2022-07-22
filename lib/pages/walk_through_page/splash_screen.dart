@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:entry/entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterg/blocs/auth_bloc.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/utils/config.dart';
@@ -40,6 +41,7 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
 
   @override
   Widget build(BuildContext context) {
+    String imagePath = 'assets/images/splash/${APK_DETAILS['splash_image']}';
     return Scaffold(
         backgroundColor: Colors.transparent,
         body: BlocManager(
@@ -71,11 +73,18 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
                       child: CustomCard("Entry.scale()"),
                     ),
                     // _logo(),
-                    Image.asset(
-                      'assets/images/splash/${APK_DETAILS['splash_image']}',
-                      height: 150,
-                      width: 150,
-                    ),
+                    imagePath.split('.').last == '.svg'
+                        ? SvgPicture.asset(
+                            imagePath,
+                            height: 150,
+                            width: 150,
+                            allowDrawingOutsideViewBox: true,
+                          )
+                        : Image.asset(
+                            imagePath,
+                            height: 150,
+                            width: 150,
+                          ),
                   ],
                 ),
               ),

@@ -123,6 +123,8 @@ class _homePageState extends State<homePage> {
       );
     }
 
+    String appBarImagePath = 'assets/images/${APK_DETAILS['logo_url']}';
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<VideoPlayerProvider>(
@@ -180,10 +182,15 @@ class _homePageState extends State<homePage> {
             onPressed: () {
               _scaffoldKey.currentState?.openDrawer();
             },
-            icon: Image.asset(
-              'assets/images/${APK_DETAILS['logo_url']}',
-              fit: BoxFit.cover,
-            ),
+            icon: appBarImagePath.split('.').last == '.svg'
+                ? SvgPicture.asset(
+                    appBarImagePath,
+                    fit: BoxFit.cover,
+                  )
+                : Image.asset(
+                    appBarImagePath,
+                    fit: BoxFit.cover,
+                  ),
           ),
           title: Row(
             children: [
