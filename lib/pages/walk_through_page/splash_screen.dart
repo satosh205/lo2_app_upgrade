@@ -1,6 +1,5 @@
-import 'dart:async';
 import 'dart:math';
-
+import 'package:entry/entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masterg/blocs/auth_bloc.dart';
@@ -19,8 +18,6 @@ import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-
-import '../../utils/resource/images.dart';
 import '../auth_pages/choose_language.dart';
 import '../preboarding_pages/proboarding_page.dart';
 
@@ -66,57 +63,23 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
               ],
               child: Center(
                 child: Stack(
-                  // fit: StackFit.expand,
-                  //alignment: Alignment.center,
-                  children: [_bg(), _logo()],
+                  children: [
+                    Entry.scale(
+                      delay: Duration(seconds: 1),
+                      duration: Duration(seconds: 1),
+                      scale: 0,
+                      child: CustomCard("Entry.scale()"),
+                    ),
+                    // _logo(),
+                    Image.asset(
+                      'assets/images/splash/${APK_DETAILS['splash_image']}',
+                      height: 150,
+                      width: 150,
+                    ),
+                  ],
                 ),
               ),
             )));
-  }
-
-  Widget _bg() {
-    return Container(
-      //color: ColorConstants.PRIMARY,
-      child: Column(
-        children: [
-          Expanded(
-            child: Image.asset(Images.SPLASH_BG_NEW, fit: BoxFit.cover),
-          )
-        ],
-      ),
-    );
-  }
-
-  _logo() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: MediaQuery.of(context).size.height / 4,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              Images.LB_LOGO,
-              height: 150,
-              width: 150,
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Learn and Build",
-              style: TextStyle(fontSize: 25, color: Colors.white),
-            ),
-          ],
-        )
-      ],
-    );
   }
 
   void _getAppVersion() {
@@ -249,26 +212,8 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
     if (Preference.getString(Preference.USER_TOKEN) != null) {
       if (UserSession.userAppLanguageId == 0 ||
           UserSession.userContentLanguageId == 0) {
-        /*Navigator.pushAndRemoveUntil(
-            context,
-            NextPageRoute(LanguagePage(
-              languageType: UserSession.userAppLanguageId == 0 ? 1 : 2,
-              isFromLogin: true,
-            )),
-            (Route<dynamic> route) => false);*/
         getBottomNavigationBar();
       } else {
-        // Timer(Duration(seconds: 2), () {
-        //   Navigator.pushAndRemoveUntil(
-        //       context,
-        //       NextPageRoute(
-        //           homePage(
-        //             bottomMenu: menuList,
-        //           ),
-        //           isMaintainState: true),
-        //       (route) => false);
-        // });
-
         getBottomNavigationBar();
       }
     } else {

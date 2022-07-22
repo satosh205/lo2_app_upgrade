@@ -180,8 +180,8 @@ class _homePageState extends State<homePage> {
             onPressed: () {
               _scaffoldKey.currentState?.openDrawer();
             },
-            icon: Image.network(
-              '${APK_DETAILS['logo_url']}',
+            icon: Image.asset(
+              'assets/images/${APK_DETAILS['logo_url']}',
               fit: BoxFit.cover,
             ),
           ),

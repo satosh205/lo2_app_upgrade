@@ -1170,8 +1170,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
           icon: 'assets/images/circle_alert_fill.svg',
           showCancel: false,
           // okText:
-          oKText:"Ok",
-
+          oKText: "Ok",
           onOkClick: () async {
             // Navigator.pop(context);
           });
