@@ -4,14 +4,21 @@ import 'dart:ui';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:masterg/blocs/bloc_manager.dart';
+import 'package:masterg/blocs/home_bloc.dart';
+import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/assignment_detail_response.dart';
+import 'package:masterg/data/models/response/home_response/assignment_submissions_response.dart';
 import 'package:masterg/data/providers/my_assignment_detail_provider.dart';
+import 'package:masterg/pages/announecment_pages/full_video_page.dart';
 import 'package:masterg/pages/custom_pages/TapWidget.dart';
 import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/training_pages/assignment_submissions.dart';
+import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/custom_progress_indicator.dart';
@@ -32,9 +39,12 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
   File? file;
   final _userNotes = TextEditingController(text: "");
   late MgAssignmentDetailProvider assignmentDetailProvider;
-
+  bool _isLoading = false;
+  late AssessmentDetails data;
+  List<SubmissionDetails>? _attempts = [];
   @override
   void initState() {
+    _getData();
     _downloadListener();
     super.initState();
   }
@@ -132,23 +142,29 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
   Widget build(BuildContext context) {
     assignmentDetailProvider = Provider.of<MgAssignmentDetailProvider>(context);
     return Scaffold(
-      backgroundColor: ColorConstants.WHITE,
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.black, //change your color here
+        backgroundColor: ColorConstants.WHITE,
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
+          title: Text(
+            'Assignment',
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.white,
+          elevation: 0,
         ),
-        title: Text(
-          'Assignment',
-          style: TextStyle(color: Colors.black),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
-      body: assignmentDetailProvider.assignment != null
-          ? _buildBody()
-          : CustomProgressIndicator(true, ColorConstants.WHITE),
-    );
+        body: BlocManager(
+            initState: (c) {},
+            child: BlocListener<HomeBloc, HomeState>(
+              listener: (context, state) {
+                if (state is AssignmentSubmissionsState) _handleResponse(state);
+              },
+              child: assignmentDetailProvider.assignment != null
+                  ? _buildBody()
+                  : CustomProgressIndicator(true, ColorConstants.WHITE),
+            )));
   }
 
   _buildBody() {
@@ -159,7 +175,127 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
             child: Column(children: [
           _belowTitle(assignmentDetailProvider),
           _body(assignmentDetailProvider.assignment!),
+          _buildListBody(),
         ])));
+  }
+
+  _buildListBody() {
+    return Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * 0.3,
+        child: _isLoading
+            ? Center(
+                child: CustomProgressIndicator(true, ColorConstants.WHITE),
+              )
+            : _attempts!.isNotEmpty
+                ? SingleChildScrollView(
+                    child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    child: ListView.builder(
+                        itemCount: _attempts?.length,
+                        itemBuilder: (BuildContext context, int currentIndex) =>
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text('${data.title}',
+                                          style: Styles.regular(size: 14)),
+                                      Text('${data.description}',
+                                          style: Styles.regular(size: 14)),
+                                      Text(
+                                          '${Utility.convertDateFromMillis(_attempts![currentIndex].updatedAt!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
+                                          style: Styles.regular(
+                                              size: 10,
+                                              color: ColorConstants.GREY_3))
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          InkWell(
+                                            onTap: () async {
+                                              _downloadSubmission(
+                                                  _attempts![currentIndex]
+                                                      .file);
+                                            },
+                                            child: SvgPicture.asset(
+                                              'assets/images/download_icon.svg',
+                                              height: 25,
+                                              width: 25,
+                                              color: ColorConstants()
+                                                  .primaryColor(),
+                                              allowDrawingOutsideViewBox: true,
+                                            ),
+                                          ),
+                                          SizedBox(width: 20),
+                                          InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  NextPageRoute(FullContentPage(
+                                                    contentType: "1",
+                                                    resourcePath:
+                                                        _attempts![currentIndex]
+                                                            .file,
+                                                  )));
+                                            },
+                                            child: SvgPicture.asset(
+                                              'assets/images/view_icon.svg',
+                                              color: ColorConstants()
+                                                  .primaryColor(),
+                                              height: 25,
+                                              width: 25,
+                                              allowDrawingOutsideViewBox: true,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            data.isGraded == 0
+                                                ? "Non Graded assignment"
+                                                : _attempts![currentIndex]
+                                                                .reviewStatus ==
+                                                            1 &&
+                                                        _attempts![currentIndex]
+                                                                .isPassed ==
+                                                            1
+                                                    ? "Congratulations you passed!"
+                                                    : _attempts![currentIndex]
+                                                                    .reviewStatus ==
+                                                                1 &&
+                                                            _attempts![currentIndex]
+                                                                    .isPassed ==
+                                                                0
+                                                        ? "Sorry, you failed."
+                                                        : "Under Review",
+                                            style: Styles.regular(size: 12),
+                                          ),
+                                          SizedBox(width: 10),
+                                          Icon(Icons.info, size: 20)
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )),
+                  ))
+                : Center(
+                    child: Text(
+                      "No assignments submitted",
+                      style: Styles.textBold(),
+                    ),
+                  ));
   }
 
   _belowTitle(MgAssignmentDetailProvider assignmentDetailProvider) {
@@ -504,11 +640,44 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                 )
               ],
             ),
-            _size(height: 50)
           ],
         ),
       ),
     );
+  }
+
+  void _getData() {
+    BlocProvider.of<HomeBloc>(context)
+        .add(AssignmentSubmissionsEvent(request: widget.id));
+  }
+
+  void _handleResponse(AssignmentSubmissionsState state) {
+    var loginState = state;
+    setState(() {
+      switch (loginState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          _isLoading = true;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("UserProfileState....................");
+          data = state.response!.data!.assessmentDetails!.first;
+          _attempts =
+              state.response!.data!.assessmentDetails!.first.submissionDetails;
+          //reverse attempt order
+
+          _attempts = new List.from(_attempts!.reversed);
+          _isLoading = false;
+          break;
+        case ApiStatus.ERROR:
+          _isLoading = false;
+          Log.v("Error..........................");
+          Log.v("Error..........................${loginState.error}");
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
   }
 
   void _attachFile() async {
@@ -529,6 +698,7 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
       bool res = await assignmentDetailProvider.uploadAssignment(
           notes: _userNotes.text, path: file!.path, id: widget.id);
       if (res) {
+        _getData();
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Assignment submitted successfully")));
         _userNotes.clear();
