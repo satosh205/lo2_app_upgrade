@@ -1,7 +1,7 @@
 const APK_DETAILS = {
   "app_name": "MasterG",
   "package_name": "com.at.masterg",
-  "logo_url": "masterg_logo.svg",
+  "logo_url": "ic_launcher_round.png",
   "theme_image_url": "",
   "theme_color": "FDB515",
   "element_color": "#FFFFFF",

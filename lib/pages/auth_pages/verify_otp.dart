@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterg/utils/config.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
@@ -211,6 +212,8 @@ class _VerifyOtpState extends State<VerifyOtp> {
 
   @override
   Widget build(BuildContext context) {
+     String appBarImagePath = 'assets/images/${APK_DETAILS['logo_url']}';
+
     return MultiBlocListener(
       // initState: (BuildContext context) {},
       listeners: [
@@ -246,11 +249,15 @@ class _VerifyOtpState extends State<VerifyOtp> {
                   Center(
                     child: Column(
                       children: [
-                        Image.network(
-                          APK_DETAILS['logo_url']!,
-                          height: 100,
-                          width: 150,
-                        ),
+                        appBarImagePath.split('.').last == 'svg'
+                    ? SvgPicture.asset(
+                        appBarImagePath,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset(
+                        appBarImagePath,
+                        fit: BoxFit.cover,
+                      ),
                         // SvgPicture.asset(
                         //   'assets/images/masterg_logo.svg',
                         //   height: 75,

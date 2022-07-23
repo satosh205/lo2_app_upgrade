@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -116,6 +117,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   _makeBody() {
+    String appBarImagePath = 'assets/images/${APK_DETAILS['logo_url']}';
     int orgid = 3;
 
     return Padding(
@@ -138,11 +140,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Center(
                         child: Column(
                           children: [
-                            Image.network(
-                              APK_DETAILS['logo_url']!,
-                              height: 100,
-                              width: 150,
-                            ),
+                             appBarImagePath.split('.').last == 'svg'
+                    ? SvgPicture.asset(
+                        appBarImagePath,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset(
+                        appBarImagePath,
+                        fit: BoxFit.cover,
+                      )!,
                             SizedBox(height: 10),
                             Text(
                                 '${Strings.of(context)?.GiveYourCreativityNewPath}',
