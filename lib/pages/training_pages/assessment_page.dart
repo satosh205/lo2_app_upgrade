@@ -3,8 +3,6 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:masterg/data/providers/assessment_detail_provider.dart';
 import 'package:masterg/pages/custom_pages/TapWidget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
-import 'package:masterg/pages/training_pages/assessment_attempt_page.dart';
-import 'package:masterg/pages/training_pages/assessment_review_page.dart';
 import 'package:masterg/pages/training_pages/new_screen/assessment_attempt_page.dart';
 import 'package:masterg/pages/training_pages/new_screen/assessment_review_page.dart';
 import 'package:masterg/utils/Strings.dart';
@@ -551,46 +549,44 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                   Styles.textExtraBold(size: 16, color: ColorConstants.RED_BG),
             ),
             _size(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Last attempt',
-                      style: Styles.textRegular(
-                          size: 16, color: ColorConstants.BLACK),
-                    ),
-                    Text(
-                      '15 Mar 22, 09:00 PM',
-                      style: Styles.textRegular(
-                          size: 12, color: ColorConstants.GREY_4),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          '${assignmentDetailProvider.assignments.negativeMarks}/',
-                          style: Styles.textRegular(
-                              size: 16, color: ColorConstants.GREEN),
-                        ),
-                        Text(
-                          '${assignmentDetailProvider.assignments.maximumMarks}',
-                          style: Styles.textRegular(
-                              size: 16, color: ColorConstants.BLACK),
-                        ),
-                      ],
-                    ),
-                    Text('Scorecard'),
-                  ],
-                ),
-              ],
-            ),
+            if (assessmentDetailProvider.assessmentResponse!.data!.instruction!
+                    .details!.submittedOnDate! !=
+                0)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Last attempt',
+                        style: Styles.textRegular(
+                            size: 16, color: ColorConstants.BLACK),
+                      ),
+                      Text(
+                        '${Utility.convertDateFromMillis(assessmentDetailProvider.assessmentResponse!.data!.instruction!.details!.submittedOnDate!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
+                        style: Styles.textRegular(
+                            size: 12, color: ColorConstants.GREY_4),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Row(
+                        children: [
+                          // Text('${assessmentProvider.assessments.negativeMarks}/', style: Styles.textRegular(
+                          //     size: 16, color: ColorConstants.GREEN),),
+                          // Text('${assessmentProvider.assessments.maximumMarks}', style: Styles.textRegular(
+                          //     size: 16, color: ColorConstants.BLACK),),
+                        ],
+                      ),
+                      Text(
+                          'Score: ${assessmentDetailProvider.assessmentResponse!.data!.instruction!.details!.score}'),
+                    ],
+                  ),
+                ],
+              ),
           ],
         ),
       ),

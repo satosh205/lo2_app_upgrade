@@ -123,20 +123,27 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text('${data.title}',
-                                          style: Styles.regular(size: 14)),
-                                      Text('${data.description}',
-                                          style: Styles.regular(size: 14)),
-                                      Text(
-                                          '${Utility.convertDateFromMillis(_attempts![currentIndex].updatedAt!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
-                                          style: Styles.regular(
-                                              size: 10,
-                                              color: ColorConstants.GREY_3))
-                                    ],
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.5,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text('${data.title}',
+                                            overflow: TextOverflow.fade,
+                                            style: Styles.regular(size: 14)),
+                                        Text('${data.description}',
+                                            maxLines: 1,
+                                            style: Styles.regular(size: 14)),
+                                        Text(
+                                            '${Utility.convertDateFromMillis(_attempts![currentIndex].updatedAt!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
+                                            softWrap: false,
+                                            style: Styles.regular(
+                                                size: 10,
+                                                color: ColorConstants.GREY_3))
+                                      ],
+                                    ),
                                   ),
                                   Column(
                                     children: [

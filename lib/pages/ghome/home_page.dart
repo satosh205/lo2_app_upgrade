@@ -185,11 +185,11 @@ class _homePageState extends State<homePage> {
             icon: appBarImagePath.split('.').last == 'svg'
                 ? SvgPicture.asset(
                     appBarImagePath,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                   )
                 : Image.asset(
                     appBarImagePath,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                   ),
           ),
           title: Row(

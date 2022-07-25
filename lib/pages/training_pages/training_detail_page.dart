@@ -81,6 +81,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
   Widget build(BuildContext context) {
     mContext = context;
     final traininDetailProvider = Provider.of<TrainingDetailProvider>(context);
+
     return Scaffold(
         key: traininDetailProvider.scaffoldKey,
         resizeToAvoidBottomInset: false,
@@ -111,7 +112,11 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
               create: (context) => MyCourseProvider(_controller),
             ),
           ],
-          child: _content(traininDetailProvider, context),
+          child: traininDetailProvider.apiStatus == ApiStatus.LOADING
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : _content(traininDetailProvider, context),
         ));
   }
 
@@ -167,11 +172,13 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
 
   Widget _content(TrainingDetailProvider trainingDetailProvider, context) {
     String title = '';
+    String trainerName = '';
     bool isButtonActive = true;
 
     if (selectedType == 'Assignment' && selectedContentId != null) {
       title = 'Start Assignment';
     } else if (selectedType == 'Classes' && selectedContentId != null) {
+      trainerName = selectedData?.trainerName;
       if (selectedData?.liveclassAction.toString().toLowerCase() == 'concluded')
         title = 'View Recording';
       else if (selectedData?.liveclassAction.toString().toLowerCase() == 'live')
@@ -181,11 +188,6 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
         title = 'Mark Your Attendance';
       else
         title = selectedData?.liveclassAction;
-
-      // title = selectedData?.contentType!.toLowerCase() == "liveclass" ||
-      //         selectedData?.contentType!.toLowerCase() == "zoomclass"
-      //     ? "Join Now"
-      //     : "Mark your attendance";
     } else if (selectedType == 'Assessments' && selectedContentId != null) {
       title = 'Start Assessment';
     } else if (selectedType == 'Notes' && selectedContentId != null) {
@@ -284,34 +286,6 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                               ),
                                             )
                                           ],
-                                          // bottomActions: [
-                                          //   CurrentPosition(),
-                                          //   SizedBox(
-                                          //     width: 10,
-                                          //   ),
-                                          //   ProgressBar(
-                                          //     isExpanded: true,
-                                          //   ),
-                                          //   SizedBox(
-                                          //     width: 10,
-                                          //   ),
-                                          //   RemainingDuration(),
-                                          //   SizedBox(
-                                          //     width: 10,
-                                          //   ),
-                                          //   FullScreenButton(
-                                          //       // onFullScreen: () {
-                                          //       //   setState(() {
-                                          //       //     isFullScreen = true;
-                                          //       //   });
-                                          //       // },
-                                          //       // onExit: () {
-                                          //       //   setState(() {
-                                          //       //     isFullScreen = false;
-                                          //       //   });
-                                          //       // },
-                                          //       ),
-                                          // ],
                                         )
                                       : VideoPlayer(_controller)
                                   : Stack(
@@ -327,6 +301,13 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                             .withOpacity(1),
                                                     BlendMode.dstATop),
                                                 child: CachedNetworkImage(
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          SvgPicture.asset(
+                                                    'assets/images/gscore_postnow_bg.svg',
+                                                    width: double.infinity,
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                   width: double.infinity,
                                                   imageUrl: noteImgUrl,
                                                   fit: BoxFit.cover,
@@ -349,8 +330,10 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                       Text(
                                                           '${Utility.convertDateFromMillis(selectedData.startDate, Strings.REQUIRED_DATE_DD_MMM_YYYY)}'),
                                                       Container(
-                                                        width: 40,
                                                         height: 20,
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal: 8),
                                                         decoration: BoxDecoration(
                                                             color:
                                                                 ColorConstants
@@ -360,13 +343,16 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                                     .circular(
                                                                         4)),
                                                         child: Center(
-                                                            child:
-                                                                Text('Live')),
+                                                            child: Text(selectedData
+                                                                        ?.contentType ==
+                                                                    'liveclass'
+                                                                ? 'Live'
+                                                                : 'Classroom')),
                                                       )
                                                     ],
                                                   ),
                                                   SizedBox(height: 10),
-                                                  Text('Instructor name'),
+                                                  Text('$trainerName'),
                                                   SizedBox(height: 10),
                                                   Text(
                                                     '${selectedData.title}',
@@ -679,7 +665,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                 bufferedColor: ColorConstants.GREY_3,
                 playedColor: ColorConstants().primaryColor()),
           ),
-        if (selectedType == 'Videos' && selectedContentId != null)
+        if (selectedContentId != null)
           Container(
             color: ColorConstants.WHITE,
             width: MediaQuery.of(context).size.width,
@@ -688,7 +674,10 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Now playing',
+                Text(
+                    (selectedType == 'Classes' || selectedType == 'Videos')
+                        ? 'Now playing'
+                        : selectedType,
                     style: Styles.regular(
                       size: 14,
                     )),
@@ -881,6 +870,37 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
               itemCount: trainingDetailProvider.modules!.length,
               itemBuilder: (context, index) {
                 bool isVisible = true;
+                if (isAllSelected == true) {
+                  trainingDetailProvider.modules![index].note! +
+                              trainingDetailProvider
+                                  .modules![index].assignments! +
+                              trainingDetailProvider.modules![index].video! +
+                              trainingDetailProvider
+                                  .modules![index].assessments! ==
+                          0
+                      ? isVisible = false
+                      : isVisible = true;
+                } else if (selectedType == 'Classes') {
+                  trainingDetailProvider.modules![index].sessions! != 0
+                      ? isVisible = true
+                      : isVisible = false;
+                } else if (selectedType == 'Videos') {
+                  trainingDetailProvider.modules![index].video! != 0
+                      ? isVisible = true
+                      : isVisible = false;
+                } else if (selectedType == 'Notes') {
+                  trainingDetailProvider.modules![index].note! != 0
+                      ? isVisible = true
+                      : isVisible = false;
+                } else if (selectedType == 'Assignment') {
+                  trainingDetailProvider.modules![index].assignments! != 0
+                      ? isVisible = true
+                      : isVisible = false;
+                } else if (selectedType == 'Quiz') {
+                  trainingDetailProvider.modules![index].assessments! != 0
+                      ? isVisible = true
+                      : isVisible = false;
+                }
                 return Visibility(
                   visible: isVisible,
                   child: Padding(

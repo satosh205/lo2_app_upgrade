@@ -72,7 +72,7 @@ class _MyClassesState extends State<MyClasses> {
                 allowDrawingOutsideViewBox: true,
               ),
               SizedBox(width: 20),
-              Text('Class Live Now')
+              Text('Ongoing Class')
             ]),
             value: '1'),
         PopupMenuItem<String>(
@@ -457,7 +457,13 @@ class _MyClassesState extends State<MyClasses> {
                                                   padding: EdgeInsets.symmetric(
                                                       vertical: 8,
                                                       horizontal: 18),
-                                                  child: Text("Live",
+                                                  child: Text(
+                                                      listClassModel
+                                                                  .list![index]
+                                                                  .contentType ==
+                                                              'liveclass'
+                                                          ? "Live"
+                                                          : "Classroom",
                                                       style: Styles.regular(
                                                           size: 10,
                                                           color: ColorConstants
@@ -622,5 +628,4 @@ class _MyClassesState extends State<MyClasses> {
       }
     });
   }
-
 }

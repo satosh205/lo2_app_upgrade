@@ -741,17 +741,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
           height: MediaQuery.of(context).size.width * 0.45,
           decoration: BoxDecoration(
               color: Colors.white,
-              // gradient: LinearGradient(
-              //     begin: Alignment.topLeft,
-              //     end: Alignment.bottomRight,
-              //     stops: [
-              //       0.1,
-              //       0.4,
-              //     ],
-              //     colors: [
-              //       Colors.pink[100],
-              //       Colors.pink[300]
-              //     ]),
+              
               borderRadius: BorderRadius.circular(10)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -957,7 +947,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
       valueListenable: box!.listenable(),
       builder: (bc, Box box, child) {
         if (box.get("recommended") == null) {
-          // return Container();
+          
           return Shimmer.fromColors(
             baseColor: Color(0xffe6e4e6),
             highlightColor: Color(0xffeaf0f3),
