@@ -232,7 +232,7 @@ class HomeRepository {
   Future<CourseCategoryListIdResponse> getCourseWithId(int? id) async {
     final response = await homeProvider.getCourseWithId(id);
     if (response!.success) {
-      Log.v("ERROR DATA : ${response.body}");
+      Log.v("SUCESS DATA : ${response.body}");
       CourseCategoryListIdResponse courseCategoryListIdResponse =
           CourseCategoryListIdResponse.fromJson(response.body);
 
@@ -244,7 +244,6 @@ class HomeRepository {
               .toList());
       return courseCategoryListIdResponse;
     } else {
-      Log.v("====> ${response.body}");
       return CourseCategoryListIdResponse();
     }
   }
