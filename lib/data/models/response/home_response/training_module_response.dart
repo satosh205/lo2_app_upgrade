@@ -206,6 +206,8 @@ class Sessions {
   bool? isLive;
   String? url;
   String? status;
+  String? trainerName;
+  String? contentType;
 
   Sessions(
       {this.programContentId,
@@ -222,7 +224,9 @@ class Sessions {
       this.isAttended,
       this.isLive,
       this.status,
-      this.url});
+      this.url,
+      this.trainerName,
+      this.contentType});
 
   Sessions.fromJson(Map<String, dynamic> json) {
     programContentId = json['program_content_id'];
@@ -240,6 +244,8 @@ class Sessions {
     isLive = json['is_live'];
     url = json['url'];
     status = json['status'];
+    trainerName = json['trainer_name'];
+    contentType = json['content_type'];
   }
 
   Map<String, dynamic> toJson() {
@@ -259,6 +265,8 @@ class Sessions {
     data['is_live'] = this.isLive;
     data['url'] = this.url;
     data['status'] = this.status;
+    data['trainer_name'] = this.trainerName;
+    data['content_type'] = this.contentType;
     return data;
   }
 }

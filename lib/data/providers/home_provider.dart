@@ -1205,4 +1205,97 @@ class HomeProvider {
     }
     return null;
   }
+
+
+  Future<ApiResponse?> createPortfolio(Map<String, dynamic> data) async {
+    try {
+      final response = await api.dio.post(ApiConstants.CREATE_PORTFOLIO,
+          data: FormData.fromMap(data),
+          options: Options(
+              method: 'POST',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+          ));
+      Log.v(response.statusCode);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      if (e is DioError) {
+        Log.v("data ==> ${e.response!.statusCode}");
+      }
+      //return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+  }
+
+  Future<ApiResponse?> deletePortfolio(int id) async {
+    try {
+      final response = await api.dio.delete(ApiConstants.PORTFOLIO + '/$id',
+          options: Options(
+              method: 'DELETE',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+          ));
+      Log.v(response.statusCode);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      if (e is DioError) {
+        Log.v("data ==> ${e.response!.statusCode}");
+      }
+      //return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+  }
+
+  Future<ApiResponse?> listPortfolio(String type, int userId) async {
+    try {
+      final response = await api.dio.get(ApiConstants.PORTFOLIO + '?type=$type&user_id=$userId',
+          options: Options(
+              method: 'GET',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+          ));
+      Log.v(response.statusCode);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      if (e is DioError) {
+        Log.v("data ==> ${e.response!.statusCode}");
+      }
+      //return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+  }
+
 }

@@ -313,6 +313,10 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
   }
 
   void _downloadSubmission(String? usersFile) async {
+
+    print('=========== usersFile ===========');
+    print(usersFile);
+
     if (await Permission.storage.request().isGranted) {
       String localPath = "";
       if (Platform.isAndroid) {
@@ -365,6 +369,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                   children: [
                     InkWell(
                       onTap: () async {
+                        print('download_icon');
                         if (await Permission.storage.request().isGranted) {
                           var tempDir =
                               await getApplicationDocumentsDirectory();

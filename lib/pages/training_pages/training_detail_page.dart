@@ -172,11 +172,13 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
 
   Widget _content(TrainingDetailProvider trainingDetailProvider, context) {
     String title = '';
+    String trainerName = '';
     bool isButtonActive = true;
 
     if (selectedType == 'Assignment' && selectedContentId != null) {
       title = 'Start Assignment';
     } else if (selectedType == 'Classes' && selectedContentId != null) {
+      trainerName = selectedData?.trainerName;
       if (selectedData?.liveclassAction.toString().toLowerCase() == 'concluded')
         title = 'View Recording';
       else if (selectedData?.liveclassAction.toString().toLowerCase() == 'live')
@@ -345,7 +347,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                     ],
                                                   ),
                                                   SizedBox(height: 10),
-                                                  Text('Instructor name'),
+                                                  Text('$trainerName'),
                                                   SizedBox(height: 10),
                                                   Text(
                                                     '${selectedData.title}',
@@ -904,6 +906,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                       decoration: BoxDecoration(
                         color: ColorConstants.WHITE,
                       ),
+                      //Singh
                       child: ExpandablePanel(
                         controller: ExpandableController(initialExpanded: true),
                         header: Column(
@@ -928,8 +931,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                         collapsed: SizedBox(
                           height: 0,
                         ),
-                        expanded:
-                            ChangeNotifierProvider<TrainingContentProvier>(
+                        expanded: ChangeNotifierProvider<TrainingContentProvier>(
                                 create: (context) => TrainingContentProvier(
                                     TrainingService(ApiService()),
                                     trainingDetailProvider.modules!
@@ -943,7 +945,6 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                       // Function? onClick,
                                       dynamic data,
                                       {isYoutubeController = false}
-                                      // Route<Object?>? widget
                                       ) {
                                     isYoutubeView = isYoutubeController;
                                     selectedItemName = title;
@@ -953,19 +954,14 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                       setState(() {
                                         noteUrl = NoteUrl;
                                         noteImgUrl = noteImageUrl;
-
-                                        popupHeight =
-                                            MediaQuery.of(context).size.height;
+                                        popupHeight = MediaQuery.of(context).size.height;
                                       });
                                     } else {
                                       setState(() {
-                                        print(
-                                            'check is  $isYoutubeController and ${controller}');
                                         isYoutubeController == true
                                             ? _ytController = controller
                                             : _controller = controller;
                                         popupHeight = 300;
-                                        // if (isYoutubeController == true)
                                         _controller
                                             .initialize()
                                             .then((value) => setState(() {
@@ -974,7 +970,8 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                       });
                                     }
                                   },
-                                )),
+                                ),
+                        ),
                       ),
                     ),
                   ),

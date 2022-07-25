@@ -93,6 +93,7 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
 
   void _downloadSubmission(String? usersFile) async {
     if (await Permission.storage.request().isGranted) {
+      var tempDir = await getApplicationDocumentsDirectory();
       String localPath = "";
       if (Platform.isAndroid) {
         localPath = "/sdcard/download/";
@@ -232,6 +233,7 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                                         children: [
                                           InkWell(
                                             onTap: () async {
+                                              print('List View Click');
                                               _downloadSubmission(
                                                   _attempts![currentIndex]
                                                       .file);
@@ -350,7 +352,8 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                   children: [
                     InkWell(
                       onTap: () async {
-                        if (await Permission.storage.request().isGranted) {
+                        print('Assignment file ');
+                        /*if (await Permission.storage.request().isGranted) {
                           var tempDir =
                               await getApplicationDocumentsDirectory();
 
@@ -375,7 +378,10 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                           Utility.showSnackBar(
                               scaffoldContext: context,
                               message: "Please enable storage permission");
-                        }
+                        }*/
+                        _downloadSubmission(
+                            assignmentDetailProvider.assignment!.file!);
+
                       },
                       child: SvgPicture.asset(
                         'assets/images/download_icon.svg',
