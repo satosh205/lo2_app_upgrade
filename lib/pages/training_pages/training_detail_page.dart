@@ -81,6 +81,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
   Widget build(BuildContext context) {
     mContext = context;
     final traininDetailProvider = Provider.of<TrainingDetailProvider>(context);
+
     return Scaffold(
         key: traininDetailProvider.scaffoldKey,
         resizeToAvoidBottomInset: false,
@@ -111,7 +112,11 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
               create: (context) => MyCourseProvider(_controller),
             ),
           ],
-          child: _content(traininDetailProvider, context),
+          child: traininDetailProvider.apiStatus == ApiStatus.LOADING
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : _content(traininDetailProvider, context),
         ));
   }
 
@@ -181,11 +186,6 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
         title = 'Mark Your Attendance';
       else
         title = selectedData?.liveclassAction;
-
-      // title = selectedData?.contentType!.toLowerCase() == "liveclass" ||
-      //         selectedData?.contentType!.toLowerCase() == "zoomclass"
-      //     ? "Join Now"
-      //     : "Mark your attendance";
     } else if (selectedType == 'Assessments' && selectedContentId != null) {
       title = 'Start Assessment';
     } else if (selectedType == 'Notes' && selectedContentId != null) {
@@ -284,34 +284,6 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                               ),
                                             )
                                           ],
-                                          // bottomActions: [
-                                          //   CurrentPosition(),
-                                          //   SizedBox(
-                                          //     width: 10,
-                                          //   ),
-                                          //   ProgressBar(
-                                          //     isExpanded: true,
-                                          //   ),
-                                          //   SizedBox(
-                                          //     width: 10,
-                                          //   ),
-                                          //   RemainingDuration(),
-                                          //   SizedBox(
-                                          //     width: 10,
-                                          //   ),
-                                          //   FullScreenButton(
-                                          //       // onFullScreen: () {
-                                          //       //   setState(() {
-                                          //       //     isFullScreen = true;
-                                          //       //   });
-                                          //       // },
-                                          //       // onExit: () {
-                                          //       //   setState(() {
-                                          //       //     isFullScreen = false;
-                                          //       //   });
-                                          //       // },
-                                          //       ),
-                                          // ],
                                         )
                                       : VideoPlayer(_controller)
                                   : Stack(
@@ -327,6 +299,13 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                             .withOpacity(1),
                                                     BlendMode.dstATop),
                                                 child: CachedNetworkImage(
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          SvgPicture.asset(
+                                                    'assets/images/gscore_postnow_bg.svg',
+                                                    width: double.infinity,
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                   width: double.infinity,
                                                   imageUrl: noteImgUrl,
                                                   fit: BoxFit.cover,
@@ -679,7 +658,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                 bufferedColor: ColorConstants.GREY_3,
                 playedColor: ColorConstants().primaryColor()),
           ),
-        if (selectedType == 'Videos' && selectedContentId != null)
+        if (selectedContentId != null)
           Container(
             color: ColorConstants.WHITE,
             width: MediaQuery.of(context).size.width,
@@ -688,7 +667,10 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Now playing',
+                Text(
+                    (selectedType == 'Classes' || selectedType == 'Videos')
+                        ? 'Now playing'
+                        : selectedType,
                     style: Styles.regular(
                       size: 14,
                     )),
@@ -881,6 +863,37 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
               itemCount: trainingDetailProvider.modules!.length,
               itemBuilder: (context, index) {
                 bool isVisible = true;
+                if (isAllSelected == true) {
+                  trainingDetailProvider.modules![index].note! +
+                              trainingDetailProvider
+                                  .modules![index].assignments! +
+                              trainingDetailProvider.modules![index].video! +
+                              trainingDetailProvider
+                                  .modules![index].assessments! ==
+                          0
+                      ? isVisible = false
+                      : isVisible = true;
+                } else if (selectedType == 'Classes') {
+                  trainingDetailProvider.modules![index].sessions! != 0
+                      ? isVisible = true
+                      : isVisible = false;
+                } else if (selectedType == 'Videos') {
+                  trainingDetailProvider.modules![index].video! != 0
+                      ? isVisible = true
+                      : isVisible = false;
+                } else if (selectedType == 'Notes') {
+                  trainingDetailProvider.modules![index].note! != 0
+                      ? isVisible = true
+                      : isVisible = false;
+                } else if (selectedType == 'Assignment') {
+                  trainingDetailProvider.modules![index].assignments! != 0
+                      ? isVisible = true
+                      : isVisible = false;
+                } else if (selectedType == 'Quiz') {
+                  trainingDetailProvider.modules![index].assessments! != 0
+                      ? isVisible = true
+                      : isVisible = false;
+                }
                 return Visibility(
                   visible: isVisible,
                   child: Padding(

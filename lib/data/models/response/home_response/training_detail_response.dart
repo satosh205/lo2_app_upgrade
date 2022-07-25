@@ -115,6 +115,14 @@ class Modules {
   int? durationInDays;
   Object? completion;
   String? url;
+  int? note;
+  int? video;
+  int? sessions;
+  int? assignments;
+  int? assessments;
+  int? poll;
+  int? scorms;
+  int? surverys;
 
   Modules(
       {this.id,
@@ -125,7 +133,14 @@ class Modules {
       this.description,
       this.durationInDays,
       this.completion,
-      this.url});
+      this.url,
+      this.assignments,
+      this.note,
+      this.poll,
+      this.sessions,
+      this.video,
+      this.surverys,
+      this.assessments});
 
   Modules.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -137,6 +152,13 @@ class Modules {
     durationInDays = json['duration_in_days'];
     completion = json['completion'];
     url = json['url'];
+    assignments = json['assignments'];
+    note = json['notes'];
+    poll = json['poll'];
+    sessions = json['sessions'];
+    video = json['videos'];
+    surverys = json['surverys'];
+    assessments = json['assessments'];
   }
 
   Map<String, dynamic> toJson() {
@@ -150,6 +172,13 @@ class Modules {
     data['duration_in_days'] = this.durationInDays;
     data['completion'] = this.completion;
     data['url'] = this.url;
+    data['assignments'] = this.assignments;
+    data['note'] = this.note;
+    data['poll'] = this.poll;
+    data['sessions'] = this.sessions;
+    data['video'] = this.video;
+    data['surverys'] = this.surverys;
+    data['assessments'] = this.assessments;
     return data;
   }
 }

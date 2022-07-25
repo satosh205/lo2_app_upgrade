@@ -302,41 +302,44 @@ class MgAssessmentDetailPage extends StatelessWidget {
             // ),
             _size(height: 20),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Last attempt',
-                      style: Styles.textRegular(
-                          size: 16, color: ColorConstants.BLACK),
-                    ),
-                    Text(
-                      '${Utility.convertDateFromMillis(assessmentDetailProvider.assessmentResponse!.data!.instruction!.details!.submittedOnDate!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
-                      style: Styles.textRegular(
-                          size: 12, color: ColorConstants.GREY_4),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Row(
-                      children: [
-                        // Text('${assessmentProvider.assessments.negativeMarks}/', style: Styles.textRegular(
-                        //     size: 16, color: ColorConstants.GREEN),),
-                        // Text('${assessmentProvider.assessments.maximumMarks}', style: Styles.textRegular(
-                        //     size: 16, color: ColorConstants.BLACK),),
-                      ],
-                    ),
-                    Text(
-                        'Score: ${assessmentDetailProvider.assessmentResponse!.data!.instruction!.details!.score}'),
-                  ],
-                ),
-              ],
-            ),
+            if (assessmentDetailProvider.assessmentResponse!.data!.instruction!
+                    .details!.submittedOnDate! !=
+                0)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Last attempt',
+                        style: Styles.textRegular(
+                            size: 16, color: ColorConstants.BLACK),
+                      ),
+                      Text(
+                        '${Utility.convertDateFromMillis(assessmentDetailProvider.assessmentResponse!.data!.instruction!.details!.submittedOnDate!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
+                        style: Styles.textRegular(
+                            size: 12, color: ColorConstants.GREY_4),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Row(
+                        children: [
+                          // Text('${assessmentProvider.assessments.negativeMarks}/', style: Styles.textRegular(
+                          //     size: 16, color: ColorConstants.GREEN),),
+                          // Text('${assessmentProvider.assessments.maximumMarks}', style: Styles.textRegular(
+                          //     size: 16, color: ColorConstants.BLACK),),
+                        ],
+                      ),
+                      Text(
+                          'Score: ${assessmentDetailProvider.assessmentResponse!.data!.instruction!.details!.score}'),
+                    ],
+                  ),
+                ],
+              ),
           ],
         ),
       ),
