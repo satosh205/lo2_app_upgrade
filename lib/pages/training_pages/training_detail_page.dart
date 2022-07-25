@@ -330,8 +330,10 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                       Text(
                                                           '${Utility.convertDateFromMillis(selectedData.startDate, Strings.REQUIRED_DATE_DD_MMM_YYYY)}'),
                                                       Container(
-                                                        width: 40,
                                                         height: 20,
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal: 8),
                                                         decoration: BoxDecoration(
                                                             color:
                                                                 ColorConstants
@@ -341,8 +343,11 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                                     .circular(
                                                                         4)),
                                                         child: Center(
-                                                            child:
-                                                                Text('Live')),
+                                                            child: Text(selectedData
+                                                                        ?.contentType ==
+                                                                    'liveclass'
+                                                                ? 'Live'
+                                                                : 'Classroom')),
                                                       )
                                                     ],
                                                   ),

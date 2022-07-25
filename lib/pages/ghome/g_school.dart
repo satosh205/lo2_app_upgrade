@@ -947,7 +947,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
       valueListenable: box!.listenable(),
       builder: (bc, Box box, child) {
         if (box.get("recommended") == null) {
-          // return Container();
+          
           return Shimmer.fromColors(
             baseColor: Color(0xffe6e4e6),
             highlightColor: Color(0xffeaf0f3),
