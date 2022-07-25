@@ -172,11 +172,13 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
 
   Widget _content(TrainingDetailProvider trainingDetailProvider, context) {
     String title = '';
+    String trainerName = '';
     bool isButtonActive = true;
 
     if (selectedType == 'Assignment' && selectedContentId != null) {
       title = 'Start Assignment';
     } else if (selectedType == 'Classes' && selectedContentId != null) {
+      trainerName = selectedData?.trainerName;
       if (selectedData?.liveclassAction.toString().toLowerCase() == 'concluded')
         title = 'View Recording';
       else if (selectedData?.liveclassAction.toString().toLowerCase() == 'live')
@@ -345,7 +347,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                     ],
                                                   ),
                                                   SizedBox(height: 10),
-                                                  Text('Instructor name'),
+                                                  Text('$trainerName'),
                                                   SizedBox(height: 10),
                                                   Text(
                                                     '${selectedData.title}',
