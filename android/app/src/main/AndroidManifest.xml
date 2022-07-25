@@ -20,7 +20,9 @@
         </intent>
     </queries>
 
-    <application android:name="${applicationName}" android:icon="@mipmap/ic_launcher" android:label="MasterG" android:requestLegacyExternalStorage="true" android:usesCleartextTraffic="true" android:largeHeap="true" android:supportsRtl="true" android:roundIcon="@mipmap/ic_launcher_round">
+    <application android:name="${applicationName}" android:icon="@mipmap/ic_launcher" android:label="MasterG" android:requestLegacyExternalStorage="true"
+    android:allowBackup="false"
+    android:usesCleartextTraffic="true" android:largeHeap="true" android:supportsRtl="true" android:roundIcon="@mipmap/ic_launcher_round">
      <provider android:name="vn.hunghd.flutterdownloader.DownloadedFileProvider" android:authorities="${applicationId}.flutter_downloader.provider" android:exported="false" android:grantUriPermissions="true">
     <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/provider_paths"/>
 </provider>@
