@@ -1215,26 +1215,21 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                     );
                   }
                 });
+                String? contentStatus = traininDetailProvider
+                    .trainingModuleResponse
+                    .data
+                    ?.module![0]
+                    .content
+                    ?.sessions![index]
+                    .liveclassAction
+                    ?.toLowerCase();
                 return _moduleCard(
-                    leadingid: traininDetailProvider
-                                .trainingModuleResponse
-                                .data
-                                ?.module![0]
-                                .content
-                                ?.sessions![index]
-                                .liveclassAction ==
-                            'Concluded'
+                    leadingid: contentStatus == 'concluded'
                         ? 2
-                        : traininDetailProvider
-                                    .trainingModuleResponse
-                                    .data
-                                    ?.module![0]
-                                    .content
-                                    ?.sessions![index]
-                                    .liveclassAction ==
-                                'Join Class'
-                            ? 3
-                            : 1,
+                        : contentStatus == 'join class' ||
+                                contentStatus == 'live'
+                            ? 0
+                            : 3,
                     '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].title}',
                     '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].description}',
                     'session',
@@ -1287,8 +1282,20 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                   });
                 }
               });
+              String? contentStatus = traininDetailProvider
+                  .trainingModuleResponse
+                  .data
+                  ?.module![0]
+                  .content
+                  ?.assessments![index]
+                  .assesStatus
+                  ?.toLowerCase();
               return _moduleCard(
-                  leadingid: 3,
+                  leadingid: contentStatus == 'upcoming'
+                      ? 1
+                      : contentStatus == 'completed'
+                          ? 2
+                          : 3,
                   '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assessments![index].title}',
                   '${capitalize(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assessments![index].contentType)}',
                   'assessment',
@@ -1334,7 +1341,19 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                     }
                   });
                 });
+                String? contentStatus = traininDetailProvider
+                    .trainingModuleResponse
+                    .data
+                    ?.module![0]
+                    .content
+                    ?.assignments![index]
+                    .status;
                 return _moduleCard(
+                    leadingid: contentStatus == 'upcoming'
+                        ? 1
+                        : contentStatus == 'completed'
+                            ? 2
+                            : 3,
                     '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assignments![index].title}',
                     '${capitalize(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assignments![index].contentType)}',
                     'assignment',
@@ -1446,6 +1465,16 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                                 ?.toLowerCase()
                                 .substring(0, 4),
                     child: _moduleCard(
+                        leadingid: traininDetailProvider
+                                    .trainingModuleResponse
+                                    .data
+                                    ?.module![0]
+                                    .content
+                                    ?.learningShots![index]
+                                    .completion !=
+                                100
+                            ? 1
+                            : 2,
                         '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots![index].title}',
                         '${capitalize(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots![index].contentType)}',
                         'learningShots',
@@ -1576,7 +1605,12 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     leadingid == 0
-                        ? SizedBox()
+                        ? SvgPicture.asset(
+                            'assets/images/live_icon.svg',
+                            height: 20.0,
+                            width: 20.0,
+                            allowDrawingOutsideViewBox: true,
+                          )
                         : leadingid == 1
                             ? SvgPicture.asset(
                                 'assets/images/empty_circle.svg',
@@ -1591,7 +1625,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                                     size: 20.0,
                                   )
                                 : SvgPicture.asset(
-                                    'assets/images/circle_red.svg',
+                                    'assets/images/pending_icon.svg',
                                     height: 20.0,
                                     width: 20.0,
                                     allowDrawingOutsideViewBox: true,

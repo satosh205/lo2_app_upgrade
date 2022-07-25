@@ -49,6 +49,7 @@ class ColorConstants {
   static const DAR_GREY = Color(0xff252525);
   static const GREEN = Color(0xff258d00);
   static const RED_BG = Color(0xFFff3d3d);
+  static const RED = Color(0xFFEB5757);
   static const BOTTOM_GREY = Color(0xffF8F8F8);
   static const HINT_GREY = Color(0xffACACAC);
   static const INACTIVE_TAB = Color(0xFFBFBFBF);

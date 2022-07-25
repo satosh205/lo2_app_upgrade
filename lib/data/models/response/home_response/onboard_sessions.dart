@@ -121,7 +121,7 @@ class Liveclass extends ChangeNotifier {
     liveclassStatus = json['liveclass_status'];
     startTime = json['start_time'];
     endTime = json['end_time'];
-    passkey = json['passkey'];
+    passkey = json['passkey'];  
     trainerName = json['trainer_name'];
   }
 

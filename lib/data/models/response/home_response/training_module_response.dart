@@ -354,6 +354,7 @@ class Assessments {
   int? overallScore;
   String? overallResult;
   String? url;
+  String? assesStatus;
 
   Assessments(
       {this.programContentId,
@@ -380,7 +381,8 @@ class Assessments {
       this.endDate,
       this.overallScore,
       this.overallResult,
-      this.url});
+      this.url,
+      this.assesStatus});
 
   Assessments.fromJson(Map<String, dynamic> json) {
     programContentId = json['program_content_id'];
@@ -408,6 +410,7 @@ class Assessments {
     overallScore = json['overall_score'];
     overallResult = json['overall_result'];
     url = json['url'];
+    assesStatus = json['asses_status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -437,6 +440,7 @@ class Assessments {
     data['overall_score'] = this.overallScore;
     data['overall_result'] = this.overallResult;
     data['url'] = this.url;
+    data['asses_status'] = this.assesStatus;
     return data;
   }
 }

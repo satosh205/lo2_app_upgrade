@@ -270,28 +270,37 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                            data.isGraded == 0
-                                                ? "Non Graded assignment"
-                                                : _attempts![currentIndex]
-                                                                .reviewStatus ==
-                                                            1 &&
-                                                        _attempts![currentIndex]
-                                                                .isPassed ==
-                                                            1
-                                                    ? "Congratulations you passed!"
-                                                    : _attempts![currentIndex]
-                                                                    .reviewStatus ==
-                                                                1 &&
-                                                            _attempts![currentIndex]
-                                                                    .isPassed ==
-                                                                0
-                                                        ? "Sorry, you failed."
-                                                        : "Under Review",
-                                            style: Styles.regular(size: 12),
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.3,
+                                            child: Text(
+                                              data.isGraded == 0
+                                                  ? "Non Graded assignment"
+                                                  : _attempts![currentIndex]
+                                                                  .reviewStatus ==
+                                                              1 &&
+                                                          _attempts![currentIndex]
+                                                                  .isPassed ==
+                                                              1
+                                                      ? "Congratulations you passed!"
+                                                      : _attempts![currentIndex]
+                                                                      .reviewStatus ==
+                                                                  1 &&
+                                                              _attempts![currentIndex]
+                                                                      .isPassed ==
+                                                                  0
+                                                          ? "Sorry, you failed."
+                                                          : "Under Review",
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              softWrap: false,
+                                              style: Styles.regular(size: 10),
+                                            ),
                                           ),
-                                          SizedBox(width: 10),
-                                          Icon(Icons.info, size: 20)
+                                          SizedBox(width: 6),
+                                          Icon(Icons.info, size: 18)
                                         ],
                                       ),
                                     ],
@@ -332,7 +341,9 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                     style: Styles.bold(size: 14, color: ColorConstants.BLACK),
                   ),
                   Text(
-                    ' . ${assignmentDetailProvider.assignments.totalAttempts} Attempts',
+                    assignmentDetailProvider.assignments.allowMultiple != 0
+                        ? ' . Multi Attempt'
+                        : ' . Single Attempt',
                     style: Styles.bold(size: 14, color: ColorConstants.BLACK),
                   ),
                 ],
@@ -611,6 +622,12 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                         ),
                       ),
                     ),
+                    _size(height: 10),
+                    Text(
+                      '${assignmentDetailProvider.assignments.totalAttempts} Attempts',
+                      style:
+                          Styles.regular(size: 14, color: ColorConstants.RED),
+                    ),
                     _size(height: 15),
                   ],
                 ),
@@ -711,6 +728,9 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
         _getData();
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Assignment submitted successfully")));
+        setState(() {
+          file = null;
+        });
         _userNotes.clear();
       } else {
         ScaffoldMessenger.of(context)
