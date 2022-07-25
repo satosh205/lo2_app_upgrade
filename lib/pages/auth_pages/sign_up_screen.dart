@@ -117,7 +117,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   _makeBody() {
-    String appBarImagePath = 'assets/images/${APK_DETAILS['logo_url']}';
+    String appBarImagePath = 'assets/images/${APK_DETAILS['splash_image']}';
     int orgid = 3;
 
     return Padding(
@@ -140,15 +140,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Center(
                         child: Column(
                           children: [
-                             appBarImagePath.split('.').last == 'svg'
-                    ? SvgPicture.asset(
-                        appBarImagePath,
-                        fit: BoxFit.cover,
-                      )
-                    : Image.asset(
-                        appBarImagePath,
-                        fit: BoxFit.cover,
-                      )!,
+                            appBarImagePath.split('.').last == 'svg'
+                                ? SvgPicture.asset(
+                                    appBarImagePath,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.asset(
+                                    appBarImagePath,
+                                    fit: BoxFit.cover,
+                                  )!,
                             SizedBox(height: 10),
                             Text(
                                 '${Strings.of(context)?.GiveYourCreativityNewPath}',

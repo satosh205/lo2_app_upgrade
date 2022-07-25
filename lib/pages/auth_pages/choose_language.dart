@@ -54,7 +54,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
 
   @override
   Widget build(BuildContext context) {
-    String appBarImagePath = 'assets/images/${APK_DETAILS['logo_url']}';
+    String appBarImagePath = 'assets/images/${APK_DETAILS['splash_image']}';
 
     return BlocManager(
       initState: (context) {},
