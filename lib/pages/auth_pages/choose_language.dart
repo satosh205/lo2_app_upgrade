@@ -51,12 +51,11 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
       selected = 0;
     });
   }
-  
+
   @override
-  
   Widget build(BuildContext context) {
     String appBarImagePath = 'assets/images/${APK_DETAILS['logo_url']}';
-    
+
     return BlocManager(
       initState: (context) {},
       child: BlocListener<HomeBloc, HomeState>(
@@ -79,14 +78,14 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                       height: 50,
                     ),
                     appBarImagePath.split('.').last == 'svg'
-                    ? SvgPicture.asset(
-                        appBarImagePath,
-                        fit: BoxFit.cover,
-                      )
-                    : Image.asset(
-                        appBarImagePath,
-                        fit: BoxFit.cover,
-                      )!,
+                        ? SvgPicture.asset(
+                            appBarImagePath,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.asset(
+                            appBarImagePath,
+                            fit: BoxFit.cover,
+                          ),
                     SizedBox(height: 40),
                     Center(
                       child: Text(
