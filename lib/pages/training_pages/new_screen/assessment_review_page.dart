@@ -275,12 +275,14 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
                                     const SizedBox(
                                       width: 5,
                                     ),
-                                    SvgPicture.asset(
-                                      'assets/images/next.svg',
-                                      width: 15,
-                                      height: 15,
-                                      allowDrawingOutsideViewBox: true,
-                                    ),
+                                    if ((widget._list.length - 1) !=
+                                        widget._currentQuestion)
+                                      SvgPicture.asset(
+                                        'assets/images/next.svg',
+                                        width: 15,
+                                        height: 15,
+                                        allowDrawingOutsideViewBox: true,
+                                      ),
                                   ],
                                 ),
                               ),

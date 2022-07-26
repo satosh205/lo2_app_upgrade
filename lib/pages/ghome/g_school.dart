@@ -29,6 +29,7 @@ import 'package:masterg/utils/resource/colors.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../training_pages/new_screen/courses_details_page.dart';
 import 'my_classes.dart';
 
 class GSchool extends StatefulWidget {
@@ -107,9 +108,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                 //_getResumeLerarning(),
                 //_getCourses(),
                 _getDashboard(context),
-
                 //_getCategories(context),
-
                 //_getLearnNewEveryday(context),
                 _getRecommendedCourses(context),
                 _getOtherLearnerTopics(context),
@@ -740,9 +739,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
           width: MediaQuery.of(context).size.width * 0.45,
           height: MediaQuery.of(context).size.width * 0.45,
           decoration: BoxDecoration(
-              color: Colors.white,
-              
-              borderRadius: BorderRadius.circular(10)),
+              color: Colors.white, borderRadius: BorderRadius.circular(10)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -887,10 +884,40 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                             return otherLearners!.length > 0
                                 ? InkWell(
                                     onTap: () {
-                                      _subscribeRequest(
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CoursesDetailsPage(
+                                                  imgUrl: otherLearners![index]
+                                                      .image,
+                                                  indexc: index,
+                                                  tagName: 'TagOther',
+                                                  name: otherLearners![index]
+                                                      .name,
+                                                  description:
+                                                      otherLearners![index]
+                                                          .description,
+                                                  regularPrice:
+                                                      otherLearners![index]
+                                                          .regularPrice,
+                                                  salePrice:
+                                                      otherLearners![index]
+                                                          .salePrice,
+                                                  trainer: otherLearners![index]
+                                                      .trainer,
+                                                  enrolmentCount:
+                                                      otherLearners![index]
+                                                          .enrolmentCount,
+                                                  type: otherLearners![index]
+                                                      .subscriptionType,
+                                                  id: otherLearners![index].id,
+                                                )),
+                                      );
+                                      /*_subscribeRequest(
                                           otherLearners![index]
                                               .subscriptionType,
-                                          otherLearners![index].id);
+                                          otherLearners![index].id);*/
                                       // Navigator.push(
                                       //     context,
                                       //     NextPageRoute(ChangeNotifierProvider<
@@ -903,7 +930,10 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                       //         child: OLCourseDetailPage())));
                                     },
                                     child: _getCourseTemplate(
-                                        context, otherLearners![index]))
+                                        context,
+                                        otherLearners![index],
+                                        index,
+                                        'TagOther'))
                                 : Container(
                                     child: Text("No Acive LiveClass Now!!"));
                           },
@@ -947,7 +977,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
       valueListenable: box!.listenable(),
       builder: (bc, Box box, child) {
         if (box.get("recommended") == null) {
-          
+          // return Container();
           return Shimmer.fromColors(
             baseColor: Color(0xffe6e4e6),
             highlightColor: Color(0xffeaf0f3),
@@ -962,7 +992,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
         } else if (box.get("recommended").isEmpty) {
           return Container();
         }
-        print("#8Amit");
+
         recommendedcourses = box
             .get("recommended")
             .map((e) => Recommended.fromJson(Map<String, dynamic>.from(e)))
@@ -981,9 +1011,33 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
                       onTap: () {
-                        _subscribeRequest(
+                        /*_subscribeRequest(
                             recommendedcourses![index].subscriptionType,
-                            recommendedcourses![index].id);
+                            recommendedcourses![index].id);*/
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CoursesDetailsPage(
+                                    imgUrl: recommendedcourses![index].image,
+                                    indexc: index,
+                                    tagName: 'TagReco',
+                                    name: recommendedcourses![index].name,
+                                    description:
+                                        recommendedcourses![index].description,
+                                    regularPrice:
+                                        recommendedcourses![index].regularPrice,
+                                    salePrice:
+                                        recommendedcourses![index].salePrice,
+                                    trainer: recommendedcourses![index].trainer,
+                                    enrolmentCount: recommendedcourses![index]
+                                        .enrolmentCount,
+                                    type: recommendedcourses![index]
+                                        .subscriptionType,
+                                    id: recommendedcourses![index].id,
+                                  )),
+                        );
+
                         /*Navigator.push(
                                           context,
                                           NextPageRoute(ChangeNotifierProvider<
@@ -997,8 +1051,8 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                               child:
                                                   PopularCourseDetailPage())));*/
                       },
-                      child: _getCourseTemplate(
-                          context, recommendedcourses![index]));
+                      child: _getCourseTemplate(context,
+                          recommendedcourses![index], index, 'TagReco'));
                 },
                 itemCount: recommendedcourses?.length ?? 0,
                 shrinkWrap: true,
@@ -1009,7 +1063,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
     );
   }
 
-  Widget _getCourseTemplate(context, yourCourses) {
+  Widget _getCourseTemplate(context, yourCourses, int index, String tag) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.12,
       //decoration: BoxDecoration(color: ColorConstants.GREY),
@@ -1028,14 +1082,17 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
               height: MediaQuery.of(context).size.height * 0.12,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
-                child: Image.network(
-                  '${yourCourses.image}',
-                  errorBuilder: (context, error, stackTrace) {
-                    return SvgPicture.asset(
-                      'assets/images/gscore_postnow_bg.svg',
-                    );
-                  },
-                  fit: BoxFit.cover,
+                child: Hero(
+                  tag: tag + "$index",
+                  child: Image.network(
+                    '${yourCourses.image}',
+                    errorBuilder: (context, error, stackTrace) {
+                      return SvgPicture.asset(
+                        'assets/images/gscore_postnow_bg.svg',
+                      );
+                    },
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),

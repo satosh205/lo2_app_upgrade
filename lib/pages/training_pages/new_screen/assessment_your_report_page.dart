@@ -123,20 +123,38 @@ class _AssessmentYourReportPageState extends State<AssessmentYourReportPage> {
       backgroundColor: ColorConstants.WHITE,
       appBar: AppBar(
         title: Text("Your Report", style: Styles.bold(size: 18)),
-        centerTitle: false,
+        centerTitle: true,
         backgroundColor: ColorConstants.WHITE,
         elevation: 0.0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
+        // leading: IconButton(
+        //   icon: Icon(
+        //     Icons.arrow_back,
+        //     color: Colors.black,
+        //   ),
+        //   onPressed: () {
+        //     Navigator.pop(context);
+        //   },
+        // ),
+      ),
+      body: _mainBody(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.6,
+        height: 50,
+        child: FloatingActionButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
           ),
           onPressed: () {
             Navigator.pop(context);
           },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+            child: Text('Go to Review'),
+          ),
+          backgroundColor: ColorConstants().primaryColor(),
         ),
       ),
-      body: _mainBody(),
     );
   }
 
