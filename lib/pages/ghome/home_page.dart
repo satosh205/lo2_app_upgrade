@@ -176,51 +176,54 @@ class _homePageState extends State<homePage> {
         //   ),
         // ),
 
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          leading: IconButton(
-            onPressed: () {
-              _scaffoldKey.currentState?.openDrawer();
-            },
-            icon: appBarImagePath.split('.').last == 'svg'
-                ? SvgPicture.asset(
-                    appBarImagePath,
-                    fit: BoxFit.contain,
-                  )
-                : Image.asset(
-                    appBarImagePath,
-                    fit: BoxFit.contain,
-                  ),
-          ),
-          title: Row(
-            children: [
-              const Expanded(child: SizedBox()),
-              InkWell(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return UserProfilePage();
-                  })).then(onGoBack);
-                },
-                child: Transform.scale(
-                  scale: 1,
-                  child: profileImage != null && profileImage != ''
-                      ? CircleAvatar(
-                          backgroundImage: NetworkImage(profileImage!))
-                      : SvgPicture.asset(
-                          'assets/images/profileIcon.svg',
-                          height: 40.0,
-                          width: 40.0,
-                          allowDrawingOutsideViewBox: true,
+        appBar: widget.bottomMenu![currentIndex].url != '/g-reels'
+            ? AppBar(
+                automaticallyImplyLeading: false,
+                leading: IconButton(
+                  onPressed: () {
+                    _scaffoldKey.currentState?.openDrawer();
+                  },
+                  icon: appBarImagePath.split('.').last == 'svg'
+                      ? SvgPicture.asset(
+                          appBarImagePath,
+                          fit: BoxFit.contain,
+                        )
+                      : Image.asset(
+                          appBarImagePath,
+                          fit: BoxFit.contain,
                         ),
                 ),
-              ),
-              const SizedBox(width: 10),
-            ],
-          ),
-          backgroundColor: ColorConstants().primaryColor(),
-          elevation: 0.0,
-          centerTitle: true,
-        ),
+                title: Row(
+                  children: [
+                    const Expanded(child: SizedBox()),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return UserProfilePage();
+                        })).then(onGoBack);
+                      },
+                      child: Transform.scale(
+                        scale: 1,
+                        child: profileImage != null && profileImage != ''
+                            ? CircleAvatar(
+                                backgroundImage: NetworkImage(profileImage!))
+                            : SvgPicture.asset(
+                                'assets/images/profileIcon.svg',
+                                height: 40.0,
+                                width: 40.0,
+                                allowDrawingOutsideViewBox: true,
+                              ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                  ],
+                ),
+                backgroundColor: ColorConstants().primaryColor(),
+                elevation: 0.0,
+                centerTitle: true,
+              )
+            : PreferredSize(child: SizedBox(), preferredSize: Size.zero),
 
         body: pages[widget.bottomMenu![currentIndex].url],
 
@@ -291,17 +294,9 @@ class _homePageState extends State<homePage> {
                               ),
                             )));
               } else {
-                if (widget.bottomMenu![index].url == '/g-reels') {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              ReelsDashboardPage()));
-                  print('reels clicked');
-                } else
-                  setState(() {
-                    currentIndex = index;
-                  });
+                setState(() {
+                  currentIndex = index;
+                });
               }
             },
           ),

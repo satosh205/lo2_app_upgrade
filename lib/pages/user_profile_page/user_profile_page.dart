@@ -420,6 +420,8 @@ class _UserProfilePageState extends State<UserProfilePage>
         sourcePath: _pickedFile,
         compressFormat: ImageCompressFormat.jpg,
         compressQuality: 100,
+        aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+        cropStyle: CropStyle.rectangle,
         uiSettings: buildUiSettings(context),
       );
       if (croppedFile != null) {
