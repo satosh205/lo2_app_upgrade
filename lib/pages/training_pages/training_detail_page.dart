@@ -434,7 +434,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                         .toLowerCase() ==
                                                     'concluded')
                                             ? Positioned(
-                                                bottom: 10,
+                                                bottom: 24,
                                                 left: 50,
                                                 right: 50,
                                                 child: GestureDetector(
@@ -490,8 +490,8 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                                               .GREY_2
                                                                           : ColorConstants()
                                                                               .primaryColor()
-                                                                      : ColorConstants
-                                                                          .GREY_2,
+                                                                      : ColorConstants()
+                                                                          .primaryColor(),
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(8)),
@@ -1230,8 +1230,9 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                                 contentStatus == 'live'
                             ? 0
                             : 3,
+                    ' • ${Utility.convertCourseTime(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].startDate, Strings.REQUIRED_DATE_HH_MM_A_DD_MMM)}',
                     '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].title}',
-                    '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].description}',
+                    '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].contentType?.toLowerCase() == 'liveclass' ? 'Live' : 'Classroom'}',
                     'session',
                     traininDetailProvider
                         .trainingModuleResponse.data?.module![0].content,
@@ -1296,6 +1297,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                       : contentStatus == 'completed'
                           ? 2
                           : 3,
+                  ' • ${Utility.convertCourseTime(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assessments![index].startDate, Strings.REQUIRED_DATE_HH_MM_A_DD_MMM)}',
                   '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assessments![index].title}',
                   '${capitalize(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assessments![index].contentType)}',
                   'assessment',
@@ -1354,6 +1356,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                         : contentStatus == 'completed'
                             ? 2
                             : 3,
+                    ' • ${Utility.convertCourseTime(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assignments![index].startDate, Strings.REQUIRED_DATE_HH_MM_A_DD_MMM)}',
                     '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assignments![index].title}',
                     '${capitalize(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assignments![index].contentType)}',
                     'assignment',
@@ -1475,6 +1478,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                                 100
                             ? 1
                             : 2,
+                        ' • ${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots![index].durationInMinutes} Mins',
                         '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots![index].title}',
                         '${capitalize(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots![index].contentType)}',
                         'learningShots',
@@ -1496,8 +1500,8 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
     );
   }
 
-  Widget _moduleCard(String title, String description, String type, data,
-      int index, context, int? programContentId,
+  Widget _moduleCard(String time, String title, String description, String type,
+      data, int index, context, int? programContentId,
       {int leadingid = 1, bool showNotificationIcon = false}) {
     //1-> empty circle, 2-> green, 3-> red
     return Consumer<MyCourseProvider>(
@@ -1646,7 +1650,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                             style: Styles.semibold(size: 16),
                           ),
                           Text(
-                            '$description',
+                            '$description $time',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             softWrap: false,

@@ -70,7 +70,7 @@ class AssessmentDetails {
       this.isGraded,
       this.submissionMode,
       this.learnerName,
-      this.submissionDetails});
+      this.submissionDetails,});
 
   AssessmentDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];

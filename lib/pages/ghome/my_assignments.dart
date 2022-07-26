@@ -413,6 +413,9 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text('${item.title}', style: Styles.bold(size: 16)),
                   SizedBox(height: 5),
+                  if (item.isGraded == 1)
+                    Text('${item.marks}/${item.maximumMarks} Marks',
+                        style: Styles.regular(size: 12)),
                   if (item.status == 'Completed') ...[
                     Text('Submitted', style: Styles.regular(size: 12)),
                     SizedBox(height: 5),
@@ -428,7 +431,7 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                   ] else if (item.status == 'Pending') ...[
                     Text('${item.status}',
                         style: Styles.regular(
-                            size: 12, color: ColorConstants.PRIMARY_COLOR)),
+                            size: 12, color: ColorConstants().primaryColor())),
                   ],
                 ]),
               ]))),

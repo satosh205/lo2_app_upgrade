@@ -369,7 +369,7 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
                         ] else ...[
                           SizedBox(height: 5),
                           Text(
-                              '${item.durationInMinutes} mins . ${item.maximumMarks} Marks',
+                              '${item.durationInMinutes} mins • ${item.maximumMarks} Marks',
                               style: Styles.regular(
                                   size: 12, color: Colors.black)),
                           SizedBox(height: 5),

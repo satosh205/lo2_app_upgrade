@@ -25,7 +25,6 @@ import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
-import 'package:masterg/utils/config.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
@@ -148,7 +147,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 : Image.asset(
                                     appBarImagePath,
                                     fit: BoxFit.cover,
-                                  )!,
+                                  ),
                             SizedBox(height: 10),
                             Text(
                                 '${Strings.of(context)?.GiveYourCreativityNewPath}',

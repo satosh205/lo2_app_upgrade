@@ -49,6 +49,12 @@ class Utility {
         DateTime.fromMillisecondsSinceEpoch(timeInMillis * 1000).toUtc());
   }
 
+   static String convertCourseTime(int? timeInMillis, String newFormat,
+      {bool isUTC = false}) {
+    return DateFormat(newFormat).format(
+        DateTime.fromMillisecondsSinceEpoch(timeInMillis! * 1000).toUtc());
+  }
+
   static String getDiffInMin(int start, int end) {
     var diff = end - start;
     DateTime time = DateTime.fromMillisecondsSinceEpoch(diff * 1000).toUtc();
