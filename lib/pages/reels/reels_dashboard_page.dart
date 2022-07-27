@@ -105,12 +105,11 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
                                                             provider:
                                                                 createPostProvider,
                                                           ))).then((value) {
+                                                setState(() {
+                                                  isGReelsLoading = true;
+                                                });
                                                 greelsList?.clear();
-
                                                 _getGReels();
-                                                // Future.delayed(
-                                                //         Duration(milliseconds: 200))
-                                                //     .then((value) => _getGReels());
                                               });
                                             },
                                             child: Row(
