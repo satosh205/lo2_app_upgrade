@@ -109,7 +109,9 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
                                                   isGReelsLoading = true;
                                                 });
                                                 greelsList?.clear();
+
                                                 _getGReels();
+                                                reelsProvider.play();
                                               });
                                             },
                                             child: Row(

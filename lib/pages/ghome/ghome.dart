@@ -145,6 +145,8 @@ class _GHomeState extends State<GHome> {
                                         onTap: () async {
                                           value.enableProviderControl();
                                           value.pause();
+                                          await Future.delayed(
+                                              Duration(milliseconds: 200));
 
                                           showModalBottomSheet(
                                               context: context,
@@ -175,7 +177,7 @@ class _GHomeState extends State<GHome> {
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height *
-                                                0.7,
+                                                0.9,
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(10),
@@ -317,7 +319,7 @@ class _GHomeState extends State<GHome> {
                                                           ),
                                                         ),
                                                         left: 0,
-                                                        top: 205),
+                                                        top: 230),
                                                   ],
                                                 ))),
                                       ),
