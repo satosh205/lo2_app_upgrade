@@ -121,6 +121,9 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                 callCount = 0;
                 gcarvaanPosts = [];
                 _getPosts(++callCount);
+                Future.delayed(Duration(seconds: 2)).then((_) {
+                  setState(() {});
+                });
               },
               onLoading: () async {
                 _getPosts(++callCount);

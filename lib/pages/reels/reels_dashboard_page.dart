@@ -107,6 +107,10 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
                                                           ))).then((value) {
                                                 reelsProvider.play();
                                                 _getGReels();
+
+                                                Future.delayed(
+                                                    Duration(seconds: 2),
+                                                    () => setState((){}));
                                               } // reelsProvider.pause();
                                                   );
                                             },
@@ -228,6 +232,7 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
           isGReelsLoading = true;
           break;
         case ApiStatus.SUCCESS:
+        
           greelsList = state.response!.data!.list;
           greelsModel.refreshList(greelsList!);
           Log.v("ReelsUsersState.................... ${greelsList?.length}");
