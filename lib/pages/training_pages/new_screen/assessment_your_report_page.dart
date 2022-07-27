@@ -140,26 +140,55 @@ class _AssessmentYourReportPageState extends State<AssessmentYourReportPage> {
       ),
       body: _mainBody(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.6,
-        height: 50,
-        child: FloatingActionButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          onPressed: () {
-            Navigator.push(
-                context,
-                NextPageRoute(
-                    AssessmentReviewPage(contentId: widget.contentId)));
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-            child: Text('Go to Review'),
-          ),
-          backgroundColor: ColorConstants().primaryColor(),
-        ),
-      ),
+      floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.4,
+              height: 50,
+              child: FloatingActionButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  child: Text('Back'),
+                ),
+                backgroundColor: ColorConstants().primaryColor(),
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.4,
+              height: 50,
+              child: FloatingActionButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      NextPageRoute(
+                          AssessmentReviewPage(contentId: widget.contentId)));
+                },
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  child: Text('Go to Review'),
+                ),
+                backgroundColor: ColorConstants().primaryColor(),
+              ),
+            )
+          ]),
     );
   }
 

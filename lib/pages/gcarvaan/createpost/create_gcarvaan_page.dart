@@ -434,6 +434,7 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
           Log.v("Success.................... create Reels");
           isPostedLoading = false;
           responseData = state.response;
+          widget.provider?.clearList();
           if (responseData!.status == 1) {
             if (widget.isReelsPost == true) Navigator.pop(context);
             Navigator.pop(context);
