@@ -129,9 +129,13 @@ class _GHomeState extends State<GHome> {
                                   shrinkWrap: true,
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
-                                          mainAxisSpacing: 10,
+                                          mainAxisSpacing: 0,
                                           crossAxisSpacing: 20,
                                           childAspectRatio: 2 / 3,
+                                          mainAxisExtent: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.32,
                                           crossAxisCount: 2),
                                   itemBuilder:
                                       (BuildContext context, int index) {
@@ -246,66 +250,62 @@ class _GHomeState extends State<GHome> {
                                                 )),
                                             Container(
                                               height: 40,
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 0),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    joyContentListView![index]
-                                                                .viewCount !=
-                                                            null
-                                                        ? Row(
-                                                            children: [
-                                                              Text(
-                                                                  '${joyContentListView![index].viewCount}  ${Strings.of(context)?.Views}',
+                                              margin: EdgeInsets.only(top: 4),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  joyContentListView![index]
+                                                              .viewCount !=
+                                                          null
+                                                      ? Row(
+                                                          children: [
+                                                            Text(
+                                                                '${joyContentListView![index].viewCount}  ${Strings.of(context)?.Views}',
+                                                                style: Styles.regular(
+                                                                    size: 10,
+                                                                    color: ColorConstants
+                                                                        .GREY_3)),
+                                                            if (joyContentListView![
+                                                                        index]
+                                                                    .viewCount! >
+                                                                1)
+                                                              Text('s',
                                                                   style: Styles.regular(
                                                                       size: 10,
                                                                       color: ColorConstants
                                                                           .GREY_3)),
-                                                              if (joyContentListView![
-                                                                          index]
-                                                                      .viewCount! >
-                                                                  1)
-                                                                Text('s',
-                                                                    style: Styles.regular(
-                                                                        size:
-                                                                            10,
-                                                                        color: ColorConstants
-                                                                            .GREY_3)),
-                                                            ],
-                                                          )
-                                                        : Text(
-                                                            '${0}  ${Strings.of(context)?.Views}',
-                                                            style: Styles.regular(
-                                                                size: 10,
-                                                                color:
-                                                                    ColorConstants
-                                                                        .GREY_3)),
-                                                    // SizedBox(
-                                                    //   width: 10,
-                                                    //   height: 4,
-                                                    // ),
-                                                    SizedBox(
-                                                      width: 150,
-                                                      child: Text(
-                                                          joyContentListView![
-                                                                      index]
-                                                                  .title ??
-                                                              '',
-                                                          maxLines: 1,
-                                                          softWrap: true,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: Styles.semibold(
-                                                              size: 14,
+                                                          ],
+                                                        )
+                                                      : Text(
+                                                          '${0}  ${Strings.of(context)?.Views}',
+                                                          style: Styles.regular(
+                                                              size: 10,
                                                               color:
                                                                   ColorConstants
-                                                                      .GREY_1)),
-                                                    ),
-                                                  ],
-                                                ),
+                                                                      .GREY_3)),
+                                                  // SizedBox(
+                                                  //   width: 10,
+                                                  //   height: 4,
+                                                  // ),
+                                                  SizedBox(
+                                                    width: 150,
+                                                    child: Text(
+                                                        joyContentListView![
+                                                                    index]
+                                                                .title ??
+                                                            '',
+                                                        maxLines: 1,
+                                                        softWrap: true,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: Styles.semibold(
+                                                            size: 14,
+                                                            color:
+                                                                ColorConstants
+                                                                    .GREY_1)),
+                                                  ),
+                                                ],
                                               ),
                                             )
                                           ],
