@@ -65,75 +65,69 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
           child: BlocManager(
               initState: (context) {},
               child: Consumer<GReelsModel>(
-                builder: (context, greelsModel, child) =>
-                    BlocListener<HomeBloc, HomeState>(
-                        listener: (context, state) async {
-                          if (state is GReelsPostState) {
-                            _handleGReelsResponse(state, greelsModel);
-                          }
-                        },
-                        child: Stack(children: [
-                          getBody(greelsModel),
-                          Consumer2<CreatePostProvider, ReelsProvider>(
-                              builder: (context, createPostProvider,
-                                      reelsProvider, child) =>
-                                  Positioned(
-                                      right: 10,
-                                      top: 50,
-                                      child: Container(
-                                          padding: const EdgeInsets.only(
-                                              top: 7,
-                                              bottom: 7,
-                                              left: 11,
-                                              right: 11),
-                                          decoration: BoxDecoration(
-                                            color: ColorConstants.BLACK
-                                                .withOpacity(0.4),
-                                            borderRadius:
-                                                BorderRadius.circular(22),
-                                          ),
-                                          child: GestureDetector(
-                                            onTap: () async {
-                                              createPostProvider.files!.clear();
-                                              reelsProvider.pause();
+                builder: (context, greelsModel, child) => BlocListener<HomeBloc,
+                        HomeState>(
+                    listener: (context, state) async {
+                      if (state is GReelsPostState) {
+                        _handleGReelsResponse(state, greelsModel);
+                      }
+                    },
+                    child: Stack(children: [
+                      getBody(greelsModel),
+                      Consumer2<CreatePostProvider, ReelsProvider>(
+                          builder: (context, createPostProvider, reelsProvider,
+                                  child) =>
+                              Positioned(
+                                  right: 10,
+                                  top: 50,
+                                  child: Container(
+                                      padding: const EdgeInsets.only(
+                                          top: 7,
+                                          bottom: 7,
+                                          left: 11,
+                                          right: 11),
+                                      decoration: BoxDecoration(
+                                        color: ColorConstants.BLACK
+                                            .withOpacity(0.4),
+                                        borderRadius: BorderRadius.circular(22),
+                                      ),
+                                      child: GestureDetector(
+                                        onTap: () async {
+                                          createPostProvider.files!.clear();
+                                          reelsProvider.pause();
 
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          VideoRecordingCameraPage(
-                                                            provider:
-                                                                createPostProvider,
-                                                          ))).then((value) {
-                                                reelsProvider.play();
-                                                _getGReels();
-
-                                                Future.delayed(
-                                                    Duration(seconds: 2),
-                                                    () => setState((){}));
-                                              } // reelsProvider.pause();
-                                                  );
-                                            },
-                                            child: Row(
-                                              children: [
-                                                SvgPicture.asset(
-                                                  'assets/images/camera_y.svg',
-                                                  height: 20,
-                                                  width: 20,
-                                                  color: white,
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Text('Create',
-                                                    style: Styles.bold(
-                                                        color: ColorConstants
-                                                            .WHITE,
-                                                        size: 14)),
-                                              ],
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      VideoRecordingCameraPage(
+                                                        provider:
+                                                            createPostProvider,
+                                                      ))).then((value) {
+                                            greelsList?.clear();
+                                            Future.delayed(Duration(seconds: 1))
+                                                .then((value) => _getGReels());
+                                          });
+                                        },
+                                        child: Row(
+                                          children: [
+                                            SvgPicture.asset(
+                                              'assets/images/camera_y.svg',
+                                              height: 20,
+                                              width: 20,
+                                              color: white,
                                             ),
-                                          )))),
-                        ])),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text('Create',
+                                                style: Styles.bold(
+                                                    color: ColorConstants.WHITE,
+                                                    size: 14)),
+                                          ],
+                                        ),
+                                      )))),
+                    ])),
               ))),
     );
   }
@@ -232,7 +226,6 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
           isGReelsLoading = true;
           break;
         case ApiStatus.SUCCESS:
-        
           greelsList = state.response!.data!.list;
           greelsModel.refreshList(greelsList!);
           Log.v("ReelsUsersState.................... ${greelsList?.length}");

@@ -129,7 +129,7 @@ class _GHomeState extends State<GHome> {
                                   shrinkWrap: true,
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
-                                          mainAxisSpacing: 30,
+                                          mainAxisSpacing: 5,
                                           crossAxisSpacing: 20,
                                           childAspectRatio: 2 / 3,
                                           crossAxisCount: 2),
@@ -301,6 +301,12 @@ class _GHomeState extends State<GHome> {
                                                                     joyContentListView![index]
                                                                             .title ??
                                                                         '',
+                                                                    maxLines: 1,
+                                                                    softWrap:
+                                                                        true,
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
                                                                     style: Styles.semibold(
                                                                         size:
                                                                             14,
@@ -311,7 +317,7 @@ class _GHomeState extends State<GHome> {
                                                           ),
                                                         ),
                                                         left: 0,
-                                                        top: 230),
+                                                        top: 205),
                                                   ],
                                                 ))),
                                       ),
