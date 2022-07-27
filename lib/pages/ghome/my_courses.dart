@@ -161,14 +161,15 @@ class _MyCoursesState extends State<MyCourses> {
                               isMaintainState: true));
                     },
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 7, vertical: 8),
+                      padding: EdgeInsets.symmetric(horizontal: 7, vertical: 7),
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.15,
+                      height: MediaQuery.of(context).size.height * 0.14,
                       decoration: BoxDecoration(
                           color: ColorConstants.WHITE,
                           borderRadius: BorderRadius.circular(15)),
                       child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SizedBox(
                               width: 95,
@@ -187,14 +188,15 @@ class _MyCoursesState extends State<MyCourses> {
                                 ),
                               ),
                             ),
-                            Expanded(
-                              child: SizedBox(),
+                            SizedBox(
+                              width: 10,
                             ),
                             Container(
-                              width: MediaQuery.of(context).size.width * 0.62,
+                              width: MediaQuery.of(context).size.width * 0.55,
                               height: MediaQuery.of(context).size.height * 0.25,
                               child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text('${courseList1![index].name}',
                                         maxLines: 1,
@@ -206,8 +208,8 @@ class _MyCoursesState extends State<MyCourses> {
                                       children: [
                                         SvgPicture.asset(
                                           'assets/images/clock_icon.svg',
-                                          width: 20,
-                                          height: 20,
+                                          width: 15,
+                                          height: 15,
                                           allowDrawingOutsideViewBox: true,
                                         ),
                                         SizedBox(
@@ -228,7 +230,7 @@ class _MyCoursesState extends State<MyCourses> {
                                     Container(
                                       height: 10,
                                       width: MediaQuery.of(context).size.width *
-                                          0.6,
+                                          0.8,
                                       decoration: BoxDecoration(
                                           color: ColorConstants.GREY,
                                           borderRadius:
