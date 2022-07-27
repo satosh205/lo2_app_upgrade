@@ -960,7 +960,6 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                       setState(() {
                                         noteUrl = NoteUrl;
                                         noteImgUrl = noteImageUrl;
-
                                         popupHeight =
                                             MediaQuery.of(context).size.height;
                                       });
