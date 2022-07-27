@@ -53,8 +53,6 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
   static bool isOpened = false;
   double popupHeight = 300;
   //expandable controller
-  ExpandableController _expandableController =
-      ExpandableController(initialExpanded: true);
 
   /*ExpandableController additionalInfoController=ExpandableController(
     initialExpanded: isOpened,
@@ -331,7 +329,10 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                             .spaceBetween,
                                                     children: [
                                                       Text(
-                                                          '${Utility.convertDateFromMillis(selectedData.startDate, Strings.REQUIRED_DATE_DD_MMM_YYYY)}'),
+                                                        '${Utility.convertDateFromMillis(selectedData.startDate, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
+                                                        style: Styles.bold(
+                                                            size: 14),
+                                                      ),
                                                       Container(
                                                         height: 20,
                                                         padding: EdgeInsets
@@ -703,6 +704,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                       selectedContentId = null;
 
                       _controller.pause();
+                      selectedType = 'Classes';
 
                       setState(() {});
                     },
@@ -904,6 +906,9 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                       ? isVisible = true
                       : isVisible = false;
                 }
+
+                ExpandableController _expandableController =
+                    new ExpandableController(initialExpanded: true);
                 return Visibility(
                   visible: isVisible,
                   child: Padding(
