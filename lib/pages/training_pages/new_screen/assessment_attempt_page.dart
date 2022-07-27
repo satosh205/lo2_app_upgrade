@@ -100,6 +100,8 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
   var _scaffoldContext;
   late HomeBloc _authBloc;
   String? _title;
+
+  bool willPop = false;
   //Function eq = const ListEquality().equals;
 
   @override
@@ -312,7 +314,13 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
         child: Builder(builder: (_context) {
           _scaffoldContext = _context;
           return WillPopScope(
-            onWillPop: () async => false,
+            onWillPop: () async {
+              if (willPop) {
+                return false;
+              } else {
+                return true;
+              }
+            },
             child: Scaffold(
               backgroundColor: ColorConstants.WHITE,
               key: _key,
@@ -383,12 +391,15 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
       if (((widget._list.length - 1) == widget._currentQuestion)) {
         showDialog(
           context: context,
-          builder: (BuildContext context) => CupertinoButton(
-            onPressed: () {
-              Navigator.pop(context);
-              // _submitAnswers();
+          builder: (BuildContext context) => AssessmentYourAnswersPage(
+            contentId: widget.contentId,
+            isReview: widget.isReview,
+            isOptionSelected: widget._isOptionSelected,
+            sendValue: (value) {
+              setState(() {
+                willPop = value;
+              });
             },
-            child: Text('back'),
           ),
         );
 

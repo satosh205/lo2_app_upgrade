@@ -18,12 +18,14 @@ class AssessmentYourAnswersPage extends StatefulWidget {
   final int? contentId;
   final bool isReview;
   final bool isOptionSelected;
+  final Function? sendValue;
 
   const AssessmentYourAnswersPage({
     Key? key,
     this.contentId,
     required this.isReview,
     required this.isOptionSelected,
+    required this.sendValue,
   }) : super(key: key);
 
   @override
@@ -127,6 +129,7 @@ class _AssessmentYourAnswersPageState extends State<AssessmentYourAnswersPage> {
             break;
           case ApiStatus.SUCCESS:
             _isLoading = false;
+            widget.sendValue!(true);
 
             AlertsWidget.alertWithOkBtn(
               context: context,
@@ -138,13 +141,14 @@ class _AssessmentYourAnswersPageState extends State<AssessmentYourAnswersPage> {
                     MaterialPageRoute(
                         builder: (context) => AssessmentYourReportPage(
                               contentId: widget.contentId,
-                            )));
+                            ))).then((value) => Navigator.pop(context));
               },
               text:
                   "Your answers are saved successfully. Results will be declared soon.",
             );
             break;
           case ApiStatus.ERROR:
+            widget.sendValue!(false);
             Navigator.pop(context);
             _isLoading = false;
             break;
