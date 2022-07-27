@@ -267,47 +267,47 @@ class _UserProfilePageState extends State<UserProfilePage>
                 ),
               ),
 
-              Container(
-                height: 100,
-                color: ColorConstants.WHITE,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(context, NextPageRoute(FaqPage()));
-                        },
-                        child: Row(
-                          children: [
-                            Container(
-                                width: 30,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: ColorConstants().primaryColor(),
-                                ),
-                                child: Icon(
-                                  Icons.info,
-                                  color: ColorConstants.WHITE,
-                                  size: 20,
-                                )),
-                            SizedBox(width: 10),
-                            Text('FAQ', style: Styles.regular()),
-                            Expanded(child: SizedBox()),
-                            Icon(Icons.arrow_forward_ios, size: 15),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Divider(
-                      indent: 60,
-                    )
-                  ],
-                ),
-              ),
+              // Container(
+              //   height: 100,
+              //   color: ColorConstants.WHITE,
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.center,
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       Padding(
+              //         padding: EdgeInsets.symmetric(horizontal: 20),
+              //         child: InkWell(
+              //           onTap: () {
+              //             Navigator.push(context, NextPageRoute(FaqPage()));
+              //           },
+              //           child: Row(
+              //             children: [
+              //               Container(
+              //                   width: 30,
+              //                   height: 30,
+              //                   decoration: BoxDecoration(
+              //                     borderRadius: BorderRadius.circular(10),
+              //                     color: ColorConstants().primaryColor(),
+              //                   ),
+              //                   child: Icon(
+              //                     Icons.info,
+              //                     color: ColorConstants.WHITE,
+              //                     size: 20,
+              //                   )),
+              //               SizedBox(width: 10),
+              //               Text('FAQ', style: Styles.regular()),
+              //               Expanded(child: SizedBox()),
+              //               Icon(Icons.arrow_forward_ios, size: 15),
+              //             ],
+              //           ),
+              //         ),
+              //       ),
+              //       Divider(
+              //         indent: 60,
+              //       )
+              //     ],
+              //   ),
+              // ),
 
               Expanded(child: SizedBox()),
             ],

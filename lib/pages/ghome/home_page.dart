@@ -84,18 +84,18 @@ class _homePageState extends State<homePage> {
     };
 
     var iconsUnSelected = {
-      '/g-home': 'assets/images/sic_wall.svg',
-      '/g-school': 'assets/images/programs.svg',
-      '/g-reels': 'assets/images/GReels.svg',
-      '/g-carvaan': 'assets/images/sic_community.svg',
+      '/g-home': 'assets/images/unselected_ghome.svg',
+      '/g-school': 'assets/images/unselected_gschool.svg',
+      '/g-reels': 'assets/images/unselected_greels.svg',
+      '/g-carvaan': 'assets/images/unselected_gcarvaan.svg',
       '/sic-council': 'assets/images/my_council.svg',
     };
 
     var iconSeleted = {
-      '/g-home': 'assets/images/sic_wall.svg',
-      '/g-school': 'assets/images/programs.svg',
-      '/g-reels': 'assets/images/GReelsS.svg',
-      '/g-carvaan': 'assets/images/sic_community.svg',
+      '/g-home': 'assets/images/selected_ghome.svg',
+      '/g-school': 'assets/images/selected_gschool.svg',
+      '/g-reels': 'assets/images/selected_greels.svg',
+      '/g-carvaan': 'assets/images/selected_gcarvaan.svg',
       '/sic-council': 'assets/images/my_council.svg',
     };
 
