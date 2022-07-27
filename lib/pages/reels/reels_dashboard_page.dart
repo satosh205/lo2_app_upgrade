@@ -105,13 +105,10 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
                                                             provider:
                                                                 createPostProvider,
                                                           ))).then((value) {
-                                                setState(() {
-                                                  isGReelsLoading = true;
-                                                });
-
-                                                greelsList?.clear();
+                                                reelsProvider.play();
                                                 _getGReels();
-                                              });
+                                              } // reelsProvider.pause();
+                                                  );
                                             },
                                             child: Row(
                                               children: [
@@ -140,7 +137,7 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
   Widget getBody(GReelsModel greelsList) {
     _tabController = TabController(length: 50, vsync: this);
 
-    if (greelsList.list == null || isGReelsLoading) {
+    if (greelsList.list == null) {
       return Container(
         height: double.infinity,
         margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
