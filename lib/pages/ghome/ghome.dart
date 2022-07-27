@@ -175,7 +175,7 @@ class _GHomeState extends State<GHome> {
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height *
-                                                0.7,
+                                                0.9,
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(10),
@@ -311,7 +311,7 @@ class _GHomeState extends State<GHome> {
                                                           ),
                                                         ),
                                                         left: 0,
-                                                        bottom: 10),
+                                                        top: 230),
                                                   ],
                                                 ))),
                                       ),
