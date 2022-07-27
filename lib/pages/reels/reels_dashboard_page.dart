@@ -108,6 +108,7 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
                                                 setState(() {
                                                   isGReelsLoading = true;
                                                 });
+
                                                 greelsList?.clear();
                                                 _getGReels();
                                               });
