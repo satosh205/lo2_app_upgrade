@@ -104,6 +104,9 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
                                                         provider:
                                                             createPostProvider,
                                                       ))).then((value) {
+                                            setState(() {
+                                              isGReelsLoading = true;
+                                            });
                                             greelsList?.clear();
                                             Future.delayed(Duration(seconds: 1))
                                                 .then((value) => _getGReels());
@@ -135,7 +138,7 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
   Widget getBody(GReelsModel greelsList) {
     _tabController = TabController(length: 50, vsync: this);
 
-    if (greelsList.list == null) {
+    if (greelsList.list == null || isGReelsLoading) {
       return Container(
         height: double.infinity,
         margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
