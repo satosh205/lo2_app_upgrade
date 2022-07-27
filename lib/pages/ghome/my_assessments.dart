@@ -327,7 +327,6 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
             ),
             child: Stack(children: [
               Container(
-                margin: EdgeInsets.only(bottom: 12),
                 child: Row(children: [
                   if (item.status == 'Completed') ...[
                     SvgPicture.asset(
@@ -354,6 +353,7 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
                   SizedBox(width: 20),
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text('${item.title}', style: Styles.bold(size: 16)),
                         if (item.status == 'Completed') ...[

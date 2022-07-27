@@ -170,18 +170,20 @@ class _MyCoursesState extends State<MyCourses> {
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.25,
-                              height: MediaQuery.of(context).size.height * 0.25,
+                            SizedBox(
+                              width: 95,
+                              height: 95,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
                                 child: CachedNetworkImage(
                                   imageUrl: '${courseList1![index].image}',
+                                  width: 95,
+                                  height: 95,
                                   errorWidget: (context, url, error) =>
                                       SvgPicture.asset(
                                     'assets/images/gscore_postnow_bg.svg',
                                   ),
-                                  fit: BoxFit.fill,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),

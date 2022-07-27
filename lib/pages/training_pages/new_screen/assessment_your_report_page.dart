@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
+import 'package:masterg/pages/training_pages/new_screen/assessment_review_page.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../blocs/bloc_manager.dart';
@@ -146,7 +148,10 @@ class _AssessmentYourReportPageState extends State<AssessmentYourReportPage> {
             borderRadius: BorderRadius.circular(10),
           ),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(
+                context,
+                NextPageRoute(
+                    AssessmentReviewPage(contentId: widget.contentId)));
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),

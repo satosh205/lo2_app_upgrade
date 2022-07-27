@@ -15,10 +15,8 @@ import 'package:masterg/data/models/response/home_response/create_post_response.
 import 'package:masterg/data/models/response/home_response/gcarvaan_post_reponse.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
-import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/gcarvaan/createpost/create_post_provider.dart';
 import 'package:masterg/pages/gcarvaan/createpost/pdf_view.dart';
-import 'package:masterg/pages/ghome/home_page.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
@@ -123,14 +121,10 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                             if (state is CreatePostState)
                               _handleCreatePostResponse(state);
 
-                            if (state is CreatePostState) {
-                              _handleGCarvaanCreatePostResponse(state);
-                            }
-
-                            if (state is GCarvaanPostState) {
-                              _handleGCarvaanPostResponse(
-                                  state, gcarvaanListModel);
-                            }
+                            // if (state is GCarvaanPostState) {
+                            //   _handleGCarvaanPostResponse(
+                            //       state, gcarvaanListModel);
+                            // }
                           },
                           child: ScreenWithLoader(
                               isLoading: isPostedLoading,
@@ -363,68 +357,70 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
   //       .add(GCarvaanPostEvent(callCount: callCount, postId: postId));
   // }
 
-  void _handleGCarvaanPostResponse(
-      GCarvaanPostState state, GCarvaanListModel model) {
-    var loginState = state;
-    setState(() {
-      switch (loginState.apiState) {
-        case ApiStatus.LOADING:
-          Log.v("Loading....................");
-          isPostedLoading = true;
+  // void _handleGCarvaanPostResponse(
+  //     GCarvaanPostState state, GCarvaanListModel model) {
+  //   print('creating reels');
+  //   var loginState = state;
+  //   setState(() {
+  //     switch (loginState.apiState) {
+  //       case ApiStatus.LOADING:
+  //         Log.v("Loading....................");
+  //         isPostedLoading = true;
 
-          break;
-        case ApiStatus.SUCCESS:
-          isPostedLoading = false;
+  //         break;
+  //       case ApiStatus.SUCCESS:
+  //         isPostedLoading = false;
 
-          // gcarvaanPosts!.addAll(state.response!.data!.list!);
-          // model.updateList(state.response!.data!.list!);
-          Navigator.pop(context);
+  //         // gcarvaanPosts!.addAll(state.response!.data!.list!);
+  //         // model.updateList(state.response!.data!.list!);
+  //         Navigator.pop(context);
 
-          break;
-        case ApiStatus.ERROR:
-          isPostedLoading = false;
+  //         break;
+  //       case ApiStatus.ERROR:
+  //         isPostedLoading = false;
 
-          Log.v(
-            "Error..........................",
-          );
-          Log.v("ErrorHome..........................${loginState.error}");
+  //         Log.v(
+  //           "Error..........................",
+  //         );
+  //         Log.v("ErrorHome..........................${loginState.error}");
 
-          break;
-        case ApiStatus.INITIAL:
-          break;
-      }
-    });
-  }
+  //         break;
+  //       case ApiStatus.INITIAL:
+  //         break;
+  //     }
+  //   });
+  // }
 
-  void _handleGCarvaanCreatePostResponse(CreatePostState state) {
-    var loginState = state;
-    setState(() async {
-      switch (loginState.apiState) {
-        case ApiStatus.LOADING:
-          Log.v("Loading....................");
-          isPostedLoading = true;
-          break;
-        case ApiStatus.SUCCESS:
-          Log.v("Success.................... create g carvaan");
-          isPostedLoading = false;
-          responseData = state.response;
-          if (responseData!.status == 1) {
-            isPostedLoading = false;
+  // void _handleGCarvaanCreatePostResponse(CreatePostState state) {
+  //   print('creating post');
+  //   var loginState = state;
+  //   setState(() async {
+  //     switch (loginState.apiState) {
+  //       case ApiStatus.LOADING:
+  //         Log.v("Loading....................");
+  //         isPostedLoading = true;
+  //         break;
+  //       case ApiStatus.SUCCESS:
+  //         Log.v("Success.................... create g carvaan");
+  //         isPostedLoading = false;
+  //         responseData = state.response;
+  //         if (responseData!.status == 1) {
+  //           isPostedLoading = false;
 
-            Navigator.pop(context);
-          }
+  //           Navigator.pop(context);
+  //         }
 
-          break;
-        case ApiStatus.ERROR:
-          isPostedLoading = false;
-          Log.v("Error..........................");
-          Log.v("Error..........................${loginState.error}");
-          break;
-        case ApiStatus.INITIAL:
-          break;
-      }
-    });
-  }
+  //         break;
+  //       case ApiStatus.ERROR:
+  //         isPostedLoading = false;
+  //         Log.v("Error..........................");
+  //         Log.v("Error..........................${loginState.error}");
+  //         break;
+  //       case ApiStatus.INITIAL:
+  //         break;
+  //     }
+  //   });
+  // }
 
   void _handleCreatePostResponse(CreatePostState state) {
     var loginState = state;
@@ -435,13 +431,13 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
           isPostedLoading = true;
           break;
         case ApiStatus.SUCCESS:
-          Log.v("Success.................... create post");
+          Log.v("Success.................... create Reels");
           isPostedLoading = false;
           responseData = state.response;
-          // if (responseData!.status == 1) {
-          //   Navigator.pop(context);
-          //   Navigator.pop(context);
-          // }
+          if (responseData!.status == 1) {
+            if (widget.isReelsPost == true) Navigator.pop(context);
+            Navigator.pop(context);
+          }
           break;
         case ApiStatus.ERROR:
           isPostedLoading = false;
