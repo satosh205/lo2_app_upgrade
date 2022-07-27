@@ -145,6 +145,8 @@ class _GHomeState extends State<GHome> {
                                         onTap: () async {
                                           value.enableProviderControl();
                                           value.pause();
+                                          await Future.delayed(
+                                              Duration(milliseconds: 200));
 
                                           showModalBottomSheet(
                                               context: context,
