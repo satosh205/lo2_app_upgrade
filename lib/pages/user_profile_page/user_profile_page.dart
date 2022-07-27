@@ -801,6 +801,7 @@ class _UserProfilePageState extends State<UserProfilePage>
         case ApiStatus.SUCCESS:
           _isLoadingAdd = false;
           Log.v("Success....................");
+          _listPortfolio('brand');
           createPortfolioResp = state.response!;
           break;
         case ApiStatus.ERROR:
@@ -864,10 +865,9 @@ class _UserProfilePageState extends State<UserProfilePage>
           break;
         case ApiStatus.SUCCESS:
           Log.v("DeletePortfolioResponseState....................");
-          deletePortfolioResp = state.response!;
+          //deletePortfolioResp = state.response!;
           if(deleteType == 'brand') {
             listPortfolioBrand.removeAt(deleteIndex!);
-
             deleteVisibleIconFlag = false;
 
           }/*else if(deleteType == 'award') {
