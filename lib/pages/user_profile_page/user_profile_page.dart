@@ -879,7 +879,6 @@ class _UserProfilePageState extends State<UserProfilePage>
           }else if(deleteType == 'certification') {
             listPortfolioCertification.removeAt(deleteIndex!);
           }*/
-
           isDeletePortfolioLoading = false;
           break;
         case ApiStatus.ERROR:
