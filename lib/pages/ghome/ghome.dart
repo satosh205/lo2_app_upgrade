@@ -317,7 +317,7 @@ class _GHomeState extends State<GHome> {
                                                           ),
                                                         ),
                                                         left: 0,
-                                                        top: 205),
+                                                        top: 230),
                                                   ],
                                                 ))),
                                       ),
