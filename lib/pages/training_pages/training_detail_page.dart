@@ -53,6 +53,8 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
   static bool isOpened = false;
   double popupHeight = 300;
   //expandable controller
+   ExpandableController _expandableController =
+                    new ExpandableController(initialExpanded: true);
 
   /*ExpandableController additionalInfoController=ExpandableController(
     initialExpanded: isOpened,
@@ -907,8 +909,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                       : isVisible = false;
                 }
 
-                ExpandableController _expandableController =
-                    new ExpandableController(initialExpanded: true);
+               
                 return Visibility(
                   visible: isVisible,
                   child: Padding(
@@ -923,7 +924,9 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                         theme: ExpandableThemeData(
                           hasIcon: true,
                         ),
-                        controller: _expandableController,
+                        controller: index == 0 ? _expandableController : 
+                            ExpandableController(initialExpanded: true),
+                          
                         header: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
