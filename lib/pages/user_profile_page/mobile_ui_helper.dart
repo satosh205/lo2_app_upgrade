@@ -8,8 +8,9 @@ List<PlatformUiSettings>? buildUiSettings(BuildContext context) {
         toolbarTitle: '',
         toolbarColor: ColorConstants().primaryColor(),
         toolbarWidgetColor: Colors.white,
+        hideBottomControls: true,
         initAspectRatio: CropAspectRatioPreset.original,
-        lockAspectRatio: false),
+        lockAspectRatio: true),
     IOSUiSettings(
       title: '',
     ),

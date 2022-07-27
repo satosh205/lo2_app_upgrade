@@ -176,7 +176,7 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
 
   void _handelBottomNavigationBar(GetBottomBarState state) {
     var getBottomBarState = state;
-    setState(() {
+    setState(() async {
       switch (getBottomBarState.apiState) {
         case ApiStatus.LOADING:
           Log.v("Loading....................");
@@ -193,6 +193,8 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
                 });
           } else {
             menuList?.sort((a, b) => a.inAppOrder!.compareTo(b.order!));
+//time of splash screen
+            await Future.delayed(Duration(seconds: 2));
 
             Navigator.pushAndRemoveUntil(
                 context,
@@ -217,7 +219,7 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
     });
   }
 
-  void _moveToNext() {
+  Future<void> _moveToNext() async {
     if (Preference.getString(Preference.USER_TOKEN) != null) {
       if (UserSession.userAppLanguageId == 0 ||
           UserSession.userContentLanguageId == 0) {
@@ -227,8 +229,11 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
       }
     } else {
       if (APK_DETAILS["enable_boarding_screen"] == "0") {
-        Navigator.push(context, NextPageRoute(ChooseLanguage()));
+        await Future.delayed(Duration(seconds: 2));
+        Navigator.pushAndRemoveUntil(
+            context, NextPageRoute(ChooseLanguage()), (route) => false);
       } else {
+        await Future.delayed(Duration(seconds: 2));
         Navigator.pushAndRemoveUntil(
             context, NextPageRoute(PreBoardingPage()), (route) => false);
       }

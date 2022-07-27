@@ -739,9 +739,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
           width: MediaQuery.of(context).size.width * 0.45,
           height: MediaQuery.of(context).size.width * 0.45,
           decoration: BoxDecoration(
-              color: Colors.white,
-              
-              borderRadius: BorderRadius.circular(10)),
+              color: Colors.white, borderRadius: BorderRadius.circular(10)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -886,20 +884,35 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                             return otherLearners!.length > 0
                                 ? InkWell(
                                     onTap: () {
-                                      Navigator.push( context,
-                                        MaterialPageRoute( builder: (context)=> CoursesDetailsPage(
-                                          imgUrl: otherLearners![index].image,
-                                          indexc: index,
-                                          tagName: 'TagOther',
-                                          name: otherLearners![index].name,
-                                          description: otherLearners![index].description,
-                                          regularPrice: otherLearners![index].regularPrice,
-                                          salePrice: otherLearners![index].salePrice,
-                                          trainer: otherLearners![index].trainer,
-                                          enrolmentCount: otherLearners![index].enrolmentCount,
-                                          type: otherLearners![index].subscriptionType,
-                                          id: otherLearners![index].id,)
-                                        ),
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CoursesDetailsPage(
+                                                  imgUrl: otherLearners![index]
+                                                      .image,
+                                                  indexc: index,
+                                                  tagName: 'TagOther',
+                                                  name: otherLearners![index]
+                                                      .name,
+                                                  description:
+                                                      otherLearners![index]
+                                                          .description,
+                                                  regularPrice:
+                                                      otherLearners![index]
+                                                          .regularPrice,
+                                                  salePrice:
+                                                      otherLearners![index]
+                                                          .salePrice,
+                                                  trainer: otherLearners![index]
+                                                      .trainer,
+                                                  enrolmentCount:
+                                                      otherLearners![index]
+                                                          .enrolmentCount,
+                                                  type: otherLearners![index]
+                                                      .subscriptionType,
+                                                  id: otherLearners![index].id,
+                                                )),
                                       );
                                       /*_subscribeRequest(
                                           otherLearners![index]
@@ -917,7 +930,10 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                       //         child: OLCourseDetailPage())));
                                     },
                                     child: _getCourseTemplate(
-                                        context, otherLearners![index], index, 'TagOther'))
+                                        context,
+                                        otherLearners![index],
+                                        index,
+                                        'TagOther'))
                                 : Container(
                                     child: Text("No Acive LiveClass Now!!"));
                           },
@@ -999,22 +1015,28 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                             recommendedcourses![index].subscriptionType,
                             recommendedcourses![index].id);*/
 
-                        Navigator.push( context,
-                          MaterialPageRoute( builder: (context)=> CoursesDetailsPage(
-                              imgUrl: recommendedcourses![index].image,
-                              indexc: index,
-                          tagName: 'TagReco',
-                          name: recommendedcourses![index].name,
-                          description: recommendedcourses![index].description,
-                          regularPrice: recommendedcourses![index].regularPrice,
-                          salePrice: recommendedcourses![index].salePrice,
-                          trainer: recommendedcourses![index].trainer,
-                          enrolmentCount: recommendedcourses![index].enrolmentCount,
-                          type: recommendedcourses![index].subscriptionType,
-                          id: recommendedcourses![index].id,)
-                          ),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CoursesDetailsPage(
+                                    imgUrl: recommendedcourses![index].image,
+                                    indexc: index,
+                                    tagName: 'TagReco',
+                                    name: recommendedcourses![index].name,
+                                    description:
+                                        recommendedcourses![index].description,
+                                    regularPrice:
+                                        recommendedcourses![index].regularPrice,
+                                    salePrice:
+                                        recommendedcourses![index].salePrice,
+                                    trainer: recommendedcourses![index].trainer,
+                                    enrolmentCount: recommendedcourses![index]
+                                        .enrolmentCount,
+                                    type: recommendedcourses![index]
+                                        .subscriptionType,
+                                    id: recommendedcourses![index].id,
+                                  )),
                         );
-
 
                         /*Navigator.push(
                                           context,
@@ -1029,8 +1051,8 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                               child:
                                                   PopularCourseDetailPage())));*/
                       },
-                      child: _getCourseTemplate(
-                          context, recommendedcourses![index], index, 'TagReco'));
+                      child: _getCourseTemplate(context,
+                          recommendedcourses![index], index, 'TagReco'));
                 },
                 itemCount: recommendedcourses?.length ?? 0,
                 shrinkWrap: true,
@@ -1061,7 +1083,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Hero(
-                  tag: tag+"$index",
+                  tag: tag + "$index",
                   child: Image.network(
                     '${yourCourses.image}',
                     errorBuilder: (context, error, stackTrace) {
@@ -1232,5 +1254,4 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
           });
     }
   }
-
 }

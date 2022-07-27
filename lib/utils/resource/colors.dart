@@ -49,6 +49,7 @@ class ColorConstants {
   static const DAR_GREY = Color(0xff252525);
   static const GREEN = Color(0xff258d00);
   static const RED_BG = Color(0xFFff3d3d);
+  static const RED = Color(0xFFEB5757);
   static const BOTTOM_GREY = Color(0xffF8F8F8);
   static const HINT_GREY = Color(0xffACACAC);
   static const INACTIVE_TAB = Color(0xFFBFBFBF);
@@ -62,6 +63,7 @@ class ColorConstants {
   static const SEARCH_FILLED = Color(0xff194250);
   static const SELECTED_PAGE = Color(0xffF6BA17);
   static const UNSELECTED_PAGE = Color(0xff11576F);
+  static const GREY_1 = Color(0xff333333);
   static const GREY_2 = Color(0xff4F4F4F);
   static const GREY_3 = Color(0xff828282);
   static const GREY_4 = Color(0xffBDBDBD);

@@ -910,7 +910,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield PostCommentState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }
-    } else if (event is getLiveClassEvent) {
+    }
+    
+    
+     else if (event is getLiveClassEvent) {
       try {
         yield getLiveClassState(ApiStatus.LOADING);
         final response = await homeRepository.getLiveClasses();

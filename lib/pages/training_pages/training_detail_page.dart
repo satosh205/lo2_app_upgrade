@@ -52,6 +52,9 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
 
   static bool isOpened = false;
   double popupHeight = 300;
+  //expandable controller
+  ExpandableController _expandableController =
+      ExpandableController(initialExpanded: true);
 
   /*ExpandableController additionalInfoController=ExpandableController(
     initialExpanded: isOpened,
@@ -330,8 +333,10 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                       Text(
                                                           '${Utility.convertDateFromMillis(selectedData.startDate, Strings.REQUIRED_DATE_DD_MMM_YYYY)}'),
                                                       Container(
-                                                        width: 40,
                                                         height: 20,
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal: 8),
                                                         decoration: BoxDecoration(
                                                             color:
                                                                 ColorConstants
@@ -341,8 +346,11 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                                     .circular(
                                                                         4)),
                                                         child: Center(
-                                                            child:
-                                                                Text('Live')),
+                                                            child: Text(selectedData
+                                                                        ?.contentType ==
+                                                                    'liveclass'
+                                                                ? 'Live'
+                                                                : 'Classroom')),
                                                       )
                                                     ],
                                                   ),
@@ -429,7 +437,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                         .toLowerCase() ==
                                                     'concluded')
                                             ? Positioned(
-                                                bottom: 10,
+                                                bottom: 24,
                                                 left: 50,
                                                 right: 50,
                                                 child: GestureDetector(
@@ -485,8 +493,8 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                                               .GREY_2
                                                                           : ColorConstants()
                                                                               .primaryColor()
-                                                                      : ColorConstants
-                                                                          .GREY_2,
+                                                                      : ColorConstants()
+                                                                          .primaryColor(),
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(8)),
@@ -906,9 +914,11 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                       decoration: BoxDecoration(
                         color: ColorConstants.WHITE,
                       ),
-                      //Singh
                       child: ExpandablePanel(
-                        controller: ExpandableController(initialExpanded: true),
+                        theme: ExpandableThemeData(
+                          hasIcon: true,
+                        ),
+                        controller: _expandableController,
                         header: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -931,7 +941,8 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                         collapsed: SizedBox(
                           height: 0,
                         ),
-                        expanded: ChangeNotifierProvider<TrainingContentProvier>(
+                        expanded:
+                            ChangeNotifierProvider<TrainingContentProvier>(
                                 create: (context) => TrainingContentProvier(
                                     TrainingService(ApiService()),
                                     trainingDetailProvider.modules!
@@ -945,6 +956,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                       // Function? onClick,
                                       dynamic data,
                                       {isYoutubeController = false}
+                                      // Route<Object?>? widget
                                       ) {
                                     isYoutubeView = isYoutubeController;
                                     selectedItemName = title;
@@ -954,14 +966,18 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                       setState(() {
                                         noteUrl = NoteUrl;
                                         noteImgUrl = noteImageUrl;
-                                        popupHeight = MediaQuery.of(context).size.height;
+                                        popupHeight =
+                                            MediaQuery.of(context).size.height;
                                       });
                                     } else {
                                       setState(() {
+                                        print(
+                                            'check is  $isYoutubeController and ${controller}');
                                         isYoutubeController == true
                                             ? _ytController = controller
                                             : _controller = controller;
                                         popupHeight = 300;
+                                        // if (isYoutubeController == true)
                                         _controller
                                             .initialize()
                                             .then((value) => setState(() {
@@ -970,8 +986,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                       });
                                     }
                                   },
-                                ),
-                        ),
+                                )),
                       ),
                     ),
                   ),
@@ -1205,28 +1220,24 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                     );
                   }
                 });
+                String? contentStatus = traininDetailProvider
+                    .trainingModuleResponse
+                    .data
+                    ?.module![0]
+                    .content
+                    ?.sessions![index]
+                    .liveclassAction
+                    ?.toLowerCase();
                 return _moduleCard(
-                    leadingid: traininDetailProvider
-                                .trainingModuleResponse
-                                .data
-                                ?.module![0]
-                                .content
-                                ?.sessions![index]
-                                .liveclassAction ==
-                            'Concluded'
+                    leadingid: contentStatus == 'concluded'
                         ? 2
-                        : traininDetailProvider
-                                    .trainingModuleResponse
-                                    .data
-                                    ?.module![0]
-                                    .content
-                                    ?.sessions![index]
-                                    .liveclassAction ==
-                                'Join Class'
-                            ? 3
-                            : 1,
+                        : contentStatus == 'join class' ||
+                                contentStatus == 'live'
+                            ? 0
+                            : 3,
+                    ' • ${Utility.convertCourseTime(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].startDate, Strings.REQUIRED_DATE_HH_MM_A_DD_MMM)}',
                     '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].title}',
-                    '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].description}',
+                    '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].contentType?.toLowerCase() == 'liveclass' ? 'Live' : 'Classroom'}',
                     'session',
                     traininDetailProvider
                         .trainingModuleResponse.data?.module![0].content,
@@ -1277,8 +1288,21 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                   });
                 }
               });
+              String? contentStatus = traininDetailProvider
+                  .trainingModuleResponse
+                  .data
+                  ?.module![0]
+                  .content
+                  ?.assessments![index]
+                  .assesStatus
+                  ?.toLowerCase();
               return _moduleCard(
-                  leadingid: 3,
+                  leadingid: contentStatus == 'upcoming'
+                      ? 1
+                      : contentStatus == 'completed'
+                          ? 2
+                          : 3,
+                  ' • ${Utility.convertCourseTime(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assessments![index].startDate, Strings.REQUIRED_DATE_HH_MM_A_DD_MMM)}',
                   '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assessments![index].title}',
                   '${capitalize(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assessments![index].contentType)}',
                   'assessment',
@@ -1324,7 +1348,20 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                     }
                   });
                 });
+                String? contentStatus = traininDetailProvider
+                    .trainingModuleResponse
+                    .data
+                    ?.module![0]
+                    .content
+                    ?.assignments![index]
+                    .status;
                 return _moduleCard(
+                    leadingid: contentStatus == 'upcoming'
+                        ? 1
+                        : contentStatus == 'completed'
+                            ? 2
+                            : 3,
+                    ' • ${Utility.convertCourseTime(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assignments![index].startDate, Strings.REQUIRED_DATE_HH_MM_A_DD_MMM)}',
                     '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assignments![index].title}',
                     '${capitalize(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assignments![index].contentType)}',
                     'assignment',
@@ -1436,6 +1473,17 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                                 ?.toLowerCase()
                                 .substring(0, 4),
                     child: _moduleCard(
+                        leadingid: traininDetailProvider
+                                    .trainingModuleResponse
+                                    .data
+                                    ?.module![0]
+                                    .content
+                                    ?.learningShots![index]
+                                    .completion !=
+                                100
+                            ? 1
+                            : 2,
+                        ' • ${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots![index].durationInMinutes} Mins',
                         '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots![index].title}',
                         '${capitalize(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots![index].contentType)}',
                         'learningShots',
@@ -1457,8 +1505,8 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
     );
   }
 
-  Widget _moduleCard(String title, String description, String type, data,
-      int index, context, int? programContentId,
+  Widget _moduleCard(String time, String title, String description, String type,
+      data, int index, context, int? programContentId,
       {int leadingid = 1, bool showNotificationIcon = false}) {
     //1-> empty circle, 2-> green, 3-> red
     return Consumer<MyCourseProvider>(
@@ -1566,7 +1614,12 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     leadingid == 0
-                        ? SizedBox()
+                        ? SvgPicture.asset(
+                            'assets/images/live_icon.svg',
+                            height: 20.0,
+                            width: 20.0,
+                            allowDrawingOutsideViewBox: true,
+                          )
                         : leadingid == 1
                             ? SvgPicture.asset(
                                 'assets/images/empty_circle.svg',
@@ -1581,7 +1634,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                                     size: 20.0,
                                   )
                                 : SvgPicture.asset(
-                                    'assets/images/circle_red.svg',
+                                    'assets/images/pending_icon.svg',
                                     height: 20.0,
                                     width: 20.0,
                                     allowDrawingOutsideViewBox: true,
@@ -1602,7 +1655,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                             style: Styles.semibold(size: 16),
                           ),
                           Text(
-                            '$description',
+                            '$description $time',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             softWrap: false,

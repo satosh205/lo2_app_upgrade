@@ -352,29 +352,29 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
           checkViewDate(item.endDate),
       child: InkWell(
           onTap: () {
-            // if (item.status == 'Upcoming')
-            //   AlertsWidget.showCustomDialog(
-            //       context: context,
-            //       title: "Assignment is not ready for submission",
-            //       text: "",
-            //       icon: 'assets/images/circle_alert_fill.svg',
-            //       showCancel: false,
-            //       oKText: 'Ok',
-            //       onOkClick: () async {
-            //         // Navigator.pop(context);
-            //       });
-            // else
-            Navigator.push(
-              context,
-              NextPageRoute(
-                  ChangeNotifierProvider<MgAssignmentDetailProvider>(
-                      create: (c) => MgAssignmentDetailProvider(
-                          TrainingService(ApiService()), item),
-                      child: MgAssignmentDetailPage(
-                        id: item.contentId,
-                      )),
-                  isMaintainState: true),
-            );
+            if (item.status == 'Upcoming')
+              AlertsWidget.showCustomDialog(
+                  context: context,
+                  title: "Assignment is not ready for submission",
+                  text: "",
+                  icon: 'assets/images/circle_alert_fill.svg',
+                  showCancel: false,
+                  oKText: 'Ok',
+                  onOkClick: () async {
+                    // Navigator.pop(context);
+                  });
+            else
+              Navigator.push(
+                context,
+                NextPageRoute(
+                    ChangeNotifierProvider<MgAssignmentDetailProvider>(
+                        create: (c) => MgAssignmentDetailProvider(
+                            TrainingService(ApiService()), item),
+                        child: MgAssignmentDetailPage(
+                          id: item.contentId,
+                        )),
+                    isMaintainState: true),
+              );
           },
           child: Container(
               padding: EdgeInsets.all(10),
@@ -413,6 +413,9 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text('${item.title}', style: Styles.bold(size: 16)),
                   SizedBox(height: 5),
+                  if (item.isGraded == 1)
+                    Text('${item.marks}/${item.maximumMarks} Marks',
+                        style: Styles.regular(size: 12)),
                   if (item.status == 'Completed') ...[
                     Text('Submitted', style: Styles.regular(size: 12)),
                     SizedBox(height: 5),
@@ -428,7 +431,7 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                   ] else if (item.status == 'Pending') ...[
                     Text('${item.status}',
                         style: Styles.regular(
-                            size: 12, color: ColorConstants.PRIMARY_COLOR)),
+                            size: 12, color: ColorConstants().primaryColor())),
                   ],
                 ]),
               ]))),

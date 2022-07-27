@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
+import 'package:masterg/pages/training_pages/new_screen/assessment_review_page.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../blocs/bloc_manager.dart';
@@ -123,20 +125,70 @@ class _AssessmentYourReportPageState extends State<AssessmentYourReportPage> {
       backgroundColor: ColorConstants.WHITE,
       appBar: AppBar(
         title: Text("Your Report", style: Styles.bold(size: 18)),
-        centerTitle: false,
+        centerTitle: true,
         backgroundColor: ColorConstants.WHITE,
         elevation: 0.0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        // leading: IconButton(
+        //   icon: Icon(
+        //     Icons.arrow_back,
+        //     color: Colors.black,
+        //   ),
+        //   onPressed: () {
+        //     Navigator.pop(context);
+        //   },
+        // ),
       ),
       body: _mainBody(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.4,
+              height: 50,
+              child: FloatingActionButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  child: Text('Back'),
+                ),
+                backgroundColor: ColorConstants().primaryColor(),
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.4,
+              height: 50,
+              child: FloatingActionButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      NextPageRoute(
+                          AssessmentReviewPage(contentId: widget.contentId)));
+                },
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  child: Text('Go to Review'),
+                ),
+                backgroundColor: ColorConstants().primaryColor(),
+              ),
+            )
+          ]),
     );
   }
 

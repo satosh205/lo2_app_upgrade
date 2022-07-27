@@ -1,8 +1,8 @@
-
 import 'dart:async';
 import 'dart:io';
 import 'dart:isolate';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -100,6 +100,8 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
   var _scaffoldContext;
   late HomeBloc _authBloc;
   String? _title;
+
+  bool willPop = false;
   //Function eq = const ListEquality().equals;
 
   @override
@@ -155,15 +157,17 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
               setState(() {});
             });
             for (int i = 0;
-            i < state.response!.data!.assessmentDetails!.questions!.length;
-            i++) {
+                i < state.response!.data!.assessmentDetails!.questions!.length;
+                i++) {
               widget._list.add(
                 TestAttemptBean(
                     question:
-                    state.response!.data!.assessmentDetails!.questions![i],
-                    id: state.response!.data!.assessmentDetails!.questions![i].questionId,
+                        state.response!.data!.assessmentDetails!.questions![i],
+                    id: state.response!.data!.assessmentDetails!.questions![i]
+                        .questionId,
                     isVisited: 0,
-                    title: state.response!.data!.assessmentDetails!.questions![i].question),
+                    title: state.response!.data!.assessmentDetails!
+                        .questions![i].question),
               );
             }
           }
@@ -249,11 +253,13 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
             AlertsWidget.alertWithOkBtn(
               context: _scaffoldContext,
               onOkClick: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => homePage()));
+                // Navigator.pushReplacement(context,
+                //     MaterialPageRoute(builder: (context) => homePage()));
+
+                Navigator.pop(context);
               },
               text:
-              "Your answers are saved successfully. Results will be declared soon.",
+                  "Your answers are saved successfully. Results will be declared soon.",
             );
             break;
           case ApiStatus.ERROR:
@@ -308,25 +314,31 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
         child: Builder(builder: (_context) {
           _scaffoldContext = _context;
           return WillPopScope(
-            onWillPop: () async => false,
+            onWillPop: () async {
+              if (willPop) {
+                return false;
+              } else {
+                return true;
+              }
+            },
             child: Scaffold(
               backgroundColor: ColorConstants.WHITE,
               key: _key,
               bottomNavigationBar:
-              widget._list.length == 0 ? SizedBox() : _buildBottomAppBar(),
+                  widget._list.length == 0 ? SizedBox() : _buildBottomAppBar(),
               body: SafeArea(
                 child: ScreenWithLoader(
                   body: widget._list.length == 0
                       ? Column(
-                    children: [
-                      _heading(false),
-                      Center(
-                        child: Text(_isLoading
-                            ? "Please wait.."
-                            : "No data found"),
-                      ),
-                    ],
-                  )
+                          children: [
+                            _heading(false),
+                            Center(
+                              child: Text(_isLoading
+                                  ? "Please wait.."
+                                  : "No data found"),
+                            ),
+                          ],
+                        )
                       : _content(),
                   isLoading: _isLoading,
                 ),
@@ -351,7 +363,7 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
                 ._list[widget._currentQuestion].question!.questionId
                 .toString(),
             optionId:
-            widget._list[widget._currentQuestion].question!.selectedOption,
+                widget._list[widget._currentQuestion].question!.selectedOption,
           ),
         ),
       );
@@ -376,16 +388,33 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
           widget._stopWatchTimer.secondTime.value;
       _setTimer();
 
-      if(((widget._list.length - 1) == widget._currentQuestion)){
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => AssessmentYourAnswersPage(
-                  contentId: widget.contentId,
-                  isReview: widget.isReview,
-                  isOptionSelected: widget._isOptionSelected,)));
-      }
+      if (((widget._list.length - 1) == widget._currentQuestion)) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => AssessmentYourAnswersPage(
+            contentId: widget.contentId,
+            isReview: widget.isReview,
+            isOptionSelected: widget._isOptionSelected,
+            sendValue: (value) {
+              setState(() {
+                willPop = value;
+              });
+            },
+          ),
+        );
 
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (BuildContext context) => AssessmentYourAnswersPage(
+        //               contentId: widget.contentId,
+        //               isReview: widget.isReview,
+        //               isOptionSelected: widget._isOptionSelected,
+        //             ))).then((value) {
+        //   widget._savedAnswer = false;
+        //   widget._isOptionSelected = false;
+        // });
+      }
     } else {
       print("Saved question: " +
           widget._list[widget._currentQuestion].question!.questionId
@@ -400,7 +429,7 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
   void _setTimer() {
     if ((widget._list.length - 1) != widget._currentQuestion) {
       if (widget._list[widget._currentQuestion + 1].question?.timeTaken !=
-          null &&
+              null &&
           widget._list[widget._currentQuestion + 1].question!.timeTaken != 0) {
         widget._stopWatchTimer.setPresetSecondTime(
             widget._list[widget._currentQuestion + 1].question!.timeTaken!);
@@ -430,7 +459,7 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
                     _submitAnswers();
                   },
                   text:
-                  "Your assessment will be submitted automatically do you want to go back?",
+                      "Your assessment will be submitted automatically do you want to go back?",
                   title: "Finish Assessment",
                 );
               } else {
@@ -449,10 +478,10 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
           ),
           Expanded(
               child: Text(
-                _title ?? "",
-                textAlign: TextAlign.center,
-                style: Styles.regular(size: 20),
-              ))
+            _title ?? "",
+            textAlign: TextAlign.center,
+            style: Styles.regular(size: 20),
+          ))
         ],
       ),
     );
@@ -495,8 +524,8 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
           itemBuilder: (context, index) {
             return widget._isResumedLoading
                 ? Center(
-              child: CircularProgressIndicator(),
-            )
+                    child: CircularProgressIndicator(),
+                  )
                 : _pageItem(widget._list[index]);
           },
           onPageChanged: (pageNumber) {
@@ -554,11 +583,11 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
 
             if (testAttemptBean.question!.questionImage != null)
               for (int i = 0;
-              i < testAttemptBean.question!.questionImage!.length;
-              i++)
+                  i < testAttemptBean.question!.questionImage!.length;
+                  i++)
                 if (testAttemptBean.question!.questionImage![i]
-                    .toString()
-                    .contains('.mp4') ||
+                        .toString()
+                        .contains('.mp4') ||
                     testAttemptBean.question!.questionImage![i]
                         .toString()
                         .contains('.mp3'))
@@ -585,8 +614,10 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Image.network(
-                        testAttemptBean.question!.questionImage![i], height: 200,
-                    width: MediaQuery.of(context).size.width,),
+                      testAttemptBean.question!.questionImage![i],
+                      height: 200,
+                      width: MediaQuery.of(context).size.width,
+                    ),
                   ),
 
             _size(height: 10),
@@ -711,93 +742,93 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
     return widget._list.length == 0
         ? SizedBox()
         : Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 19),
-      child: Container(
-        height: 60,
-        width: MediaQuery.of(_scaffoldContext).size.width,
-        child: ListView.builder(
-            controller: widget._questionController,
-            shrinkWrap: true,
-            physics: ClampingScrollPhysics(),
-            itemBuilder: (context, index) {
-              return TapWidget(
-                onTap: () {
-                  if (widget._isOptionSelected) {
-                    AlertsWidget.alertWithOkBtn(
-                        context: _scaffoldContext,
-                        text: "Save the answer of your Question");
-                    return;
-                  }
-                  print(widget._currentQuestionId);
-                  print(widget._list[widget._currentQuestion].question!
-                      .questionId);
-                  if (widget._currentQuestionId ==
-                      widget._list[index].question!.questionId) {
-                    return;
-                  }
-                  print("HEREE");
-                  for (int i = 0; i < widget._list.length; i++) {
-                    if (widget._list[i].question!.questionId ==
-                        widget._list[index].question!.questionId) {
-                      print(widget._list[widget._currentQuestion]
-                          .question!.questionId
-                          .toString());
+            padding: const EdgeInsets.symmetric(horizontal: 19),
+            child: Container(
+              height: 60,
+              width: MediaQuery.of(_scaffoldContext).size.width,
+              child: ListView.builder(
+                  controller: widget._questionController,
+                  shrinkWrap: true,
+                  physics: ClampingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return TapWidget(
+                      onTap: () {
+                        if (widget._isOptionSelected) {
+                          AlertsWidget.alertWithOkBtn(
+                              context: _scaffoldContext,
+                              text: "Save the answer of your Question");
+                          return;
+                        }
+                        print(widget._currentQuestionId);
+                        print(widget._list[widget._currentQuestion].question!
+                            .questionId);
+                        if (widget._currentQuestionId ==
+                            widget._list[index].question!.questionId) {
+                          return;
+                        }
+                        print("HEREE");
+                        for (int i = 0; i < widget._list.length; i++) {
+                          if (widget._list[i].question!.questionId ==
+                              widget._list[index].question!.questionId) {
+                            print(widget._list[widget._currentQuestion]
+                                .question!.questionId
+                                .toString());
 
-                      widget._currentQuestionId =
-                          widget._list[index].question!.questionId;
-                      widget._currentQuestion = i;
-                      widget._stopWatchTimer.onExecute
-                          .add(StopWatchExecute.reset);
-                      widget._pageViewController.animateToPage(i,
-                          duration: Duration(milliseconds: 100),
-                          curve: Curves.ease);
-                      Utility.waitForMili(200).then((value) {
-                        print("###4");
+                            widget._currentQuestionId =
+                                widget._list[index].question!.questionId;
+                            widget._currentQuestion = i;
+                            widget._stopWatchTimer.onExecute
+                                .add(StopWatchExecute.reset);
+                            widget._pageViewController.animateToPage(i,
+                                duration: Duration(milliseconds: 100),
+                                curve: Curves.ease);
+                            Utility.waitForMili(200).then((value) {
+                              print("###4");
 
-                        widget._stopWatchTimer = StopWatchTimer();
+                              widget._stopWatchTimer = StopWatchTimer();
 
-                        widget._stopWatchTimer.setPresetSecondTime(widget
-                            ._list[widget._currentQuestion]
-                            .question!
-                            .timeTaken!);
-                        widget._stopWatchTimer.onExecute
-                            .add(StopWatchExecute.start);
-                      });
+                              widget._stopWatchTimer.setPresetSecondTime(widget
+                                  ._list[widget._currentQuestion]
+                                  .question!
+                                  .timeTaken!);
+                              widget._stopWatchTimer.onExecute
+                                  .add(StopWatchExecute.start);
+                            });
 
-                      break;
-                    }
-                  }
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 32),
-                  child: Container(
-                    width: 35,
-                    height: 35,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey,
-                            offset: Offset(0, 8),
-                            blurRadius: 30)
-                      ],
-                      color: widget._list[index].color,
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      "${index + 1}",
-                      style: index == widget._currentQuestion
-                          ? Styles.textBold()
-                          : Styles.textLight(),
-                    ),
-                  ),
-                ),
-              );
-            },
-            scrollDirection: Axis.horizontal,
-            itemCount: widget._list.length),
-      ),
-    );
+                            break;
+                          }
+                        }
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 32),
+                        child: Container(
+                          width: 35,
+                          height: 35,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.grey,
+                                  offset: Offset(0, 8),
+                                  blurRadius: 30)
+                            ],
+                            color: widget._list[index].color,
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            "${index + 1}",
+                            style: index == widget._currentQuestion
+                                ? Styles.textBold()
+                                : Styles.textLight(),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  scrollDirection: Axis.horizontal,
+                  itemCount: widget._list.length),
+            ),
+          );
   }
 
   _questionNumber(TestAttemptBean testAttemptBean) {
@@ -817,7 +848,7 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
             child: TapWidget(
               onTap: () {
                 widget._list[widget._currentQuestion].isBookmark =
-                !widget._list[widget._currentQuestion].isBookmark;
+                    !widget._list[widget._currentQuestion].isBookmark;
                 if (widget._list[widget._currentQuestion].isBookmark) {
                   if (widget._list[widget._currentQuestion].question!
                       .selectedOption.isEmpty) {
@@ -853,8 +884,8 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
           ),
           Visibility(
             visible: (widget._list[widget._currentQuestion].question
-                ?.selectedOption.length ??
-                0) >
+                        ?.selectedOption.length ??
+                    0) >
                 0,
             child: TapWidget(
               onTap: () {
@@ -957,7 +988,7 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
           Column(
             children: List.generate(
               widget._list[widget._currentQuestion].question!.options!.length,
-                  (index) => Column(
+              (index) => Column(
                 children: [
                   TapWidget(
                     onTap: () {
@@ -969,14 +1000,14 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
                         widget._list[widget._currentQuestion].question!
                             .selectedOption
                             .add(widget._list[widget._currentQuestion].question!
-                            .options![index].optionId);
+                                .options![index].optionId);
                         for (var data = 0;
-                        data <
-                            widget._list[widget._currentQuestion].question!
-                                .options!.length;
-                        data++) {
+                            data <
+                                widget._list[widget._currentQuestion].question!
+                                    .options!.length;
+                            data++) {
                           if (widget._list[widget._currentQuestion].question!
-                              .options![data].optionId ==
+                                  .options![data].optionId ==
                               widget._list[widget._currentQuestion].question!
                                   .selectedOption.first) {
                             widget._list[widget._currentQuestion].question!
@@ -991,7 +1022,7 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
                     child: Container(
                       decoration: BoxDecoration(
                           color: widget._list[widget._currentQuestion].question!
-                              .options![index].selected
+                                  .options![index].selected
                               ? ColorConstants.SELECTED_GREEN
                               : Colors.white,
                           borderRadius: BorderRadius.circular(8),
@@ -1010,12 +1041,12 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
                           widget._list[widget._currentQuestion].question!
                               .options![index].optionStatement!,
                           style: widget._list[widget._currentQuestion].question!
-                              .options![index].selected
+                                  .options![index].selected
                               ? Styles.boldWhite(size: 18)
                               : Styles.textRegular(
-                            size: 18,
-                            //color: Color.fromRGBO(28, 37, 85, 0.58)
-                          ),
+                                  size: 18,
+                                  //color: Color.fromRGBO(28, 37, 85, 0.58)
+                                ),
                         ),
                       ),
                     ),
@@ -1038,7 +1069,8 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 15),
-            child: Text('Question Type',
+            child: Text(
+              'Question Type',
               style: Styles.textRegular(size: 12, color: Colors.grey),
             ),
           ),
@@ -1053,7 +1085,7 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
           Column(
             children: List.generate(
               widget._list[widget._currentQuestion].question!.options!.length,
-                  (index) => Column(
+              (index) => Column(
                 children: [
                   TapWidget(
                     onTap: () {
@@ -1065,14 +1097,14 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
                         widget._list[widget._currentQuestion].question!
                             .selectedOption
                             .add(widget._list[widget._currentQuestion].question!
-                            .options![index].optionId);
+                                .options![index].optionId);
                         for (var data = 0;
-                        data <
-                            widget._list[widget._currentQuestion].question!
-                                .options!.length;
-                        data++) {
+                            data <
+                                widget._list[widget._currentQuestion].question!
+                                    .options!.length;
+                            data++) {
                           if (widget._list[widget._currentQuestion].question!
-                              .options![data].optionId ==
+                                  .options![data].optionId ==
                               widget._list[widget._currentQuestion].question!
                                   .selectedOption.first) {
                             widget._list[widget._currentQuestion].question!
@@ -1086,16 +1118,17 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                          color: widget._list[widget._currentQuestion].question!
-                              .options![index].selected
-                              ? ColorConstants.SELECTED_GREEN
-                              : Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                          border:Border.all(
-                            color: widget._list[widget._currentQuestion].question!
-                                .options![index].selected ? ColorConstants.SELECTED_GREEN :Colors.grey
-                          ),
-                          /*boxShadow: [
+                        color: widget._list[widget._currentQuestion].question!
+                                .options![index].selected
+                            ? ColorConstants.SELECTED_GREEN
+                            : Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                            color: widget._list[widget._currentQuestion]
+                                    .question!.options![index].selected
+                                ? ColorConstants.SELECTED_GREEN
+                                : Colors.grey),
+                        /*boxShadow: [
                             BoxShadow(
                                 color: Color.fromRGBO(0, 0, 0, 0.05),
                                 blurRadius: 16,
@@ -1111,11 +1144,10 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
                           widget._list[widget._currentQuestion].question!
                               .options![index].optionStatement!,
                           style: widget._list[widget._currentQuestion].question!
-                              .options![index].selected
+                                  .options![index].selected
                               ? Styles.boldWhite(size: 18)
                               : Styles.textRegular(
-                              size: 14,
-                              color: Colors.black),
+                                  size: 14, color: Colors.black),
                         ),
                       ),
                     ),
@@ -1138,7 +1170,8 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 15),
-            child: Text('Question Type',
+            child: Text(
+              'Question Type',
               style: Styles.textRegular(size: 12, color: Colors.grey),
             ),
           ),
@@ -1149,12 +1182,11 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
               style: Styles.textBold(size: 20),
             ),
           ),
-
           _size(height: 15),
           Column(
             children: List.generate(
               widget._list[widget._currentQuestion].question!.options!.length,
-                  (index) => Column(
+              (index) => Column(
                 children: [
                   TapWidget(
                     onTap: () {
@@ -1166,14 +1198,14 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
                         widget._list[widget._currentQuestion].question!
                             .selectedOption
                             .add(widget._list[widget._currentQuestion].question!
-                            .options![index].optionId);
+                                .options![index].optionId);
                         for (var data = 0;
-                        data <
-                            widget._list[widget._currentQuestion].question!
-                                .options!.length;
-                        data++) {
+                            data <
+                                widget._list[widget._currentQuestion].question!
+                                    .options!.length;
+                            data++) {
                           if (widget._list[widget._currentQuestion].question!
-                              .options![data].optionId ==
+                                  .options![data].optionId ==
                               widget._list[widget._currentQuestion].question!
                                   .selectedOption.first) {
                             widget._list[widget._currentQuestion].question!
@@ -1188,7 +1220,7 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
                     child: Container(
                       decoration: BoxDecoration(
                           color: widget._list[widget._currentQuestion].question!
-                              .options![index].selected
+                                  .options![index].selected
                               ? ColorConstants.SELECTED_GREEN
                               : Colors.grey[300],
                           borderRadius: BorderRadius.circular(5),
@@ -1207,12 +1239,12 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
                           widget._list[widget._currentQuestion].question!
                               .options![index].optionStatement!,
                           style: widget._list[widget._currentQuestion].question!
-                              .options![index].selected
+                                  .options![index].selected
                               ? Styles.boldWhite(size: 18)
                               : Styles.textRegular(
-                            size: 18,
-                            //color: Color.fromRGBO(28, 37, 85, 0.58)
-                          ),
+                                  size: 18,
+                                  //color: Color.fromRGBO(28, 37, 85, 0.58)
+                                ),
                         ),
                       ),
                     ),
@@ -1250,60 +1282,64 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             widget._currentQuestion == 0
-                ? SizedBox(width: 100,)
+                ? SizedBox(
+                    width: 100,
+                  )
                 : TapWidget(
-              onTap: () {
-                print(widget._isOptionSelected);
-                print(widget._isContinued);
-                if (widget._isOptionSelected) {
-                  AlertsWidget.alertWithOkBtn(
-                    context: _scaffoldContext,
-                    onOkClick: () {
-                      widget._showSubmitDialog = true;
+                    onTap: () {
+                      print(widget._isOptionSelected);
+                      print(widget._isContinued);
+                      if (widget._isOptionSelected) {
+                        AlertsWidget.alertWithOkBtn(
+                          context: _scaffoldContext,
+                          onOkClick: () {
+                            widget._showSubmitDialog = true;
+                          },
+                          text: "Save the answer of your Ques",
+                        );
+                        return;
+                      }
+                      _handlePreviousButton();
                     },
-                    text: "Save the answer of your Ques",
-                  );
-                  return;
-                }
-                _handlePreviousButton();
-              },
-              child: Container(
-                padding: const EdgeInsets.only(left: 20),
-                decoration: BoxDecoration(
-                    //color: Color.fromRGBO(157, 191, 242, 1),
-                    //borderRadius: BorderRadius.circular(8)
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      'assets/images/prev.svg',
-                      width: 15,
-                      height: 15,
-                      allowDrawingOutsideViewBox: true,
+                    child: Container(
+                      padding: const EdgeInsets.only(left: 20),
+                      decoration: BoxDecoration(
+                          //color: Color.fromRGBO(157, 191, 242, 1),
+                          //borderRadius: BorderRadius.circular(8)
+                          ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/images/prev.svg',
+                            width: 15,
+                            height: 15,
+                            allowDrawingOutsideViewBox: true,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            "Prev",
+                            style:
+                                Styles.textBold(size: 16, color: Colors.black),
+                          ),
+                        ],
+                      ),
                     ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text("Prev",
-                      style: Styles.textBold(size: 16, color: Colors.black),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
+                  ),
             Container(
               width: 100,
               //padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   //color: ColorConstants.PRIMARY_COLOR,
                   //borderRadius: BorderRadius.circular(8)
-              ),
+                  ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("${(widget._currentQuestion + 1).toString()+"/"+ widget._list.length.toString()}",
+                  Text(
+                    "${(widget._currentQuestion + 1).toString() + "/" + widget._list.length.toString()}",
                     style: Styles.textBold(size: 16, color: Colors.black),
                   ),
                 ],
@@ -1312,35 +1348,37 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
             TapWidget(
               onTap: () {
                 print('object save');
-                if ((widget._list.length - 1) == widget._currentQuestion) {
-                  widget._lastSave = true;
-                  AlertsWidget.alertWithOkCancelBtn(
-                      context: _scaffoldContext,
-                      onOkClick: () {
-                        //  _saveClick();
-                        widget._stopWatchTimer.onExecute
-                            .add(StopWatchExecute.reset);
-                        widget._allTimer!.cancel();
-                        print('ANSWER SUBMIT');
-                        _saveClick();
-                        widget._isEverythingOver = true;
-                        //_submitAnswers();
-                      },
-                      // okText: "SUBMIT",
-                      // cancelText: "CONTINUE",
-                      text:
-                      "You still have time left. Do you want to submit your test now?",
-                      title: "Finish Assessment",
-                      onCancelClick: () {
-                        widget._isOptionSelected = false;
-                        widget._isContinued = true;
-                        widget._lastSave = false;
-                        _saveClick();
-                      });
-                } else {
-                  _saveClick();
-                  widget._isSavedManually = true;
-                }
+                _saveClick();
+                widget._isSavedManually = true;
+                // if ((widget._list.length - 1) == widget._currentQuestion) {
+                //   widget._lastSave = true;
+                //   AlertsWidget.alertWithOkCancelBtn(
+                //       context: _scaffoldContext,
+                //       onOkClick: () {
+                //         //  _saveClick();
+                //         widget._stopWatchTimer.onExecute
+                //             .add(StopWatchExecute.reset);
+                //         widget._allTimer!.cancel();
+                //         print('ANSWER SUBMIT');
+                //         _saveClick();
+                //         widget._isEverythingOver = true;
+                //         //_submitAnswers();
+                //       },
+                //       // okText: "SUBMIT",
+                //       // cancelText: "CONTINUE",
+                //       text:
+                //           "You still have time left. Do you want to submit your test now?",
+                //       title: "Finish Assessment",
+                //       onCancelClick: () {
+                //         widget._isOptionSelected = false;
+                //         widget._isContinued = true;
+                //         widget._lastSave = false;
+                //         _saveClick();
+                //       });
+                // } else {
+                //   _saveClick();
+                //   widget._isSavedManually = true;
+                // }
               },
               child: Container(
                 width: 100,
@@ -1348,7 +1386,7 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
                 decoration: BoxDecoration(
                     //color: ColorConstants.PRIMARY_COLOR,
                     //borderRadius: BorderRadius.circular(8)
-                ),
+                    ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

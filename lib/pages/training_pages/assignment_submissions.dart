@@ -123,24 +123,33 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text('${data.title}',
-                                          style: Styles.regular(size: 14)),
-                                      Text('${data.description}',
-                                          style: Styles.regular(size: 14)),
-                                      Text(
-                                          '${Utility.convertDateFromMillis(_attempts![currentIndex].updatedAt!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
-                                          style: Styles.regular(
-                                              size: 10,
-                                              color: ColorConstants.GREY_3))
-                                    ],
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.5,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                            '${_attempts![currentIndex].file!.split('/').last}',
+                                            overflow: TextOverflow.fade,
+                                            maxLines: 2,
+                                            softWrap: true,
+                                            style: Styles.regular(size: 14)),
+                                        Text(
+                                            '${Utility.convertDateFromMillis(_attempts![currentIndex].createdAt!, Strings.REQUIRED_DATE_DD_MMM_YYYY_HH_MM__SS)}',
+                                            style: Styles.regular(
+                                                size: 10,
+                                                color: ColorConstants.GREY_3))
+                                      ],
+                                    ),
                                   ),
                                   Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
                                         children: [
                                           InkWell(
                                             onTap: () async {
@@ -180,30 +189,49 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
                                           ),
                                         ],
                                       ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
                                       Row(
                                         children: [
-                                          Text(
-                                            data.isGraded == 0
-                                                ? "Non Graded assignment"
-                                                : _attempts![currentIndex]
-                                                                .reviewStatus ==
-                                                            1 &&
-                                                        _attempts![currentIndex]
-                                                                .isPassed ==
-                                                            1
-                                                    ? "Congratulations you passed!"
-                                                    : _attempts![currentIndex]
-                                                                    .reviewStatus ==
-                                                                1 &&
-                                                            _attempts![currentIndex]
-                                                                    .isPassed ==
-                                                                0
-                                                        ? "Sorry, you failed."
-                                                        : "Under Review",
-                                            style: Styles.regular(size: 12),
+                                          Container(
+                                            child: Text(
+                                              data.isGraded == 0
+                                                  ? "Non Graded "
+                                                  : "${data.submissionDetails![currentIndex].marksObtained ?? 0}/${widget.maxMarks}",
+
+                                              // : _attempts![currentIndex]
+                                              //                 .reviewStatus ==
+                                              //             1 &&
+                                              //         _attempts![currentIndex]
+                                              //                 .isPassed ==
+                                              //             1
+                                              //     ? "Congratulations you passed!"
+                                              //     : _attempts![currentIndex]
+                                              //                     .reviewStatus ==
+                                              //                 1 &&
+                                              //             _attempts![currentIndex]
+                                              //                     .isPassed ==
+                                              //                 0
+                                              //         ? "Sorry, you failed."
+                                              //         : "Under Review",
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              softWrap: true,
+                                              style: Styles.bold(
+                                                size: 12,
+                                                  color: data.isGraded == 0
+                                                      ? ColorConstants.BLACK
+                                                      : ColorConstants.GREEN),
+                                            ),
                                           ),
-                                          SizedBox(width: 10),
-                                          Icon(Icons.info, size: 20)
+                                          SizedBox(width: 6),
+                                          SvgPicture.asset(
+                                            'assets/images/info.svg',
+                                            height: 14,
+                                            width: 14,
+                                            allowDrawingOutsideViewBox: true,
+                                          ),
                                         ],
                                       ),
                                     ],

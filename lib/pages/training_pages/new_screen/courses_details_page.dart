@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,7 +9,6 @@ import '../../custom_pages/TapWidget.dart';
 import '../../custom_pages/alert_widgets/alerts_widget.dart';
 
 class CoursesDetailsPage extends StatefulWidget {
-
   final String? imgUrl;
   final String? tagName;
   final int? indexc;
@@ -24,26 +21,26 @@ class CoursesDetailsPage extends StatefulWidget {
   final int? id;
   final String? type;
 
-  const CoursesDetailsPage({Key? key,
-    required this.imgUrl,
-    required this.indexc,
-    this.tagName,
-    this.name,
-    this.description,
-    this.regularPrice,
-    this.salePrice,
-    this.trainer,
-    this.enrolmentCount,
-    this.id,
-    this.type}) : super(key: key);
+  const CoursesDetailsPage(
+      {Key? key,
+      required this.imgUrl,
+      required this.indexc,
+      this.tagName,
+      this.name,
+      this.description,
+      this.regularPrice,
+      this.salePrice,
+      this.trainer,
+      this.enrolmentCount,
+      this.id,
+      this.type})
+      : super(key: key);
 
   @override
   State<CoursesDetailsPage> createState() => _CoursesDetailsPageState();
 }
 
 class _CoursesDetailsPageState extends State<CoursesDetailsPage> {
-
-
   @override
   void initState() {
     super.initState();
@@ -59,7 +56,7 @@ class _CoursesDetailsPageState extends State<CoursesDetailsPage> {
             backgroundColor: Colors.white,
             expandedHeight: 250.0,
             flexibleSpace: FlexibleSpaceBar(
-              title: Text(widget.name.toString(), textScaleFactor: 1),
+              title: Text('', textScaleFactor: 1),
               background: Hero(
                 tag: widget.tagName! + widget.indexc.toString(),
                 child: ClipRRect(
@@ -76,19 +73,23 @@ class _CoursesDetailsPageState extends State<CoursesDetailsPage> {
               ),
             ),
           ),
-
           SliverToBoxAdapter(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
+                    padding: const EdgeInsets.only(
+                        left: 20.0, top: 10.0, right: 20.0),
+                    child: Text(
+                      widget.name.toString(),
+                      style: Styles.bold(),
+                    )),
+                Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Container(
                     child: Text(widget.description.toString()),
-
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Row(
@@ -118,14 +119,13 @@ class _CoursesDetailsPageState extends State<CoursesDetailsPage> {
                     ],
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Text('Trainer Name: '+widget.trainer.toString()),
+                  child: Text('Trainer Name: ' + widget.trainer.toString()),
                 ),
-
                 Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 70.0),
+                  padding:
+                      const EdgeInsets.only(left: 20.0, right: 20.0, top: 70.0),
                   child: TapWidget(
                     onTap: () {
                       print('object');
@@ -159,10 +159,8 @@ class _CoursesDetailsPageState extends State<CoursesDetailsPage> {
           ),
         ],
       ),
-
     );
   }
-
 
   _subscribeRequest(type, id) {
     print(type);
@@ -212,6 +210,4 @@ class _CoursesDetailsPageState extends State<CoursesDetailsPage> {
           });
     }
   }
-
 }
-

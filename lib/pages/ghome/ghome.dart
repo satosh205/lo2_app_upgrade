@@ -129,9 +129,13 @@ class _GHomeState extends State<GHome> {
                                   shrinkWrap: true,
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
-                                          mainAxisSpacing: 30,
+                                          mainAxisSpacing: 0,
                                           crossAxisSpacing: 20,
                                           childAspectRatio: 2 / 3,
+                                          mainAxisExtent: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.32,
                                           crossAxisCount: 2),
                                   itemBuilder:
                                       (BuildContext context, int index) {
@@ -145,6 +149,8 @@ class _GHomeState extends State<GHome> {
                                         onTap: () async {
                                           value.enableProviderControl();
                                           value.pause();
+                                          await Future.delayed(
+                                              Duration(milliseconds: 200));
 
                                           showModalBottomSheet(
                                               context: context,
@@ -161,27 +167,10 @@ class _GHomeState extends State<GHome> {
                                                       currentIndex: index,
                                                     ));
                                               });
-
-                                          /*Navigator.of(context).push(
-        MaterialPageRoute(
-             builder: (context) =>
-                 ViewWidgetDetailsPage(
-                   joyContentList:
-                       joyContentListView,
-                   currentIndex: index,
-                 )));*/
                                         },
-                                        child: Container(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.7,
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            child: Container(
+                                        child: Column(
+                                          children: [
+                                            Container(
                                                 decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -197,7 +186,7 @@ class _GHomeState extends State<GHome> {
                                                                     context)
                                                                 .size
                                                                 .height *
-                                                            0.7,
+                                                            0.25,
                                                         width: MediaQuery.of(
                                                                 context)
                                                             .size
@@ -257,64 +246,70 @@ class _GHomeState extends State<GHome> {
                                                               true,
                                                         ),
                                                       ),
-                                                    Positioned(
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 5),
-                                                          child: Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              SizedBox(
-                                                                width: 150,
-                                                                child: Text(
-                                                                    joyContentListView![index]
-                                                                            .title ??
-                                                                        '',
-                                                                    style: Styles.bold(
-                                                                        size:
-                                                                            13,
-                                                                        color: ColorConstants
-                                                                            .WHITE)),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 10,
-                                                                height: 5,
-                                                              ),
-                                                              joyContentListView![
-                                                                              index]
-                                                                          .viewCount !=
-                                                                      null
-                                                                  ? Row(
-                                                                      children: [
-                                                                        Text(
-                                                                            '${joyContentListView![index].viewCount}  ${Strings.of(context)?.Views}',
-                                                                            style:
-                                                                                Styles.regular(size: 10, color: ColorConstants.WHITE)),
-                                                                        if (joyContentListView![index].viewCount! >
-                                                                            1)
-                                                                          Text(
-                                                                              's',
-                                                                              style: Styles.regular(size: 10, color: ColorConstants.WHITE)),
-                                                                      ],
-                                                                    )
-                                                                  : Text(
-                                                                      '${0}  ${Strings.of(context)?.Views}',
-                                                                      style: Styles.regular(
-                                                                          size:
-                                                                              10,
-                                                                          color:
-                                                                              ColorConstants.WHITE)),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        left: 0,
-                                                        bottom: 10),
                                                   ],
-                                                ))),
+                                                )),
+                                            Container(
+                                              height: 40,
+                                              margin: EdgeInsets.only(top: 4),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  joyContentListView![index]
+                                                              .viewCount !=
+                                                          null
+                                                      ? Row(
+                                                          children: [
+                                                            Text(
+                                                                '${joyContentListView![index].viewCount}  ${Strings.of(context)?.Views}',
+                                                                style: Styles.regular(
+                                                                    size: 10,
+                                                                    color: ColorConstants
+                                                                        .GREY_3)),
+                                                            if (joyContentListView![
+                                                                        index]
+                                                                    .viewCount! >
+                                                                1)
+                                                              Text('s',
+                                                                  style: Styles.regular(
+                                                                      size: 10,
+                                                                      color: ColorConstants
+                                                                          .GREY_3)),
+                                                          ],
+                                                        )
+                                                      : Text(
+                                                          '${0}  ${Strings.of(context)?.Views}',
+                                                          style: Styles.regular(
+                                                              size: 10,
+                                                              color:
+                                                                  ColorConstants
+                                                                      .GREY_3)),
+                                                  // SizedBox(
+                                                  //   width: 10,
+                                                  //   height: 4,
+                                                  // ),
+                                                  SizedBox(
+                                                    width: 150,
+                                                    child: Text(
+                                                        joyContentListView![
+                                                                    index]
+                                                                .title ??
+                                                            '',
+                                                        maxLines: 1,
+                                                        softWrap: true,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: Styles.semibold(
+                                                            size: 14,
+                                                            color:
+                                                                ColorConstants
+                                                                    .GREY_1)),
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     );
                                   },

@@ -97,11 +97,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                     SizedBox(
                       height: 30,
                     ),
-                    Image.asset(
-                      'assets/images/app_icon.jpg',
-                      height: 100,
-                      width: 150,
-                    ),
+                    
                     // SvgPicture.asset(
                     //   'assets/images/masterg_logo.svg',
                     //   height: 75,

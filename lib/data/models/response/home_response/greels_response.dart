@@ -248,7 +248,12 @@ class GReelsModel extends ChangeNotifier {
     this._list!.addAll(newData);
     notifyListeners();
   }
-  
+
+  void clear() {
+    this._list?.clear();
+    notifyListeners();
+  }
+
   void refreshList(List<GReelsElement> list) {
     this._list = list;
     notifyListeners();

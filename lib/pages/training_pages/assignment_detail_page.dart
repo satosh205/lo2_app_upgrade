@@ -276,7 +276,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                                         children: [
                                           Text(
                                             data.isGraded == 0
-                                                ? "Non Graded assignment"
+                                                ? "Non Graded"
                                                 : _attempts![currentIndex]
                                                                 .reviewStatus ==
                                                             1 &&
