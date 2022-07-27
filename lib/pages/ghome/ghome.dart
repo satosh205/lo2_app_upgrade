@@ -177,7 +177,6 @@ class _GHomeState extends State<GHome> {
                                                     .height *
                                                 0.7,
                                             decoration: BoxDecoration(
-                                              color: Colors.white,
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                             ),
@@ -197,7 +196,7 @@ class _GHomeState extends State<GHome> {
                                                                     context)
                                                                 .size
                                                                 .height *
-                                                            0.7,
+                                                            0.25,
                                                         width: MediaQuery.of(
                                                                 context)
                                                             .size
@@ -268,22 +267,6 @@ class _GHomeState extends State<GHome> {
                                                                 CrossAxisAlignment
                                                                     .start,
                                                             children: [
-                                                              SizedBox(
-                                                                width: 150,
-                                                                child: Text(
-                                                                    joyContentListView![index]
-                                                                            .title ??
-                                                                        '',
-                                                                    style: Styles.bold(
-                                                                        size:
-                                                                            13,
-                                                                        color: ColorConstants
-                                                                            .WHITE)),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 10,
-                                                                height: 5,
-                                                              ),
                                                               joyContentListView![
                                                                               index]
                                                                           .viewCount !=
@@ -293,12 +276,12 @@ class _GHomeState extends State<GHome> {
                                                                         Text(
                                                                             '${joyContentListView![index].viewCount}  ${Strings.of(context)?.Views}',
                                                                             style:
-                                                                                Styles.regular(size: 10, color: ColorConstants.WHITE)),
+                                                                                Styles.regular(size: 10, color: ColorConstants.GREY_3)),
                                                                         if (joyContentListView![index].viewCount! >
                                                                             1)
                                                                           Text(
                                                                               's',
-                                                                              style: Styles.regular(size: 10, color: ColorConstants.WHITE)),
+                                                                              style: Styles.regular(size: 10, color: ColorConstants.GREY_3)),
                                                                       ],
                                                                     )
                                                                   : Text(
@@ -307,7 +290,23 @@ class _GHomeState extends State<GHome> {
                                                                           size:
                                                                               10,
                                                                           color:
-                                                                              ColorConstants.WHITE)),
+                                                                              ColorConstants.GREY_3)),
+                                                              SizedBox(
+                                                                width: 10,
+                                                                height: 4,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 150,
+                                                                child: Text(
+                                                                    joyContentListView![index]
+                                                                            .title ??
+                                                                        '',
+                                                                    style: Styles.semibold(
+                                                                        size:
+                                                                            14,
+                                                                        color: ColorConstants
+                                                                            .GREY_1)),
+                                                              ),
                                                             ],
                                                           ),
                                                         ),
