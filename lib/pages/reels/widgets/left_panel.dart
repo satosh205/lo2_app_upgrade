@@ -24,22 +24,7 @@ class LeftPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // DateTime postTime =
-    //     DateTime.fromMicrosecondsSinceEpoch(int.parse(createdAt));
-    // DateTime now = DateTime.now();
-    // Duration difference = now.difference(postTime);
-    // String time = '';
-    // if (difference.inDays > 0) {
-    //   time = difference.inDays.toString() + ' days ago';
-    // } else if (difference.inHours > 0) {
-    //   time = difference.inHours.toString() + ' hours ago';
-    // } else if (difference.inMinutes > 0) {
-    //   time = difference.inMinutes.toString() + ' minutes ago';
-    // } else if (difference.inSeconds > 0) {
-    //   time = difference.inSeconds.toString() + ' seconds ago';
-    // } else {
-    //   time = 'just now';
-    // }
+   
 
     var millis = int.parse(createdAt!);
     DateTime date = DateTime.fromMillisecondsSinceEpoch(
