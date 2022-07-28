@@ -53,8 +53,8 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
   static bool isOpened = false;
   double popupHeight = 300;
   //expandable controller
-   ExpandableController _expandableController =
-                    new ExpandableController(initialExpanded: true);
+  ExpandableController _expandableController =
+      new ExpandableController(initialExpanded: true);
 
   /*ExpandableController additionalInfoController=ExpandableController(
     initialExpanded: isOpened,
@@ -516,13 +516,12 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                 ),
                                               )
                                             : Positioned(
-                                                bottom: 10,
+                                                bottom: 2,
                                                 left: 50,
                                                 right: 50,
                                                 child: Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 16,
-                                                      horizontal: 4),
+                                                  width: 150,
+                                                  height: 38,
                                                   decoration: BoxDecoration(
                                                       color: ColorConstants
                                                           .BLACK
@@ -532,12 +531,14 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                               4)),
                                                   child: Center(
                                                     child: Text(
-                                                        'Your class is finished',
-                                                        style: Styles.regular(
-                                                            size: 14,
-                                                            color:
-                                                                ColorConstants
-                                                                    .WHITE)),
+                                                      'Your class is finished',
+                                                      style: Styles.regular(
+                                                          size: 14,
+                                                          color: ColorConstants
+                                                              .WHITE),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
                                                   ),
                                                 )),
                                       ],
@@ -909,7 +910,6 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                       : isVisible = false;
                 }
 
-               
                 return Visibility(
                   visible: isVisible,
                   child: Padding(
@@ -924,9 +924,9 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                         theme: ExpandableThemeData(
                           hasIcon: true,
                         ),
-                        controller: index == 0 ? _expandableController : 
-                            ExpandableController(initialExpanded: true),
-                          
+                        controller: index == 0
+                            ? _expandableController
+                            : ExpandableController(initialExpanded: true),
                         header: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,

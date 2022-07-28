@@ -161,7 +161,7 @@ class _MyCoursesState extends State<MyCourses> {
                               isMaintainState: true));
                     },
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 7, vertical: 7),
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height * 0.14,
                       decoration: BoxDecoration(

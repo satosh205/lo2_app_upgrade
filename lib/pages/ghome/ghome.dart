@@ -135,7 +135,7 @@ class _GHomeState extends State<GHome> {
                                           mainAxisExtent: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.34,
+                                              0.45,
                                           crossAxisCount: 2),
                                   itemBuilder:
                                       (BuildContext context, int index) {
@@ -186,7 +186,7 @@ class _GHomeState extends State<GHome> {
                                                                     context)
                                                                 .size
                                                                 .height *
-                                                            0.25,
+                                                            0.35,
                                                         width: MediaQuery.of(
                                                                 context)
                                                             .size
@@ -226,8 +226,8 @@ class _GHomeState extends State<GHome> {
                                                                     .resourcePath)
                                                             : Image.network(
                                                                 '${joyContentListView![index].resourcePath}',
-                                                                fit: BoxFit
-                                                                    .cover,
+                                                                fit:
+                                                                    BoxFit.fill,
                                                               ),
                                                       ),
                                                     ),

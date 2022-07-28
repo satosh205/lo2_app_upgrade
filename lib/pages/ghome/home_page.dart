@@ -244,7 +244,7 @@ class _homePageState extends State<homePage> {
                               widget.bottomMenu!.indexOf(widget.bottomMenu![i])
                           ? SvgPicture.asset(
                               '${iconSeleted['${widget.bottomMenu?[i].url}']}',
-                              color: ColorConstants().primaryColor(),
+                              // color: ColorConstants().primaryColor(),
                               // allowDrawingOutsideViewBox: true,
                             )
                           : SvgPicture.asset(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:masterg/data/providers/mg_assessment_detail_provioder.dart';
 import 'package:masterg/pages/custom_pages/TapWidget.dart';
+import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/training_pages/assessment_attempt_page.dart';
 import 'package:masterg/pages/training_pages/assessment_review_page.dart';
@@ -232,12 +233,20 @@ class MgAssessmentDetailPage extends StatelessWidget {
                             scaffoldContext: mContext,
                             message: "Maximum attempts reached.");
                       } else {
-                        await Navigator.push(
-                            mContext!,
-                            NextPageRoute(AssessmentAttemptPage(
-                                contentId: assessmentDetailProvider
-                                    .assessments.contentId)));
-                        assessmentDetailProvider.getDetails();
+                        AlertsWidget.showCustomDialog(
+                            context: mContext!,
+                            title: "Confirm?",
+                            text: "Do you want to attempt assessment?",
+                            icon: 'assets/images/circle_alert_fill.svg',
+                            onCancelClick: () {},
+                            onOkClick: () async {
+                              await Navigator.push(
+                                  mContext!,
+                                  NextPageRoute(AssessmentAttemptPage(
+                                      contentId: assessmentDetailProvider
+                                          .assessments.contentId)));
+                              assessmentDetailProvider.getDetails();
+                            });
                       }
                     },
                     child: Visibility(

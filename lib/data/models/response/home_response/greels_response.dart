@@ -270,6 +270,16 @@ class GReelsModel extends ChangeNotifier {
     }
   }
 
+  //get like count
+  int getLikeCount(int postId) {
+    for (var i = 0; i < _list!.length; i++) {
+      if (_list![i].id == postId) {
+        return _list![i].likeCount!;
+      }
+    }
+    return 0;
+  }
+
   void decreaseLikeCount(int posdId) {
     for (var i = 0; i < _list!.length; i++) {
       if (_list![i].id == posdId) {
