@@ -385,13 +385,15 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
         }
 
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => CreateGCarvaanPage(
-                    isReelsPost: false,
-                    fileToUpload: [],
-                    filesPath: provider.files,
-                    provider: provider)));
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CreateGCarvaanPage(
+                        isReelsPost: false,
+                        fileToUpload: [],
+                        filesPath: provider.files,
+                        provider: provider)))
+            .then((value) => _refreshController.requestRefresh());
+        ;
       }
     }
   }
