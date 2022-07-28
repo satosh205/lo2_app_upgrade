@@ -705,10 +705,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                           padding: EdgeInsets.symmetric(horizontal: 20),
                           child: InkWell(
                             onTap: () {
-                              //Navigator.push(context, NextPageRoute(FaqPage()));
-                              Navigator.push(context, NextPageRoute(GPortfolioPage(
-                                profileUrl: userProfileDataList!.profileImage,
-                                name: userProfileDataList!.name,)));
+                              Navigator.push(context, NextPageRoute(FaqPage()));
                             },
                             child: Row(
                               children: [
