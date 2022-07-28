@@ -219,7 +219,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
             ConstrainedBox(
               constraints: BoxConstraints(
                 minHeight: 360,
-                maxHeight: 600,
+                maxHeight: 420,
               ),
               // color: Colors.red,
               child: PageView.builder(
@@ -238,7 +238,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                       true
                               ? BoxConstraints(
                                   minHeight: 360,
-                                  maxHeight: 600,
+                                  maxHeight: 420,
                                 )
                               : BoxConstraints(
                                   minHeight: 360,
