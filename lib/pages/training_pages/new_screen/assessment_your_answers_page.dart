@@ -117,6 +117,12 @@ class _AssessmentYourAnswersPageState extends State<AssessmentYourAnswersPage> {
   }
 
   void _submitAnswers() {
+    // Navigator.pushReplacement(
+    //     context,
+    //     MaterialPageRoute(
+    //         builder: (context) => AssessmentYourReportPage(
+    //               contentId: widget.contentId,
+    //             ))).then((value) => Navigator.pop(context));
     _authBloc.add(SubmitAnswerEvent(request: widget.contentId.toString()));
   }
 

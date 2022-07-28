@@ -380,28 +380,6 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
                       ]),
                 ]),
               ),
-              Positioned(
-                  right: 0,
-                  bottom: 0,
-                  child: Visibility(
-                    visible: item.status == 'Completed',
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              NextPageRoute(AssessmentYourReportPage(
-                                  contentId: item.contentId)));
-                        },
-                        child: Text('Report',
-                            textAlign: TextAlign.right,
-                            style: Styles.regular(
-                                size: 12,
-                                color: ColorConstants().primaryColor())),
-                      ),
-                    ),
-                  ))
             ])),
       ),
     );

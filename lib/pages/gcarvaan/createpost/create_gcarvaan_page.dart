@@ -470,17 +470,27 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
         result = await FilePicker.platform.pickFiles(
             allowMultiple: true,
             type: FileType.custom,
+            onFileLoading: (path) {
+              print('File $path is loading');
+            },
             allowedExtensions: ['jpg', 'jpeg', 'png', 'mp4']);
       }
 
       if (result != null) {
         for (int i = 0; i < result.paths.length; i++) {
+          if (i == 4) break;
           if (File(result.paths[i]!).lengthSync() / 1000000 > 8.0) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text("Video/image size can't be large than 5MB"),
             ));
           } else
             provider.addToList(result.paths[i]);
+        }
+
+        if (provider.files!.length > 4) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Only 4 images/videos are allowed"),
+          ));
         }
       }
     }
