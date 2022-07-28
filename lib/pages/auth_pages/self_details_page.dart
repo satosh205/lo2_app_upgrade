@@ -97,7 +97,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                     SizedBox(
                       height: 30,
                     ),
-                    
+
                     // SvgPicture.asset(
                     //   'assets/images/masterg_logo.svg',
                     //   height: 75,
@@ -273,6 +273,9 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
               '${loginState.response!.data!.user!.profileImage}');
           Preference.setString(Preference.DESIGNATION,
               '${loginState.response!.data!.user!.designation}');
+          Preference.setString(Preference.DEFAULT_VIDEO_URL_CATEGORY,
+              '${state.response!.data!.user!.defaultVideoUrlOnCategory}');
+
           UserSession.userToken = state.response!.data!.token;
           UserSession.email = state.response!.data!.user!.email;
           UserSession.userImageUrl = state.response!.data!.user!.profileImage;

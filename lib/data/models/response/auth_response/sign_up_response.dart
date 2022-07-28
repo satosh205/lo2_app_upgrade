@@ -61,16 +61,16 @@ class Data {
 }
 
 class User {
-  User({
-    this.id,
-    this.name,
-    this.email,
-    this.department,
-    this.designation,
-    this.mobileNo,
-    this.profileImage,
-    this.showInterest,
-  });
+  User(
+      {this.id,
+      this.name,
+      this.email,
+      this.department,
+      this.designation,
+      this.mobileNo,
+      this.profileImage,
+      this.showInterest,
+      this.defaultVideoUrlOnCategory});
 
   int? id;
   String? name;
@@ -80,6 +80,7 @@ class User {
   String? mobileNo;
   String? profileImage;
   int? showInterest;
+  String? defaultVideoUrlOnCategory;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
@@ -90,6 +91,7 @@ class User {
         mobileNo: json["mobile_no"],
         profileImage: json["profile_image"],
         showInterest: json["show_interest"],
+        defaultVideoUrlOnCategory: json["default_video_url_on_category"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -101,5 +103,6 @@ class User {
         "mobile_no": mobileNo,
         "profile_image": profileImage,
         "show_interest": showInterest,
+        "default_video_url_on_category": defaultVideoUrlOnCategory,
       };
 }

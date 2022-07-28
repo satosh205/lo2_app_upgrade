@@ -455,8 +455,9 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
                     widget._stopWatchTimer.onExecute
                         .add(StopWatchExecute.reset);
                     widget._allTimer!.cancel();
+                    widget._isEverythingOver = true;
                     _saveClick();
-                    _submitAnswers();
+                    // _submitAnswers();
                   },
                   text:
                       "Your assessment will be submitted automatically do you want to go back?",
@@ -712,7 +713,7 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
                     onOkClick: () {
                       widget._showSubmitDialog = true;
                     },
-                    text: "Save the answer of your Ques",
+                    text: "You still have time left. Do you want to submit your test now?",
                   );
                 }
               }
@@ -756,7 +757,8 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
                         if (widget._isOptionSelected) {
                           AlertsWidget.alertWithOkBtn(
                               context: _scaffoldContext,
-                              text: "Save the answer of your Question");
+                              text:
+                                  "You still have time left. Do you want to submit your test now?tion");
                           return;
                         }
                         print(widget._currentQuestionId);
@@ -1295,7 +1297,8 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
                           onOkClick: () {
                             widget._showSubmitDialog = true;
                           },
-                          text: "Save the answer of your Ques",
+                          text:
+                              "You still have time left. Do you want to submit your test now?",
                         );
                         return;
                       }

@@ -258,7 +258,8 @@ class _AssessmentYourAnswersPageState extends State<AssessmentYourAnswersPage> {
                             _showSubmitDialog = true;
                             _submitAnswers();
                           },
-                          text: "Save the answer of your Ques",
+                          text:
+                              "You still have time left. Do you want to submit your test now?",
                         );
                       }
                     }

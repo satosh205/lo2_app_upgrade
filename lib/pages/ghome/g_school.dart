@@ -477,7 +477,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                                           .toLowerCase() ==
                                                       'offlineclass'
                                                   ? "Offline"
-                                                  : "Live Class",
+                                                  : "Live",
                                               style: Styles.regular(
                                                   size: 10,
                                                   color: ColorConstants.BLACK)),
