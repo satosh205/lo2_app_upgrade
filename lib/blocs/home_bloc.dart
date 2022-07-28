@@ -1293,7 +1293,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield DeletePortfolioState(ApiStatus.LOADING);
 
         final response = await homeRepository.deletePortfolio(event.id);
-
         if (response != null) {
           yield DeletePortfolioState(
             ApiStatus.SUCCESS,
