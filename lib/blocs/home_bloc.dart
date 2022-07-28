@@ -37,6 +37,11 @@ import 'package:masterg/data/repositories/home_repository.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 
+import '../data/models/response/home_response/create_portfolio_response.dart';
+import '../data/models/response/home_response/delete_portfolio_response.dart';
+import '../data/models/response/home_response/list_portfolio_responsed.dart';
+import '../data/models/response/home_response/top_scroing_user_response.dart';
+
 abstract class HomeEvent {
   HomeEvent([List event = const []]) : super();
 }
@@ -463,6 +468,80 @@ class FeaturedVideoEvent extends HomeEvent {
   FeaturedVideoEvent() : super([]);
 
   List<Object> get props => throw UnimplementedError();
+}
+
+class CreatePortfolioEvent extends HomeEvent {
+  String? title;
+  String? description;
+  String? type;
+  String? filePath;
+  CreatePortfolioEvent({this.title, this.description, this.type, this.filePath})
+      : super([title, description, type, filePath]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+class topScoringUsersEvent extends HomeEvent {
+  int? userId;
+  topScoringUsersEvent({this.userId}) : super([userId]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+class DeletePortfolioEvent extends HomeEvent {
+  int? id;
+  DeletePortfolioEvent({this.id}) : super([id]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+class ListPortfolioEvent extends HomeEvent {
+  String? type;
+  int? userId;
+  ListPortfolioEvent({this.type, this.userId}) : super([type, userId]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+
+class DeletePortfolioState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  DeletePortfolioResponse? response;
+  String? error;
+
+  DeletePortfolioState(this.state, {this.response, this.error});
+}
+
+class ListPortfolioState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  ListPortfolioResponse? response;
+  String? error;
+
+  ListPortfolioState(this.state, {this.response, this.error});
+}
+
+class topScoringUsersState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  TopScoringUsersResponse? response;
+  String? error;
+
+  topScoringUsersState(this.state, {this.response, this.error});
+}
+
+class CreatePortfolioState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  CreatePortfolioResponse? response;
+  String? error;
+
+  CreatePortfolioState(this.state, {this.response, this.error});
 }
 
 class FeaturedVideoState extends HomeState {
@@ -1179,6 +1258,77 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         Log.v("ERROR DATA : $e");
         yield LearningSpaceState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
+      }
+    }else if (event is CreatePortfolioEvent) {
+      try {
+        Map<String, dynamic> data = Map();
+        var filePath = event.filePath;
+        String fileName = filePath!.split('/').last;
+        data['file'] =
+        await MultipartFile.fromFile(filePath, filename: fileName);
+        data['title'] = event.title;
+        data['description'] = event.description;
+        data['type'] = event.type;
+
+        yield CreatePortfolioState(ApiStatus.LOADING);
+        final response = await homeRepository.createPortfolio(data);
+        if (response != null) {
+          yield CreatePortfolioState(
+            ApiStatus.SUCCESS,
+          );
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield CreatePortfolioState(
+            ApiStatus.ERROR,
+          );
+        }
+      } catch (e) {
+        Log.v("ERROR DATA is : $e");
+        yield CreatePortfolioState(
+          ApiStatus.ERROR,
+        );
+      }
+    }else if (event is DeletePortfolioEvent) {
+      try {
+        yield DeletePortfolioState(ApiStatus.LOADING);
+
+        final response = await homeRepository.deletePortfolio(event.id);
+        if (response != null) {
+          yield DeletePortfolioState(
+            ApiStatus.SUCCESS,
+          );
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield DeletePortfolioState(
+            ApiStatus.ERROR,
+          );
+        }
+      } catch (e) {
+        Log.v("ERROR DATA is : $e");
+        yield DeletePortfolioState(
+          ApiStatus.ERROR,
+        );
+      }
+    } else if (event is ListPortfolioEvent) {
+      try {
+        yield ListPortfolioState(ApiStatus.LOADING);
+        final response = await homeRepository.listPortfolio(event.type, event.userId);
+
+        if (response != null) {
+          yield ListPortfolioState(
+              ApiStatus.SUCCESS, response: response
+          );
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield ListPortfolioState(
+            ApiStatus.ERROR,
+          );
+        }
+      } catch (e) {
+        Log.v("ERROR DATA is : $e");
+        yield ListPortfolioState(
+          ApiStatus.ERROR,
+        );
       }
     }
   }

@@ -35,6 +35,10 @@ import 'package:masterg/data/models/response/home_response/user_profile_response
 import 'package:masterg/data/providers/home_provider.dart';
 import 'package:masterg/utils/Log.dart';
 
+import '../models/response/home_response/create_portfolio_response.dart';
+import '../models/response/home_response/delete_portfolio_response.dart';
+import '../models/response/home_response/list_portfolio_responsed.dart';
+
 class HomeRepository {
   HomeRepository({required this.homeProvider});
 
@@ -601,4 +605,48 @@ class HomeRepository {
     }
     return null;
   }
+
+
+  Future createPortfolio(Map<String, dynamic> data) async {
+    final response = await homeProvider.createPortfolio(data);
+    if (response!.success) {
+      Log.v("Create Portfoio DATA : ${response.body}");
+      CreatePortfolioResponse resp =
+      CreatePortfolioResponse.fromJson(response.body);
+
+      return resp;
+    } else {
+      Log.v("Error ====> ${response.body}");
+      return;
+    }
+  }
+
+  Future deletePortfolio(int? id) async {
+    final response = await homeProvider.deletePortfolio(id!);
+    if (response!.success) {
+      Log.v("Delete Portfoio DATA : ${response.body}");
+      DeletePortfolioResponse resp =
+      DeletePortfolioResponse.fromJson(response.body);
+
+      return resp;
+    } else {
+      Log.v("Error ====> ${response.body}");
+      return;
+    }
+  }
+
+  Future<ListPortfolioResponse> listPortfolio(String? type, int? userId) async {
+    final response = await homeProvider.listPortfolio(type!, userId!);
+    if (response!.success) {
+      Log.v("List Portfoio DATA : ${response.body}");
+      ListPortfolioResponse resp =
+      ListPortfolioResponse.fromJson(response.body);
+
+      return resp;
+    } else {
+      Log.v("Error ====> ${response.body}");
+      return ListPortfolioResponse();
+    }
+  }
+
 }
