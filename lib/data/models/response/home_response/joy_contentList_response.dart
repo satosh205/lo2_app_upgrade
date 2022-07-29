@@ -238,7 +238,9 @@ class JoyContentListModel extends ChangeNotifier {
   List<JoyContentListElement>? _list = [];
   List<JoyContentListElement>? get list => _list;
   JoyContentListModel(List<JoyContentListElement>? list) {
-    this._list = list;
+    if (list != null && list.isNotEmpty) {
+      _list = list;
+    }
     notifyListeners();
   }
 
@@ -271,6 +273,16 @@ class JoyContentListModel extends ChangeNotifier {
         notifyListeners();
       }
     }
+  }
+
+  //get like count
+  int getLikeCount(int postId) {
+    for (var i = 0; i < _list!.length; i++) {
+      if (_list![i].id == postId) {
+        return _list![i].likeCount!;
+      }
+    }
+    return 0;
   }
 
   String? getResourcePath(int contentId) {

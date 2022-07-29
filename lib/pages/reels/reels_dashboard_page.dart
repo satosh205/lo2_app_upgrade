@@ -7,6 +7,7 @@ import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/greels_response.dart';
+import 'package:masterg/data/models/response/home_response/joy_contentList_response.dart';
 import 'package:masterg/data/providers/reels_proivder.dart';
 import 'package:masterg/pages/gcarvaan/createpost/create_post_provider.dart';
 import 'package:masterg/pages/reels/theme/colors.dart';
@@ -21,6 +22,8 @@ import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+TabController? _tabController;
+
 class ReelsDashboardPage extends StatefulWidget {
   @override
   _ReelsDashboardPageState createState() => _ReelsDashboardPageState();
@@ -28,17 +31,16 @@ class ReelsDashboardPage extends StatefulWidget {
 
 class _ReelsDashboardPageState extends State<ReelsDashboardPage>
     with TickerProviderStateMixin {
-  TabController? _tabController;
   bool isGReelsLoading = true;
   List<GReelsElement>? greelsList;
+
   //Box box;
 
   @override
   void initState() {
     super.initState();
-    print('====flagVideoM=====');
     _getGReels();
-    _tabController = TabController(length: 0, vsync: this);
+    // _tabController = TabController(length: 0, vsync: this);
   }
 
   @override
@@ -139,7 +141,10 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
   }
 
   Widget getBody(GReelsModel greelsList) {
-    _tabController = TabController(length: 50, vsync: this);
+    // Future.delayed(Duration(milliseconds: 0), () {})
+    //     .then((value) => _tabController?.animateTo(
+    //           greelsList.getCurrentIndex(),
+    //         ));
 
     if (greelsList.list == null || isGReelsLoading) {
       return Container(
@@ -186,14 +191,18 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
       );
     }
 
-    _tabController =
-        TabController(length: greelsList.list!.length, vsync: this);
+    _tabController = TabController(
+        length: greelsList.list!.length,
+        initialIndex: greelsList.getCurrentIndex(),
+        vsync: this);
     var size = MediaQuery.of(context).size;
 
     return RotatedBox(
       quarterTurns: 1,
       child: TabBarView(
         controller: _tabController,
+
+        // chi
         children: List.generate(greelsList.list!.length, (index) {
           return VideoPlayerItem(
             videoUrl: greelsList.list![index].resourcePath,
@@ -476,6 +485,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
                                           padding:
                                               const EdgeInsets.only(left: 20.0),
                                           child: RightPanel(
+                                            mContext: context,
                                             size: widget.size,
                                             likes: widget.likes,
                                             comments: "${widget.comments}",
@@ -507,6 +517,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
 }
 
 class RightPanel extends StatefulWidget {
+  final BuildContext mContext;
   final int? likes;
   final String? comments;
   final String? shares;
@@ -526,7 +537,8 @@ class RightPanel extends StatefulWidget {
       this.albumImg,
       this.isLiked,
       this.contentId,
-      this.greelsModel})
+      this.greelsModel,
+      required this.mContext})
       : super(key: key);
 
   final Size size;
@@ -548,12 +560,17 @@ class _RightPanelState extends State<RightPanel> {
               SizedBox(
                 height: 20,
               ),
+
               LikeWidget(
-                likes: '${widget.likes}',
-                isLiked: widget.isLiked,
-                contentId: widget.contentId,
-                greelsModel: widget.greelsModel,
+                mcontext: widget.mContext,
+                contentId: widget.contentId!,
               ),
+              // LikeWidget(
+              //   likes: '${widget.likes}',
+              //   isLiked: widget.isLiked,
+              //   contentId: widget.contentId,
+              //   greelsModel: widget.greelsModel,
+              // ),
               SizedBox(
                 height: 18,
               ),
@@ -577,61 +594,34 @@ class _RightPanelState extends State<RightPanel> {
   }
 }
 
-// ignore: must_be_immutable
-class LikeWidget extends StatefulWidget {
-  final String? likes;
-  bool? isLiked;
-  final int? contentId;
-  GReelsModel? greelsModel;
-
-  LikeWidget(
-      {Key? key, this.likes, this.isLiked, this.contentId, this.greelsModel})
+class LikeWidget extends StatelessWidget {
+  final BuildContext? mcontext;
+  final int contentId;
+  const LikeWidget({Key? key, required this.contentId, this.mcontext})
       : super(key: key);
 
   @override
-  State<LikeWidget> createState() => _LikeWidgetState();
-}
-
-class _LikeWidgetState extends State<LikeWidget> {
-  int? likeCount;
-  bool? isLiked;
-  @override
-  void initState() {
-    super.initState();
-
-    updateInfo();
-    updateLikeandViews(null);
-  }
-
-  updateInfo() {
-    setState(() {
-      likeCount = int.parse(widget.likes!);
-      isLiked = widget.isLiked;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    var joyContentModel = Provider.of<GReelsModel>(mcontext!);
+
+    bool isLiked = joyContentModel.isUserLiked(contentId);
     return InkWell(
       onTap: () {
-        setState(() {
-          if (isLiked!) {
-            updateLikeandViews(0);
-            likeCount = likeCount! - 1;
-            widget.greelsModel?.decreaseLikeCount(widget.contentId!);
-            isLiked = false;
-          } else {
-            updateLikeandViews(1);
-            likeCount = likeCount! + 1;
-            widget.greelsModel?.increaseLikeCount(widget.contentId!);
-            isLiked = true;
-          }
-        });
+        if (isLiked) {
+          updateLikeandViews(0);
+          joyContentModel.decreaseLikeCount(contentId);
+        } else {
+          updateLikeandViews(1);
+
+          joyContentModel.increaseLikeCount(contentId);
+        }
+        joyContentModel
+            .updateCurrentIndex(joyContentModel.getCurrentPostIndex(contentId));
       },
       child: Container(
         child: Column(
           children: <Widget>[
-            isLiked!
+            isLiked
                 ? SvgPicture.asset(
                     'assets/images/greels_liked.svg',
                     height: 40.0,
@@ -648,7 +638,7 @@ class _LikeWidgetState extends State<LikeWidget> {
               height: 5,
             ),
             Text(
-              '${likeCount}',
+              '${joyContentModel.getLikeCount(contentId)}',
               style: Styles.regular(size: 12, color: ColorConstants.WHITE),
             )
           ],
@@ -658,10 +648,12 @@ class _LikeWidgetState extends State<LikeWidget> {
   }
 
   void updateLikeandViews(int? like) async {
-    BlocProvider.of<HomeBloc>(context).add(LikeContentEvent(
-        contentId: widget.contentId, like: like, type: 'contents'));
+    BlocProvider.of<HomeBloc>(mcontext!).add(
+        LikeContentEvent(contentId: contentId, like: like, type: 'contents'));
   }
 }
+
+
 
 class ShowImage extends StatefulWidget {
   final String? path;
