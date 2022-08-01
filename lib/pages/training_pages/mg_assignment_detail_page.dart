@@ -133,6 +133,9 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
         headers: {"auth": "test_for_sql_encoding"},
         openFileFromNotification: true,
       );
+
+      //open file after download
+      FlutterDownloader.open(taskId: taskId!);
       print(taskId);
     } catch (e) {
       print(e);
@@ -353,8 +356,8 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                   ),
                   Text(
                     assignmentDetailProvider.assignments.allowMultiple != 0
-                        ? ' . Multi Attempt'
-                        : ' . Single Attempt',
+                        ? ' • Multiple Attempt'
+                        : ' • 1 Attempt',
                     style: Styles.bold(size: 14, color: ColorConstants.BLACK),
                   ),
                 ],

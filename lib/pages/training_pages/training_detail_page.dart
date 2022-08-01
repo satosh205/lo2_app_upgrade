@@ -331,7 +331,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                             .spaceBetween,
                                                     children: [
                                                       Text(
-                                                        '${Utility.convertDateFromMillis(selectedData.startDate, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
+                                                        '${Utility.convertDateFromMillis(selectedData.startDate, Strings.CLASS_TIME_FORMAT)}',
                                                         style: Styles.bold(
                                                             size: 14),
                                                       ),
