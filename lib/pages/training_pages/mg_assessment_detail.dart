@@ -326,7 +326,7 @@ class MgAssessmentDetailPage extends StatelessWidget {
                             size: 16, color: ColorConstants.BLACK),
                       ),
                       Text(
-                        '${Utility.convertDateFromMillis(assessmentDetailProvider.assessmentResponse!.data!.instruction!.details!.submittedOnDate!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
+                        '${Utility.convertDateFromMillis(assessmentDetailProvider.assessmentResponse!.data!.instruction!.details!.submittedOnDate!, Strings.REQUIRED_DATE_DD_MMM_YYYY_HH_MM__SS)}',
                         style: Styles.textRegular(
                             size: 12, color: ColorConstants.GREY_4),
                       ),

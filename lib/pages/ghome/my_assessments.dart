@@ -11,6 +11,7 @@ import 'package:masterg/data/api/api_constants.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/my_assessment_response.dart';
 import 'package:masterg/data/providers/mg_assessment_detail_provioder.dart';
+import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/card_loader.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/gschool_widget/date_picker.dart';
@@ -310,14 +311,38 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
       visible: (selectedOption == item.status || selectedOption == 'All'),
       child: InkWell(
         onTap: () {
-          Navigator.push(
-              context,
-              NextPageRoute(
-                  ChangeNotifierProvider<MgAssessmentDetailProvider>(
-                      create: (context) => MgAssessmentDetailProvider(
-                          TrainingService(ApiService()), item),
-                      child: MgAssessmentDetailPage()),
-                  isMaintainState: true));
+          if (item.status?.toLowerCase() == 'upcoming')
+            AlertsWidget.showCustomDialog(
+                context: context,
+                title: "Assessment is not ready for submission",
+                text: "",
+                icon: 'assets/images/circle_alert_fill.svg',
+                showCancel: false,
+                oKText: 'Ok',
+                onOkClick: () async {
+                  // Navigator.pop(context);
+                });
+          else if (DateTime.now()
+              .isBefore(DateTime.fromMillisecondsSinceEpoch(item.endDate!))) {
+            AlertsWidget.showCustomDialog(
+                context: context,
+                title: "Assessment deadline is over",
+                text: "",
+                icon: 'assets/images/circle_alert_fill.svg',
+                showCancel: false,
+                oKText: 'Ok',
+                onOkClick: () async {
+                  // Navigator.pop(context);
+                });
+          } else
+            Navigator.push(
+                context,
+                NextPageRoute(
+                    ChangeNotifierProvider<MgAssessmentDetailProvider>(
+                        create: (context) => MgAssessmentDetailProvider(
+                            TrainingService(ApiService()), item),
+                        child: MgAssessmentDetailPage()),
+                    isMaintainState: true));
         },
         child: Container(
             padding: EdgeInsets.all(10),
@@ -353,33 +378,63 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
                     ),
                   ],
                   SizedBox(width: 20),
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('${item.title}', style: Styles.bold(size: 16)),
-                        if (item.status == 'Completed') ...[
-                          SizedBox(height: 5),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
                           Text(
-                              '${item.score}/${item.maximumMarks} Marks • ${item.attemptAllowed! - item.attemptCount!} attempts left ',
-                              style: Styles.regular(
-                                  size: 12, color: Colors.black)),
-                          SizedBox(height: 5),
-                          Text(
-                              'Submit before: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
-                              style: Styles.regular(size: 12))
-                        ] else ...[
-                          SizedBox(height: 5),
-                          Text(
-                              '${item.durationInMinutes} mins • ${item.maximumMarks} Marks',
-                              style: Styles.regular(
-                                  size: 12, color: Colors.black)),
-                          SizedBox(height: 5),
-                          Text(
-                              'Submit before: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
-                              style: Styles.regular(size: 12)),
-                        ],
-                      ]),
+                            '${item.title}',
+                            style: Styles.bold(size: 16),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          if (item.status == 'Completed') ...[
+                            SizedBox(height: 5),
+                            Text(
+                                '${item.score}/${item.maximumMarks} Marks • ${item.attemptAllowed! - item.attemptCount!} attempts left ',
+                                style: Styles.regular(
+                                    size: 12, color: Colors.black)),
+                            SizedBox(height: 5),
+                            Text(
+                                'Submit before: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
+                                style: Styles.regular(size: 12))
+                          ] else ...[
+                            SizedBox(height: 5),
+                            Text(
+                                '${item.durationInMinutes} mins • ${item.maximumMarks} Marks',
+                                style: Styles.regular(
+                                    size: 12, color: Colors.black)),
+                            SizedBox(height: 5),
+                            Text(
+                                'Submit before: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
+                                style: Styles.regular(size: 12)),
+                          ],
+                        ]),
+                  ),
+                  Positioned(
+                      right: 0,
+                      bottom: 0,
+                      child: Visibility(
+                        visible: item.status == 'Completed',
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  NextPageRoute(AssessmentYourReportPage(
+                                      contentId: item.contentId)));
+                            },
+                            child: Text('Report',
+                                textAlign: TextAlign.right,
+                                style: Styles.regular(
+                                    size: 12,
+                                    color: ColorConstants().primaryColor())),
+                          ),
+                        ),
+                      ))
                 ]),
               ),
             ])),

@@ -140,14 +140,18 @@ class _AssessmentYourAnswersPageState extends State<AssessmentYourAnswersPage> {
             AlertsWidget.alertWithOkBtn(
               context: context,
               onOkClick: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.pop(context);
                 /*Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => homePage()));*/
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => AssessmentYourReportPage(
-                              contentId: widget.contentId,
-                            ))).then((value) => Navigator.pop(context));
+                // Navigator.pushReplacement(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => AssessmentYourReportPage(
+                //               contentId: widget.contentId,
+                //             ))).then((value) => Navigator.pop(context));
               },
               text:
                   "Your answers are saved successfully. Results will be declared soon.",

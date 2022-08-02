@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
+import 'package:masterg/blocs/home_bloc.dart';
+import 'package:masterg/data/models/request/home_request/user_program_subscribe.dart';
 import 'package:masterg/data/models/request/save_answer_request.dart';
 import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
 import 'package:masterg/data/models/response/home_response/assignment_submissions_response.dart';
@@ -32,6 +34,7 @@ import 'package:masterg/data/models/response/home_response/test_review_response.
 import 'package:masterg/data/models/response/home_response/update_user_profile_response.dart';
 import 'package:masterg/data/models/response/home_response/user_analytics_response.dart';
 import 'package:masterg/data/models/response/home_response/user_profile_response.dart';
+import 'package:masterg/data/models/response/home_response/user_program_subscribe_reponse.dart';
 import 'package:masterg/data/providers/home_provider.dart';
 import 'package:masterg/utils/Log.dart';
 
@@ -84,6 +87,20 @@ class HomeRepository {
           error: response.body == null
               ? "Something went wrong:" as List<String>?
               : response.body);
+    }
+  }
+
+  Future<UserProgramSubscribeRes> subscribeProgram(UserProgramSubscribeReq req) async{
+    final response = await homeProvider.UserSubscribe(subrReq: req);
+    if (response!.success) {
+      Log.v("User Program Subscribe DATA : ${response.body}");
+      UserProgramSubscribeRes resp = UserProgramSubscribeRes.fromJson(response.body);
+     
+ 
+      return resp;
+    } else {
+     
+      return UserProgramSubscribeRes();
     }
   }
 

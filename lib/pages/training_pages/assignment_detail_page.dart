@@ -823,6 +823,14 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                                 style: Styles.regular(
                                     size: 14, color: ColorConstants.RED),
                               ),
+                        if (assignmentDetailProvider
+                                .assignment?.totalAttempts !=
+                            0)
+                          Text(
+                            ' Taken',
+                            style: Styles.regular(
+                                size: 14, color: ColorConstants.RED),
+                          ),
                       ],
                     ),
                     _size(height: 15),

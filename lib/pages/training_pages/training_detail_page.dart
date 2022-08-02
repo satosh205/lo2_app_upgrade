@@ -163,6 +163,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
   }
 
   void openAssessment(dynamic data) {
+    print('opn assessment');
     Navigator.push(
         context,
         NextPageRoute(
@@ -198,16 +199,32 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
     } else if (selectedType == 'Videos' && selectedContentId != null) {
       title = 'Start Video';
     } else if (selectedType == 'Quiz' && selectedContentId != null) {
-      if (selectedData.status == 'Active' &&
-          selectedData.attemptAllowed == selectedData.attemptsRemaining)
-        title = 'Start Quiz';
-      else
-        title = 'Re-Attempt/ Review';
+      if (selectedData.status == 'Active') {
+        if (selectedData.attemptsRemaining == selectedData.attemptsRemaining) {
+          title = 'Attempt';
+        } else {
+          title = 'Re-Attempt/ Review';
+        }
+      }
       if (selectedData.attemptsRemaining == 0) {
         isButtonActive = false;
       }
     }
-
+    Color bgColor = !isButtonActive
+        ? ColorConstants.GREY_2
+        : selectedType == 'Quiz'
+            ? selectedData.status == 'Active'
+                ? ColorConstants().primaryColor()
+                : ColorConstants.GREY_2
+            : selectedType == 'Quiz'
+                ? selectedData?.liveclassAction.toString().toLowerCase() ==
+                        'scheduled'
+                    ? ColorConstants.GREY_2
+                    : ColorConstants().primaryColor()
+                : selectedType == 'Assignment' &&
+                        selectedData?.status?.toLowerCase() == 'pending'
+                    ? ColorConstants.GREY_2
+                    : ColorConstants().primaryColor();
     return Column(
       // shrinkWrap: true,
 
@@ -460,15 +477,28 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                             ),
                                                         ],
                                                       ),
-                                                    if (selectedType == 'Quiz')
-                                                      Text(
-                                                        '${selectedData.score}/${selectedData.maximumMarks} Marks •  ${selectedData.attemptsRemaining} attemps available',
-                                                        style: Styles.regular(
-                                                            size: 14,
-                                                            color:
-                                                                ColorConstants
-                                                                    .WHITE),
-                                                      ),
+                                                    if (selectedType ==
+                                                        'Quiz') ...[
+                                                      selectedData.attemptsRemaining !=
+                                                              selectedData
+                                                                  .attemptsRemaining
+                                                          ? Text(
+                                                              '${selectedData.score}/${selectedData.maximumMarks} Marks •  ${selectedData.attemptsRemaining} attemps available',
+                                                              style: Styles.regular(
+                                                                  size: 14,
+                                                                  color:
+                                                                      ColorConstants
+                                                                          .WHITE),
+                                                            )
+                                                          : Text(
+                                                              '${selectedData.maximumMarks} Marks • ${selectedData.attemptsRemaining} attemps available',
+                                                              style: Styles.regular(
+                                                                  size: 14,
+                                                                  color:
+                                                                      ColorConstants
+                                                                          .WHITE),
+                                                            ),
+                                                    ]
                                                   ],
                                                 ),
                                               ],
@@ -509,7 +539,10 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                         openAssignment(
                                                             selectedData);
                                                       } else if (selectedType ==
-                                                          'Quiz') {
+                                                              'Quiz' &&
+                                                          selectedData?.status
+                                                                  ?.toLowerCase() !=
+                                                              'pending') {
                                                         openAssessment(
                                                             selectedData);
                                                       }
@@ -519,33 +552,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                       width: 150,
                                                       height: 38,
                                                       decoration: BoxDecoration(
-                                                          color: !isButtonActive
-                                                              ? ColorConstants
-                                                                  .GREY_2
-                                                              : selectedType ==
-                                                                      'Quiz'
-                                                                  ? selectedData
-                                                                              .status ==
-                                                                          'Active'
-                                                                      ? ColorConstants()
-                                                                          .primaryColor()
-                                                                      : ColorConstants
-                                                                          .GREY_2
-                                                                  : selectedType ==
-                                                                          'Quiz'
-                                                                      ? selectedData?.liveclassAction.toString().toLowerCase() ==
-                                                                              'scheduled'
-                                                                          ? ColorConstants
-                                                                              .GREY_2
-                                                                          : ColorConstants()
-                                                                              .primaryColor()
-                                                                      : selectedType == 'Assignment' &&
-                                                                              selectedData?.status?.toLowerCase() ==
-                                                                                  'pending'
-                                                                          ? ColorConstants
-                                                                              .GREY_2
-                                                                          : ColorConstants()
-                                                                              .primaryColor(),
+                                                          color: bgColor,
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(8)),
@@ -554,8 +561,12 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                           '$title',
                                                           style: Styles.regular(
                                                               size: 14,
-                                                              color:
-                                                                  ColorConstants
+                                                              color: bgColor ==
+                                                                      ColorConstants
+                                                                          .GREY_2
+                                                                  ? ColorConstants
+                                                                      .GREY_3
+                                                                  : ColorConstants
                                                                       .BLACK),
                                                           textAlign:
                                                               TextAlign.center,

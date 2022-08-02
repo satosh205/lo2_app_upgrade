@@ -363,7 +363,19 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                   onOkClick: () async {
                     // Navigator.pop(context);
                   });
-            else
+            else if (DateTime.now()
+                .isBefore(DateTime.fromMillisecondsSinceEpoch(item.endDate!))) {
+              AlertsWidget.showCustomDialog(
+                  context: context,
+                  title: "Assignment deadline is over",
+                  text: "",
+                  icon: 'assets/images/circle_alert_fill.svg',
+                  showCancel: false,
+                  oKText: 'Ok',
+                  onOkClick: () async {
+                    // Navigator.pop(context);
+                  });
+            } else
               Navigator.push(
                 context,
                 NextPageRoute(

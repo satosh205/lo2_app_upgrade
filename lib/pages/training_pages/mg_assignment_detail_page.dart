@@ -657,10 +657,22 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                       ),
                     ),
                     _size(height: 10),
-                    Text(
-                      '${assignmentDetailProvider.assignments.totalAttempts} ${assignmentDetailProvider.assignments.totalAttempts! > 1 ? 'Attempts' : "Attempt"}',
-                      style:
-                          Styles.regular(size: 14, color: ColorConstants.RED),
+                    Row(
+                      children: [
+                        Text(
+                          '${assignmentDetailProvider.assignments.totalAttempts} ${assignmentDetailProvider.assignments.totalAttempts! > 1 ? 'Attempts ' : "Attempt"}',
+                          style: Styles.regular(
+                              size: 14, color: ColorConstants.RED),
+                        ),
+                        if (assignmentDetailProvider
+                                .assignments.totalAttempts !=
+                            0)
+                          Text(
+                            ' Taken',
+                            style: Styles.regular(
+                                size: 14, color: ColorConstants.RED),
+                          ),
+                      ],
                     ),
                     _size(height: 15),
                   ],

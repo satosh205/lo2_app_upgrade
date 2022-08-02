@@ -49,7 +49,62 @@ class _CoursesDetailsPageState extends State<CoursesDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       backgroundColor: Colors.white,
+      floatingActionButton: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 100,
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        decoration: BoxDecoration(
+          color: ColorConstants.WHITE,
+
+          //top shadow
+          boxShadow: [
+            BoxShadow(
+              color: ColorConstants.BLACK.withOpacity(0.15),
+              spreadRadius: 0,
+              blurRadius: 20,
+              offset: Offset(0, -2), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Text('${widget.enrolmentCount} Students already Enrolled',
+                style: Styles.regular(size: 12)),
+            SizedBox(
+              height: 10,
+            ),
+            TapWidget(
+              onTap: () {
+                print('object');
+                _subscribeRequest(widget.type, widget.id);
+              },
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  color: ColorConstants().primaryColor(),
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 8, right: 8, top: 4, bottom: 4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Request',
+                        style: Styles.textExtraBold(
+                            size: 14, color: ColorConstants.WHITE),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
@@ -74,87 +129,62 @@ class _CoursesDetailsPageState extends State<CoursesDetailsPage> {
             ),
           ),
           SliverToBoxAdapter(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                    padding: const EdgeInsets.only(
-                        left: 20.0, top: 10.0, right: 20.0),
-                    child: Text(
-                      widget.name.toString(),
-                      style: Styles.bold(),
-                    )),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Container(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.name.toString(),
+                    style: Styles.bold(),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
                     child: Text(widget.description.toString()),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Row(
+                  SizedBox(
+                    height: 20,
+                  ),
+                  RichText(
+                      text: TextSpan(children: [
+                    TextSpan(
+                        text: 'Trainer Name: ',
+                        style: Styles.regular(size: 12)),
+                    TextSpan(
+                        text: '${widget.trainer.toString()}',
+                        style: Styles.bold(size: 12)),
+                  ])),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text('${widget.enrolmentCount} Enrollments',
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          softWrap: false,
-                          style: Styles.regular(size: 14)),
-                      Spacer(),
                       if (widget.regularPrice != widget.salePrice)
                         Text('₹${widget.regularPrice}',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             softWrap: false,
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 15,
                               decoration: TextDecoration.lineThrough,
                             )),
+                      SizedBox(
+                        width: 10,
+                      ),
                       if (widget.salePrice != null)
                         Text('₹${widget.salePrice}',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             softWrap: false,
                             style: Styles.bold(
-                                size: 18, color: ColorConstants.GREEN)),
+                                size: 23, color: ColorConstants.GREEN)),
                     ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Text('Trainer Name: ' + widget.trainer.toString()),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 20.0, right: 20.0, top: 70.0),
-                  child: TapWidget(
-                    onTap: () {
-                      print('object');
-                      _subscribeRequest(widget.type, widget.id);
-                    },
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: ColorConstants().primaryColor(),
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 8, right: 8, top: 4, bottom: 4),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Request',
-                              style: Styles.textExtraBold(
-                                  size: 14, color: ColorConstants.WHITE),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+                  )
+                ],
+              ),
             ),
           ),
         ],
