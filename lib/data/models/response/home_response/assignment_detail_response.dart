@@ -57,6 +57,7 @@ class Assignment {
   String? contentType;
   int? languageId;
   int? moduleId;
+  int? totalAttempts;
   List<Learners>? learners;
   String? file;
 
@@ -73,7 +74,8 @@ class Assignment {
       this.languageId,
       this.moduleId,
       this.learners,
-      this.file});
+      this.file,
+      this.totalAttempts});
 
   Assignment.fromJson(Map<String, dynamic> json) {
     contentId = json['content_id'];
@@ -87,6 +89,7 @@ class Assignment {
     contentType = json['content_type'];
     languageId = json['language_id'];
     moduleId = json['module_id'];
+    totalAttempts = json['total_attempts'];
     if (json['learners'] != null) {
       learners = <Learners>[];
       json['learners'].forEach((v) {
@@ -109,6 +112,7 @@ class Assignment {
     data['content_type'] = this.contentType;
     data['language_id'] = this.languageId;
     data['module_id'] = this.moduleId;
+    data['total_attempts'] = this.totalAttempts;
     if (this.learners != null) {
       data['learners'] = this.learners!.map((v) => v.toJson()).toList();
     }

@@ -51,8 +51,9 @@ class Utility {
 
   static String convertCourseTime(int? timeInMillis, String newFormat,
       {bool isUTC = false}) {
-    return DateFormat(newFormat).format(
-        DateTime.fromMillisecondsSinceEpoch(timeInMillis! * 1000).toUtc());
+    return DateFormat(newFormat).format(DateTime.fromMillisecondsSinceEpoch(
+        timeInMillis! * 1000,
+        isUtc: isUTC));
   }
 
   static String getDiffInMin(int start, int end) {

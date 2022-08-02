@@ -201,96 +201,99 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
               //var list = _getFilterList();
               return Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Text('Sort By: ', style: Styles.regular(size: 14)),
-                        DropdownButton<String>(
-                          underline: SizedBox(),
-                          hint: Text('$selectedOption',
-                              style: Styles.bold(size: 14)),
-                          items: <String>[
-                            'All',
-                            'Upcoming',
-                            'Completed',
-                            'Pending',
-                          ].map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (_) {
-                            setState(() {
-                              selectedOption = _!;
-                            });
-                          },
-                        ),
-                        Expanded(child: SizedBox()),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              //selectedCalanderView = !selectedCalanderView;
-                              selectedCalanderView = false;
-                            });
-                          },
-                          child: !selectedCalanderView
-                              ? SvgPicture.asset(
-                                  'assets/images/selected_listview.svg',
-                                  height: 16,
-                                  width: 16,
-                                  allowDrawingOutsideViewBox: true,
-                                )
-                              : SvgPicture.asset(
-                                  'assets/images/unselected_listview.svg',
-                                  height: 16,
-                                  width: 16,
-                                  allowDrawingOutsideViewBox: true,
-                                ),
-                        ),
-                        SizedBox(width: 10),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              //selectedCalanderView = !selectedCalanderView;
-                              selectedCalanderView = true;
-                            });
-                          },
-                          child: selectedCalanderView
-                              ? SvgPicture.asset(
-                                  'assets/images/selected_calender.svg',
-                                  height: 20,
-                                  width: 20,
-                                  allowDrawingOutsideViewBox: true,
-                                )
-                              : SvgPicture.asset(
-                                  'assets/images/unselected_calender.svg',
-                                  height: 20,
-                                  width: 20,
-                                  allowDrawingOutsideViewBox: true,
-                                ),
-                        )
-                      ],
-                    ),
-                    if (selectedCalanderView)
-                      Calendar(
-                        sendValue: (DateTime date) {
-                          setState(() {
-                            selectedDate = date;
-                          });
-                        },
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text('Sort By: ', style: Styles.regular(size: 14)),
+                          DropdownButton<String>(
+                            underline: SizedBox(),
+                            hint: Text('$selectedOption',
+                                style: Styles.bold(size: 14)),
+                            items: <String>[
+                              'All',
+                              'Upcoming',
+                              'Completed',
+                              'Pending',
+                            ].map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            onChanged: (_) {
+                              setState(() {
+                                selectedOption = _!;
+                              });
+                            },
+                          ),
+                          Expanded(child: SizedBox()),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                //selectedCalanderView = !selectedCalanderView;
+                                selectedCalanderView = false;
+                              });
+                            },
+                            child: !selectedCalanderView
+                                ? SvgPicture.asset(
+                                    'assets/images/selected_listview.svg',
+                                    height: 16,
+                                    width: 16,
+                                    allowDrawingOutsideViewBox: true,
+                                  )
+                                : SvgPicture.asset(
+                                    'assets/images/unselected_listview.svg',
+                                    height: 16,
+                                    width: 16,
+                                    allowDrawingOutsideViewBox: true,
+                                  ),
+                          ),
+                          SizedBox(width: 10),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                //selectedCalanderView = !selectedCalanderView;
+                                selectedCalanderView = true;
+                              });
+                            },
+                            child: selectedCalanderView
+                                ? SvgPicture.asset(
+                                    'assets/images/selected_calender.svg',
+                                    height: 20,
+                                    width: 20,
+                                    allowDrawingOutsideViewBox: true,
+                                  )
+                                : SvgPicture.asset(
+                                    'assets/images/unselected_calender.svg',
+                                    height: 20,
+                                    width: 20,
+                                    allowDrawingOutsideViewBox: true,
+                                  ),
+                          )
+                        ],
                       ),
-                    ListView.builder(
-                        scrollDirection:
-                            widget.isViewAll! ? Axis.vertical : Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount:
-                            assessmentList == null ? 0 : assessmentList!.length,
-                        itemBuilder: (context, index) {
-                          return _rowItem(assessmentList![index]);
-                        }),
-                  ],
+                      if (selectedCalanderView)
+                        Calendar(
+                          sendValue: (DateTime date) {
+                            setState(() {
+                              selectedDate = date;
+                            });
+                          },
+                        ),
+                      ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          itemCount: assessmentList == null
+                              ? 0
+                              : assessmentList!.length,
+                          itemBuilder: (context, index) {
+                            return _rowItem(assessmentList![index]);
+                          }),
+                    ],
+                  ),
                 ),
               );
             },
@@ -304,8 +307,7 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
 
   _rowItem(AssessmentList item) {
     return Visibility(
-      visible: (selectedOption == item.status || selectedOption == 'All') &&
-          checkViewDate(item.endDate),
+      visible: (selectedOption == item.status || selectedOption == 'All'),
       child: InkWell(
         onTap: () {
           Navigator.push(

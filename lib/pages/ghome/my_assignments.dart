@@ -386,7 +386,8 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                 /*border: Border.all(
                       color: Colors.green, width: 1, style: BorderStyle.solid)*/
               ),
-              child: Row(children: [
+              child:
+                  Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                 if (item.status == 'Completed') ...[
                   SvgPicture.asset(
                     'assets/images/completed_icon.svg',
@@ -410,30 +411,49 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                   ),
                 ],
                 SizedBox(width: 20),
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text('${item.title}', style: Styles.bold(size: 16)),
-                  SizedBox(height: 5),
-                  if (item.isGraded == 1)
-                    Text('${item.marks}/${item.maximumMarks} Marks',
-                        style: Styles.regular(size: 12)),
-                  if (item.status == 'Completed') ...[
-                    Text('Submitted', style: Styles.regular(size: 12)),
-                    SizedBox(height: 5),
-                    Text(
-                        '${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
-                        style: Styles.regular(size: 12)),
-                    SizedBox(height: 5),
-                  ] else if (item.status == 'Upcoming') ...[
-                    Text(
-                        'Deadline: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
-                        style: Styles.regular(size: 12)),
-                    SizedBox(height: 5),
-                  ] else if (item.status == 'Pending') ...[
-                    Text('${item.status}',
-                        style: Styles.regular(
-                            size: 12, color: ColorConstants().primaryColor())),
-                  ],
-                ]),
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('${item.title}', style: Styles.bold(size: 16)),
+                      SizedBox(height: 5),
+                      if (item.status == 'Completed') ...[
+                        Text('Submitted', style: Styles.regular(size: 12)),
+                        SizedBox(height: 5),
+                        Text(
+                            '${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
+                            style: Styles.regular(size: 12)),
+                        SizedBox(height: 5),
+                      ] else if (item.status == 'Upcoming') ...[
+                        Text(
+                            'Deadline: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
+                            style: Styles.regular(size: 12)),
+                        SizedBox(height: 5),
+                      ] else if (item.status == 'Pending') ...[
+                        Text('${item.status}',
+                            style: Styles.regular(
+                                size: 12,
+                                color: ColorConstants().primaryColor())),
+                        SizedBox(height: 5),
+                      ],
+                      if (item.isGraded == 1 && item.marks != null)
+                        Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                  text: 'Score earned: ',
+                                  style: Styles.regular(size: 12)),
+                              TextSpan(
+                                text: '${item.marks}',
+                                style: Styles.bold(size: 12),
+                              ),
+                              TextSpan(
+                                  text: '/${item.maximumMarks}',
+                                  style: Styles.regular(size: 12)),
+                            ],
+                          ),
+                        ),
+                    ]),
               ]))),
     );
   }

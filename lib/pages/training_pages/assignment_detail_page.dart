@@ -180,6 +180,138 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
         ])));
   }
 
+  // _buildListBody() {
+  //   return Container(
+  //       width: MediaQuery.of(context).size.width,
+  //       height: MediaQuery.of(context).size.height * 0.3,
+  //       child: _isLoading
+  //           ? Center(
+  //               child: CustomProgressIndicator(true, ColorConstants.WHITE),
+  //             )
+  //           : _attempts!.isNotEmpty
+  //               ? SingleChildScrollView(
+  //                   child: Container(
+  //                   width: MediaQuery.of(context).size.width,
+  //                   height: MediaQuery.of(context).size.height * 0.3,
+  //                   child: ListView.builder(
+  //                       itemCount: _attempts?.length,
+  //                       itemBuilder: (BuildContext context, int currentIndex) =>
+  //                           Padding(
+  //                             padding: const EdgeInsets.all(8.0),
+  //                             child: Row(
+  //                               mainAxisAlignment:
+  //                                   MainAxisAlignment.spaceBetween,
+  //                               children: [
+  //                                 Container(
+  //                                   width:
+  //                                       MediaQuery.of(context).size.width * 0.5,
+  //                                   child: Column(
+  //                                     crossAxisAlignment:
+  //                                         CrossAxisAlignment.start,
+  //                                     children: [
+  //                                       Text('${data.title}',
+  //                                           overflow: TextOverflow.fade,
+  //                                           maxLines: 1,
+  //                                           softWrap: false,
+  //                                           style: Styles.regular(size: 14)),
+  //                                       Text('${data.description}',
+  //                                           overflow: TextOverflow.fade,
+  //                                           maxLines: 1,
+  //                                           softWrap: false,
+  //                                           style: Styles.regular(size: 14)),
+  //                                       Text(
+  //                                           '${Utility.convertDateFromMillis(_attempts![currentIndex].updatedAt!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
+  //                                           overflow: TextOverflow.fade,
+  //                                           maxLines: 1,
+  //                                           softWrap: false,
+  //                                           style: Styles.regular(
+  //                                               size: 10,
+  //                                               color: ColorConstants.GREY_3))
+  //                                     ],
+  //                                   ),
+  //                                 ),
+  //                                 Column(
+  //                                   children: [
+  //                                     Row(
+  //                                       children: [
+  //                                         InkWell(
+  //                                           onTap: () async {
+  //                                             _downloadSubmission(
+  //                                                 _attempts![currentIndex]
+  //                                                     .file);
+  //                                           },
+  //                                           child: SvgPicture.asset(
+  //                                             'assets/images/download_icon.svg',
+  //                                             height: 25,
+  //                                             width: 25,
+  //                                             color: ColorConstants()
+  //                                                 .primaryColor(),
+  //                                             allowDrawingOutsideViewBox: true,
+  //                                           ),
+  //                                         ),
+  //                                         SizedBox(width: 20),
+  //                                         InkWell(
+  //                                           onTap: () {
+  //                                             Navigator.push(
+  //                                                 context,
+  //                                                 NextPageRoute(FullContentPage(
+  //                                                   contentType: "1",
+  //                                                   resourcePath:
+  //                                                       _attempts![currentIndex]
+  //                                                           .file,
+  //                                                 )));
+  //                                           },
+  //                                           child: SvgPicture.asset(
+  //                                             'assets/images/view_icon.svg',
+  //                                             color: ColorConstants()
+  //                                                 .primaryColor(),
+  //                                             height: 25,
+  //                                             width: 25,
+  //                                             allowDrawingOutsideViewBox: true,
+  //                                           ),
+  //                                         ),
+  //                                       ],
+  //                                     ),
+  //                                     Row(
+  //                                       children: [
+  //                                         Text(
+  //                                           data.isGraded == 0
+  //                                               ? "Non Graded"
+  //                                               : _attempts![currentIndex]
+  //                                                               .reviewStatus ==
+  //                                                           1 &&
+  //                                                       _attempts![currentIndex]
+  //                                                               .isPassed ==
+  //                                                           1
+  //                                                   ? "Congratulations you passed!"
+  //                                                   : _attempts![currentIndex]
+  //                                                                   .reviewStatus ==
+  //                                                               1 &&
+  //                                                           _attempts![currentIndex]
+  //                                                                   .isPassed ==
+  //                                                               0
+  //                                                       ? "Sorry, you failed."
+  //                                                       : "Under Review",
+  //                                           style: Styles.regular(size: 12),
+  //                                         ),
+  //                                         SizedBox(width: 10),
+  //                                         Icon(Icons.info, size: 20)
+  //                                       ],
+  //                                     ),
+  //                                   ],
+  //                                 ),
+  //                               ],
+  //                             ),
+  //                           )),
+  //                 ))
+  //               : Center(
+  //                   child: Text(
+  //                     "No assignments submitted",
+  //                     style: Styles.textBold(),
+  //                   ),
+  //                 ));
+  // }
+
   _buildListBody() {
     return Container(
         width: MediaQuery.of(context).size.width,
@@ -209,21 +341,14 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text('${data.title}',
+                                        Text(
+                                            '${_attempts![currentIndex].file!.split('/').last}',
                                             overflow: TextOverflow.fade,
-                                            maxLines: 1,
-                                            softWrap: false,
-                                            style: Styles.regular(size: 14)),
-                                        Text('${data.description}',
-                                            overflow: TextOverflow.fade,
-                                            maxLines: 1,
-                                            softWrap: false,
+                                            maxLines: 2,
+                                            softWrap: true,
                                             style: Styles.regular(size: 14)),
                                         Text(
-                                            '${Utility.convertDateFromMillis(_attempts![currentIndex].updatedAt!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
-                                            overflow: TextOverflow.fade,
-                                            maxLines: 1,
-                                            softWrap: false,
+                                            '${Utility.convertDateFromMillis(_attempts![currentIndex].createdAt!, Strings.REQUIRED_DATE_DD_MMM_YYYY_HH_MM__SS)}',
                                             style: Styles.regular(
                                                 size: 10,
                                                 color: ColorConstants.GREY_3))
@@ -231,11 +356,15 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                                     ),
                                   ),
                                   Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
                                         children: [
                                           InkWell(
                                             onTap: () async {
+                                              print('List View Click');
                                               _downloadSubmission(
                                                   _attempts![currentIndex]
                                                       .file);
@@ -272,30 +401,61 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                                           ),
                                         ],
                                       ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
                                       Row(
                                         children: [
-                                          Text(
-                                            data.isGraded == 0
-                                                ? "Non Graded"
-                                                : _attempts![currentIndex]
-                                                                .reviewStatus ==
-                                                            1 &&
-                                                        _attempts![currentIndex]
-                                                                .isPassed ==
-                                                            1
-                                                    ? "Congratulations you passed!"
-                                                    : _attempts![currentIndex]
-                                                                    .reviewStatus ==
-                                                                1 &&
-                                                            _attempts![currentIndex]
-                                                                    .isPassed ==
-                                                                0
-                                                        ? "Sorry, you failed."
-                                                        : "Under Review",
-                                            style: Styles.regular(size: 12),
+                                          Container(
+                                            child: data
+                                                        .submissionDetails![
+                                                            currentIndex]
+                                                        .reviewStatus ==
+                                                    0
+                                                ? Text(
+                                                    "Under Review",
+                                                  )
+                                                : Text(
+                                                    data.isGraded == 0
+                                                        ? "Non Graded "
+                                                        : "${data.submissionDetails![currentIndex].marksObtained ?? 0}/${assignmentDetailProvider.assignments.maximumMarks}",
+
+                                                    // : _attempts![currentIndex]
+                                                    //                 .reviewStatus ==
+                                                    //             1 &&
+                                                    //         _attempts![currentIndex]
+                                                    //                 .isPassed ==
+                                                    //             1
+                                                    //     ? "Congratulations you passed!"
+                                                    //     : _attempts![currentIndex]
+                                                    //                     .reviewStatus ==
+                                                    //                 1 &&
+                                                    //             _attempts![currentIndex]
+                                                    //                     .isPassed ==
+                                                    //                 0
+                                                    //         ? "Sorry, you failed."
+                                                    //         : "Under Review",
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    softWrap: true,
+                                                    style: Styles.bold(
+                                                        size: 12,
+                                                        color:
+                                                            data.isGraded == 0
+                                                                ? ColorConstants
+                                                                    .BLACK
+                                                                : ColorConstants
+                                                                    .GREEN),
+                                                  ),
                                           ),
-                                          SizedBox(width: 10),
-                                          Icon(Icons.info, size: 20)
+                                          SizedBox(width: 6),
+                                          SvgPicture.asset(
+                                            'assets/images/info.svg',
+                                            height: 14,
+                                            width: 14,
+                                            allowDrawingOutsideViewBox: true,
+                                          ),
                                         ],
                                       ),
                                     ],
@@ -313,7 +473,6 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
   }
 
   void _downloadSubmission(String? usersFile) async {
-
     print('=========== usersFile ===========');
     print(usersFile);
 
@@ -355,11 +514,31 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                '${assignmentDetailProvider.assignments.maximumMarks} Marks',
-                style: Styles.bold(size: 14, color: ColorConstants.BLACK),
+              Row(
+                children: [
+                  data.isGraded == 0
+                      ? Text(
+                          "Non Graded ",
+                          style: Styles.bold(
+                              size: 14, color: ColorConstants.BLACK),
+                        )
+                      : Text(
+                          '${assignmentDetailProvider.assignments.maximumMarks} Marks',
+                          style: Styles.bold(
+                              size: 14, color: ColorConstants.BLACK),
+                        ),
+                  Text(
+                    assignmentDetailProvider.assignments.allowMultiple != 0
+                        ? ' • Multiple Attempts'
+                        : ' • 1 Attempt',
+                    style: Styles.bold(size: 14, color: ColorConstants.BLACK),
+                  ),
+                ],
               ),
               _size(height: 10),
+              Text('${assignmentDetailProvider.assignments.description}',
+                  style: Styles.regular(size: 14)),
+              _size(height: 30),
               Divider(),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Text('Assignment file',
@@ -409,13 +588,11 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                       onTap: () {
                         Navigator.push(
                             context,
-                            NextPageRoute(
-                                ReviewSubmissions(
-                                  maxMarks: assignmentDetailProvider
-                                      .assignments.maximumMarks,
-                                  contentId: widget.id,
-                                ),
-                                isMaintainState: true));
+                            NextPageRoute(FullContentPage(
+                              contentType: "1",
+                              resourcePath:
+                                  assignmentDetailProvider.assignment!.file!,
+                            )));
                       },
                       child: SvgPicture.asset(
                         'assets/images/view_icon.svg',
@@ -624,6 +801,31 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                       ),
                     ),
                     _size(height: 15),
+                    Row(
+                      children: [
+                        Text(
+                          '${assignmentDetailProvider.assignment?.totalAttempts} ',
+                          style: Styles.regular(
+                              size: 14, color: ColorConstants.RED),
+                        ),
+                        assignmentDetailProvider.assignment?.totalAttempts ==
+                                    0 ||
+                                assignmentDetailProvider
+                                        .assignment?.totalAttempts ==
+                                    1
+                            ? Text(
+                                'Attempt',
+                                style: Styles.regular(
+                                    size: 14, color: ColorConstants.RED),
+                              )
+                            : Text(
+                                'Attempts',
+                                style: Styles.regular(
+                                    size: 14, color: ColorConstants.RED),
+                              ),
+                      ],
+                    ),
+                    _size(height: 15),
                   ],
                 ),
               ],
@@ -724,6 +926,9 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
         _getData();
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Assignment submitted successfully")));
+        setState(() {
+          file = null;
+        });
         _userNotes.clear();
       } else {
         ScaffoldMessenger.of(context)

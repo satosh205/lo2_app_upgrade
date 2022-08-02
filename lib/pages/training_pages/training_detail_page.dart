@@ -295,26 +295,36 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                       children: [
                                         selectedType != 'Assignment' &&
                                                 selectedType != 'Quiz'
-                                            ? ColorFiltered(
-                                                colorFilter: ColorFilter.mode(
-                                                    selectedType == 'Classes'
-                                                        ? Colors.black
-                                                            .withOpacity(0.2)
-                                                        : Colors.black
-                                                            .withOpacity(1),
-                                                    BlendMode.dstATop),
-                                                child: CachedNetworkImage(
-                                                  errorWidget:
-                                                      (context, url, error) =>
-                                                          SvgPicture.asset(
-                                                    'assets/images/gscore_postnow_bg.svg',
-                                                    width: double.infinity,
+                                            ? Container(
+                                                decoration: BoxDecoration(
+                                                  color: ColorConstants.BLACK,
+                                                  image: new DecorationImage(
                                                     fit: BoxFit.cover,
+                                                    colorFilter:
+                                                        new ColorFilter.mode(
+                                                            Colors.black
+                                                                .withOpacity(
+                                                                    0.6),
+                                                            BlendMode.dstATop),
+                                                    image: new NetworkImage(
+                                                      noteImgUrl,
+                                                    ),
                                                   ),
-                                                  width: double.infinity,
-                                                  imageUrl: noteImgUrl,
-                                                  fit: BoxFit.cover,
-                                                ))
+                                                ),
+                                                // chi
+                                                // child: CachedNetworkImage(
+                                                //   errorWidget:
+                                                //       (context, url, error) =>
+                                                //           SvgPicture.asset(
+                                                //     'assets/images/gscore_postnow_bg.svg',
+                                                //     width: double.infinity,
+                                                //     fit: BoxFit.cover,
+                                                //   ),
+                                                //   width: double.infinity,
+                                                //   imageUrl: noteImgUrl,
+                                                //   fit: BoxFit.cover,
+                                                // )
+                                              )
                                             : Container(
                                                 color: ColorConstants.COURSE_BG,
                                                 width: double.infinity,
@@ -331,8 +341,11 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                             .spaceBetween,
                                                     children: [
                                                       Text(
-                                                        '${Utility.convertDateFromMillis(selectedData.startDate, Strings.CLASS_TIME_FORMAT)}',
+                                                        '${Utility.convertDateFromMillis(selectedData.startDate, Strings.CLASS_TIME_FORMAT)} - ${Utility.convertDateFromMillis(selectedData.endDate, Strings.CLASS_TIME_FORMAT)} | ${Utility.convertDateFromMillis(selectedData.endDate, Strings.DATE_MONTH)}',
                                                         style: Styles.bold(
+                                                            color:
+                                                                ColorConstants
+                                                                    .WHITE,
                                                             size: 14),
                                                       ),
                                                       Container(
@@ -358,12 +371,22 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                     ],
                                                   ),
                                                   SizedBox(height: 10),
-                                                  Text('$trainerName'),
+                                                  Text(
+                                                    '$trainerName',
+                                                    style: Styles.bold(
+                                                      size: 14,
+                                                      color:
+                                                          ColorConstants.WHITE,
+                                                    ),
+                                                  ),
                                                   SizedBox(height: 10),
                                                   Text(
                                                     '${selectedData.title}',
-                                                    style:
-                                                        Styles.bold(size: 16),
+                                                    style: Styles.regular(
+                                                      size: 18,
+                                                      color:
+                                                          ColorConstants.WHITE,
+                                                    ),
                                                   )
                                                 ],
                                               )),
@@ -392,7 +415,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                     ),
                                                     if (selectedType == 'Quiz')
                                                       Text(
-                                                        '${selectedData.durationInMinutes} mins',
+                                                        '${selectedData.durationInMinutes} ${selectedData.durationInMinutes == 0 || selectedData.durationInMinutes == 1 ? 'min' : 'mins'}',
                                                         // '${selectedType}',
                                                         style: Styles.bold(
                                                             size: 14,
@@ -402,23 +425,40 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                       ),
                                                   ],
                                                 ),
-                                                SizedBox(height: 10),
+                                                SizedBox(height: 15),
                                                 Text('${selectedData.title}',
                                                     style: Styles.bold(
                                                         size: 16,
                                                         color: ColorConstants
                                                             .WHITE)),
+                                                SizedBox(height: 8),
                                                 Row(
                                                   children: [
                                                     if (selectedType ==
                                                         'Assignment')
-                                                      Text(
-                                                        '${selectedData.overallScore}/${selectedData.maximumMarks} Marks',
-                                                        style: Styles.regular(
-                                                            size: 14,
-                                                            color:
-                                                                ColorConstants
-                                                                    .WHITE),
+                                                      Row(
+                                                        children: [
+                                                          if (selectedData
+                                                                  .isGraded ==
+                                                              1) ...[
+                                                            Text(
+                                                              '${selectedData.maximumMarks} Marks • ${selectedData.allowMultiple == 1 ? 'Multiple Attempts' : '1 Attempt'}',
+                                                              style: Styles.semibold(
+                                                                  size: 14,
+                                                                  color:
+                                                                      ColorConstants
+                                                                          .WHITE),
+                                                            ),
+                                                          ] else
+                                                            Text(
+                                                              'Non Graded • ${selectedData.allowMultiple == 1 ? 'Multiple Attempts' : '1 Attempt'}',
+                                                              style: Styles.semibold(
+                                                                  size: 14,
+                                                                  color:
+                                                                      ColorConstants
+                                                                          .WHITE),
+                                                            ),
+                                                        ],
                                                       ),
                                                     if (selectedType == 'Quiz')
                                                       Text(
@@ -462,7 +502,10 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                           'Notes') {
                                                         playVideo(context);
                                                       } else if (selectedType ==
-                                                          'Assignment') {
+                                                              'Assignment' &&
+                                                          selectedData?.status
+                                                                  ?.toLowerCase() !=
+                                                              'pending') {
                                                         openAssignment(
                                                             selectedData);
                                                       } else if (selectedType ==
@@ -496,8 +539,13 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                                               .GREY_2
                                                                           : ColorConstants()
                                                                               .primaryColor()
-                                                                      : ColorConstants()
-                                                                          .primaryColor(),
+                                                                      : selectedType == 'Assignment' &&
+                                                                              selectedData?.status?.toLowerCase() ==
+                                                                                  'pending'
+                                                                          ? ColorConstants
+                                                                              .GREY_2
+                                                                          : ColorConstants()
+                                                                              .primaryColor(),
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(8)),
@@ -508,7 +556,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                               size: 14,
                                                               color:
                                                                   ColorConstants
-                                                                      .WHITE),
+                                                                      .BLACK),
                                                           textAlign:
                                                               TextAlign.center,
                                                         ),
@@ -516,26 +564,25 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                 ),
                                               )
                                             : Positioned(
-                                                bottom: 2,
+                                                bottom: 24,
                                                 left: 50,
                                                 right: 50,
                                                 child: Container(
                                                   width: 150,
                                                   height: 38,
                                                   decoration: BoxDecoration(
-                                                      color: ColorConstants
-                                                          .BLACK
-                                                          .withOpacity(0.3),
+                                                      color:
+                                                          ColorConstants.GREY_2,
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              4)),
+                                                              8)),
                                                   child: Center(
                                                     child: Text(
                                                       'Your class is finished',
                                                       style: Styles.regular(
                                                           size: 14,
                                                           color: ColorConstants
-                                                              .WHITE),
+                                                              .GREY_3),
                                                       textAlign:
                                                           TextAlign.center,
                                                     ),
@@ -1491,7 +1538,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                                 100
                             ? 1
                             : 2,
-                        ' • ${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots![index].durationInMinutes} Mins',
+                        ' • ${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots![index].durationInMinutes} ${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots![index].durationInMinutes == 0 || traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots![index].durationInMinutes == 1 ? 'min' : 'mins'}',
                         '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots![index].title}',
                         '${capitalize(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots![index].contentType)}',
                         'learningShots',
