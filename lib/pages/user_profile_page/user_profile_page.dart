@@ -61,15 +61,12 @@ class _UserProfilePageState extends State<UserProfilePage>
   String typeValue = '';
   bool deleteVisibleIconFlag = false;
 
-
   @override
   void initState() {
     super.initState();
     //apiFetch();
     _getUserProfile();
-
   }
-
 
   Future<void> apiFetch() async {
     await _listPortfolio('brand');
@@ -102,7 +99,8 @@ class _UserProfilePageState extends State<UserProfilePage>
     });
     print(typeValue);
     print(type);
-    BlocProvider.of<HomeBloc>(context).add(ListPortfolioEvent(type: type, userId: userProfileDataList!.userId));
+    BlocProvider.of<HomeBloc>(context).add(
+        ListPortfolioEvent(type: type, userId: userProfileDataList!.userId));
   }
 
   Future<void> _deletePortfolio(int id, int index) async {
@@ -113,9 +111,7 @@ class _UserProfilePageState extends State<UserProfilePage>
     print('========== selectedBrandPath ===========');
     print(selectedBrandPath);
 
-    if (titleController.text
-        .toString()
-        .isEmpty) {
+    if (titleController.text.toString().isEmpty) {
       AlertsWidget.showCustomDialog(
           context: context,
           title: "Error",
@@ -123,9 +119,7 @@ class _UserProfilePageState extends State<UserProfilePage>
           icon: 'assets/images/circle_alert_fill.svg',
           oKText: 'OK',
           showCancel: false,
-          onOkClick: () async {
-
-          });
+          onOkClick: () async {});
     } else if (selectedBrandPath!.isEmpty) {
       AlertsWidget.showCustomDialog(
           context: context,
@@ -134,15 +128,12 @@ class _UserProfilePageState extends State<UserProfilePage>
           icon: 'assets/images/circle_alert_fill.svg',
           oKText: 'OK',
           showCancel: false,
-          onOkClick: () async {
-
-          });
+          onOkClick: () async {});
     } else {
       Navigator.pop(context);
       createPortfolio();
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +179,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 NextPageRoute(SignUpScreen()),
-                                    (route) => false);
+                                (route) => false);
                           });
                         });
                   },
@@ -226,7 +217,6 @@ class _UserProfilePageState extends State<UserProfilePage>
 
               child: Column(
                 children: [
-
                   Container(
                     height: 100.0,
                     width: 100.0,
@@ -247,31 +237,31 @@ class _UserProfilePageState extends State<UserProfilePage>
                       children: [
                         selectedImage != null && selectedImage!.isNotEmpty
                             ? Container(
-                          height: 100,
-                          width: 100,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: FileImage(File('$selectedImage')),
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                          child: null /* add child content here */,
-                        )
+                                height: 100,
+                                width: 100,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    image: FileImage(File('$selectedImage')),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                                child: null /* add child content here */,
+                              )
                             : userProfileDataList!.profileImage != null
-                            ? ClipOval(
-                          child: Image.network(
-                            userProfileDataList!.profileImage!,
-                            filterQuality: FilterQuality.low,
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.fill,
-                          ),
-                        )
-                            : SvgPicture.asset(
-                          'assets/images/bxs_user_circle.svg',
-                          allowDrawingOutsideViewBox: true,
-                        ),
+                                ? ClipOval(
+                                    child: Image.network(
+                                      userProfileDataList!.profileImage!,
+                                      filterQuality: FilterQuality.low,
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.fill,
+                                    ),
+                                  )
+                                : SvgPicture.asset(
+                                    'assets/images/bxs_user_circle.svg',
+                                    allowDrawingOutsideViewBox: true,
+                                  ),
                         Positioned(
                           left: 62,
                           top: 62,
@@ -288,8 +278,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                               padding: EdgeInsets.all(2),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
-                                border:
-                                Border.all(width: 0, color: Colors.transparent),
+                                border: Border.all(
+                                    width: 0, color: Colors.transparent),
                                 color: Colors.grey[200],
                               ),
                               child: Icon(
@@ -303,7 +293,6 @@ class _UserProfilePageState extends State<UserProfilePage>
                     ),
                   ),
 
-
                   SizedBox(
                     height: 10,
                   ),
@@ -313,7 +302,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                     children: [
                       Text(
                         '${userProfileDataList!.name}',
-                        style: Styles.bold(color: ColorConstants.BLACK, size: 20),
+                        style:
+                            Styles.bold(color: ColorConstants.BLACK, size: 20),
                       ),
                       /*SvgPicture.asset('assets/images/edit_profile_icon.svg',
                           width: 20, height: 20)*/
@@ -322,24 +312,23 @@ class _UserProfilePageState extends State<UserProfilePage>
 
                   Text(
                     userProfileDataList!.organization!,
-                    style: Styles.textRegular(color: ColorConstants.GREY_3, size: 14),
+                    style: Styles.textRegular(
+                        color: ColorConstants.GREY_3, size: 14),
                   ),
 
                   Text(
                     '${userProfileDataList!.email}',
-                    style: Styles.regular(
-                        size: 14, color: ColorConstants.GREY_3),
+                    style:
+                        Styles.regular(size: 14, color: ColorConstants.GREY_3),
                   ),
 
-                  Text(
-                      '${userProfileDataList!.mobileNo}',
+                  Text('${userProfileDataList!.mobileNo}',
                       style: Styles.regular(
                           size: 14, color: ColorConstants.GREY_3)),
 
                   SizedBox(
                     height: 20,
                   ),
-
 
                   //TODO: User Information
                   Container(
@@ -406,21 +395,28 @@ class _UserProfilePageState extends State<UserProfilePage>
                                 Row(
                                   children: [
                                     Text('Brand Associations'),
-                                    listPortfolioBrand.length != 0 ? Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
-                                      child: GestureDetector(
-                                          onTap: (){
-                                            print('object delete');
-                                            this.setState(() {
-                                              deleteVisibleIconFlag = true;
-                                            });
-                                          },
-                                          child: Icon(Icons.edit, size: 20,)),
-                                    ):SizedBox(),
+                                    listPortfolioBrand.length != 0
+                                        ? Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0),
+                                            child: GestureDetector(
+                                                onTap: () {
+                                                  print('object delete');
+                                                  this.setState(() {
+                                                    deleteVisibleIconFlag =
+                                                        true;
+                                                  });
+                                                },
+                                                child: Icon(
+                                                  Icons.edit,
+                                                  size: 20,
+                                                )),
+                                          )
+                                        : SizedBox(),
                                   ],
                                 ),
                                 GestureDetector(
-                                    onTap: (){
+                                    onTap: () {
                                       print('onclick ');
                                       selectedBrandPath = '';
                                       titleController.clear();
@@ -440,100 +436,140 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                 color: Colors.white,
                                                 child: Column(
                                                   children: [
-
                                                     Container(
-                                                      margin: EdgeInsets.only(top: 5.0),
+                                                      margin: EdgeInsets.only(
+                                                          top: 5.0),
                                                       height: 3,
                                                       width: 60,
                                                       decoration: BoxDecoration(
-                                                          color: Colors.grey[300],
-                                                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                                                          color:
+                                                              Colors.grey[300],
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10))),
                                                     ),
-
                                                     Padding(
-                                                      padding: const EdgeInsets.only(top: 20),
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 20),
                                                       child: Text(
                                                         'Add a Brand',
-                                                        style:
-                                                        Styles.textBold(size: 14, color: ColorConstants.BLACK),
+                                                        style: Styles.textBold(
+                                                            size: 14,
+                                                            color:
+                                                                ColorConstants
+                                                                    .BLACK),
                                                       ),
                                                     ),
                                                     SizedBox(
                                                       height: 12,
                                                     ),
-
                                                     Padding(
-                                                      padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 30.0),
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 20.0,
+                                                              right: 20.0,
+                                                              top: 30.0),
                                                       child: TextFormField(
-                                                        controller: titleController,
+                                                        controller:
+                                                            titleController,
                                                         style: TextStyle(
                                                           fontSize: 14,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight:
+                                                              FontWeight.w600,
                                                         ),
-                                                        keyboardType: TextInputType.text,
+                                                        keyboardType:
+                                                            TextInputType.text,
                                                         /*inputFormatters: [
                                                       FilteringTextInputFormatter.deny(RegExp(r"[a-zA-Z -]"))
                                                     ],*/
                                                         onChanged: (value) {},
-                                                        decoration: InputDecoration(
-                                                          focusColor: Colors.white,
-                                                          border: OutlineInputBorder(
-                                                            borderRadius: BorderRadius.circular(10.0),
+                                                        decoration:
+                                                            InputDecoration(
+                                                          focusColor:
+                                                              Colors.white,
+                                                          border:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10.0),
                                                           ),
 
-                                                          focusedBorder: OutlineInputBorder(
+                                                          focusedBorder:
+                                                              OutlineInputBorder(
                                                             borderSide:
-                                                            const BorderSide(color: Colors.blue, width: 1.0),
-                                                            borderRadius: BorderRadius.circular(10.0),
+                                                                const BorderSide(
+                                                                    color: Colors
+                                                                        .blue,
+                                                                    width: 1.0),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10.0),
                                                           ),
-                                                          fillColor: Colors.grey,
-                                                          hintText: "Brand Name",
+                                                          fillColor:
+                                                              Colors.grey,
+                                                          hintText:
+                                                              "Brand Name",
                                                           //make hint text
                                                           hintStyle: TextStyle(
                                                             color: Colors.grey,
                                                             fontSize: 16,
-                                                            fontFamily: "verdana_regular",
-                                                            fontWeight: FontWeight.w400,
+                                                            fontFamily:
+                                                                "verdana_regular",
+                                                            fontWeight:
+                                                                FontWeight.w400,
                                                           ),
 
                                                           //create lable
-                                                          labelText: 'Brand Name',
+                                                          labelText:
+                                                              'Brand Name',
                                                           //lable style
                                                           labelStyle: TextStyle(
                                                             color: Colors.grey,
                                                             fontSize: 16,
-                                                            fontFamily: "verdana_regular",
-                                                            fontWeight: FontWeight.w400,
+                                                            fontFamily:
+                                                                "verdana_regular",
+                                                            fontWeight:
+                                                                FontWeight.w400,
                                                           ),
                                                         ),
                                                       ),
                                                     ),
-
                                                     SizedBox(
                                                       height: 30,
                                                     ),
                                                     GestureDetector(
-                                                      onTap: (){
-                                                        showBottomSheet(context, 'brand');
+                                                      onTap: () {
+                                                        showBottomSheet(
+                                                            context, 'brand');
                                                       },
                                                       child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
                                                         children: [
-                                                          Icon(Icons.file_upload_outlined),
-                                                          Text('Upload Brand Logo'),
-
+                                                          Icon(Icons
+                                                              .file_upload_outlined),
+                                                          Text(
+                                                              'Upload Brand Logo'),
                                                         ],
                                                       ),
                                                     ),
-
                                                     SizedBox(
                                                       height: 10,
                                                     ),
                                                     Text(
                                                       'Supported formats - .jpeg, .png',
-                                                      style: Styles.textExtraBold(
-                                                          size: 14,
-                                                          color: ColorConstants.GREY_3),
+                                                      style:
+                                                          Styles.textExtraBold(
+                                                              size: 14,
+                                                              color:
+                                                                  ColorConstants
+                                                                      .GREY_3),
                                                     ),
                                                     /*selectedBrandPath!.isNotEmpty ? Text(
                                                   '${selectedBrandPath!.substring(selectedBrandPath!.length -20)}',
@@ -550,19 +586,38 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                         validation();
                                                       },
                                                       child: Container(
-                                                        width: MediaQuery.of(context).size.width * 0.65,
-                                                        padding: EdgeInsets.all(8),
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.65,
+                                                        padding:
+                                                            EdgeInsets.all(8),
                                                         decoration: BoxDecoration(
-                                                            color: ColorConstants().primaryColor(),
-                                                            borderRadius: BorderRadius.all(Radius.circular(5))),
+                                                            color: ColorConstants()
+                                                                .primaryColor(),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            5))),
                                                         child: Padding(
-                                                          padding: const EdgeInsets.only(
-                                                              left: 8, right: 8, top: 4, bottom: 4),
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 8,
+                                                                  right: 8,
+                                                                  top: 4,
+                                                                  bottom: 4),
                                                           child: Text(
-                                                            'Submit', textAlign: TextAlign.center,
-                                                            style: Styles.textExtraBold(
-                                                                size: 14,
-                                                                color: ColorConstants.WHITE),
+                                                            'Submit',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: Styles
+                                                                .textExtraBold(
+                                                                    size: 14,
+                                                                    color: ColorConstants
+                                                                        .WHITE),
                                                           ),
                                                         ),
                                                       ),
@@ -572,107 +627,127 @@ class _UserProfilePageState extends State<UserProfilePage>
                                               ),
                                             );
                                           });
-
-                                    },child: Icon(Icons.add)),
-
+                                    },
+                                    child: Icon(Icons.add)),
                               ],
                             ),
-
-
                             Container(
                               height: 250,
-                              child: listPortfolioBrand.length != 0 ? GridView.builder(
-
-                                padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 30.0),
-                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 10,
-                                  mainAxisSpacing: 10,
-
-                                ),
-
-                                itemCount: listPortfolioBrand.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Stack(
-                                    children: [
-                                      Container(
-                                        child: Center(
-                                          //child: Text('${index + 1}' , style: Styles.textRegular(size: 16, color: Colors.white),),
-                                          child: Image.network('${listPortfolioBrand[index].image}',),
-                                        ),
+                              child: listPortfolioBrand.length != 0
+                                  ? GridView.builder(
+                                      padding: EdgeInsets.only(
+                                          left: 10.0, right: 10.0, top: 30.0),
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: 10,
+                                        mainAxisSpacing: 10,
                                       ),
-
-                                      deleteVisibleIconFlag == true ? Positioned.fill(
-                                        child: Align(
-                                          alignment: Alignment.topRight,
-                                          child: InkWell(
-                                            onTap: () {
-                                              AlertsWidget.alertWithOkCancelBtn(
-                                                context: context,
-                                                text:
-                                                "Are you sure you want to delete.",
-                                                title: "Alert!",
-                                                okText: "Yes",
-                                                cancelText: "No",
-                                                onOkClick: () async {
-                                                  //call delete api
-                                                  deleteIndex = index;
-                                                  deleteType = 'brand';
-                                                  _deletePortfolio(listPortfolioBrand[index].id!, index);
-                                                },
-                                              );
-                                            },
-                                            child: Container(
-                                              height: 20.0,
-                                              width: 20.0,
-                                              padding: EdgeInsets.all(2),
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(100),
-                                                border:
-                                                Border.all(width: 0, color: Colors.transparent),
-                                                color: Colors.grey[200],
-                                              ),
-                                              child: Icon(
-                                                Icons.delete,
-                                                size: 14,
-                                                color: Colors.grey,
+                                      itemCount: listPortfolioBrand.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return Stack(
+                                          children: [
+                                            Container(
+                                              child: Center(
+                                                //child: Text('${index + 1}' , style: Styles.textRegular(size: 16, color: Colors.white),),
+                                                child: Image.network(
+                                                  '${listPortfolioBrand[index].image}',
+                                                ),
                                               ),
                                             ),
-                                          ),
+                                            deleteVisibleIconFlag == true
+                                                ? Positioned.fill(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.topRight,
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          AlertsWidget
+                                                              .alertWithOkCancelBtn(
+                                                            context: context,
+                                                            text:
+                                                                "Are you sure you want to delete.",
+                                                            title: "Alert!",
+                                                            okText: "Yes",
+                                                            cancelText: "No",
+                                                            onOkClick:
+                                                                () async {
+                                                              //call delete api
+                                                              deleteIndex =
+                                                                  index;
+                                                              deleteType =
+                                                                  'brand';
+                                                              _deletePortfolio(
+                                                                  listPortfolioBrand[
+                                                                          index]
+                                                                      .id!,
+                                                                  index);
+                                                            },
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          height: 20.0,
+                                                          width: 20.0,
+                                                          padding:
+                                                              EdgeInsets.all(2),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        100),
+                                                            border: Border.all(
+                                                                width: 0,
+                                                                color: Colors
+                                                                    .transparent),
+                                                            color: Colors
+                                                                .grey[200],
+                                                          ),
+                                                          child: Icon(
+                                                            Icons.delete,
+                                                            size: 14,
+                                                            color: Colors.grey,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                : SizedBox(),
+                                          ],
+                                        );
+                                      },
+                                    )
+                                  : Container(
+                                      child: Center(
+                                        child: Column(
+                                          children: [
+                                            SvgPicture.asset(
+                                              'assets/images/brand_not.svg',
+                                              allowDrawingOutsideViewBox: true,
+                                            ),
+                                            Text(
+                                              'You have not aded any brand yet,',
+                                              style: Styles.textExtraBold(
+                                                  size: 14,
+                                                  color: ColorConstants.GREY_3),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(20.0),
+                                              child: Text(
+                                                'Add a brand and let everyone know about your Brand Associations.',
+                                                style: Styles.textExtraBold(
+                                                    size: 14,
+                                                    color:
+                                                        ColorConstants.GREY_3),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ): SizedBox(),
-                                    ],
-                                  );
-                                },
-                              ):Container(
-                                child: Center(
-                                  child: Column(
-                                    children: [
-                                      SvgPicture.asset(
-                                        'assets/images/brand_not.svg',
-                                        allowDrawingOutsideViewBox: true,
                                       ),
-                                      Text(
-                                        'You have not aded any brand yet,',
-                                        style: Styles.textExtraBold(
-                                            size: 14,
-                                            color: ColorConstants.GREY_3),
-                                      ),
-
-                                      Padding(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: Text(
-                                          'Add a brand and let everyone know about your Brand Associations.',
-                                          style: Styles.textExtraBold(
-                                              size: 14,
-                                              color: ColorConstants.GREY_3), textAlign: TextAlign.center,
-                                        ),
-                                      ),
-
-                                    ],
-                                  ),
-                                ),
-                              ),
+                                    ),
                             ),
                           ],
                         ),
@@ -694,51 +769,50 @@ class _UserProfilePageState extends State<UserProfilePage>
                     height: 12,
                     color: Colors.grey[200],
                   ),
-                  Container(
-                    height: 100,
-                    color: ColorConstants.WHITE,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(context, NextPageRoute(FaqPage()));
-                            },
-                            child: Row(
-                              children: [
-                                Container(
-                                    width: 30,
-                                    height: 30,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: ColorConstants().primaryColor(),
-                                    ),
-                                    child: Icon(
-                                      Icons.info,
-                                      color: ColorConstants.WHITE,
-                                      size: 20,
-                                    )),
-                                SizedBox(width: 10),
-                                Text('FAQ', style: Styles.regular()),
-                                Expanded(child: SizedBox()),
-                                Icon(Icons.arrow_forward_ios, size: 15),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Divider(
-                          color: Colors.grey,
-                          indent: 60,
-                        )
-                      ],
-                    ),
-                  ),
+                  // Container(
+                  //   height: 100,
+                  //   color: ColorConstants.WHITE,
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.center,
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: [
+                  //       Padding(
+                  //         padding: EdgeInsets.symmetric(horizontal: 20),
+                  //         child: InkWell(
+                  //           onTap: () {
+                  //             Navigator.push(context, NextPageRoute(FaqPage()));
+                  //           },
+                  //           child: Row(
+                  //             children: [
+                  //               Container(
+                  //                   width: 30,
+                  //                   height: 30,
+                  //                   decoration: BoxDecoration(
+                  //                     borderRadius: BorderRadius.circular(10),
+                  //                     color: ColorConstants().primaryColor(),
+                  //                   ),
+                  //                   child: Icon(
+                  //                     Icons.info,
+                  //                     color: ColorConstants.WHITE,
+                  //                     size: 20,
+                  //                   )),
+                  //               SizedBox(width: 10),
+                  //               Text('FAQ', style: Styles.regular()),
+                  //               Expanded(child: SizedBox()),
+                  //               Icon(Icons.arrow_forward_ios, size: 15),
+                  //             ],
+                  //           ),
+                  //         ),
+                  //       ),
+                  //       Divider(
+                  //         color: Colors.grey,
+                  //         indent: 60,
+                  //       )
+                  //     ],
+                  //   ),
+                  // ),
 
                   Expanded(child: SizedBox()),
-
                 ],
               ),
             ),
@@ -761,7 +835,8 @@ class _UserProfilePageState extends State<UserProfilePage>
           Log.v(state.response!.data!.list.toString());
 
           userProfileDataList = state.response!.data!.list;
-          Preference.setString(Preference.PROFILE_IMAGE, '${userProfileDataList!.profileImage}');
+          Preference.setString(
+              Preference.PROFILE_IMAGE, '${userProfileDataList!.profileImage}');
 
           _listPortfolio('brand');
           _isLoading = false;
@@ -775,10 +850,10 @@ class _UserProfilePageState extends State<UserProfilePage>
           break;
       }
     });
-
   }
 
-  void _handleUpdateUserProfileImageResponse(UpdateUserProfileImageState state) {
+  void _handleUpdateUserProfileImageResponse(
+      UpdateUserProfileImageState state) {
     var loginState = state;
     setState(() {
       switch (loginState.apiState) {
@@ -842,12 +917,11 @@ class _UserProfilePageState extends State<UserProfilePage>
         case ApiStatus.SUCCESS:
           Log.v("TopScoringUsersState data....................");
 
-          if(state.response!.data!.list != null){
-            for(int i = 0; i < state.response!.data!.list!.length; i++){
-              if(state.response!.data!.list![i].type == 'brand'){
+          if (state.response!.data!.list != null) {
+            for (int i = 0; i < state.response!.data!.list!.length; i++) {
+              if (state.response!.data!.list![i].type == 'brand') {
                 listPortfolioBrand = state.response!.data!.list!;
-
-              }/*else if(state.response!.data!.list![i].type == 'award'){
+              } /*else if(state.response!.data!.list![i].type == 'award'){
                 listPortfolioAward = state.response!.data!.list!;
 
               }else if(state.response!.data!.list![i].type == 'project'){
@@ -881,11 +955,10 @@ class _UserProfilePageState extends State<UserProfilePage>
         case ApiStatus.SUCCESS:
           Log.v("DeletePortfolioResponseState....................");
           //deletePortfolioResp = state.response!;
-          if(deleteType == 'brand') {
+          if (deleteType == 'brand') {
             listPortfolioBrand.removeAt(deleteIndex!);
             deleteVisibleIconFlag = false;
-
-          }/*else if(deleteType == 'award') {
+          } /*else if(deleteType == 'award') {
             listPortfolioAward.removeAt(deleteIndex!);
 
           }else if(deleteType == 'project') {
@@ -915,7 +988,7 @@ class _UserProfilePageState extends State<UserProfilePage>
       final picker = ImagePicker();
       // ignore: deprecated_member_use
       PickedFile? pickedFile =
-      await picker.getImage(source: source, imageQuality: 100);
+          await picker.getImage(source: source, imageQuality: 100);
       if (pickedFile != null) {
         print('======= pickedFile =======');
         print(pickedFile.path);
@@ -932,7 +1005,7 @@ class _UserProfilePageState extends State<UserProfilePage>
       final picker = ImagePicker();
       // ignore: deprecated_member_use
       PickedFile? pickedFile =
-      await picker.getImage(source: source, imageQuality: 100);
+          await picker.getImage(source: source, imageQuality: 100);
       if (pickedFile != null)
         return pickedFile.path;
       else if (Platform.isAndroid) {
@@ -988,14 +1061,12 @@ class _UserProfilePageState extends State<UserProfilePage>
                     color: Colors.white,
                   ),
                   title: new Text(
-                    '${Strings
-                        .of(context)
-                        ?.Gallery}',
+                    '${Strings.of(context)?.Gallery}',
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () async {
-                    await _getImages(ImageSource.gallery, 'gallery').then((
-                        value) async {
+                    await _getImages(ImageSource.gallery, 'gallery')
+                        .then((value) async {
                       if (clickSide.endsWith('profile')) {
                         selectedImage = value;
                         selectedImage = await _cropImage(value);
@@ -1011,7 +1082,6 @@ class _UserProfilePageState extends State<UserProfilePage>
                           selectedBrandPath = value;
                         });
                       }
-
                     });
                     Navigator.pop(context);
                   },
@@ -1028,21 +1098,17 @@ class _UserProfilePageState extends State<UserProfilePage>
                     color: Colors.white,
                   ),
                   title: new Text(
-                    '${Strings
-                        .of(context)
-                        ?.Camera}',
+                    '${Strings.of(context)?.Camera}',
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () async {
-                    await _getImages(ImageSource.camera, 'camera').then((
-                        value) async {
+                    await _getImages(ImageSource.camera, 'camera')
+                        .then((value) async {
                       if (clickSide.endsWith('profile')) {
                         selectedImage = value;
                         selectedImage = await _cropImage(value);
                         _updateUserProfileImage(selectedImage);
-                      }else{
-
-                      }
+                      } else {}
                       setState(() {});
                     });
                     Navigator.pop(context);

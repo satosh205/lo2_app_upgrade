@@ -560,6 +560,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                         child: Padding(
                                             child: Text(
                                               "View Recording",
+                                              style: Styles.regular(size: 12),
                                             ),
                                             padding: EdgeInsets.all(10))),
                                     visible: liveclassList![index].liveclassStatus!.toLowerCase() == 'completed')
