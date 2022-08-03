@@ -126,18 +126,19 @@ class _UserProfilePageState extends State<UserProfilePage>
     ));
   }
 
-  void userBrandCreate() {
+  void userBrandCreate(int? brandID) {
     print('========= userBrandCreate =========');
     print(files);
     print(fromDateController.text.toString());
     print(id);
+    print(_masterBrandResponse.data!.id);
 
     BlocProvider.of<HomeBloc>(context).add(UserBrandCreateEvent(
       startDate: fromDateController.text.toString(),
       //startDate: '2021-01-27 00:00:00',
       //endDate: '2021-05-27 00:00:00',
       endDate: checkBoxValue == false ? toDateController.text.toString(): DateTime.now().toString(),
-      typeId: brandImageUrl.isEmpty ? _masterBrandResponse.data!.id: id,
+      typeId: brandImageUrl.isEmpty ? brandID: id,
       filePath: files!.length !=0 ? files![0] : '',));
   }
 
@@ -158,6 +159,12 @@ class _UserProfilePageState extends State<UserProfilePage>
   void validation() {
     print('========== selectedBrandPath ===========');
     print(selectedBrandPath);
+    /*DateTime now = DateTime.now();
+    String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+    DateTime valEnd = DateTime.parse(fromDateController.text.toString());
+    DateTime date = toDateController.text.isNotEmpty ?
+    DateTime.parse(toDateController.text.toString()) :
+    DateTime.parse(formattedDate);*/
 
     if (titleController.text.toString().isEmpty) {
       AlertsWidget.showCustomDialog(
@@ -177,11 +184,34 @@ class _UserProfilePageState extends State<UserProfilePage>
           oKText: 'OK',
           showCancel: false,
           onOkClick: () async {});
-    } else {
-      Navigator.pop(context);
+
+    }else if(files!.length == 0){
+      AlertsWidget.showCustomDialog(
+          context: context,
+          title: "Error",
+          text: "Please select joining letter",
+          icon: 'assets/images/circle_alert_fill.svg',
+          oKText: 'OK',
+          showCancel: false,
+          onOkClick: () async {
+
+          });
+    }else {
+      //Navigator.pop(context);
       //createPortfolio();
       masterBrandCreate();
     }
+
+    /*if(valEnd.compareTo(date) > 0){
+      AlertsWidget.showCustomDialog(
+          context: context,
+          title: "Error",
+          text: "Please select image.",
+          icon: 'assets/images/circle_alert_fill.svg',
+          oKText: 'OK',
+          showCancel: false,
+          onOkClick: () async {});
+    }*/
   }
 
   @override
@@ -811,6 +841,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                           if(brandImageUrl.isEmpty){
                                             validation();
                                           }else{
+
                                             if(files!.length == 0){
                                               AlertsWidget.showCustomDialog(
                                                   context: context,
@@ -834,7 +865,7 @@ class _UserProfilePageState extends State<UserProfilePage>
 
                                                   });
                                             }else{
-                                              userBrandCreate();
+                                              userBrandCreate(0);
                                             }
                                           }
                                         },
@@ -1265,15 +1296,14 @@ class _UserProfilePageState extends State<UserProfilePage>
           Log.v("Loading....................");
           break;
         case ApiStatus.SUCCESS:
-          print('_handle Master Brand Create Response');
           _isLoadingAdd = false;
           Log.v("Success....................");
-          userBrandCreate();
           _masterBrandResponse = state.response!;
+          print(state.response!.data!.id);
+          userBrandCreate(state.response!.data!.id);
           break;
         case ApiStatus.ERROR:
           _isLoadingAdd = false;
-          Log.v("Error.........................");
           Log.v("Error..........................${loginState.error}");
           break;
         case ApiStatus.INITIAL:
@@ -1299,7 +1329,7 @@ class _UserProfilePageState extends State<UserProfilePage>
           //_masterBrandResponse = state.response!;
           break;
         case ApiStatus.ERROR:
-          Navigator.pop(context);
+          //Navigator.pop(context);
           _listPortfolio('brand');
           _isLoadingAdd = false;
           Log.v("Error.........................");

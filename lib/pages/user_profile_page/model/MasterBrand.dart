@@ -18,6 +18,12 @@
 
 import 'dart:convert';
 
+// To parse this JSON data, do
+//
+//     final masterBrand = masterBrandFromJson(jsonString);
+
+import 'dart:convert';
+
 MasterBrandResponse masterBrandFromJson(String str) => MasterBrandResponse.fromJson(json.decode(str));
 
 String masterBrandToJson(MasterBrandResponse data) => json.encode(data.toJson());
@@ -35,26 +41,33 @@ class MasterBrandResponse {
   String? message;
   List<dynamic>? error;
 
-  factory MasterBrandResponse.fromJson(Map<String, dynamic> json) => MasterBrandResponse(
+  /*factory MasterBrandResponse.fromJson(Map<String, dynamic> json) => MasterBrandResponse(
     status: json["status"],
     data: Data.fromJson(json["data"]),
     message: json["message"],
     error: List<dynamic>.from(json["error"].map((x) => x)),
-  );
-
-  /*factory CreatePortfolioResponse.fromJson(Map<String, dynamic> json) => CreatePortfolioResponse(
-    status: json["status"] == null ? null : json["status"],
-    message: json["message"] == null ? null : json["message"],
-    data: json["data"] == null ? null : Data.fromJson(json["data"]),
-
   );*/
 
-  Map<String, dynamic> toJson() => {
+  /*Map<String, dynamic> toJson() => {
     "status": status,
     "data": data!.toJson(),
     "message": message,
     "error": List<dynamic>.from(error!.map((x) => x)),
+  };*/
+
+  factory MasterBrandResponse.fromJson(Map<String, dynamic> json) => MasterBrandResponse(
+    status: json["status"] == null ? null : json["status"],
+    message: json["message"] == null ? null : json["message"],
+    data: json["data"] == null ? null : Data.fromJson(json["data"]),
+
+  );
+
+  Map<String, dynamic> toJson() => {
+    "status": status == null ? null : status,
+    "message": message == null ? null : message,
+    "data": data == null ? null : data!.toJson(),
   };
+
 }
 
 class Data {
@@ -72,3 +85,4 @@ class Data {
     "id": id,
   };
 }
+

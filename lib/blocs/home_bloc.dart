@@ -1344,9 +1344,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield MasterBrandCreateState(ApiStatus.LOADING);
         final response = await homeRepository.masterBrandCreate(data);
         if (response != null) {
-          yield MasterBrandCreateState(
-            ApiStatus.SUCCESS,
-          );
+          yield MasterBrandCreateState(ApiStatus.SUCCESS, response: response);
         } else {
           Log.v("ERROR DATA ::: ${response}");
           yield MasterBrandCreateState(

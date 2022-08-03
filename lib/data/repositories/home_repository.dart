@@ -612,9 +612,7 @@ class HomeRepository {
     final response = await homeProvider.createPortfolio(data);
     if (response!.success) {
       Log.v("Create Portfoio DATA : ${response.body}");
-      CreatePortfolioResponse resp =
-      CreatePortfolioResponse.fromJson(response.body);
-
+      CreatePortfolioResponse resp = CreatePortfolioResponse.fromJson(response.body);
       return resp;
     } else {
       Log.v("Error ====> ${response.body}");
@@ -626,9 +624,12 @@ class HomeRepository {
     final response = await homeProvider.masterBrandCreate(data);
     if (response!.success) {
       Log.v("Create Portfoio DATA : ${response.body}");
-      MasterBrandResponse resp =
-      MasterBrandResponse.fromJson(response.body);
-      return resp;
+      MasterBrandResponse respBr = MasterBrandResponse.fromJson(response.body);
+
+      Log.v("Create Portfoio DATA : ${respBr.status}");
+      if (respBr.status == 1) {
+        return respBr;
+      }
     } else {
       Log.v("Error ====> ${response.body}");
       return;
@@ -641,7 +642,7 @@ class HomeRepository {
       Log.v("Create Portfoio DATA : ${response.body}");
       /*MasterBrandResponse resp =
       MasterBrandResponse.fromJson(response.body);*/
-      return;
+      return response.body;
     } else {
       Log.v("Error ====> ${response.body}");
       return;

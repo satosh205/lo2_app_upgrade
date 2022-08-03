@@ -1255,12 +1255,15 @@ class HomeProvider {
       Log.v(response.statusCode);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        if (response.data.containsKey('error') &&
+        return ApiResponse.success(response);
+
+        /*if (response.data.containsKey('error') &&
             (response.data["error"] as List).length != 0) {
           return ApiResponse.error(response.data);
         } else {
           return ApiResponse.success(response);
-        }
+        }*/
+
       }
     } catch (e) {
       if (e is DioError) {
