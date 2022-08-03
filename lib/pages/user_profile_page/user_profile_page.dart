@@ -133,10 +133,9 @@ class _UserProfilePageState extends State<UserProfilePage>
       startDate: fromDateController.text.toString(),
       //startDate: '2021-01-27 00:00:00',
       //endDate: '2021-05-27 00:00:00',
-      endDate: toDateController.text.toString(),
-      typeId: brandImageUrl.isEmpty ? _masterBrandResponse.data!.id : id,
-      filePath: files![0],
-    ));
+      endDate: checkBoxValue == false ? toDateController.text.toString(): DateTime.now().toString(),
+      typeId: brandImageUrl.isEmpty ? _masterBrandResponse.data!.id: id,
+      filePath: files!.length !=0 ? files![0] : '',));
   }
 
   Future<void> _listPortfolio(String type) async {
@@ -544,8 +543,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                     ],
                   ),
                   GestureDetector(
-                      onTap: () {
-                        print('onclick ');
+                      onTap: (){
                         selectedBrandPath = '';
                         titleController.clear();
                         fromDateController.clear();
@@ -556,6 +554,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                           checkBoxValue = true;
                           brandImageUrl = '';
                           flagUploadBranVisible = false;
+                          files!.clear();
                         });
 
                         showModalBottomSheet(
@@ -590,16 +589,16 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                   Radius.circular(10))),
                                         ),
 
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 20),
-                                          child: Text(
-                                            'Add a Brand',
-                                            style: Styles.textBold(
-                                                size: 14,
-                                                color: ColorConstants.BLACK),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 5.0),
+                                        child: TextFormField(
+                                          controller: titleController,
+                                          readOnly: true,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
                                           ),
-                                        ),
+                                        )),
                                         SizedBox(
                                           height: 12,
                                         ),
@@ -663,13 +662,11 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                       builder: (context) =>
                                                           BrandFilterPage(
                                                               onCalledFromOutside,
-                                                              '',
-                                                              '',
-                                                              '',
-                                                              '',
-                                                              '')));
+                                                              )));
                                             },
                                           ),
+
+                                         
                                         ),
 
                                         SizedBox(
@@ -809,44 +806,57 @@ class _UserProfilePageState extends State<UserProfilePage>
                                           height: 30,
                                         ),
 
-                                        TapWidget(
-                                          onTap: () {
-                                            if (brandImageUrl.isEmpty) {
-                                              validation();
-                                            } else {
+                                      TapWidget(
+                                        onTap: () {
+                                          if(brandImageUrl.isEmpty){
+                                            validation();
+                                          }else{
+                                            if(files!.length == 0){
+                                              AlertsWidget.showCustomDialog(
+                                                  context: context,
+                                                  title: "Error",
+                                                  text: "Please select joining letter",
+                                                  icon: 'assets/images/circle_alert_fill.svg',
+                                                  oKText: 'OK',
+                                                  showCancel: false,
+                                                  onOkClick: () async {
+
+                                                  });
+                                            }else if(fromDateController.text.toString().isEmpty){
+                                              AlertsWidget.showCustomDialog(
+                                                  context: context,
+                                                  title: "Error",
+                                                  text: "Please select from date",
+                                                  icon: 'assets/images/circle_alert_fill.svg',
+                                                  oKText: 'OK',
+                                                  showCancel: false,
+                                                  onOkClick: () async {
+
+                                                  });
+                                            }else{
                                               userBrandCreate();
                                             }
-                                          },
-                                          child: Container(
-                                            alignment: Alignment.bottomCenter,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.85,
-                                            padding: EdgeInsets.all(18),
-                                            decoration: BoxDecoration(
-                                                color: ColorConstants()
-                                                    .primaryColor(),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(5))),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 8,
-                                                  right: 8,
-                                                  top: 4,
-                                                  bottom: 4),
-                                              child: Text(
-                                                'Submit',
-                                                textAlign: TextAlign.center,
-                                                style: Styles.textExtraBold(
-                                                    size: 14,
-                                                    color:
-                                                        ColorConstants.WHITE),
-                                              ),
+                                          }
+                                        },
+                                        child: Container(
+                                          alignment: Alignment.bottomCenter,
+                                          width: MediaQuery.of(context).size.width * 0.85,
+                                          padding: EdgeInsets.all(18),
+                                          decoration: BoxDecoration(
+                                              color: ColorConstants().primaryColor(),
+                                              borderRadius: BorderRadius.all(Radius.circular(5))),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8, right: 8, top: 4, bottom: 4),
+                                            child: Text(
+                                              'Submit', textAlign: TextAlign.center,
+                                              style: Styles.textExtraBold(
+                                                  size: 14,
+                                                  color: ColorConstants.WHITE),
                                             ),
                                           ),
                                         ),
-                                      ],
+                                    )],
                                     ),
                                   ),
                                 );
@@ -1114,19 +1124,21 @@ class _UserProfilePageState extends State<UserProfilePage>
     );*/
   }
 
-  Widget _selectedBrandLogo() {
-    return Container(
-      height: 50,
-      width: 100,
-      margin: EdgeInsets.only(top: 4.0),
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: FileImage(File('$selectedBrandPath')),
-          fit: BoxFit.fill,
+  Widget _selectedBrandLogo(){
+    //return StatefulBuilder(builder: (context, setstate){
+      return Container(
+        height: 50,
+        width: 100,
+        margin: EdgeInsets.only(top: 4.0),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: FileImage(File('$selectedBrandPath')),
+            fit: BoxFit.fill,
+          ),
         ),
-      ),
-      child: null /* add child content here */,
-    );
+        child: null /* add child content here */,
+      );
+    //});
   }
 
   void calenderOpen(String inputType) async {
@@ -1435,12 +1447,10 @@ class _UserProfilePageState extends State<UserProfilePage>
             type: FileType.custom,
             allowedExtensions: ['pdf', 'doc']);
       }
-
       files!.add(result?.paths.first);
       /*this.setState(() {
         files = result?.paths.first as List<String?>?;
       });*/
-
       print('============= str Doc File==============');
       print(files![0]);
       /*if (result != null) {
@@ -1561,7 +1571,7 @@ class _UserProfilePageState extends State<UserProfilePage>
 
 /*
 
-  Future<List<MasterBrand>> masterBrandCreate() async {
+ Future<List<MasterBrand>> masterBrandCreate() async {
     //List<AddressModel> addressListData = new List<AddressModel>();
     addressListData.clear();
 
