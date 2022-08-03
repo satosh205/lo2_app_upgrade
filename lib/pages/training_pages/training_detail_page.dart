@@ -1295,17 +1295,11 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                     .liveclassAction
                     ?.toLowerCase();
                 return _moduleCard(
-                    leadingid: contentStatus == 'concluded' ||
-                            Utility.isBetween(
-                                int.parse(
-                                    '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].startDate}'),
-                                int.parse(
-                                    '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].endDate}'))
-                        ? 2
-                        : contentStatus == 'join class' ||
-                                contentStatus == 'live'
-                            ? 0
-                            : 3,
+                    leadingid: Utility.classStatus(
+                        int.parse(
+                            '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].startDate}'),
+                        int.parse(
+                            '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].endDate}')),
                     ' • ${Utility.convertCourseTime(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].startDate, Strings.REQUIRED_DATE_HH_MM_A_DD_MMM)}',
                     '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].title}',
                     '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].contentType?.toLowerCase() == 'liveclass' ? 'Live' : 'Classroom'}',

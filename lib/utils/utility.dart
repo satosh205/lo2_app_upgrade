@@ -60,6 +60,20 @@ class Utility {
         DateTime.now().millisecondsSinceEpoch / 1000 < endTime;
   }
 
+  //check status of class
+  static int classStatus(int startTime, int endTime) {
+    // 0-> live
+    // 1-> upcoming
+    // 2-> completed
+    double currentTime = DateTime.now().millisecondsSinceEpoch / 1000;
+    if (currentTime > startTime && currentTime < endTime)
+      return 0;
+    else if (currentTime < startTime)
+      return 1;
+    else
+      return 2;
+  }
+
   static String convertCourseTime(int? timeInMillis, String newFormat,
       {bool isUTC = false}) {
     return DateFormat(newFormat).format(DateTime.fromMillisecondsSinceEpoch(
