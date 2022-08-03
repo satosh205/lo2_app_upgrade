@@ -103,7 +103,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                     ? _getTodayClass()
                     : isNotLiveclass == true
                         ? Container()
-                        : sectionLoader(),
+                        : Container(),
                 //_getRecentActivities(),
                 //_getResumeLerarning(),
                 //_getCourses(),
@@ -322,6 +322,11 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
           Log.v(state.response!.data!.modules!.liveclass.toString());
 
           liveclassList = state.response!.data!.modules!.liveclass;
+
+          liveclassList = liveclassList
+              ?.where((element) =>
+                  element.liveclassStatus?.toLowerCase() == 'upcoming')
+              .toList();
           //liveclassList.insert(0, Liveclass(id: 1, name: 'For You'));
 
           Log.v("LiveClassState Done ....................${liveclassList}");
@@ -428,7 +433,8 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                               : "Live Now",
                                           style: Styles.regular(
                                               size: 12,
-                                              color: ColorConstants.YELLOW)),
+                                              color: ColorConstants()
+                                                  .primaryColor())),
                                       Expanded(child: SizedBox()),
                                       Container(
                                         decoration: BoxDecoration(
@@ -511,7 +517,8 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
-                                          color: ColorConstants.YELLOW,
+                                          color:
+                                              ColorConstants().primaryColor(),
                                           borderRadius:
                                               BorderRadius.circular(8),
                                         ),
@@ -542,18 +549,18 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                     child: ElevatedButton(
                                         style: ButtonStyle(
                                             foregroundColor:
-                                                MaterialStateProperty.all<Color>(
-                                                    Colors.white),
+                                                MaterialStateProperty.all<
+                                                    Color>(Colors.white),
                                             backgroundColor:
                                                 MaterialStateProperty.all<Color>(
-                                                    ColorConstants.YELLOW),
+                                                    ColorConstants()
+                                                        .primaryColor()),
                                             shape: MaterialStateProperty.all<
                                                     RoundedRectangleBorder>(
                                                 RoundedRectangleBorder(
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    side: BorderSide(color: ColorConstants.YELLOW)))),
+                                                        BorderRadius.circular(10),
+                                                    side: BorderSide(color: ColorConstants().primaryColor())))),
                                         onPressed: () {
                                           //launch(liveclassList[index].url);
                                         },

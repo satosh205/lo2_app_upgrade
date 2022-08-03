@@ -19,6 +19,7 @@ import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/custom_progress_indicator.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -180,14 +181,19 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
 
     if (selectedType == 'Assignment' && selectedContentId != null) {
       title = 'Start Assignment';
+
+      if (Utility.isBetween(selectedData?.startDate!, selectedData?.endDate!)) {
+        isButtonActive = true;
+      } else {
+        isButtonActive = false;
+      }
     } else if (selectedType == 'Classes' && selectedContentId != null) {
       trainerName = selectedData?.trainerName;
       if (selectedData?.liveclassAction.toString().toLowerCase() == 'concluded')
         title = 'View Recording';
-      else if (selectedData?.liveclassAction.toString().toLowerCase() == 'live')
+      if (selectedData?.liveclassAction.toString().toLowerCase() == 'live')
         title = 'Join Now';
-      else if (selectedData?.liveclassAction.toString().toLowerCase() ==
-          'scheduled')
+      if (selectedData?.contentType.toString().toLowerCase() == 'offlineclass')
         title = 'Mark Your Attendance';
       else
         title = selectedData?.liveclassAction;
@@ -221,8 +227,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                         'scheduled'
                     ? ColorConstants.GREY_2
                     : ColorConstants().primaryColor()
-                : selectedType == 'Assignment' &&
-                        selectedData?.status?.toLowerCase() == 'pending'
+                : selectedType == 'Assignment' && !isButtonActive
                     ? ColorConstants.GREY_2
                     : ColorConstants().primaryColor();
     return Column(
@@ -380,8 +385,11 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                                         4)),
                                                         child: Center(
                                                             child: Text(selectedData
-                                                                        ?.contentType ==
-                                                                    'liveclass'
+                                                                            ?.contentType ==
+                                                                        'liveclass' ||
+                                                                    selectedData
+                                                                            ?.contentType ==
+                                                                        'zoomclass'
                                                                 ? 'Live'
                                                                 : 'Classroom')),
                                                       )
@@ -520,22 +528,14 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
 
                                                       if (selectedType ==
                                                           'Classes') {
-                                                        // playVideo(context);
-
-                                                        if (selectedData
-                                                                ?.liveclassAction
-                                                                .toString()
-                                                                .toLowerCase() ==
-                                                            'scheduled') {}
+                                                        launchUrl(Uri.parse(
+                                                            '${selectedData?.liveclassUrl}'));
                                                       }
                                                       if (selectedType ==
                                                           'Notes') {
                                                         playVideo(context);
                                                       } else if (selectedType ==
-                                                              'Assignment' &&
-                                                          selectedData?.status
-                                                                  ?.toLowerCase() !=
-                                                              'pending') {
+                                                          'Assignment') {
                                                         openAssignment(
                                                             selectedData);
                                                       } else if (selectedType ==
@@ -1295,20 +1295,14 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                     .liveclassAction
                     ?.toLowerCase();
                 return _moduleCard(
-                    leadingid: contentStatus == 'concluded' ||
-                            Utility.isBetween(
-                                int.parse(
-                                    '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].startDate}'),
-                                int.parse(
-                                    '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].endDate}'))
-                        ? 2
-                        : contentStatus == 'join class' ||
-                                contentStatus == 'live'
-                            ? 0
-                            : 3,
+                    leadingid: Utility.classStatus(
+                        int.parse(
+                            '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].startDate}'),
+                        int.parse(
+                            '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].endDate}')),
                     ' • ${Utility.convertCourseTime(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].startDate, Strings.REQUIRED_DATE_HH_MM_A_DD_MMM)}',
                     '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].title}',
-                    '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].contentType?.toLowerCase() == 'liveclass' ? 'Live' : 'Classroom'}',
+                    '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].contentType?.toLowerCase() == 'liveclass' || traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].contentType?.toLowerCase() == 'zoomclass' ? 'Live' : 'Classroom'}',
                     'session',
                     traininDetailProvider
                         .trainingModuleResponse.data?.module![0].content,
@@ -1744,7 +1738,14 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                                         width: 15.0,
                                         allowDrawingOutsideViewBox: true),
                                     Text(
-                                      selectedData?.contentType == 'liveclass'
+                                      data!.sessions!
+                                                      .elementAt(index)
+                                                      .contentType ==
+                                                  'liveclass' ||
+                                              data!.sessions!
+                                                      .elementAt(index)
+                                                      .contentType ==
+                                                  'zoomclass'
                                           ? 'LIVE NOW'
                                           : 'Ongoing',
                                       style: Styles.regular(
