@@ -73,7 +73,8 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
   }
 
   void _getTopScoringUsers() {
-    BlocProvider.of<HomeBloc>(context).add(topScoringUsersEvent(userId: widget.userId));
+    BlocProvider.of<HomeBloc>(context)
+        .add(topScoringUsersEvent(userId: widget.userId));
   }
 
   Future<void> _listPortfolio(String type) async {
@@ -82,13 +83,13 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
     });
     print(typeValue);
     print(type);
-    BlocProvider.of<HomeBloc>(context).add(ListPortfolioEvent(type: type, userId: widget.userId));
+    BlocProvider.of<HomeBloc>(context)
+        .add(ListPortfolioEvent(type: type, userId: widget.userId));
   }
 
   Future<void> _deletePortfolio(int id, int index) async {
     BlocProvider.of<HomeBloc>(context).add(DeletePortfolioEvent(id: id));
   }
-
 
   Future<void> apiFetch() async {
     if (widget.editEnable == true) {
@@ -103,7 +104,6 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
 
   void fetchResults() {
     sleep(Duration(seconds: 3));
-
   }
 
   @override
@@ -128,7 +128,6 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
           if (state is DeletePortfolioState) {
             _handleDeletePortfolioResponse(state);
           }
-
         },
         child: Scaffold(
           backgroundColor: Colors.grey[200],
@@ -239,475 +238,135 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
           ),
 
           //TODO: Brand Associations
-          listPortfolioBrand != null || widget.editEnable == true ? Container(
-            height: 110.0,
-            width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.only(top: 10.0),
-            color: Colors.white,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Brand Associations',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Container(
+          listPortfolioBrand != null || widget.editEnable == true
+              ? Container(
+                  height: 110.0,
                   width: MediaQuery.of(context).size.width,
-                  height: SizeConstants.BRAND_IMG_HEIGHT,
                   margin: EdgeInsets.only(top: 10.0),
-                  child: ListView.builder(
-                      itemCount: listPortfolioBrand != null ? listPortfolioBrand.length + 1: 1,
-                      //itemCount: 2 + 1,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        if(listPortfolioBrand != null){
-                          if (index < listPortfolioBrand.length) {
-                            return listPortfolioBrand != null ? Stack(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(left: 5.0, right: 5),
-                                  width: 100,
-                                  height: SizeConstants.BRAND_IMG_HEIGHT,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(3.0),
-                                    child: Image.network(listPortfolioBrand[index].image!,
-                                      fit: BoxFit.cover,
-                                      height: 200,
-                                    ),
-                                  ),
-                                ),
-
-                                widget.editEnable == true ? Positioned.fill(
-                                  child: Align(
-                                    alignment: Alignment.topRight,
-                                    child: InkWell(
-                                      onTap: () {
-                                        AlertsWidget.alertWithOkCancelBtn(
-                                          context: context,
-                                          text:
-                                          "Are you sure you want to delete.",
-                                          title: "Alert!",
-                                          okText: "Yes",
-                                          cancelText: "No",
-                                          onOkClick: () async {
-                                            //call delete api
-                                            deleteIndex = index;
-                                            deleteType = 'brand';
-                                            _deletePortfolio(listPortfolioBrand[index].id!, index);
-                                          },
-                                        );
-                                      },
-                                      child: Container(
-                                        height: 20.0,
-                                        width: 20.0,
-                                        padding: EdgeInsets.all(2),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(100),
-                                          border:
-                                          Border.all(width: 0, color: Colors.transparent),
-                                          color: Colors.grey[200],
-                                        ),
-                                        child: Icon(
-                                          Icons.delete,
-                                          size: 14,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ): SizedBox(),
-                              ] ,
-                            ):SizedBox();
-                          } else {
-                            if (widget.editEnable! == true) {
-                              return InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    NextPageRoute(CreatePortfolioPage(
-                                      title: 'Brand Associations',
-                                      portfolioType: 'brand',
-                                    )));
-                              },
-                              child: new Container(
-                                width: 80.0,
-                                margin: EdgeInsets.only(left: 10.0, right: 10.0),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: Colors.red,
-                                ),
-                                child: new Center(
-                                  child: new Icon(
-                                    Icons.add,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            );
-                            } else {
-                              return Container();
-                            }
-                          }
-                        }else {
-                          if (widget.editEnable == true) {
-                            return InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  NextPageRoute(CreatePortfolioPage(
-                                    title: 'Brand Associations',
-                                    portfolioType: 'brand',
-                                  )));
-                            },
-                            child: new Container(
-                              width: 80.0,
-                              margin: EdgeInsets.only(left: 10.0, right: 10.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5.0),
-                                color: Colors.red,
-                              ),
-                              child: new Center(
-                                child: new Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          );
-                          } else {
-                            return Container();
-                          }
-                        }
-                      }),
-                ),
-              ],
-            ),
-          ) :
-          SizedBox(),
-
-          //TODO: Awards
-          listPortfolioAward != null || widget.editEnable == true ? Container(
-            width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.only(top: 10.0),
-            color: Colors.white,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Awards',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    widget.editEnable == true ? InkWell(
-                      onTap: (){
-                        Navigator.push(
-                            context,
-                            NextPageRoute(CreatePortfolioPage(
-                              title: 'Award Associations',
-                              portfolioType: 'award',
-                            )));
-                      },
-                      child: Container(
-                        height: 25.0,
-                        width: 25.0,
-                        padding: EdgeInsets.all(2),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          border:
-                          Border.all(width: 0, color: Colors.transparent),
-                          color: Colors.red,
-                        ),
-                        child: Icon(
-                          Icons.add,
-                          size: 14,
-                          color: Colors.white,
+                  color: Colors.white,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Brand Associations',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                       ),
-                    ) :SizedBox(),
-                  ],
-                ),
-
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  //height: 300,
-                  constraints: new BoxConstraints(
-                    minHeight: 100.0,
-                    maxHeight: 300.0,
-                  ),
-                  margin: EdgeInsets.only(top: 10.0),
-                  child: ListView.builder(
-                      itemCount: listPortfolioAward != null ? listPortfolioAward.length: 0,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (context, index) {
-                        return Stack(
-                          children: [
-                            Card(
-                              child: Container(
-                                height: 80,
-                                padding: EdgeInsets.only(top: 0.0),
-                                child: ListTile(
-                                  leading: ClipOval(
-                                      child: Image.network(
-                                        listPortfolioAward[index].image!,
-                                        height: 50,
-                                        width: 50,
-                                        fit: BoxFit.cover,
-                                      )),
-                                  title: Text(listPortfolioAward[index].title!,
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold)),
-                                  subtitle: Text(
-                                    listPortfolioAward[index].description!,
-                                    style: TextStyle(fontSize: 13),
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            widget.editEnable == true ? Positioned.fill(
-                              right:10.0,
-                              child: Align(
-                                alignment: Alignment.topRight,
-                                child: InkWell(
-                                  onTap: () {
-                                    AlertsWidget.alertWithOkCancelBtn(
-                                      context: context,
-                                      text:
-                                      "Are you sure you want to delete.",
-                                      title: "Alert!",
-                                      okText: "Yes",
-                                      cancelText: "No",
-                                      onOkClick: () async {
-                                        //call delete api
-                                        deleteIndex = index;
-                                        deleteType = 'award';
-                                        _deletePortfolio(listPortfolioAward[index].id!, index);
-                                      },
-                                    );
-                                  },
-                                  child: Container(
-                                    height: 20.0,
-                                    width: 20.0,
-                                    padding: EdgeInsets.all(2),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(100),
-                                      border:
-                                      Border.all(width: 0, color: Colors.transparent),
-                                      color: Colors.grey[200],
-                                    ),
-                                    child: Icon(
-                                      Icons.delete,
-                                      size: 14,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ) : SizedBox(),
-                          ],
-                        );
-                      }),
-                ),
-              ],
-            ),
-          ) :
-          SizedBox(),
-
-          //TODO: Projects
-          listPortfolioProject != null || widget.editEnable == true ? Container(
-            height: 350,
-            width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.only(top: 10.0),
-            color: Colors.white,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Projects',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 300,
-                  margin: EdgeInsets.only(top: 10.0),
-                  child: ListView.builder(
-                      itemCount: listPortfolioProject != null ? listPortfolioProject.length + 1: 1,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        if(listPortfolioProject != null){
-                          if (index < listPortfolioProject.length) {
-                            return listPortfolioProject != null ?
-                            Stack(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.only(
-                                      top: 10.0, left: 10.0, right: 10.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(8.0),
-                                        child: Image.network(listPortfolioProject[index].image!,
-                                          fit: BoxFit.fitWidth,
-                                          height: 200.0,
-                                          width: 300.0,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 5.0),
-                                        child: Text(listPortfolioProject[index].title!,
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold)),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 3.0),
-                                        child: Text(
-                                          listPortfolioProject[index].description!,
-                                          style: TextStyle(fontSize: 13),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                widget.editEnable == true ? Positioned.fill(
-                                  right:10.0,
-                                  top:8.0,
-                                  child: Align(
-                                    alignment: Alignment.topRight,
-                                    child: InkWell(
-                                      onTap: () {
-                                        AlertsWidget.alertWithOkCancelBtn(
-                                          context: context,
-                                          text:
-                                          "Are you sure you want to delete.",
-                                          title: "Alert!",
-                                          okText: "Yes",
-                                          cancelText: "No",
-                                          onOkClick: () async {
-                                            //call delete api
-                                            deleteIndex = index;
-                                            deleteType = 'project';
-                                            _deletePortfolio(listPortfolioProject[index].id!, index);
-                                          },
-                                        );
-                                      },
-                                      child: Container(
-                                        height: 20.0,
-                                        width: 20.0,
-                                        padding: EdgeInsets.all(2),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(100),
-                                          border:
-                                          Border.all(width: 0, color: Colors.transparent),
-                                          color: Colors.grey[200],
-                                        ),
-                                        child: Icon(
-                                          Icons.delete,
-                                          size: 14,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ) : SizedBox(),
-                              ],
-
-                            ) :  SizedBox();
-                          } else {
-                            if (widget.editEnable == true) {
-                              return Row(
-                              children: [
-                                flagShimmer == false ? Container(
-                                  //width: MediaQuery.of(context).size.width,
-                                  height: 300,
-                                  margin: EdgeInsets.only(top: 10.0),
-                                  child: Container(
-                                    padding: EdgeInsets.only(
-                                        top: 10.0, left: 10.0, right: 10.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
-                                      children: [
-                                        Shimmer.fromColors(
-                                          baseColor: Colors.grey[300]!,
-                                          highlightColor: Colors.grey[100]!,
-                                          enabled: true,
-                                          child: Container(
-                                            color: Colors.grey,
-                                            height: 200.0,
-                                            width: 300.0,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 5.0),
-                                          child: Shimmer.fromColors(
-                                            baseColor: Colors.grey[300]!,
-                                            highlightColor: Colors.grey[100]!,
-                                            enabled: true,
-                                            child: Container(
-                                              color: Colors.grey,
-                                              height: 15.0,
-                                              width: 130.0,
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: SizeConstants.BRAND_IMG_HEIGHT,
+                        margin: EdgeInsets.only(top: 10.0),
+                        child: ListView.builder(
+                            itemCount: listPortfolioBrand != null
+                                ? listPortfolioBrand.length + 1
+                                : 1,
+                            //itemCount: 2 + 1,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              if (listPortfolioBrand != null) {
+                                if (index < listPortfolioBrand.length) {
+                                  return listPortfolioBrand != null
+                                      ? Stack(
+                                          children: [
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                  left: 5.0, right: 5),
+                                              width: 100,
+                                              height: SizeConstants
+                                                  .BRAND_IMG_HEIGHT,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(3.0),
+                                                child: Image.network(
+                                                  listPortfolioBrand[index]
+                                                      .image!,
+                                                  fit: BoxFit.cover,
+                                                  height: 200,
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 10.0),
-                                          child: Shimmer.fromColors(
-                                            baseColor: Colors.grey[300]!,
-                                            highlightColor: Colors.grey[100]!,
-                                            enabled: true,
-                                            child: Container(
-                                              color: Colors.grey,
-                                              height: 15.0,
-                                              width: 250.0,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ) : SizedBox(),
-
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    InkWell(
+                                            widget.editEnable == true
+                                                ? Positioned.fill(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.topRight,
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          AlertsWidget
+                                                              .alertWithOkCancelBtn(
+                                                            context: context,
+                                                            text:
+                                                                "Are you sure you want to delete.",
+                                                            title: "Alert!",
+                                                            okText: "Yes",
+                                                            cancelText: "No",
+                                                            onOkClick:
+                                                                () async {
+                                                              //call delete api
+                                                              deleteIndex =
+                                                                  index;
+                                                              deleteType =
+                                                                  'brand';
+                                                              _deletePortfolio(
+                                                                  listPortfolioBrand[
+                                                                          index]
+                                                                      .id!,
+                                                                  index);
+                                                            },
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          height: 20.0,
+                                                          width: 20.0,
+                                                          padding:
+                                                              EdgeInsets.all(2),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        100),
+                                                            border: Border.all(
+                                                                width: 0,
+                                                                color: Colors
+                                                                    .transparent),
+                                                            color: Colors
+                                                                .grey[200],
+                                                          ),
+                                                          child: Icon(
+                                                            Icons.delete,
+                                                            size: 14,
+                                                            color: Colors.grey,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                : SizedBox(),
+                                          ],
+                                        )
+                                      : SizedBox();
+                                } else {
+                                  if (widget.editEnable! == true) {
+                                    return InkWell(
                                       onTap: () {
                                         Navigator.push(
                                             context,
                                             NextPageRoute(CreatePortfolioPage(
-                                              title: 'Projects Associations',
-                                              portfolioType: 'project',
+                                              title: 'Brand Associations',
+                                              portfolioType: 'brand',
                                             )));
                                       },
-                                      child: Container(
-                                        width: 150.0,
-                                        height: 150.0,
+                                      child: new Container(
+                                        width: 80.0,
                                         margin: EdgeInsets.only(
-                                            left: 10.0,
-                                            right: 10.0,
-                                            bottom: 80.0),
+                                            left: 10.0, right: 10.0),
                                         decoration: BoxDecoration(
                                           borderRadius:
-                                          BorderRadius.circular(5.0),
+                                              BorderRadius.circular(5.0),
                                           color: Colors.red,
                                         ),
                                         child: new Center(
@@ -717,63 +376,517 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
                                           ),
                                         ),
                                       ),
+                                    );
+                                  } else {
+                                    return Container();
+                                  }
+                                }
+                              } else {
+                                if (widget.editEnable == true) {
+                                  return InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          NextPageRoute(CreatePortfolioPage(
+                                            title: 'Brand Associations',
+                                            portfolioType: 'brand',
+                                          )));
+                                    },
+                                    child: new Container(
+                                      width: 80.0,
+                                      margin: EdgeInsets.only(
+                                          left: 10.0, right: 10.0),
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                        color: Colors.red,
+                                      ),
+                                      child: new Center(
+                                        child: new Icon(
+                                          Icons.add,
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                     ),
-                                  ],
-                                ),
-                              ],
-                            );
-                            } else {
-                              return Container();
-                            }
-                          }
-                        }else {
-                          if (widget.editEnable == true) {
-                            return Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      NextPageRoute(CreatePortfolioPage(
-                                        title: 'Projects Associations',
-                                        portfolioType: 'project',
-                                      )));
-                                },
-                                child: Container(
-                                  width: 150.0,
-                                  height: 150.0,
-                                  margin: EdgeInsets.only(
-                                      left: 10.0,
-                                      right: 10.0,
-                                      bottom: 80.0),
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                    BorderRadius.circular(5.0),
-                                    color: Colors.red,
-                                  ),
-                                  child: new Center(
-                                    child: new Icon(
+                                  );
+                                } else {
+                                  return Container();
+                                }
+                              }
+                            }),
+                      ),
+                    ],
+                  ),
+                )
+              : SizedBox(),
+
+          //TODO: Awards
+          listPortfolioAward != null || widget.editEnable == true
+              ? Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.only(top: 10.0),
+                  color: Colors.white,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Awards',
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          widget.editEnable == true
+                              ? InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        NextPageRoute(CreatePortfolioPage(
+                                          title: 'Award Associations',
+                                          portfolioType: 'award',
+                                        )));
+                                  },
+                                  child: Container(
+                                    height: 25.0,
+                                    width: 25.0,
+                                    padding: EdgeInsets.all(2),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100),
+                                      border: Border.all(
+                                          width: 0, color: Colors.transparent),
+                                      color: Colors.red,
+                                    ),
+                                    child: Icon(
                                       Icons.add,
+                                      size: 14,
                                       color: Colors.white,
                                     ),
                                   ),
-                                ),
-                              ),
-                            ],
-                          );
-                          } else {
-                            return Container();
-                          }
-                        }
+                                )
+                              : SizedBox(),
+                        ],
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        //height: 300,
+                        constraints: new BoxConstraints(
+                          minHeight: 100.0,
+                          maxHeight: 300.0,
+                        ),
+                        margin: EdgeInsets.only(top: 10.0),
+                        child: ListView.builder(
+                            itemCount: listPortfolioAward != null
+                                ? listPortfolioAward.length
+                                : 0,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            itemBuilder: (context, index) {
+                              return Stack(
+                                children: [
+                                  Card(
+                                    child: Container(
+                                      height: 80,
+                                      padding: EdgeInsets.only(top: 0.0),
+                                      child: ListTile(
+                                        leading: ClipOval(
+                                            child: Image.network(
+                                          listPortfolioAward[index].image!,
+                                          height: 50,
+                                          width: 50,
+                                          fit: BoxFit.cover,
+                                        )),
+                                        title: Text(
+                                            listPortfolioAward[index].title!,
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold)),
+                                        subtitle: Text(
+                                          listPortfolioAward[index]
+                                              .description!,
+                                          style: TextStyle(fontSize: 13),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  widget.editEnable == true
+                                      ? Positioned.fill(
+                                          right: 10.0,
+                                          child: Align(
+                                            alignment: Alignment.topRight,
+                                            child: InkWell(
+                                              onTap: () {
+                                                AlertsWidget
+                                                    .alertWithOkCancelBtn(
+                                                  context: context,
+                                                  text:
+                                                      "Are you sure you want to delete.",
+                                                  title: "Alert!",
+                                                  okText: "Yes",
+                                                  cancelText: "No",
+                                                  onOkClick: () async {
+                                                    //call delete api
+                                                    deleteIndex = index;
+                                                    deleteType = 'award';
+                                                    _deletePortfolio(
+                                                        listPortfolioAward[
+                                                                index]
+                                                            .id!,
+                                                        index);
+                                                  },
+                                                );
+                                              },
+                                              child: Container(
+                                                height: 20.0,
+                                                width: 20.0,
+                                                padding: EdgeInsets.all(2),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100),
+                                                  border: Border.all(
+                                                      width: 0,
+                                                      color:
+                                                          Colors.transparent),
+                                                  color: Colors.grey[200],
+                                                ),
+                                                child: Icon(
+                                                  Icons.delete,
+                                                  size: 14,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      : SizedBox(),
+                                ],
+                              );
+                            }),
+                      ),
+                    ],
+                  ),
+                )
+              : SizedBox(),
 
-                      }),
-                ),
-              ],
-            ),
-          ) :
-          SizedBox(),
+          //TODO: Projects
+          listPortfolioProject != null || widget.editEnable == true
+              ? Container(
+                  height: 350,
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.only(top: 10.0),
+                  color: Colors.white,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Projects',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 300,
+                        margin: EdgeInsets.only(top: 10.0),
+                        child: ListView.builder(
+                            itemCount: listPortfolioProject != null
+                                ? listPortfolioProject.length + 1
+                                : 1,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              if (listPortfolioProject != null) {
+                                if (index < listPortfolioProject.length) {
+                                  return listPortfolioProject != null
+                                      ? Stack(
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.only(
+                                                  top: 10.0,
+                                                  left: 10.0,
+                                                  right: 10.0),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                    child: Image.network(
+                                                      listPortfolioProject[
+                                                              index]
+                                                          .image!,
+                                                      fit: BoxFit.fitWidth,
+                                                      height: 200.0,
+                                                      width: 300.0,
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 5.0),
+                                                    child: Text(
+                                                        listPortfolioProject[
+                                                                index]
+                                                            .title!,
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 3.0),
+                                                    child: Text(
+                                                      listPortfolioProject[
+                                                              index]
+                                                          .description!,
+                                                      style: TextStyle(
+                                                          fontSize: 13),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            widget.editEnable == true
+                                                ? Positioned.fill(
+                                                    right: 10.0,
+                                                    top: 8.0,
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.topRight,
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          AlertsWidget
+                                                              .alertWithOkCancelBtn(
+                                                            context: context,
+                                                            text:
+                                                                "Are you sure you want to delete.",
+                                                            title: "Alert!",
+                                                            okText: "Yes",
+                                                            cancelText: "No",
+                                                            onOkClick:
+                                                                () async {
+                                                              //call delete api
+                                                              deleteIndex =
+                                                                  index;
+                                                              deleteType =
+                                                                  'project';
+                                                              _deletePortfolio(
+                                                                  listPortfolioProject[
+                                                                          index]
+                                                                      .id!,
+                                                                  index);
+                                                            },
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          height: 20.0,
+                                                          width: 20.0,
+                                                          padding:
+                                                              EdgeInsets.all(2),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        100),
+                                                            border: Border.all(
+                                                                width: 0,
+                                                                color: Colors
+                                                                    .transparent),
+                                                            color: Colors
+                                                                .grey[200],
+                                                          ),
+                                                          child: Icon(
+                                                            Icons.delete,
+                                                            size: 14,
+                                                            color: Colors.grey,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                : SizedBox(),
+                                          ],
+                                        )
+                                      : SizedBox();
+                                } else {
+                                  if (widget.editEnable == true) {
+                                    return Row(
+                                      children: [
+                                        flagShimmer == false
+                                            ? Container(
+                                                //width: MediaQuery.of(context).size.width,
+                                                height: 300,
+                                                margin:
+                                                    EdgeInsets.only(top: 10.0),
+                                                child: Container(
+                                                  padding: EdgeInsets.only(
+                                                      top: 10.0,
+                                                      left: 10.0,
+                                                      right: 10.0),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Shimmer.fromColors(
+                                                        baseColor:
+                                                            Colors.grey[300]!,
+                                                        highlightColor:
+                                                            Colors.grey[100]!,
+                                                        enabled: true,
+                                                        child: Container(
+                                                          color: Colors.grey,
+                                                          height: 200.0,
+                                                          width: 300.0,
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(top: 5.0),
+                                                        child:
+                                                            Shimmer.fromColors(
+                                                          baseColor:
+                                                              Colors.grey[300]!,
+                                                          highlightColor:
+                                                              Colors.grey[100]!,
+                                                          enabled: true,
+                                                          child: Container(
+                                                            color: Colors.grey,
+                                                            height: 15.0,
+                                                            width: 130.0,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                top: 10.0),
+                                                        child:
+                                                            Shimmer.fromColors(
+                                                          baseColor:
+                                                              Colors.grey[300]!,
+                                                          highlightColor:
+                                                              Colors.grey[100]!,
+                                                          enabled: true,
+                                                          child: Container(
+                                                            color: Colors.grey,
+                                                            height: 15.0,
+                                                            width: 250.0,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
+                                            : SizedBox(),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    NextPageRoute(
+                                                        CreatePortfolioPage(
+                                                      title:
+                                                          'Projects Associations',
+                                                      portfolioType: 'project',
+                                                    )));
+                                              },
+                                              child: Container(
+                                                width: 150.0,
+                                                height: 150.0,
+                                                margin: EdgeInsets.only(
+                                                    left: 10.0,
+                                                    right: 10.0,
+                                                    bottom: 80.0),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          5.0),
+                                                  color: Colors.red,
+                                                ),
+                                                child: new Center(
+                                                  child: new Icon(
+                                                    Icons.add,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    );
+                                  } else {
+                                    return Container();
+                                  }
+                                }
+                              } else {
+                                if (widget.editEnable == true) {
+                                  return Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              NextPageRoute(CreatePortfolioPage(
+                                                title: 'Projects Associations',
+                                                portfolioType: 'project',
+                                              )));
+                                        },
+                                        child: Container(
+                                          width: 150.0,
+                                          height: 150.0,
+                                          margin: EdgeInsets.only(
+                                              left: 10.0,
+                                              right: 10.0,
+                                              bottom: 80.0),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(5.0),
+                                            color: Colors.red,
+                                          ),
+                                          child: new Center(
+                                            child: new Icon(
+                                              Icons.add,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                } else {
+                                  return Container();
+                                }
+                              }
+                            }),
+                      ),
+                    ],
+                  ),
+                )
+              : SizedBox(),
 
           //TODO: Rank
           Container(
@@ -824,11 +937,20 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
                                           left: 8.0, right: 15),
                                       child: Text(
                                           widget.editEnable!
-                                              ? topScoringUsers[index].score != null ?
-                                          topScoringUsers[index].score
-                                                  .toString() :'0'
-                                              : widget.topScoringUsers![index].score != null ? widget.topScoringUsers![index].score
-                                                  .toString():'0',
+                                              ? topScoringUsers[index].score !=
+                                                      null
+                                                  ? topScoringUsers[index]
+                                                      .score
+                                                      .toString()
+                                                  : '0'
+                                              : widget.topScoringUsers![index]
+                                                          .score !=
+                                                      null
+                                                  ? widget
+                                                      .topScoringUsers![index]
+                                                      .score
+                                                      .toString()
+                                                  : '0',
                                           style: TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.bold)),
@@ -836,9 +958,12 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
                                     ClipOval(
                                         child: Image.network(
                                       widget.editEnable!
-                                           ? topScoringUsers[index].profileImage!
-                                          : widget.topScoringUsers![index].profileImage != null
-                                              ? widget.topScoringUsers![index].profileImage!
+                                          ? topScoringUsers[index].profileImage!
+                                          : widget.topScoringUsers![index]
+                                                      .profileImage !=
+                                                  null
+                                              ? widget.topScoringUsers![index]
+                                                  .profileImage!
                                               : 'https://learningoxygen.com/theme1/images/profile/default.png',
                                       height: 50,
                                       width: 50,
@@ -850,7 +975,8 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
                                       child: Text(
                                           widget.editEnable!
                                               ? topScoringUsers[index].name!
-                                              : widget.topScoringUsers![index]!.name!,
+                                              : widget.topScoringUsers![index]
+                                                  .name!,
                                           style: TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.bold)),
@@ -873,13 +999,20 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
                                         child: Text(
                                             widget.editEnable!
                                                 ? topScoringUsers[index]
-                                                .score != null ? topScoringUsers[index]
-                                                    .score
-                                                    .toString() : '0'
+                                                            .score !=
+                                                        null
+                                                    ? topScoringUsers[index]
+                                                        .score
+                                                        .toString()
+                                                    : '0'
                                                 : widget.topScoringUsers![index]
-                                                .score != null ? widget.topScoringUsers![index]
-                                                    .score
-                                                    .toString(): '0',
+                                                            .score !=
+                                                        null
+                                                    ? widget
+                                                        .topScoringUsers![index]
+                                                        .score
+                                                        .toString()
+                                                    : '0',
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.bold)),
@@ -898,334 +1031,386 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
           ),
 
           //TODO: Certification
-          listPortfolioCertification! != null || widget.editEnable == true ? Container(
-            height: 350,
-            width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.only(top: 10.0),
-            color: Colors.white,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Certification',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-               Container(
-                  //width: MediaQuery.of(context).size.width,
-                  height: 300,
+          listPortfolioCertification != null || widget.editEnable == true
+              ? Container(
+                  height: 350,
+                  width: MediaQuery.of(context).size.width,
                   margin: EdgeInsets.only(top: 10.0),
-                  child: ListView.builder(
-                      itemCount: listPortfolioCertification != null ? listPortfolioCertification.length + 1: 1,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        if (listPortfolioCertification != null) {
-                          if (index < listPortfolioCertification.length) {
-                            return listPortfolioCertification != null ?
-                            Stack(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.only(
-                                      top: 10.0, left: 10.0, right: 10.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(
-                                            8.0),
-                                        child: Image.network(
-                                          listPortfolioCertification[index]
-                                              .image!,
-                                          fit: BoxFit.fitWidth,
-                                          height: 200.0,
-                                          width: 300.0,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 5.0),
-                                        child: Text(
-                                            listPortfolioCertification[index]
-                                                .title!,
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold)),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 3.0),
-                                        child: Text(
-                                          listPortfolioCertification[index]
-                                              .description!,
-                                          style: TextStyle(fontSize: 13),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                                widget.editEnable == true ? Positioned.fill(
-                                  right: 10.0,
-                                  top: 8.0,
-                                  child: Align(
-                                    alignment: Alignment.topRight,
-                                    child: InkWell(
-                                      onTap: () {
-                                        AlertsWidget.alertWithOkCancelBtn(
-                                          context: context,
-                                          text:
-                                          "Are you sure you want to delete.",
-                                          title: "Alert!",
-                                          okText: "Yes",
-                                          cancelText: "No",
-                                          onOkClick: () async {
-                                            //call delete api
-                                            deleteIndex = index;
-                                            deleteType = 'certification';
-                                            _deletePortfolio(listPortfolioCertification[index].id!, index);
+                  color: Colors.white,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Certification',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        //width: MediaQuery.of(context).size.width,
+                        height: 300,
+                        margin: EdgeInsets.only(top: 10.0),
+                        child: ListView.builder(
+                            itemCount: listPortfolioCertification != null
+                                ? listPortfolioCertification.length + 1
+                                : 1,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              if (listPortfolioCertification != null) {
+                                if (index < listPortfolioCertification.length) {
+                                  return listPortfolioCertification != null
+                                      ? Stack(
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.only(
+                                                  top: 10.0,
+                                                  left: 10.0,
+                                                  right: 10.0),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                    child: Image.network(
+                                                      listPortfolioCertification[
+                                                              index]
+                                                          .image!,
+                                                      fit: BoxFit.fitWidth,
+                                                      height: 200.0,
+                                                      width: 300.0,
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 5.0),
+                                                    child: Text(
+                                                        listPortfolioCertification[
+                                                                index]
+                                                            .title!,
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 3.0),
+                                                    child: Text(
+                                                      listPortfolioCertification[
+                                                              index]
+                                                          .description!,
+                                                      style: TextStyle(
+                                                          fontSize: 13),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            widget.editEnable == true
+                                                ? Positioned.fill(
+                                                    right: 10.0,
+                                                    top: 8.0,
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.topRight,
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          AlertsWidget
+                                                              .alertWithOkCancelBtn(
+                                                            context: context,
+                                                            text:
+                                                                "Are you sure you want to delete.",
+                                                            title: "Alert!",
+                                                            okText: "Yes",
+                                                            cancelText: "No",
+                                                            onOkClick:
+                                                                () async {
+                                                              //call delete api
+                                                              deleteIndex =
+                                                                  index;
+                                                              deleteType =
+                                                                  'certification';
+                                                              _deletePortfolio(
+                                                                  listPortfolioCertification[
+                                                                          index]
+                                                                      .id!,
+                                                                  index);
+                                                            },
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          height: 20.0,
+                                                          width: 20.0,
+                                                          padding:
+                                                              EdgeInsets.all(2),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        100),
+                                                            border: Border.all(
+                                                                width: 0,
+                                                                color: Colors
+                                                                    .transparent),
+                                                            color: Colors
+                                                                .grey[200],
+                                                          ),
+                                                          child: Icon(
+                                                            Icons.delete,
+                                                            size: 14,
+                                                            color: Colors.grey,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                : SizedBox(),
+                                          ],
+                                        )
+                                      : SizedBox();
+                                } else {
+                                  if (widget.editEnable == true) {
+                                    return Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                NextPageRoute(
+                                                    CreatePortfolioPage(
+                                                  title: 'Certification',
+                                                  portfolioType:
+                                                      'certification',
+                                                )));
                                           },
-                                        );
-                                      },
-                                      child: Container(
-                                        height: 20.0,
-                                        width: 20.0,
-                                        padding: EdgeInsets.all(2),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                              100),
-                                          border:
-                                          Border.all(width: 0,
-                                              color: Colors.transparent),
-                                          color: Colors.grey[200],
+                                          child: Container(
+                                            width: 150.0,
+                                            height: 150.0,
+                                            margin: EdgeInsets.only(
+                                                left: 10.0,
+                                                right: 10.0,
+                                                bottom: 80.0),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5.0),
+                                              color: Colors.red,
+                                            ),
+                                            child: new Center(
+                                              child: new Icon(
+                                                Icons.add,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                        child: Icon(
-                                          Icons.delete,
-                                          size: 14,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ) : SizedBox(),
-                              ],
-
-                            ) : SizedBox();
-                          } else {
-                            if (widget.editEnable == true) {
-                              return Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        NextPageRoute(CreatePortfolioPage(
-                                          title: 'Certification',
-                                          portfolioType: 'certification',
-                                        )));
-                                  },
-                                  child: Container(
-                                    width: 150.0,
-                                    height: 150.0,
-                                    margin: EdgeInsets.only(
-                                        left: 10.0,
-                                        right: 10.0,
-                                        bottom: 80.0),
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.circular(5.0),
-                                      color: Colors.red,
-                                    ),
-                                    child: new Center(
-                                      child: new Icon(
-                                        Icons.add,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                            } else {
-                              return Container();
-                            }
-                          }
-                        } else {
-                          if (widget.editEnable == true) {
-                            return Row(
-                            children: [
-                              flagShimmer == false ? Container(
-                                //width: MediaQuery.of(context).size.width,
-                                height: 300,
-                                margin: EdgeInsets.only(top: 10.0),
-                                child: Container(
-                                  padding: EdgeInsets.only(
-                                      top: 10.0, left: 10.0, right: 10.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
+                                      ],
+                                    );
+                                  } else {
+                                    return Container();
+                                  }
+                                }
+                              } else {
+                                if (widget.editEnable == true) {
+                                  return Row(
                                     children: [
-                                      Shimmer.fromColors(
-                                        baseColor: Colors.grey[300]!,
-                                        highlightColor: Colors.grey[100]!,
-                                        enabled: true,
-                                        child: Container(
-                                          color: Colors.grey,
-                                          height: 200.0,
-                                          width: 300.0,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 5.0),
-                                        child: Shimmer.fromColors(
-                                          baseColor: Colors.grey[300]!,
-                                          highlightColor: Colors.grey[100]!,
-                                          enabled: true,
-                                          child: Container(
-                                            color: Colors.grey,
-                                            height: 15.0,
-                                            width: 130.0,
+                                      flagShimmer == false
+                                          ? Container(
+                                              //width: MediaQuery.of(context).size.width,
+                                              height: 300,
+                                              margin:
+                                                  EdgeInsets.only(top: 10.0),
+                                              child: Container(
+                                                padding: EdgeInsets.only(
+                                                    top: 10.0,
+                                                    left: 10.0,
+                                                    right: 10.0),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Shimmer.fromColors(
+                                                      baseColor:
+                                                          Colors.grey[300]!,
+                                                      highlightColor:
+                                                          Colors.grey[100]!,
+                                                      enabled: true,
+                                                      child: Container(
+                                                        color: Colors.grey,
+                                                        height: 200.0,
+                                                        width: 300.0,
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 5.0),
+                                                      child: Shimmer.fromColors(
+                                                        baseColor:
+                                                            Colors.grey[300]!,
+                                                        highlightColor:
+                                                            Colors.grey[100]!,
+                                                        enabled: true,
+                                                        child: Container(
+                                                          color: Colors.grey,
+                                                          height: 15.0,
+                                                          width: 130.0,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 10.0),
+                                                      child: Shimmer.fromColors(
+                                                        baseColor:
+                                                            Colors.grey[300]!,
+                                                        highlightColor:
+                                                            Colors.grey[100]!,
+                                                        enabled: true,
+                                                        child: Container(
+                                                          color: Colors.grey,
+                                                          height: 15.0,
+                                                          width: 250.0,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          : SizedBox(),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  NextPageRoute(
+                                                      CreatePortfolioPage(
+                                                    title: 'Certification',
+                                                    portfolioType:
+                                                        'certification',
+                                                  )));
+                                            },
+                                            child: Container(
+                                              width: 150.0,
+                                              height: 150.0,
+                                              margin: EdgeInsets.only(
+                                                  left: 10.0,
+                                                  right: 10.0,
+                                                  bottom: 80.0),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(5.0),
+                                                color: Colors.red,
+                                              ),
+                                              child: new Center(
+                                                child: new Icon(
+                                                  Icons.add,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 10.0),
-                                        child: Shimmer.fromColors(
-                                          baseColor: Colors.grey[300]!,
-                                          highlightColor: Colors.grey[100]!,
-                                          enabled: true,
-                                          child: Container(
-                                            color: Colors.grey,
-                                            height: 15.0,
-                                            width: 250.0,
-                                          ),
-                                        ),
+                                        ],
                                       ),
                                     ],
+                                  );
+                                } else {
+                                  return Container();
+                                }
+                              }
+                            }),
+                      )
+                    ],
+                  ),
+                )
+              : Container(
+                  height: 350,
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.only(top: 10.0),
+                  color: Colors.white,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Certification',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 300,
+                        margin: EdgeInsets.only(top: 10.0),
+                        child: Container(
+                          padding: EdgeInsets.only(
+                              top: 10.0, left: 10.0, right: 10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Shimmer.fromColors(
+                                baseColor: Colors.grey[300]!,
+                                highlightColor: Colors.grey[100]!,
+                                enabled: true,
+                                child: Container(
+                                  color: Colors.grey,
+                                  height: 200.0,
+                                  width: 300.0,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 5.0),
+                                child: Shimmer.fromColors(
+                                  baseColor: Colors.grey[300]!,
+                                  highlightColor: Colors.grey[100]!,
+                                  enabled: true,
+                                  child: Container(
+                                    color: Colors.grey,
+                                    height: 15.0,
+                                    width: 130.0,
                                   ),
                                 ),
-                              ) : SizedBox(),
-
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          NextPageRoute(CreatePortfolioPage(
-                                            title: 'Certification',
-                                            portfolioType: 'certification',
-                                          )));
-                                    },
-                                    child: Container(
-                                      width: 150.0,
-                                      height: 150.0,
-                                      margin: EdgeInsets.only(
-                                          left: 10.0,
-                                          right: 10.0,
-                                          bottom: 80.0),
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.circular(5.0),
-                                        color: Colors.red,
-                                      ),
-                                      child: new Center(
-                                        child: new Icon(
-                                          Icons.add,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10.0),
+                                child: Shimmer.fromColors(
+                                  baseColor: Colors.grey[300]!,
+                                  highlightColor: Colors.grey[100]!,
+                                  enabled: true,
+                                  child: Container(
+                                    color: Colors.grey,
+                                    height: 15.0,
+                                    width: 250.0,
                                   ),
-                                ],
+                                ),
                               ),
                             ],
-                          );
-                          } else {
-                            return Container();
-                          }
-                        }
-                      }),
-                )
-              ],
-            ),
-          ):
-          Container(
-            height: 350,
-            width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.only(top: 10.0),
-            color: Colors.white,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Certification',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 300,
-                  margin: EdgeInsets.only(top: 10.0),
-                  child:  Container(
-                    padding: EdgeInsets.only(
-                        top: 10.0, left: 10.0, right: 10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Shimmer.fromColors(
-                          baseColor: Colors.grey[300]!,
-                          highlightColor: Colors.grey[100]!,
-                          enabled: true,
-                          child: Container(
-                            color: Colors.grey,
-                            height: 200.0,
-                            width: 300.0,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5.0),
-                          child: Shimmer.fromColors(
-                            baseColor: Colors.grey[300]!,
-                            highlightColor: Colors.grey[100]!,
-                            enabled: true,
-                            child: Container(
-                              color: Colors.grey,
-                              height: 15.0,
-                              width: 130.0,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: Shimmer.fromColors(
-                            baseColor: Colors.grey[300]!,
-                            highlightColor: Colors.grey[100]!,
-                            enabled: true,
-                            child: Container(
-                              color: Colors.grey,
-                              height: 15.0,
-                              width: 250.0,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
         ],
       ),
     );
@@ -1267,18 +1452,16 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
         case ApiStatus.SUCCESS:
           Log.v("TopScoringUsersState data....................");
 
-          if(state.response!.data!.list != null){
-            for(int i = 0; i < state.response!.data!.list!.length; i++){
-              if(state.response!.data!.list![i].type == 'brand'){
+          if (state.response!.data!.list != null) {
+            for (int i = 0; i < state.response!.data!.list!.length; i++) {
+              if (state.response!.data!.list![i].type == 'brand') {
                 listPortfolioBrand = state.response!.data!.list!;
-
-              }else if(state.response!.data!.list![i].type == 'award'){
+              } else if (state.response!.data!.list![i].type == 'award') {
                 listPortfolioAward = state.response!.data!.list!;
-
-              }else if(state.response!.data!.list![i].type == 'project'){
+              } else if (state.response!.data!.list![i].type == 'project') {
                 listPortfolioProject = state.response!.data!.list!;
-
-              }else if(state.response!.data!.list![i].type == 'certification'){
+              } else if (state.response!.data!.list![i].type ==
+                  'certification') {
                 listPortfolioCertification = state.response!.data!.list!;
               }
             }
@@ -1310,16 +1493,13 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
           print(deleteType);
           print(deleteIndex);
 
-          if(deleteType == 'brand') {
+          if (deleteType == 'brand') {
             listPortfolioBrand.removeAt(deleteIndex!);
-
-          }else if(deleteType == 'award') {
+          } else if (deleteType == 'award') {
             listPortfolioAward.removeAt(deleteIndex!);
-
-          }else if(deleteType == 'project') {
+          } else if (deleteType == 'project') {
             listPortfolioProject.removeAt(deleteIndex!);
-
-          }else if(deleteType == 'certification') {
+          } else if (deleteType == 'certification') {
             listPortfolioCertification.removeAt(deleteIndex!);
           }
 

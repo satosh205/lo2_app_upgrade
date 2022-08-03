@@ -1,5 +1,6 @@
 // ignore_for_file: unused_field
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -81,16 +82,12 @@ class _UserProfilePageState extends State<UserProfilePage>
   String strDocFile = '';
   int? id;
 
-
-
   @override
   void initState() {
     super.initState();
     //apiFetch();
     _getUserProfile();
-
   }
-
 
   Future<void> apiFetch() async {
     await _listPortfolio('brand');
@@ -111,22 +108,20 @@ class _UserProfilePageState extends State<UserProfilePage>
 
   void createPortfolio() {
     BlocProvider.of<HomeBloc>(context).add(CreatePortfolioEvent(
-        title: titleController.text.toString(),
-        description: 'Create Brand',
-        type: 'brand',
-        filePath: selectedBrandPath!.isEmpty
-            ? selectedBrandPath
-            : brandImageUrl,));
+      title: titleController.text.toString(),
+      description: 'Create Brand',
+      type: 'brand',
+      filePath: selectedBrandPath!.isEmpty ? selectedBrandPath : brandImageUrl,
+    ));
   }
-
 
   void masterBrandCreate() {
     BlocProvider.of<HomeBloc>(context).add(MasterBrandCreateEvent(
       title: titleController.text.toString(),
       description: 'Create Brand',
-      filePath: selectedBrandPath,));
+      filePath: selectedBrandPath,
+    ));
   }
-
 
   void userBrandCreate() {
     print('========= userBrandCreate =========');
@@ -139,10 +134,10 @@ class _UserProfilePageState extends State<UserProfilePage>
       //startDate: '2021-01-27 00:00:00',
       //endDate: '2021-05-27 00:00:00',
       endDate: toDateController.text.toString(),
-      typeId: brandImageUrl.isEmpty ? _masterBrandResponse.data!.id: id,
-      filePath: files![0] ,));
+      typeId: brandImageUrl.isEmpty ? _masterBrandResponse.data!.id : id,
+      filePath: files![0],
+    ));
   }
-
 
   Future<void> _listPortfolio(String type) async {
     setState(() {
@@ -150,7 +145,8 @@ class _UserProfilePageState extends State<UserProfilePage>
     });
     print(typeValue);
     print(type);
-    BlocProvider.of<HomeBloc>(context).add(ListPortfolioEvent(type: type, userId: userProfileDataList!.userId));
+    BlocProvider.of<HomeBloc>(context).add(
+        ListPortfolioEvent(type: type, userId: userProfileDataList!.userId));
   }
 
   Future<void> _deletePortfolio(int id, int index) async {
@@ -161,9 +157,7 @@ class _UserProfilePageState extends State<UserProfilePage>
     print('========== selectedBrandPath ===========');
     print(selectedBrandPath);
 
-    if (titleController.text
-        .toString()
-        .isEmpty) {
+    if (titleController.text.toString().isEmpty) {
       AlertsWidget.showCustomDialog(
           context: context,
           title: "Error",
@@ -171,9 +165,7 @@ class _UserProfilePageState extends State<UserProfilePage>
           icon: 'assets/images/circle_alert_fill.svg',
           oKText: 'OK',
           showCancel: false,
-          onOkClick: () async {
-
-          });
+          onOkClick: () async {});
     } else if (selectedBrandPath!.isEmpty && brandImageUrl.isEmpty) {
       AlertsWidget.showCustomDialog(
           context: context,
@@ -182,16 +174,13 @@ class _UserProfilePageState extends State<UserProfilePage>
           icon: 'assets/images/circle_alert_fill.svg',
           oKText: 'OK',
           showCancel: false,
-          onOkClick: () async {
-
-          });
+          onOkClick: () async {});
     } else {
       Navigator.pop(context);
       //createPortfolio();
       masterBrandCreate();
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -220,7 +209,6 @@ class _UserProfilePageState extends State<UserProfilePage>
           if (state is UserBrandCreateState) {
             _handleUserBrandCreateResponse(state);
           }
-
         },
         child: Scaffold(
           backgroundColor: Colors.white,
@@ -243,7 +231,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 NextPageRoute(SignUpScreen()),
-                                    (route) => false);
+                                (route) => false);
                           });
                         });
                   },
@@ -260,6 +248,10 @@ class _UserProfilePageState extends State<UserProfilePage>
   }
 
   Widget _makeBody() {
+    void updateValue(value) {
+      print('the value is $value');
+    }
+
     return SingleChildScrollView(
       child: Container(
         height: MediaQuery.of(context).size.height,
@@ -281,7 +273,6 @@ class _UserProfilePageState extends State<UserProfilePage>
 
               child: Column(
                 children: [
-
                   Container(
                     height: 100.0,
                     width: 100.0,
@@ -302,37 +293,37 @@ class _UserProfilePageState extends State<UserProfilePage>
                       children: [
                         selectedImage != null && selectedImage!.isNotEmpty
                             ? Container(
-                          height: 100,
-                          width: 100,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: FileImage(File('$selectedImage')),
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                          child: null /* add child content here */,
-                        )
+                                height: 100,
+                                width: 100,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    image: FileImage(File('$selectedImage')),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                                child: null /* add child content here */,
+                              )
                             : userProfileDataList!.profileImage != null
-                            ? ClipOval(
-                          child: Image.network(
-                            userProfileDataList!.profileImage!,
-                            filterQuality: FilterQuality.low,
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.fill,
-                          ),
-                        )
-                            : SvgPicture.asset(
-                          'assets/images/bxs_user_circle.svg',
-                          allowDrawingOutsideViewBox: true,
-                        ),
+                                ? ClipOval(
+                                    child: Image.network(
+                                      userProfileDataList!.profileImage!,
+                                      filterQuality: FilterQuality.low,
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.fill,
+                                    ),
+                                  )
+                                : SvgPicture.asset(
+                                    'assets/images/bxs_user_circle.svg',
+                                    allowDrawingOutsideViewBox: true,
+                                  ),
                         Positioned(
                           left: 62,
                           top: 62,
                           child: InkWell(
                             onTap: () {
-                              showBottomSheet(context, 'profile');
+                              showBottomSheet(context, 'profile', updateValue);
                               /*Navigator.push(
                                   context,
                                   NextPageRoute(ChangeImage()));*/
@@ -343,8 +334,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                               padding: EdgeInsets.all(2),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
-                                border:
-                                Border.all(width: 0, color: Colors.transparent),
+                                border: Border.all(
+                                    width: 0, color: Colors.transparent),
                                 color: Colors.grey[200],
                               ),
                               child: Icon(
@@ -358,7 +349,6 @@ class _UserProfilePageState extends State<UserProfilePage>
                     ),
                   ),
 
-
                   SizedBox(
                     height: 10,
                   ),
@@ -368,7 +358,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                     children: [
                       Text(
                         '${userProfileDataList!.name}',
-                        style: Styles.bold(color: ColorConstants.BLACK, size: 20),
+                        style:
+                            Styles.bold(color: ColorConstants.BLACK, size: 20),
                       ),
                       /*SvgPicture.asset('assets/images/edit_profile_icon.svg',
                           width: 20, height: 20)*/
@@ -377,24 +368,23 @@ class _UserProfilePageState extends State<UserProfilePage>
 
                   Text(
                     userProfileDataList!.organization!,
-                    style: Styles.textRegular(color: ColorConstants.GREY_3, size: 14),
+                    style: Styles.textRegular(
+                        color: ColorConstants.GREY_3, size: 14),
                   ),
 
                   Text(
                     '${userProfileDataList!.email}',
-                    style: Styles.regular(
-                        size: 14, color: ColorConstants.GREY_3),
+                    style:
+                        Styles.regular(size: 14, color: ColorConstants.GREY_3),
                   ),
 
-                  Text(
-                      '${userProfileDataList!.mobileNo}',
+                  Text('${userProfileDataList!.mobileNo}',
                       style: Styles.regular(
                           size: 14, color: ColorConstants.GREY_3)),
 
                   SizedBox(
                     height: 20,
                   ),
-
 
                   //TODO: User Information
                   Container(
@@ -503,7 +493,6 @@ class _UserProfilePageState extends State<UserProfilePage>
                   ),
 
                   Expanded(child: SizedBox()),
-
                 ],
               ),
             ),
@@ -513,7 +502,13 @@ class _UserProfilePageState extends State<UserProfilePage>
     );
   }
 
-  Widget _addBrand(){
+  Widget _addBrand() {
+    void updateValue(value) {
+      print('the updated vaue is $value');
+      setState(() {
+        selectedBrandPath = value;
+      });
+    }
 
     var size = MediaQuery.of(context).size;
     final double itemHeight = (size.height - kToolbarHeight - 24) / 5;
@@ -530,21 +525,26 @@ class _UserProfilePageState extends State<UserProfilePage>
                   Row(
                     children: [
                       Text('Brand Associations'),
-                      listPortfolioBrand.length != 0 ? Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: GestureDetector(
-                            onTap: () async {
-                              print('object delete hh');
-                              this.setState(() {
-                                deleteVisibleIconFlag = true;
-                              });
-                            },
-                            child: Icon(Icons.edit, size: 20,)),
-                      ):SizedBox(),
+                      listPortfolioBrand.length != 0
+                          ? Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: GestureDetector(
+                                  onTap: () async {
+                                    print('object delete hh');
+                                    this.setState(() {
+                                      deleteVisibleIconFlag = true;
+                                    });
+                                  },
+                                  child: Icon(
+                                    Icons.edit,
+                                    size: 20,
+                                  )),
+                            )
+                          : SizedBox(),
                     ],
                   ),
                   GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         print('onclick ');
                         selectedBrandPath = '';
                         titleController.clear();
@@ -563,346 +563,403 @@ class _UserProfilePageState extends State<UserProfilePage>
                             backgroundColor: ColorConstants.WHITE,
                             isScrollControlled: true,
                             builder: (context) {
-                              return FractionallySizedBox(
-                                heightFactor: 0.6,
-                                child: Container(
-                                  color: Colors.white,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.max,
-                                    //mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(top: 5.0),
-                                        height: 3,
-                                        width: 60,
-                                        decoration: BoxDecoration(
-                                            color: Colors.grey[300],
-                                            borderRadius: BorderRadius.all(Radius.circular(10))),
-                                      ),
+                              return StatefulBuilder(builder:
+                                  (BuildContext context,
+                                      StateSetter setSheetState) {
+                                Timer.periodic(Duration(seconds: 1), (timer) {
+                                  setSheetState(() {});
+                                });
 
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 20),
-                                        child: Text(
-                                          'Add a Brand',
-                                          style:
-                                          Styles.textBold(size: 14, color: ColorConstants.BLACK),
+                                return FractionallySizedBox(
+                                  heightFactor: 0.6,
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.max,
+                                      //mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(top: 5.0),
+                                          height: 3,
+                                          width: 60,
+                                          decoration: BoxDecoration(
+                                              color: Colors.grey[300],
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10))),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 12,
-                                      ),
 
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
-                                        child: TextFormField(
-                                          controller: titleController,
-                                          readOnly: true,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 20),
+                                          child: Text(
+                                            'Add a Brand',
+                                            style: Styles.textBold(
+                                                size: 14,
+                                                color: ColorConstants.BLACK),
                                           ),
-                                          keyboardType: TextInputType.text,
-                                          /*inputFormatters: [
+                                        ),
+                                        SizedBox(
+                                          height: 12,
+                                        ),
+
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20.0,
+                                              right: 20.0,
+                                              top: 10.0),
+                                          child: TextFormField(
+                                            controller: titleController,
+                                            readOnly: true,
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                            keyboardType: TextInputType.text,
+                                            /*inputFormatters: [
                                                       FilteringTextInputFormatter.deny(RegExp(r"[a-zA-Z -]"))
                                                     ],*/
-                                          onChanged: (value) {},
-                                          decoration: InputDecoration(
-                                            focusColor: Colors.white,
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10.0),
-                                            ),
+                                            onChanged: (value) {},
+                                            decoration: InputDecoration(
+                                              focusColor: Colors.white,
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
 
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide:
-                                              const BorderSide(color: Colors.blue, width: 1.0),
-                                              borderRadius: BorderRadius.circular(10.0),
-                                            ),
-                                            fillColor: Colors.grey,
-                                            hintText: "Brand Name",
-                                            //make hint text
-                                            hintStyle: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 16,
-                                              fontFamily: "verdana_regular",
-                                              fontWeight: FontWeight.w400,
-                                            ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: const BorderSide(
+                                                    color: Colors.blue,
+                                                    width: 1.0),
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                              fillColor: Colors.grey,
+                                              hintText: "Brand Name",
+                                              //make hint text
+                                              hintStyle: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 16,
+                                                fontFamily: "verdana_regular",
+                                                fontWeight: FontWeight.w400,
+                                              ),
 
-                                            //create lable
-                                            labelText: 'Brand Name',
-                                            //lable style
-                                            labelStyle: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 16,
-                                              fontFamily: "verdana_regular",
-                                              fontWeight: FontWeight.w400,
+                                              //create lable
+                                              labelText: 'Brand Name',
+                                              //lable style
+                                              labelStyle: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 16,
+                                                fontFamily: "verdana_regular",
+                                                fontWeight: FontWeight.w400,
+                                              ),
                                             ),
+                                            onTap: () {
+                                              print('On Text Click');
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          BrandFilterPage(
+                                                              onCalledFromOutside,
+                                                              '',
+                                                              '',
+                                                              '',
+                                                              '',
+                                                              '')));
+                                            },
                                           ),
+                                        ),
 
-                                          onTap: (){
-                                            print('On Text Click');
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => BrandFilterPage(
-                                                onCalledFromOutside,
-                                                '',
-                                                '',
-                                                '',
-                                                '',
-                                                ''
-                                            )));
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        brandImageUrl.isNotEmpty
+                                            ? Image.network(
+                                                brandImageUrl,
+                                                filterQuality:
+                                                    FilterQuality.low,
+                                                width: 130,
+                                                height: 80,
+                                                fit: BoxFit.fill,
+                                                loadingBuilder: (context, child,
+                                                    loadingProgress) {
+                                                  if (loadingProgress == null) {
+                                                    debugPrint(
+                                                        'image loading null');
+                                                    return child;
+                                                  }
+                                                  debugPrint(
+                                                      'image loading...');
+                                                  return const Center(
+                                                      child: SizedBox(
+                                                          width: 20,
+                                                          height: 20,
+                                                          child:
+                                                              CircularProgressIndicator(
+                                                            color: ColorConstants
+                                                                .PRIMARY_COLOR,
+                                                          )));
+                                                },
+                                              )
+                                            : SizedBox(),
+
+                                        //TODO: Upload Logo Image
+                                        brandImageUrl.isEmpty
+                                            ? Container(
+                                                margin:
+                                                    EdgeInsets.only(top: 15.0),
+                                                child: Column(
+                                                  children: [
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        showBottomSheet(
+                                                            context,
+                                                            'brand',
+                                                            updateValue);
+                                                      },
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Icon(Icons
+                                                              .file_upload_outlined),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 10.0),
+                                                            child: Text(
+                                                                'Upload Brand Logo'),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'Supported formats - .jpeg, .png',
+                                                      style:
+                                                          Styles.textExtraBold(
+                                                              size: 14,
+                                                              color:
+                                                                  ColorConstants
+                                                                      .GREY_3),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
+                                            : SizedBox(),
+
+                                        selectedBrandPath != null &&
+                                                selectedBrandPath!.isNotEmpty
+                                            ? _selectedBrandLogo()
+                                            : SizedBox(),
+
+                                        //TODO: Upload Joining Letter
+                                        Container(
+                                          margin: EdgeInsets.only(top: 10.0),
+                                          child: Column(
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                  _initFilePiker();
+                                                },
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(Icons
+                                                        .file_upload_outlined),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 10.0),
+                                                      child: Text(
+                                                          'Upload Joining Letter'),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Text(
+                                                'Supported formats - .pdf, .doc',
+                                                style: Styles.textExtraBold(
+                                                    size: 14,
+                                                    color:
+                                                        ColorConstants.GREY_3),
+                                              ),
+                                              Text(
+                                                'file name',
+                                                style: Styles.textExtraBold(
+                                                    size: 14,
+                                                    color:
+                                                        ColorConstants.GREY_3),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+
+                                        _workingTime(),
+
+                                        SizedBox(
+                                          height: 30,
+                                        ),
+
+                                        TapWidget(
+                                          onTap: () {
+                                            if (brandImageUrl.isEmpty) {
+                                              validation();
+                                            } else {
+                                              userBrandCreate();
+                                            }
                                           },
-                                        ),
-                                      ),
-
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      brandImageUrl.isNotEmpty ? Image.network(
-                                        brandImageUrl,
-                                        filterQuality: FilterQuality.low,
-                                        width: 130,
-                                        height: 80,
-                                        fit: BoxFit.fill,
-                                        loadingBuilder: (context, child, loadingProgress) {
-                                          if (loadingProgress == null) {
-                                            debugPrint('image loading null');
-                                            return child;
-                                          }
-                                          debugPrint('image loading...');
-                                          return const Center(
-                                              child: SizedBox(
-                                                width: 20,
-                                                  height: 20,
-                                                  child: CircularProgressIndicator(
-                                                    color: ColorConstants.PRIMARY_COLOR,
-                                                  ))
-                                          );
-                                        },
-                                      ):SizedBox(),
-
-
-                                      //TODO: Upload Logo Image
-                                      brandImageUrl.isEmpty ? Container(
-                                        margin: EdgeInsets.only(top: 15.0),
-                                        child: Column(
-                                          children: [
-                                            GestureDetector(
-                                              onTap: (){
-                                                showBottomSheet(context, 'brand');
-                                              },
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Icon(Icons.file_upload_outlined),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 10.0),
-                                                    child: Text('Upload Brand Logo'),
-                                                  ),
-
-                                                ],
+                                          child: Container(
+                                            alignment: Alignment.bottomCenter,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.85,
+                                            padding: EdgeInsets.all(18),
+                                            decoration: BoxDecoration(
+                                                color: ColorConstants()
+                                                    .primaryColor(),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(5))),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8,
+                                                  right: 8,
+                                                  top: 4,
+                                                  bottom: 4),
+                                              child: Text(
+                                                'Submit',
+                                                textAlign: TextAlign.center,
+                                                style: Styles.textExtraBold(
+                                                    size: 14,
+                                                    color:
+                                                        ColorConstants.WHITE),
                                               ),
-                                            ),
-
-                                            Text(
-                                              'Supported formats - .jpeg, .png',
-                                              style: Styles.textExtraBold(
-                                                  size: 14,
-                                                  color: ColorConstants.GREY_3),
-                                            ),
-                                          ],
-                                        ),
-                                      ):SizedBox(),
-
-                                      selectedBrandPath != null && selectedBrandPath!.isNotEmpty
-                                          ? _selectedBrandLogo():SizedBox(),
-
-
-                                      //TODO: Upload Joining Letter
-                                      Container(
-                                        margin: EdgeInsets.only(top: 10.0),
-                                        child: Column(
-                                          children: [
-                                            GestureDetector(
-                                              onTap: (){
-                                                _initFilePiker();
-                                              },
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Icon(Icons.file_upload_outlined),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 10.0),
-                                                    child: Text('Upload Joining Letter'),
-                                                  ),
-
-                                                ],
-                                              ),
-                                            ),
-
-                                            Text(
-                                              'Supported formats - .pdf, .doc',
-                                              style: Styles.textExtraBold(
-                                                  size: 14,
-                                                  color: ColorConstants.GREY_3),
-                                            ),
-
-                                            Text(
-                                              'file name',
-                                              style: Styles.textExtraBold(
-                                                  size: 14,
-                                                  color: ColorConstants.GREY_3),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-
-                                      _workingTime(),
-
-                                      SizedBox(
-                                        height: 30,
-                                      ),
-
-                                      TapWidget(
-                                        onTap: () {
-                                          if(brandImageUrl.isEmpty){
-                                            validation();
-                                          }else{
-                                            userBrandCreate();
-                                          }
-                                        },
-                                        child: Container(
-                                          alignment: Alignment.bottomCenter,
-                                          width: MediaQuery.of(context).size.width * 0.85,
-                                          padding: EdgeInsets.all(18),
-                                          decoration: BoxDecoration(
-                                              color: ColorConstants().primaryColor(),
-                                              borderRadius: BorderRadius.all(Radius.circular(5))),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 8, right: 8, top: 4, bottom: 4),
-                                            child: Text(
-                                              'Submit', textAlign: TextAlign.center,
-                                              style: Styles.textExtraBold(
-                                                  size: 14,
-                                                  color: ColorConstants.WHITE),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              );
+                                );
+                              });
                             });
-
-                      },child: Icon(Icons.add)),
-
+                      },
+                      child: Icon(Icons.add)),
                 ],
               ),
-
               Container(
                 constraints: BoxConstraints(
-                  minHeight: 100, minWidth: double.infinity, maxHeight: 250),
-                child: listPortfolioBrand.length != 0 ? GridView.builder(
-
-                  padding: EdgeInsets.only(left: 0.0, right: 10.0, top: 30.0),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    //childAspectRatio: (itemWidth / itemHeight),
-                    childAspectRatio: 1.0,
-                  ),
-
-                  itemCount: listPortfolioBrand.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Stack(
-                      children: [
-                        Container(
-                          height: 70,
-                          width: 130,
-                          child: Center(
-                            //child: Text('${index + 1}' , style: Styles.textRegular(size: 16, color: Colors.white),),
-                            child: Image.network('${listPortfolioBrand[index].image}',),
-
-                          ),
+                    minHeight: 100, minWidth: double.infinity, maxHeight: 250),
+                child: listPortfolioBrand.length != 0
+                    ? GridView.builder(
+                        padding:
+                            EdgeInsets.only(left: 0.0, right: 10.0, top: 30.0),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          //childAspectRatio: (itemWidth / itemHeight),
+                          childAspectRatio: 1.0,
                         ),
-
-
-                        deleteVisibleIconFlag == true ? Positioned.fill(
-                          child: Align(
-                            alignment: Alignment.topRight,
-                            child: InkWell(
-                              onTap: () {
-                                AlertsWidget.alertWithOkCancelBtn(
-                                  context: context,
-                                  text:
-                                  "Are you sure you want to delete.",
-                                  title: "Alert!",
-                                  okText: "Yes",
-                                  cancelText: "No",
-                                  onOkClick: () async {
-                                    //call delete api
-                                    deleteIndex = index;
-                                    deleteType = 'brand';
-                                    _deletePortfolio(listPortfolioBrand[index].id!, index);
-                                  },
-                                );
-                              },
-                              child: Container(
-                                height: 20.0,
-                                width: 20.0,
-                                padding: EdgeInsets.all(2),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(100),
-                                  border:
-                                  Border.all(width: 0, color: Colors.transparent),
-                                  color: Colors.grey[200],
-                                ),
-                                child: Icon(
-                                  Icons.delete,
-                                  size: 14,
-                                  color: Colors.grey,
+                        itemCount: listPortfolioBrand.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Stack(
+                            children: [
+                              Container(
+                                height: 70,
+                                width: 130,
+                                child: Center(
+                                  //child: Text('${index + 1}' , style: Styles.textRegular(size: 16, color: Colors.white),),
+                                  child: Image.network(
+                                    '${listPortfolioBrand[index].image}',
+                                  ),
                                 ),
                               ),
-                            ),
+                              deleteVisibleIconFlag == true
+                                  ? Positioned.fill(
+                                      child: Align(
+                                        alignment: Alignment.topRight,
+                                        child: InkWell(
+                                          onTap: () {
+                                            AlertsWidget.alertWithOkCancelBtn(
+                                              context: context,
+                                              text:
+                                                  "Are you sure you want to delete.",
+                                              title: "Alert!",
+                                              okText: "Yes",
+                                              cancelText: "No",
+                                              onOkClick: () async {
+                                                //call delete api
+                                                deleteIndex = index;
+                                                deleteType = 'brand';
+                                                _deletePortfolio(
+                                                    listPortfolioBrand[index]
+                                                        .id!,
+                                                    index);
+                                              },
+                                            );
+                                          },
+                                          child: Container(
+                                            height: 20.0,
+                                            width: 20.0,
+                                            padding: EdgeInsets.all(2),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              border: Border.all(
+                                                  width: 0,
+                                                  color: Colors.transparent),
+                                              color: Colors.grey[200],
+                                            ),
+                                            child: Icon(
+                                              Icons.delete,
+                                              size: 14,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : SizedBox(),
+                            ],
+                          );
+                        },
+                      )
+                    : Container(
+                        child: Center(
+                          child: Column(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/images/brand_not.svg',
+                                allowDrawingOutsideViewBox: true,
+                              ),
+                              Text(
+                                'You have not aded any brand yet,',
+                                style: Styles.textExtraBold(
+                                    size: 14, color: ColorConstants.GREY_3),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Text(
+                                  'Add a brand and let everyone know about your Brand Associations.',
+                                  style: Styles.textExtraBold(
+                                      size: 14, color: ColorConstants.GREY_3),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
                           ),
-                        ): SizedBox(),
-                      ],
-                    );
-                  },
-                ):Container(
-                  child: Center(
-                    child: Column(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/images/brand_not.svg',
-                          allowDrawingOutsideViewBox: true,
                         ),
-                        Text(
-                          'You have not aded any brand yet,',
-                          style: Styles.textExtraBold(
-                              size: 14,
-                              color: ColorConstants.GREY_3),
-                        ),
-
-                        Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Text(
-                            'Add a brand and let everyone know about your Brand Associations.',
-                            style: Styles.textExtraBold(
-                                size: 14,
-                                color: ColorConstants.GREY_3), textAlign: TextAlign.center,
-                          ),
-                        ),
-
-                      ],
-                    ),
-                  ),
-                ),
+                      ),
               ),
             ],
           ),
@@ -917,8 +974,7 @@ class _UserProfilePageState extends State<UserProfilePage>
     );
   }
 
-
-  Widget _workingTime(){
+  Widget _workingTime() {
     return Container(
       margin: EdgeInsets.only(left: 20.0, right: 20.0),
       child: Column(
@@ -929,18 +985,17 @@ class _UserProfilePageState extends State<UserProfilePage>
               Expanded(
                   child: Container(
                       padding: EdgeInsets.only(right: 5.0),
-                      child: Text('From')
-                  )),
-
+                      child: Text('From'))),
               Expanded(
                   child: Container(
-                    padding: EdgeInsets.only(left: 5.0),
-                      child: Text('To'),
-                  )),
+                padding: EdgeInsets.only(left: 5.0),
+                child: Text('To'),
+              )),
             ],
           ),
-
-          SizedBox(height: 4.0,),
+          SizedBox(
+            height: 4.0,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -996,46 +1051,49 @@ class _UserProfilePageState extends State<UserProfilePage>
         ],
       ),
     );
-
   }
 
-  Widget _checkBox(){
-    return StatefulBuilder(builder: (context, setstate){
+  Widget _checkBox() {
+    return StatefulBuilder(builder: (context, setstate) {
       return Container(
         //padding: EdgeInsets.all(5.0),
-        child: checkBoxValue == true ? Row(
-          children: <Widget>[
-            Container(
-              child: new Checkbox(
-                  value: checkBoxValue,
-                  activeColor: Colors.green,
-                  onChanged:(bool? newValue){
-                    setstate(() {
-                      checkBoxValue = newValue!;
-                    });
-                  }),
-            ),
-            Text('Present', style: TextStyle(color: Colors.red),),
-          ],
-        ):Container(
-          //height: 35,
-          padding: EdgeInsets.only(left: 5.0),
-          child: TextFormField(
-            controller: toDateController,
-            readOnly: true,
-            style: TextStyle(fontSize: 13.0),
-            decoration: InputDecoration(
-              hintStyle: TextStyle(fontSize: 13.0),
-              hintText: 'To Date',
-              contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-              border: OutlineInputBorder(),
-              suffixIcon: Icon(Icons.calendar_today),
-            ),
-            onTap: () => calenderOpen('to'),
-          ),
-        ),
+        child: checkBoxValue == true
+            ? Row(
+                children: <Widget>[
+                  Container(
+                    child: new Checkbox(
+                        value: checkBoxValue,
+                        activeColor: Colors.green,
+                        onChanged: (bool? newValue) {
+                          setstate(() {
+                            checkBoxValue = newValue!;
+                          });
+                        }),
+                  ),
+                  Text(
+                    'Present',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ],
+              )
+            : Container(
+                //height: 35,
+                padding: EdgeInsets.only(left: 5.0),
+                child: TextFormField(
+                  controller: toDateController,
+                  readOnly: true,
+                  style: TextStyle(fontSize: 13.0),
+                  decoration: InputDecoration(
+                    hintStyle: TextStyle(fontSize: 13.0),
+                    hintText: 'To Date',
+                    contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                    border: OutlineInputBorder(),
+                    suffixIcon: Icon(Icons.calendar_today),
+                  ),
+                  onTap: () => calenderOpen('to'),
+                ),
+              ),
       );
-
     });
 
     /*return Container(
@@ -1056,7 +1114,7 @@ class _UserProfilePageState extends State<UserProfilePage>
     );*/
   }
 
-  Widget _selectedBrandLogo(){
+  Widget _selectedBrandLogo() {
     return Container(
       height: 50,
       width: 100,
@@ -1080,20 +1138,20 @@ class _UserProfilePageState extends State<UserProfilePage>
         firstDate: DateTime(2000),
         //DateTime.now() - not to allow to choose before today.
         lastDate: DateTime.now(),
-        useRootNavigator: false
-    );
+        useRootNavigator: false);
 
     if (pickedDate != null) {
       print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
       //String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
-      String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(pickedDate);
-      print(formattedDate); //formatted date output using intl package =>  2021-03-16
+      String formattedDate =
+          DateFormat('yyyy-MM-dd HH:mm:ss').format(pickedDate);
+      print(
+          formattedDate); //formatted date output using intl package =>  2021-03-16
       //you can implement different kind of Date Format here according to your requirement
       if (inputType.endsWith('from')) {
         this.setState(() {
           fromDateController.text = formattedDate;
         });
-
       } else if (inputType.endsWith('to')) {
         this.setState(() {
           toDateController.text = formattedDate;
@@ -1118,7 +1176,8 @@ class _UserProfilePageState extends State<UserProfilePage>
           Log.v(state.response!.data!.list.toString());
 
           userProfileDataList = state.response!.data!.list;
-          Preference.setString(Preference.PROFILE_IMAGE, '${userProfileDataList!.profileImage}');
+          Preference.setString(
+              Preference.PROFILE_IMAGE, '${userProfileDataList!.profileImage}');
 
           _listPortfolio('brand');
           _isLoading = false;
@@ -1132,10 +1191,10 @@ class _UserProfilePageState extends State<UserProfilePage>
           break;
       }
     });
-
   }
 
-  void _handleUpdateUserProfileImageResponse(UpdateUserProfileImageState state) {
+  void _handleUpdateUserProfileImageResponse(
+      UpdateUserProfileImageState state) {
     var loginState = state;
     setState(() {
       switch (loginState.apiState) {
@@ -1196,7 +1255,6 @@ class _UserProfilePageState extends State<UserProfilePage>
           Log.v("Loading....................");
           break;
         case ApiStatus.SUCCESS:
-
           print('_handle Master Brand Create Response');
           _isLoadingAdd = false;
           Log.v("Success....................");
@@ -1228,7 +1286,7 @@ class _UserProfilePageState extends State<UserProfilePage>
           _isLoadingAdd = false;
           Log.v("Success....................");
           _listPortfolio('brand');
-         //_masterBrandResponse = state.response!;
+          //_masterBrandResponse = state.response!;
           break;
         case ApiStatus.ERROR:
           Navigator.pop(context);
@@ -1255,12 +1313,11 @@ class _UserProfilePageState extends State<UserProfilePage>
         case ApiStatus.SUCCESS:
           Log.v("TopScoringUsersState data....................");
 
-          if(state.response!.data!.list != null){
-            for(int i = 0; i < state.response!.data!.list!.length; i++){
-              if(state.response!.data!.list![i].type == 'brand'){
+          if (state.response!.data!.list != null) {
+            for (int i = 0; i < state.response!.data!.list!.length; i++) {
+              if (state.response!.data!.list![i].type == 'brand') {
                 listPortfolioBrand = state.response!.data!.list!;
-
-              }/*else if(state.response!.data!.list![i].type == 'award'){
+              } /*else if(state.response!.data!.list![i].type == 'award'){
                 listPortfolioAward = state.response!.data!.list!;
 
               }else if(state.response!.data!.list![i].type == 'project'){
@@ -1294,11 +1351,10 @@ class _UserProfilePageState extends State<UserProfilePage>
         case ApiStatus.SUCCESS:
           Log.v("DeletePortfolioResponseState....................");
           //deletePortfolioResp = state.response!;
-          if(deleteType == 'brand') {
+          if (deleteType == 'brand') {
             listPortfolioBrand.removeAt(deleteIndex!);
             deleteVisibleIconFlag = false;
-
-          }/*else if(deleteType == 'award') {
+          } /*else if(deleteType == 'award') {
             listPortfolioAward.removeAt(deleteIndex!);
 
           }else if(deleteType == 'project') {
@@ -1323,7 +1379,7 @@ class _UserProfilePageState extends State<UserProfilePage>
     if (sourceType == 'camera') {
       final picker = ImagePicker();
       PickedFile? pickedFile =
-      await picker.getImage(source: source, imageQuality: 100);
+          await picker.getImage(source: source, imageQuality: 100);
       if (pickedFile != null) {
         return pickedFile.path;
       } else if (Platform.isAndroid) {
@@ -1336,7 +1392,7 @@ class _UserProfilePageState extends State<UserProfilePage>
     } else {
       final picker = ImagePicker();
       PickedFile? pickedFile =
-      await picker.getImage(source: source, imageQuality: 100);
+          await picker.getImage(source: source, imageQuality: 100);
       if (pickedFile != null)
         return pickedFile.path;
       else if (Platform.isAndroid) {
@@ -1370,14 +1426,15 @@ class _UserProfilePageState extends State<UserProfilePage>
     if (await Permission.storage.request().isGranted) {
       if (Platform.isIOS) {
         result = await FilePicker.platform.pickFiles(
-            allowMultiple: false, type: FileType.custom, allowedExtensions: ['pdf', 'doc']);
+            allowMultiple: false,
+            type: FileType.custom,
+            allowedExtensions: ['pdf', 'doc']);
       } else {
         result = await FilePicker.platform.pickFiles(
             allowMultiple: false,
             type: FileType.custom,
             allowedExtensions: ['pdf', 'doc']);
       }
-
 
       files!.add(result?.paths.first);
       /*this.setState(() {
@@ -1396,7 +1453,7 @@ class _UserProfilePageState extends State<UserProfilePage>
     }
   }
 
-  void showBottomSheet(context, String clickSide) {
+  void showBottomSheet(context, String clickSide, Function callback) {
     showModalBottomSheet(
         context: context,
         backgroundColor: Colors.black,
@@ -1423,14 +1480,12 @@ class _UserProfilePageState extends State<UserProfilePage>
                     color: Colors.white,
                   ),
                   title: new Text(
-                    '${Strings
-                        .of(context)
-                        ?.Gallery}',
+                    '${Strings.of(context)?.Gallery}',
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () async {
-                    await _getImages(ImageSource.gallery, 'gallery').then((
-                        value) async {
+                    await _getImages(ImageSource.gallery, 'gallery')
+                        .then((value) async {
                       if (clickSide.endsWith('profile')) {
                         selectedImage = value;
                         selectedImage = await _cropImage(value);
@@ -1445,8 +1500,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                         setState(() {
                           selectedBrandPath = value;
                         });
+                        callback(value);
                       }
-
                     });
                     Navigator.pop(context);
                   },
@@ -1463,21 +1518,17 @@ class _UserProfilePageState extends State<UserProfilePage>
                     color: Colors.white,
                   ),
                   title: new Text(
-                    '${Strings
-                        .of(context)
-                        ?.Camera}',
+                    '${Strings.of(context)?.Camera}',
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () async {
-                    await _getImages(ImageSource.camera, 'camera').then((
-                        value) async {
+                    await _getImages(ImageSource.camera, 'camera')
+                        .then((value) async {
                       if (clickSide.endsWith('profile')) {
                         selectedImage = value;
                         selectedImage = await _cropImage(value);
                         _updateUserProfileImage(selectedImage);
-                      }else{
-
-                      }
+                      } else {}
                       setState(() {});
                     });
                     Navigator.pop(context);
@@ -1489,7 +1540,7 @@ class _UserProfilePageState extends State<UserProfilePage>
         });
   }
 
-  void onCalledFromOutside(String strName, String image, int brandId){
+  void onCalledFromOutside(String strName, String image, int brandId) {
     print(strName);
     print(image);
     print(brandId);
@@ -1572,8 +1623,6 @@ class _UserProfilePageState extends State<UserProfilePage>
     return addressListData;
   }
 */
-
-
 
 }
 
