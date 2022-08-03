@@ -103,7 +103,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                     ? _getTodayClass()
                     : isNotLiveclass == true
                         ? Container()
-                        : sectionLoader(),
+                        : Container(),
                 //_getRecentActivities(),
                 //_getResumeLerarning(),
                 //_getCourses(),
@@ -322,6 +322,11 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
           Log.v(state.response!.data!.modules!.liveclass.toString());
 
           liveclassList = state.response!.data!.modules!.liveclass;
+
+          liveclassList = liveclassList
+              ?.where((element) =>
+                  element.liveclassStatus?.toLowerCase() == 'upcoming')
+              .toList();
           //liveclassList.insert(0, Liveclass(id: 1, name: 'For You'));
 
           Log.v("LiveClassState Done ....................${liveclassList}");
@@ -396,96 +401,95 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // liveclassList![index]
-                            //             .liveclassStatus!
-                            //             .toLowerCase() ==
-                            //         'live'
-                            //     ? Row(
-                            //         crossAxisAlignment:
-                            //             CrossAxisAlignment.center,
-                            //         children: [
-                            //           liveclassList![index]
-                            //                       .contentType!
-                            //                       .toLowerCase() !=
-                            //                   'offlineclass'
-                            //               ? SvgPicture.asset(
-                            //                   'assets/images/live_icon.svg',
-                            //                   width: 25,
-                            //                   height: 25,
-                            //                   allowDrawingOutsideViewBox: true,
-                            //                 )
-                            //               : SvgPicture.asset(
-                            //                   'assets/images/offline_live.svg',
-                            //                   allowDrawingOutsideViewBox: true,
-                            //                 ),
-                            //           SizedBox(width: 5),
-                            //           Text(
-                            //               liveclassList![index]
-                            //                           .contentType!
-                            //                           .toLowerCase() ==
-                            //                       'offlineclass'
-                            //                   ? 'Ongoing'
-                            //                   : "Live Now",
-                            //               style: Styles.regular(
-                            //                   size: 12,
-                            //                   color:  ColorConstants().primaryColor())),
-                            //           Expanded(child: SizedBox()),
-                            //           Container(
-                            //             decoration: BoxDecoration(
-                            //                 borderRadius:
-                            //                     BorderRadius.circular(10),
-                            //                 color: ColorConstants.BG_GREY),
-                            //             padding: EdgeInsets.symmetric(
-                            //                 vertical: 8, horizontal: 18),
-                            //             child: Text(
-                            //                 liveclassList![index]
-                            //                             .contentType!
-                            //                             .toLowerCase() ==
-                            //                         'liveclass'
-                            //                     ? "Live"
-                            //                     : 'Classroom',
-                            //                 style: Styles.regular(
-                            //                     size: 10,
-                            //                     color: ColorConstants.BLACK)),
-                            //           ),
-                            //         ],
-                            //       )
-                            // :
-
                             liveclassList![index]
                                         .liveclassStatus!
                                         .toLowerCase() ==
-                                    'upcoming'
-                                ? Row(children: [
-                                    SvgPicture.asset(
-                                      'assets/images/upcoming_live.svg',
-                                      allowDrawingOutsideViewBox: true,
-                                    ),
-                                    SizedBox(width: 5),
-                                    Text(
-                                        '${liveclassList![index].startTime} - ${liveclassList![index].endTime} |${DateFormat('d').format(DateTime.fromMillisecondsSinceEpoch(liveclassList![index].fromDate! * 1000))} ${months[int.parse(DateFormat('M').format(DateTime.fromMillisecondsSinceEpoch(liveclassList![index].fromDate! * 1000))) - 1]}',
-                                        style: Styles.regular(size: 14)),
-                                    Expanded(child: SizedBox()),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: ColorConstants.BG_GREY),
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 8, horizontal: 18),
-                                      child: Text(
+                                    'live'
+                                ? Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      liveclassList![index]
+                                                  .contentType!
+                                                  .toLowerCase() !=
+                                              'offlineclass'
+                                          ? SvgPicture.asset(
+                                              'assets/images/live_icon.svg',
+                                              width: 25,
+                                              height: 25,
+                                              allowDrawingOutsideViewBox: true,
+                                            )
+                                          : SvgPicture.asset(
+                                              'assets/images/offline_live.svg',
+                                              allowDrawingOutsideViewBox: true,
+                                            ),
+                                      SizedBox(width: 5),
+                                      Text(
                                           liveclassList![index]
                                                       .contentType!
                                                       .toLowerCase() ==
                                                   'offlineclass'
-                                              ? "Offline"
-                                              : "Live",
+                                              ? 'Ongoing'
+                                              : "Live Now",
                                           style: Styles.regular(
-                                              size: 10,
-                                              color: ColorConstants.BLACK)),
-                                    ),
-                                  ])
-                                : SizedBox(),
+                                              size: 12,
+                                              color: ColorConstants()
+                                                  .primaryColor())),
+                                      Expanded(child: SizedBox()),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: ColorConstants.BG_GREY),
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 8, horizontal: 18),
+                                        child: Text(
+                                            liveclassList![index]
+                                                        .contentType!
+                                                        .toLowerCase() ==
+                                                    'liveclass'
+                                                ? "Live"
+                                                : 'Classroom',
+                                            style: Styles.regular(
+                                                size: 10,
+                                                color: ColorConstants.BLACK)),
+                                      ),
+                                    ],
+                                  )
+                                : liveclassList![index]
+                                            .liveclassStatus!
+                                            .toLowerCase() ==
+                                        'upcoming'
+                                    ? Row(children: [
+                                        SvgPicture.asset(
+                                          'assets/images/upcoming_live.svg',
+                                          allowDrawingOutsideViewBox: true,
+                                        ),
+                                        SizedBox(width: 5),
+                                        Text(
+                                            '${liveclassList![index].startTime} - ${liveclassList![index].endTime} |${DateFormat('d').format(DateTime.fromMillisecondsSinceEpoch(liveclassList![index].fromDate! * 1000))} ${months[int.parse(DateFormat('M').format(DateTime.fromMillisecondsSinceEpoch(liveclassList![index].fromDate! * 1000))) - 1]}',
+                                            style: Styles.regular(size: 14)),
+                                        Expanded(child: SizedBox()),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              color: ColorConstants.BG_GREY),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 8, horizontal: 18),
+                                          child: Text(
+                                              liveclassList![index]
+                                                          .contentType!
+                                                          .toLowerCase() ==
+                                                      'offlineclass'
+                                                  ? "Offline"
+                                                  : "Live",
+                                              style: Styles.regular(
+                                                  size: 10,
+                                                  color: ColorConstants.BLACK)),
+                                        ),
+                                      ])
+                                    : SizedBox(),
                             SizedBox(height: 10),
                             Text('${liveclassList![index].name}',
                                 style: Styles.semibold(size: 16)),

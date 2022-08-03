@@ -348,8 +348,7 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
 
   _rowItem(AssignmentList item) {
     return Visibility(
-      visible: (selectedOption == item.status || selectedOption == 'All') &&
-          checkViewDate(item.endDate),
+      visible: (selectedOption == item.status || selectedOption == 'All'),
       child: InkWell(
           onTap: () {
             if (item.status == 'Upcoming')

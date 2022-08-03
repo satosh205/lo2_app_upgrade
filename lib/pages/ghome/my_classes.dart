@@ -351,7 +351,9 @@ class _MyClassesState extends State<MyClasses> {
               ? Expanded(
                   child: ListView.builder(
                     itemBuilder: (BuildContext context, int index) {
-    int iconId = Utility.classStatus(listClassModel.list![index].fromDate!, listClassModel.list![index].endDate!);
+                      int iconId = Utility.classStatus(
+                          listClassModel.list![index].fromDate!,
+                          listClassModel.list![index].endDate!);
 
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -381,26 +383,28 @@ class _MyClassesState extends State<MyClasses> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
-
-                                            if(  iconId == 0 )...[SvgPicture.asset(
-                                                      'assets/images/live_icon.svg',
-                                                      width: 20,
-                                                      height: 20,
-                                                      allowDrawingOutsideViewBox:
-                                                          true,
-                                                    )]
-                                                    else if(iconId == 1)...[SvgPicture.asset(
-                                                      'assets/images/empty_circle.svg',
-                                                      width: 20,
-                                                      height: 20,
-                                                      allowDrawingOutsideViewBox:
-                                                          true,
-                                                    )]
-                                                    else Icon(
-                                    Icons.check_circle,
-                                    color: ColorConstants.GREEN,
-                                    size: 20.0,
-                                  )
+                                              if (iconId == 0) ...[
+                                                SvgPicture.asset(
+                                                  'assets/images/live_icon.svg',
+                                                  width: 20,
+                                                  height: 20,
+                                                  allowDrawingOutsideViewBox:
+                                                      true,
+                                                )
+                                              ] else if (iconId == 1) ...[
+                                                SvgPicture.asset(
+                                                  'assets/images/empty_circle.svg',
+                                                  width: 20,
+                                                  height: 20,
+                                                  allowDrawingOutsideViewBox:
+                                                      true,
+                                                )
+                                              ] else
+                                                Icon(
+                                                  Icons.check_circle,
+                                                  color: ColorConstants.GREEN,
+                                                  size: 20.0,
+                                                )
                                               // listClassModel.list![index]
                                               //             .contentType!
                                               //             .toLowerCase() !=
@@ -445,7 +449,10 @@ class _MyClassesState extends State<MyClasses> {
                                                     listClassModel.list![index]
                                                                 .contentType!
                                                                 .toLowerCase() ==
-                                                            'liveclass'
+                                                            'liveclass' || listClassModel.list![index]
+                                                                .contentType!
+                                                                .toLowerCase() ==
+                                                            'zoomclass'
                                                         ? "Live"
                                                         : 'Classroom',
                                                     style: Styles.regular(
@@ -520,8 +527,8 @@ class _MyClassesState extends State<MyClasses> {
                                             'live')
                                           InkWell(
                                               onTap: () {
-                                                launch(listClassModel
-                                                    .list![index].url!);
+                                                launchUrl(Uri.parse('${listClassModel
+                                                    .list![index].url}'));
                                               },
                                               child: Container(
                                                 decoration: BoxDecoration(
