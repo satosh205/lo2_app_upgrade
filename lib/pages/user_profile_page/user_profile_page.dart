@@ -81,6 +81,9 @@ class _UserProfilePageState extends State<UserProfilePage>
   List<MasterBrand> addressListData = <MasterBrand>[];*/
   String strDocFile = '';
   int? id;
+  String fileString = '';
+
+
 
   @override
   void initState() {
@@ -555,6 +558,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                           brandImageUrl = '';
                           flagUploadBranVisible = false;
                           files!.clear();
+                          fileString = '';
                         });
 
                         showModalBottomSheet(
@@ -590,15 +594,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                                         ),
 
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 5.0),
-                                        child: TextFormField(
-                                          controller: titleController,
-                                          readOnly: true,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        )),
+                                        padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
+                                        child: Text('Add a Brand')),
                                         SizedBox(
                                           height: 12,
                                         ),
@@ -706,7 +703,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                         brandImageUrl.isEmpty
                                             ? Container(
                                                 margin:
-                                                    EdgeInsets.only(top: 15.0),
+                                                    EdgeInsets.only(top: 10.0),
                                                 child: Column(
                                                   children: [
                                                     GestureDetector(
@@ -785,12 +782,15 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                     color:
                                                         ColorConstants.GREY_3),
                                               ),
-                                              Text(
-                                                'file name',
-                                                style: Styles.textExtraBold(
-                                                    size: 14,
-                                                    color:
-                                                        ColorConstants.GREY_3),
+                                              Padding(
+                                                padding: const EdgeInsets.only(top: 5.0),
+                                                child: Text(
+                                                    fileString.isNotEmpty ? fileString.substring(fileString.length - 20) : '',
+                                                  style: Styles.textExtraBold(
+                                                      size: 14,
+                                                      color:
+                                                          ColorConstants.GREY_3),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -1127,7 +1127,7 @@ class _UserProfilePageState extends State<UserProfilePage>
   Widget _selectedBrandLogo(){
     //return StatefulBuilder(builder: (context, setstate){
       return Container(
-        height: 50,
+        height: 45,
         width: 100,
         margin: EdgeInsets.only(top: 4.0),
         decoration: BoxDecoration(
@@ -1154,9 +1154,8 @@ class _UserProfilePageState extends State<UserProfilePage>
 
     if (pickedDate != null) {
       print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-      //String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
-      String formattedDate =
-          DateFormat('yyyy-MM-dd HH:mm:ss').format(pickedDate);
+      String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+      //String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(pickedDate);
       print(
           formattedDate); //formatted date output using intl package =>  2021-03-16
       //you can implement different kind of Date Format here according to your requirement
@@ -1205,8 +1204,7 @@ class _UserProfilePageState extends State<UserProfilePage>
     });
   }
 
-  void _handleUpdateUserProfileImageResponse(
-      UpdateUserProfileImageState state) {
+  void _handleUpdateUserProfileImageResponse(UpdateUserProfileImageState state) {
     var loginState = state;
     setState(() {
       switch (loginState.apiState) {
@@ -1453,6 +1451,8 @@ class _UserProfilePageState extends State<UserProfilePage>
       });*/
       print('============= str Doc File==============');
       print(files![0]);
+      fileString = files![0].toString();
+
       /*if (result != null) {
         files = result?.paths.first as List<String?>?;
 
