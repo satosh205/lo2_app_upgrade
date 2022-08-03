@@ -322,8 +322,7 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
                 onOkClick: () async {
                   // Navigator.pop(context);
                 });
-          else if (DateTime.now()
-              .isBefore(DateTime.fromMillisecondsSinceEpoch(item.endDate!))) {
+          else if (Utility.isExpired(item.endDate!)) {
             AlertsWidget.showCustomDialog(
                 context: context,
                 title: "Assessment deadline is over",

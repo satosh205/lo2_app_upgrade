@@ -111,11 +111,6 @@ class MgAssessmentDetailPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              /*Text(
-                      'Maximum Marks',
-                      style: Styles.textSemiBold(
-                          size: 16, color: ColorConstants.WHITE),
-                    ),*/
               Text(
                 '${assessmentProvider.assessments.maximumMarks} Marks • ',
                 style: Styles.semibold(size: 14, color: ColorConstants.BLACK),
@@ -138,10 +133,6 @@ class MgAssessmentDetailPage extends StatelessWidget {
   }
 
   _body() {
-    String attempLeft = assessmentDetailProvider
-        .assessmentResponse!.data!.instruction!.details!.attemptCount
-        .toString();
-
     return Container(
       margin: EdgeInsets.only(top: 10),
       decoration: BoxDecoration(
@@ -302,15 +293,7 @@ class MgAssessmentDetailPage extends StatelessWidget {
                 ),
               ],
             ),
-            _size(height: 10),
-
-            //  assessmentDetailProvider.assessments.attemptCount
-            // Text(
-            //   '$attempLeft/${assessmentDetailProvider.assessments.attemptAllowed} attempts left ',
-            //   style: Styles.regular(size: 12, color: ColorConstants.RED_BG),
-            // ),
-            _size(height: 20),
-
+            _size(height: 30),
             if (assessmentDetailProvider.assessmentResponse!.data!.instruction!
                     .details!.submittedOnDate! !=
                 0)
@@ -336,12 +319,7 @@ class MgAssessmentDetailPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Row(
-                        children: [
-                          // Text('${assessmentProvider.assessments.negativeMarks}/', style: Styles.textRegular(
-                          //     size: 16, color: ColorConstants.GREEN),),
-                          // Text('${assessmentProvider.assessments.maximumMarks}', style: Styles.textRegular(
-                          //     size: 16, color: ColorConstants.BLACK),),
-                        ],
+                        children: [],
                       ),
                       Text(
                           'Score: ${assessmentDetailProvider.assessmentResponse!.data!.instruction!.details!.score}'),

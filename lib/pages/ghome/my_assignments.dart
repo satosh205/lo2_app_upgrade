@@ -363,8 +363,7 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                   onOkClick: () async {
                     // Navigator.pop(context);
                   });
-            else if (DateTime.now()
-                .isBefore(DateTime.fromMillisecondsSinceEpoch(item.endDate!))) {
+            else if (Utility.isExpired(item.endDate!)) {
               AlertsWidget.showCustomDialog(
                   context: context,
                   title: "Assignment deadline is over",
@@ -438,7 +437,10 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                         SizedBox(height: 5),
                       ] else if (item.status == 'Upcoming') ...[
                         Text(
-                            'Deadline: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
+                            'Deadline: ${DateFormat('MM/dd/yyyy, hh:mm a').format(
+                              DateTime.fromMillisecondsSinceEpoch(
+                                  item.endDate! * 1000),
+                            )}',
                             style: Styles.regular(size: 12)),
                         SizedBox(height: 5),
                       ] else if (item.status == 'Pending') ...[

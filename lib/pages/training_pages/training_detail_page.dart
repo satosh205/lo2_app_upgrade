@@ -163,7 +163,6 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
   }
 
   void openAssessment(dynamic data) {
-    print('opn assessment');
     Navigator.push(
         context,
         NextPageRoute(
@@ -199,21 +198,22 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
     } else if (selectedType == 'Videos' && selectedContentId != null) {
       title = 'Start Video';
     } else if (selectedType == 'Quiz' && selectedContentId != null) {
-      if (selectedData.status == 'Active') {
-        if (selectedData.attemptsRemaining == selectedData.attemptsRemaining) {
+      if (selectedData?.status == 'Active') {
+        if (selectedData?.attemptsRemaining == selectedData?.attemptAllowed) {
           title = 'Attempt';
         } else {
           title = 'Re-Attempt/ Review';
         }
       }
-      if (selectedData.attemptsRemaining == 0) {
+      if (selectedData?.attemptsRemaining == 0 ||
+          Utility.isExpired(selectedData?.endDate!)) {
         isButtonActive = false;
       }
     }
     Color bgColor = !isButtonActive
         ? ColorConstants.GREY_2
         : selectedType == 'Quiz'
-            ? selectedData.status == 'Active'
+            ? selectedData?.status == 'Active'
                 ? ColorConstants().primaryColor()
                 : ColorConstants.GREY_2
             : selectedType == 'Quiz'
@@ -358,7 +358,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                             .spaceBetween,
                                                     children: [
                                                       Text(
-                                                        '${Utility.convertDateFromMillis(selectedData.startDate, Strings.CLASS_TIME_FORMAT)} - ${Utility.convertDateFromMillis(selectedData.endDate, Strings.CLASS_TIME_FORMAT)} | ${Utility.convertDateFromMillis(selectedData.endDate, Strings.DATE_MONTH)}',
+                                                        '${Utility.convertDateFromMillis(selectedData?.startDate, Strings.CLASS_TIME_FORMAT)} - ${Utility.convertDateFromMillis(selectedData?.endDate, Strings.CLASS_TIME_FORMAT)} | ${Utility.convertDateFromMillis(selectedData?.endDate, Strings.DATE_MONTH)}',
                                                         style: Styles.bold(
                                                             color:
                                                                 ColorConstants
@@ -398,7 +398,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                   ),
                                                   SizedBox(height: 10),
                                                   Text(
-                                                    '${selectedData.title}',
+                                                    '${selectedData?.title}',
                                                     style: Styles.regular(
                                                       size: 18,
                                                       color:
@@ -423,7 +423,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                           .spaceBetween,
                                                   children: [
                                                     Text(
-                                                      'Submit before: ${Utility.convertDateFromMillis(selectedData.endDate, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
+                                                      'Submit before: ${Utility.convertDateFromMillis(selectedData?.endDate, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
                                                       // '${selectedType}',
                                                       style: Styles.bold(
                                                           size: 14,
@@ -432,7 +432,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                     ),
                                                     if (selectedType == 'Quiz')
                                                       Text(
-                                                        '${selectedData.durationInMinutes} ${selectedData.durationInMinutes == 0 || selectedData.durationInMinutes == 1 ? 'min' : 'mins'}',
+                                                        '${selectedData?.durationInMinutes} ${selectedData?.durationInMinutes == 0 || selectedData?.durationInMinutes == 1 ? 'min' : 'mins'}',
                                                         // '${selectedType}',
                                                         style: Styles.bold(
                                                             size: 14,
@@ -443,7 +443,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                   ],
                                                 ),
                                                 SizedBox(height: 15),
-                                                Text('${selectedData.title}',
+                                                Text('${selectedData?.title}',
                                                     style: Styles.bold(
                                                         size: 16,
                                                         color: ColorConstants
@@ -459,7 +459,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                                   .isGraded ==
                                                               1) ...[
                                                             Text(
-                                                              '${selectedData.maximumMarks} Marks • ${selectedData.allowMultiple == 1 ? 'Multiple Attempts' : '1 Attempt'}',
+                                                              '${selectedData?.maximumMarks} Marks • ${selectedData?.allowMultiple == 1 ? 'Multiple Attempts' : '1 Attempt'}',
                                                               style: Styles.semibold(
                                                                   size: 14,
                                                                   color:
@@ -468,7 +468,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                             ),
                                                           ] else
                                                             Text(
-                                                              'Non Graded • ${selectedData.allowMultiple == 1 ? 'Multiple Attempts' : '1 Attempt'}',
+                                                              'Non Graded • ${selectedData?.allowMultiple == 1 ? 'Multiple Attempts' : '1 Attempt'}',
                                                               style: Styles.semibold(
                                                                   size: 14,
                                                                   color:
@@ -479,11 +479,11 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                       ),
                                                     if (selectedType ==
                                                         'Quiz') ...[
-                                                      selectedData.attemptsRemaining !=
+                                                      selectedData?.attemptsRemaining !=
                                                               selectedData
-                                                                  .attemptsRemaining
+                                                                  .attemptAllowed
                                                           ? Text(
-                                                              '${selectedData.score}/${selectedData.maximumMarks} Marks •  ${selectedData.attemptsRemaining} attemps available',
+                                                              '${selectedData?.score}/${selectedData?.maximumMarks} Marks •  ${selectedData?.attemptsRemaining} attemps available',
                                                               style: Styles.regular(
                                                                   size: 14,
                                                                   color:
@@ -491,7 +491,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                                           .WHITE),
                                                             )
                                                           : Text(
-                                                              '${selectedData.maximumMarks} Marks • ${selectedData.attemptsRemaining} attemps available',
+                                                              '${selectedData?.maximumMarks} Marks • ${selectedData?.attemptsRemaining} attemps available',
                                                               style: Styles.regular(
                                                                   size: 14,
                                                                   color:
@@ -1295,7 +1295,12 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                     .liveclassAction
                     ?.toLowerCase();
                 return _moduleCard(
-                    leadingid: contentStatus == 'concluded'
+                    leadingid: contentStatus == 'concluded' ||
+                            Utility.isBetween(
+                                int.parse(
+                                    '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].startDate}'),
+                                int.parse(
+                                    '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].endDate}'))
                         ? 2
                         : contentStatus == 'join class' ||
                                 contentStatus == 'live'
@@ -1309,13 +1314,13 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                         .trainingModuleResponse.data?.module![0].content,
                     index,
                     context,
-                    traininDetailProvider
-                        .trainingModuleResponse
-                        .data
-                        ?.module![0]
-                        .content
-                        ?.sessions![index]
-                        .programContentId);
+                    traininDetailProvider.trainingModuleResponse.data
+                        ?.module![0].content?.sessions![index].programContentId,
+                    showLiveStatus: Utility.isBetween(
+                        int.parse(
+                            '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].startDate}'),
+                        int.parse(
+                            '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].endDate}')));
               }),
         if (traininDetailProvider.trainingModuleResponse.data?.module![0]
                     .content?.assessments?.length !=
@@ -1573,7 +1578,9 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
 
   Widget _moduleCard(String time, String title, String description, String type,
       data, int index, context, int? programContentId,
-      {int leadingid = 1, bool showNotificationIcon = false}) {
+      {int leadingid = 1,
+      bool showNotificationIcon = false,
+      bool showLiveStatus = false}) {
     //1-> empty circle, 2-> green, 3-> red
     return Consumer<MyCourseProvider>(
         builder: (context, value, child) => InkWell(
@@ -1713,12 +1720,39 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            '$title',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            softWrap: false,
-                            style: Styles.semibold(size: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                width: showLiveStatus == true
+                                    ? MediaQuery.of(context).size.width * 0.6
+                                    : MediaQuery.of(context).size.width * 0.8,
+                                child: Text(
+                                  '$title',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
+                                  style: Styles.semibold(size: 16),
+                                ),
+                              ),
+                              if (showLiveStatus)
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                        'assets/images/live_icon.svg',
+                                        height: 15.0,
+                                        width: 15.0,
+                                        allowDrawingOutsideViewBox: true),
+                                    Text(
+                                      selectedData?.contentType == 'liveclass'
+                                          ? 'LIVE NOW'
+                                          : 'Ongoing',
+                                      style: Styles.regular(
+                                          size: 12, color: ColorConstants.RED),
+                                    )
+                                  ],
+                                )
+                            ],
                           ),
                           Text(
                             '$description $time',

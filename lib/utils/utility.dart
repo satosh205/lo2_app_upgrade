@@ -49,6 +49,17 @@ class Utility {
         DateTime.fromMillisecondsSinceEpoch(timeInMillis * 1000, isUtc: isUTC));
   }
 
+  //check if date is expired or not
+  static bool isExpired(int timeInMillis) {
+    return DateTime.now().millisecondsSinceEpoch / 1000 > timeInMillis;
+  }
+
+  //check if current time is lies between start and end time
+  static bool isBetween(int startTime, int endTime) {
+    return DateTime.now().millisecondsSinceEpoch / 1000 > startTime &&
+        DateTime.now().millisecondsSinceEpoch / 1000 < endTime;
+  }
+
   static String convertCourseTime(int? timeInMillis, String newFormat,
       {bool isUTC = false}) {
     return DateFormat(newFormat).format(DateTime.fromMillisecondsSinceEpoch(
