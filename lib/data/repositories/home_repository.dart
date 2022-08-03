@@ -33,6 +33,7 @@ import 'package:masterg/data/models/response/home_response/update_user_profile_r
 import 'package:masterg/data/models/response/home_response/user_analytics_response.dart';
 import 'package:masterg/data/models/response/home_response/user_profile_response.dart';
 import 'package:masterg/data/providers/home_provider.dart';
+import 'package:masterg/pages/user_profile_page/model/MasterBrand.dart';
 import 'package:masterg/utils/Log.dart';
 
 import '../models/response/home_response/create_portfolio_response.dart';
@@ -615,6 +616,32 @@ class HomeRepository {
       CreatePortfolioResponse.fromJson(response.body);
 
       return resp;
+    } else {
+      Log.v("Error ====> ${response.body}");
+      return;
+    }
+  }
+
+  Future masterBrandCreate(Map<String, dynamic> data) async {
+    final response = await homeProvider.masterBrandCreate(data);
+    if (response!.success) {
+      Log.v("Create Portfoio DATA : ${response.body}");
+      MasterBrandResponse resp =
+      MasterBrandResponse.fromJson(response.body);
+      return resp;
+    } else {
+      Log.v("Error ====> ${response.body}");
+      return;
+    }
+  }
+
+  Future userBrandCreate(Map<String, dynamic> data) async {
+    final response = await homeProvider.userBrandCreate(data);
+    if (response!.success) {
+      Log.v("Create Portfoio DATA : ${response.body}");
+      /*MasterBrandResponse resp =
+      MasterBrandResponse.fromJson(response.body);*/
+      return;
     } else {
       Log.v("Error ====> ${response.body}");
       return;

@@ -34,6 +34,7 @@ import 'package:masterg/data/models/response/home_response/update_user_profile_r
 import 'package:masterg/data/models/response/home_response/user_analytics_response.dart';
 import 'package:masterg/data/models/response/home_response/user_profile_response.dart';
 import 'package:masterg/data/repositories/home_repository.dart';
+import 'package:masterg/pages/user_profile_page/model/MasterBrand.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 
@@ -481,6 +482,29 @@ class CreatePortfolioEvent extends HomeEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
+
+class MasterBrandCreateEvent extends HomeEvent {
+  String? title;
+  String? description;
+  String? filePath;
+  MasterBrandCreateEvent({this.title, this.description, this.filePath})
+      : super([title, description, filePath]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+class UserBrandCreateEvent extends HomeEvent {
+  String? endDate;
+  String? startDate;
+  int? typeId;
+  String? filePath;
+  UserBrandCreateEvent({this.endDate, this.startDate, this.typeId, this.filePath})
+      : super([endDate, startDate, typeId, filePath]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+
 class topScoringUsersEvent extends HomeEvent {
   int? userId;
   topScoringUsersEvent({this.userId}) : super([userId]);
@@ -542,6 +566,25 @@ class CreatePortfolioState extends HomeState {
   String? error;
 
   CreatePortfolioState(this.state, {this.response, this.error});
+}
+
+class MasterBrandCreateState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  MasterBrandResponse? response;
+  String? error;
+
+  MasterBrandCreateState(this.state, {this.response, this.error});
+}
+
+class UserBrandCreateState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  String? error;
+
+  UserBrandCreateState(this.state, {this.error});
 }
 
 class FeaturedVideoState extends HomeState {
@@ -1288,11 +1331,70 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           ApiStatus.ERROR,
         );
       }
-    }else if (event is DeletePortfolioEvent) {
+    }else if (event is MasterBrandCreateEvent) {
+      try {
+        Map<String, dynamic> data = Map();
+        var filePath = event.filePath;
+        String fileName = filePath!.split('/').last;
+        data['file'] =
+        await MultipartFile.fromFile(filePath, filename: fileName);
+        data['title'] = event.title;
+        data['description'] = event.description;
+
+        yield MasterBrandCreateState(ApiStatus.LOADING);
+        final response = await homeRepository.masterBrandCreate(data);
+        if (response != null) {
+          yield MasterBrandCreateState(
+            ApiStatus.SUCCESS,
+          );
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield MasterBrandCreateState(
+            ApiStatus.ERROR,
+          );
+        }
+      } catch (e) {
+        Log.v("ERROR DATA is : $e");
+        yield MasterBrandCreateState(
+          ApiStatus.ERROR,
+        );
+      }
+    }else if (event is UserBrandCreateEvent) {
+      try {
+        Map<String, dynamic> data = Map();
+        var filePath = event.filePath;
+        String fileName = filePath!.split('/').last;
+        data['file'] =
+        await MultipartFile.fromFile(filePath, filename: fileName);
+        data['type_id'] = event.typeId;
+        data['start_date'] = event.startDate;
+        data['end_date'] = event.endDate;
+
+        yield UserBrandCreateState(ApiStatus.LOADING);
+        final response = await homeRepository.userBrandCreate(data);
+        if (response != null) {
+          yield UserBrandCreateState(
+            ApiStatus.SUCCESS,
+          );
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield UserBrandCreateState(
+            ApiStatus.ERROR,
+          );
+        }
+      } catch (e) {
+        Log.v("ERROR DATA is : $e");
+        yield UserBrandCreateState(
+          ApiStatus.ERROR,
+        );
+      }
+    }
+     else if (event is DeletePortfolioEvent) {
       try {
         yield DeletePortfolioState(ApiStatus.LOADING);
 
         final response = await homeRepository.deletePortfolio(event.id);
+
         if (response != null) {
           yield DeletePortfolioState(
             ApiStatus.SUCCESS,
