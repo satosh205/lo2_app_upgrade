@@ -138,9 +138,9 @@ class _UserProfilePageState extends State<UserProfilePage>
       startDate: fromDateController.text.toString(),
       //startDate: '2021-01-27 00:00:00',
       //endDate: '2021-05-27 00:00:00',
-      endDate: toDateController.text.toString(),
+      endDate: checkBoxValue == false ? toDateController.text.toString(): DateTime.now().toString(),
       typeId: brandImageUrl.isEmpty ? _masterBrandResponse.data!.id: id,
-      filePath: files![0] ,));
+      filePath: files!.length !=0 ? files![0] : '',));
   }
 
 
@@ -545,7 +545,6 @@ class _UserProfilePageState extends State<UserProfilePage>
                   ),
                   GestureDetector(
                       onTap: (){
-                        print('onclick ');
                         selectedBrandPath = '';
                         titleController.clear();
                         fromDateController.clear();
@@ -556,6 +555,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                           checkBoxValue = true;
                           brandImageUrl = '';
                           flagUploadBranVisible = false;
+                          files!.clear();
                         });
 
                         showModalBottomSheet(
@@ -582,7 +582,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                       ),
 
                                       Padding(
-                                        padding: const EdgeInsets.only(top: 20),
+                                        padding: const EdgeInsets.only(top: 15),
                                         child: Text(
                                           'Add a Brand',
                                           style:
@@ -594,7 +594,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                       ),
 
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
+                                        padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 5.0),
                                         child: TextFormField(
                                           controller: titleController,
                                           readOnly: true,
@@ -642,13 +642,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                           onTap: (){
                                             print('On Text Click');
                                             Navigator.push(context, MaterialPageRoute(builder: (context) => BrandFilterPage(
-                                                onCalledFromOutside,
-                                                '',
-                                                '',
-                                                '',
-                                                '',
-                                                ''
-                                            )));
+                                                onCalledFromOutside,)));
                                           },
                                         ),
                                       ),
@@ -770,7 +764,31 @@ class _UserProfilePageState extends State<UserProfilePage>
                                           if(brandImageUrl.isEmpty){
                                             validation();
                                           }else{
-                                            userBrandCreate();
+                                            if(files!.length == 0){
+                                              AlertsWidget.showCustomDialog(
+                                                  context: context,
+                                                  title: "Error",
+                                                  text: "Please select joining letter",
+                                                  icon: 'assets/images/circle_alert_fill.svg',
+                                                  oKText: 'OK',
+                                                  showCancel: false,
+                                                  onOkClick: () async {
+
+                                                  });
+                                            }else if(fromDateController.text.toString().isEmpty){
+                                              AlertsWidget.showCustomDialog(
+                                                  context: context,
+                                                  title: "Error",
+                                                  text: "Please select from date",
+                                                  icon: 'assets/images/circle_alert_fill.svg',
+                                                  oKText: 'OK',
+                                                  showCancel: false,
+                                                  onOkClick: () async {
+
+                                                  });
+                                            }else{
+                                              userBrandCreate();
+                                            }
                                           }
                                         },
                                         child: Container(
@@ -1057,18 +1075,20 @@ class _UserProfilePageState extends State<UserProfilePage>
   }
 
   Widget _selectedBrandLogo(){
-    return Container(
-      height: 50,
-      width: 100,
-      margin: EdgeInsets.only(top: 4.0),
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: FileImage(File('$selectedBrandPath')),
-          fit: BoxFit.fill,
+    //return StatefulBuilder(builder: (context, setstate){
+      return Container(
+        height: 50,
+        width: 100,
+        margin: EdgeInsets.only(top: 4.0),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: FileImage(File('$selectedBrandPath')),
+            fit: BoxFit.fill,
+          ),
         ),
-      ),
-      child: null /* add child content here */,
-    );
+        child: null /* add child content here */,
+      );
+    //});
   }
 
   void calenderOpen(String inputType) async {
@@ -1377,13 +1397,10 @@ class _UserProfilePageState extends State<UserProfilePage>
             type: FileType.custom,
             allowedExtensions: ['pdf', 'doc']);
       }
-
-
       files!.add(result?.paths.first);
       /*this.setState(() {
         files = result?.paths.first as List<String?>?;
       });*/
-
       print('============= str Doc File==============');
       print(files![0]);
       /*if (result != null) {
@@ -1510,7 +1527,7 @@ class _UserProfilePageState extends State<UserProfilePage>
 
 /*
 
-  Future<List<MasterBrand>> masterBrandCreate() async {
+ Future<List<MasterBrand>> masterBrandCreate() async {
     //List<AddressModel> addressListData = new List<AddressModel>();
     addressListData.clear();
 

@@ -15,13 +15,9 @@ class BrandFilterPage extends StatefulWidget {
 
   //List<AddressModel> usersFromServer;
   Function onCalledBack;
-  String titleName = '';
-  String city = '';
-  String state = '';
-  String zipCode = '';
-  String actionType = '';
 
-  BrandFilterPage(this.onCalledBack, this.titleName, this.city, this.state, this.zipCode, this.actionType, {Key? key}): super(key: key);
+  //BrandFilterPage(this.onCalledBack, this.titleName, this.city, this.state, this.zipCode, this.actionType, {Key? key}): super(key: key);
+  BrandFilterPage(this.onCalledBack, {Key? key}): super(key: key);
 
 
   @override
@@ -71,11 +67,6 @@ class _BrandFilterPageState extends State<BrandFilterPage> {
       users = widget.usersFromServer;
       filteredUsers = users;
     });*/
-
-    strCity = widget.city;
-    strState = widget.state;
-    strZipCode = widget.zipCode;
-
   }
 
   @override
