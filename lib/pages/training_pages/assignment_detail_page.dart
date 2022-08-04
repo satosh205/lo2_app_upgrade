@@ -745,11 +745,18 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                             ),
                           )
                         : Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text(
-                                file!.path.split("/").last,
-                                style: TextStyle(
-                                    decoration: TextDecoration.underline),
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                child: Text(
+                                  file!.path.split("/").last,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  softWrap: true,
+                                  style: TextStyle(
+                                      decoration: TextDecoration.underline),
+                                ),
                               ),
                               const SizedBox(
                                 width: 10,

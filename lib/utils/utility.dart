@@ -45,8 +45,10 @@ class Utility {
 
   static String convertDateFromMillis(int timeInMillis, String newFormat,
       {bool isUTC = false}) {
-    return DateFormat(newFormat).format(
-        DateTime.fromMillisecondsSinceEpoch(timeInMillis * 1000, isUtc: isUTC));
+    return DateFormat(newFormat).format(DateTime.fromMillisecondsSinceEpoch(
+      timeInMillis * 1000,
+      isUtc: isUTC,
+    ));
   }
 
   //check if date is expired or not
