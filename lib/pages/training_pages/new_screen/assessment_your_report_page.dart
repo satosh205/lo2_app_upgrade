@@ -153,8 +153,6 @@ class _AssessmentYourReportPageState extends State<AssessmentYourReportPage> {
                 ),
                 onPressed: () {
                   Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
                 },
                 child: Padding(
                   padding:

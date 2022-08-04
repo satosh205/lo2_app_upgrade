@@ -109,8 +109,18 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
         return '${startDate.difference(endDate).inMinutes.abs()} m';
       else if (seconds >= 3600 && seconds < 86400)
         return '${startDate.difference(endDate).inHours.abs()} h';
-      else
-        return '${startDate.difference(endDate).inDays.abs()} d';
+      else {
+        // convert day to month
+        int days = startDate.difference(endDate).inDays.abs();
+        if (days < 30 && days > 7) {
+          return '${(startDate.difference(endDate).inDays ~/ 30).abs()} w';
+        }
+        if (days > 30) {
+          int month = (startDate.difference(endDate).inDays ~/ 30).abs();
+          return '${month} mos';
+        } else
+          return '${startDate.difference(endDate).inDays.abs()} d';
+      }
     }
 
     // Widget isPlaying() {
@@ -219,7 +229,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
             ConstrainedBox(
               constraints: BoxConstraints(
                 minHeight: 360,
-                maxHeight: 410,
+                maxHeight: 420,
               ),
               // color: Colors.red,
               child: PageView.builder(
@@ -232,10 +242,18 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                     //     download.getFilePath('${widget.fileList[index]}');
                     return Column(children: [
                       ConstrainedBox(
-                          constraints: BoxConstraints(
-                            minHeight: 360,
-                            maxHeight: 410,
-                          ),
+                          constraints: widget.fileList![index]
+                                      .contains('.mp4') ||
+                                  widget.fileList![index].contains('.mov') ==
+                                      true
+                              ? BoxConstraints(
+                                  minHeight: 360,
+                                  maxHeight: 420,
+                                )
+                              : BoxConstraints(
+                                  minHeight: 360,
+                                  maxHeight: 410,
+                                ),
                           // padding: EdgeInsets.symmetric(horizontal: 2),
                           child: VisibilityDetector(
                             key: ObjectKey('${widget.contentId}'),

@@ -239,10 +239,18 @@ class GReelsElement extends ChangeNotifier {
 class GReelsModel extends ChangeNotifier {
   List<GReelsElement>? _list = [];
   List<GReelsElement>? get list => _list;
+  int? currentIndex;
   GReelsModel(List<GReelsElement>? list) {
     this._list = list;
+    currentIndex = 0;
     notifyListeners();
   }
+
+  void updateCurrentIndex(int index) {
+    currentIndex = index;
+    notifyListeners();
+  }
+
 
   void updateList(List<GReelsElement> newData) {
     this._list!.addAll(newData);
@@ -259,6 +267,7 @@ class GReelsModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  
   void increaseLikeCount(int postId) {
     for (var i = 0; i < _list!.length; i++) {
       if (_list![i].id == postId) {
@@ -268,6 +277,35 @@ class GReelsModel extends ChangeNotifier {
         notifyListeners();
       }
     }
+  }
+
+  //get like count
+  int getLikeCount(int postId) {
+    for (var i = 0; i < _list!.length; i++) {
+      if (_list![i].id == postId) {
+        return _list![i].likeCount!;
+      }
+    }
+    return 0;
+  }
+
+
+  int getCurrentIndex(){
+    return currentIndex!;
+  }
+
+  //check if user liked
+  bool isUserLiked(int postId) {
+    for (var i = 0; i < _list!.length; i++) {
+      if (_list![i].id == postId) {
+        if (_list![i].userLiked == 1) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+    return false;
   }
 
   void decreaseLikeCount(int posdId) {
@@ -280,7 +318,15 @@ class GReelsModel extends ChangeNotifier {
       }
     }
   }
-
+//get current post index
+  int getCurrentPostIndex(int postId) {
+    for (var i = 0; i < _list!.length; i++) {
+      if (_list![i].id == postId) {
+        return i;
+      }
+    }
+    return 0;
+  }
   String? getResourcePath(int contentId) {
     for (var i = 0; i < _list!.length; i++) {
       if (_list![i].id == contentId) {

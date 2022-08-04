@@ -15,6 +15,7 @@ import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:masterg/utils/utility.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -186,18 +187,18 @@ class _MyClassesState extends State<MyClasses> {
 
   Widget _getClasses(LiveclassModel listClassModel) {
     List<String> months = [
-      'January',
-      'February',
-      'March',
-      'April',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
       'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December'
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
     ];
 
     List<Liveclass>? liveClassTempList = liveclassList;
@@ -350,6 +351,10 @@ class _MyClassesState extends State<MyClasses> {
               ? Expanded(
                   child: ListView.builder(
                     itemBuilder: (BuildContext context, int index) {
+                      int classStatus = Utility.classStatus(
+                          listClassModel.list![index].fromDate!,
+                          listClassModel.list![index].endDate!);
+
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -378,24 +383,47 @@ class _MyClassesState extends State<MyClasses> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
-                                              listClassModel.list![index]
-                                                          .contentType!
-                                                          .toLowerCase() !=
-                                                      'offlineclass'
-                                                  ? SvgPicture.asset(
-                                                      'assets/images/live_icon.svg',
-                                                      width: 25,
-                                                      height: 25,
-                                                      allowDrawingOutsideViewBox:
-                                                          true,
-                                                    )
-                                                  : SvgPicture.asset(
-                                                      'assets/images/offline_live.svg',
-                                                      allowDrawingOutsideViewBox:
-                                                          true,
-                                                    ),
+                                              if (classStatus == 0) ...[
+                                                SvgPicture.asset(
+                                                  'assets/images/live_icon.svg',
+                                                  width: 20,
+                                                  height: 20,
+                                                  allowDrawingOutsideViewBox:
+                                                      true,
+                                                )
+                                              ] else if (classStatus == 1) ...[
+                                                SvgPicture.asset(
+                                                  'assets/images/empty_circle.svg',
+                                                  width: 20,
+                                                  height: 20,
+                                                  allowDrawingOutsideViewBox:
+                                                      true,
+                                                )
+                                              ] else
+                                                Icon(
+                                                  Icons.check_circle,
+                                                  color: ColorConstants.GREEN,
+                                                  size: 20.0,
+                                                )
+                                              // listClassModel.list![index]
+                                              //             .contentType!
+                                              //             .toLowerCase() !=
+                                              //         'offlineclass'
+                                              //     ? SvgPicture.asset(
+                                              //         'assets/images/live_icon.svg',
+                                              //         width: 25,
+                                              //         height: 25,
+                                              //         allowDrawingOutsideViewBox:
+                                              //             true,
+                                              //       )
+                                              //     : SvgPicture.asset(
+                                              //         'assets/images/offline_live.svg',
+                                              //         allowDrawingOutsideViewBox:
+                                              //             true,
+                                              //       ),
+                                              ,
                                               SizedBox(width: 5),
-                                              Text(
+                                           classStatus != 2 ?    Text(
                                                   listClassModel.list![index]
                                                               .contentType!
                                                               .toLowerCase() ==
@@ -405,7 +433,10 @@ class _MyClassesState extends State<MyClasses> {
                                                   style: Styles.regular(
                                                       size: 12,
                                                       color: ColorConstants
-                                                          .YELLOW)),
+                                                          .YELLOW)) :   Text(
+                                                    '${listClassModel.list![index].startTime} - ${listClassModel.list![index].endTime} |${DateFormat('d').format(DateTime.fromMillisecondsSinceEpoch(listClassModel.list![index].fromDate! * 1000))} ${months[int.parse(DateFormat('M').format(DateTime.fromMillisecondsSinceEpoch(listClassModel.list![index].fromDate! * 1000))) - 1]}',
+                                                    style: Styles.regular(
+                                                        size: 14)),
                                               Expanded(child: SizedBox()),
                                               Container(
                                                 decoration: BoxDecoration(
@@ -421,7 +452,10 @@ class _MyClassesState extends State<MyClasses> {
                                                     listClassModel.list![index]
                                                                 .contentType!
                                                                 .toLowerCase() ==
-                                                            'liveclass'
+                                                            'liveclass' || listClassModel.list![index]
+                                                                .contentType!
+                                                                .toLowerCase() ==
+                                                            'zoomclass'
                                                         ? "Live"
                                                         : 'Classroom',
                                                     style: Styles.regular(
@@ -496,8 +530,8 @@ class _MyClassesState extends State<MyClasses> {
                                             'live')
                                           InkWell(
                                               onTap: () {
-                                                launch(listClassModel
-                                                    .list![index].url!);
+                                                launchUrl(Uri.parse('${listClassModel
+                                                    .list![index].url}'));
                                               },
                                               child: Container(
                                                 decoration: BoxDecoration(

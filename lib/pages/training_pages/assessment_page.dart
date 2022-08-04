@@ -23,14 +23,13 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
   late AssessmentDetailProvider assessmentDetailProvider;
   @override
   void initState() {
-    assessmentDetailProvider = Provider.of<AssessmentDetailProvider>(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     mContext = context;
-    // assessmentDetailProvider = Provider.of<AssessmentDetailProvider>(context);
+    assessmentDetailProvider = Provider.of<AssessmentDetailProvider>(context);
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -61,29 +60,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Row(
-                children: [
-                  /*TapWidget(
-                    onTap: () {
-                      Navigator.pop(mContext!);
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: ColorConstants.WHITE,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      child: Icon(
-                        Icons.arrow_back_ios_rounded,
-                        color: ColorConstants.DARK_BLUE,
-                      ),
-                    ),
-                  ),*/
-                  /*Expanded(
-                      child: Text(
-                    assessmentDetailProvider.assignments.title!,
-                    textAlign: TextAlign.center,
-                    style: Styles.boldWhite(size: 20),
-                  )),*/
-                ],
+                children: [],
               ),
             ),
             _belowTitle(assessmentDetailProvider),
@@ -101,57 +78,30 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _size(height: 30),
-          /*Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                Strings.of(mContext!)!.Start_date!,
-                style:
-                    Styles.textSemiBold(size: 16, color: ColorConstants.WHITE),
-              ),
-              Text(
-                '${Utility.convertDateFromMillis(assignmentDetailProvider.assignments.startDate!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
-                style: Styles.textExtraBold(
-                    size: 14, color: ColorConstants.WHITE.withOpacity(0.7)),
-              )
-            ],
-          ),*/
-          //_size(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              /*Text(
-                Strings.of(mContext!)!.End_date!,
-                style:
-                    Styles.textSemiBold(size: 16, color: ColorConstants.WHITE),
-              ),*/
               Text(
                   'Submit before: '
                   '${Utility.convertDateFromMillis(assignmentDetailProvider.assignments.endDate!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
-                  style: Styles.textExtraBold(
-                      size: 14, color: ColorConstants.BLACK)),
+                  style:
+                      Styles.semibold(size: 14, color: ColorConstants.BLACK)),
               Text(
                 '${assignmentDetailProvider.assessmentResponse!.data!.instruction!.details!.durationInMinutes} mins',
-                style:
-                    Styles.textSemiBold(size: 16, color: ColorConstants.BLACK),
+                style: Styles.semibold(size: 14, color: ColorConstants.BLACK),
               ),
             ],
           ),
           _size(height: 15),
           Text(
             assessmentDetailProvider.assignments.title!,
-            style: Styles.textExtraBold(size: 18, color: ColorConstants.ORANGE),
+            style:
+                Styles.bold(size: 16, color: ColorConstants().primaryColor()),
           ),
-
           _size(height: 4),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              /*Text(
-                      'Maximum Marks',
-                      style: Styles.textSemiBold(
-                          size: 16, color: ColorConstants.WHITE),
-                    ),*/
               Text(
                 '${assignmentDetailProvider.assignments.maximumMarks} Marks • ',
                 style:
@@ -164,90 +114,6 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
               )
             ],
           ),
-          _size(height: 15),
-          Text(
-            assessmentDetailProvider.assignments.description!,
-            style: Styles.textRegular(size: 14, color: ColorConstants.BLACK),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(0.0),
-            child: Column(
-              children: [
-                // _size(height: 18),
-                /* Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Duration',
-                      style: Styles.textSemiBold(
-                          size: 16, color: ColorConstants.WHITE),
-                    ),
-                    Text(
-                      '${assignmentDetailProvider.assessmentResponse!.data!.instruction!.details!.durationInMinutes} min',
-                      style: Styles.textExtraBold(
-                          size: 14, color: ColorConstants.WHITE),
-                    )
-                  ],
-                ),*/
-
-                /*Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Passing Marks',
-                      style: Styles.textSemiBold(
-                          size: 16, color: ColorConstants.WHITE),
-                    ),
-                    Text(
-                      '${assignmentDetailProvider.assessmentResponse!.data!.instruction!.details!.passingMarks}',
-                      style: Styles.textExtraBold(
-                          size: 14, color: ColorConstants.WHITE),
-                    )
-                  ],
-                ),*/
-                /*Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Difficulty',
-                      style: Styles.textSemiBold(
-                          size: 16, color: ColorConstants.WHITE),
-                    ),
-                    Text(
-                      '${assignmentDetailProvider.assessmentResponse!.data!.instruction!.details!.difficultyLevel!.toUpperCase()}',
-                      style: Styles.textExtraBold(
-                          size: 14, color: ColorConstants.WHITE),
-                    )
-                  ],
-                ),*/
-                _size(height: 10),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     Text(
-                //       'Attachment',
-                //       style: Styles.textSemiBold(
-                //           size: 18, color: ColorConstants.WHITE),
-                //     ),
-                //     Container(
-                //       padding: EdgeInsets.all(5),
-                //       decoration: BoxDecoration(
-                //           color: ColorConstants.GREY,
-                //           borderRadius: BorderRadius.all(Radius.circular(12))),
-                //       child: Padding(
-                //         padding: const EdgeInsets.only(left: 8, right: 8),
-                //         child: Text(
-                //           'Download',
-                //           style: Styles.textExtraBold(
-                //               size: 12, color: ColorConstants().primaryColor()),
-                //         ),
-                //       ),
-                //     )
-                //   ],
-                // ),
-              ],
-            ),
-          )
         ],
       ),
     );
@@ -276,7 +142,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                 Text(
                   'Instructions',
                   style: Styles.textExtraBold(
-                      size: 18, color: ColorConstants.ORANGE),
+                      size: 18, color: ColorConstants().primaryColor()),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 60),
@@ -298,43 +164,6 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AssessmentAnswerTypes(
-                              ColorConstants.ORANGE, 'Answered'),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          AssessmentAnswerTypes(
-                              ColorConstants.RED_BG, 'Not Visited'),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          AssessmentAnswerTypes(ColorConstants.DARK_BLUE,
-                              'Answered & marked for review'),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AssessmentAnswerTypes(
-                              ColorConstants.SELECTED_PAGE, 'Not Answered'),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          AssessmentAnswerTypes(
-                              ColorConstants.GREEN, 'To be reviewed')
-                        ],
-                      ),
-                    ],
-                  ),
-                )
               ],
             ),
             _size(),
@@ -344,106 +173,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                 if (assessmentDetailProvider.assessmentResponse!.data!
                         .instruction!.details!.attemptCount! >
                     0)
-                  /*Column(
-                    children: [
-                      TapWidget(
-                        onTap: () {
-                          Navigator.push(
-                              mContext!,
-                              NextPageRoute(TestReviewPage(
-                                  contentId: assessmentDetailProvider
-                                      .assignments.programContentId)));
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              color: ColorConstants().primaryColor(),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(12))),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 8, right: 8, top: 4, bottom: 4),
-                            child: Row(
-                              children: [
-                                Text(
-                                  'Review',
-                                  style: Styles.textExtraBold(
-                                      size: 14, color: ColorConstants.WHITE),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      _size(height: 20),
-                    ],
-                  ),*/ /*
-
-                  Column(
-                  children: [
-                    TapWidget(
-                      onTap: () async {
-                        if (assessmentDetailProvider.assessmentResponse!.data!
-                                .instruction!.details!.attemptCount! >=
-                            assessmentDetailProvider.assessmentResponse!.data!
-                                .instruction!.details!.attemptAllowed!) {
-                          Utility.showSnackBar(
-                              scaffoldContext: mContext,
-                              message: "Maximum attempts reached.");
-                        } else {
-                          await Navigator.push(
-                              mContext!,
-                              NextPageRoute(TestAttemptPage(
-                                  contentId: assessmentDetailProvider
-                                      .assignments.programContentId)));
-                          assessmentDetailProvider.getDetails();
-                        }
-                      },
-                      child: Visibility(
-                        visible: assessmentDetailProvider.assessmentResponse!
-                                .data!.instruction!.details!.attemptCount! <=
-                            assessmentDetailProvider.assessmentResponse!.data!
-                                .instruction!.details!.attemptAllowed!,
-                        child: Container(
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              color: ColorConstants().primaryColor(),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(12))),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 8, right: 8, top: 4, bottom: 4),
-                            child: Row(
-                              children: [
-                                Text(
-                                  assessmentDetailProvider
-                                              .assessmentResponse!
-                                              .data!
-                                              .instruction!
-                                              .details!
-                                              .attemptCount! >
-                                          0
-                                      ? 'Re-Attempt'
-                                      : 'Start Test',
-                                  style: Styles.textExtraBold(
-                                      size: 14, color: ColorConstants.WHITE),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    _size(height: 20),
-                  ],
-                ),*/
-
                   Expanded(
-                    /*child: Container(
-                      margin: EdgeInsets.only(right: 10.0),
-                      color: Colors.amber,
-                      height: 100,
-                    ),*/
                     child: TapWidget(
                       onTap: () {
                         Navigator.push(
@@ -479,11 +209,6 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                   width: 15.0,
                 ),
                 Expanded(
-                  /*child: Container(
-                    margin: EdgeInsets.only(left: 10.0),
-                    color: Colors.amber,
-                    height: 100,
-                  ),*/
                   child: TapWidget(
                     onTap: () async {
                       if (assessmentDetailProvider.assessmentResponse!.data!
@@ -541,14 +266,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                 ),
               ],
             ),
-            _size(height: 10),
-            Text(
-              '${assessmentDetailProvider.assessmentResponse!.data!.instruction!.details!.attemptAllowed! - assessmentDetailProvider.assessmentResponse!.data!.instruction!.details!.attemptCount!}/'
-              '${assessmentDetailProvider.assessmentResponse!.data!.instruction!.details!.attemptAllowed!} attempts left ',
-              style:
-                  Styles.textExtraBold(size: 16, color: ColorConstants.RED_BG),
-            ),
-            _size(height: 20),
+            _size(height: 30),
             if (assessmentDetailProvider.assessmentResponse!.data!.instruction!
                     .details!.submittedOnDate! !=
                 0)
@@ -564,7 +282,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                             size: 16, color: ColorConstants.BLACK),
                       ),
                       Text(
-                        '${Utility.convertDateFromMillis(assessmentDetailProvider.assessmentResponse!.data!.instruction!.details!.submittedOnDate!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
+                        '${Utility.convertDateFromMillis(assessmentDetailProvider.assessmentResponse!.data!.instruction!.details!.submittedOnDate!, Strings.REQUIRED_DATE_DD_MMM_YYYY_HH_MM__SS)}',
                         style: Styles.textRegular(
                             size: 12, color: ColorConstants.GREY_4),
                       ),
@@ -590,37 +308,6 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class AssessmentAnswerTypes extends StatelessWidget {
-  Color color;
-  String text;
-
-  AssessmentAnswerTypes(this.color, this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          height: 10,
-          width: 10,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25.0),
-            color: color,
-          ),
-        ),
-        const SizedBox(
-          width: 5,
-        ),
-        Text(
-          text,
-          style: Styles.textRegular(
-              size: 13, color: ColorConstants.DARK_BLUE.withOpacity(0.7)),
-        )
-      ],
     );
   }
 }

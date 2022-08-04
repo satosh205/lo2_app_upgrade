@@ -167,7 +167,7 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
               _handleAnnouncmentData(state);
             }
           },
-          child: _announenmentList(),
+          child: SingleChildScrollView(child: _announenmentList()),
         ));
   }
 
@@ -207,17 +207,13 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
   }
 
   bool checkViewDate(endDate) {
-    DateTime date;
-
-    date = DateTime.fromMillisecondsSinceEpoch(endDate * 1000);
-
-    var date1 = selectedDate.millisecondsSinceEpoch;
-    var date2 = date.millisecondsSinceEpoch;
-    if (date1 <= date2) {
+    String endDateString = Utility.convertDateFromMillis(endDate, 'dd-MM-yyyy');
+    final DateFormat formatter = DateFormat('dd-MM-yyyy');
+    final String formatted = formatter.format(selectedDate);
+    if (endDateString == formatted)
       return true;
-    } else {
+    else
       return false;
-    }
   }
 
   _announenmentList() {
@@ -329,15 +325,21 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                           });
                         },
                       ),
-                    ListView.builder(
-                        scrollDirection:
-                            widget.isViewAll! ? Axis.vertical : Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount:
-                            assignmentList == null ? 0 : assignmentList!.length,
-                        itemBuilder: (context, index) {
-                          return _rowItem(assignmentList![index]);
-                        }),
+                    SingleChildScrollView(
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.8,
+                        child: ListView.builder(
+                            // scrollDirection:
+                            //     widget.isViewAll! ? Axis.vertical : Axis.horizontal,
+                            shrinkWrap: true,
+                            itemCount: assignmentList == null
+                                ? 0
+                                : assignmentList!.length,
+                            itemBuilder: (context, index) {
+                              return _rowItem(assignmentList![index]);
+                            }),
+                      ),
+                    ),
                   ],
                 ),
               );
@@ -349,7 +351,7 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
   _rowItem(AssignmentList item) {
     return Visibility(
       visible: (selectedOption == item.status || selectedOption == 'All') &&
-          checkViewDate(item.endDate),
+          (selectedCalanderView ? checkViewDate(item.endDate) : true),
       child: InkWell(
           onTap: () {
             if (item.status == 'Upcoming')
@@ -363,7 +365,18 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                   onOkClick: () async {
                     // Navigator.pop(context);
                   });
-            else
+            else if (Utility.isExpired(item.endDate!)) {
+              AlertsWidget.showCustomDialog(
+                  context: context,
+                  title: "Assignment deadline is over",
+                  text: "",
+                  icon: 'assets/images/circle_alert_fill.svg',
+                  showCancel: false,
+                  oKText: 'Ok',
+                  onOkClick: () async {
+                    // Navigator.pop(context);
+                  });
+            } else
               Navigator.push(
                 context,
                 NextPageRoute(
@@ -386,7 +399,8 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                 /*border: Border.all(
                       color: Colors.green, width: 1, style: BorderStyle.solid)*/
               ),
-              child: Row(children: [
+              child:
+                  Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                 if (item.status == 'Completed') ...[
                   SvgPicture.asset(
                     'assets/images/completed_icon.svg',
@@ -410,30 +424,54 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                   ),
                 ],
                 SizedBox(width: 20),
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text('${item.title}', style: Styles.bold(size: 16)),
-                  SizedBox(height: 5),
-                  if (item.isGraded == 1)
-                    Text('${item.marks}/${item.maximumMarks} Marks',
-                        style: Styles.regular(size: 12)),
-                  if (item.status == 'Completed') ...[
-                    Text('Submitted', style: Styles.regular(size: 12)),
-                    SizedBox(height: 5),
-                    Text(
-                        '${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
-                        style: Styles.regular(size: 12)),
-                    SizedBox(height: 5),
-                  ] else if (item.status == 'Upcoming') ...[
-                    Text(
-                        'Deadline: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
-                        style: Styles.regular(size: 12)),
-                    SizedBox(height: 5),
-                  ] else if (item.status == 'Pending') ...[
-                    Text('${item.status}',
-                        style: Styles.regular(
-                            size: 12, color: ColorConstants().primaryColor())),
-                  ],
-                ]),
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('${item.title}', style: Styles.bold(size: 16)),
+                      SizedBox(height: 5),
+                      if (item.status == 'Completed') ...[
+                        Text('Submitted', style: Styles.regular(size: 12)),
+                        SizedBox(height: 5),
+                        // Text(
+                        //     '${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000).toUtc())}',
+                        //     style: Styles.regular(size: 12)),
+                        // SizedBox(height: 5),
+                      ] else if (item.status == 'Upcoming') ...[
+                        Text(
+                            'Deadline: ${DateFormat('MM/dd/yyyy, hh:mm a').format(
+                              DateTime.fromMillisecondsSinceEpoch(
+                                  item.endDate! * 1000),
+                            )}',
+                            style: Styles.regular(size: 12)),
+                        SizedBox(height: 5),
+                      ] else if (item.status == 'Pending') ...[
+                        Text('${item.status}',
+                            style: Styles.regular(
+                                size: 12,
+                                color: ColorConstants().primaryColor())),
+                        SizedBox(height: 5),
+                      ],
+                      if (item.isGraded == 1 &&
+                          item.score != null &&
+                          item.score != 0)
+                        Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                  text: 'Score earned: ',
+                                  style: Styles.regular(size: 12)),
+                              TextSpan(
+                                text: '${item.score}',
+                                style: Styles.bold(size: 12),
+                              ),
+                              TextSpan(
+                                  text: '/${item.maximumMarks}',
+                                  style: Styles.regular(size: 12)),
+                            ],
+                          ),
+                        ),
+                    ]),
               ]))),
     );
   }

@@ -63,6 +63,7 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
           data = state.response!.data!.assessmentDetails!.first;
           _attempts =
               state.response!.data!.assessmentDetails!.first.submissionDetails;
+
           _isLoading = false;
           break;
         case ApiStatus.ERROR:
@@ -115,6 +116,7 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
                     child: ListView.builder(
+                        // reverse: true,
                         itemCount: _attempts?.length,
                         itemBuilder: (BuildContext context, int currentIndex) =>
                             Padding(
@@ -137,7 +139,12 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
                                             softWrap: true,
                                             style: Styles.regular(size: 14)),
                                         Text(
-                                            '${Utility.convertDateFromMillis(_attempts![currentIndex].createdAt!, Strings.REQUIRED_DATE_DD_MMM_YYYY_HH_MM__SS)}',
+                                            '${Utility.convertDateFromMillis(
+                                              _attempts![currentIndex]
+                                                  .createdAt!,
+                                              Strings
+                                                  .REQUIRED_DATE_DD_MMM_YYYY_HH_MM__SS,
+                                            )}',
                                             style: Styles.regular(
                                                 size: 10,
                                                 color: ColorConstants.GREY_3))
@@ -195,35 +202,47 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
                                       Row(
                                         children: [
                                           Container(
-                                            child: Text(
-                                              data.isGraded == 0
-                                                  ? "Non Graded "
-                                                  : "${data.submissionDetails![currentIndex].marksObtained ?? 0}/${widget.maxMarks}",
+                                            child: data
+                                                        .submissionDetails![
+                                                            currentIndex]
+                                                        .reviewStatus ==
+                                                    0
+                                                ? Text(
+                                                    "Under Review",
+                                                  )
+                                                : Text(
+                                                    data.isGraded == 0
+                                                        ? "Non Graded "
+                                                        : "${data.submissionDetails![currentIndex].marksObtained ?? 0}/${widget.maxMarks}",
 
-                                              // : _attempts![currentIndex]
-                                              //                 .reviewStatus ==
-                                              //             1 &&
-                                              //         _attempts![currentIndex]
-                                              //                 .isPassed ==
-                                              //             1
-                                              //     ? "Congratulations you passed!"
-                                              //     : _attempts![currentIndex]
-                                              //                     .reviewStatus ==
-                                              //                 1 &&
-                                              //             _attempts![currentIndex]
-                                              //                     .isPassed ==
-                                              //                 0
-                                              //         ? "Sorry, you failed."
-                                              //         : "Under Review",
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              softWrap: true,
-                                              style: Styles.bold(
-                                                size: 12,
-                                                  color: data.isGraded == 0
-                                                      ? ColorConstants.BLACK
-                                                      : ColorConstants.GREEN),
-                                            ),
+                                                    // : _attempts![currentIndex]
+                                                    //                 .reviewStatus ==
+                                                    //             1 &&
+                                                    //         _attempts![currentIndex]
+                                                    //                 .isPassed ==
+                                                    //             1
+                                                    //     ? "Congratulations you passed!"
+                                                    //     : _attempts![currentIndex]
+                                                    //                     .reviewStatus ==
+                                                    //                 1 &&
+                                                    //             _attempts![currentIndex]
+                                                    //                     .isPassed ==
+                                                    //                 0
+                                                    //         ? "Sorry, you failed."
+                                                    //         : "Under Review",
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    softWrap: true,
+                                                    style: Styles.bold(
+                                                        size: 12,
+                                                        color:
+                                                            data.isGraded == 0
+                                                                ? ColorConstants
+                                                                    .BLACK
+                                                                : ColorConstants
+                                                                    .GREEN),
+                                                  ),
                                           ),
                                           SizedBox(width: 6),
                                           SvgPicture.asset(
@@ -341,5 +360,4 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
           message: "Please enable storage permission");
     }
   }
-
 }

@@ -135,7 +135,7 @@ class _GHomeState extends State<GHome> {
                                           mainAxisExtent: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.32,
+                                              0.45,
                                           crossAxisCount: 2),
                                   itemBuilder:
                                       (BuildContext context, int index) {
@@ -186,7 +186,7 @@ class _GHomeState extends State<GHome> {
                                                                     context)
                                                                 .size
                                                                 .height *
-                                                            0.25,
+                                                            0.35,
                                                         width: MediaQuery.of(
                                                                 context)
                                                             .size
@@ -249,7 +249,7 @@ class _GHomeState extends State<GHome> {
                                                   ],
                                                 )),
                                             Container(
-                                              height: 40,
+                                              height: 60,
                                               margin: EdgeInsets.only(top: 4),
                                               child: Column(
                                                 crossAxisAlignment:
@@ -295,7 +295,7 @@ class _GHomeState extends State<GHome> {
                                                                     index]
                                                                 .title ??
                                                             '',
-                                                        maxLines: 1,
+                                                        maxLines: 2,
                                                         softWrap: true,
                                                         overflow: TextOverflow
                                                             .ellipsis,

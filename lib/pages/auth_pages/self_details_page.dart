@@ -95,9 +95,9 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
-                    
+
                     // SvgPicture.asset(
                     //   'assets/images/masterg_logo.svg',
                     //   height: 75,
@@ -158,87 +158,97 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                   ],
                 ),
               ),
-              TextFormField(
-                controller: fullNameController,
-                style: Styles.regular(),
-                maxLength: 100,
-                decoration: InputDecoration(
-                  hintText: '${Strings.of(context)?.EnterFullName}*',
-                  helperStyle: Styles.regular(color: ColorConstants.GREY_4),
-                  counterText: "",
-                  suffixIconConstraints: BoxConstraints(minWidth: 0),
-                  // suffixIcon: Text(
-                  //   fullNameController.value.text.length > 0 ? '' : "*",
-                  //   style: Styles.regular(color: ColorConstants.RED_BG),
-                  // ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                        color: ColorConstants().primaryColor(), width: 1.5),
-                  ),
-                ),
-                onChanged: (value) {
-                  setState(() {});
-                },
-                validator: (value) {
-                  if (value!.length == 0)
-                    return '${Strings.of(context)?.EnterFullName}';
-
-                  return null;
-                },
+              SizedBox(
+                height: 50,
               ),
-
-              SizedBox(height: 20),
-              TextFormField(
-                controller: emailController,
-                style: Styles.regular(),
-                decoration: InputDecoration(
-                  hintText: '${Strings.of(context)?.emailAddress}',
-                  helperStyle: Styles.regular(color: ColorConstants.GREY_4),
-                  counterText: "",
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                        color: ColorConstants().primaryColor(), width: 1.5),
+              Center(
+                  child: Column(children: [
+                TextFormField(
+                  controller: fullNameController,
+                  style: Styles.regular(),
+                  maxLength: 100,
+                  decoration: InputDecoration(
+                    hintText: '${Strings.of(context)?.EnterFullName}*',
+                    helperStyle: Styles.regular(color: ColorConstants.GREY_4),
+                    counterText: "",
+                    suffixIconConstraints: BoxConstraints(minWidth: 0),
+                    // suffixIcon: Text(
+                    //   fullNameController.value.text.length > 0 ? '' : "*",
+                    //   style: Styles.regular(color: ColorConstants.RED_BG),
+                    // ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                          color: ColorConstants().primaryColor(), width: 1.5),
+                    ),
                   ),
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                  validator: (value) {
+                    if (value!.length == 0)
+                      return '${Strings.of(context)?.EnterFullName}';
+
+                    return null;
+                  },
                 ),
-                onChanged: (value) {
-                  setState(() {});
-                },
-                validator: (value) {
-                  print('the value is $value');
-                  if (value == '') return null;
+                SizedBox(height: 30),
+                TextFormField(
+                  controller: emailController,
+                  style: Styles.regular(),
+                  decoration: InputDecoration(
+                    hintText: '${Strings.of(context)?.emailAddress}',
+                    helperStyle: Styles.regular(color: ColorConstants.GREY_4),
+                    counterText: "",
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                          color: ColorConstants().primaryColor(), width: 1.5),
+                    ),
+                  ),
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                  validator: (value) {
+                    print('the value is $value');
+                    if (value == '') return null;
 
-                  if (!RegExp(
-                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                      .hasMatch(value!))
-                    return '${Strings.of(context)?.emailAddressError}';
+                    if (!RegExp(
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(value!))
+                      return '${Strings.of(context)?.emailAddressError}';
 
-                  return null;
-                },
+                    return null;
+                  },
+                ),
+              ])),
+
+              SizedBox(
+                height: 250,
               ),
-              SizedBox(height: 200),
               Align(
-                alignment: Alignment.bottomCenter,
-                child: InkWell(
-                    onTap: () {
-                      saveChanges();
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: MediaQuery.of(context).size.height *
-                          WidgetSize.AUTH_BUTTON_SIZE,
-                      decoration: BoxDecoration(
-                          color: phoneController.value.text.length != 10
-                              ? Color(0xffFDE5AD)
-                              : ColorConstants().buttonColor(),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Center(
-                          child: Text(
-                        '${Strings.of(context)?.continueStr}',
-                        style: Styles.regular(
-                          color: ColorConstants.BLACK,
-                        ),
-                      )),
-                    )),
+                alignment: FractionalOffset.bottomCenter,
+                child: Padding(
+                    padding: EdgeInsets.only(bottom: 10.0),
+                    child: InkWell(
+                        onTap: () {
+                          saveChanges();
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.height *
+                              WidgetSize.AUTH_BUTTON_SIZE,
+                          decoration: BoxDecoration(
+                              color: phoneController.value.text.length != 10
+                                  ? Color(0xffFDE5AD)
+                                  : ColorConstants().buttonColor(),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Center(
+                              child: Text(
+                            '${Strings.of(context)?.continueStr}',
+                            style: Styles.regular(
+                              color: ColorConstants.BLACK,
+                            ),
+                          )),
+                        ))),
               ),
               // Expanded(child: SizedBox()),
             ],
@@ -273,6 +283,9 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
               '${loginState.response!.data!.user!.profileImage}');
           Preference.setString(Preference.DESIGNATION,
               '${loginState.response!.data!.user!.designation}');
+          Preference.setString(Preference.DEFAULT_VIDEO_URL_CATEGORY,
+              '${state.response!.data!.user!.defaultVideoUrlOnCategory}');
+
           UserSession.userToken = state.response!.data!.token;
           UserSession.email = state.response!.data!.user!.email;
           UserSession.userImageUrl = state.response!.data!.user!.profileImage;

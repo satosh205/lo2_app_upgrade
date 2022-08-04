@@ -33,6 +33,7 @@ import 'package:masterg/data/models/response/home_response/test_review_response.
 import 'package:masterg/data/models/response/home_response/update_user_profile_response.dart';
 import 'package:masterg/data/models/response/home_response/user_analytics_response.dart';
 import 'package:masterg/data/models/response/home_response/user_profile_response.dart';
+import 'package:masterg/data/models/response/home_response/user_program_subscribe_reponse.dart';
 import 'package:masterg/data/repositories/home_repository.dart';
 import 'package:masterg/pages/user_profile_page/model/MasterBrand.dart';
 import 'package:masterg/utils/Log.dart';
@@ -103,6 +104,16 @@ abstract class HomeState {
   HomeState([List states = const []]) : super();
 
   List<Object> get props => [];
+}
+
+class UserProgramSubscribeState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  UserProgramSubscribeRes? response;
+  String? error;
+
+  UserProgramSubscribeState(this.state, {this.response, this.error});
 }
 
 class MyAssessmentState extends HomeState {
@@ -482,7 +493,6 @@ class CreatePortfolioEvent extends HomeEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
-
 class MasterBrandCreateEvent extends HomeEvent {
   String? title;
   String? description;
@@ -498,12 +508,12 @@ class UserBrandCreateEvent extends HomeEvent {
   String? startDate;
   int? typeId;
   String? filePath;
-  UserBrandCreateEvent({this.endDate, this.startDate, this.typeId, this.filePath})
+  UserBrandCreateEvent(
+      {this.endDate, this.startDate, this.typeId, this.filePath})
       : super([endDate, startDate, typeId, filePath]);
 
   List<Object> get props => throw UnimplementedError();
 }
-
 
 class topScoringUsersEvent extends HomeEvent {
   int? userId;
@@ -526,7 +536,6 @@ class ListPortfolioEvent extends HomeEvent {
 
   List<Object> get props => throw UnimplementedError();
 }
-
 
 class DeletePortfolioState extends HomeState {
   ApiStatus state;
@@ -805,6 +814,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield MyAssignmentState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }
+    } else if (event is UserProgramSubscribeEvent) {
+      try {
+        yield UserProgramSubscribeState(ApiStatus.LOADING);
+        final response = await homeRepository.subscribeProgram(event.subrReq!);
+        if (response.data != null) {
+          yield UserProgramSubscribeState(ApiStatus.SUCCESS,
+              response: response);
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield UserProgramSubscribeState(ApiStatus.ERROR,
+              error: response.error![0]);
+        }
+      } catch (e) {
+        Log.v("ERROR DATA : $e");
+        yield UserProgramSubscribeState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
+      }
     } else if (event is AttemptTestEvent) {
       try {
         yield AttemptTestState(ApiStatus.LOADING);
@@ -953,10 +979,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield PostCommentState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }
-    }
-    
-    
-     else if (event is getLiveClassEvent) {
+    } else if (event is getLiveClassEvent) {
       try {
         yield getLiveClassState(ApiStatus.LOADING);
         final response = await homeRepository.getLiveClasses();
@@ -1302,13 +1325,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield LearningSpaceState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }
-    }else if (event is CreatePortfolioEvent) {
+    } else if (event is CreatePortfolioEvent) {
       try {
         Map<String, dynamic> data = Map();
         var filePath = event.filePath;
         String fileName = filePath!.split('/').last;
         data['file'] =
-        await MultipartFile.fromFile(filePath, filename: fileName);
+            await MultipartFile.fromFile(filePath, filename: fileName);
         data['title'] = event.title;
         data['description'] = event.description;
         data['type'] = event.type;
@@ -1331,13 +1354,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           ApiStatus.ERROR,
         );
       }
-    }else if (event is MasterBrandCreateEvent) {
+    } else if (event is MasterBrandCreateEvent) {
       try {
         Map<String, dynamic> data = Map();
         var filePath = event.filePath;
         String fileName = filePath!.split('/').last;
         data['file'] =
-        await MultipartFile.fromFile(filePath, filename: fileName);
+            await MultipartFile.fromFile(filePath, filename: fileName);
         data['title'] = event.title;
         data['description'] = event.description;
 
@@ -1357,13 +1380,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           ApiStatus.ERROR,
         );
       }
-    }else if (event is UserBrandCreateEvent) {
+    } else if (event is UserBrandCreateEvent) {
       try {
         Map<String, dynamic> data = Map();
         var filePath = event.filePath;
         String fileName = filePath!.split('/').last;
         data['file'] =
-        await MultipartFile.fromFile(filePath, filename: fileName);
+            await MultipartFile.fromFile(filePath, filename: fileName);
         data['type_id'] = event.typeId;
         data['start_date'] = event.startDate;
         data['end_date'] = event.endDate;
@@ -1386,8 +1409,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           ApiStatus.ERROR,
         );
       }
-    }
-     else if (event is DeletePortfolioEvent) {
+    } else if (event is DeletePortfolioEvent) {
       try {
         yield DeletePortfolioState(ApiStatus.LOADING);
 
@@ -1412,12 +1434,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     } else if (event is ListPortfolioEvent) {
       try {
         yield ListPortfolioState(ApiStatus.LOADING);
-        final response = await homeRepository.listPortfolio(event.type, event.userId);
+        final response =
+            await homeRepository.listPortfolio(event.type, event.userId);
 
         if (response != null) {
-          yield ListPortfolioState(
-              ApiStatus.SUCCESS, response: response
-          );
+          yield ListPortfolioState(ApiStatus.SUCCESS, response: response);
         } else {
           Log.v("ERROR DATA ::: ${response}");
           yield ListPortfolioState(

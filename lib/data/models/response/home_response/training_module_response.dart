@@ -196,6 +196,7 @@ class Sessions {
   String? description;
   String? image;
   int? startDate;
+  int? endDate;
   int? durationInMinutes;
   String? liveclassAction;
   String? liveclassUrl;
@@ -215,6 +216,7 @@ class Sessions {
       this.description,
       this.image,
       this.startDate,
+      this.endDate,
       this.durationInMinutes,
       this.liveclassAction,
       this.liveclassUrl,
@@ -234,6 +236,7 @@ class Sessions {
     description = json['description'];
     image = json['image'];
     startDate = json['start_date'];
+    endDate = json['end_date'];
     durationInMinutes = json['duration_in_minutes'];
     liveclassAction = json['liveclass_action'];
     liveclassUrl = json['liveclass_url'];
@@ -255,6 +258,7 @@ class Sessions {
     data['description'] = this.description;
     data['image'] = this.image;
     data['start_date'] = this.startDate;
+    data['end_date'] = this.endDate;
     data['duration_in_minutes'] = this.durationInMinutes;
     data['liveclass_action'] = this.liveclassAction;
     data['liveclass_url'] = this.liveclassUrl;
@@ -453,12 +457,15 @@ class Assignments {
   String? status;
   String? contentType;
   int? maximumMarks;
+  int? allowMultiple;
   Object? completion;
   int? startDate;
   int? endDate;
   int? completionTime;
   int? overallScore;
   String? overallResult;
+  int? totalAttempts;
+  int? isGraded;
   String? url;
 
   Assignments(
@@ -475,7 +482,10 @@ class Assignments {
       this.completionTime,
       this.overallScore,
       this.overallResult,
-      this.url});
+      this.url,
+      this.allowMultiple,
+      this.isGraded,
+      this.totalAttempts});
 
   Assignments.fromJson(Map<String, dynamic> json) {
     programId = json['program_id'];
@@ -492,6 +502,9 @@ class Assignments {
     overallScore = json['overall_score'];
     overallResult = json['overall_result'];
     url = json['url'];
+    allowMultiple = json['allow_multiple'];
+    totalAttempts = json['total_attempts'];
+    isGraded = json['is_graded'];
   }
 
   Map<String, dynamic> toJson() {
@@ -510,6 +523,9 @@ class Assignments {
     data['overall_score'] = this.overallScore;
     data['overall_result'] = this.overallResult;
     data['url'] = this.url;
+    data['allow_multiple'] = this.allowMultiple;
+    data['total_attempts'] = this.totalAttempts;
+    data['is_graded'] = this.isGraded;
     return data;
   }
 }

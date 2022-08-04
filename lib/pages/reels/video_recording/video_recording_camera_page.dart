@@ -64,7 +64,7 @@ class _VideoRecordingCameraPageState extends State<VideoRecordingCameraPage> {
     if (_isRecording) {
       final file = await _cameraController.stopVideoRecording();
       //setState(() => _isRecording = false);
-      setState((){
+      setState(() {
         _isRecording = false;
       });
 
@@ -247,7 +247,8 @@ class _VideoRecordingCameraPageState extends State<VideoRecordingCameraPage> {
                               onPressed: () {
                                 setState(() {
                                   if (flashOn) {
-                                    _cameraController.setFlashMode(FlashMode.off);
+                                    _cameraController
+                                        .setFlashMode(FlashMode.off);
                                     flashOn = false;
                                   } else {
                                     _cameraController
@@ -341,7 +342,7 @@ class _VideoRecordingCameraPageState extends State<VideoRecordingCameraPage> {
             content: Text("Video/image size can't be large than 5MB"),
           ));
         } else if (result.paths.first!.contains('.mp4') ||
-            result.paths.first!.contains('.mpv')) {
+            result.paths.first!.contains('.mov')) {
           provider.addToList(result.paths.first);
           // print('the length is ${provider.files?.length}');
 
@@ -370,4 +371,3 @@ class _VideoRecordingCameraPageState extends State<VideoRecordingCameraPage> {
     }
   }
 }
-
