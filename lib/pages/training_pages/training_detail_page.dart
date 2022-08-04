@@ -203,6 +203,11 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
       }
     } else if (selectedType == 'Assessments' && selectedContentId != null) {
       title = 'Start Assessment';
+      if (Utility.isBetween(selectedData?.startDate!, selectedData?.endDate!)) {
+        isButtonActive = true;
+      } else {
+        isButtonActive = false;
+      }
     } else if (selectedType == 'Notes' && selectedContentId != null) {
       title = 'View Notes';
     } else if (selectedType == 'Videos' && selectedContentId != null) {
