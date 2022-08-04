@@ -652,15 +652,6 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _size(),
-                Padding(
-                  padding: const EdgeInsets.only(right: 60),
-                  child: Text(
-                    assignment.description!,
-                    style: Styles.textRegular(
-                        size: 13, color: ColorConstants().primaryColor()),
-                  ),
-                ),
                 _size(height: 20),
                 Text(
                   'User notes',
@@ -850,38 +841,39 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                       ),
                     ),
                     _size(height: 15),
-                    Row(
-                      children: [
-                        Text(
-                          '${assignmentDetailProvider.assignment?.totalAttempts} ',
-                          style: Styles.regular(
-                              size: 14, color: ColorConstants.RED),
-                        ),
-                        assignmentDetailProvider.assignment?.totalAttempts ==
-                                    0 ||
-                                assignmentDetailProvider
-                                        .assignment?.totalAttempts ==
-                                    1
-                            ? Text(
-                                'Attempt',
-                                style: Styles.regular(
-                                    size: 14, color: ColorConstants.RED),
-                              )
-                            : Text(
-                                'Attempts',
-                                style: Styles.regular(
-                                    size: 14, color: ColorConstants.RED),
-                              ),
-                        if (assignmentDetailProvider
-                                .assignment?.totalAttempts !=
-                            0)
+                    if (assignmentDetailProvider.assignment?.totalAttempts != 0)
+                      Row(
+                        children: [
                           Text(
-                            ' Taken',
+                            '${assignmentDetailProvider.assignment?.totalAttempts} ',
                             style: Styles.regular(
                                 size: 14, color: ColorConstants.RED),
                           ),
-                      ],
-                    ),
+                          assignmentDetailProvider.assignment?.totalAttempts ==
+                                      0 ||
+                                  assignmentDetailProvider
+                                          .assignment?.totalAttempts ==
+                                      1
+                              ? Text(
+                                  'Attempt',
+                                  style: Styles.regular(
+                                      size: 14, color: ColorConstants.RED),
+                                )
+                              : Text(
+                                  'Attempts',
+                                  style: Styles.regular(
+                                      size: 14, color: ColorConstants.RED),
+                                ),
+                          if (assignmentDetailProvider
+                                  .assignment?.totalAttempts !=
+                              0)
+                            Text(
+                              ' Taken',
+                              style: Styles.regular(
+                                  size: 14, color: ColorConstants.RED),
+                            ),
+                        ],
+                      ),
                     _size(height: 15),
                   ],
                 ),

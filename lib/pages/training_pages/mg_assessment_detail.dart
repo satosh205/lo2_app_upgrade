@@ -261,7 +261,7 @@ class MgAssessmentDetailPage extends StatelessWidget {
                                       .details!
                                       .attemptAllowed!)
                               ? ColorConstants.GREY_3
-                              : Colors.transparent,
+                              : ColorConstants().primaryColor(),
                           borderRadius: BorderRadius.all(Radius.circular(5)),
                           border: Border.all(color: Colors.black),
                         ),

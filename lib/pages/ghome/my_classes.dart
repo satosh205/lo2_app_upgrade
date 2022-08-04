@@ -342,8 +342,10 @@ class _MyClassesState extends State<MyClasses> {
           if (selectedCalanderView)
             Calendar(
               sendValue: (DateTime date) {
-                setState(() {
-                  selectedDate = date;
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  setState(() {
+                    selectedDate = date;
+                  });
                 });
               },
             ),
@@ -423,20 +425,23 @@ class _MyClassesState extends State<MyClasses> {
                                               //       ),
                                               ,
                                               SizedBox(width: 5),
-                                           classStatus != 2 ?    Text(
-                                                  listClassModel.list![index]
-                                                              .contentType!
-                                                              .toLowerCase() ==
-                                                          'offlineclass'
-                                                      ? 'Ongoing'
-                                                      : "Live Now",
-                                                  style: Styles.regular(
-                                                      size: 12,
-                                                      color: ColorConstants
-                                                          .YELLOW)) :   Text(
-                                                    '${listClassModel.list![index].startTime} - ${listClassModel.list![index].endTime} |${DateFormat('d').format(DateTime.fromMillisecondsSinceEpoch(listClassModel.list![index].fromDate! * 1000))} ${months[int.parse(DateFormat('M').format(DateTime.fromMillisecondsSinceEpoch(listClassModel.list![index].fromDate! * 1000))) - 1]}',
-                                                    style: Styles.regular(
-                                                        size: 14)),
+                                              classStatus != 2
+                                                  ? Text(
+                                                      listClassModel
+                                                                  .list![index]
+                                                                  .contentType!
+                                                                  .toLowerCase() ==
+                                                              'offlineclass'
+                                                          ? 'Ongoing'
+                                                          : "Live Now",
+                                                      style: Styles.regular(
+                                                          size: 12,
+                                                          color: ColorConstants
+                                                              .YELLOW))
+                                                  : Text(
+                                                      '${listClassModel.list![index].startTime} - ${listClassModel.list![index].endTime} |${DateFormat('d').format(DateTime.fromMillisecondsSinceEpoch(listClassModel.list![index].fromDate! * 1000))} ${months[int.parse(DateFormat('M').format(DateTime.fromMillisecondsSinceEpoch(listClassModel.list![index].fromDate! * 1000))) - 1]}',
+                                                      style: Styles.regular(
+                                                          size: 14)),
                                               Expanded(child: SizedBox()),
                                               Container(
                                                 decoration: BoxDecoration(
@@ -450,12 +455,15 @@ class _MyClassesState extends State<MyClasses> {
                                                     horizontal: 18),
                                                 child: Text(
                                                     listClassModel.list![index]
-                                                                .contentType!
-                                                                .toLowerCase() ==
-                                                            'liveclass' || listClassModel.list![index]
-                                                                .contentType!
-                                                                .toLowerCase() ==
-                                                            'zoomclass'
+                                                                    .contentType!
+                                                                    .toLowerCase() ==
+                                                                'liveclass' ||
+                                                            listClassModel
+                                                                    .list![
+                                                                        index]
+                                                                    .contentType!
+                                                                    .toLowerCase() ==
+                                                                'zoomclass'
                                                         ? "Live"
                                                         : 'Classroom',
                                                     style: Styles.regular(
@@ -516,9 +524,12 @@ class _MyClassesState extends State<MyClasses> {
                                     SizedBox(height: 15),
                                     Row(
                                       children: [
-                                        listClassModel
-                                                    .list![index].trainerName !=
-                                                null
+                                        listClassModel.list![index]
+                                                        .trainerName !=
+                                                    null &&
+                                                listClassModel.list![index]
+                                                        .trainerName !=
+                                                    ''
                                             ? Text(
                                                 'by ${listClassModel.list![index].trainerName} ',
                                                 style: Styles.regular(size: 12))
@@ -530,8 +541,8 @@ class _MyClassesState extends State<MyClasses> {
                                             'live')
                                           InkWell(
                                               onTap: () {
-                                                launchUrl(Uri.parse('${listClassModel
-                                                    .list![index].url}'));
+                                                launchUrl(Uri.parse(
+                                                    '${listClassModel.list![index].url}'));
                                               },
                                               child: Container(
                                                 decoration: BoxDecoration(
@@ -569,30 +580,36 @@ class _MyClassesState extends State<MyClasses> {
                                           Text('Upcoming',
                                               style: Styles.regular(size: 12)),
                                         Visibility(
-                                            child: ElevatedButton(
-                                                style: ButtonStyle(
-                                                    foregroundColor:
-                                                        MaterialStateProperty.all<Color>(
-                                                            Colors.white),
-                                                    backgroundColor:
-                                                        MaterialStateProperty.all<Color>(
-                                                            ColorConstants
-                                                                .YELLOW),
-                                                    shape: MaterialStateProperty.all<
-                                                            RoundedRectangleBorder>(
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius.circular(10),
-                                                            side: BorderSide(color: ColorConstants.YELLOW)))),
-                                                onPressed: () {
-                                                  //launch(listClassModel.list[index].url);
-                                                },
-                                                child: Padding(
-                                                    child: Text(
-                                                      "View Recording",
-                                                    ),
-                                                    padding: EdgeInsets.all(10))),
-                                            visible: listClassModel.list![index].liveclassStatus!.toLowerCase() == 'completed')
+                                            child: Text('Concluded',
+                                                style:
+                                                    Styles.regular(size: 12)),
+                                            // child: ElevatedButton(
+                                            //     style: ButtonStyle(
+                                            //         foregroundColor:
+                                            //             MaterialStateProperty.all<Color>(
+                                            //                 Colors.white),
+                                            //         backgroundColor:
+                                            //             MaterialStateProperty.all<Color>(
+                                            //                 ColorConstants
+                                            //                     .YELLOW),
+                                            //         shape: MaterialStateProperty.all<
+                                            //                 RoundedRectangleBorder>(
+                                            //             RoundedRectangleBorder(
+                                            //                 borderRadius:
+                                            //                     BorderRadius.circular(10),
+                                            //                 side: BorderSide(color: ColorConstants.YELLOW)))),
+                                            //     onPressed: () {
+                                            //       //launch(listClassModel.list[index].url);
+                                            //     },
+                                            //     child: Padding(
+                                            //         child: Text(
+                                            //           "View Recording",
+                                            //         ),
+                                            //         padding: EdgeInsets.all(10))),
+                                            visible: listClassModel.list![index]
+                                                    .liveclassStatus!
+                                                    .toLowerCase() ==
+                                                'completed')
                                       ],
                                     )
                                   ])),
@@ -621,45 +638,45 @@ class _MyClassesState extends State<MyClasses> {
 
   void _handleLiveClassResponse(getLiveClassState state, LiveclassModel model) {
     var loginState = state;
-    setState(() {
-      switch (loginState.apiState) {
-        case ApiStatus.LOADING:
-          _isJoyCategoryLoading = true;
-          break;
-        case ApiStatus.SUCCESS:
-          Log.v(state.response!.data!.modules!.liveclass.toString());
+    // setState(() {
+    switch (loginState.apiState) {
+      case ApiStatus.LOADING:
+        _isJoyCategoryLoading = true;
+        break;
+      case ApiStatus.SUCCESS:
+        Log.v(state.response!.data!.modules!.liveclass.toString());
 
-          liveclassList = state.response!.data!.modules!.liveclass;
+        liveclassList = state.response!.data!.modules!.liveclass;
 
-          List<Liveclass>? list = [];
+        List<Liveclass>? list = [];
 
-          String searchKey =
-              selectedOption == 'Ongoing' ? 'Live' : selectedOption;
+        String searchKey =
+            selectedOption == 'Ongoing' ? 'Live' : selectedOption;
 
-          if (selectedOption != 'All')
-            for (var element in liveclassList!) {
-              if (element.liveclassStatus == searchKey) {
-                list.add(element);
-              }
+        if (selectedOption != 'All')
+          for (var element in liveclassList!) {
+            if (element.liveclassStatus == searchKey) {
+              list.add(element);
             }
-          else
-            list = liveclassList;
-          if (list?.length == 0)
-            haveData = false;
-          else
-            haveData = true;
-          model.refreshList(list);
+          }
+        else
+          list = liveclassList;
+        if (list?.length == 0)
+          haveData = false;
+        else
+          haveData = true;
+        model.refreshList(list);
 
-          _isJoyCategoryLoading = false;
-          break;
-        case ApiStatus.ERROR:
-          _isJoyCategoryLoading = false;
-          Log.v("Error..........................");
-          Log.v("ErrorHome..........................${loginState.error}");
-          break;
-        case ApiStatus.INITIAL:
-          break;
-      }
-    });
+        _isJoyCategoryLoading = false;
+        break;
+      case ApiStatus.ERROR:
+        _isJoyCategoryLoading = false;
+        Log.v("Error..........................");
+        Log.v("ErrorHome..........................${loginState.error}");
+        break;
+      case ApiStatus.INITIAL:
+        break;
+    }
+    // });
   }
 }

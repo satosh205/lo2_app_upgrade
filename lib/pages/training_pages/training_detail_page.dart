@@ -183,7 +183,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
       if (selectedData?.totalAttempts == 0)
         title = 'Start Assignment';
       else
-        title = 'Review / ReAttempt';
+        title = 'Re-Submit/ Review';
 
       if (Utility.isBetween(selectedData?.startDate!, selectedData?.endDate!)) {
         isButtonActive = true;
@@ -194,14 +194,12 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
       trainerName = selectedData?.trainerName;
       if (selectedData?.liveclassAction.toString().toLowerCase() == 'concluded')
         title = 'View Recording';
-      if (selectedData?.liveclassAction.toString().toLowerCase() == 'live')
-        title = 'Join Now';
+      if (selectedData?.liveclassAction.toString().toLowerCase() == 'live' ||
+          selectedData?.liveclassAction.toString().toLowerCase() ==
+              'join class') title = 'Join Now';
       if (selectedData?.contentType.toString().toLowerCase() ==
           'offlineclass') {
         title = 'Mark Your Attendance';
-        isButtonActive = false;
-      } else {
-        title = selectedData?.liveclassAction;
         isButtonActive = false;
       }
     } else if (selectedType == 'Assessments' && selectedContentId != null) {
@@ -486,7 +484,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                                   .isGraded ==
                                                               1) ...[
                                                             Text(
-                                                              '${selectedData?.maximumMarks} Marks • ${selectedData?.allowMultiple == 1 ? 'Multiple Attempts' : '1 Attempt'}',
+                                                              '${selectedData.overallScore != null ? '${selectedData.overallScore} Marks' : '${selectedData?.maximumMarks} Marks'} • ${selectedData?.allowMultiple == 1 ? 'Multiple Attempts' : '1 Attempt'}',
                                                               style: Styles.semibold(
                                                                   size: 14,
                                                                   color:
@@ -510,7 +508,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                               selectedData
                                                                   .attemptAllowed
                                                           ? Text(
-                                                              '${selectedData?.score}/${selectedData?.maximumMarks} Marks •  ${selectedData?.attemptsRemaining} attemps available',
+                                                              '${selectedData?.overallScore}/${selectedData?.maximumMarks} Marks •  ${selectedData?.attemptsRemaining} attempts available',
                                                               style: Styles.regular(
                                                                   size: 14,
                                                                   color:
@@ -518,7 +516,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                                           .WHITE),
                                                             )
                                                           : Text(
-                                                              '${selectedData?.maximumMarks} Marks • ${selectedData?.attemptsRemaining} attemps available',
+                                                              '${selectedData?.maximumMarks} Marks • ${selectedData?.attemptsRemaining} attempts available',
                                                               style: Styles.regular(
                                                                   size: 14,
                                                                   color:
@@ -1381,11 +1379,11 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                   .assesStatus
                   ?.toLowerCase();
               return _moduleCard(
-                  leadingid: contentStatus == 'upcoming'
-                      ? 1
-                      : contentStatus == 'completed'
-                          ? 2
-                          : 3,
+                  leadingid: Utility.classStatus(
+                      int.parse(
+                          '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assessments![index].startDate}'),
+                      int.parse(
+                          '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assessments![index].endDate}')),
                   ' • ${Utility.convertCourseTime(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assessments![index].startDate, Strings.REQUIRED_DATE_HH_MM_A_DD_MMM)}',
                   '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assessments![index].title}',
                   '${capitalize(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assessments![index].contentType)}',
@@ -1440,11 +1438,11 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                     ?.assignments![index]
                     .status;
                 return _moduleCard(
-                    leadingid: contentStatus == 'upcoming'
-                        ? 1
-                        : contentStatus == 'completed'
-                            ? 2
-                            : 3,
+                    leadingid: Utility.classStatus(
+                        int.parse(
+                            '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assignments![index].startDate}'),
+                        int.parse(
+                            '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assignments![index].endDate}')),
                     ' • ${Utility.convertCourseTime(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assignments![index].startDate, Strings.REQUIRED_DATE_HH_MM_A_DD_MMM)}',
                     '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assignments![index].title}',
                     '${capitalize(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.assignments![index].contentType)}',

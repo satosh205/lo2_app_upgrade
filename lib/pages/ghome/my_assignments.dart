@@ -349,9 +349,19 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
   }
 
   _rowItem(AssignmentList item) {
+    bool show;
+
+    if (selectedCalanderView) {
+      show = true;
+    } else {
+      //normal list view
+      show = !Utility.isExpired(item.endDate!);
+    }
     return Visibility(
-      visible: (selectedOption == item.status || selectedOption == 'All') &&
-          (selectedCalanderView ? checkViewDate(item.endDate) : true),
+      visible: show
+          ? (selectedOption == item.status || selectedOption == 'All') &&
+              (selectedCalanderView ? checkViewDate(item.endDate) : true)
+          : false,
       child: InkWell(
           onTap: () {
             if (item.status == 'Upcoming')

@@ -1037,7 +1037,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           yield CourseCategoryListIDState(ApiStatus.SUCCESS,
               response: response);
         } else {
-          Log.v("ERROR DATA ::: ${response}");
+          Log.v("ERROR DATA ::: ${response.error?.first}");
           yield CourseCategoryListIDState(ApiStatus.ERROR, error: response);
         }
       } catch (e) {

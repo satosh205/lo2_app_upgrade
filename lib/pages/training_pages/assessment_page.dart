@@ -234,7 +234,20 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                       child: Container(
                         height: 50,
                         decoration: BoxDecoration(
-                          //color: ColorConstants().primaryColor(),
+                          color: (assessmentDetailProvider
+                                      .assessmentResponse!
+                                      .data!
+                                      .instruction!
+                                      .details!
+                                      .attemptCount! >=
+                                  assessmentDetailProvider
+                                      .assessmentResponse!
+                                      .data!
+                                      .instruction!
+                                      .details!
+                                      .attemptAllowed!)
+                              ? ColorConstants.GREY_3
+                              : ColorConstants().primaryColor(),
                           borderRadius: BorderRadius.all(Radius.circular(5)),
                           border: Border.all(color: Colors.black),
                         ),

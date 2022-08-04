@@ -501,7 +501,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                             SizedBox(height: 15),
                             Row(
                               children: [
-                                liveclassList![index].trainerName != null
+                                liveclassList![index].trainerName != null && liveclassList![index].trainerName != ''
                                     ? Text(
                                         'by ${liveclassList![index].trainerName} ',
                                         style: Styles.regular(size: 12))
