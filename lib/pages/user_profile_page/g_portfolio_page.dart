@@ -850,7 +850,7 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
                                       child: Text(
                                           widget.editEnable!
                                               ? topScoringUsers[index].name!
-                                              : widget.topScoringUsers![index]!.name!,
+                                              : widget.topScoringUsers![index].name!,
                                           style: TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.bold)),
@@ -898,7 +898,7 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
           ),
 
           //TODO: Certification
-          listPortfolioCertification! != null || widget.editEnable == true ? Container(
+          listPortfolioCertification != null || widget.editEnable == true ? Container(
             height: 350,
             width: MediaQuery.of(context).size.width,
             margin: EdgeInsets.only(top: 10.0),
