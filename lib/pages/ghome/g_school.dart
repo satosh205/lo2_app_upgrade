@@ -576,7 +576,11 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                           ]))
                   : Container(child: Text("No Acive LiveClass Now!!"));
             },
-            itemCount: liveclassList?.length ?? 0,
+            itemCount: liveclassList?.length != 0
+                ? liveclassList!.length >= 2
+                    ? 2
+                    : liveclassList?.length
+                : 0,
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
           ),

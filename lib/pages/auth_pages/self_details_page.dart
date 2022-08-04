@@ -95,7 +95,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
 
                     // SvgPicture.asset(
@@ -159,7 +159,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                 ),
               ),
               SizedBox(
-                height: 100,
+                height: 50,
               ),
               Center(
                   child: Column(children: [
