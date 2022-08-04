@@ -167,7 +167,7 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
               _handleAnnouncmentData(state);
             }
           },
-          child: _announenmentList(),
+          child: SingleChildScrollView(child: _announenmentList()),
         ));
   }
 
@@ -210,7 +210,6 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
     String endDateString = Utility.convertDateFromMillis(endDate, 'dd-MM-yyyy');
     final DateFormat formatter = DateFormat('dd-MM-yyyy');
     final String formatted = formatter.format(selectedDate);
-    print('chekcing date is $endDateString and selected date is $formatted');
     if (endDateString == formatted)
       return true;
     else
@@ -428,10 +427,10 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                       if (item.status == 'Completed') ...[
                         Text('Submitted', style: Styles.regular(size: 12)),
                         SizedBox(height: 5),
-                        Text(
-                            '${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000).toUtc())}',
-                            style: Styles.regular(size: 12)),
-                        SizedBox(height: 5),
+                        // Text(
+                        //     '${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000).toUtc())}',
+                        //     style: Styles.regular(size: 12)),
+                        // SizedBox(height: 5),
                       ] else if (item.status == 'Upcoming') ...[
                         Text(
                             'Deadline: ${DateFormat('MM/dd/yyyy, hh:mm a').format(
@@ -448,7 +447,9 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                                 color: ColorConstants().primaryColor())),
                         SizedBox(height: 5),
                       ],
-                      if (item.isGraded == 1 && item.marks != null)
+                      if (item.isGraded == 1 &&
+                          item.score != null &&
+                          item.score != 0)
                         Text.rich(
                           TextSpan(
                             children: [
@@ -456,7 +457,7 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                                   text: 'Score earned: ',
                                   style: Styles.regular(size: 12)),
                               TextSpan(
-                                text: '${item.marks}',
+                                text: '${item.score}',
                                 style: Styles.bold(size: 12),
                               ),
                               TextSpan(

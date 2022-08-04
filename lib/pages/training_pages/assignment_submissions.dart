@@ -64,8 +64,6 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
           _attempts =
               state.response!.data!.assessmentDetails!.first.submissionDetails;
 
-          
-
           _isLoading = false;
           break;
         case ApiStatus.ERROR:
@@ -204,35 +202,47 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
                                       Row(
                                         children: [
                                           Container(
-                                            child: Text(
-                                              data.isGraded == 0
-                                                  ? "Non Graded "
-                                                  : "${data.submissionDetails![currentIndex].marksObtained ?? 0}/${widget.maxMarks}",
+                                            child: data
+                                                        .submissionDetails![
+                                                            currentIndex]
+                                                        .reviewStatus ==
+                                                    0
+                                                ? Text(
+                                                    "Under Review",
+                                                  )
+                                                : Text(
+                                                    data.isGraded == 0
+                                                        ? "Non Graded "
+                                                        : "${data.submissionDetails![currentIndex].marksObtained ?? 0}/${widget.maxMarks}",
 
-                                              // : _attempts![currentIndex]
-                                              //                 .reviewStatus ==
-                                              //             1 &&
-                                              //         _attempts![currentIndex]
-                                              //                 .isPassed ==
-                                              //             1
-                                              //     ? "Congratulations you passed!"
-                                              //     : _attempts![currentIndex]
-                                              //                     .reviewStatus ==
-                                              //                 1 &&
-                                              //             _attempts![currentIndex]
-                                              //                     .isPassed ==
-                                              //                 0
-                                              //         ? "Sorry, you failed."
-                                              //         : "Under Review",
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              softWrap: true,
-                                              style: Styles.bold(
-                                                  size: 12,
-                                                  color: data.isGraded == 0
-                                                      ? ColorConstants.BLACK
-                                                      : ColorConstants.GREEN),
-                                            ),
+                                                    // : _attempts![currentIndex]
+                                                    //                 .reviewStatus ==
+                                                    //             1 &&
+                                                    //         _attempts![currentIndex]
+                                                    //                 .isPassed ==
+                                                    //             1
+                                                    //     ? "Congratulations you passed!"
+                                                    //     : _attempts![currentIndex]
+                                                    //                     .reviewStatus ==
+                                                    //                 1 &&
+                                                    //             _attempts![currentIndex]
+                                                    //                     .isPassed ==
+                                                    //                 0
+                                                    //         ? "Sorry, you failed."
+                                                    //         : "Under Review",
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    softWrap: true,
+                                                    style: Styles.bold(
+                                                        size: 12,
+                                                        color:
+                                                            data.isGraded == 0
+                                                                ? ColorConstants
+                                                                    .BLACK
+                                                                : ColorConstants
+                                                                    .GREEN),
+                                                  ),
                                           ),
                                           SizedBox(width: 6),
                                           SvgPicture.asset(

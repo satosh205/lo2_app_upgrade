@@ -180,7 +180,10 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
     bool isButtonActive = true;
 
     if (selectedType == 'Assignment' && selectedContentId != null) {
-      title = 'Start Assignment';
+      if (selectedData?.totalAttempts == 0)
+        title = 'Start Assignment';
+      else
+        title = 'Review / ReAttempt';
 
       if (Utility.isBetween(selectedData?.startDate!, selectedData?.endDate!)) {
         isButtonActive = true;
