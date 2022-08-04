@@ -325,15 +325,21 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                           });
                         },
                       ),
-                    ListView.builder(
-                        scrollDirection:
-                            widget.isViewAll! ? Axis.vertical : Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount:
-                            assignmentList == null ? 0 : assignmentList!.length,
-                        itemBuilder: (context, index) {
-                          return _rowItem(assignmentList![index]);
-                        }),
+                    SingleChildScrollView(
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.8,
+                        child: ListView.builder(
+                            // scrollDirection:
+                            //     widget.isViewAll! ? Axis.vertical : Axis.horizontal,
+                            shrinkWrap: true,
+                            itemCount: assignmentList == null
+                                ? 0
+                                : assignmentList!.length,
+                            itemBuilder: (context, index) {
+                              return _rowItem(assignmentList![index]);
+                            }),
+                      ),
+                    ),
                   ],
                 ),
               );
@@ -435,8 +441,7 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                         Text(
                             'Deadline: ${DateFormat('MM/dd/yyyy, hh:mm a').format(
                               DateTime.fromMillisecondsSinceEpoch(
-                                      item.endDate! * 1000)
-                                  .toUtc(),
+                                  item.endDate! * 1000),
                             )}',
                             style: Styles.regular(size: 12)),
                         SizedBox(height: 5),

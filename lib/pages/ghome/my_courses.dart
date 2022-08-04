@@ -143,8 +143,7 @@ class _MyCoursesState extends State<MyCourses> {
   Widget _getCourses() {
     return courseList1 != null && courseList1!.length > 0
         ? Container(
-            padding: EdgeInsets.symmetric(vertical: 10),
-            margin: EdgeInsets.only(top: 10),
+            padding: EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(color: ColorConstants.GREY),
             child: ListView.builder(
               itemBuilder: (BuildContext context, int index) {
@@ -163,6 +162,7 @@ class _MyCoursesState extends State<MyCourses> {
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                      margin: EdgeInsets.only(top: 12),
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height * 0.14,
                       decoration: BoxDecoration(

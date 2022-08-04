@@ -351,7 +351,7 @@ class _MyClassesState extends State<MyClasses> {
               ? Expanded(
                   child: ListView.builder(
                     itemBuilder: (BuildContext context, int index) {
-                      int iconId = Utility.classStatus(
+                      int classStatus = Utility.classStatus(
                           listClassModel.list![index].fromDate!,
                           listClassModel.list![index].endDate!);
 
@@ -383,7 +383,7 @@ class _MyClassesState extends State<MyClasses> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
-                                              if (iconId == 0) ...[
+                                              if (classStatus == 0) ...[
                                                 SvgPicture.asset(
                                                   'assets/images/live_icon.svg',
                                                   width: 20,
@@ -391,7 +391,7 @@ class _MyClassesState extends State<MyClasses> {
                                                   allowDrawingOutsideViewBox:
                                                       true,
                                                 )
-                                              ] else if (iconId == 1) ...[
+                                              ] else if (classStatus == 1) ...[
                                                 SvgPicture.asset(
                                                   'assets/images/empty_circle.svg',
                                                   width: 20,
@@ -423,7 +423,7 @@ class _MyClassesState extends State<MyClasses> {
                                               //       ),
                                               ,
                                               SizedBox(width: 5),
-                                              Text(
+                                           classStatus != 2 ?    Text(
                                                   listClassModel.list![index]
                                                               .contentType!
                                                               .toLowerCase() ==
@@ -433,7 +433,10 @@ class _MyClassesState extends State<MyClasses> {
                                                   style: Styles.regular(
                                                       size: 12,
                                                       color: ColorConstants
-                                                          .YELLOW)),
+                                                          .YELLOW)) :   Text(
+                                                    '${listClassModel.list![index].startTime} - ${listClassModel.list![index].endTime} |${DateFormat('d').format(DateTime.fromMillisecondsSinceEpoch(listClassModel.list![index].fromDate! * 1000))} ${months[int.parse(DateFormat('M').format(DateTime.fromMillisecondsSinceEpoch(listClassModel.list![index].fromDate! * 1000))) - 1]}',
+                                                    style: Styles.regular(
+                                                        size: 14)),
                                               Expanded(child: SizedBox()),
                                               Container(
                                                 decoration: BoxDecoration(

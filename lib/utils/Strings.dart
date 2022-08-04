@@ -718,7 +718,7 @@ class Strings {
   static const REQUIRED_DATE_DD_MMM_YYYY = "dd MMM, yyyy";
   static const CLASS_TIME_FORMAT = "hh:mm a";
   static const DATE_MONTH = "dd MMM";
-  static const REQUIRED_DATE_DD_MMM_YYYY_HH_MM__SS = "dd MMM, yyyy HH:mm a";
+  static const REQUIRED_DATE_DD_MMM_YYYY_HH_MM__SS = "dd MMM, yyyy hh:mm a";
   static const REQUIRED_DATE_HH_MM_A_DD_MMM = "hh:mm a, dd MMM";
   static const REQUIRED_DATE_DD_MMMM = "dd MMMM";
   static const REQUIRED_DATE_HH_MM_A = "hh:mm a";
