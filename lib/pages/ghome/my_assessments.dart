@@ -163,7 +163,6 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
     String endDateString = Utility.convertDateFromMillis(endDate, 'dd-MM-yyyy');
     final DateFormat formatter = DateFormat('dd-MM-yyyy');
     final String formatted = formatter.format(selectedDate);
-    print('chekcing date is $endDateString and selected date is $formatted');
     if (endDateString == formatted)
       return true;
     else
