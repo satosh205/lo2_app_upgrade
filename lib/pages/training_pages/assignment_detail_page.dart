@@ -15,6 +15,7 @@ import 'package:masterg/data/models/response/home_response/assignment_submission
 import 'package:masterg/data/providers/assignment_detail_provider.dart';
 import 'package:masterg/pages/announecment_pages/full_video_page.dart';
 import 'package:masterg/pages/custom_pages/TapWidget.dart';
+import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/training_pages/assignment_submissions.dart';
 import 'package:masterg/utils/Log.dart';
@@ -92,11 +93,27 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
   }
 
   void download(String? usersFile) async {
+    print('downloading');
     if (await Permission.storage.request().isGranted) {
-      var tempDir = await getApplicationDocumentsDirectory();
+      // var tempDir = await getApplicationDocumentsDirectory();
       String localPath = "";
       if (Platform.isAndroid) {
-        localPath = "/sdcard/download/";
+        final path = (await getExternalStorageDirectories(
+                type: StorageDirectory.downloads))!
+            .first;
+
+        localPath = path.path;
+
+        //check if file exists
+        final file = File(localPath + "/" + usersFile!.split('/').last);
+        if (file.existsSync()) {
+          print("FILE EXISTS");
+          Utility.showSnackBar(
+              scaffoldContext: context, message: "File already exists");
+
+          await FlutterDownloader.open(taskId: usersFile.split('/').last);
+          return;
+        }
       } else {
         localPath = (await getApplicationDocumentsDirectory()).path;
       }
@@ -130,6 +147,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
         url: url,
         savedDir: savePath,
         showNotification: true,
+        saveInPublicStorage: true,
         headers: {"auth": "test_for_sql_encoding"},
         openFileFromNotification: true,
       );
@@ -321,8 +339,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                 child: CustomProgressIndicator(true, ColorConstants.WHITE),
               )
             : _attempts!.isNotEmpty
-                ? SingleChildScrollView(
-                    child: Container(
+                ? Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * 0.3,
                     child: ListView.builder(
@@ -463,7 +480,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                                 ],
                               ),
                             )),
-                  ))
+                  )
                 : Center(
                     child: Text(
                       "No assignments submitted",
@@ -621,6 +638,8 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
   }
 
   _body(Assignment assignment) {
+    bool disbaleUpload =
+        assignmentDetailProvider.assignment?.score == null ? false : true;
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,
@@ -710,13 +729,34 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                     file == null
                         ? TapWidget(
                             onTap: () {
-                              _attachFile();
+                              if (!disbaleUpload) {
+                                if (assignmentDetailProvider
+                                            .assignments.allowMultiple ==
+                                        0 &&
+                                    assignmentDetailProvider
+                                            .assignments.totalAttempts ==
+                                        1)
+                                  AlertsWidget.showCustomDialog(
+                                      context: context,
+                                      title: "Reached maximum attempts",
+                                      text: "",
+                                      icon:
+                                          'assets/images/circle_alert_fill.svg',
+                                      showCancel: false,
+                                      onOkClick: () async {
+                                        // Navigator.pop(context);
+                                      });
+                                else
+                                  _attachFile();
+                              }
                             },
                             child: Container(
                               padding: EdgeInsets.all(5),
                               width: MediaQuery.of(context).size.width * 0.65,
                               decoration: BoxDecoration(
-                                  color: ColorConstants().primaryColor(),
+                                  color: disbaleUpload
+                                      ? ColorConstants.GREY_4
+                                      : ColorConstants().primaryColor(),
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(5))),
                               child: Padding(
@@ -777,13 +817,15 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                     _size(),
                     TapWidget(
                       onTap: () {
-                        _submitAssignment();
+                        if (!disbaleUpload) _submitAssignment();
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.65,
                         padding: EdgeInsets.all(5),
                         decoration: BoxDecoration(
-                            color: ColorConstants().primaryColor(),
+                            color: disbaleUpload
+                                ? ColorConstants.GREY_4
+                                : ColorConstants().primaryColor(),
                             borderRadius: BorderRadius.all(Radius.circular(5))),
                         child: Padding(
                           padding: const EdgeInsets.only(

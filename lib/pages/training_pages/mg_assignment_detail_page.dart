@@ -93,10 +93,25 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
 
   void _downloadSubmission(String? usersFile) async {
     if (await Permission.storage.request().isGranted) {
-      var tempDir = await getApplicationDocumentsDirectory();
       String localPath = "";
       if (Platform.isAndroid) {
-        localPath = "/sdcard/download/";
+        // localPath = "/sdcard/download/";
+        final path = (await getExternalStorageDirectories(
+                type: StorageDirectory.downloads))!
+            .first;
+
+        localPath = path.path;
+
+        //check if file exists
+        final file = File(localPath + "/" + usersFile!.split('/').last);
+        if (file.existsSync()) {
+          print("FILE EXISTS");
+          Utility.showSnackBar(
+              scaffoldContext: context, message: "File already exists");
+
+          await FlutterDownloader.open(taskId: usersFile.split('/').last);
+          return;
+        }
       } else {
         localPath = (await getApplicationDocumentsDirectory()).path;
       }
@@ -474,6 +489,8 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
   }
 
   _body(Assignment assignment) {
+    bool disbaleUpload =
+        assignmentDetailProvider.assignments.score == null ? false : true;
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,
@@ -494,6 +511,7 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                 ),
                 _size(height: 5),
                 TextFormField(
+                  // enabled: !disbaleUpload,
                   maxLines: 3,
                   controller: _userNotes,
                   style: Styles.textBold(size: 16),
@@ -554,29 +572,34 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                     file == null
                         ? TapWidget(
                             onTap: () {
-                              if (assignmentDetailProvider
-                                          .assignments.allowMultiple ==
-                                      0 &&
-                                  assignmentDetailProvider
-                                          .assignments.totalAttempts ==
-                                      1)
-                                AlertsWidget.showCustomDialog(
-                                    context: context,
-                                    title: "Reached maximum attempts",
-                                    text: "",
-                                    icon: 'assets/images/circle_alert_fill.svg',
-                                    showCancel: false,
-                                    onOkClick: () async {
-                                      // Navigator.pop(context);
-                                    });
-                              else
-                                _attachFile();
+                              if (!disbaleUpload) {
+                                if (assignmentDetailProvider
+                                            .assignments.allowMultiple ==
+                                        0 &&
+                                    assignmentDetailProvider
+                                            .assignments.totalAttempts ==
+                                        1)
+                                  AlertsWidget.showCustomDialog(
+                                      context: context,
+                                      title: "Reached maximum attempts",
+                                      text: "",
+                                      icon:
+                                          'assets/images/circle_alert_fill.svg',
+                                      showCancel: false,
+                                      onOkClick: () async {
+                                        // Navigator.pop(context);
+                                      });
+                                else
+                                  _attachFile();
+                              }
                             },
                             child: Container(
                               padding: EdgeInsets.all(5),
                               width: MediaQuery.of(context).size.width * 0.65,
                               decoration: BoxDecoration(
-                                  color: ColorConstants().primaryColor(),
+                                  color: disbaleUpload
+                                      ? ColorConstants.GREY_4
+                                      : ColorConstants().primaryColor(),
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(5))),
                               child: Padding(
@@ -630,13 +653,15 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                     _size(),
                     TapWidget(
                       onTap: () {
-                        _submitAssignment();
+                        if (!disbaleUpload) _submitAssignment();
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.65,
                         padding: EdgeInsets.all(5),
                         decoration: BoxDecoration(
-                            color: ColorConstants().primaryColor(),
+                            color: disbaleUpload
+                                ? ColorConstants.GREY_4
+                                : ColorConstants().primaryColor(),
                             borderRadius: BorderRadius.all(Radius.circular(5))),
                         child: Padding(
                           padding: const EdgeInsets.only(
