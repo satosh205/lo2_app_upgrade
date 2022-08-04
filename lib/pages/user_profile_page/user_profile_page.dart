@@ -55,6 +55,7 @@ class _UserProfilePageState extends State<UserProfilePage>
     with SingleTickerProviderStateMixin {
   Box? box;
   bool _isLoading = false;
+  bool _isLoadingBrandCreate = false;
   bool _isLoadingAdd = false;
   bool _enabled = true;
   UserProfileData? userProfileDataList;
@@ -157,20 +158,22 @@ class _UserProfilePageState extends State<UserProfilePage>
   }
 
   void validation() {
-    print('========== selectedBrandPath ===========');
-    print(selectedBrandPath);
-    /*DateTime now = DateTime.now();
+    DateTime now = DateTime.now();
     String formattedDate = DateFormat('yyyy-MM-dd').format(now);
-    DateTime valEnd = DateTime.parse(fromDateController.text.toString());
-    DateTime date = toDateController.text.isNotEmpty ?
-    DateTime.parse(toDateController.text.toString()) :
-    DateTime.parse(formattedDate);*/
+    DateTime? valEnd;
+    DateTime? date;
+    if(fromDateController.text.isNotEmpty) {
+       valEnd = DateTime.parse(fromDateController.text.toString());
+       date = toDateController.text.isNotEmpty ?
+      DateTime.parse(toDateController.text.toString()) :
+      DateTime.parse(formattedDate);
+    }
 
     if (titleController.text.toString().isEmpty) {
       AlertsWidget.showCustomDialog(
           context: context,
           title: "Error",
-          text: "Please enter title",
+          text: "Please enter brand title",
           icon: 'assets/images/circle_alert_fill.svg',
           oKText: 'OK',
           showCancel: false,
@@ -179,7 +182,7 @@ class _UserProfilePageState extends State<UserProfilePage>
       AlertsWidget.showCustomDialog(
           context: context,
           title: "Error",
-          text: "Please select image.",
+          text: "Please select brand logo image.",
           icon: 'assets/images/circle_alert_fill.svg',
           oKText: 'OK',
           showCancel: false,
@@ -196,22 +199,30 @@ class _UserProfilePageState extends State<UserProfilePage>
           onOkClick: () async {
 
           });
-    }else {
-      //Navigator.pop(context);
-      //createPortfolio();
-      masterBrandCreate();
-    }
-
-    /*if(valEnd.compareTo(date) > 0){
+    }else if(fromDateController.text.toString().isEmpty){
       AlertsWidget.showCustomDialog(
           context: context,
           title: "Error",
-          text: "Please select image.",
+          text: "Please select joining date.",
           icon: 'assets/images/circle_alert_fill.svg',
           oKText: 'OK',
           showCancel: false,
           onOkClick: () async {});
-    }*/
+    }else{
+      if(valEnd!.compareTo(date!) < 0){
+        masterBrandCreate();
+      }else{
+        AlertsWidget.showCustomDialog(
+            context: context,
+            title: "Error",
+            text: "Please select valid joining date.",
+            icon: 'assets/images/circle_alert_fill.svg',
+            oKText: 'OK',
+            showCancel: false,
+            onOkClick: () async {});
+      }
+    }
+
   }
 
   @override
@@ -842,6 +853,17 @@ class _UserProfilePageState extends State<UserProfilePage>
                                             validation();
                                           }else{
 
+                                            DateTime now = DateTime.now();
+                                            String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+                                            DateTime? valEnd;
+                                            DateTime? date;
+                                            if(fromDateController.text.isNotEmpty) {
+                                              valEnd = DateTime.parse(fromDateController.text.toString());
+                                              date = toDateController.text.isNotEmpty ?
+                                              DateTime.parse(toDateController.text.toString()) :
+                                              DateTime.parse(formattedDate);
+                                            }
+
                                             if(files!.length == 0){
                                               AlertsWidget.showCustomDialog(
                                                   context: context,
@@ -865,27 +887,54 @@ class _UserProfilePageState extends State<UserProfilePage>
 
                                                   });
                                             }else{
-                                              userBrandCreate(0);
+                                              if(valEnd!.compareTo(date!) < 0){
+                                                userBrandCreate(0);
+                                              }else{
+                                                AlertsWidget.showCustomDialog(
+                                                    context: context,
+                                                    title: "Error",
+                                                    text: "Please select valid joining date.",
+                                                    icon: 'assets/images/circle_alert_fill.svg',
+                                                    oKText: 'OK',
+                                                    showCancel: false,
+                                                    onOkClick: () async {});
+                                              }
                                             }
                                           }
                                         },
-                                        child: Container(
-                                          alignment: Alignment.bottomCenter,
-                                          width: MediaQuery.of(context).size.width * 0.85,
-                                          padding: EdgeInsets.all(18),
-                                          decoration: BoxDecoration(
-                                              color: ColorConstants().primaryColor(),
-                                              borderRadius: BorderRadius.all(Radius.circular(5))),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 8, right: 8, top: 4, bottom: 4),
-                                            child: Text(
-                                              'Submit', textAlign: TextAlign.center,
-                                              style: Styles.textExtraBold(
-                                                  size: 14,
-                                                  color: ColorConstants.WHITE),
-                                            ),
-                                          ),
+
+                                        child: Stack(
+                                         alignment: Alignment.center,
+                                           children: [
+                                             _isLoadingBrandCreate == false ?  Container(
+                                               alignment: Alignment.bottomCenter,
+                                               width: MediaQuery.of(context).size.width * 0.85,
+                                               padding: EdgeInsets.all(18),
+                                               decoration: BoxDecoration(
+                                                   color: ColorConstants().primaryColor(),
+                                                   borderRadius: BorderRadius.all(Radius.circular(5))),
+                                               child: Padding(
+                                                 padding: const EdgeInsets.only(
+                                                     left: 8, right: 8, top: 4, bottom: 4),
+                                                 child: Text(
+                                                   'Submit', textAlign: TextAlign.center,
+                                                   style: Styles.textExtraBold(
+                                                       size: 14,
+                                                       color: ColorConstants.WHITE),
+                                                 ),
+                                               ),
+                                             ):
+                                             const Center(
+                                                 child: SizedBox(
+                                                     width: 30,
+                                                     height: 30,
+                                                     child:
+                                                     CircularProgressIndicator(
+                                                       color: ColorConstants
+                                                           .PRIMARY_COLOR,
+                                                     ))),
+
+                                           ],
                                         ),
                                     )],
                                     ),
@@ -1292,18 +1341,18 @@ class _UserProfilePageState extends State<UserProfilePage>
     this.setState(() {
       switch (loginState.apiState) {
         case ApiStatus.LOADING:
-          _isLoadingAdd = true;
+          _isLoadingBrandCreate = true;
           Log.v("Loading....................");
           break;
         case ApiStatus.SUCCESS:
-          _isLoadingAdd = false;
+          //_isLoadingBrandCreate = false;
           Log.v("Success....................");
           _masterBrandResponse = state.response!;
           print(state.response!.data!.id);
           userBrandCreate(state.response!.data!.id);
           break;
         case ApiStatus.ERROR:
-          _isLoadingAdd = false;
+          //_isLoadingBrandCreate = false;
           Log.v("Error..........................${loginState.error}");
           break;
         case ApiStatus.INITIAL:
@@ -1317,21 +1366,23 @@ class _UserProfilePageState extends State<UserProfilePage>
     this.setState(() {
       switch (loginState.apiState) {
         case ApiStatus.LOADING:
-          _isLoadingAdd = true;
+          if(brandImageUrl.isNotEmpty){
+            _isLoadingBrandCreate = true;
+          }
           Log.v("Loading....................");
           break;
         case ApiStatus.SUCCESS:
           Navigator.pop(context);
           print('_handle Master Brand Create Response');
-          _isLoadingAdd = false;
+          _isLoadingBrandCreate = false;
           Log.v("Success....................");
           _listPortfolio('brand');
           //_masterBrandResponse = state.response!;
           break;
         case ApiStatus.ERROR:
           //Navigator.pop(context);
+          _isLoadingBrandCreate = false;
           _listPortfolio('brand');
-          _isLoadingAdd = false;
           Log.v("Error.........................");
           Log.v("Error..........................${loginState.error}");
           break;
@@ -1598,71 +1649,6 @@ class _UserProfilePageState extends State<UserProfilePage>
       });
     }*/
   }
-
-/*
-
- Future<List<MasterBrand>> masterBrandCreate() async {
-    //List<AddressModel> addressListData = new List<AddressModel>();
-    addressListData.clear();
-
-    print('========== masterBrandCreate ===========');
-
-    Map data = {
-      //'file': await MultipartFile.fromFile(selectedBrandPath!, filename: 'brand'),
-      'file': selectedBrandPath,
-      'title': titleController.text.toString(),
-      'description': 'Create Brand'
-    };
-    //encode Map to JSON
-    //var body = json.encode(data);
-
-    print(data);
-
-    String url = 'https://qa.learningoxygen.com/api/master-brand-create';
-    final response = await http.post(Uri.parse(url),
-      body: data,
-      headers: {
-        "Authorization": "Bearer ${UserSession.userToken}",
-        ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
-      },);
-    Map parsedJson = json.decode(response.body);
-
-    print('======== parsed Json ===========');
-    print(parsedJson);
-
-    if (response.statusCode == 200) {
-      //flagIndicator = false;
-
-      print(parsedJson);
-      var resultsData = parsedJson['data'] as List;
-
-
-      print('object===========');
-      print(resultsData.length);
-      for(int i = 0; i <resultsData.length; i++){
-        setState(() {
-
-          print(resultsData[i]['id']);
-          //addressListData.add(new BrandModel.fromJson(resultsData[i]['title']));
-          addressListData.add(new MasterBrand.fromJson(resultsData[i]));
-
-          print(addressListData);
-
-          filteredUsers = addressListData;
-        });
-
-        print(resultsData[i]['title']);
-      }
-
-      print(resultsData);
-
-    } else {
-      throw Exception('Unable to fetch products from the REST API');
-    }
-
-    return addressListData;
-  }
-*/
 
 }
 
