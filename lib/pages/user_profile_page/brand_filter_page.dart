@@ -69,6 +69,8 @@ class _BrandFilterPageState extends State<BrandFilterPage> {
     });*/
   }
 
+  //flagIndicator == true ?
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,7 +86,7 @@ class _BrandFilterPageState extends State<BrandFilterPage> {
             autofocus: true,
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.search_rounded),
-              suffixIcon: flagIndicator == true ? IconButton(
+              suffixIcon: IconButton(
                 onPressed: (){
                   print('suffixIcon');
                   if(titleController.text.isNotEmpty){
@@ -96,7 +98,7 @@ class _BrandFilterPageState extends State<BrandFilterPage> {
                   }
                 },
                 icon: Icon(Icons.add),
-              ):null,
+              ),
               contentPadding: EdgeInsets.all(15.0),
               border: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey),

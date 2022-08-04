@@ -1028,14 +1028,21 @@ class _UserProfilePageState extends State<UserProfilePage>
                         child: Center(
                           child: Column(
                             children: [
-                              SvgPicture.asset(
+                              /*SvgPicture.asset(
                                 'assets/images/brand_not.svg',
                                 allowDrawingOutsideViewBox: true,
+                              ),*/
+                              Padding(
+                                padding: const EdgeInsets.only(top: 30.0),
+                                child: Image.asset('assets/images/br_empty.png'),
                               ),
-                              Text(
-                                'You have not aded any brand yet,',
-                                style: Styles.textExtraBold(
-                                    size: 14, color: ColorConstants.GREY_3),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 15.0),
+                                child: Text(
+                                  'You have not aded any brand yet,',
+                                  style: Styles.textExtraBold(
+                                      size: 14, color: ColorConstants.GREY_3),
+                                ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(20.0),
@@ -1053,6 +1060,7 @@ class _UserProfilePageState extends State<UserProfilePage>
               ),
             ],
           ),
+
           /*_isLoadingAdd
                             ? Center(
                           child: CircularProgressIndicator(
