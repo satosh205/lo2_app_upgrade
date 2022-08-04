@@ -109,8 +109,18 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
         return '${startDate.difference(endDate).inMinutes.abs()} m';
       else if (seconds >= 3600 && seconds < 86400)
         return '${startDate.difference(endDate).inHours.abs()} h';
-      else
-        return '${startDate.difference(endDate).inDays.abs()} d';
+      else {
+        // convert day to month
+        int days = startDate.difference(endDate).inDays.abs();
+        if (days < 30 && days > 7) {
+          return '${(startDate.difference(endDate).inDays ~/ 30).abs()} w';
+        }
+        if (days > 30) {
+          int month = (startDate.difference(endDate).inDays ~/ 30).abs();
+          return '${month} mos';
+        } else
+          return '${startDate.difference(endDate).inDays.abs()} d';
+      }
     }
 
     // Widget isPlaying() {

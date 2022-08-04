@@ -143,7 +143,8 @@ class _MyCoursesState extends State<MyCourses> {
   Widget _getCourses() {
     return courseList1 != null && courseList1!.length > 0
         ? Container(
-            padding: EdgeInsets.all(15),
+            padding: EdgeInsets.symmetric(vertical: 10),
+            margin: EdgeInsets.only(top: 10),
             decoration: BoxDecoration(color: ColorConstants.GREY),
             child: ListView.builder(
               itemBuilder: (BuildContext context, int index) {
