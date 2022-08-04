@@ -235,7 +235,9 @@ class _MyClassesState extends State<MyClasses> {
     else
       list = liveClassTempList;
 
-    listClassModel.refreshList(list!);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      listClassModel.refreshList(list!);
+    });
 
     List<int> dateList = List.filled(listClassModel.list!.length, 0);
     List<bool> showDates = List.filled(listClassModel.list!.length, false);

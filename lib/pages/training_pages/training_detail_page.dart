@@ -201,6 +201,9 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
           'offlineclass') {
         title = 'Mark Your Attendance';
         isButtonActive = false;
+      } else {
+        // title = selectedData?.liveclassAction;
+        // isButtonActive = false;
       }
     } else if (selectedType == 'Assessments' && selectedContentId != null) {
       title = 'Start Assessment';
