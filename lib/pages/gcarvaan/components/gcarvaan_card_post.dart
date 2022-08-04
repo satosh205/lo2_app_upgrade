@@ -219,7 +219,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
             ConstrainedBox(
               constraints: BoxConstraints(
                 minHeight: 360,
-                maxHeight: 410,
+                maxHeight: 420,
               ),
               // color: Colors.red,
               child: PageView.builder(
@@ -232,10 +232,18 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                     //     download.getFilePath('${widget.fileList[index]}');
                     return Column(children: [
                       ConstrainedBox(
-                          constraints: BoxConstraints(
-                            minHeight: 360,
-                            maxHeight: 410,
-                          ),
+                          constraints: widget.fileList![index]
+                                      .contains('.mp4') ||
+                                  widget.fileList![index].contains('.mov') ==
+                                      true
+                              ? BoxConstraints(
+                                  minHeight: 360,
+                                  maxHeight: 420,
+                                )
+                              : BoxConstraints(
+                                  minHeight: 360,
+                                  maxHeight: 410,
+                                ),
                           // padding: EdgeInsets.symmetric(horizontal: 2),
                           child: VisibilityDetector(
                             key: ObjectKey('${widget.contentId}'),

@@ -674,7 +674,8 @@ class _TestAttemptPageState extends State<TestAttemptPage>
                     onOkClick: () {
                       widget._showSubmitDialog = true;
                     },
-                    text: "Save the answer of your Ques",
+                    text:
+                        "You still have time left. Do you want to submit your test now?",
                   );
                 }
               }
@@ -718,7 +719,8 @@ class _TestAttemptPageState extends State<TestAttemptPage>
                         if (widget._isOptionSelected) {
                           AlertsWidget.alertWithOkBtn(
                               context: _scaffoldContext,
-                              text: "Save the answer of your Question");
+                              text:
+                                  "You still have time left. Do you want to submit your test now?tion");
                           return;
                         }
                         print(widget._currentQuestionId);
@@ -1232,7 +1234,8 @@ class _TestAttemptPageState extends State<TestAttemptPage>
                           onOkClick: () {
                             widget._showSubmitDialog = true;
                           },
-                          text: "Save the answer of your Ques",
+                          text:
+                              "You still have time left. Do you want to submit your test now?",
                         );
                         return;
                       }

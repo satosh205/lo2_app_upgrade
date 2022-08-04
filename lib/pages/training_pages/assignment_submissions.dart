@@ -63,6 +63,9 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
           data = state.response!.data!.assessmentDetails!.first;
           _attempts =
               state.response!.data!.assessmentDetails!.first.submissionDetails;
+
+          
+
           _isLoading = false;
           break;
         case ApiStatus.ERROR:
@@ -115,6 +118,7 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
                     child: ListView.builder(
+                        // reverse: true,
                         itemCount: _attempts?.length,
                         itemBuilder: (BuildContext context, int currentIndex) =>
                             Padding(
@@ -137,7 +141,12 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
                                             softWrap: true,
                                             style: Styles.regular(size: 14)),
                                         Text(
-                                            '${Utility.convertDateFromMillis(_attempts![currentIndex].createdAt!, Strings.REQUIRED_DATE_DD_MMM_YYYY_HH_MM__SS)}',
+                                            '${Utility.convertDateFromMillis(
+                                              _attempts![currentIndex]
+                                                  .createdAt!,
+                                              Strings
+                                                  .REQUIRED_DATE_DD_MMM_YYYY_HH_MM__SS,
+                                            )}',
                                             style: Styles.regular(
                                                 size: 10,
                                                 color: ColorConstants.GREY_3))
@@ -219,7 +228,7 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
                                               overflow: TextOverflow.ellipsis,
                                               softWrap: true,
                                               style: Styles.bold(
-                                                size: 12,
+                                                  size: 12,
                                                   color: data.isGraded == 0
                                                       ? ColorConstants.BLACK
                                                       : ColorConstants.GREEN),
@@ -341,5 +350,4 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
           message: "Please enable storage permission");
     }
   }
-
 }

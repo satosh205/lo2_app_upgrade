@@ -52,12 +52,13 @@ class _CalendarState extends State<Calendar> {
 
     currentDateSelectedIndex = selectedDate.difference(startDate).inDays;
     if (!isScrolled) {
-      Future.delayed(Duration(seconds: 1), () {}).then((value) {
+      Future.delayed(Duration(milliseconds: 1), () {}).then((value) async {
         scrollController.animateTo(
-          currentDateSelectedIndex * 60.0,
+          currentDateSelectedIndex * 70.0,
           duration: Duration(milliseconds: 1),
-          curve: Curves.linear,
+          curve: Curves.easeInOut,
         );
+        widget.sendValue!(selectedDate);
       });
       isScrolled = true;
     }
@@ -111,7 +112,9 @@ class _CalendarState extends State<Calendar> {
                   onTap: () {
                     setState(() {
                       currentDateSelectedIndex = index;
-                      selectedDate = startDate.add(Duration(days: index));
+                      selectedDate = startDate.add(Duration(
+                        days: index,
+                      ));
                       widget.sendValue!(selectedDate);
                     });
                   },

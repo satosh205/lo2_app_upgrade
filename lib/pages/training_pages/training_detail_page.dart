@@ -19,6 +19,7 @@ import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/custom_progress_indicator.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -54,7 +55,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
   double popupHeight = 300;
   //expandable controller
   ExpandableController _expandableController =
-      ExpandableController(initialExpanded: true);
+      new ExpandableController(initialExpanded: true);
 
   /*ExpandableController additionalInfoController=ExpandableController(
     initialExpanded: isOpened,
@@ -180,17 +181,26 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
 
     if (selectedType == 'Assignment' && selectedContentId != null) {
       title = 'Start Assignment';
+
+      if (Utility.isBetween(selectedData?.startDate!, selectedData?.endDate!)) {
+        isButtonActive = true;
+      } else {
+        isButtonActive = false;
+      }
     } else if (selectedType == 'Classes' && selectedContentId != null) {
       trainerName = selectedData?.trainerName;
       if (selectedData?.liveclassAction.toString().toLowerCase() == 'concluded')
         title = 'View Recording';
-      else if (selectedData?.liveclassAction.toString().toLowerCase() == 'live')
+      if (selectedData?.liveclassAction.toString().toLowerCase() == 'live')
         title = 'Join Now';
-      else if (selectedData?.liveclassAction.toString().toLowerCase() ==
-          'scheduled')
+      if (selectedData?.contentType.toString().toLowerCase() ==
+          'offlineclass') {
         title = 'Mark Your Attendance';
-      else
+        isButtonActive = false;
+      } else {
         title = selectedData?.liveclassAction;
+        isButtonActive = false;
+      }
     } else if (selectedType == 'Assessments' && selectedContentId != null) {
       title = 'Start Assessment';
     } else if (selectedType == 'Notes' && selectedContentId != null) {
@@ -198,16 +208,39 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
     } else if (selectedType == 'Videos' && selectedContentId != null) {
       title = 'Start Video';
     } else if (selectedType == 'Quiz' && selectedContentId != null) {
-      if (selectedData.status == 'Active' &&
-          selectedData.attemptAllowed == selectedData.attemptsRemaining)
-        title = 'Start Quiz';
-      else
-        title = 'Re-Attempt/ Review';
-      if (selectedData.attemptsRemaining == 0) {
+      if (selectedData?.status == 'Active') {
+        if (selectedData?.attemptsRemaining == selectedData?.attemptAllowed) {
+          title = 'Attempt';
+        } else {
+          title = 'Re-Attempt/ Review';
+        }
+
+        if (Utility.isBetween(
+            selectedData?.startDate!, selectedData?.endDate!)) {
+          isButtonActive = true;
+        } else {
+          isButtonActive = false;
+        }
+      }
+      if (selectedData?.attemptsRemaining == 0 ||
+          Utility.isExpired(selectedData?.endDate!)) {
         isButtonActive = false;
       }
     }
-
+    Color bgColor = !isButtonActive
+        ? ColorConstants.GREY_2
+        : selectedType == 'Quiz'
+            // ? selectedData?.status == 'Active'
+            ? ColorConstants().primaryColor()
+            // : ColorConstants.GREY_2
+            : selectedType == 'Quiz'
+                ? selectedData?.liveclassAction.toString().toLowerCase() ==
+                        'scheduled'
+                    ? ColorConstants.GREY_2
+                    : ColorConstants().primaryColor()
+                : selectedType == 'Assignment' && !isButtonActive
+                    ? ColorConstants.GREY_2
+                    : ColorConstants().primaryColor();
     return Column(
       // shrinkWrap: true,
 
@@ -295,26 +328,36 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                       children: [
                                         selectedType != 'Assignment' &&
                                                 selectedType != 'Quiz'
-                                            ? ColorFiltered(
-                                                colorFilter: ColorFilter.mode(
-                                                    selectedType == 'Classes'
-                                                        ? Colors.black
-                                                            .withOpacity(0.2)
-                                                        : Colors.black
-                                                            .withOpacity(1),
-                                                    BlendMode.dstATop),
-                                                child: CachedNetworkImage(
-                                                  errorWidget:
-                                                      (context, url, error) =>
-                                                          SvgPicture.asset(
-                                                    'assets/images/gscore_postnow_bg.svg',
-                                                    width: double.infinity,
+                                            ? Container(
+                                                decoration: BoxDecoration(
+                                                  color: ColorConstants.BLACK,
+                                                  image: new DecorationImage(
                                                     fit: BoxFit.cover,
+                                                    colorFilter:
+                                                        new ColorFilter.mode(
+                                                            Colors.black
+                                                                .withOpacity(
+                                                                    0.6),
+                                                            BlendMode.dstATop),
+                                                    image: new NetworkImage(
+                                                      noteImgUrl,
+                                                    ),
                                                   ),
-                                                  width: double.infinity,
-                                                  imageUrl: noteImgUrl,
-                                                  fit: BoxFit.cover,
-                                                ))
+                                                ),
+                                                // chi
+                                                // child: CachedNetworkImage(
+                                                //   errorWidget:
+                                                //       (context, url, error) =>
+                                                //           SvgPicture.asset(
+                                                //     'assets/images/gscore_postnow_bg.svg',
+                                                //     width: double.infinity,
+                                                //     fit: BoxFit.cover,
+                                                //   ),
+                                                //   width: double.infinity,
+                                                //   imageUrl: noteImgUrl,
+                                                //   fit: BoxFit.cover,
+                                                // )
+                                              )
                                             : Container(
                                                 color: ColorConstants.COURSE_BG,
                                                 width: double.infinity,
@@ -331,7 +374,13 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                             .spaceBetween,
                                                     children: [
                                                       Text(
-                                                          '${Utility.convertDateFromMillis(selectedData.startDate, Strings.REQUIRED_DATE_DD_MMM_YYYY)}'),
+                                                        '${Utility.convertDateFromMillis(selectedData?.startDate, Strings.CLASS_TIME_FORMAT)} - ${Utility.convertDateFromMillis(selectedData?.endDate, Strings.CLASS_TIME_FORMAT)} | ${Utility.convertDateFromMillis(selectedData?.endDate, Strings.DATE_MONTH)}',
+                                                        style: Styles.bold(
+                                                            color:
+                                                                ColorConstants
+                                                                    .WHITE,
+                                                            size: 14),
+                                                      ),
                                                       Container(
                                                         height: 20,
                                                         padding: EdgeInsets
@@ -347,20 +396,33 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                                         4)),
                                                         child: Center(
                                                             child: Text(selectedData
-                                                                        ?.contentType ==
-                                                                    'liveclass'
+                                                                            ?.contentType ==
+                                                                        'liveclass' ||
+                                                                    selectedData
+                                                                            ?.contentType ==
+                                                                        'zoomclass'
                                                                 ? 'Live'
                                                                 : 'Classroom')),
                                                       )
                                                     ],
                                                   ),
                                                   SizedBox(height: 10),
-                                                  Text('$trainerName'),
+                                                  Text(
+                                                    '$trainerName',
+                                                    style: Styles.bold(
+                                                      size: 14,
+                                                      color:
+                                                          ColorConstants.WHITE,
+                                                    ),
+                                                  ),
                                                   SizedBox(height: 10),
                                                   Text(
-                                                    '${selectedData.title}',
-                                                    style:
-                                                        Styles.bold(size: 16),
+                                                    '${selectedData?.title}',
+                                                    style: Styles.regular(
+                                                      size: 18,
+                                                      color:
+                                                          ColorConstants.WHITE,
+                                                    ),
                                                   )
                                                 ],
                                               )),
@@ -380,7 +442,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                           .spaceBetween,
                                                   children: [
                                                     Text(
-                                                      'Submit before: ${Utility.convertDateFromMillis(selectedData.endDate, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
+                                                      'Submit before: ${Utility.convertDateFromMillis(selectedData?.endDate, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
                                                       // '${selectedType}',
                                                       style: Styles.bold(
                                                           size: 14,
@@ -389,7 +451,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                     ),
                                                     if (selectedType == 'Quiz')
                                                       Text(
-                                                        '${selectedData.durationInMinutes} mins',
+                                                        '${selectedData?.durationInMinutes} ${selectedData?.durationInMinutes == 0 || selectedData?.durationInMinutes == 1 ? 'min' : 'mins'}',
                                                         // '${selectedType}',
                                                         style: Styles.bold(
                                                             size: 14,
@@ -399,33 +461,63 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                       ),
                                                   ],
                                                 ),
-                                                SizedBox(height: 10),
-                                                Text('${selectedData.title}',
+                                                SizedBox(height: 15),
+                                                Text('${selectedData?.title}',
                                                     style: Styles.bold(
                                                         size: 16,
                                                         color: ColorConstants
                                                             .WHITE)),
+                                                SizedBox(height: 8),
                                                 Row(
                                                   children: [
                                                     if (selectedType ==
                                                         'Assignment')
-                                                      Text(
-                                                        '${selectedData.overallScore}/${selectedData.maximumMarks} Marks',
-                                                        style: Styles.regular(
-                                                            size: 14,
-                                                            color:
-                                                                ColorConstants
-                                                                    .WHITE),
+                                                      Row(
+                                                        children: [
+                                                          if (selectedData
+                                                                  .isGraded ==
+                                                              1) ...[
+                                                            Text(
+                                                              '${selectedData?.maximumMarks} Marks • ${selectedData?.allowMultiple == 1 ? 'Multiple Attempts' : '1 Attempt'}',
+                                                              style: Styles.semibold(
+                                                                  size: 14,
+                                                                  color:
+                                                                      ColorConstants
+                                                                          .WHITE),
+                                                            ),
+                                                          ] else
+                                                            Text(
+                                                              'Non Graded • ${selectedData?.allowMultiple == 1 ? 'Multiple Attempts' : '1 Attempt'}',
+                                                              style: Styles.semibold(
+                                                                  size: 14,
+                                                                  color:
+                                                                      ColorConstants
+                                                                          .WHITE),
+                                                            ),
+                                                        ],
                                                       ),
-                                                    if (selectedType == 'Quiz')
-                                                      Text(
-                                                        '${selectedData.score}/${selectedData.maximumMarks} Marks •  ${selectedData.attemptsRemaining} attemps available',
-                                                        style: Styles.regular(
-                                                            size: 14,
-                                                            color:
-                                                                ColorConstants
-                                                                    .WHITE),
-                                                      ),
+                                                    if (selectedType ==
+                                                        'Quiz') ...[
+                                                      selectedData?.attemptsRemaining !=
+                                                              selectedData
+                                                                  .attemptAllowed
+                                                          ? Text(
+                                                              '${selectedData?.score}/${selectedData?.maximumMarks} Marks •  ${selectedData?.attemptsRemaining} attemps available',
+                                                              style: Styles.regular(
+                                                                  size: 14,
+                                                                  color:
+                                                                      ColorConstants
+                                                                          .WHITE),
+                                                            )
+                                                          : Text(
+                                                              '${selectedData?.maximumMarks} Marks • ${selectedData?.attemptsRemaining} attemps available',
+                                                              style: Styles.regular(
+                                                                  size: 14,
+                                                                  color:
+                                                                      ColorConstants
+                                                                          .WHITE),
+                                                            ),
+                                                    ]
                                                   ],
                                                 ),
                                               ],
@@ -447,13 +539,8 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
 
                                                       if (selectedType ==
                                                           'Classes') {
-                                                        // playVideo(context);
-
-                                                        if (selectedData
-                                                                ?.liveclassAction
-                                                                .toString()
-                                                                .toLowerCase() ==
-                                                            'scheduled') {}
+                                                        launchUrl(Uri.parse(
+                                                            '${selectedData?.liveclassUrl}'));
                                                       }
                                                       if (selectedType ==
                                                           'Notes') {
@@ -463,7 +550,10 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                         openAssignment(
                                                             selectedData);
                                                       } else if (selectedType ==
-                                                          'Quiz') {
+                                                              'Quiz' &&
+                                                          selectedData?.status
+                                                                  ?.toLowerCase() !=
+                                                              'pending') {
                                                         openAssessment(
                                                             selectedData);
                                                       }
@@ -473,28 +563,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                       width: 150,
                                                       height: 38,
                                                       decoration: BoxDecoration(
-                                                          color: !isButtonActive
-                                                              ? ColorConstants
-                                                                  .GREY_2
-                                                              : selectedType ==
-                                                                      'Quiz'
-                                                                  ? selectedData
-                                                                              .status ==
-                                                                          'Active'
-                                                                      ? ColorConstants()
-                                                                          .primaryColor()
-                                                                      : ColorConstants
-                                                                          .GREY_2
-                                                                  : selectedType ==
-                                                                          'Quiz'
-                                                                      ? selectedData?.liveclassAction.toString().toLowerCase() ==
-                                                                              'scheduled'
-                                                                          ? ColorConstants
-                                                                              .GREY_2
-                                                                          : ColorConstants()
-                                                                              .primaryColor()
-                                                                      : ColorConstants()
-                                                                          .primaryColor(),
+                                                          color: bgColor,
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(8)),
@@ -503,9 +572,13 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                           '$title',
                                                           style: Styles.regular(
                                                               size: 14,
-                                                              color:
-                                                                  ColorConstants
-                                                                      .WHITE),
+                                                              color: bgColor ==
+                                                                      ColorConstants
+                                                                          .GREY_2
+                                                                  ? ColorConstants
+                                                                      .GREY_3
+                                                                  : ColorConstants
+                                                                      .BLACK),
                                                           textAlign:
                                                               TextAlign.center,
                                                         ),
@@ -513,28 +586,28 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                 ),
                                               )
                                             : Positioned(
-                                                bottom: 10,
+                                                bottom: 24,
                                                 left: 50,
                                                 right: 50,
                                                 child: Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 16,
-                                                      horizontal: 4),
+                                                  width: 150,
+                                                  height: 38,
                                                   decoration: BoxDecoration(
-                                                      color: ColorConstants
-                                                          .BLACK
-                                                          .withOpacity(0.3),
+                                                      color:
+                                                          ColorConstants.GREY_2,
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              4)),
+                                                              8)),
                                                   child: Center(
                                                     child: Text(
-                                                        'Your class is finished',
-                                                        style: Styles.regular(
-                                                            size: 14,
-                                                            color:
-                                                                ColorConstants
-                                                                    .WHITE)),
+                                                      'Your class is finished',
+                                                      style: Styles.regular(
+                                                          size: 14,
+                                                          color: ColorConstants
+                                                              .GREY_3),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
                                                   ),
                                                 )),
                                       ],
@@ -703,6 +776,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                       selectedContentId = null;
 
                       _controller.pause();
+                      selectedType = 'Classes';
 
                       setState(() {});
                     },
@@ -781,13 +855,13 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                       )),
                   InkWell(
                       onTap: () {
-                        selectedType = 'Notes';
-                        selectedContentId = null;
-                        isAllSelected = false;
+                        setState(() {
+                          selectedType = 'Notes';
+                          selectedContentId = null;
+                          isAllSelected = false;
 
-                        _controller.pause();
-
-                        setState(() {});
+                          _controller.pause();
+                        });
                       },
                       child: Container(
                         padding:
@@ -904,6 +978,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                       ? isVisible = true
                       : isVisible = false;
                 }
+
                 return Visibility(
                   visible: isVisible,
                   child: Padding(
@@ -918,7 +993,9 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                         theme: ExpandableThemeData(
                           hasIcon: true,
                         ),
-                        controller: _expandableController,
+                        controller: index == 0
+                            ? _expandableController
+                            : ExpandableController(initialExpanded: true),
                         header: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1229,27 +1306,26 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                     .liveclassAction
                     ?.toLowerCase();
                 return _moduleCard(
-                    leadingid: contentStatus == 'concluded'
-                        ? 2
-                        : contentStatus == 'join class' ||
-                                contentStatus == 'live'
-                            ? 0
-                            : 3,
+                    leadingid: Utility.classStatus(
+                        int.parse(
+                            '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].startDate}'),
+                        int.parse(
+                            '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].endDate}')),
                     ' • ${Utility.convertCourseTime(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].startDate, Strings.REQUIRED_DATE_HH_MM_A_DD_MMM)}',
                     '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].title}',
-                    '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].contentType?.toLowerCase() == 'liveclass' ? 'Live' : 'Classroom'}',
+                    '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].contentType?.toLowerCase() == 'liveclass' || traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].contentType?.toLowerCase() == 'zoomclass' ? 'Live' : 'Classroom'}',
                     'session',
                     traininDetailProvider
                         .trainingModuleResponse.data?.module![0].content,
                     index,
                     context,
-                    traininDetailProvider
-                        .trainingModuleResponse
-                        .data
-                        ?.module![0]
-                        .content
-                        ?.sessions![index]
-                        .programContentId);
+                    traininDetailProvider.trainingModuleResponse.data
+                        ?.module![0].content?.sessions![index].programContentId,
+                    showLiveStatus: Utility.isBetween(
+                        int.parse(
+                            '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].startDate}'),
+                        int.parse(
+                            '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.sessions![index].endDate}')));
               }),
         if (traininDetailProvider.trainingModuleResponse.data?.module![0]
                     .content?.assessments?.length !=
@@ -1483,7 +1559,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                                 100
                             ? 1
                             : 2,
-                        ' • ${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots![index].durationInMinutes} Mins',
+                        ' • ${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots![index].durationInMinutes} ${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots![index].durationInMinutes == 0 || traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots![index].durationInMinutes == 1 ? 'min' : 'mins'}',
                         '${traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots![index].title}',
                         '${capitalize(traininDetailProvider.trainingModuleResponse.data?.module![0].content?.learningShots![index].contentType)}',
                         'learningShots',
@@ -1507,7 +1583,9 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
 
   Widget _moduleCard(String time, String title, String description, String type,
       data, int index, context, int? programContentId,
-      {int leadingid = 1, bool showNotificationIcon = false}) {
+      {int leadingid = 1,
+      bool showNotificationIcon = false,
+      bool showLiveStatus = false}) {
     //1-> empty circle, 2-> green, 3-> red
     return Consumer<MyCourseProvider>(
         builder: (context, value, child) => InkWell(
@@ -1647,12 +1725,46 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            '$title',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            softWrap: false,
-                            style: Styles.semibold(size: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                width: showLiveStatus == true
+                                    ? MediaQuery.of(context).size.width * 0.6
+                                    : MediaQuery.of(context).size.width * 0.8,
+                                child: Text(
+                                  '$title',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
+                                  style: Styles.semibold(size: 16),
+                                ),
+                              ),
+                              if (showLiveStatus)
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                        'assets/images/live_icon.svg',
+                                        height: 15.0,
+                                        width: 15.0,
+                                        allowDrawingOutsideViewBox: true),
+                                    Text(
+                                      data!.sessions!
+                                                      .elementAt(index)
+                                                      .contentType ==
+                                                  'liveclass' ||
+                                              data!.sessions!
+                                                      .elementAt(index)
+                                                      .contentType ==
+                                                  'zoomclass'
+                                          ? 'LIVE NOW'
+                                          : 'Ongoing',
+                                      style: Styles.regular(
+                                          size: 12, color: ColorConstants.RED),
+                                    )
+                                  ],
+                                )
+                            ],
                           ),
                           Text(
                             '$description $time',

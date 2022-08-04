@@ -117,6 +117,12 @@ class _AssessmentYourAnswersPageState extends State<AssessmentYourAnswersPage> {
   }
 
   void _submitAnswers() {
+    // Navigator.pushReplacement(
+    //     context,
+    //     MaterialPageRoute(
+    //         builder: (context) => AssessmentYourReportPage(
+    //               contentId: widget.contentId,
+    //             ))).then((value) => Navigator.pop(context));
     _authBloc.add(SubmitAnswerEvent(request: widget.contentId.toString()));
   }
 
@@ -134,14 +140,18 @@ class _AssessmentYourAnswersPageState extends State<AssessmentYourAnswersPage> {
             AlertsWidget.alertWithOkBtn(
               context: context,
               onOkClick: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.pop(context);
                 /*Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => homePage()));*/
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => AssessmentYourReportPage(
-                              contentId: widget.contentId,
-                            ))).then((value) => Navigator.pop(context));
+                // Navigator.pushReplacement(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => AssessmentYourReportPage(
+                //               contentId: widget.contentId,
+                //             ))).then((value) => Navigator.pop(context));
               },
               text:
                   "Your answers are saved successfully. Results will be declared soon.",
@@ -252,7 +262,8 @@ class _AssessmentYourAnswersPageState extends State<AssessmentYourAnswersPage> {
                             _showSubmitDialog = true;
                             _submitAnswers();
                           },
-                          text: "Save the answer of your Ques",
+                          text:
+                              "You still have time left. Do you want to submit your test now?",
                         );
                       }
                     }

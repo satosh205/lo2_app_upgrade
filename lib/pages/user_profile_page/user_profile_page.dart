@@ -84,8 +84,6 @@ class _UserProfilePageState extends State<UserProfilePage>
   int? id;
   String fileString = '';
 
-
-
   @override
   void initState() {
     super.initState();
@@ -138,9 +136,12 @@ class _UserProfilePageState extends State<UserProfilePage>
       startDate: fromDateController.text.toString(),
       //startDate: '2021-01-27 00:00:00',
       //endDate: '2021-05-27 00:00:00',
-      endDate: checkBoxValue == false ? toDateController.text.toString(): DateTime.now().toString(),
-      typeId: brandImageUrl.isEmpty ? brandID: id,
-      filePath: files!.length !=0 ? files![0] : '',));
+      endDate: checkBoxValue == false
+          ? toDateController.text.toString()
+          : DateTime.now().toString(),
+      typeId: brandImageUrl.isEmpty ? brandID : id,
+      filePath: files!.length != 0 ? files![0] : '',
+    ));
   }
 
   Future<void> _listPortfolio(String type) async {
@@ -162,11 +163,11 @@ class _UserProfilePageState extends State<UserProfilePage>
     String formattedDate = DateFormat('yyyy-MM-dd').format(now);
     DateTime? valEnd;
     DateTime? date;
-    if(fromDateController.text.isNotEmpty) {
-       valEnd = DateTime.parse(fromDateController.text.toString());
-       date = toDateController.text.isNotEmpty ?
-      DateTime.parse(toDateController.text.toString()) :
-      DateTime.parse(formattedDate);
+    if (fromDateController.text.isNotEmpty) {
+      valEnd = DateTime.parse(fromDateController.text.toString());
+      date = toDateController.text.isNotEmpty
+          ? DateTime.parse(toDateController.text.toString())
+          : DateTime.parse(formattedDate);
     }
 
     if (titleController.text.toString().isEmpty) {
@@ -187,8 +188,7 @@ class _UserProfilePageState extends State<UserProfilePage>
           oKText: 'OK',
           showCancel: false,
           onOkClick: () async {});
-
-    }else if(files!.length == 0){
+    } else if (files!.length == 0) {
       AlertsWidget.showCustomDialog(
           context: context,
           title: "Error",
@@ -196,10 +196,8 @@ class _UserProfilePageState extends State<UserProfilePage>
           icon: 'assets/images/circle_alert_fill.svg',
           oKText: 'OK',
           showCancel: false,
-          onOkClick: () async {
-
-          });
-    }else if(fromDateController.text.toString().isEmpty){
+          onOkClick: () async {});
+    } else if (fromDateController.text.toString().isEmpty) {
       AlertsWidget.showCustomDialog(
           context: context,
           title: "Error",
@@ -208,10 +206,10 @@ class _UserProfilePageState extends State<UserProfilePage>
           oKText: 'OK',
           showCancel: false,
           onOkClick: () async {});
-    }else{
-      if(valEnd!.compareTo(date!) < 0){
+    } else {
+      if (valEnd!.compareTo(date!) < 0) {
         masterBrandCreate();
-      }else{
+      } else {
         AlertsWidget.showCustomDialog(
             context: context,
             title: "Error",
@@ -222,7 +220,6 @@ class _UserProfilePageState extends State<UserProfilePage>
             onOkClick: () async {});
       }
     }
-
   }
 
   @override
@@ -492,48 +489,48 @@ class _UserProfilePageState extends State<UserProfilePage>
                     height: 12,
                     color: Colors.grey[200],
                   ),
-                  Container(
-                    height: 100,
-                    color: ColorConstants.WHITE,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(context, NextPageRoute(FaqPage()));
-                            },
-                            child: Row(
-                              children: [
-                                Container(
-                                    width: 30,
-                                    height: 30,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: ColorConstants().primaryColor(),
-                                    ),
-                                    child: Icon(
-                                      Icons.info,
-                                      color: ColorConstants.WHITE,
-                                      size: 20,
-                                    )),
-                                SizedBox(width: 10),
-                                Text('FAQ', style: Styles.regular()),
-                                Expanded(child: SizedBox()),
-                                Icon(Icons.arrow_forward_ios, size: 15),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Divider(
-                          color: Colors.grey,
-                          indent: 60,
-                        )
-                      ],
-                    ),
-                  ),
+                  // Container(
+                  //   height: 100,
+                  //   color: ColorConstants.WHITE,
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.center,
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: [
+                  //       Padding(
+                  //         padding: EdgeInsets.symmetric(horizontal: 20),
+                  //         child: InkWell(
+                  //           onTap: () {
+                  //             Navigator.push(context, NextPageRoute(FaqPage()));
+                  //           },
+                  //           child: Row(
+                  //             children: [
+                  //               Container(
+                  //                   width: 30,
+                  //                   height: 30,
+                  //                   decoration: BoxDecoration(
+                  //                     borderRadius: BorderRadius.circular(10),
+                  //                     color: ColorConstants().primaryColor(),
+                  //                   ),
+                  //                   child: Icon(
+                  //                     Icons.info,
+                  //                     color: ColorConstants.WHITE,
+                  //                     size: 20,
+                  //                   )),
+                  //               SizedBox(width: 10),
+                  //               Text('FAQ', style: Styles.regular()),
+                  //               Expanded(child: SizedBox()),
+                  //               Icon(Icons.arrow_forward_ios, size: 15),
+                  //             ],
+                  //           ),
+                  //         ),
+                  //       ),
+                  //       Divider(
+                  //         color: Colors.grey,
+                  //         indent: 60,
+                  //       )
+                  //     ],
+                  //   ),
+                  // ),
 
                   Expanded(child: SizedBox()),
                 ],
@@ -587,7 +584,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                     ],
                   ),
                   GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         selectedBrandPath = '';
                         titleController.clear();
                         fromDateController.clear();
@@ -634,9 +631,12 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                   Radius.circular(10))),
                                         ),
 
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
-                                        child: Text('Add a Brand')),
+                                        Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 20.0,
+                                                right: 20.0,
+                                                top: 10.0),
+                                            child: Text('Add a Brand')),
                                         SizedBox(
                                           height: 12,
                                         ),
@@ -699,12 +699,10 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           BrandFilterPage(
-                                                              onCalledFromOutside,
-                                                              )));
+                                                            onCalledFromOutside,
+                                                          )));
                                             },
                                           ),
-
-                                         
                                         ),
 
                                         SizedBox(
@@ -824,13 +822,18 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                         ColorConstants.GREY_3),
                                               ),
                                               Padding(
-                                                padding: const EdgeInsets.only(top: 5.0),
+                                                padding: const EdgeInsets.only(
+                                                    top: 5.0),
                                                 child: Text(
-                                                    fileString.isNotEmpty ? fileString.substring(fileString.length - 20) : '',
+                                                  fileString.isNotEmpty
+                                                      ? fileString.substring(
+                                                          fileString.length -
+                                                              20)
+                                                      : '',
                                                   style: Styles.textExtraBold(
                                                       size: 14,
-                                                      color:
-                                                          ColorConstants.GREY_3),
+                                                      color: ColorConstants
+                                                          .GREY_3),
                                                 ),
                                               ),
                                             ],
@@ -847,96 +850,129 @@ class _UserProfilePageState extends State<UserProfilePage>
                                           height: 30,
                                         ),
 
-                                      TapWidget(
-                                        onTap: () {
-                                          if(brandImageUrl.isEmpty){
-                                            validation();
-                                          }else{
+                                        TapWidget(
+                                          onTap: () {
+                                            if (brandImageUrl.isEmpty) {
+                                              validation();
+                                            } else {
+                                              DateTime now = DateTime.now();
+                                              String formattedDate =
+                                                  DateFormat('yyyy-MM-dd')
+                                                      .format(now);
+                                              DateTime? valEnd;
+                                              DateTime? date;
+                                              if (fromDateController
+                                                  .text.isNotEmpty) {
+                                                valEnd = DateTime.parse(
+                                                    fromDateController.text
+                                                        .toString());
+                                                date = toDateController
+                                                        .text.isNotEmpty
+                                                    ? DateTime.parse(
+                                                        toDateController.text
+                                                            .toString())
+                                                    : DateTime.parse(
+                                                        formattedDate);
+                                              }
 
-                                            DateTime now = DateTime.now();
-                                            String formattedDate = DateFormat('yyyy-MM-dd').format(now);
-                                            DateTime? valEnd;
-                                            DateTime? date;
-                                            if(fromDateController.text.isNotEmpty) {
-                                              valEnd = DateTime.parse(fromDateController.text.toString());
-                                              date = toDateController.text.isNotEmpty ?
-                                              DateTime.parse(toDateController.text.toString()) :
-                                              DateTime.parse(formattedDate);
-                                            }
-
-                                            if(files!.length == 0){
-                                              AlertsWidget.showCustomDialog(
-                                                  context: context,
-                                                  title: "Error",
-                                                  text: "Please select joining letter",
-                                                  icon: 'assets/images/circle_alert_fill.svg',
-                                                  oKText: 'OK',
-                                                  showCancel: false,
-                                                  onOkClick: () async {
-
-                                                  });
-                                            }else if(fromDateController.text.toString().isEmpty){
-                                              AlertsWidget.showCustomDialog(
-                                                  context: context,
-                                                  title: "Error",
-                                                  text: "Please select from date",
-                                                  icon: 'assets/images/circle_alert_fill.svg',
-                                                  oKText: 'OK',
-                                                  showCancel: false,
-                                                  onOkClick: () async {
-
-                                                  });
-                                            }else{
-                                              if(valEnd!.compareTo(date!) < 0){
-                                                userBrandCreate(0);
-                                              }else{
+                                              if (files!.length == 0) {
                                                 AlertsWidget.showCustomDialog(
                                                     context: context,
                                                     title: "Error",
-                                                    text: "Please select valid joining date.",
-                                                    icon: 'assets/images/circle_alert_fill.svg',
+                                                    text:
+                                                        "Please select joining letter",
+                                                    icon:
+                                                        'assets/images/circle_alert_fill.svg',
                                                     oKText: 'OK',
                                                     showCancel: false,
                                                     onOkClick: () async {});
+                                              } else if (fromDateController.text
+                                                  .toString()
+                                                  .isEmpty) {
+                                                AlertsWidget.showCustomDialog(
+                                                    context: context,
+                                                    title: "Error",
+                                                    text:
+                                                        "Please select from date",
+                                                    icon:
+                                                        'assets/images/circle_alert_fill.svg',
+                                                    oKText: 'OK',
+                                                    showCancel: false,
+                                                    onOkClick: () async {});
+                                              } else {
+                                                if (valEnd!.compareTo(date!) <
+                                                    0) {
+                                                  userBrandCreate(0);
+                                                } else {
+                                                  AlertsWidget.showCustomDialog(
+                                                      context: context,
+                                                      title: "Error",
+                                                      text:
+                                                          "Please select valid joining date.",
+                                                      icon:
+                                                          'assets/images/circle_alert_fill.svg',
+                                                      oKText: 'OK',
+                                                      showCancel: false,
+                                                      onOkClick: () async {});
+                                                }
                                               }
                                             }
-                                          }
-                                        },
-
-                                        child: Stack(
-                                         alignment: Alignment.center,
-                                           children: [
-                                             _isLoadingBrandCreate == false ?  Container(
-                                               alignment: Alignment.bottomCenter,
-                                               width: MediaQuery.of(context).size.width * 0.85,
-                                               padding: EdgeInsets.all(18),
-                                               decoration: BoxDecoration(
-                                                   color: ColorConstants().primaryColor(),
-                                                   borderRadius: BorderRadius.all(Radius.circular(5))),
-                                               child: Padding(
-                                                 padding: const EdgeInsets.only(
-                                                     left: 8, right: 8, top: 4, bottom: 4),
-                                                 child: Text(
-                                                   'Submit', textAlign: TextAlign.center,
-                                                   style: Styles.textExtraBold(
-                                                       size: 14,
-                                                       color: ColorConstants.WHITE),
-                                                 ),
-                                               ),
-                                             ):
-                                             const Center(
-                                                 child: SizedBox(
-                                                     width: 30,
-                                                     height: 30,
-                                                     child:
-                                                     CircularProgressIndicator(
-                                                       color: ColorConstants
-                                                           .PRIMARY_COLOR,
-                                                     ))),
-
-                                           ],
-                                        ),
-                                    )],
+                                          },
+                                          child: Stack(
+                                            alignment: Alignment.center,
+                                            children: [
+                                              _isLoadingBrandCreate == false
+                                                  ? Container(
+                                                      alignment: Alignment
+                                                          .bottomCenter,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.85,
+                                                      padding:
+                                                          EdgeInsets.all(18),
+                                                      decoration: BoxDecoration(
+                                                          color: ColorConstants()
+                                                              .primaryColor(),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          5))),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 8,
+                                                                right: 8,
+                                                                top: 4,
+                                                                bottom: 4),
+                                                        child: Text(
+                                                          'Submit',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: Styles.textExtraBold(
+                                                              size: 14,
+                                                              color:
+                                                                  ColorConstants
+                                                                      .WHITE),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : const Center(
+                                                      child: SizedBox(
+                                                          width: 30,
+                                                          height: 30,
+                                                          child:
+                                                              CircularProgressIndicator(
+                                                            color: ColorConstants
+                                                                .PRIMARY_COLOR,
+                                                          ))),
+                                            ],
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ),
                                 );
@@ -1204,20 +1240,20 @@ class _UserProfilePageState extends State<UserProfilePage>
     );*/
   }
 
-  Widget _selectedBrandLogo(){
+  Widget _selectedBrandLogo() {
     //return StatefulBuilder(builder: (context, setstate){
-      return Container(
-        height: 45,
-        width: 100,
-        margin: EdgeInsets.only(top: 4.0),
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: FileImage(File('$selectedBrandPath')),
-            fit: BoxFit.fill,
-          ),
+    return Container(
+      height: 45,
+      width: 100,
+      margin: EdgeInsets.only(top: 4.0),
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: FileImage(File('$selectedBrandPath')),
+          fit: BoxFit.fill,
         ),
-        child: null /* add child content here */,
-      );
+      ),
+      child: null /* add child content here */,
+    );
     //});
   }
 
@@ -1284,7 +1320,8 @@ class _UserProfilePageState extends State<UserProfilePage>
     });
   }
 
-  void _handleUpdateUserProfileImageResponse(UpdateUserProfileImageState state) {
+  void _handleUpdateUserProfileImageResponse(
+      UpdateUserProfileImageState state) {
     var loginState = state;
     setState(() {
       switch (loginState.apiState) {
@@ -1366,7 +1403,7 @@ class _UserProfilePageState extends State<UserProfilePage>
     this.setState(() {
       switch (loginState.apiState) {
         case ApiStatus.LOADING:
-          if(brandImageUrl.isNotEmpty){
+          if (brandImageUrl.isNotEmpty) {
             _isLoadingBrandCreate = true;
           }
           Log.v("Loading....................");
@@ -1649,7 +1686,6 @@ class _UserProfilePageState extends State<UserProfilePage>
       });
     }*/
   }
-
 }
 
 class BlankPage extends StatelessWidget {

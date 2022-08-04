@@ -133,6 +133,9 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
         headers: {"auth": "test_for_sql_encoding"},
         openFileFromNotification: true,
       );
+
+      //open file after download
+      FlutterDownloader.open(taskId: taskId!);
       print(taskId);
     } catch (e) {
       print(e);
@@ -275,35 +278,47 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                                       Row(
                                         children: [
                                           Container(
-                                            child: Text(
-                                              data.isGraded == 0
-                                                  ? "Non Graded "
-                                                  : "${data.submissionDetails![currentIndex].marksObtained ?? 0}/${assignmentDetailProvider.assignments.maximumMarks}",
+                                            child: data
+                                                        .submissionDetails![
+                                                            currentIndex]
+                                                        .reviewStatus ==
+                                                    0
+                                                ? Text(
+                                                    "Under Review",
+                                                  )
+                                                : Text(
+                                                    data.isGraded == 0
+                                                        ? "Non Graded "
+                                                        : "${data.submissionDetails![currentIndex].marksObtained ?? 0}/${assignmentDetailProvider.assignments.maximumMarks}",
 
-                                              // : _attempts![currentIndex]
-                                              //                 .reviewStatus ==
-                                              //             1 &&
-                                              //         _attempts![currentIndex]
-                                              //                 .isPassed ==
-                                              //             1
-                                              //     ? "Congratulations you passed!"
-                                              //     : _attempts![currentIndex]
-                                              //                     .reviewStatus ==
-                                              //                 1 &&
-                                              //             _attempts![currentIndex]
-                                              //                     .isPassed ==
-                                              //                 0
-                                              //         ? "Sorry, you failed."
-                                              //         : "Under Review",
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              softWrap: true,
-                                              style: Styles.bold(
-                                                  size: 12,
-                                                  color: data.isGraded == 0
-                                                      ? ColorConstants.BLACK
-                                                      : ColorConstants.GREEN),
-                                            ),
+                                                    // : _attempts![currentIndex]
+                                                    //                 .reviewStatus ==
+                                                    //             1 &&
+                                                    //         _attempts![currentIndex]
+                                                    //                 .isPassed ==
+                                                    //             1
+                                                    //     ? "Congratulations you passed!"
+                                                    //     : _attempts![currentIndex]
+                                                    //                     .reviewStatus ==
+                                                    //                 1 &&
+                                                    //             _attempts![currentIndex]
+                                                    //                     .isPassed ==
+                                                    //                 0
+                                                    //         ? "Sorry, you failed."
+                                                    //         : "Under Review",
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    softWrap: true,
+                                                    style: Styles.bold(
+                                                        size: 12,
+                                                        color:
+                                                            data.isGraded == 0
+                                                                ? ColorConstants
+                                                                    .BLACK
+                                                                : ColorConstants
+                                                                    .GREEN),
+                                                  ),
                                           ),
                                           SizedBox(width: 6),
                                           SvgPicture.asset(
@@ -335,7 +350,11 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Submit before: ${'${Utility.convertDateFromMillis(assignmentDetailProvider.assignment!.endDate!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}'}',
+            'Submit before: ${'${Utility.convertDateFromMillis(
+              assignmentDetailProvider.assignment!.endDate!,
+              Strings.REQUIRED_DATE_DD_MMM_YYYY,
+              isUTC: true,
+            )}'}',
             style: Styles.bold(size: 14, color: ColorConstants.BLACK),
           ),
           _size(height: 10),
@@ -347,14 +366,21 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
             children: [
               Row(
                 children: [
-                  Text(
-                    '${assignmentDetailProvider.assignments.maximumMarks} Marks',
-                    style: Styles.bold(size: 14, color: ColorConstants.BLACK),
-                  ),
+                  data.isGraded == 0
+                      ? Text(
+                          "Non Graded ",
+                          style: Styles.bold(
+                              size: 14, color: ColorConstants.BLACK),
+                        )
+                      : Text(
+                          '${assignmentDetailProvider.assignments.maximumMarks} Marks',
+                          style: Styles.bold(
+                              size: 14, color: ColorConstants.BLACK),
+                        ),
                   Text(
                     assignmentDetailProvider.assignments.allowMultiple != 0
-                        ? ' . Multi Attempt'
-                        : ' . Single Attempt',
+                        ? ' • Multiple Attempts'
+                        : ' • 1 Attempt',
                     style: Styles.bold(size: 14, color: ColorConstants.BLACK),
                   ),
                 ],
@@ -401,7 +427,6 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                         }*/
                         _downloadSubmission(
                             assignmentDetailProvider.assignment!.file!);
-
                       },
                       child: SvgPicture.asset(
                         'assets/images/download_icon.svg',
@@ -416,13 +441,11 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                       onTap: () {
                         Navigator.push(
                             context,
-                            NextPageRoute(
-                                ReviewSubmissions(
-                                  maxMarks: assignmentDetailProvider
-                                      .assignments.maximumMarks,
-                                  contentId: widget.id,
-                                ),
-                                isMaintainState: true));
+                            NextPageRoute(FullContentPage(
+                              contentType: "1",
+                              resourcePath:
+                                  assignmentDetailProvider.assignments.file,
+                            )));
                       },
                       child: SvgPicture.asset(
                         'assets/images/view_icon.svg',
@@ -638,10 +661,22 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                       ),
                     ),
                     _size(height: 10),
-                    Text(
-                      '${assignmentDetailProvider.assignments.totalAttempts} ${assignmentDetailProvider.assignments.totalAttempts! > 1 ? 'Attempts' : "Attempt"}',
-                      style:
-                          Styles.regular(size: 14, color: ColorConstants.RED),
+                    Row(
+                      children: [
+                        Text(
+                          '${assignmentDetailProvider.assignments.totalAttempts} ${assignmentDetailProvider.assignments.totalAttempts! > 1 ? 'Attempts ' : "Attempt"}',
+                          style: Styles.regular(
+                              size: 14, color: ColorConstants.RED),
+                        ),
+                        if (assignmentDetailProvider
+                                .assignments.totalAttempts !=
+                            0)
+                          Text(
+                            ' Taken',
+                            style: Styles.regular(
+                                size: 14, color: ColorConstants.RED),
+                          ),
+                      ],
                     ),
                     _size(height: 15),
                   ],
@@ -706,9 +741,7 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
           data = state.response!.data!.assessmentDetails!.first;
           _attempts =
               state.response!.data!.assessmentDetails!.first.submissionDetails;
-          //reverse attempt order
 
-          _attempts = new List.from(_attempts!.reversed);
           _isLoading = false;
           break;
         case ApiStatus.ERROR:

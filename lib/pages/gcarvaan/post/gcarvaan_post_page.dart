@@ -368,6 +368,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
 
       if (result != null) {
         for (int i = 0; i < result.paths.length; i++) {
+          if (i == 4) break;
           if (File(result.paths[i]!).lengthSync() / 1000000 > 8.0) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text("Video/image size can't be large than 5MB"),
@@ -377,14 +378,22 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
           }
         }
 
+        if (provider.files!.length > 4) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Only 4 images/videos are allowed"),
+          ));
+        }
+
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => CreateGCarvaanPage(
-                    isReelsPost: false,
-                    fileToUpload: [],
-                    filesPath: provider.files,
-                    provider: provider)));
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CreateGCarvaanPage(
+                        isReelsPost: false,
+                        fileToUpload: [],
+                        filesPath: provider.files,
+                        provider: provider)))
+            .then((value) => _refreshController.requestRefresh());
+        ;
       }
     }
   }
