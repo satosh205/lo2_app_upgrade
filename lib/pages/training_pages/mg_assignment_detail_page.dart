@@ -38,9 +38,9 @@ class MgAssignmentDetailPage extends StatefulWidget {
 class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
   File? file;
   final _userNotes = TextEditingController(text: "");
-  late MgAssignmentDetailProvider assignmentDetailProvider;
+  MgAssignmentDetailProvider? assignmentDetailProvider;
   bool _isLoading = false;
-  late AssessmentDetails data;
+  AssessmentDetails? data;
   List<SubmissionDetails>? _attempts = [];
   @override
   void initState() {
@@ -180,7 +180,7 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
               listener: (context, state) {
                 if (state is AssignmentSubmissionsState) _handleResponse(state);
               },
-              child: assignmentDetailProvider.assignment != null
+              child: assignmentDetailProvider?.assignment != null
                   ? _buildBody()
                   : CustomProgressIndicator(true, ColorConstants.WHITE),
             )));
@@ -192,8 +192,8 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
         width: MediaQuery.of(context).size.width,
         child: SingleChildScrollView(
             child: Column(children: [
-          _belowTitle(assignmentDetailProvider),
-          _body(assignmentDetailProvider.assignment!),
+          _belowTitle(assignmentDetailProvider!),
+          _body(assignmentDetailProvider!.assignment!),
           _buildListBody(),
         ])));
   }
@@ -294,7 +294,7 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                                         children: [
                                           Container(
                                             child: data
-                                                        .submissionDetails![
+                                                        ?.submissionDetails![
                                                             currentIndex]
                                                         .reviewStatus ==
                                                     0
@@ -302,9 +302,9 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                                                     "Under Review",
                                                   )
                                                 : Text(
-                                                    data.isGraded == 0
+                                                    data?.isGraded == 0
                                                         ? "Non Graded "
-                                                        : "${data.submissionDetails![currentIndex].marksObtained ?? 0}/${assignmentDetailProvider.assignments.maximumMarks}",
+                                                        : "${data?.submissionDetails![currentIndex].marksObtained ?? 0}/${assignmentDetailProvider?.assignments.maximumMarks}",
 
                                                     // : _attempts![currentIndex]
                                                     //                 .reviewStatus ==
@@ -328,7 +328,7 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                                                     style: Styles.bold(
                                                         size: 12,
                                                         color:
-                                                            data.isGraded == 0
+                                                            data?.isGraded == 0
                                                                 ? ColorConstants
                                                                     .BLACK
                                                                 : ColorConstants
@@ -381,7 +381,7 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
             children: [
               Row(
                 children: [
-                  data.isGraded == 0
+                  data?.isGraded == 0
                       ? Text(
                           "Non Graded ",
                           style: Styles.bold(
@@ -490,7 +490,7 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
 
   _body(Assignment assignment) {
     bool disbaleUpload =
-        assignmentDetailProvider.assignments.score == null ? false : true;
+        assignmentDetailProvider?.assignments.score == null ? false : true;
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,
@@ -573,10 +573,10 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                         ? TapWidget(
                             onTap: () {
                               if (!disbaleUpload) {
-                                if (assignmentDetailProvider
+                                if (assignmentDetailProvider!
                                             .assignments.allowMultiple ==
                                         0 &&
-                                    assignmentDetailProvider
+                                    assignmentDetailProvider!
                                             .assignments.totalAttempts ==
                                         1)
                                   AlertsWidget.showCustomDialog(
@@ -605,7 +605,7 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                               child: Padding(
                                 padding: const EdgeInsets.only(
                                     left: 8, right: 8, top: 4, bottom: 4),
-                                child: assignmentDetailProvider.isLoading
+                                child: assignmentDetailProvider!.isLoading
                                     ? Center(child: CircularProgressIndicator())
                                     : Row(
                                         mainAxisAlignment:
@@ -666,7 +666,7 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                         child: Padding(
                           padding: const EdgeInsets.only(
                               left: 8, right: 8, top: 4, bottom: 4),
-                          child: assignmentDetailProvider.isLoading
+                          child: assignmentDetailProvider!.isLoading
                               ? Center(child: CircularProgressIndicator())
                               : Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -689,11 +689,11 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                     Row(
                       children: [
                         Text(
-                          '${assignmentDetailProvider.assignments.totalAttempts} ${assignmentDetailProvider.assignments.totalAttempts! > 1 ? 'Attempts ' : "Attempt"}',
+                          '${assignmentDetailProvider?.assignments.totalAttempts} ${assignmentDetailProvider!.assignments.totalAttempts! > 1 ? 'Attempts ' : "Attempt"}',
                           style: Styles.regular(
                               size: 14, color: ColorConstants.RED),
                         ),
-                        if (assignmentDetailProvider
+                        if (assignmentDetailProvider!
                                 .assignments.totalAttempts !=
                             0)
                           Text(
@@ -717,7 +717,7 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                         context,
                         NextPageRoute(
                             ReviewSubmissions(
-                              maxMarks: assignmentDetailProvider
+                              maxMarks: assignmentDetailProvider!
                                   .assignments.maximumMarks,
                               contentId: widget.id,
                             ),
@@ -795,7 +795,7 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
 
   void _submitAssignment() async {
     if (file != null) {
-      bool res = await assignmentDetailProvider.uploadAssignment(
+      bool res = await assignmentDetailProvider!.uploadAssignment(
           notes: _userNotes.text, path: file!.path, id: widget.id);
       if (res) {
         _getData();
