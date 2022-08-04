@@ -350,7 +350,11 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Submit before: ${'${Utility.convertDateFromMillis(assignmentDetailProvider.assignment!.endDate!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}'}',
+            'Submit before: ${'${Utility.convertDateFromMillis(
+              assignmentDetailProvider.assignment!.endDate!,
+              Strings.REQUIRED_DATE_DD_MMM_YYYY,
+              isUTC: true,
+            )}'}',
             style: Styles.bold(size: 14, color: ColorConstants.BLACK),
           ),
           _size(height: 10),
@@ -737,9 +741,7 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
           data = state.response!.data!.assessmentDetails!.first;
           _attempts =
               state.response!.data!.assessmentDetails!.first.submissionDetails;
-          //reverse attempt order
 
-          _attempts = new List.from(_attempts!.reversed);
           _isLoading = false;
           break;
         case ApiStatus.ERROR:

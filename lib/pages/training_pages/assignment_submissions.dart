@@ -64,7 +64,7 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
           _attempts =
               state.response!.data!.assessmentDetails!.first.submissionDetails;
 
-          _attempts = _attempts!.reversed.toList();
+          
 
           _isLoading = false;
           break;
@@ -350,5 +350,4 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
           message: "Please enable storage permission");
     }
   }
-
 }

@@ -207,17 +207,14 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
   }
 
   bool checkViewDate(endDate) {
-    DateTime date;
-
-    date = DateTime.fromMillisecondsSinceEpoch(endDate * 1000);
-
-    var date1 = selectedDate.millisecondsSinceEpoch;
-    var date2 = date.millisecondsSinceEpoch;
-    if (date1 <= date2) {
+    String endDateString = Utility.convertDateFromMillis(endDate, 'dd-MM-yyyy');
+    final DateFormat formatter = DateFormat('dd-MM-yyyy');
+    final String formatted = formatter.format(selectedDate);
+    print('chekcing date is $endDateString and selected date is $formatted');
+    if (endDateString == formatted)
       return true;
-    } else {
+    else
       return false;
-    }
   }
 
   _announenmentList() {
@@ -348,7 +345,8 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
 
   _rowItem(AssignmentList item) {
     return Visibility(
-      visible: (selectedOption == item.status || selectedOption == 'All'),
+      visible: (selectedOption == item.status || selectedOption == 'All') &&
+          (selectedCalanderView ? checkViewDate(item.endDate) : true),
       child: InkWell(
           onTap: () {
             if (item.status == 'Upcoming')
@@ -431,14 +429,15 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                         Text('Submitted', style: Styles.regular(size: 12)),
                         SizedBox(height: 5),
                         Text(
-                            '${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
+                            '${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000).toUtc())}',
                             style: Styles.regular(size: 12)),
                         SizedBox(height: 5),
                       ] else if (item.status == 'Upcoming') ...[
                         Text(
                             'Deadline: ${DateFormat('MM/dd/yyyy, hh:mm a').format(
                               DateTime.fromMillisecondsSinceEpoch(
-                                  item.endDate! * 1000),
+                                      item.endDate! * 1000)
+                                  .toUtc(),
                             )}',
                             style: Styles.regular(size: 12)),
                         SizedBox(height: 5),

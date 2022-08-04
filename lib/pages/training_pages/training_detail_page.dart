@@ -193,10 +193,14 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
         title = 'View Recording';
       if (selectedData?.liveclassAction.toString().toLowerCase() == 'live')
         title = 'Join Now';
-      if (selectedData?.contentType.toString().toLowerCase() == 'offlineclass')
+      if (selectedData?.contentType.toString().toLowerCase() ==
+          'offlineclass') {
         title = 'Mark Your Attendance';
-      else
+        isButtonActive = false;
+      } else {
         title = selectedData?.liveclassAction;
+        isButtonActive = false;
+      }
     } else if (selectedType == 'Assessments' && selectedContentId != null) {
       title = 'Start Assessment';
     } else if (selectedType == 'Notes' && selectedContentId != null) {
@@ -210,6 +214,13 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
         } else {
           title = 'Re-Attempt/ Review';
         }
+
+        if (Utility.isBetween(
+            selectedData?.startDate!, selectedData?.endDate!)) {
+          isButtonActive = true;
+        } else {
+          isButtonActive = false;
+        }
       }
       if (selectedData?.attemptsRemaining == 0 ||
           Utility.isExpired(selectedData?.endDate!)) {
@@ -219,9 +230,9 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
     Color bgColor = !isButtonActive
         ? ColorConstants.GREY_2
         : selectedType == 'Quiz'
-            ? selectedData?.status == 'Active'
-                ? ColorConstants().primaryColor()
-                : ColorConstants.GREY_2
+            // ? selectedData?.status == 'Active'
+            ? ColorConstants().primaryColor()
+            // : ColorConstants.GREY_2
             : selectedType == 'Quiz'
                 ? selectedData?.liveclassAction.toString().toLowerCase() ==
                         'scheduled'
@@ -844,13 +855,13 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                       )),
                   InkWell(
                       onTap: () {
-                        selectedType = 'Notes';
-                        selectedContentId = null;
-                        isAllSelected = false;
+                        setState(() {
+                          selectedType = 'Notes';
+                          selectedContentId = null;
+                          isAllSelected = false;
 
-                        _controller.pause();
-
-                        setState(() {});
+                          _controller.pause();
+                        });
                       },
                       child: Container(
                         padding:

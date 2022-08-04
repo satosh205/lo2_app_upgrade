@@ -160,17 +160,14 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
   }
 
   bool checkViewDate(endDate) {
-    DateTime date;
-
-    date = DateTime.fromMillisecondsSinceEpoch(endDate * 1000);
-
-    var date1 = selectedDate.millisecondsSinceEpoch;
-    var date2 = date.millisecondsSinceEpoch;
-    if (date1 <= date2) {
+    String endDateString = Utility.convertDateFromMillis(endDate, 'dd-MM-yyyy');
+    final DateFormat formatter = DateFormat('dd-MM-yyyy');
+    final String formatted = formatter.format(selectedDate);
+    print('chekcing date is $endDateString and selected date is $formatted');
+    if (endDateString == formatted)
       return true;
-    } else {
+    else
       return false;
-    }
   }
 
   _announenmentList() {
@@ -308,7 +305,8 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
 
   _rowItem(AssessmentList item) {
     return Visibility(
-      visible: (selectedOption == item.status || selectedOption == 'All'),
+      visible: (selectedOption == item.status || selectedOption == 'All') &&
+          (selectedCalanderView ? checkViewDate(item.endDate) : true),
       child: InkWell(
         onTap: () {
           if (item.status?.toLowerCase() == 'upcoming')
@@ -351,7 +349,7 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
               color: ColorConstants.WHITE,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Stack(children: [
+            child: Stack(alignment: Alignment.center, children: [
               Container(
                 child: Row(children: [
                   if (item.status == 'Completed') ...[
@@ -412,30 +410,31 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
                           ],
                         ]),
                   ),
-                  Positioned(
-                      right: 0,
-                      bottom: 0,
-                      child: Visibility(
-                        visible: item.status == 'Completed',
-                        child: Align(
-                          alignment: Alignment.bottomRight,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  NextPageRoute(AssessmentYourReportPage(
-                                      contentId: item.contentId)));
-                            },
-                            child: Text('Report',
-                                textAlign: TextAlign.right,
-                                style: Styles.regular(
-                                    size: 12,
-                                    color: ColorConstants().primaryColor())),
-                          ),
-                        ),
-                      ))
                 ]),
               ),
+              Positioned(
+                  right: 0,
+                  // top: 100,
+                  // bottom: 100,
+                  child: Visibility(
+                    visible: item.status == 'Completed',
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              NextPageRoute(AssessmentYourReportPage(
+                                  contentId: item.contentId)));
+                        },
+                        child: Text('Report',
+                            textAlign: TextAlign.right,
+                            style: Styles.regular(
+                                size: 12,
+                                color: ColorConstants().primaryColor())),
+                      ),
+                    ),
+                  ))
             ])),
       ),
     );
