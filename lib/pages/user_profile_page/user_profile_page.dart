@@ -355,7 +355,9 @@ class _UserProfilePageState extends State<UserProfilePage>
                                     ),
                                   )
                                 : SvgPicture.asset(
-                                    'assets/images/bxs_user_circle.svg',
+                                    'assets/images/default_user.svg',
+                                    width: 200,
+                                    height: 200,
                                     allowDrawingOutsideViewBox: true,
                                   ),
                         Positioned(
