@@ -827,8 +827,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                 padding: const EdgeInsets.only(
                                                     top: 5.0),
                                                 child: Text(
-                                                  fileString.isNotEmpty &&
-                                                          fileString != 'null'
+                                                  fileString.isNotEmpty && fileString != 'null'
                                                       ? fileString.substring(
                                                           fileString.length -
                                                               20)
@@ -1561,7 +1560,6 @@ class _UserProfilePageState extends State<UserProfilePage>
   }
 
   void _initFilePiker() async {
-    print('============= str Doc File==============');
     FilePickerResult? result;
     if (await Permission.storage.request().isGranted) {
       if (Platform.isIOS) {
@@ -1575,13 +1573,13 @@ class _UserProfilePageState extends State<UserProfilePage>
             type: FileType.custom,
             allowedExtensions: ['pdf', 'doc']);
       }
-      files!.add(result?.paths.first);
+      files!.add(result!.paths.first);
       /*this.setState(() {
         files = result?.paths.first as List<String?>?;
       });*/
-      print('============= str Doc File==============');
-      print(files![0]);
-      fileString = files![0].toString();
+      if(files![0] != null) {
+        fileString = files![0].toString();
+      }
 
       /*if (result != null) {
         files = result?.paths.first as List<String?>?;
