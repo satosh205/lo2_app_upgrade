@@ -1584,6 +1584,7 @@ class _UserProfilePageState extends State<UserProfilePage>
         if(files![0].toString().contains('.pdf')){
           fileString = files![0].toString();
         }else{
+          files!.clear();
           fileString = '';
           Utility.showSnackBar(
               scaffoldContext: context, message: 'Only Supported formats - .pdf, .doc');
