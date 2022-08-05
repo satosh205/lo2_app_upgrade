@@ -147,7 +147,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                               shape: BoxShape.circle,
                               image: DecorationImage(
                                 image: FileImage(File('$selectedImage')),
-                                fit: BoxFit.none,
+                                fit: BoxFit.cover,
                               ),
                             ),
                             child: null /* add child content here */,
