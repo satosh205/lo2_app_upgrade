@@ -207,7 +207,9 @@ class _homePageState extends State<homePage> {
                         scale: 1,
                         child: profileImage != null && profileImage != ''
                             ? CircleAvatar(
-                                backgroundImage: NetworkImage(profileImage!))
+                                backgroundImage: NetworkImage(
+                                profileImage!,
+                              ))
                             : SvgPicture.asset(
                                 'assets/images/profileIcon.svg',
                                 height: 40.0,

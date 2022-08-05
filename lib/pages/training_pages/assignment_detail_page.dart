@@ -165,7 +165,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           iconTheme: IconThemeData(
-            color: Colors.black, //change your color here
+            color: ColorConstants.GREY_1, //change your color here
           ),
           title: Text(
             'Assignment',
@@ -763,12 +763,12 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                                             'Attach File',
                                             style: Styles.textExtraBold(
                                                 size: 14,
-                                                color: ColorConstants.WHITE),
+                                                color: ColorConstants.BLACK),
                                           ),
                                           _size(width: 10),
                                           Icon(
                                             Icons.attach_file,
-                                            color: ColorConstants.WHITE,
+                                            color: ColorConstants.GREY_1,
                                           ),
                                         ],
                                       ),
@@ -830,11 +830,11 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                                       'Upload assignment',
                                       style: Styles.textExtraBold(
                                           size: 14,
-                                          color: ColorConstants.WHITE),
+                                          color: ColorConstants.BLACK),
                                     ),
                                     _size(width: 10),
                                     Icon(Icons.file_upload_outlined,
-                                        color: ColorConstants.WHITE)
+                                        color: ColorConstants.GREY_1)
                                   ],
                                 ),
                         ),
