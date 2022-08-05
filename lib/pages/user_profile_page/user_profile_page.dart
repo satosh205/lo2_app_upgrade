@@ -1645,11 +1645,11 @@ class _UserProfilePageState extends State<UserProfilePage>
                   },
                 ),
               ),
-              Container(
+              clickSide.endsWith('profile') ? Container(
                 height: 0.5,
                 color: Colors.grey[100],
-              ),
-              Container(
+              ) : SizedBox(),
+              clickSide.endsWith('profile') ? Container(
                 child: ListTile(
                   leading: new Icon(
                     Icons.camera_alt_outlined,
@@ -1666,13 +1666,18 @@ class _UserProfilePageState extends State<UserProfilePage>
                         selectedImage = value;
                         selectedImage = await _cropImage(value);
                         _updateUserProfileImage(selectedImage);
-                      } else {}
+                      } else {
+                        setState(() {
+                          selectedBrandPath = value;
+                        });
+                        callback(value);
+                      }
                       setState(() {});
                     });
                     Navigator.pop(context);
                   },
                 ),
-              ),
+              ) : SizedBox(),
             ],
           );
         });
