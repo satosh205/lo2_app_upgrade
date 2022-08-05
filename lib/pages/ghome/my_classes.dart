@@ -156,6 +156,17 @@ class _MyClassesState extends State<MyClasses> {
     );
   }
 
+  bool checkViewDate(startDate) {
+    String startDateString =
+        Utility.convertDateFromMillis(startDate, 'dd-MM-yyyy');
+    final DateFormat formatter = DateFormat('dd-MM-yyyy');
+    final String formatted = formatter.format(selectedDate);
+    if (startDateString == formatted)
+      return true;
+    else
+      return false;
+  }
+
   _mainBody() {
     return MultiProvider(
         providers: [
@@ -186,20 +197,6 @@ class _MyClassesState extends State<MyClasses> {
         ));
   }
 
-  bool checkViewDate(startDate) {
-    String startDateString =
-        Utility.convertDateFromMillis(startDate, 'dd-MM-yyyy');
-    final DateFormat formatter = DateFormat('dd-MM-yyyy');
-    final String formatted = formatter.format(selectedDate);
-    if (startDateString == formatted) {
-      print('show');
-      return true;
-    } else {
-      print('hide');
-      return false;
-    }
-  }
-
   Widget _getClasses(LiveclassModel listClassModel) {
     List<String> months = [
       'Jan',
@@ -217,25 +214,25 @@ class _MyClassesState extends State<MyClasses> {
     ];
 
     List<Liveclass>? liveClassTempList = liveclassList;
-    // if (selectedCalanderView) {
-    //   liveClassTempList?.sort((a, b) => a.fromDate!.compareTo(b.fromDate!));
-    //   DateTime date;
+    if (selectedCalanderView) {
+      liveClassTempList?.sort((a, b) => a.fromDate!.compareTo(b.fromDate!));
+      DateTime date;
 
-    //   liveClassTempList = liveClassTempList?.where((element) {
-    //     print('');
-    //     date = DateTime.fromMillisecondsSinceEpoch(element.fromDate! * 1000);
-    //     if (date.year >= selectedDate.year) {
-    //       if (date.month >= selectedDate.month) {
-    //         if (date.day >= selectedDate.day) return true;
-    //       } else {
-    //         return false;
-    //       }
-    //     } else {
-    //       return false;
-    //     }
-    //     return false;
-    //   }).toList();
-    // }
+      liveClassTempList = liveClassTempList?.where((element) {
+        print('');
+        date = DateTime.fromMillisecondsSinceEpoch(element.fromDate! * 1000);
+        if (date.year >= selectedDate.year) {
+          if (date.month >= selectedDate.month) {
+            if (date.day >= selectedDate.day) return true;
+          } else {
+            return false;
+          }
+        } else {
+          return false;
+        }
+        return false;
+      }).toList();
+    }
 
     List<Liveclass>? list = [];
 
@@ -359,8 +356,10 @@ class _MyClassesState extends State<MyClasses> {
           if (selectedCalanderView)
             Calendar(
               sendValue: (DateTime date) {
-                setState(() {
-                  selectedDate = date;
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  setState(() {
+                    selectedDate = date;
+                  });
                 });
               },
             ),
@@ -374,39 +373,20 @@ class _MyClassesState extends State<MyClasses> {
 
                       bool show;
                       if (selectedCalanderView) {
-                        show = true;
+                        show = checkViewDate(
+                            listClassModel.list![index].fromDate!);
                       } else {
                         //normal list view
-                        show = !Utility.isExpired(
-                            listClassModel.list![index].endDate!);
+                        show = true;
                       }
 
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Visibility(
-                              visible: checkViewDate(listClassModel
-                                          .list![index].fromDate!) ==
-                                      true
-                                  ? true
-                                  : false,
-                              child: Text(
-                                ' ${DateFormat('EEEE').format(DateTime.fromMillisecondsSinceEpoch(listClassModel.list![index].fromDate! * 1000))}, ${DateFormat('d').format(DateTime.fromMillisecondsSinceEpoch(listClassModel.list![index].fromDate! * 1000))} ${months[int.parse(DateFormat('M').format(DateTime.fromMillisecondsSinceEpoch(listClassModel.list![index].fromDate! * 1000))) - 1]}, ${DateTime.fromMillisecondsSinceEpoch(listClassModel.list![index].fromDate! * 1000).year}',
-                                style: Styles.regular(size: 14),
-                              )),
-                          InkWell(
-                            onTap: () {
-                              final DateFormat formatter =
-                                  DateFormat('dd-MM-yyyy');
-                              final String formatted =
-                                  formatter.format(selectedDate);
-                              print(
-                                  'the from date  is ${listClassModel.list![index].fromDate!} and Selected date ${formatted}');
-                              print(
-                                  'the vlaue is ${checkViewDate(listClassModel.list![index].fromDate!)}');
-                            },
-                            child: Container(
+                      return Visibility(
+                        visible: show,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
                                 padding: EdgeInsets.all(10),
                                 margin: EdgeInsets.symmetric(vertical: 10),
                                 decoration: BoxDecoration(
@@ -707,8 +687,8 @@ class _MyClassesState extends State<MyClasses> {
                                         ],
                                       )
                                     ])),
-                          ),
-                        ],
+                          ],
+                        ),
                       );
                     },
                     itemCount: listClassModel.list?.length ?? 0,

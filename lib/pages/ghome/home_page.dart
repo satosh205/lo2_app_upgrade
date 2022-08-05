@@ -207,18 +207,23 @@ class _homePageState extends State<homePage> {
                         scale: 1,
                         child: profileImage != null && profileImage != ''
                             ? CircleAvatar(
+                                onBackgroundImageError: (_, __) {
+                                  setState(() {
+                                    profileImage = '';
+                                  });
+                                },
                                 backgroundImage: NetworkImage(
-                                profileImage!,
-                              ))
+                                    // profileImage!,
+
+                                    'https://picsum.photos/200'))
                             : SvgPicture.asset(
-                                'assets/images/profileIcon.svg',
+                                'assets/images/default_user.svg',
                                 height: 40.0,
                                 width: 40.0,
                                 allowDrawingOutsideViewBox: true,
                               ),
                       ),
                     ),
-                    const SizedBox(width: 10),
                   ],
                 ),
                 backgroundColor: ColorConstants().primaryColor(),

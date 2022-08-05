@@ -825,7 +825,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                 padding: const EdgeInsets.only(
                                                     top: 5.0),
                                                 child: Text(
-                                                  fileString.isNotEmpty
+                                                  fileString.isNotEmpty &&
+                                                          fileString != 'null'
                                                       ? fileString.substring(
                                                           fileString.length -
                                                               20)
