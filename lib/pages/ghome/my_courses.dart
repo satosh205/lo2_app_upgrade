@@ -47,7 +47,7 @@ class _MyCoursesState extends State<MyCourses> {
   List<MostViewed>? mostViewed;
 
   bool _isJoyCategoryLoading = false;
-  String errorMessage = "";
+  String? errorMessage;
 
   Box? box;
 
@@ -268,7 +268,7 @@ class _MyCoursesState extends State<MyCourses> {
             ? CardLoader()
             : Center(
                 child: Text(
-                '$errorMessage',
+                errorMessage ?? ' No Active Courses',
                 style: Styles.bold(size: 16),
               ));
   }

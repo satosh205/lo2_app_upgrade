@@ -445,9 +445,13 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                             vertical: 8, horizontal: 18),
                                         child: Text(
                                             liveclassList![index]
-                                                        .contentType!
-                                                        .toLowerCase() ==
-                                                    'liveclass'
+                                                            .contentType!
+                                                            .toLowerCase() ==
+                                                        'liveclass' ||
+                                                    liveclassList![index]
+                                                            .contentType!
+                                                            .toLowerCase() ==
+                                                        'zoomclass'
                                                 ? "Live"
                                                 : 'Classroom',
                                             style: Styles.regular(
@@ -483,7 +487,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                                           .toLowerCase() ==
                                                       'offlineclass'
                                                   ? "Classroom"
-                                                  : "Live", 
+                                                  : "Live",
                                               style: Styles.regular(
                                                   size: 10,
                                                   color: ColorConstants.BLACK)),
@@ -501,7 +505,8 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                             SizedBox(height: 15),
                             Row(
                               children: [
-                                liveclassList![index].trainerName != null
+                                liveclassList![index].trainerName != null &&
+                                        liveclassList![index].trainerName != ''
                                     ? Text(
                                         'by ${liveclassList![index].trainerName} ',
                                         style: Styles.regular(size: 12))

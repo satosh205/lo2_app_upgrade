@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:masterg/blocs/auth_bloc.dart';
@@ -76,6 +77,30 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
               isLoading: _isLoading,
               body: _makeBody(),
             )),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: InkWell(
+                onTap: () {
+                  saveChanges();
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: MediaQuery.of(context).size.height *
+                      WidgetSize.AUTH_BUTTON_SIZE,
+                  margin: EdgeInsets.symmetric(vertical: 2, horizontal: 16),
+                  decoration: BoxDecoration(
+                      color: phoneController.value.text.length != 10
+                          ? Color(0xffFDE5AD)
+                          : ColorConstants().buttonColor(),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Center(
+                      child: Text(
+                    '${Strings.of(context)?.continueStr}',
+                    style: Styles.regular(
+                      color: ColorConstants.BLACK,
+                    ),
+                  )),
+                )),
           ),
         ));
   }
@@ -127,8 +152,12 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                             ),
                             child: null /* add child content here */,
                           )
-                        : Icon(Icons.account_circle_rounded,
-                            size: 100, color: Colors.grey),
+                        : SvgPicture.asset(
+                            'assets/images/default_user.svg',
+                            height: 100.0,
+                            width: 100.0,
+                            allowDrawingOutsideViewBox: true,
+                          ),
                     Positioned(
                       right: 0,
                       bottom: 0,
@@ -221,35 +250,6 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                 ),
               ])),
 
-              SizedBox(
-                height: 250,
-              ),
-              Align(
-                alignment: FractionalOffset.bottomCenter,
-                child: Padding(
-                    padding: EdgeInsets.only(bottom: 10.0),
-                    child: InkWell(
-                        onTap: () {
-                          saveChanges();
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          height: MediaQuery.of(context).size.height *
-                              WidgetSize.AUTH_BUTTON_SIZE,
-                          decoration: BoxDecoration(
-                              color: phoneController.value.text.length != 10
-                                  ? Color(0xffFDE5AD)
-                                  : ColorConstants().buttonColor(),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Center(
-                              child: Text(
-                            '${Strings.of(context)?.continueStr}',
-                            style: Styles.regular(
-                              color: ColorConstants.BLACK,
-                            ),
-                          )),
-                        ))),
-              ),
               // Expanded(child: SizedBox()),
             ],
           ),

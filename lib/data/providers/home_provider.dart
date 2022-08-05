@@ -510,7 +510,7 @@ class HomeProvider {
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data.containsKey('error') &&
             (response.data["error"] as List).length != 0) {
-          return ApiResponse.error(response.data);
+          return ApiResponse.error(response);
         } else {
           return ApiResponse.success(response);
         }
@@ -1206,7 +1206,6 @@ class HomeProvider {
     return null;
   }
 
-
   Future<ApiResponse?> createPortfolio(Map<String, dynamic> data) async {
     try {
       final response = await api.dio.post(ApiConstants.CREATE_PORTFOLIO,
@@ -1219,7 +1218,7 @@ class HomeProvider {
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
-          ));
+              ));
       Log.v(response.statusCode);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
@@ -1238,7 +1237,6 @@ class HomeProvider {
     }
   }
 
-
   Future<ApiResponse?> masterBrandCreate(Map<String, dynamic> data) async {
     try {
       final response = await api.dio.post(ApiConstants.MASTER_BRAND_CREATE,
@@ -1251,7 +1249,7 @@ class HomeProvider {
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
-          ));
+              ));
       Log.v(response.statusCode);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
@@ -1285,7 +1283,7 @@ class HomeProvider {
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
-          ));
+              ));
       Log.v(response.statusCode);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
@@ -1315,7 +1313,7 @@ class HomeProvider {
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
-          ));
+              ));
       Log.v(response.statusCode);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
@@ -1336,16 +1334,17 @@ class HomeProvider {
 
   Future<ApiResponse?> listPortfolio(String type, int userId) async {
     try {
-      final response = await api.dio.get(ApiConstants.PORTFOLIO + '?type=$type&user_id=$userId',
-          options: Options(
-              method: 'GET',
-              headers: {
-                "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
-              },
-              contentType: "application/json",
-              responseType: ResponseType.json // or ResponseType.JSON
-          ));
+      final response = await api.dio
+          .get(ApiConstants.PORTFOLIO + '?type=$type&user_id=$userId',
+              options: Options(
+                  method: 'GET',
+                  headers: {
+                    "Authorization": "Bearer ${UserSession.userToken}",
+                    ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                  },
+                  contentType: "application/json",
+                  responseType: ResponseType.json // or ResponseType.JSON
+                  ));
       Log.v(response.statusCode);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
@@ -1363,5 +1362,4 @@ class HomeProvider {
       //return ApiResponse.failure(e, message: e.response.data["message"]);
     }
   }
-
 }

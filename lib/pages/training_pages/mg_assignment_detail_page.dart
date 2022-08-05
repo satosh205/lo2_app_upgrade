@@ -615,12 +615,12 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                                             'Attach File',
                                             style: Styles.textExtraBold(
                                                 size: 14,
-                                                color: ColorConstants.WHITE),
+                                                color: ColorConstants.BLACK),
                                           ),
                                           _size(width: 10),
                                           Icon(
                                             Icons.attach_file,
-                                            color: ColorConstants.WHITE,
+                                            color: ColorConstants.GREY_1,
                                           ),
                                         ],
                                       ),
@@ -629,10 +629,16 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                           )
                         : Row(
                             children: [
-                              Text(
-                                file!.path.split("/").last,
-                                style: TextStyle(
-                                    decoration: TextDecoration.underline),
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                child: Text(
+                                  file!.path.split("/").last,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  softWrap: true,
+                                  style: TextStyle(
+                                      decoration: TextDecoration.underline),
+                                ),
                               ),
                               const SizedBox(
                                 width: 10,
@@ -675,11 +681,11 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                                       'Upload assignment',
                                       style: Styles.textExtraBold(
                                           size: 14,
-                                          color: ColorConstants.WHITE),
+                                          color: ColorConstants.BLACK),
                                     ),
                                     _size(width: 10),
                                     Icon(Icons.file_upload_outlined,
-                                        color: ColorConstants.WHITE)
+                                        color: ColorConstants.GREY_1)
                                   ],
                                 ),
                         ),
@@ -691,7 +697,7 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                       Row(
                         children: [
                           Text(
-                            '${assignmentDetailProvider?.assignments.totalAttempts} ${assignmentDetailProvider!.assignments.totalAttempts! > 1 ? 'Attempts ' : "Attempt"}',
+                            '${assignmentDetailProvider?.assignments.totalAttempts} ${assignmentDetailProvider!.assignments.totalAttempts! > 1 ? 'Attempts' : "Attempt"}',
                             style: Styles.regular(
                                 size: 14, color: ColorConstants.RED),
                           ),

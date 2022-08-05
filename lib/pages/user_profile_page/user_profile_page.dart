@@ -825,7 +825,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                 padding: const EdgeInsets.only(
                                                     top: 5.0),
                                                 child: Text(
-                                                  fileString.isNotEmpty && fileString != 'null'
+                                                  fileString.isNotEmpty &&
+                                                          fileString != 'null'
                                                       ? fileString.substring(
                                                           fileString.length -
                                                               20)
@@ -1070,12 +1071,13 @@ class _UserProfilePageState extends State<UserProfilePage>
                               ),*/
                               Padding(
                                 padding: const EdgeInsets.only(top: 30.0),
-                                child: Image.asset('assets/images/br_empty.png'),
+                                child:
+                                    Image.asset('assets/images/br_empty.png'),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 15.0),
                                 child: Text(
-                                  'You have not aded any brand yet,',
+                                  'You have not added any brand yet,',
                                   style: Styles.textExtraBold(
                                       size: 14, color: ColorConstants.GREY_3),
                                 ),
