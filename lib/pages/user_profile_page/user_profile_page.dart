@@ -1561,6 +1561,7 @@ class _UserProfilePageState extends State<UserProfilePage>
 
   void _initFilePiker() async {
     FilePickerResult? result;
+    files!.clear();
     if (await Permission.storage.request().isGranted) {
       if (Platform.isIOS) {
         result = await FilePicker.platform.pickFiles(
@@ -1577,8 +1578,17 @@ class _UserProfilePageState extends State<UserProfilePage>
       /*this.setState(() {
         files = result?.paths.first as List<String?>?;
       });*/
+      print(files![0].toString().contains('.pdf'));
+
       if(files![0] != null) {
-        fileString = files![0].toString();
+        if(files![0].toString().contains('.pdf')){
+          fileString = files![0].toString();
+        }else{
+          fileString = '';
+          Utility.showSnackBar(
+              scaffoldContext: context, message: 'Only Supported formats - .pdf, .doc');
+        }
+
       }
 
       /*if (result != null) {
