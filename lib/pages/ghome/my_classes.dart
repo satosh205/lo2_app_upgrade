@@ -251,14 +251,14 @@ class _MyClassesState extends State<MyClasses> {
       listClassModel.refreshList(list!);
     });
 
-    List<int> dateList = List.filled(listClassModel.list!.length, 0);
+    // List<int> dateList = List.filled(listClassModel.list!.length, 0);
     // List<bool> showDates = List.filled(listClassModel.list!.length, false);
 
-    for (int i = 0; i < listClassModel.list!.length; i++) {
-      dateList[i] = int.parse(DateFormat('d').format(
-          DateTime.fromMillisecondsSinceEpoch(
-              listClassModel.list![i].fromDate! * 1000)));
-    }
+    // for (int i = 0; i < listClassModel.list!.length; i++) {
+    //   dateList[i] = int.parse(DateFormat('d').format(
+    //       DateTime.fromMillisecondsSinceEpoch(
+    //           listClassModel.list![i].fromDate! * 1000)));
+    // }
     int currentDate = 0;
 
     // if (dateList.length > 0) {
@@ -379,9 +379,15 @@ class _MyClassesState extends State<MyClasses> {
                         //normal list view
                         show = true;
                       }
+                      // return Text('view  is $show');
 
                       return Visibility(
-                        visible: show,
+                        visible: show
+                            ? !selectedCalanderView
+                                ? !Utility.isExpired(
+                                    listClassModel.list![index].endDate!)
+                                : true
+                            : false,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
