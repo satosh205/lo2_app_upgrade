@@ -213,9 +213,8 @@ class _homePageState extends State<homePage> {
                                   });
                                 },
                                 backgroundImage: NetworkImage(
-                                    // profileImage!,
-
-                                    'https://picsum.photos/200'))
+                                  profileImage!,
+                                ))
                             : SvgPicture.asset(
                                 'assets/images/default_user.svg',
                                 height: 40.0,
