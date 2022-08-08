@@ -77,8 +77,6 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
                     imagePath.split('.').last == 'svg'
                         ? SvgPicture.asset(
                             imagePath,
-                            height: 150,
-                            width: 150,
                             allowDrawingOutsideViewBox: true,
                           )
                         : Image.asset(

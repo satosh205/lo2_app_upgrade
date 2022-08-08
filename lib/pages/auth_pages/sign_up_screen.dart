@@ -116,7 +116,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   _makeBody() {
-    String appBarImagePath = 'assets/images/${APK_DETAILS['splash_image']}';
+    String appBarImagePath = 'assets/images/${APK_DETAILS['theme_image_url']}';
     int orgid = 3;
 
     return Padding(
@@ -146,7 +146,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   )
                                 : Image.asset(
                                     appBarImagePath,
-                                    fit: BoxFit.cover,
+                                    height: 150,
+                                    width: 150,
                                   ),
                             SizedBox(height: 10),
                             Text(

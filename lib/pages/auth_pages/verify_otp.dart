@@ -212,7 +212,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
 
   @override
   Widget build(BuildContext context) {
-    String appBarImagePath = 'assets/images/${APK_DETAILS['splash_image']}';
+    String appBarImagePath = 'assets/images/${APK_DETAILS['theme_image_url']}';
 
     return MultiBlocListener(
       // initState: (BuildContext context) {},
@@ -256,7 +256,8 @@ class _VerifyOtpState extends State<VerifyOtp> {
                               )
                             : Image.asset(
                                 appBarImagePath,
-                                fit: BoxFit.cover,
+                                height: 150,
+                                width: 150,
                               ),
                         // SvgPicture.asset(
                         //   'assets/images/masterg_logo.svg',
