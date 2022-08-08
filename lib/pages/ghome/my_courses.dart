@@ -143,7 +143,7 @@ class _MyCoursesState extends State<MyCourses> {
   Widget _getCourses() {
     return courseList1 != null && courseList1!.length > 0
         ? Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.all(10),
             decoration: BoxDecoration(color: ColorConstants.GREY),
             child: ListView.builder(
               itemBuilder: (BuildContext context, int index) {
@@ -161,10 +161,10 @@ class _MyCoursesState extends State<MyCourses> {
                               isMaintainState: true));
                     },
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                      padding: EdgeInsets.all(10),
                       margin: EdgeInsets.only(top: 12),
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.14,
+                      height: MediaQuery.of(context).size.height * 0.13,
                       decoration: BoxDecoration(
                           color: ColorConstants.WHITE,
                           borderRadius: BorderRadius.circular(15)),
@@ -173,14 +173,14 @@ class _MyCoursesState extends State<MyCourses> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SizedBox(
-                              width: 95,
-                              height: 95,
+                              width: 100,
+                              height: 100,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
                                 child: CachedNetworkImage(
                                   imageUrl: '${courseList1![index].image}',
-                                  width: 95,
-                                  height: 95,
+                                  width: 100,
+                                  height: 120,
                                   errorWidget: (context, url, error) =>
                                       SvgPicture.asset(
                                     'assets/images/gscore_postnow_bg.svg',
