@@ -67,7 +67,7 @@ class AuthProvider {
     return null;
   }
 
-  Future<Null> getAppVerison({String? deviceType}) async {
+  Future<ApiResponse?> getAppVerison({String? deviceType}) async {
     //  Utility.hideKeyboard();
     try {
       final response = await api.dio.get(ApiConstants.UPDATE_API,
@@ -81,6 +81,15 @@ class AuthProvider {
               ));
       Log.v("231455559999999");
       Log.v(response.statusCode);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
     } catch (e) {
       Log.v("23145555");
     }

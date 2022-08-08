@@ -19,6 +19,7 @@ import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../auth_pages/choose_language.dart';
 import '../preboarding_pages/proboarding_page.dart';
 
@@ -114,16 +115,41 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
                 "buildNumber: $buildNumber, appName : $appName, packageName: $packageName, version : $version");
             if (isUpdateAvailable(state, buildNumber)) {
               if (state.response!.data!.updateType == 2) {
-                AlertsWidget.alertWithOkBtn(
+                AlertsWidget.showCustomDialog(
                     context: context,
+                    title: '',
                     text: Strings.of(context)!.updateVersionText2,
-                    onOkClick: () {
-                      //_launchURL();
+                    icon: 'assets/images/circle_alert_fill.svg',
+                    oKText: 'OK',
+                    showCancel: false,
+                    onOkClick: () async {
+                      launchUrl(Uri.parse(
+                          'https://play.google.com/store/apps/details?id=com.at.masterg'));
 
                       _moveToNext();
                     });
               } else if (Preference.getBool(_getUpdateKey(), def: true)!) {
                 Preference.setBool(_getUpdateKey(), false);
+
+                AlertsWidget.showCustomDialog(
+                    context: context,
+                    title: Strings.of(context)!.updateVersionTitle,
+                    text: Strings.of(context)!.updateVersionText1,
+                    icon: 'assets/images/circle_alert_fill.svg',
+                    oKText: 'OK',
+                    showCancel: true,
+                    onOkClick: () {
+                      launchUrl(Uri.parse(
+                          'https://play.google.com/store/apps/details?id=com.at.masterg'));
+
+                      _moveToNext();
+                    },
+                    onCancelClick: () {
+                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                        _moveToNext();
+                      });
+                    });
+
                 AlertsWidget.alertWithOkCancelBtn(
                     context: context,
                     title: Strings.of(context)!.updateVersionTitle,
