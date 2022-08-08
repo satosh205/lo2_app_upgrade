@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:masterg/blocs/auth_bloc.dart';
@@ -146,13 +147,17 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                               shape: BoxShape.circle,
                               image: DecorationImage(
                                 image: FileImage(File('$selectedImage')),
-                                fit: BoxFit.none,
+                                fit: BoxFit.cover,
                               ),
                             ),
                             child: null /* add child content here */,
                           )
-                        : Icon(Icons.account_circle_rounded,
-                            size: 100, color: Colors.grey),
+                        : SvgPicture.asset(
+                            'assets/images/default_user.svg',
+                            height: 100.0,
+                            width: 100.0,
+                            allowDrawingOutsideViewBox: true,
+                          ),
                     Positioned(
                       right: 0,
                       bottom: 0,

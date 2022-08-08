@@ -192,18 +192,29 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
       }
     } else if (selectedType == 'Classes' && selectedContentId != null) {
       trainerName = selectedData?.trainerName;
+
       if (selectedData?.liveclassAction.toString().toLowerCase() == 'concluded')
         title = 'View Recording';
       if (selectedData?.liveclassAction.toString().toLowerCase() == 'live' ||
           selectedData?.liveclassAction.toString().toLowerCase() ==
-              'join class') title = 'Join Now';
+              'join class') {
+        if (Utility.isBetween(
+            selectedData?.startDate!, selectedData?.endDate!)) {
+          isButtonActive = true;
+        } else {
+          isButtonActive = false;
+        }
+        title = 'Join Now';
+      }
       if (selectedData?.contentType.toString().toLowerCase() ==
           'offlineclass') {
         title = 'Mark Your Attendance';
         isButtonActive = false;
-      } else {
-        // title = selectedData?.liveclassAction;
-        // isButtonActive = false;
+      }
+      if (selectedData?.liveclassAction.toString().toLowerCase() ==
+          'scheduled') {
+        title = 'Join Now';
+        isButtonActive = false;
       }
     } else if (selectedType == 'Assessments' && selectedContentId != null) {
       title = 'Start Assessment';
@@ -487,7 +498,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                                   .isGraded ==
                                                               1) ...[
                                                             Text(
-                                                              '${selectedData.overallScore != null ? '${selectedData.overallScore} Marks' : '${selectedData?.maximumMarks} Marks'} • ${selectedData?.allowMultiple == 1 ? 'Multiple Attempts' : '1 Attempt'}',
+                                                              '${selectedData.overallScore != null ? '${selectedData.overallScore}/${selectedData?.maximumMarks} Marks' : '${selectedData?.maximumMarks} Marks'} • ${selectedData?.allowMultiple == 1 ? 'Multiple Attempts' : '1 Attempt'}',
                                                               style: Styles.semibold(
                                                                   size: 14,
                                                                   color:
@@ -566,6 +577,16 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                         openAssessment(
                                                             selectedData);
                                                       }
+                                                    } else {
+                                                      if (selectedType ==
+                                                          'Classes')
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                                SnackBar(
+                                                          content: Text(
+                                                              "Coming Soon"),
+                                                        ));
                                                     }
                                                   },
                                                   child: Container(
@@ -1751,6 +1772,8 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                               ),
                               if (showLiveStatus)
                                 Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     SvgPicture.asset(
                                         'assets/images/live_icon.svg',

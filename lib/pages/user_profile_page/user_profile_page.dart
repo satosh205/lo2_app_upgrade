@@ -355,7 +355,9 @@ class _UserProfilePageState extends State<UserProfilePage>
                                     ),
                                   )
                                 : SvgPicture.asset(
-                                    'assets/images/bxs_user_circle.svg',
+                                    'assets/images/default_user.svg',
+                                    width: 200,
+                                    height: 200,
                                     allowDrawingOutsideViewBox: true,
                                   ),
                         Positioned(
@@ -825,7 +827,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                 padding: const EdgeInsets.only(
                                                     top: 5.0),
                                                 child: Text(
-                                                  fileString.isNotEmpty
+                                                  fileString.isNotEmpty && fileString != 'null'
                                                       ? fileString.substring(
                                                           fileString.length -
                                                               20)
@@ -1070,12 +1072,13 @@ class _UserProfilePageState extends State<UserProfilePage>
                               ),*/
                               Padding(
                                 padding: const EdgeInsets.only(top: 30.0),
-                                child: Image.asset('assets/images/br_empty.png'),
+                                child:
+                                    Image.asset('assets/images/br_empty.png'),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 15.0),
                                 child: Text(
-                                  'You have not aded any brand yet,',
+                                  'You have not added any brand yet,',
                                   style: Styles.textExtraBold(
                                       size: 14, color: ColorConstants.GREY_3),
                                 ),
@@ -1557,8 +1560,8 @@ class _UserProfilePageState extends State<UserProfilePage>
   }
 
   void _initFilePiker() async {
-    print('============= str Doc File==============');
     FilePickerResult? result;
+    files!.clear();
     if (await Permission.storage.request().isGranted) {
       if (Platform.isIOS) {
         result = await FilePicker.platform.pickFiles(
@@ -1571,13 +1574,23 @@ class _UserProfilePageState extends State<UserProfilePage>
             type: FileType.custom,
             allowedExtensions: ['pdf', 'doc']);
       }
-      files!.add(result?.paths.first);
+      files!.add(result!.paths.first);
       /*this.setState(() {
         files = result?.paths.first as List<String?>?;
       });*/
-      print('============= str Doc File==============');
-      print(files![0]);
-      fileString = files![0].toString();
+      print(files![0].toString().contains('.pdf'));
+
+      if(files![0] != null) {
+        if(files![0].toString().contains('.pdf')){
+          fileString = files![0].toString();
+        }else{
+          files!.clear();
+          fileString = '';
+          Utility.showSnackBar(
+              scaffoldContext: context, message: 'Only Supported formats - .pdf, .doc');
+        }
+
+      }
 
       /*if (result != null) {
         files = result?.paths.first as List<String?>?;
@@ -1643,11 +1656,11 @@ class _UserProfilePageState extends State<UserProfilePage>
                   },
                 ),
               ),
-              Container(
+              clickSide.endsWith('profile') ? Container(
                 height: 0.5,
                 color: Colors.grey[100],
-              ),
-              Container(
+              ) : SizedBox(),
+              clickSide.endsWith('profile') ? Container(
                 child: ListTile(
                   leading: new Icon(
                     Icons.camera_alt_outlined,
@@ -1664,13 +1677,18 @@ class _UserProfilePageState extends State<UserProfilePage>
                         selectedImage = value;
                         selectedImage = await _cropImage(value);
                         _updateUserProfileImage(selectedImage);
-                      } else {}
+                      } else {
+                        setState(() {
+                          selectedBrandPath = value;
+                        });
+                        callback(value);
+                      }
                       setState(() {});
                     });
                     Navigator.pop(context);
                   },
                 ),
-              ),
+              ) : SizedBox(),
             ],
           );
         });
