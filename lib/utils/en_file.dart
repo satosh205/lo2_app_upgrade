@@ -296,7 +296,12 @@ const EN_TEXT = {
   'apni_padhai_jaari_rakein': 'Resume Learning',
   'my_courses': 'My Courses',
   'my_quiz': 'My Quiz',
-  'completed': 'Completed'
+  'completed': 'Completed',
+
+  //adding new keys
+
+  'enterPhoneNumber': 'Enter phone number',
+  'enterValidPhoneNumber': 'Enter valid phone number',
 };
 
 const TA_TEXT = {
