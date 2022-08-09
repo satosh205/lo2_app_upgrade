@@ -248,7 +248,8 @@ class _MyCoursesState extends State<MyCourses> {
                                                         .completionPer! /
                                                     100),
                                             decoration: BoxDecoration(
-                                                color: ColorConstants.ORANGE,
+                                                color: ColorConstants()
+                                                    .primaryColor(),
                                                 borderRadius:
                                                     BorderRadius.circular(10)),
                                           ),
