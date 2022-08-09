@@ -176,7 +176,7 @@ class _UserProfilePageState extends State<UserProfilePage>
           title: "Error",
           text: "Please enter brand title",
           icon: 'assets/images/circle_alert_fill.svg',
-          oKText: 'OK',
+          oKText: '${Strings.of(context)?.ok}',
           showCancel: false,
           onOkClick: () async {});
     } else if (selectedBrandPath!.isEmpty && brandImageUrl.isEmpty) {
@@ -185,7 +185,7 @@ class _UserProfilePageState extends State<UserProfilePage>
           title: "Error",
           text: "Please select brand logo image.",
           icon: 'assets/images/circle_alert_fill.svg',
-          oKText: 'OK',
+          oKText: '${Strings.of(context)?.ok}',
           showCancel: false,
           onOkClick: () async {});
     } else if (files!.length == 0) {
@@ -194,7 +194,7 @@ class _UserProfilePageState extends State<UserProfilePage>
           title: "Error",
           text: "Please select joining letter",
           icon: 'assets/images/circle_alert_fill.svg',
-          oKText: 'OK',
+          oKText: '${Strings.of(context)?.ok}',
           showCancel: false,
           onOkClick: () async {});
     } else if (fromDateController.text.toString().isEmpty) {
@@ -203,7 +203,7 @@ class _UserProfilePageState extends State<UserProfilePage>
           title: "Error",
           text: "Please select joining date.",
           icon: 'assets/images/circle_alert_fill.svg',
-          oKText: 'OK',
+          oKText: '${Strings.of(context)?.ok}',
           showCancel: false,
           onOkClick: () async {});
     } else {
@@ -215,7 +215,7 @@ class _UserProfilePageState extends State<UserProfilePage>
             title: "Error",
             text: "Please select valid joining date.",
             icon: 'assets/images/circle_alert_fill.svg',
-            oKText: 'OK',
+            oKText: '${Strings.of(context)?.ok}',
             showCancel: false,
             onOkClick: () async {});
       }
@@ -566,13 +566,12 @@ class _UserProfilePageState extends State<UserProfilePage>
                 children: [
                   Row(
                     children: [
-                      Text('Brand Associations'),
+                      Text('${Strings.of(context)?.branchAssociation}'),
                       listPortfolioBrand.length != 0
                           ? Padding(
                               padding: const EdgeInsets.only(left: 8.0),
                               child: GestureDetector(
                                   onTap: () async {
-                                    print('object delete hh');
                                     this.setState(() {
                                       deleteVisibleIconFlag = true;
                                     });
@@ -638,7 +637,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                 left: 20.0,
                                                 right: 20.0,
                                                 top: 10.0),
-                                            child: Text('Add a Brand')),
+                                            child: Text(
+                                                '${Strings.of(context)?.addBrand}')),
                                         SizedBox(
                                           height: 12,
                                         ),
@@ -675,7 +675,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                     BorderRadius.circular(10.0),
                                               ),
                                               fillColor: Colors.grey,
-                                              hintText: "Brand Name",
+                                              hintText:
+                                                  "${Strings.of(context)?.brandName}",
                                               //make hint text
                                               hintStyle: TextStyle(
                                                 color: Colors.grey,
@@ -685,7 +686,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                                               ),
 
                                               //create lable
-                                              labelText: 'Brand Name',
+                                              labelText:
+                                                  "${Strings.of(context)?.brandName}",
                                               //lable style
                                               labelStyle: TextStyle(
                                                 color: Colors.grey,
@@ -695,7 +697,6 @@ class _UserProfilePageState extends State<UserProfilePage>
                                               ),
                                             ),
                                             onTap: () {
-                                              print('On Text Click');
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
@@ -767,13 +768,13 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                                         .only(
                                                                     left: 10.0),
                                                             child: Text(
-                                                                'Upload Brand Logo'),
+                                                                "${Strings.of(context)?.uploadBrandLogo}"),
                                                           ),
                                                         ],
                                                       ),
                                                     ),
                                                     Text(
-                                                      'Supported formats - .jpeg, .png',
+                                                      '${Strings.of(context)?.supportedFormat} - .jpeg, .png',
                                                       style:
                                                           Styles.textExtraBold(
                                                               size: 14,
@@ -811,13 +812,13 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                           const EdgeInsets.only(
                                                               left: 10.0),
                                                       child: Text(
-                                                          'Upload Joining Letter'),
+                                                          '${Strings.of(context)?.uploadJoiningLetter}'),
                                                     ),
                                                   ],
                                                 ),
                                               ),
                                               Text(
-                                                'Supported formats - .pdf, .doc',
+                                                '${Strings.of(context)?.supportedFormat} - .pdf, .doc',
                                                 style: Styles.textExtraBold(
                                                     size: 14,
                                                     color:
@@ -827,7 +828,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                 padding: const EdgeInsets.only(
                                                     top: 5.0),
                                                 child: Text(
-                                                  fileString.isNotEmpty && fileString != 'null'
+                                                  fileString.isNotEmpty &&
+                                                          fileString != 'null'
                                                       ? fileString.substring(
                                                           fileString.length -
                                                               20)
@@ -880,12 +882,14 @@ class _UserProfilePageState extends State<UserProfilePage>
                                               if (files!.length == 0) {
                                                 AlertsWidget.showCustomDialog(
                                                     context: context,
-                                                    title: "Error",
+                                                    title:
+                                                        "${Strings.of(context)?.error}",
                                                     text:
-                                                        "Please select joining letter",
+                                                        "${Strings.of(context)?.pleaseSelectedJoiningLetter}",
                                                     icon:
                                                         'assets/images/circle_alert_fill.svg',
-                                                    oKText: 'OK',
+                                                    oKText:
+                                                        '${Strings.of(context)?.ok}',
                                                     showCancel: false,
                                                     onOkClick: () async {});
                                               } else if (fromDateController.text
@@ -893,12 +897,14 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                   .isEmpty) {
                                                 AlertsWidget.showCustomDialog(
                                                     context: context,
-                                                    title: "Error",
+                                                    title:
+                                                        "${Strings.of(context)?.error}",
                                                     text:
-                                                        "Please select from date",
+                                                        "${Strings.of(context)?.pleaseSelectFromDate}",
                                                     icon:
                                                         'assets/images/circle_alert_fill.svg',
-                                                    oKText: 'OK',
+                                                    oKText:
+                                                        '${Strings.of(context)?.ok}',
                                                     showCancel: false,
                                                     onOkClick: () async {});
                                               } else {
@@ -908,12 +914,14 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                 } else {
                                                   AlertsWidget.showCustomDialog(
                                                       context: context,
-                                                      title: "Error",
+                                                      title:
+                                                          "${Strings.of(context)?.error}",
                                                       text:
-                                                          "Please select valid joining date.",
+                                                          "${Strings.of(context)?.pleaseSelectValidJoiningDate}",
                                                       icon:
                                                           'assets/images/circle_alert_fill.svg',
-                                                      oKText: 'OK',
+                                                      oKText:
+                                                          '${Strings.of(context)?.ok}',
                                                       showCancel: false,
                                                       onOkClick: () async {});
                                                 }
@@ -951,7 +959,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                                 top: 4,
                                                                 bottom: 4),
                                                         child: Text(
-                                                          'Submit',
+                                                          '${Strings.of(context)?.submit}',
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: Styles.textExtraBold(
@@ -1021,10 +1029,13 @@ class _UserProfilePageState extends State<UserProfilePage>
                                             AlertsWidget.alertWithOkCancelBtn(
                                               context: context,
                                               text:
-                                                  "Are you sure you want to delete.",
-                                              title: "Alert!",
-                                              okText: "Yes",
-                                              cancelText: "No",
+                                                  "${Strings.of(context)?.areYourSureYouWantToDelete}",
+                                              title:
+                                                  "${Strings.of(context)?.alert}",
+                                              okText:
+                                                  "${Strings.of(context)?.yes}",
+                                              cancelText:
+                                                  "${Strings.of(context)?.no}",
                                               onOkClick: () async {
                                                 //call delete api
                                                 deleteIndex = index;
@@ -1078,7 +1089,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                               Padding(
                                 padding: const EdgeInsets.only(top: 15.0),
                                 child: Text(
-                                  'You have not added any brand yet,',
+                                  '${Strings.of(context)?.youHaveNotAddedAnyBrandYet}',
                                   style: Styles.textExtraBold(
                                       size: 14, color: ColorConstants.GREY_3),
                                 ),
@@ -1086,7 +1097,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                               Padding(
                                 padding: const EdgeInsets.all(20.0),
                                 child: Text(
-                                  'Add a brand and let everyone know about your Brand Associations.',
+                                  '${Strings.of(context)?.addABrandAndLetEveryoneKnowAboutYourBrandAssociations}',
                                   style: Styles.textExtraBold(
                                       size: 14, color: ColorConstants.GREY_3),
                                   textAlign: TextAlign.center,
@@ -1122,11 +1133,11 @@ class _UserProfilePageState extends State<UserProfilePage>
               Expanded(
                   child: Container(
                       padding: EdgeInsets.only(right: 5.0),
-                      child: Text('From'))),
+                      child: Text('${Strings.of(context)?.from}'))),
               Expanded(
                   child: Container(
                 padding: EdgeInsets.only(left: 5.0),
-                child: Text('To'),
+                child: Text('${Strings.of(context)?.to}'),
               )),
             ],
           ),
@@ -1146,7 +1157,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                     style: TextStyle(fontSize: 13.0),
                     decoration: InputDecoration(
                       hintStyle: TextStyle(fontSize: 13.0),
-                      hintText: 'From Date',
+                      hintText: '${Strings.of(context)?.fromDate}',
                       contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
                       border: OutlineInputBorder(),
                       suffixIcon: Icon(Icons.calendar_today),
@@ -1208,7 +1219,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                         }),
                   ),
                   Text(
-                    'Present',
+                    '${Strings.of(context)?.present}',
                     style: TextStyle(color: Colors.red),
                   ),
                 ],
@@ -1222,7 +1233,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                   style: TextStyle(fontSize: 13.0),
                   decoration: InputDecoration(
                     hintStyle: TextStyle(fontSize: 13.0),
-                    hintText: 'To Date',
+                    hintText: '${Strings.of(context)?.toDate}',
                     contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
                     border: OutlineInputBorder(),
                     suffixIcon: Icon(Icons.calendar_today),
@@ -1580,16 +1591,16 @@ class _UserProfilePageState extends State<UserProfilePage>
       });*/
       print(files![0].toString().contains('.pdf'));
 
-      if(files![0] != null) {
-        if(files![0].toString().contains('.pdf')){
+      if (files![0] != null) {
+        if (files![0].toString().contains('.pdf')) {
           fileString = files![0].toString();
-        }else{
+        } else {
           files!.clear();
           fileString = '';
           Utility.showSnackBar(
-              scaffoldContext: context, message: 'Only Supported formats - .pdf, .doc');
+              scaffoldContext: context,
+              message: 'Only Supported formats - .pdf, .doc');
         }
-
       }
 
       /*if (result != null) {
@@ -1656,39 +1667,43 @@ class _UserProfilePageState extends State<UserProfilePage>
                   },
                 ),
               ),
-              clickSide.endsWith('profile') ? Container(
-                height: 0.5,
-                color: Colors.grey[100],
-              ) : SizedBox(),
-              clickSide.endsWith('profile') ? Container(
-                child: ListTile(
-                  leading: new Icon(
-                    Icons.camera_alt_outlined,
-                    color: Colors.white,
-                  ),
-                  title: new Text(
-                    '${Strings.of(context)?.Camera}',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onTap: () async {
-                    await _getImages(ImageSource.camera, 'camera')
-                        .then((value) async {
-                      if (clickSide.endsWith('profile')) {
-                        selectedImage = value;
-                        selectedImage = await _cropImage(value);
-                        _updateUserProfileImage(selectedImage);
-                      } else {
-                        setState(() {
-                          selectedBrandPath = value;
-                        });
-                        callback(value);
-                      }
-                      setState(() {});
-                    });
-                    Navigator.pop(context);
-                  },
-                ),
-              ) : SizedBox(),
+              clickSide.endsWith('profile')
+                  ? Container(
+                      height: 0.5,
+                      color: Colors.grey[100],
+                    )
+                  : SizedBox(),
+              clickSide.endsWith('profile')
+                  ? Container(
+                      child: ListTile(
+                        leading: new Icon(
+                          Icons.camera_alt_outlined,
+                          color: Colors.white,
+                        ),
+                        title: new Text(
+                          '${Strings.of(context)?.Camera}',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onTap: () async {
+                          await _getImages(ImageSource.camera, 'camera')
+                              .then((value) async {
+                            if (clickSide.endsWith('profile')) {
+                              selectedImage = value;
+                              selectedImage = await _cropImage(value);
+                              _updateUserProfileImage(selectedImage);
+                            } else {
+                              setState(() {
+                                selectedBrandPath = value;
+                              });
+                              callback(value);
+                            }
+                            setState(() {});
+                          });
+                          Navigator.pop(context);
+                        },
+                      ),
+                    )
+                  : SizedBox(),
             ],
           );
         });
@@ -1803,7 +1818,7 @@ class BlankPage extends StatelessWidget {
                                   enabled: true,
                                   child: ListTile(
                                     leading: Icon(Icons.email),
-                                    title: Text("Email",
+                                    title: Text("${Strings.of(context)?.email}",
                                         style: TextStyle(fontSize: 15)),
                                   ),
                                 ),
@@ -1813,7 +1828,7 @@ class BlankPage extends StatelessWidget {
                                   enabled: true,
                                   child: ListTile(
                                     leading: Icon(Icons.phone),
-                                    title: Text("Phone",
+                                    title: Text("${Strings.of(context)?.phone}",
                                         style: TextStyle(fontSize: 15)),
                                   ),
                                 ),

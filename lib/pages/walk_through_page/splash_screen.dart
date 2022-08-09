@@ -120,7 +120,7 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
                     title: '',
                     text: Strings.of(context)!.updateVersionText2,
                     icon: 'assets/images/circle_alert_fill.svg',
-                    oKText: 'OK',
+                    oKText: '${Strings.of(context)?.ok}',
                     showCancel: false,
                     onOkClick: () async {
                       launchUrl(Uri.parse(
@@ -136,7 +136,7 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
                     title: Strings.of(context)!.updateVersionTitle,
                     text: Strings.of(context)!.updateVersionText1,
                     icon: 'assets/images/circle_alert_fill.svg',
-                    oKText: 'OK',
+                    oKText: '${Strings.of(context)?.ok}',
                     showCancel: true,
                     onOkClick: () {
                       launchUrl(Uri.parse(
