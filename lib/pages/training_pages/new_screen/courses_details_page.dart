@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masterg/utils/Strings.dart';
 
 import '../../../blocs/home_bloc.dart';
 import '../../../data/models/request/home_request/user_program_subscribe.dart';
