@@ -268,7 +268,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               NextPageRoute(
                                   TermsAndCondition(
                                       url:
-                                          'https://qa.learningoxygen.com/policy?organization_id=${orgid}'),
+                                          'https://learnandbuild.in/privacy-policy/'
+                                      // 'https://qa.learningoxygen.com/policy?organization_id=${orgid}',
+                                      ),
                                   isMaintainState: false));
                         },
                         child: Text.rich(
