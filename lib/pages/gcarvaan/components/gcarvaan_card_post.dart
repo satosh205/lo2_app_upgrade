@@ -61,7 +61,6 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
   // VideoPlayerController _videoController;
   bool isShowPlaying = false;
   // GlobalKey<FormState> _abcKey = GlobalKey<FormState>();
-  bool? isLiked;
   int? likeCount;
   int currentIndex = 0;
   // Download download = new Download();
@@ -77,7 +76,6 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
   void setValues() {
     // updateLikeandViews(null);
     setState(() {
-      isLiked = widget.islikedPost;
       likeCount = widget.likeCount;
     });
   }
@@ -207,20 +205,13 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                             style: Styles.semibold(size: 14),
                           ),
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.only(left: 8.0),
-                        //   child: Text(
-                        //     calculateTimeDifferenceBetween(
-                        //         DateTime.parse(
-                        //             date.toString().substring(0, 19)),
-                        //         now),
-                        //     style: Styles.regular(size: 12),
-                        //   ),
-                        // ),
                         Padding(
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Text(
-                            '${widget.likeCount} likes',
+                            calculateTimeDifferenceBetween(
+                                DateTime.parse(
+                                    date.toString().substring(0, 19)),
+                                now),
                             style: Styles.regular(size: 12),
                           ),
                         ),
@@ -576,15 +567,17 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                   InkWell(
                     onTap: () {
                       setState(() {
-                        if (isLiked!) {
+                        if (widget.value?.isLiked(widget.index) == true) {
                           updateLikeandViews(0);
-                          isLiked = false;
-                          likeCount = likeCount! - 1;
+                          widget.value?.updateIsLiked(widget.index, 0);
+
+                          widget.value?.decrementLike(widget.index);
                         } else {
                           updateLikeandViews(1);
 
-                          isLiked = true;
-                          likeCount = likeCount! + 1;
+                          widget.value?.updateIsLiked(widget.index, 1);
+
+                          widget.value?.incrementLike(widget.index);
                         }
                       });
                     },
@@ -596,20 +589,21 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                               right: 4.0,
                             ),
                             child: SvgPicture.asset(
-                              isLiked == false
+                              widget.value?.isLiked(widget.index) == false
                                   ? 'assets/images/like_icon.svg'
                                   : 'assets/images/liked_icon.svg',
                               height: 18.8,
                               width: 17.86,
-                              color: isLiked == false
-                                  ? ColorConstants.BLACK
-                                  : ColorConstants().primaryColor(),
+                              color:
+                                  widget.value?.isLiked(widget.index) == false
+                                      ? ColorConstants.BLACK
+                                      : ColorConstants().primaryColor(),
                               allowDrawingOutsideViewBox: true,
                             ),
                           ),
                           Text(
                             likeCount != 0
-                                ? '${likeCount} ${Strings.of(context)?.Like}'
+                                ? '${widget.value?.getLikeCount(widget.index)} ${Strings.of(context)?.Like}'
                                 : ' ${Strings.of(context)?.Like}',
                             style: Styles.regular(
                                 size: 12, color: ColorConstants.BLACK),
