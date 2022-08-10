@@ -14,6 +14,7 @@ import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/user_profile_page/create_portfolio.dart';
 import 'package:masterg/utils/Log.dart';
+import 'package:masterg/utils/Strings.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../utils/resource/size_constants.dart';
@@ -250,7 +251,7 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          'Brand Associations',
+                          '${Strings.of(context)?.branchAssociation}',
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
@@ -299,10 +300,13 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
                                                               .alertWithOkCancelBtn(
                                                             context: context,
                                                             text:
-                                                                "Are you sure you want to delete.",
-                                                            title: "Alert!",
-                                                            okText: "Yes",
-                                                            cancelText: "No",
+                                                                "${Strings.of(context)?.areYourSureYouWantToDelete}",
+                                                            title:
+                                                                "${Strings.of(context)?.alert}",
+                                                            okText:
+                                                                "${Strings.of(context)?.yes}",
+                                                            cancelText:
+                                                                "${Strings.of(context)?.no}",
                                                             onOkClick:
                                                                 () async {
                                                               //call delete api
@@ -356,7 +360,8 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
                                         Navigator.push(
                                             context,
                                             NextPageRoute(CreatePortfolioPage(
-                                              title: 'Brand Associations',
+                                              title:
+                                                  "${Strings.of(context)?.branchAssociation}",
                                               portfolioType: 'brand',
                                             )));
                                       },
@@ -388,7 +393,8 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
                                       Navigator.push(
                                           context,
                                           NextPageRoute(CreatePortfolioPage(
-                                            title: 'Brand Associations',
+                                            title:
+                                                "${Strings.of(context)?.branchAssociation}",
                                             portfolioType: 'brand',
                                           )));
                                     },
@@ -434,7 +440,7 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              'Awards',
+                              '${Strings.of(context)?.awards}',
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             ),
@@ -445,7 +451,8 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
                                     Navigator.push(
                                         context,
                                         NextPageRoute(CreatePortfolioPage(
-                                          title: 'Award Associations',
+                                          title:
+                                              '${Strings.of(context)?.awardsAssociations}',
                                           portfolioType: 'award',
                                         )));
                                   },
@@ -523,10 +530,13 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
                                                     .alertWithOkCancelBtn(
                                                   context: context,
                                                   text:
-                                                      "Are you sure you want to delete.",
-                                                  title: "Alert!",
-                                                  okText: "Yes",
-                                                  cancelText: "No",
+                                                      "${Strings.of(context)?.areYourSureYouWantToDelete}",
+                                                  title:
+                                                      "${Strings.of(context)?.alert}",
+                                                  okText:
+                                                      "${Strings.of(context)?.yes}",
+                                                  cancelText:
+                                                      "${Strings.of(context)?.no}",
                                                   onOkClick: () async {
                                                     //call delete api
                                                     deleteIndex = index;
@@ -585,7 +595,7 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          'Projects',
+                          '${Strings.of(context)?.projects}',
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
@@ -669,10 +679,13 @@ class _GPortfolioPageState extends State<GPortfolioPage> {
                                                               .alertWithOkCancelBtn(
                                                             context: context,
                                                             text:
-                                                                "Are you sure you want to delete.",
-                                                            title: "Alert!",
-                                                            okText: "Yes",
-                                                            cancelText: "No",
+                                                                "${Strings.of(context)?.areYourSureYouWantToDelete}",
+                                                            title:
+                                                                "${Strings.of(context)?.alert}",
+                                                            okText:
+                                                                "${Strings.of(context)?.yes}",
+                                                            cancelText:
+                                                                "${Strings.of(context)?.no}",
                                                             onOkClick:
                                                                 () async {
                                                               //call delete api

@@ -315,7 +315,7 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
                 text: "",
                 icon: 'assets/images/circle_alert_fill.svg',
                 showCancel: false,
-                oKText: 'Ok',
+                oKText: '${Strings.of(context)?.ok}',
                 onOkClick: () async {
                   // Navigator.pop(context);
                 });
@@ -326,7 +326,7 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
                 text: "",
                 icon: 'assets/images/circle_alert_fill.svg',
                 showCancel: false,
-                oKText: 'Ok',
+                oKText: '${Strings.of(context)?.ok}',
                 onOkClick: () async {
                   // Navigator.pop(context);
                 });

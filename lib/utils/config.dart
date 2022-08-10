@@ -24,6 +24,8 @@ const APK_DETAILS = {
   "splash_image": "logo_lb_1.png",
   "isBrandEnabled": "0",
   "faqEnabled": "1"
+
+
 };
 
 

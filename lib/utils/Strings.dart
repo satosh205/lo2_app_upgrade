@@ -67,6 +67,28 @@ class Strings {
   get enterEmail => _localizedValues[locale.languageCode]!['enter_email'];
 
   String? get male => _localizedValues[locale.languageCode]!['male'];
+  String? get phone => _localizedValues[locale.languageCode]!['phone'];
+  String? get branchAssociation => _localizedValues[locale.languageCode]!['branchAssociation'];
+  String? get addBrand => _localizedValues[locale.languageCode]!['addBrand'];
+  String? get brandName => _localizedValues[locale.languageCode]!['brandName'];
+  String? get uploadBrandLogo => _localizedValues[locale.languageCode]!['uploadBrandLogo'];
+  String? get supportedFormat => _localizedValues[locale.languageCode]!['supportedFormat'];
+  String? get uploadJoiningLetter => _localizedValues[locale.languageCode]!['uploadJoiningLetter'];
+  String? get error => _localizedValues[locale.languageCode]!['error'];
+  String? get pleaseSelectedJoiningLetter => _localizedValues[locale.languageCode]!['pleaseSelectedJoiningLetter'];
+  String? get pleaseSelectFromDate => _localizedValues[locale.languageCode]!['pleaseSelectFromDate'];
+  String? get pleaseSelectValidJoiningDate => _localizedValues[locale.languageCode]!['pleaseSelectValidJoiningDate'];
+  String? get areYourSureYouWantToDelete => _localizedValues[locale.languageCode]!['areYourSureYouWantToDelete'];
+  String? get youHaveNotAddedAnyBrandYet => _localizedValues[locale.languageCode]!['youHaveNotAddedAnyBrandYet'];
+  String? get addABrandAndLetEveryoneKnowAboutYourBrandAssociations => _localizedValues[locale.languageCode]!['addABrandAndLetEveryoneKnowAboutYourBrandAssociations'];
+  String? get from => _localizedValues[locale.languageCode]!['from'];
+  String? get to => _localizedValues[locale.languageCode]!['to'];
+  String? get fromDate => _localizedValues[locale.languageCode]!['fromDate'];
+  String? get present => _localizedValues[locale.languageCode]!['present'];
+  String? get toDate => _localizedValues[locale.languageCode]!['toDate'];
+  String? get awards => _localizedValues[locale.languageCode]!['awards'];
+  String? get awardsAssociations => _localizedValues[locale.languageCode]!['awardsAssociations'];
+  String? get projects => _localizedValues[locale.languageCode]!['projects'];
 
   String? get female => _localizedValues[locale.languageCode]!['female'];
 
@@ -140,7 +162,7 @@ class Strings {
   String? get termAndCondition =>
       _localizedValues[locale.languageCode]!['term_and_condition'];
 
-  String? get ok => _localizedValues[locale.languageCode]!['ok'];
+  String? get ok => _localizedValues[locale.languageCode]!['Strings.of(context)?.ok'];
 
   String? get loading => _localizedValues[locale.languageCode]!['loading'];
 

@@ -1250,7 +1250,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
           text: "You will be assigned to this course soon!!",
           icon: 'assets/images/circle_alert_fill.svg',
           showCancel: false,
-          oKText: 'Ok',
+          oKText: '${Strings.of(context)?.ok}',
           onOkClick: () async {
             // Navigator.pop(context);
           });

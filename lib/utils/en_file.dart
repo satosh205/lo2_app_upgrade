@@ -296,7 +296,36 @@ const EN_TEXT = {
   'apni_padhai_jaari_rakein': 'Resume Learning',
   'my_courses': 'My Courses',
   'my_quiz': 'My Quiz',
-  'completed': 'Completed'
+  'completed': 'Completed',
+
+  //adding new keys
+
+  'enterPhoneNumber': 'Enter phone number',
+  'enterValidPhoneNumber': 'Enter valid phone number',
+  'branchAssociation': 'Brand Associations',
+  'addBrand': 'Add a Brand',
+  'brandName': 'Brand Name',
+  'uploadBrandLogo': 'Upload Brand Logo',
+  'supportedFormat': 'Supported formats',
+  'uploadJoiningLetter': 'Upload Joining Letter',
+  'error': "Error",
+  'pleaseSelectedJoiningLetter': 'Please select joining letter',
+  'pleaseSelectFromDate': "Please select from date",
+  'pleaseSelectValidJoiningDate': "Please select valid joining date.",
+  'areYourSureYouWantToDelete': "Are you sure you want to delete.",
+  'youHaveNotAddedAnyBrandYet': 'You have not added any brand yet',
+  'addABrandAndLetEveryoneKnowAboutYourBrandAssociations':
+      'Add a brand and let everyone know about your Brand Associations.',
+  'from': 'From',
+  'to': 'To',
+  'fromDate': 'From Date',
+  'present' : 'Present',
+  'toDate' : 'To Date',
+  'awards' : 'Awards',
+  'awardsAssociations' : 'Award Associations',
+  'projects' : 'Projects'
+
+
 };
 
 const TA_TEXT = {
@@ -1154,7 +1183,34 @@ const HI_TEXT = {
   'apni_padhai_jaari_rakein': 'अपनी पढाई जारी रखे',
   'my_quiz': 'मेरी प्रश्नोत्तरी',
   'my_courses': 'मेरे पाठ्यक्रम',
-  'completed': 'पूरा किया हुआ'
+  'completed': 'पूरा किया हुआ',
+  //adding new
+  'branchAssociation': 'Brand Associations',
+  'enterPhoneNumber': 'Enter phone number',
+  'enterValidPhoneNumber': 'Enter valid phone number',
+  'addBrand': 'Add a Brand',
+  'brandName': 'Brand Name',
+  'uploadBrandLogo': 'Upload Brand Logo',
+  'supportedFormat': 'Supported formats',
+  'uploadJoiningLetter': 'Upload Joining Letter',
+  'error': "Error",
+  'pleaseSelectedJoiningLetter': 'Please select joining letter',
+  'pleaseSelectFromDate': "Please select from date",
+  'pleaseSelectValidJoiningDate': "Please select valid joining date.",
+  'areYourSureYouWantToDelete': "Are you sure you want to delete.",
+  'youHaveNotAddedAnyBrandYet': 'You have not added any brand yet',
+  'addABrandAndLetEveryoneKnowAboutYourBrandAssociations':
+      'Add a brand and let everyone know about your Brand Associations.',
+  'from': 'From',
+  'to': 'To',
+  'fromDate': 'From Date',
+  'present' : 'Present',
+  'toDate' : 'To Date',
+  'awards' : 'Awards',
+  'awardsAssociations' : 'Award Associations',
+  'projects' : 'Projects'
+
+
 };
 
 const KN_TEXT = {
