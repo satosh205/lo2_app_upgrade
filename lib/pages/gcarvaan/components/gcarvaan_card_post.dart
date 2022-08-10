@@ -162,6 +162,14 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                               height: 45,
                               width: 45,
                               fit: BoxFit.cover,
+                              errorBuilder: (context, url, error) {
+                                return SvgPicture.asset(
+                                  'assets/images/default_user.svg',
+                                  height: 50,
+                                  width: 50,
+                                  allowDrawingOutsideViewBox: true,
+                                );
+                              },
                               loadingBuilder: (BuildContext context,
                                   Widget child,
                                   ImageChunkEvent? loadingProgress) {
@@ -199,13 +207,20 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                             style: Styles.semibold(size: 14),
                           ),
                         ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(left: 8.0),
+                        //   child: Text(
+                        //     calculateTimeDifferenceBetween(
+                        //         DateTime.parse(
+                        //             date.toString().substring(0, 19)),
+                        //         now),
+                        //     style: Styles.regular(size: 12),
+                        //   ),
+                        // ),
                         Padding(
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Text(
-                            calculateTimeDifferenceBetween(
-                                DateTime.parse(
-                                    date.toString().substring(0, 19)),
-                                now),
+                            '${widget.likeCount} likes',
                             style: Styles.regular(size: 12),
                           ),
                         ),
@@ -764,6 +779,14 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                           height: 50,
                           width: 50,
                           fit: BoxFit.cover,
+                          errorBuilder: (context, url, error) {
+                            return SvgPicture.asset(
+                              'assets/images/default_user.svg',
+                              height: 50,
+                              width: 50,
+                              allowDrawingOutsideViewBox: true,
+                            );
+                          },
                           loadingBuilder: (BuildContext context, Widget child,
                               ImageChunkEvent? loadingProgress) {
                             if (loadingProgress == null) return child;
