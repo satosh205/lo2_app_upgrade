@@ -53,9 +53,12 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
 
   static bool isOpened = false;
   double popupHeight = 300;
+  List<ExpandableController> _expandableController = [
+    ExpandableController(initialExpanded: false)
+  ];
   //expandable controller
-  ExpandableController _expandableController =
-      new ExpandableController(initialExpanded: true);
+  // ExpandableController _expandableController =
+  //     new ExpandableController(initialExpanded: true);
 
   /*ExpandableController additionalInfoController=ExpandableController(
     initialExpanded: isOpened,
@@ -976,17 +979,18 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
               shrinkWrap: true,
               itemCount: trainingDetailProvider.modules!.length,
               itemBuilder: (context, index) {
+                //each value is either 0 or 1 (false or true)
+                int moduleCount = trainingDetailProvider.modules![index].note! +
+                    trainingDetailProvider.modules![index].assignments! +
+                    trainingDetailProvider.modules![index].video! +
+                    trainingDetailProvider.modules![index].assessments!;
+                _expandableController.addAll(List.generate(
+                    moduleCount,
+                    (index) =>
+                        new ExpandableController(initialExpanded: false)));
                 bool isVisible = true;
                 if (isAllSelected == true) {
-                  trainingDetailProvider.modules![index].note! +
-                              trainingDetailProvider
-                                  .modules![index].assignments! +
-                              trainingDetailProvider.modules![index].video! +
-                              trainingDetailProvider
-                                  .modules![index].assessments! ==
-                          0
-                      ? isVisible = false
-                      : isVisible = true;
+                  moduleCount == 0 ? isVisible = false : isVisible = true;
                 } else if (selectedType == 'Classes') {
                   trainingDetailProvider.modules![index].sessions! != 0
                       ? isVisible = true
@@ -1023,9 +1027,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                         theme: ExpandableThemeData(
                           hasIcon: true,
                         ),
-                        controller: index == 0
-                            ? _expandableController
-                            : ExpandableController(initialExpanded: true),
+                        controller: _expandableController[index],
                         header: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1620,6 +1622,8 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
     return Consumer<MyCourseProvider>(
         builder: (context, value, child) => InkWell(
               onTap: () {
+                //added for overflow issue on click
+                isAllSelected = false;
                 if (type == 'learningShots') {
                   if (data!.learningShots!.elementAt(index).contentType ==
                       "notes") {
