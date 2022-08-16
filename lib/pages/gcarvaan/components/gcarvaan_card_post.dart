@@ -594,10 +594,10 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                   : 'assets/images/liked_icon.svg',
                               height: 18.8,
                               width: 17.86,
-                              color:
-                                  widget.value?.isLiked(widget.index) == false
-                                      ? ColorConstants.BLACK
-                                      : ColorConstants().primaryColor(),
+                              // color:
+                              //     widget.value?.isLiked(widget.index) == false
+                              //         ? ColorConstants.BLACK
+                              //         : ColorConstants().primaryColor(),
                               allowDrawingOutsideViewBox: true,
                             ),
                           ),
