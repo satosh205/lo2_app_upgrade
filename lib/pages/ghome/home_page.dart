@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/parser.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:masterg/data/api/api_constants.dart';
 import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
@@ -250,12 +252,10 @@ class _homePageState extends State<homePage> {
                               widget.bottomMenu!.indexOf(widget.bottomMenu![i])
                           ? SvgPicture.asset(
                               '${iconSeleted['${widget.bottomMenu?[i].url}']}',
-                              // color: ColorConstants().primaryColor(),
-                              // allowDrawingOutsideViewBox: true,
-                            )
+                              allowDrawingOutsideViewBox: false,
+                              color: ColorConstants().primaryColor())
                           : SvgPicture.asset(
                               '${iconsUnSelected['${widget.bottomMenu?[i].url}']}',
-                              color: ColorConstants.BLACK,
                               allowDrawingOutsideViewBox: true,
                             ),
                       const SizedBox(

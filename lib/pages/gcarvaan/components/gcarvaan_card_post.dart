@@ -61,7 +61,6 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
   // VideoPlayerController _videoController;
   bool isShowPlaying = false;
   // GlobalKey<FormState> _abcKey = GlobalKey<FormState>();
-  bool? isLiked;
   int? likeCount;
   int currentIndex = 0;
   // Download download = new Download();
@@ -77,7 +76,6 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
   void setValues() {
     // updateLikeandViews(null);
     setState(() {
-      isLiked = widget.islikedPost;
       likeCount = widget.likeCount;
     });
   }
@@ -162,6 +160,14 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                               height: 45,
                               width: 45,
                               fit: BoxFit.cover,
+                              errorBuilder: (context, url, error) {
+                                return SvgPicture.asset(
+                                  'assets/images/default_user.svg',
+                                  height: 50,
+                                  width: 50,
+                                  allowDrawingOutsideViewBox: true,
+                                );
+                              },
                               loadingBuilder: (BuildContext context,
                                   Widget child,
                                   ImageChunkEvent? loadingProgress) {
@@ -561,15 +567,17 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                   InkWell(
                     onTap: () {
                       setState(() {
-                        if (isLiked!) {
+                        if (widget.value?.isLiked(widget.index) == true) {
                           updateLikeandViews(0);
-                          isLiked = false;
-                          likeCount = likeCount! - 1;
+                          widget.value?.updateIsLiked(widget.index, 0);
+
+                          widget.value?.decrementLike(widget.index);
                         } else {
                           updateLikeandViews(1);
 
-                          isLiked = true;
-                          likeCount = likeCount! + 1;
+                          widget.value?.updateIsLiked(widget.index, 1);
+
+                          widget.value?.incrementLike(widget.index);
                         }
                       });
                     },
@@ -581,17 +589,21 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                               right: 4.0,
                             ),
                             child: SvgPicture.asset(
-                              isLiked == false
+                              widget.value?.isLiked(widget.index) == false
                                   ? 'assets/images/like_icon.svg'
                                   : 'assets/images/liked_icon.svg',
                               height: 18.8,
                               width: 17.86,
+                              color:
+                                  widget.value?.isLiked(widget.index) == false
+                                      ? ColorConstants.BLACK
+                                      : ColorConstants().primaryColor(),
                               allowDrawingOutsideViewBox: true,
                             ),
                           ),
                           Text(
                             likeCount != 0
-                                ? '${likeCount} ${Strings.of(context)?.Like}'
+                                ? '${widget.value?.getLikeCount(widget.index)} ${Strings.of(context)?.Like}'
                                 : ' ${Strings.of(context)?.Like}',
                             style: Styles.regular(
                                 size: 12, color: ColorConstants.BLACK),
@@ -761,6 +773,14 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                           height: 50,
                           width: 50,
                           fit: BoxFit.cover,
+                          errorBuilder: (context, url, error) {
+                            return SvgPicture.asset(
+                              'assets/images/default_user.svg',
+                              height: 50,
+                              width: 50,
+                              allowDrawingOutsideViewBox: true,
+                            );
+                          },
                           loadingBuilder: (BuildContext context, Widget child,
                               ImageChunkEvent? loadingProgress) {
                             if (loadingProgress == null) return child;

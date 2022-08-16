@@ -34,7 +34,7 @@ const EN_TEXT = {
   "learnNewEveryday": "Learn New Everyday",
   "topPicksCourses": "Top Picks For you",
   "recommendedCourses": "Courses Recommended for you",
-  "otherLearnerCourses": "Learn what other MasterG's are learning",
+  "otherLearnerCourses": "Learn what other Popular Courses",
   "shortCourses": "Popular Short Courses",
   "highlyRatedCourses": "Highly Rated Courses",
   "myclasses": "My Classes",
@@ -954,7 +954,7 @@ const BN_TEXT = {
 const HI_TEXT = {
   "recommendedCourses": "अनुशंसित पाठ्यक्रम",
   "learnNewEveryday": "हर रोज नया सीखें",
-  "otherLearnerCourses": "जानें कि दूसरे MasterG क्या सीख रहे हैं",
+  "otherLearnerCourses": "जानें कि अन्य लोकप्रिय पाठ्यक्रम क्या हैं",
   "alert": "अलर्ट",
   "login": "लॉग इन करें",
   "logout": "लॉग आउट",
