@@ -253,7 +253,7 @@ class _homePageState extends State<homePage> {
                           ? SvgPicture.asset(
                               '${iconSeleted['${widget.bottomMenu?[i].url}']}',
                               allowDrawingOutsideViewBox: false,
-                              color: ColorConstants().primaryColor())
+                            )
                           : SvgPicture.asset(
                               '${iconsUnSelected['${widget.bottomMenu?[i].url}']}',
                               allowDrawingOutsideViewBox: true,
