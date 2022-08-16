@@ -430,6 +430,18 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                     ],
                                                   ),
                                                   SizedBox(height: 10),
+                                                  CircleAvatar(
+                                                      onBackgroundImageError:
+                                                          (_, __) {
+                                                        // setState(() {
+                                                        //   profileImage = '';
+                                                        // });
+                                                      },
+                                                      backgroundImage:
+                                                          NetworkImage(
+                                                        'https://www.kindpng.com/picc/m/497-4973038_profile-picture-circle-png-transparent-png.png',
+                                                      )),
+                                                  SizedBox(height: 5),
                                                   Text(
                                                     '$trainerName',
                                                     style: Styles.bold(
