@@ -208,6 +208,7 @@ class Sessions {
   String? url;
   String? status;
   String? trainerName;
+  String? trainerProfilePic;
   String? contentType;
 
   Sessions(
@@ -228,6 +229,7 @@ class Sessions {
       this.status,
       this.url,
       this.trainerName,
+      this.trainerProfilePic,
       this.contentType});
 
   Sessions.fromJson(Map<String, dynamic> json) {
@@ -248,6 +250,7 @@ class Sessions {
     url = json['url'];
     status = json['status'];
     trainerName = json['trainer_name'];
+    trainerProfilePic = json['trainer_profile_pic'];
     contentType = json['content_type'];
   }
 
@@ -270,6 +273,7 @@ class Sessions {
     data['url'] = this.url;
     data['status'] = this.status;
     data['trainer_name'] = this.trainerName;
+    data['trainer_profile_pic'] = this.trainerProfilePic;
     data['content_type'] = this.contentType;
     return data;
   }

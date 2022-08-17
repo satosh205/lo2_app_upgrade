@@ -132,7 +132,7 @@ class Strings {
 
   static Strings? of(BuildContext context) {
     // Locale myLocale = Localizations.localeOf(context);
-    // print(myLocale.languageCode);
+    // debugPrint(myLocale.languageCode);
     return Localizations.of<Strings>(context, Strings);
   }
 

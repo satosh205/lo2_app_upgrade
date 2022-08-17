@@ -432,14 +432,11 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                   SizedBox(height: 10),
                                                   CircleAvatar(
                                                       onBackgroundImageError:
-                                                          (_, __) {
-                                                        // setState(() {
-                                                        //   profileImage = '';
-                                                        // });
-                                                      },
+                                                          (_, __) {},
                                                       backgroundImage:
                                                           NetworkImage(
-                                                        'https://www.kindpng.com/picc/m/497-4973038_profile-picture-circle-png-transparent-png.png',
+                                                        selectedData
+                                                            .trainerProfilePic,
                                                       )),
                                                   SizedBox(height: 5),
                                                   Text(
@@ -1092,7 +1089,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                       });
                                     } else {
                                       setState(() {
-                                        print(
+                                        debugPrint(
                                             'check is  $isYoutubeController and ${controller}');
                                         isYoutubeController == true
                                             ? _ytController = controller
