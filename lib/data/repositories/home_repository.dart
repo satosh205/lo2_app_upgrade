@@ -91,16 +91,16 @@ class HomeRepository {
     }
   }
 
-  Future<UserProgramSubscribeRes> subscribeProgram(UserProgramSubscribeReq req) async{
+  Future<UserProgramSubscribeRes> subscribeProgram(
+      UserProgramSubscribeReq req) async {
     final response = await homeProvider.UserSubscribe(subrReq: req);
     if (response!.success) {
       Log.v("User Program Subscribe DATA : ${response.body}");
-      UserProgramSubscribeRes resp = UserProgramSubscribeRes.fromJson(response.body);
-     
- 
+      UserProgramSubscribeRes resp =
+          UserProgramSubscribeRes.fromJson(response.body);
+
       return resp;
     } else {
-     
       return UserProgramSubscribeRes();
     }
   }
@@ -624,12 +624,12 @@ class HomeRepository {
     return null;
   }
 
-
   Future createPortfolio(Map<String, dynamic> data) async {
     final response = await homeProvider.createPortfolio(data);
     if (response!.success) {
       Log.v("Create Portfoio DATA : ${response.body}");
-      CreatePortfolioResponse resp = CreatePortfolioResponse.fromJson(response.body);
+      CreatePortfolioResponse resp =
+          CreatePortfolioResponse.fromJson(response.body);
       return resp;
     } else {
       Log.v("Error ====> ${response.body}");
@@ -671,7 +671,7 @@ class HomeRepository {
     if (response!.success) {
       Log.v("Delete Portfoio DATA : ${response.body}");
       DeletePortfolioResponse resp =
-      DeletePortfolioResponse.fromJson(response.body);
+          DeletePortfolioResponse.fromJson(response.body);
 
       return resp;
     } else {
@@ -685,7 +685,7 @@ class HomeRepository {
     if (response!.success) {
       Log.v("List Portfoio DATA : ${response.body}");
       ListPortfolioResponse resp =
-      ListPortfolioResponse.fromJson(response.body);
+          ListPortfolioResponse.fromJson(response.body);
 
       return resp;
     } else {
@@ -694,4 +694,14 @@ class HomeRepository {
     }
   }
 
+  Future updateVideoCompletion(int bookmark, int contentId) async {
+    final response =
+        await homeProvider.updateVideoCompletion(bookmark, contentId);
+    if (response!.success) {
+      Log.v("Sucess DATA : ${response.body}");
+    } else {
+      Log.v("====> ${response.body}");
+      return;
+    }
+  }
 }

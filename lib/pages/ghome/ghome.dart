@@ -150,11 +150,7 @@ class _GHomeState extends State<GHome> {
                                       child: InkWell(
                                         onTap: () async {
                                           value.enableProviderControl();
-                                          value.pause();
-                                          await Future.delayed(
-                                              Duration(milliseconds: 200));
-
-                                          showModalBottomSheet(
+                                          value.pause().then((value) =>  showModalBottomSheet(
                                               context: context,
                                               backgroundColor:
                                                   ColorConstants.WHITE,
@@ -168,7 +164,10 @@ class _GHomeState extends State<GHome> {
                                                           joyContentListView,
                                                       currentIndex: index,
                                                     ));
-                                              });
+                                              }));
+                                        
+
+                                         ;
                                         },
                                         child: Column(
                                           children: [

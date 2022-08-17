@@ -75,6 +75,8 @@ class ApiConstants {
   static const SUBMMIT_ANSWER = '/api/assessment-onfinish';
   static const ASSESSMENT_REVIEW = '/api/assessment-review/';
   static const ASSIGNMENT_SUBMISSION_DETAILS = '/api/assignmentdetails';
+  static const UPDATE_COURSE_COMPLETION = "/api/program-content-attempt";
+
 
   static const JOY_CATEGORY = "/api/joy/category";
   static const JOY_CONTENT_LIST = "/api/joy/content";

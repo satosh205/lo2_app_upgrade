@@ -4,7 +4,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/providers/assessment_detail_provider.dart';
 import 'package:masterg/data/providers/assignment_detail_provider.dart';
@@ -21,6 +23,7 @@ import 'package:masterg/utils/resource/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../utils/Strings.dart';
@@ -36,6 +39,7 @@ late YoutubePlayerController _ytController;
 double opacityLevel = 1.0;
 
 bool? isYoutubeView;
+int currentMin = 0, prevMin = 0;
 
 class TrainingDetailPage extends StatefulWidget {
   @override
@@ -71,6 +75,23 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
     isAllSelected = true;
     _controller = VideoPlayerController.network('')..initialize().then((_) {});
     _ytController = YoutubePlayerController(initialVideoId: '');
+  }
+
+  void listenVideoChanges(_controller) {
+    _controller.addListener(() {
+      currentMin = _controller.value.position.inMinutes;
+      if (currentMin != 0 && prevMin != currentMin) {
+        prevMin = currentMin;
+        _updateCourseCompletion(currentMin);
+      }
+    });
+  }
+
+  void _updateCourseCompletion(bookmark) async {
+    //change bookmark with 25
+    BlocProvider.of<HomeBloc>(context).add(UpdateVideoCompletionEvent(
+        bookmark: bookmark, contentId: selectedContentId));
+    setState(() {});
   }
 
   @override
@@ -298,55 +319,76 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                               },
                               child: !isNoteView
                                   ? isYoutubeView == true
-                                      ? YoutubePlayer(
-                                          controller: _ytController,
-                                          showVideoProgressIndicator: false,
-                                          bottomActions: [
-                                            CurrentPosition(),
-                                            RemainingDuration(),
-                                            ProgressBar(
-                                              isExpanded: true,
-                                              colors: ProgressBarColors(
-                                                  handleColor: ColorConstants
-                                                      .PRIMARY_COLOR,
-                                                  bufferedColor:
-                                                      ColorConstants.BG_GREY,
-                                                  backgroundColor:
-                                                      ColorConstants
-                                                          .PRIMARY_COLOR
-                                                          .withOpacity(0.3)),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () async {
-                                                // _ytController.pause();
-
-                                                YoutubePlayerController cntrl =
-                                                    _ytController;
-
-                                                _ytController.pause();
-
-                                                await Navigator.push(
-                                                    context,
-                                                    NextPageRoute(
-                                                        FullScreenYoutubePlayer(
-                                                          controller: cntrl,
-                                                        ),
-                                                        isMaintainState:
-                                                            false));
-
-                                                SystemChrome
-                                                    .setPreferredOrientations([
-                                                  DeviceOrientation.portraitUp
-                                                ]);
-                                              },
-                                              child: Icon(
-                                                Icons.fullscreen,
-                                                color: Colors.white,
+                                      ? VisibilityDetector(
+                                          key: Key("urlVideoPlayer"),
+                                          onVisibilityChanged:
+                                              (VisibilityInfo info) {
+                                            if (info.visibleFraction == 1.0) {
+                                              currentMin = 0;
+                                              prevMin = 0;
+                                              listenVideoChanges(_ytController);
+                                            }
+                                          },
+                                          child: YoutubePlayer(
+                                            controller: _ytController,
+                                            showVideoProgressIndicator: false,
+                                            bottomActions: [
+                                              CurrentPosition(),
+                                              RemainingDuration(),
+                                              ProgressBar(
+                                                isExpanded: true,
+                                                colors: ProgressBarColors(
+                                                    handleColor: ColorConstants
+                                                        .PRIMARY_COLOR,
+                                                    bufferedColor:
+                                                        ColorConstants.BG_GREY,
+                                                    backgroundColor:
+                                                        ColorConstants
+                                                            .PRIMARY_COLOR
+                                                            .withOpacity(0.3)),
                                               ),
-                                            )
-                                          ],
+                                              GestureDetector(
+                                                onTap: () async {
+                                                  // _ytController.pause();
+
+                                                  YoutubePlayerController
+                                                      cntrl = _ytController;
+
+                                                  _ytController.pause();
+
+                                                  await Navigator.push(
+                                                      context,
+                                                      NextPageRoute(
+                                                          FullScreenYoutubePlayer(
+                                                            controller: cntrl,
+                                                          ),
+                                                          isMaintainState:
+                                                              false));
+
+                                                  SystemChrome
+                                                      .setPreferredOrientations([
+                                                    DeviceOrientation.portraitUp
+                                                  ]);
+                                                },
+                                                child: Icon(
+                                                  Icons.fullscreen,
+                                                  color: Colors.white,
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         )
-                                      : VideoPlayer(_controller)
+                                      : VisibilityDetector(
+                                          key: Key("urlVideoPlayer"),
+                                          onVisibilityChanged:
+                                              (VisibilityInfo info) {
+                                            if (info.visibleFraction == 1.0) {
+                                              currentMin = 0;
+                                              prevMin = 0;
+                                              listenVideoChanges(_controller);
+                                            }
+                                          },
+                                          child: VideoPlayer(_controller))
                                   : Stack(
                                       children: [
                                         selectedType != 'Assignment' &&
@@ -1155,7 +1197,16 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                     url: '$noteUrl',
                                     callBack: false,
                                   )
-                                : VideoPlayer(_controller),
+                                : VisibilityDetector(
+                                    key: Key("popUpUrlVideoPlayer"),
+                                    onVisibilityChanged: (VisibilityInfo info) {
+                                      if (info.visibleFraction == 1.0) {
+                                        currentMin = 0;
+                                        prevMin = 0;
+                                        listenVideoChanges(_controller);
+                                      }
+                                    },
+                                    child: VideoPlayer(_controller)),
                           ),
 
 // ValueListenableBuilder(

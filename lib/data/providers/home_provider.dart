@@ -1362,4 +1362,35 @@ class HomeProvider {
       //return ApiResponse.failure(e, message: e.response.data["message"]);
     }
   }
+
+
+  Future<ApiResponse?> updateVideoCompletion(int bookmark, int contentId) async {
+    try {
+      Map<String, dynamic> data = Map();
+      data['bookmark'] = bookmark;
+      data['content_id'] = contentId;
+
+      final response = await api.dio.post(ApiConstants.UPDATE_COURSE_COMPLETION,
+          data: FormData.fromMap(data),
+          options: Options(
+              method: 'POST',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+  }
 }

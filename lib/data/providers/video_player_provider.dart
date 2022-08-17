@@ -9,12 +9,14 @@ class VideoPlayerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void pause() {
+  Future<bool> pause() async {
     this.isPlaying = false;
-
     notifyListeners();
+    return true;
+
   }
 
+ 
   void enableProviderControl() {
     providerControlEnable = true;
     notifyListeners();

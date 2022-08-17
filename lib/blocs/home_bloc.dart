@@ -705,6 +705,26 @@ class AnnouncementContentEvent extends HomeEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
+class UpdateVideoCompletionEvent extends HomeEvent {
+  int? bookmark;
+  int? contentId;
+
+  UpdateVideoCompletionEvent({this.bookmark, this.contentId})
+      : super([bookmark, contentId]);
+
+  @override
+  List<Object> get props => throw UnimplementedError();
+}
+
+class UpdateVideoCompletionState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  String? error;
+
+  UpdateVideoCompletionState(this.state, {this.error});
+}
+
 class CreatePostEvent extends HomeEvent {
   int? contentType;
   String? title;
@@ -1450,6 +1470,25 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield ListPortfolioState(
           ApiStatus.ERROR,
         );
+      }
+    } else if (event is UpdateVideoCompletionEvent) {
+      try {
+        yield UpdateVideoCompletionState(ApiStatus.LOADING);
+        final response = await homeRepository.updateVideoCompletion(
+            event.bookmark!, event.contentId!);
+        if (response.status == 1) {
+          yield UpdateVideoCompletionState(
+            ApiStatus.SUCCESS,
+          );
+        } else {
+          Log.v("ERRyyyOR DATA ::: ${response}");
+          yield UpdateVideoCompletionState(ApiStatus.ERROR,
+              error: Strings.somethingWentWrong);
+        }
+      } catch (e) {
+        Log.v("ERROR DATA : $e");
+        yield UpdateVideoCompletionState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
       }
     }
   }
