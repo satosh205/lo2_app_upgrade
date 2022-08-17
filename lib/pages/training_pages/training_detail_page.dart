@@ -436,7 +436,8 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                       backgroundImage:
                                                           NetworkImage(
                                                         selectedData
-                                                            .trainerProfilePic,
+                                                                .trainerProfilePic ??
+                                                            '',
                                                       )),
                                                   SizedBox(height: 5),
                                                   Text(
@@ -1523,6 +1524,9 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                             .first;
                         selectedContentId = list.programContentId;
 
+                        if (list.contentType.toLowerCase() == 'video_yts')
+                          _controller.pause();
+
                         final controller =
                             list.contentType.toLowerCase() == 'video_yts'
                                 ? YoutubePlayerController(
@@ -1630,7 +1634,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
     //1-> empty circle, 2-> green, 3-> red
     return Consumer<MyCourseProvider>(
         builder: (context, value, child) => InkWell(
-              onTap: () {
+              onTap: () async {
                 //added for overflow issue on click
                 isAllSelected = false;
                 if (type == 'learningShots') {
@@ -1650,13 +1654,24 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                     opacityLevel = 0.0;
                     String videoUrl = data.learningShots.elementAt(index).url;
                     selectedType = 'Videos';
+                    if (data!.learningShots!
+                            .elementAt(index)
+                            .contentType
+                            .toLowerCase() ==
+                        'video_yts') {
+                      setState(() {
+                        selectedContentId = null;
+                        isYoutubeView = true;
+                      });
+                      await Future.delayed(Duration(milliseconds: 500));
+                    }
                     final controller = data!.learningShots!
                                 .elementAt(index)
                                 .contentType
                                 .toLowerCase() !=
                             'video_yts'
-                        ? VideoPlayerController.network('$videoUrl')
-                        : YoutubePlayerController(
+                        ? await VideoPlayerController.network('$videoUrl')
+                        : await YoutubePlayerController(
                             initialVideoId:
                                 YoutubePlayer.convertUrlToId('$videoUrl')!,
                             flags: YoutubePlayerFlags(
@@ -1664,6 +1679,12 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                               mute: false,
                             ),
                           );
+
+                    setState(() {
+                      _controller.setVolume(0.0);
+
+                      selectedContentId = programContentId;
+                    });
                     // value.changeController(controller);
 
                     _controller.pause();
