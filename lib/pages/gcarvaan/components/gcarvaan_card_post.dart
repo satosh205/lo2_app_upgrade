@@ -156,7 +156,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                     child: ClipOval(
                       child: widget.profile_path != null
                           ? Image.network(
-                              widget.profile_path!,
+                              widget.profile_path ?? '',
                               height: 45,
                               width: 45,
                               fit: BoxFit.cover,
@@ -769,7 +769,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                       Center(
                         child: ClipOval(
                             child: Image.network(
-                          widget.profile_path!,
+                          widget.profile_path ?? '',
                           height: 50,
                           width: 50,
                           fit: BoxFit.cover,
