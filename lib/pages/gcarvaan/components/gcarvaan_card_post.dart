@@ -602,13 +602,14 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                             ),
                           ),
                           Text(
-                            likeCount != 0
+                            widget.value?.getLikeCount(widget.index) != 0
                                 ? '${widget.value?.getLikeCount(widget.index)} ${Strings.of(context)?.Like}'
                                 : ' ${Strings.of(context)?.Like}',
                             style: Styles.regular(
                                 size: 12, color: ColorConstants.BLACK),
                           ),
-                          if (likeCount! > 1 &&
+                          if (widget.value?.getLikeCount(widget.index) != 0 &&
+                              widget.value?.getLikeCount(widget.index) != 1 &&
                               Preference.getInt(Preference.APP_LANGUAGE) == 1)
                             Text(
                               's',

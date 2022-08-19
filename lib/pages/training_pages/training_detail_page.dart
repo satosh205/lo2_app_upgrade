@@ -217,8 +217,14 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
     } else if (selectedType == 'Classes' && selectedContentId != null) {
       trainerName = selectedData?.trainerName;
 
-      if (selectedData?.liveclassAction.toString().toLowerCase() == 'concluded')
+      if (selectedData?.liveclassAction.toString().toLowerCase() ==
+              'concluded' ||
+          selectedData?.liveclassStatus.toString().toLowerCase() ==
+              'recorded') {
         title = 'View Recording';
+        isButtonActive = false;
+      }
+
       if (selectedData?.liveclassAction.toString().toLowerCase() == 'live' ||
           selectedData?.liveclassAction.toString().toLowerCase() ==
               'join class') {
@@ -1884,7 +1890,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                             ],
                           ),
                           Text(
-                            '$description $time',
+                            '${description.toLowerCase() == 'video_yts' ? 'Video' : description} $time',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             softWrap: false,
