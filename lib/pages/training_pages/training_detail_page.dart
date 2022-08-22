@@ -1089,7 +1089,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                         theme: ExpandableThemeData(
                           hasIcon: true,
                         ),
-                        controller: _expandableController[index],
+                        controller:_expandableController.length > index ? _expandableController[index]:_expandableController[0],
                         header: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
