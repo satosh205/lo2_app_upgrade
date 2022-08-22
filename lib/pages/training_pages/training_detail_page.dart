@@ -38,6 +38,8 @@ late VideoPlayerController _controller;
 late YoutubePlayerController _ytController;
 double opacityLevel = 1.0;
 
+bool showLoading = false;
+
 bool? isYoutubeView;
 int currentMin = 0, prevMin = 0;
 
@@ -295,7 +297,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
       // shrinkWrap: true,
 
       children: [
-        selectedContentId != null
+        selectedContentId != null && showLoading == false
             ? SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.25,
@@ -805,7 +807,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                   ),
                 ),
               )
-            : isAllSelected == true
+            : isAllSelected == true && showLoading == true
                 ? Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * 0.20,
@@ -816,11 +818,13 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * 0.20,
                     color: ColorConstants.WHITE,
-                    child: Center(
-                        child: Text(
-                      'No Content found',
-                      style: Styles.regular(),
-                    )),
+                    child: showLoading == true
+                        ? Center(child: CircularProgressIndicator())
+                        : Center(
+                            child: Text(
+                            'No Content found',
+                            style: Styles.regular(),
+                          )),
                   ),
         if (!isNoteView && isYoutubeView == false)
           VideoProgressIndicator(
@@ -1138,8 +1142,6 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                       });
                                     } else {
                                       setState(() {
-                                        debugPrint(
-                                            'check is  $isYoutubeController and ${controller}');
                                         isYoutubeController == true
                                             ? _ytController = controller
                                             : _controller = controller;
@@ -1150,6 +1152,12 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                             .then((value) => setState(() {
                                                   _controller.play();
                                                 }));
+                                      });
+
+                                      Future.delayed(Duration(seconds: 3), () {
+                                        setState(() {
+                                          showLoading = false;
+                                        });
                                       });
                                     }
                                   },
@@ -1711,17 +1719,19 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                     opacityLevel = 0.0;
                     String videoUrl = data.learningShots.elementAt(index).url;
                     selectedType = 'Videos';
-                    if (data!.learningShots!
-                            .elementAt(index)
-                            .contentType
-                            .toLowerCase() ==
-                        'video_yts') {
-                      setState(() {
-                        selectedContentId = null;
-                        isYoutubeView = true;
-                      });
-                      await Future.delayed(Duration(milliseconds: 500));
-                    }
+                    // if (data!.learningShots!
+                    //         .elementAt(index)
+                    //         .contentType
+                    //         .toLowerCase() ==
+                    //     'video_yts') {
+                    // setState(() {
+                    //   selectedContentId = null;
+                    //   isYoutubeView = false;
+                    // });
+                    // }
+                    setState(() {
+                      showLoading = true;
+                    });
                     final controller = data!.learningShots!
                                 .elementAt(index)
                                 .contentType
@@ -1737,11 +1747,11 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                             ),
                           );
 
-                    setState(() {
-                      _controller.setVolume(0.0);
+                    // setState(() {
+                    //   _controller.setVolume(0.0);
 
-                      selectedContentId = programContentId;
-                    });
+                    //   selectedContentId = programContentId;
+                    // });
                     // value.changeController(controller);
 
                     _controller.pause();
@@ -1758,6 +1768,12 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                               .toLowerCase() ==
                           'video_yts',
                     );
+
+                    await Future.delayed(Duration(seconds: 1), () {
+                      setState(() {
+                        showLoading = false;
+                      });
+                    });
                   }
                 } else if (type == 'assessment') {
                   selectedType = 'Quiz';
