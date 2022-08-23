@@ -275,10 +275,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 context,
                                 NextPageRoute(
                                     TermsAndCondition(
-                                        url:
-                                            'https://learnandbuild.in/privacy-policy/'
-                                        // 'https://qa.learningoxygen.com/policy?organization_id=${orgid}',
-                                        ),
+                                        url: APK_DETAILS['policy_url']),
                                     isMaintainState: false));
                           },
                           child: Text.rich(

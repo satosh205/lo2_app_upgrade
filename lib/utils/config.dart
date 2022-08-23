@@ -10,7 +10,8 @@ const APK_DETAILS = {
   "enable_boarding_screen": "0",
   "splash_image": "masterg_logo.svg",
   "isBrandEnabled": "1",
-  "faqEnabled": "0"
+  "faqEnabled": "0",
+  "policy_url": "https://qa.learningoxygen.com/policy"
 };
 
 // const APK_DETAILS = {
@@ -25,7 +26,9 @@ const APK_DETAILS = {
 //   "enable_boarding_screen": "1",
 //   "splash_image": "logo_lb_1.png",
 //   "isBrandEnabled": "0",
-//   "faqEnabled": "1"
+//   "faqEnabled": "1",
+  // "policy_url" : "https://learnandbuild.in/privacy-policy/"
+
 // };
 
 

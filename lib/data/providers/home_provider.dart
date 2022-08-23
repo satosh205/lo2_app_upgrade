@@ -250,6 +250,44 @@ class HomeProvider {
     return null;
   }
 
+  Future<ApiResponse?> reportContent(
+      int? contentId, String? category, String? comment) async {
+    try {
+      Map<String, dynamic> data = Map();
+      data["user_id"] = UserSession.userToken;
+      data['contentId'] = contentId;
+      data['category'] = category;
+      data['comments'] = comment;
+      final response = await api.dio.post(ApiConstants.REPORT_CONTENT,
+          data: FormData.fromMap(data),
+          options: Options(
+              method: 'POST',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      Log.v("DAta response is ${response.statusCode}");
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return ApiResponse.success(response);
+        // if (response.data.containsKey('error') &&
+        //     (response.data["error"] as List).length != 0) {
+        //   return ApiResponse.error(response.data);
+        // } else {
+        //   return ApiResponse.success(response);
+        // }
+      } else {
+        return ApiResponse.error(response.data);
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+    return null;
+  }
+
   Future<ApiResponse?> getLanguage(int? languageType) async {
     //  Utility.hideKeyboard();
     try {
@@ -1363,8 +1401,8 @@ class HomeProvider {
     }
   }
 
-
-  Future<ApiResponse?> updateVideoCompletion(int bookmark, int contentId) async {
+  Future<ApiResponse?> updateVideoCompletion(
+      int bookmark, int contentId) async {
     try {
       Map<String, dynamic> data = Map();
       data['bookmark'] = bookmark;

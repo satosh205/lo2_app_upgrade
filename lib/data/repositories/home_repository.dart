@@ -149,6 +149,22 @@ class HomeRepository {
     }
   }
 
+  Future reportContent(
+      int? contentId, String? category, String? comment) async {
+    final response =
+        await homeProvider.reportContent(contentId, category, comment);
+    if (response!.success) {
+      Log.v("Report content DATA : ${response.body}");
+      UserProfileResp resp = UserProfileResp.fromJson(response.body);
+      Log.v("Report content DATA : ${resp.toJson()}");
+
+      return resp;
+    } else {
+      Log.v("====> ${response.body}");
+      return;
+    }
+  }
+
   Future<CategoryResp> getCategory() async {
     final response = await homeProvider.getCategorys();
     if (response!.success) {
