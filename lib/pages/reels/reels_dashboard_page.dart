@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -584,7 +585,67 @@ class _RightPanelState extends State<RightPanel> {
                     width: 40,
                     color: ColorConstants.WHITE,
                     allowDrawingOutsideViewBox: true,
-                  ))
+                  )),
+              SizedBox(
+                height: 18,
+              ),
+              GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                      context: context,
+                      backgroundColor: Colors.black,
+                      builder: (context) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Center(
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                margin: EdgeInsets.only(top: 10),
+                                height: 4,
+                                width: 70,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8)),
+                              ),
+                            ),
+                            Container(
+                              child: ListTile(
+                                leading: new Icon(
+                                  Icons.report,
+                                  color: Colors.white,
+                                ),
+                                title: new Text(
+                                  'Report this post',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onTap: () async {},
+                              ),
+                            ),
+                            Container(
+                              child: ListTile(
+                                leading: new Icon(
+                                  Icons.visibility_off,
+                                  color: Colors.white,
+                                ),
+                                title: new Text(
+                                  'Hide this post',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onTap: () async {},
+                              ),
+                            )
+                          ],
+                        );
+                      });
+                },
+                child: Icon(
+                  Icons.more_vert,
+                  color: ColorConstants.WHITE,
+                  size: 40,
+                ),
+              )
             ],
           ))
         ],
@@ -651,8 +712,6 @@ class LikeWidget extends StatelessWidget {
         LikeContentEvent(contentId: contentId, like: like, type: 'contents'));
   }
 }
-
-
 
 class ShowImage extends StatefulWidget {
   final String? path;

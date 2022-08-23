@@ -252,6 +252,10 @@ class _homePageState extends State<homePage> {
                               widget.bottomMenu!.indexOf(widget.bottomMenu![i])
                           ? SvgPicture.asset(
                               '${iconSeleted['${widget.bottomMenu?[i].url}']}',
+                              color: APK_DETAILS['package_name'] ==
+                                      'com.learn_build'
+                                  ? ColorConstants().primaryColor()
+                                  : null,
                               allowDrawingOutsideViewBox: false,
                             )
                           : SvgPicture.asset(

@@ -218,10 +218,62 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                       ],
                     ),
                   ),
-                  /*Icon(
-                    Icons.more_horiz,
-                    color: Colors.black,
-                  )*/ //singh
+                  GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                          context: context,
+                          backgroundColor: Colors.black,
+                          builder: (context) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(10),
+                                    margin: EdgeInsets.only(top: 10),
+                                    height: 4,
+                                    width: 70,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(8)),
+                                  ),
+                                ),
+                                Container(
+                                  child: ListTile(
+                                    leading: new Icon(
+                                      Icons.report,
+                                      color: Colors.white,
+                                    ),
+                                    title: new Text(
+                                      'Report this post',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    onTap: () async {},
+                                  ),
+                                ),
+                                Container(
+                                  child: ListTile(
+                                    leading: new Icon(
+                                      Icons.visibility_off,
+                                      color: Colors.white,
+                                    ),
+                                    title: new Text(
+                                      'Hide this post',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    onTap: () async {},
+                                  ),
+                                )
+                              ],
+                            );
+                          });
+                    },
+                    child: Icon(
+                      Icons.more_vert,
+                      color: ColorConstants.BLACK,
+                    ),
+                  ) //singh
                 ],
               ),
             ),
@@ -831,10 +883,10 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                           ],
                         ),
                       ),
-                      /*Icon(
-                    Icons.more_horiz,
-                    color: Colors.black,
-                  )*/ //singh
+                      // Icon(
+                      //   Icons.more_horiz,
+                      //   color: Colors.black,
+                      // ) //singh
                     ],
                   ),
                 ),
