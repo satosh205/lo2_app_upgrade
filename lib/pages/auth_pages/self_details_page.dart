@@ -150,8 +150,8 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
   }
 
   _makeBody() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
       child: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -232,7 +232,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                 ),
               ),
               SizedBox(
-                height: 50,
+                height: 20,
               ),
               Center(
                   child: Column(children: [
