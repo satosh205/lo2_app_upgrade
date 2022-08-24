@@ -132,12 +132,6 @@ class _UserProfilePageState extends State<UserProfilePage>
   }
 
   void userBrandCreate(int? brandID) {
-    print('========= userBrandCreate =========');
-    print(files);
-    print(fromDateController.text.toString());
-    print(id);
-    print(_masterBrandResponse.data!.id);
-
     BlocProvider.of<HomeBloc>(context).add(UserBrandCreateEvent(
       startDate: fromDateController.text.toString(),
       //startDate: '2021-01-27 00:00:00',
