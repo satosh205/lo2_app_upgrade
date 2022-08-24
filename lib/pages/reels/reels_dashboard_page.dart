@@ -694,8 +694,7 @@ class _RightPanelState extends State<RightPanel> {
                         });
 
                     void reportPost(
-                        int? postId, String comment, String category) {
-                      print('reporting post');
+                        int? postId, String category, String comment) {
                       BlocProvider.of<HomeBloc>(context).add(ReportEvent(
                           postId: postId,
                           comment: comment,

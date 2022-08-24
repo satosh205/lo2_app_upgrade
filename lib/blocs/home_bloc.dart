@@ -1341,7 +1341,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
         final response = await homeRepository.reportContent(
             event.postId, event.category, event.comment);
-        Log.v("response of report is $response");
 
         if (response != null) {
           yield ReportState(ApiStatus.SUCCESS, response: response);

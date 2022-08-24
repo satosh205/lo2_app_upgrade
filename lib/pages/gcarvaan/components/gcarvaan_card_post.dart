@@ -281,6 +281,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                               Log.v("ContentReportState....................");
                               Navigator.pop(context);
                               widget.value?.hidePost(widget.index);
+                            
 
                               Utility.showSnackBar(
                                   scaffoldContext: context,
@@ -1040,8 +1041,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
         contentId: widget.contentId, like: like, type: 'contents'));
   }
 
-  void reportPost(int? postId, String comment, String category) {
-    print('reporting post');
+  void reportPost(int? postId, String category, String comment) {
     BlocProvider.of<HomeBloc>(context)
         .add(ReportEvent(postId: postId, comment: comment, category: category));
   }
