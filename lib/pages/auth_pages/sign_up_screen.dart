@@ -33,7 +33,6 @@ import 'package:path_provider/path_provider.dart';
 
 class SignUpScreen extends StatefulWidget {
   bool isFromProfile;
-  bool? checkedValue = false;
 
   SignUpScreen({this.isFromProfile = false});
 
@@ -230,13 +229,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 .isNotEmpty) {
                               if (phoneController.text.toString().length ==
                                   10) {
-                                if (widget.checkedValue == true)
-                                  doLogin();
-                                else
-                                  Utility.showSnackBar(
-                                      scaffoldContext: context,
-                                      message:
-                                          'Please accept terms and condition.');
+                                doLogin();
                               } else {
                                 Utility.showSnackBar(
                                     scaffoldContext: context,
@@ -268,22 +261,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             )),
                           )),
-                      Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              NextPageRoute(
+                                  TermsAndCondition(
+                                      url: APK_DETAILS['policy_url']),
+                                  isMaintainState: false));
+                        },
+                        child: Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                    text:
+                                        '${Strings.of(context)?.byClickingContinue}',
+                                    style: Styles.regular(size: 10)),
+                                TextSpan(
                                   text:
-                                      '${Strings.of(context)?.byClickingContinue}',
-                                  style: Styles.regular(size: 10)),
-                              TextSpan(
-                                text:
-                                    '${Strings.of(context)?.byClickingContinueUnderline}',
-                                style: Styles.bold(
-                                    size: 10, color: ColorConstants.GREY_2),
-                              ),
-                            ],
-                          ),
-                          textAlign: TextAlign.center),
+                                      '${Strings.of(context)?.byClickingContinueUnderline}',
+                                  style: Styles.bold(
+                                      size: 10, color: ColorConstants.GREY_2),
+                                ),
+                              ],
+                            ),
+                            textAlign: TextAlign.center),
+                      ),
                       Align(
                         alignment: Alignment.center,
                         child: Padding(
