@@ -26,6 +26,7 @@ import 'package:masterg/data/models/response/home_response/onboard_sessions.dart
 import 'package:masterg/data/models/response/home_response/popular_courses_response.dart';
 import 'package:masterg/data/models/response/home_response/post_comment_response.dart';
 import 'package:masterg/data/models/response/home_response/program_list_reponse.dart';
+import 'package:masterg/data/models/response/home_response/report_content_response.dart';
 import 'package:masterg/data/models/response/home_response/save_answer_response.dart';
 import 'package:masterg/data/models/response/home_response/submit_answer_response.dart';
 import 'package:masterg/data/models/response/home_response/test_attempt_response.dart';
@@ -769,6 +770,17 @@ class LikeContentEvent extends HomeEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
+class ReportEvent extends HomeEvent {
+  int? postId;
+  String? category;
+  String? comment;
+
+  ReportEvent({this.postId, this.category, this.comment})
+      : super([postId, category, comment]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
 class LikeContentState extends HomeState {
   ApiStatus state;
 
@@ -777,6 +789,16 @@ class LikeContentState extends HomeState {
   LikeContentState(
     this.state,
   );
+}
+
+class ReportState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  ReportContentResp? response;
+  String? error;
+
+  ReportState(this.state, {this.response, this.error});
 }
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
@@ -1310,6 +1332,26 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       } catch (e) {
         Log.v("ERROR DATA is : $e");
         yield LikeContentState(
+          ApiStatus.ERROR,
+        );
+      }
+    } else if (event is ReportEvent) {
+      try {
+        yield ReportState(ApiStatus.LOADING);
+
+        final response = await homeRepository.reportContent(
+            event.postId, event.category, event.comment);
+
+        if (response != null) {
+          yield ReportState(ApiStatus.SUCCESS, response: response);
+        } else {
+          yield ReportState(
+            ApiStatus.ERROR,
+          );
+        }
+      } catch (e) {
+        Log.v("ERROR DATA is : $e");
+        yield ReportState(
           ApiStatus.ERROR,
         );
       }

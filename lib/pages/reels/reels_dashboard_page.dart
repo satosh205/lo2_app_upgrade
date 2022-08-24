@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,6 +17,8 @@ import 'package:masterg/pages/reels/widgets/left_panel.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:masterg/utils/utility.dart';
+import 'package:masterg/utils/widget_size.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:video_player/video_player.dart';
@@ -220,6 +223,7 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
             viewCount: greelsList.list![index].viewCount ?? 0,
             createdAt: greelsList.list![index].createdAt.toString(),
             greelsModel: greelsList,
+            index: index,
           );
 
           // return;
@@ -273,6 +277,7 @@ class VideoPlayerItem extends StatefulWidget {
   final int? viewCount;
   final String? createdAt;
   final GReelsModel? greelsModel;
+  final int? index;
   VideoPlayerItem(
       {Key? key,
       required this.size,
@@ -288,6 +293,7 @@ class VideoPlayerItem extends StatefulWidget {
       this.contentId,
       this.viewCount,
       this.createdAt,
+      this.index,
       this.greelsModel})
       : super(key: key);
 
@@ -494,6 +500,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
                                             isLiked: widget.isLiked,
                                             contentId: widget.contentId,
                                             greelsModel: widget.greelsModel,
+                                            index: widget.index,
                                           ),
                                         )
                                       ],
@@ -524,6 +531,7 @@ class RightPanel extends StatefulWidget {
   final String? albumImg;
   final bool? isLiked;
   final int? contentId;
+  final int? index;
   final GReelsModel? greelsModel;
 
   const RightPanel(
@@ -537,6 +545,7 @@ class RightPanel extends StatefulWidget {
       this.isLiked,
       this.contentId,
       this.greelsModel,
+      this.index,
       required this.mContext})
       : super(key: key);
 
@@ -584,7 +593,396 @@ class _RightPanelState extends State<RightPanel> {
                     width: 40,
                     color: ColorConstants.WHITE,
                     allowDrawingOutsideViewBox: true,
-                  ))
+                  )),
+              SizedBox(
+                height: 18,
+              ),
+              GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                      context: context,
+                      backgroundColor: Colors.black,
+                      builder: (context) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Center(
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                margin: EdgeInsets.only(top: 10),
+                                height: 4,
+                                width: 70,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8)),
+                              ),
+                            ),
+                            Container(
+                              child: ListTile(
+                                leading: new Icon(
+                                  Icons.report,
+                                  color: Colors.white,
+                                ),
+                                title: new Text(
+                                  'Report this post',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onTap: () async {},
+                              ),
+                            ),
+                            Container(
+                              child: ListTile(
+                                leading: new Icon(
+                                  Icons.visibility_off,
+                                  color: Colors.white,
+                                ),
+                                title: new Text(
+                                  'Hide this post',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onTap: () async {},
+                              ),
+                            )
+                          ],
+                        );
+                      });
+                },
+                child: GestureDetector(
+                  onTap: () async {
+                    bool reportPostFormEnabled = false;
+                    bool reportInprogress = false;
+                    await showModalBottomSheet(
+                        context: context,
+                        backgroundColor: Colors.black,
+                        builder: (context) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Center(
+                                child: Container(
+                                  padding: EdgeInsets.all(10),
+                                  margin: EdgeInsets.only(top: 10),
+                                  height: 4,
+                                  width: 70,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8)),
+                                ),
+                              ),
+                              Container(
+                                child: ListTile(
+                                  leading: new Icon(
+                                    Icons.report,
+                                    color: Colors.white,
+                                  ),
+                                  title: new Text(
+                                    'Report this post',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  onTap: () {
+                                    setState(() {
+                                      reportPostFormEnabled = true;
+                                    });
+                                    return Navigator.pop(context);
+                                  },
+                                ),
+                              ),
+                            ],
+                          );
+                        });
+
+                    void reportPost(
+                        int? postId, String category, String comment) {
+                      BlocProvider.of<HomeBloc>(context).add(ReportEvent(
+                          postId: postId,
+                          comment: comment,
+                          category: category));
+                    }
+
+                    void _handleReport(ReportState state) {
+                      var reportState = state;
+                      setState(() {
+                        switch (reportState.apiState) {
+                          case ApiStatus.LOADING:
+                            Log.v(
+                                "ContentReportState Loading....................");
+                            reportInprogress = true;
+                            break;
+                          case ApiStatus.SUCCESS:
+                            Log.v("ContentReportState....................");
+                            Navigator.pop(context);
+                            // widget.greelsModel?.hidePost(widget.index);
+
+                            Utility.showSnackBar(
+                                scaffoldContext: context,
+                                message: '${reportState.response?.message}');
+                            reportInprogress = false;
+                            break;
+                          case ApiStatus.ERROR:
+                            Log.v(
+                                "ContentReportState error....................");
+                            reportInprogress = false;
+                            break;
+                          case ApiStatus.INITIAL:
+                            break;
+                        }
+                      });
+                    }
+
+                    if (reportPostFormEnabled) {
+                      bool showTextField = false;
+                      TextEditingController reportController =
+                          TextEditingController();
+
+                      showModalBottomSheet(
+                          context: context,
+                          backgroundColor: Colors.black,
+                          builder: (BuildContext context) {
+                            return FractionallySizedBox(
+                              heightFactor: 1,
+                              child: BlocManager(
+                                initState: (BuildContext context) {},
+                                child: BlocListener<HomeBloc, HomeState>(
+                                  listener: (BuildContext context, state) {
+                                    if (state is ReportState) {
+                                      _handleReport(state);
+                                    }
+                                  },
+                                  child: BottomSheet(
+                                      onClosing: () {},
+                                      builder: (BuildContext context) {
+                                        return StatefulBuilder(
+                                          builder: (BuildContext context,
+                                                  setState) =>
+                                              SingleChildScrollView(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                Center(
+                                                  child: Container(
+                                                    padding: EdgeInsets.all(10),
+                                                    margin: EdgeInsets.only(
+                                                        top: 10),
+                                                    height: 4,
+                                                    width: 70,
+                                                    decoration: BoxDecoration(
+                                                        color: ColorConstants
+                                                            .GREY_4,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8)),
+                                                  ),
+                                                ),
+                                                Center(
+                                                  child: Text(
+                                                    'Report',
+                                                    style: Styles.bold(),
+                                                  ),
+                                                ),
+                                                Divider(),
+                                                Text(
+                                                    'Why are you reporting this post?',
+                                                    style: Styles.regular(
+                                                        color: ColorConstants
+                                                            .WHITE)),
+                                                if (showTextField == false)
+                                                  SingleChildScrollView(
+                                                    child: Column(
+                                                      children: [
+                                                        ListTile(
+                                                            onTap: () {
+                                                              reportPost(
+                                                                  widget
+                                                                      .contentId,
+                                                                  'spam',
+                                                                  reportController
+                                                                      .value
+                                                                      .text);
+                                                            },
+                                                            title: Text(
+                                                                'It\'s Spam')),
+                                                        ListTile(
+                                                            onTap: () {
+                                                              reportPost(
+                                                                  widget
+                                                                      .contentId,
+                                                                  'Nudity or sexual activity',
+                                                                  reportController
+                                                                      .value
+                                                                      .text);
+                                                            },
+                                                            title: Text(
+                                                                'Nudity or sexual activity')),
+                                                        ListTile(
+                                                            onTap: () {
+                                                              reportPost(
+                                                                  widget
+                                                                      .contentId,
+                                                                  'Hate speech of symbols',
+                                                                  reportController
+                                                                      .value
+                                                                      .text);
+                                                            },
+                                                            title: Text(
+                                                                'Hate speech of symbols')),
+                                                        ListTile(
+                                                            onTap: () {
+                                                              reportPost(
+                                                                  widget
+                                                                      .contentId,
+                                                                  'Violence or dangerous organizations',
+                                                                  reportController
+                                                                      .value
+                                                                      .text);
+                                                            },
+                                                            title: Text(
+                                                                'Violence or dangerous organizations')),
+                                                        ListTile(
+                                                            onTap: () {
+                                                              reportPost(
+                                                                  widget
+                                                                      .contentId,
+                                                                  'Bullying or harassment',
+                                                                  reportController
+                                                                      .value
+                                                                      .text);
+                                                            },
+                                                            title: Text(
+                                                                'Bullying or harassment')),
+                                                        ListTile(
+                                                            onTap: () {
+                                                              reportPost(
+                                                                  widget
+                                                                      .contentId,
+                                                                  'False information',
+                                                                  reportController
+                                                                      .value
+                                                                      .text);
+                                                            },
+                                                            title: Text(
+                                                                'False information')),
+                                                        ListTile(
+                                                            onTap: () {
+                                                              reportPost(
+                                                                  widget
+                                                                      .contentId,
+                                                                  'Scam or fraud',
+                                                                  reportController
+                                                                      .value
+                                                                      .text);
+                                                            },
+                                                            title: Text(
+                                                                'Scam or fraud')),
+                                                        ListTile(
+                                                            onTap: () {
+                                                              setState(() {
+                                                                showTextField =
+                                                                    true;
+                                                              });
+                                                            },
+                                                            title: Text(
+                                                                'Something else')),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                if (showTextField == true)
+                                                  Container(
+                                                    margin:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 14,
+                                                            vertical: 8),
+                                                    child:
+                                                        SingleChildScrollView(
+                                                      child: Column(
+                                                        children: [
+                                                          TextFormField(
+                                                            controller:
+                                                                reportController,
+                                                            style: Styles.bold(
+                                                              size: 14,
+                                                            ),
+                                                            decoration:
+                                                                InputDecoration(
+                                                              hintText:
+                                                                  'What are you trying to report?',
+                                                              isDense: true,
+                                                              helperStyle: Styles.regular(
+                                                                  size: 12,
+                                                                  color: ColorConstants
+                                                                      .GREY_3
+                                                                      .withOpacity(
+                                                                          0.1)),
+                                                              counterText: "",
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 20,
+                                                          ),
+                                                          InkWell(
+                                                              onTap: () {
+                                                                reportPost(
+                                                                    widget
+                                                                        .contentId,
+                                                                    '',
+                                                                    reportController
+                                                                        .value
+                                                                        .text);
+                                                              },
+                                                              child: Container(
+                                                                margin: EdgeInsets
+                                                                    .symmetric(
+                                                                        vertical:
+                                                                            12),
+                                                                width: double
+                                                                    .infinity,
+                                                                height: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .height *
+                                                                    WidgetSize
+                                                                        .AUTH_BUTTON_SIZE,
+                                                                decoration: BoxDecoration(
+                                                                    color: ColorConstants()
+                                                                        .buttonColor(),
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10)),
+                                                                child: Center(
+                                                                    child: Text(
+                                                                  'Submit',
+                                                                  style: Styles
+                                                                      .regular(
+                                                                    color: ColorConstants
+                                                                        .WHITE,
+                                                                  ),
+                                                                )),
+                                                              )),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  )
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      }),
+                                ),
+                              ),
+                            );
+                          });
+                    }
+                  },
+                  child: Icon(
+                    Icons.more_vert,
+                    color: ColorConstants.WHITE,
+                    size: 40,
+                  ),
+                ),
+              )
             ],
           ))
         ],
@@ -651,8 +1049,6 @@ class LikeWidget extends StatelessWidget {
         LikeContentEvent(contentId: contentId, like: like, type: 'contents'));
   }
 }
-
-
 
 class ShowImage extends StatefulWidget {
   final String? path;

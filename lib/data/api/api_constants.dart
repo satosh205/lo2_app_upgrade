@@ -88,6 +88,7 @@ class ApiConstants {
   static const GCARVAAN_POST = "/api/carvan";
   static const GREELS_POST = "/api/reels";
   static const LIKE_CONTENT = "/api/user-view-tracking";
+  static const REPORT_CONTENT = "/api/post-report";
   static const CREATE_PORTFOLIO = "/api/create-portfolio";
   static const USER_BRAND_CREATE = "/api/user-brand-create";
   static const MASTER_BRAND_CREATE = "/api/master-brand-create";

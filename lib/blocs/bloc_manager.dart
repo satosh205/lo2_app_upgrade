@@ -20,7 +20,6 @@ class _BlocManagerState extends State<BlocManager> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    Log.v("didChangeDependencies $_didDependenciesChangeCalled");
     if (!_didDependenciesChangeCalled) {
       widget.initState(context);
     }

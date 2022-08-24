@@ -267,29 +267,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               context,
                               NextPageRoute(
                                   TermsAndCondition(
-                                      url:
-                                          'https://learnandbuild.in/privacy-policy/'
-                                      // 'https://qa.learningoxygen.com/policy?organization_id=${orgid}',
-                                      ),
+                                      url: APK_DETAILS['policy_url']),
                                   isMaintainState: false));
                         },
                         child: Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                    text:
+                                        '${Strings.of(context)?.byClickingContinue}',
+                                    style: Styles.regular(size: 10)),
+                                TextSpan(
                                   text:
-                                      '${Strings.of(context)?.byClickingContinue}',
-                                  style: Styles.regular(size: 10)),
-                              TextSpan(
-                                text:
-                                    '${Strings.of(context)?.byClickingContinueUnderline}',
-                                style: Styles.bold(
-                                    size: 10, color: ColorConstants.GREY_2),
-                              ),
-                            ],
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+                                      '${Strings.of(context)?.byClickingContinueUnderline}',
+                                  style: Styles.bold(
+                                      size: 10, color: ColorConstants.GREY_2),
+                                ),
+                              ],
+                            ),
+                            textAlign: TextAlign.center),
                       ),
                       Align(
                         alignment: Alignment.center,

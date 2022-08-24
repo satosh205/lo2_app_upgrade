@@ -56,7 +56,6 @@ class VideoPlayerState extends State<CustomVideoPlayer> {
   @override
   void initState() {
     super.initState();
-    print('=======widget.autoPlay=========');
     print(widget.autoPlay);
 
     controller = widget.isLocalVideo
@@ -76,7 +75,6 @@ class VideoPlayerState extends State<CustomVideoPlayer> {
     flickManager!.flickDisplayManager!
         .handleShowPlayerControls(showWithTimeout: false);
 
-    print('object ==== controller');
     print(controller.value.aspectRatio);
   }
 
