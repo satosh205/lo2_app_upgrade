@@ -268,42 +268,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             )),
                           )),
-                      CheckboxListTile(
-                        title: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                NextPageRoute(
-                                    TermsAndCondition(
-                                        url: APK_DETAILS['policy_url']),
-                                    isMaintainState: false));
-                          },
-                          child: Text.rich(
+                      Text.rich(
+                          TextSpan(
+                            children: [
                               TextSpan(
-                                children: [
-                                  TextSpan(
-                                      text:
-                                          '${Strings.of(context)?.byClickingContinue}',
-                                      style: Styles.regular(size: 10)),
-                                  TextSpan(
-                                    text:
-                                        '${Strings.of(context)?.byClickingContinueUnderline}',
-                                    style: Styles.bold(
-                                        size: 10, color: ColorConstants.GREY_2),
-                                  ),
-                                ],
+                                  text:
+                                      '${Strings.of(context)?.byClickingContinue}',
+                                  style: Styles.regular(size: 10)),
+                              TextSpan(
+                                text:
+                                    '${Strings.of(context)?.byClickingContinueUnderline}',
+                                style: Styles.bold(
+                                    size: 10, color: ColorConstants.GREY_2),
                               ),
-                              textAlign: TextAlign.left),
-                        ),
-                        value: widget.checkedValue,
-                        onChanged: (newValue) {
-                          setState(() {
-                            widget.checkedValue = newValue;
-                          });
-                        },
-                        controlAffinity: ListTileControlAffinity
-                            .leading, //  <-- leading Checkbox
-                      ),
+                            ],
+                          ),
+                          textAlign: TextAlign.center),
                       Align(
                         alignment: Alignment.center,
                         child: Padding(

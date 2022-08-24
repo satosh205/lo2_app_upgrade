@@ -14,6 +14,7 @@ import 'package:masterg/data/models/response/auth_response/login_by_id_response.
 import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/auth_pages/select_interest.dart';
+import 'package:masterg/pages/auth_pages/terms_and_condition_page.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
@@ -21,6 +22,7 @@ import 'package:masterg/pages/user_profile_page/mobile_ui_helper.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
+import 'package:masterg/utils/config.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/widget_size.dart';
 
@@ -41,6 +43,8 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
   final phoneController = TextEditingController();
   final fullNameController = TextEditingController();
   final emailController = TextEditingController();
+  bool? checkedValue = false;
+
   String? selectedImage;
   List<LoginByIdResp>? loginResp;
   late AnimationController controller;
@@ -79,28 +83,68 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
             )),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
-            floatingActionButton: InkWell(
-                onTap: () {
-                  saveChanges();
-                },
-                child: Container(
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height *
-                      WidgetSize.AUTH_BUTTON_SIZE,
-                  margin: EdgeInsets.symmetric(vertical: 2, horizontal: 16),
-                  decoration: BoxDecoration(
-                      color: phoneController.value.text.length != 10
-                          ? Color(0xffFDE5AD)
-                          : ColorConstants().buttonColor(),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Center(
-                      child: Text(
-                    '${Strings.of(context)?.continueStr}',
-                    style: Styles.regular(
-                      color: ColorConstants.BLACK,
-                    ),
-                  )),
-                )),
+            floatingActionButton: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                CheckboxListTile(
+                  title: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          NextPageRoute(
+                              TermsAndCondition(url: APK_DETAILS['policy_url']),
+                              isMaintainState: false));
+                    },
+                    child: Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                                text:
+                                    '${Strings.of(context)?.byClickingContinue}',
+                                style: Styles.regular(size: 10)),
+                            TextSpan(
+                              text:
+                                  '${Strings.of(context)?.byClickingContinueUnderline}',
+                              style: Styles.bold(
+                                  size: 10, color: ColorConstants.GREY_2),
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign.left),
+                  ),
+                  value: checkedValue,
+                  onChanged: (newValue) {
+                    setState(() {
+                      checkedValue = newValue;
+                    });
+                  },
+                  controlAffinity:
+                      ListTileControlAffinity.leading, //  <-- leading Checkbox
+                ),
+                InkWell(
+                    onTap: () {
+                      if (checkedValue == true) saveChanges();
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: MediaQuery.of(context).size.height *
+                          WidgetSize.AUTH_BUTTON_SIZE,
+                      margin: EdgeInsets.symmetric(vertical: 2, horizontal: 16),
+                      decoration: BoxDecoration(
+                          color: checkedValue == false
+                              ? Color(0xffFDE5AD)
+                              : ColorConstants().buttonColor(),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Center(
+                          child: Text(
+                        '${Strings.of(context)?.continueStr}',
+                        style: Styles.regular(
+                          color: ColorConstants.BLACK,
+                        ),
+                      )),
+                    )),
+              ],
+            ),
           ),
         ));
   }
