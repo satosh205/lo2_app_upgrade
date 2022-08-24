@@ -248,7 +248,8 @@ class _MyCoursesState extends State<MyCourses> {
                                                         .completionPer! /
                                                     100),
                                             decoration: BoxDecoration(
-                                                color: ColorConstants.ORANGE,
+                                                color: ColorConstants()
+                                                    .primaryColor(),
                                                 borderRadius:
                                                     BorderRadius.circular(10)),
                                           ),
@@ -266,10 +267,26 @@ class _MyCoursesState extends State<MyCourses> {
           )
         : _isCourseList1Loading == true
             ? CardLoader()
-            : Center(
-                child: Text(
-                errorMessage ?? ' No Active Courses',
-                style: Styles.bold(size: 16),
-              ));
+            : courseList1 != null && courseList1!.length == 0
+                ? Container(
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+                    child: Column(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/images/instructor_icon.svg',
+                          height: 100.0,
+                          width: 100.0,
+                          allowDrawingOutsideViewBox: true,
+                        ),
+                        Text(
+                            'You do not have any classes yet, Subscribe to a course to get started.')
+                      ],
+                    ),
+                  )
+                : Center(
+                    child: Text(
+                    errorMessage ?? ' No Active Courses',
+                    style: Styles.bold(size: 16),
+                  ));
   }
 }

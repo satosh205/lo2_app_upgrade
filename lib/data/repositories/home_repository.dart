@@ -27,6 +27,7 @@ import 'package:masterg/data/models/response/home_response/onboard_sessions.dart
 import 'package:masterg/data/models/response/home_response/popular_courses_response.dart';
 import 'package:masterg/data/models/response/home_response/post_comment_response.dart';
 import 'package:masterg/data/models/response/home_response/program_list_reponse.dart';
+import 'package:masterg/data/models/response/home_response/report_content_response.dart';
 import 'package:masterg/data/models/response/home_response/save_answer_response.dart';
 import 'package:masterg/data/models/response/home_response/submit_answer_response.dart';
 import 'package:masterg/data/models/response/home_response/test_attempt_response.dart';
@@ -91,16 +92,16 @@ class HomeRepository {
     }
   }
 
-  Future<UserProgramSubscribeRes> subscribeProgram(UserProgramSubscribeReq req) async{
+  Future<UserProgramSubscribeRes> subscribeProgram(
+      UserProgramSubscribeReq req) async {
     final response = await homeProvider.UserSubscribe(subrReq: req);
     if (response!.success) {
       Log.v("User Program Subscribe DATA : ${response.body}");
-      UserProgramSubscribeRes resp = UserProgramSubscribeRes.fromJson(response.body);
-     
- 
+      UserProgramSubscribeRes resp =
+          UserProgramSubscribeRes.fromJson(response.body);
+
       return resp;
     } else {
-     
       return UserProgramSubscribeRes();
     }
   }
@@ -146,6 +147,21 @@ class HomeRepository {
     } else {
       Log.v("====> ${response.body}");
       return;
+    }
+  }
+
+  Future<ReportContentResp> reportContent(
+      int? contentId, String? category, String? comment) async {
+    final response =
+        await homeProvider.reportContent(contentId, category, comment);
+    if (response!.success) {
+      Log.v("Report content DATA : ${response.body}");
+      ReportContentResp resp = ReportContentResp.fromJson(response.body);
+
+      return resp;
+    } else {
+      Log.v("====> ${response.body}");
+      return ReportContentResp(status: 0, message: 'error');
     }
   }
 
@@ -624,12 +640,12 @@ class HomeRepository {
     return null;
   }
 
-
   Future createPortfolio(Map<String, dynamic> data) async {
     final response = await homeProvider.createPortfolio(data);
     if (response!.success) {
       Log.v("Create Portfoio DATA : ${response.body}");
-      CreatePortfolioResponse resp = CreatePortfolioResponse.fromJson(response.body);
+      CreatePortfolioResponse resp =
+          CreatePortfolioResponse.fromJson(response.body);
       return resp;
     } else {
       Log.v("Error ====> ${response.body}");
@@ -671,7 +687,7 @@ class HomeRepository {
     if (response!.success) {
       Log.v("Delete Portfoio DATA : ${response.body}");
       DeletePortfolioResponse resp =
-      DeletePortfolioResponse.fromJson(response.body);
+          DeletePortfolioResponse.fromJson(response.body);
 
       return resp;
     } else {
@@ -685,7 +701,7 @@ class HomeRepository {
     if (response!.success) {
       Log.v("List Portfoio DATA : ${response.body}");
       ListPortfolioResponse resp =
-      ListPortfolioResponse.fromJson(response.body);
+          ListPortfolioResponse.fromJson(response.body);
 
       return resp;
     } else {
@@ -694,4 +710,14 @@ class HomeRepository {
     }
   }
 
+  Future updateVideoCompletion(int bookmark, int contentId) async {
+    final response =
+        await homeProvider.updateVideoCompletion(bookmark, contentId);
+    if (response!.success) {
+      Log.v("Sucess DATA : ${response.body}");
+    } else {
+      Log.v("====> ${response.body}");
+      return;
+    }
+  }
 }

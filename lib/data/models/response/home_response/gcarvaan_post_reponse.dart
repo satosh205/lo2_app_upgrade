@@ -263,8 +263,32 @@ class GCarvaanListModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  // void updateHive() {
-  //   var box = Hive.box("content");
-  //   box.put("gcarvaan_post", _list.map((e) => e.toJson()).toList());
-  // }
+  int getLikeCount(index) {
+    return _list![index].likeCount;
+  }
+
+  void incrementLike(index) {
+    _list![index].likeCount++;
+    notifyListeners();
+  }
+
+  void decrementLike(index) {
+    _list![index].likeCount--;
+    notifyListeners();
+  }
+
+  bool isLiked(index) {
+    return _list![index].userLiked == 1;
+  }
+
+  void updateIsLiked(index, int liked) {
+    _list![index].userLiked = liked;
+    notifyListeners();
+  }
+
+  void hidePost(index) {
+    _list?.removeAt(index);
+    this._list = _list;
+    notifyListeners();
+  }
 }

@@ -54,8 +54,8 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
 
   @override
   Widget build(BuildContext context) {
-    String appBarImagePath = 'assets/images/${APK_DETAILS['splash_image']}';
-
+    String appBarImagePath = 'assets/images/${APK_DETAILS['theme_image_url']}';
+    print(appBarImagePath);
     return BlocManager(
       initState: (context) {},
       child: BlocListener<HomeBloc, HomeState>(
@@ -84,7 +84,8 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                           )
                         : Image.asset(
                             appBarImagePath,
-                            fit: BoxFit.cover,
+                            height: 150,
+                            width: 150,
                           ),
                     SizedBox(height: 40),
                     Center(

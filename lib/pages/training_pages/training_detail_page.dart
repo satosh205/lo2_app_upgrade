@@ -4,7 +4,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/providers/assessment_detail_provider.dart';
 import 'package:masterg/data/providers/assignment_detail_provider.dart';
@@ -21,6 +23,7 @@ import 'package:masterg/utils/resource/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../utils/Strings.dart';
@@ -35,7 +38,10 @@ late VideoPlayerController _controller;
 late YoutubePlayerController _ytController;
 double opacityLevel = 1.0;
 
+bool showLoading = false;
+
 bool? isYoutubeView;
+int currentMin = 0, prevMin = 0;
 
 class TrainingDetailPage extends StatefulWidget {
   @override
@@ -53,9 +59,12 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
 
   static bool isOpened = false;
   double popupHeight = 300;
+  List<ExpandableController> _expandableController = [
+    ExpandableController(initialExpanded: false)
+  ];
   //expandable controller
-  ExpandableController _expandableController =
-      new ExpandableController(initialExpanded: true);
+  // ExpandableController _expandableController =
+  //     new ExpandableController(initialExpanded: true);
 
   /*ExpandableController additionalInfoController=ExpandableController(
     initialExpanded: isOpened,
@@ -68,6 +77,23 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
     isAllSelected = true;
     _controller = VideoPlayerController.network('')..initialize().then((_) {});
     _ytController = YoutubePlayerController(initialVideoId: '');
+  }
+
+  void listenVideoChanges(_controller) {
+    _controller.addListener(() {
+      currentMin = _controller.value.position.inMinutes;
+      if (currentMin != 0 && prevMin != currentMin) {
+        prevMin = currentMin;
+        _updateCourseCompletion(currentMin);
+      }
+    });
+  }
+
+  void _updateCourseCompletion(bookmark) async {
+    //change bookmark with 25
+    BlocProvider.of<HomeBloc>(context).add(UpdateVideoCompletionEvent(
+        bookmark: bookmark, contentId: selectedContentId));
+    setState(() {});
   }
 
   @override
@@ -193,8 +219,14 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
     } else if (selectedType == 'Classes' && selectedContentId != null) {
       trainerName = selectedData?.trainerName;
 
-      if (selectedData?.liveclassAction.toString().toLowerCase() == 'concluded')
+      if (selectedData?.liveclassAction.toString().toLowerCase() ==
+              'concluded' ||
+          selectedData?.liveclassStatus.toString().toLowerCase() ==
+              'recorded') {
         title = 'View Recording';
+        isButtonActive = false;
+      }
+
       if (selectedData?.liveclassAction.toString().toLowerCase() == 'live' ||
           selectedData?.liveclassAction.toString().toLowerCase() ==
               'join class') {
@@ -265,7 +297,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
       // shrinkWrap: true,
 
       children: [
-        selectedContentId != null
+        selectedContentId != null && showLoading == false
             ? SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.25,
@@ -295,55 +327,76 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                               },
                               child: !isNoteView
                                   ? isYoutubeView == true
-                                      ? YoutubePlayer(
-                                          controller: _ytController,
-                                          showVideoProgressIndicator: false,
-                                          bottomActions: [
-                                            CurrentPosition(),
-                                            RemainingDuration(),
-                                            ProgressBar(
-                                              isExpanded: true,
-                                              colors: ProgressBarColors(
-                                                  handleColor: ColorConstants
-                                                      .PRIMARY_COLOR,
-                                                  bufferedColor:
-                                                      ColorConstants.BG_GREY,
-                                                  backgroundColor:
-                                                      ColorConstants
-                                                          .PRIMARY_COLOR
-                                                          .withOpacity(0.3)),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () async {
-                                                // _ytController.pause();
-
-                                                YoutubePlayerController cntrl =
-                                                    _ytController;
-
-                                                _ytController.pause();
-
-                                                await Navigator.push(
-                                                    context,
-                                                    NextPageRoute(
-                                                        FullScreenYoutubePlayer(
-                                                          controller: cntrl,
-                                                        ),
-                                                        isMaintainState:
-                                                            false));
-
-                                                SystemChrome
-                                                    .setPreferredOrientations([
-                                                  DeviceOrientation.portraitUp
-                                                ]);
-                                              },
-                                              child: Icon(
-                                                Icons.fullscreen,
-                                                color: Colors.white,
+                                      ? VisibilityDetector(
+                                          key: Key("urlVideoPlayer"),
+                                          onVisibilityChanged:
+                                              (VisibilityInfo info) {
+                                            if (info.visibleFraction == 1.0) {
+                                              currentMin = 0;
+                                              prevMin = 0;
+                                              listenVideoChanges(_ytController);
+                                            }
+                                          },
+                                          child: YoutubePlayer(
+                                            controller: _ytController,
+                                            showVideoProgressIndicator: false,
+                                            bottomActions: [
+                                              CurrentPosition(),
+                                              RemainingDuration(),
+                                              ProgressBar(
+                                                isExpanded: true,
+                                                colors: ProgressBarColors(
+                                                    handleColor: ColorConstants
+                                                        .PRIMARY_COLOR,
+                                                    bufferedColor:
+                                                        ColorConstants.BG_GREY,
+                                                    backgroundColor:
+                                                        ColorConstants
+                                                            .PRIMARY_COLOR
+                                                            .withOpacity(0.3)),
                                               ),
-                                            )
-                                          ],
+                                              GestureDetector(
+                                                onTap: () async {
+                                                  // _ytController.pause();
+
+                                                  YoutubePlayerController
+                                                      cntrl = _ytController;
+
+                                                  _ytController.pause();
+
+                                                  await Navigator.push(
+                                                      context,
+                                                      NextPageRoute(
+                                                          FullScreenYoutubePlayer(
+                                                            controller: cntrl,
+                                                          ),
+                                                          isMaintainState:
+                                                              false));
+
+                                                  SystemChrome
+                                                      .setPreferredOrientations([
+                                                    DeviceOrientation.portraitUp
+                                                  ]);
+                                                },
+                                                child: Icon(
+                                                  Icons.fullscreen,
+                                                  color: Colors.white,
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         )
-                                      : VideoPlayer(_controller)
+                                      : VisibilityDetector(
+                                          key: Key("urlVideoPlayer"),
+                                          onVisibilityChanged:
+                                              (VisibilityInfo info) {
+                                            if (info.visibleFraction == 1.0) {
+                                              currentMin = 0;
+                                              prevMin = 0;
+                                              listenVideoChanges(_controller);
+                                            }
+                                          },
+                                          child: VideoPlayer(_controller))
                                   : Stack(
                                       children: [
                                         selectedType != 'Assignment' &&
@@ -427,6 +480,16 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                     ],
                                                   ),
                                                   SizedBox(height: 10),
+                                                  CircleAvatar(
+                                                      onBackgroundImageError:
+                                                          (_, __) {},
+                                                      backgroundImage:
+                                                          NetworkImage(
+                                                        selectedData
+                                                                .trainerProfilePic ??
+                                                            '',
+                                                      )),
+                                                  SizedBox(height: 5),
                                                   Text(
                                                     '$trainerName',
                                                     style: Styles.bold(
@@ -744,7 +807,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                   ),
                 ),
               )
-            : isAllSelected == true
+            : isAllSelected == true && showLoading == true
                 ? Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * 0.20,
@@ -755,11 +818,13 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * 0.20,
                     color: ColorConstants.WHITE,
-                    child: Center(
-                        child: Text(
-                      'No Content found',
-                      style: Styles.regular(),
-                    )),
+                    child: showLoading == true
+                        ? Center(child: CircularProgressIndicator())
+                        : Center(
+                            child: Text(
+                            'No Content found',
+                            style: Styles.regular(),
+                          )),
                   ),
         if (!isNoteView && isYoutubeView == false)
           VideoProgressIndicator(
@@ -976,17 +1041,18 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
               shrinkWrap: true,
               itemCount: trainingDetailProvider.modules!.length,
               itemBuilder: (context, index) {
+                //each value is either 0 or 1 (false or true)
+                int moduleCount = trainingDetailProvider.modules![index].note! +
+                    trainingDetailProvider.modules![index].assignments! +
+                    trainingDetailProvider.modules![index].video! +
+                    trainingDetailProvider.modules![index].assessments!;
+                _expandableController.addAll(List.generate(
+                    moduleCount,
+                    (index) =>
+                        new ExpandableController(initialExpanded: false)));
                 bool isVisible = true;
                 if (isAllSelected == true) {
-                  trainingDetailProvider.modules![index].note! +
-                              trainingDetailProvider
-                                  .modules![index].assignments! +
-                              trainingDetailProvider.modules![index].video! +
-                              trainingDetailProvider
-                                  .modules![index].assessments! ==
-                          0
-                      ? isVisible = false
-                      : isVisible = true;
+                  moduleCount == 0 ? isVisible = false : isVisible = true;
                 } else if (selectedType == 'Classes') {
                   trainingDetailProvider.modules![index].sessions! != 0
                       ? isVisible = true
@@ -1023,9 +1089,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                         theme: ExpandableThemeData(
                           hasIcon: true,
                         ),
-                        controller: index == 0
-                            ? _expandableController
-                            : ExpandableController(initialExpanded: true),
+                        controller:_expandableController.length > index ? _expandableController[index]:_expandableController[0],
                         header: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1078,8 +1142,6 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                       });
                                     } else {
                                       setState(() {
-                                        print(
-                                            'check is  $isYoutubeController and ${controller}');
                                         isYoutubeController == true
                                             ? _ytController = controller
                                             : _controller = controller;
@@ -1090,6 +1152,12 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                             .then((value) => setState(() {
                                                   _controller.play();
                                                 }));
+                                      });
+
+                                      Future.delayed(Duration(seconds: 3), () {
+                                        setState(() {
+                                          showLoading = false;
+                                        });
                                       });
                                     }
                                   },
@@ -1143,7 +1211,16 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                     url: '$noteUrl',
                                     callBack: false,
                                   )
-                                : VideoPlayer(_controller),
+                                : VisibilityDetector(
+                                    key: Key("popUpUrlVideoPlayer"),
+                                    onVisibilityChanged: (VisibilityInfo info) {
+                                      if (info.visibleFraction == 1.0) {
+                                        currentMin = 0;
+                                        prevMin = 0;
+                                        listenVideoChanges(_controller);
+                                      }
+                                    },
+                                    child: VideoPlayer(_controller)),
                           ),
 
 // ValueListenableBuilder(
@@ -1512,6 +1589,9 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                             .first;
                         selectedContentId = list.programContentId;
 
+                        if (list.contentType.toLowerCase() == 'video_yts')
+                          _controller.pause();
+
                         final controller =
                             list.contentType.toLowerCase() == 'video_yts'
                                 ? YoutubePlayerController(
@@ -1619,7 +1699,9 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
     //1-> empty circle, 2-> green, 3-> red
     return Consumer<MyCourseProvider>(
         builder: (context, value, child) => InkWell(
-              onTap: () {
+              onTap: () async {
+                //added for overflow issue on click
+                isAllSelected = false;
                 if (type == 'learningShots') {
                   if (data!.learningShots!.elementAt(index).contentType ==
                       "notes") {
@@ -1637,13 +1719,26 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                     opacityLevel = 0.0;
                     String videoUrl = data.learningShots.elementAt(index).url;
                     selectedType = 'Videos';
+                    // if (data!.learningShots!
+                    //         .elementAt(index)
+                    //         .contentType
+                    //         .toLowerCase() ==
+                    //     'video_yts') {
+                    // setState(() {
+                    //   selectedContentId = null;
+                    //   isYoutubeView = false;
+                    // });
+                    // }
+                    setState(() {
+                      showLoading = true;
+                    });
                     final controller = data!.learningShots!
                                 .elementAt(index)
                                 .contentType
                                 .toLowerCase() !=
                             'video_yts'
-                        ? VideoPlayerController.network('$videoUrl')
-                        : YoutubePlayerController(
+                        ? await VideoPlayerController.network('$videoUrl')
+                        : await YoutubePlayerController(
                             initialVideoId:
                                 YoutubePlayer.convertUrlToId('$videoUrl')!,
                             flags: YoutubePlayerFlags(
@@ -1651,6 +1746,12 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                               mute: false,
                             ),
                           );
+
+                    // setState(() {
+                    //   _controller.setVolume(0.0);
+
+                    //   selectedContentId = programContentId;
+                    // });
                     // value.changeController(controller);
 
                     _controller.pause();
@@ -1667,6 +1768,12 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                               .toLowerCase() ==
                           'video_yts',
                     );
+
+                    await Future.delayed(Duration(seconds: 1), () {
+                      setState(() {
+                        showLoading = false;
+                      });
+                    });
                   }
                 } else if (type == 'assessment') {
                   selectedType = 'Quiz';
@@ -1799,7 +1906,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                             ],
                           ),
                           Text(
-                            '$description $time',
+                            '${description.toLowerCase() == 'video_yts' ? 'Video' : description} $time',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             softWrap: false,

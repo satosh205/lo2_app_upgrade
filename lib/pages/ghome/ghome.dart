@@ -33,6 +33,8 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
+import 'package:visibility_detector/visibility_detector.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 late VideoPlayerController _videoController;
 
@@ -148,11 +150,7 @@ class _GHomeState extends State<GHome> {
                                       child: InkWell(
                                         onTap: () async {
                                           value.enableProviderControl();
-                                          value.pause();
-                                          await Future.delayed(
-                                              Duration(milliseconds: 200));
-
-                                          showModalBottomSheet(
+                                          value.pause().then((value) =>  showModalBottomSheet(
                                               context: context,
                                               backgroundColor:
                                                   ColorConstants.WHITE,
@@ -166,7 +164,10 @@ class _GHomeState extends State<GHome> {
                                                           joyContentListView,
                                                       currentIndex: index,
                                                     ));
-                                              });
+                                              }));
+                                        
+
+                                         ;
                                         },
                                         child: Column(
                                           children: [
@@ -215,35 +216,39 @@ class _GHomeState extends State<GHome> {
                                                                     0.0)
                                                           ],
                                                         )),
-                                                        child: joyContentListView![
-                                                                    index]
-                                                                .resourcePath!
-                                                                .contains(
-                                                                    '.mp4')
-                                                            ? ShowImage(
-                                                                path: joyContentListView![
-                                                                        index]
-                                                                    .resourcePath)
-                                                            : Image.network(
-                                                                '${joyContentListView![index].resourcePath}',
-                                                                fit:
-                                                                    BoxFit.fill,
-                                                              ),
+                                                        child:
+                                                            // joyContentListView![
+                                                            //             index]
+                                                            //         .resourcePath!
+                                                            //         .contains(
+                                                            //             '.mp4')
+                                                            //     ? ShowImage(
+                                                            //         path: joyContentListView![
+                                                            //                 index]
+                                                            //             .resourcePath)
+                                                            //     :
+                                                            Image.network(
+                                                          '${joyContentListView![index].thumbnailUrl}',
+                                                          fit: BoxFit.fill,
+                                                        ),
                                                       ),
                                                     ),
                                                     if (joyContentListView![
                                                             index]
                                                         .resourcePath!
                                                         .contains('.mp4'))
-                                                      Align(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        child: SvgPicture.asset(
-                                                          'assets/images/play_video_icon.svg',
-                                                          height: 30.0,
-                                                          width: 30.0,
-                                                          allowDrawingOutsideViewBox:
-                                                              true,
+                                                      Positioned.fill(
+                                                        child: Align(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child:
+                                                              SvgPicture.asset(
+                                                            'assets/images/play_video_icon.svg',
+                                                            height: 30.0,
+                                                            width: 30.0,
+                                                            allowDrawingOutsideViewBox:
+                                                                true,
+                                                          ),
                                                         ),
                                                       ),
                                                   ],
@@ -1333,6 +1338,10 @@ class _GHomeState extends State<GHome> {
                       scrollDirection: Axis.horizontal,
                       itemCount: joyCategoryList!.length,
                       itemBuilder: (BuildContext context, int index) {
+                        YoutubePlayerController ytController =
+                            YoutubePlayerController(
+                                initialVideoId:
+                                    '${YoutubePlayer.convertUrlToId('${joyCategoryList![index].video}')}');
                         return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -1342,11 +1351,53 @@ class _GHomeState extends State<GHome> {
                                     MediaQuery.of(context).size.height * 0.25,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8),
-                                  child: CustomVideoPlayer(
-                                    url: '${joyCategoryList![index].video}',
-                                    autoPlay: false,
-                                    showPlayButton: true,
-                                  ),
+                                  child: !joyCategoryList![index]
+                                          .video
+                                          .toString()
+                                          .contains('www.youtube.com')
+                                      ? CustomVideoPlayer(
+                                          url:
+                                              '${joyCategoryList![index].video}',
+                                          autoPlay: false,
+                                          showPlayButton: true,
+                                        )
+                                      : VisibilityDetector(
+                                          key: ObjectKey(ytController),
+                                          onVisibilityChanged: (visibility) {
+                                            var visiblePercentage =
+                                                visibility.visibleFraction *
+                                                    100;
+                                            if (visibility.visibleFraction ==
+                                                    0 &&
+                                                this.mounted) {
+                                              if (visiblePercentage.round() <=
+                                                      70 &&
+                                                  this.mounted) {
+                                                //pause
+                                                ytController.pause();
+                                              } else {
+                                                //pause
+                                                ytController.pause();
+
+                                                if (this.mounted)
+
+                                                  //play
+                                                  ytController.play();
+                                              }
+                                            }
+                                          },
+                                          child: YoutubePlayer(
+                                            controller: ytController,
+                                            showVideoProgressIndicator: false,
+                                            bottomActions: [
+                                              // Icon(
+                                              //   Icons.fullscreen,
+                                              //   color: Colors.white,
+
+                                              // )
+                                            ],
+                                          ),
+                                        ),
                                 ),
                               ),
                             ]);

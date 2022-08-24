@@ -202,12 +202,14 @@ class Sessions {
   String? liveclassUrl;
   int? startsInMinutes;
   String? liveclassSubHeading;
+  String? liveclassStatus;
   String? liveclassDescription;
   bool? isAttended;
   bool? isLive;
   String? url;
   String? status;
   String? trainerName;
+  String? trainerProfilePic;
   String? contentType;
 
   Sessions(
@@ -228,7 +230,9 @@ class Sessions {
       this.status,
       this.url,
       this.trainerName,
-      this.contentType});
+      this.trainerProfilePic,
+      this.contentType,
+      this.liveclassStatus});
 
   Sessions.fromJson(Map<String, dynamic> json) {
     programContentId = json['program_content_id'];
@@ -239,6 +243,7 @@ class Sessions {
     endDate = json['end_date'];
     durationInMinutes = json['duration_in_minutes'];
     liveclassAction = json['liveclass_action'];
+    liveclassStatus = json['liveclass_status'];
     liveclassUrl = json['liveclass_url'];
     startsInMinutes = json['starts_in_minutes'];
     liveclassSubHeading = json['liveclass_sub_heading'];
@@ -248,6 +253,7 @@ class Sessions {
     url = json['url'];
     status = json['status'];
     trainerName = json['trainer_name'];
+    trainerProfilePic = json['trainer_profile_pic'];
     contentType = json['content_type'];
   }
 
@@ -261,6 +267,7 @@ class Sessions {
     data['end_date'] = this.endDate;
     data['duration_in_minutes'] = this.durationInMinutes;
     data['liveclass_action'] = this.liveclassAction;
+    data['liveclass_status'] = this.liveclassStatus;
     data['liveclass_url'] = this.liveclassUrl;
     data['starts_in_minutes'] = this.startsInMinutes;
     data['liveclass_sub_heading'] = this.liveclassSubHeading;
@@ -270,6 +277,7 @@ class Sessions {
     data['url'] = this.url;
     data['status'] = this.status;
     data['trainer_name'] = this.trainerName;
+    data['trainer_profile_pic'] = this.trainerProfilePic;
     data['content_type'] = this.contentType;
     return data;
   }

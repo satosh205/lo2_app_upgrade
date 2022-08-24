@@ -75,6 +75,8 @@ class ApiConstants {
   static const SUBMMIT_ANSWER = '/api/assessment-onfinish';
   static const ASSESSMENT_REVIEW = '/api/assessment-review/';
   static const ASSIGNMENT_SUBMISSION_DETAILS = '/api/assignmentdetails';
+  static const UPDATE_COURSE_COMPLETION = "/api/program-content-attempt";
+
 
   static const JOY_CATEGORY = "/api/joy/category";
   static const JOY_CONTENT_LIST = "/api/joy/content";
@@ -86,6 +88,7 @@ class ApiConstants {
   static const GCARVAAN_POST = "/api/carvan";
   static const GREELS_POST = "/api/reels";
   static const LIKE_CONTENT = "/api/user-view-tracking";
+  static const REPORT_CONTENT = "/api/post-report";
   static const CREATE_PORTFOLIO = "/api/create-portfolio";
   static const USER_BRAND_CREATE = "/api/user-brand-create";
   static const MASTER_BRAND_CREATE = "/api/master-brand-create";

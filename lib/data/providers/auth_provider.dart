@@ -8,6 +8,7 @@ import 'package:masterg/data/models/request/auth_request/email_request.dart';
 import 'package:masterg/data/models/request/auth_request/login_request.dart';
 import 'package:masterg/data/models/request/auth_request/signup_request.dart';
 import 'package:masterg/utils/Log.dart';
+import 'package:masterg/utils/config.dart';
 
 class AuthProvider {
   AuthProvider({required this.api});
@@ -50,7 +51,8 @@ class AuthProvider {
       String fileName = request.profilePic!.split('/').last;
       data['profile_pic'] =
           await MultipartFile.fromFile(request.profilePic!, filename: fileName);
-      final response = await api.dio.post(ApiConstants.SIGNUP,
+      final response = await api.dio.post(
+          '${ApiConstants.SIGNUP}${APK_DETAILS['package_name'] == 'com.learn_build' ? '?org=1' : ''}',
           data: FormData.fromMap(data),
           options: Options(
             method: 'POST',

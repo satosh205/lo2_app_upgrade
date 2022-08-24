@@ -3,16 +3,21 @@ import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
+import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/gcarvaan_post_reponse.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/gcarvaan/comment/comment_view_page.dart';
 import 'package:masterg/pages/ghome/video_player_screen.dart';
 import 'package:masterg/pages/pdf_view_page.dart';
+import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:masterg/utils/utility.dart';
+import 'package:masterg/utils/widget_size.dart';
 import 'package:open_file/open_file.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
@@ -61,7 +66,6 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
   // VideoPlayerController _videoController;
   bool isShowPlaying = false;
   // GlobalKey<FormState> _abcKey = GlobalKey<FormState>();
-  bool? isLiked;
   int? likeCount;
   int currentIndex = 0;
   // Download download = new Download();
@@ -77,7 +81,6 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
   void setValues() {
     // updateLikeandViews(null);
     setState(() {
-      isLiked = widget.islikedPost;
       likeCount = widget.likeCount;
     });
   }
@@ -158,10 +161,18 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                     child: ClipOval(
                       child: widget.profile_path != null
                           ? Image.network(
-                              widget.profile_path!,
+                              widget.profile_path ?? '',
                               height: 45,
                               width: 45,
                               fit: BoxFit.cover,
+                              errorBuilder: (context, url, error) {
+                                return SvgPicture.asset(
+                                  'assets/images/default_user.svg',
+                                  height: 50,
+                                  width: 50,
+                                  allowDrawingOutsideViewBox: true,
+                                );
+                              },
                               loadingBuilder: (BuildContext context,
                                   Widget child,
                                   ImageChunkEvent? loadingProgress) {
@@ -212,10 +223,336 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                       ],
                     ),
                   ),
-                  /*Icon(
-                    Icons.more_horiz,
-                    color: Colors.black,
-                  )*/ //singh
+                  GestureDetector(
+                    onTap: () async {
+                      bool reportPostFormEnabled = false;
+                      bool reportInprogress = false;
+                      await showModalBottomSheet(
+                          context: context,
+                          backgroundColor: Colors.black,
+                          builder: (context) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(10),
+                                    margin: EdgeInsets.only(top: 10),
+                                    height: 4,
+                                    width: 70,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(8)),
+                                  ),
+                                ),
+                                Container(
+                                  child: ListTile(
+                                    leading: new Icon(
+                                      Icons.report,
+                                      color: Colors.white,
+                                    ),
+                                    title: new Text(
+                                      'Report this post',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        reportPostFormEnabled = true;
+                                      });
+                                      return Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                              ],
+                            );
+                          });
+
+                      void _handleReport(ReportState state) {
+                        var reportState = state;
+                        setState(() {
+                          switch (reportState.apiState) {
+                            case ApiStatus.LOADING:
+                              Log.v(
+                                  "ContentReportState Loading....................");
+                              reportInprogress = true;
+                              break;
+                            case ApiStatus.SUCCESS:
+                              Log.v("ContentReportState....................");
+                              Navigator.pop(context);
+                              widget.value?.hidePost(widget.index);
+                            
+
+                              Utility.showSnackBar(
+                                  scaffoldContext: context,
+                                  message: '${reportState.response?.message}');
+                              reportInprogress = false;
+                              break;
+                            case ApiStatus.ERROR:
+                              Log.v(
+                                  "ContentReportState error....................");
+                              reportInprogress = false;
+                              break;
+                            case ApiStatus.INITIAL:
+                              break;
+                          }
+                        });
+                      }
+
+                      if (reportPostFormEnabled) {
+                        bool showTextField = false;
+                        TextEditingController reportController =
+                            TextEditingController();
+
+                        showModalBottomSheet(
+                            context: context,
+                            backgroundColor: Colors.black,
+                            builder: (BuildContext context) {
+                              return FractionallySizedBox(
+                                heightFactor: 1,
+                                child: BlocManager(
+                                  initState: (BuildContext context) {},
+                                  child: BlocListener<HomeBloc, HomeState>(
+                                    listener: (BuildContext context, state) {
+                                      if (state is ReportState) {
+                                        _handleReport(state);
+                                      }
+                                    },
+                                    child: BottomSheet(
+                                        onClosing: () {},
+                                        builder: (BuildContext context) {
+                                          return StatefulBuilder(
+                                            builder: (BuildContext context,
+                                                    setState) =>
+                                                SingleChildScrollView(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: <Widget>[
+                                                  Center(
+                                                    child: Container(
+                                                      padding:
+                                                          EdgeInsets.all(10),
+                                                      margin: EdgeInsets.only(
+                                                          top: 10),
+                                                      height: 4,
+                                                      width: 70,
+                                                      decoration: BoxDecoration(
+                                                          color: ColorConstants
+                                                              .GREY_4,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8)),
+                                                    ),
+                                                  ),
+                                                  Center(
+                                                    child: Text(
+                                                      'Report',
+                                                      style: Styles.bold(),
+                                                    ),
+                                                  ),
+                                                  Divider(),
+                                                  Text(
+                                                      'Why are you reporting this post?',
+                                                      style: Styles.regular(
+                                                          color: ColorConstants
+                                                              .WHITE)),
+                                                  if (showTextField == false)
+                                                    SingleChildScrollView(
+                                                      child: Column(
+                                                        children: [
+                                                          ListTile(
+                                                              onTap: () {
+                                                                reportPost(
+                                                                    widget
+                                                                        .contentId,
+                                                                    'spam',
+                                                                    reportController
+                                                                        .value
+                                                                        .text);
+                                                              },
+                                                              title: Text(
+                                                                  'It\'s Spam')),
+                                                          ListTile(
+                                                              onTap: () {
+                                                                reportPost(
+                                                                    widget
+                                                                        .contentId,
+                                                                    'Nudity or sexual activity',
+                                                                    reportController
+                                                                        .value
+                                                                        .text);
+                                                              },
+                                                              title: Text(
+                                                                  'Nudity or sexual activity')),
+                                                          ListTile(
+                                                              onTap: () {
+                                                                reportPost(
+                                                                    widget
+                                                                        .contentId,
+                                                                    'Hate speech of symbols',
+                                                                    reportController
+                                                                        .value
+                                                                        .text);
+                                                              },
+                                                              title: Text(
+                                                                  'Hate speech of symbols')),
+                                                          ListTile(
+                                                              onTap: () {
+                                                                reportPost(
+                                                                    widget
+                                                                        .contentId,
+                                                                    'Violence or dangerous organizations',
+                                                                    reportController
+                                                                        .value
+                                                                        .text);
+                                                              },
+                                                              title: Text(
+                                                                  'Violence or dangerous organizations')),
+                                                          ListTile(
+                                                              onTap: () {
+                                                                reportPost(
+                                                                    widget
+                                                                        .contentId,
+                                                                    'Bullying or harassment',
+                                                                    reportController
+                                                                        .value
+                                                                        .text);
+                                                              },
+                                                              title: Text(
+                                                                  'Bullying or harassment')),
+                                                          ListTile(
+                                                              onTap: () {
+                                                                reportPost(
+                                                                    widget
+                                                                        .contentId,
+                                                                    'False information',
+                                                                    reportController
+                                                                        .value
+                                                                        .text);
+                                                              },
+                                                              title: Text(
+                                                                  'False information')),
+                                                          ListTile(
+                                                              onTap: () {
+                                                                reportPost(
+                                                                    widget
+                                                                        .contentId,
+                                                                    'Scam or fraud',
+                                                                    reportController
+                                                                        .value
+                                                                        .text);
+                                                              },
+                                                              title: Text(
+                                                                  'Scam or fraud')),
+                                                          ListTile(
+                                                              onTap: () {
+                                                                setState(() {
+                                                                  showTextField =
+                                                                      true;
+                                                                });
+                                                              },
+                                                              title: Text(
+                                                                  'Something else')),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  if (showTextField == true)
+                                                    Container(
+                                                      margin:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 14,
+                                                              vertical: 8),
+                                                      child:
+                                                          SingleChildScrollView(
+                                                        child: Column(
+                                                          children: [
+                                                            TextFormField(
+                                                              controller:
+                                                                  reportController,
+                                                              style:
+                                                                  Styles.bold(
+                                                                size: 14,
+                                                              ),
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                hintText:
+                                                                    'What are you trying to report?',
+                                                                isDense: true,
+                                                                helperStyle: Styles.regular(
+                                                                    size: 12,
+                                                                    color: ColorConstants
+                                                                        .GREY_3
+                                                                        .withOpacity(
+                                                                            0.1)),
+                                                                counterText: "",
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 20,
+                                                            ),
+                                                            InkWell(
+                                                                onTap: () {
+                                                                  reportPost(
+                                                                      widget
+                                                                          .contentId,
+                                                                      '',
+                                                                      reportController
+                                                                          .value
+                                                                          .text);
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  margin: EdgeInsets
+                                                                      .symmetric(
+                                                                          vertical:
+                                                                              12),
+                                                                  width: double
+                                                                      .infinity,
+                                                                  height: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .height *
+                                                                      WidgetSize
+                                                                          .AUTH_BUTTON_SIZE,
+                                                                  decoration: BoxDecoration(
+                                                                      color: ColorConstants()
+                                                                          .buttonColor(),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10)),
+                                                                  child: Center(
+                                                                      child:
+                                                                          Text(
+                                                                    'Submit',
+                                                                    style: Styles
+                                                                        .regular(
+                                                                      color: ColorConstants
+                                                                          .WHITE,
+                                                                    ),
+                                                                  )),
+                                                                )),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    )
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        }),
+                                  ),
+                                ),
+                              );
+                            });
+                      }
+                    },
+                    child: Icon(
+                      Icons.more_vert,
+                      color: ColorConstants.BLACK,
+                    ),
+                  ) //singh
                 ],
               ),
             ),
@@ -561,15 +898,18 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                   InkWell(
                     onTap: () {
                       setState(() {
-                        if (isLiked!) {
+                        if (widget.value?.isLiked(widget.index) == true) {
                           updateLikeandViews(0);
-                          isLiked = false;
-                          likeCount = likeCount! - 1;
+
+                          widget.value?.updateIsLiked(widget.index, 0);
+
+                          widget.value?.decrementLike(widget.index);
                         } else {
                           updateLikeandViews(1);
 
-                          isLiked = true;
-                          likeCount = likeCount! + 1;
+                          widget.value?.updateIsLiked(widget.index, 1);
+
+                          widget.value?.incrementLike(widget.index);
                         }
                       });
                     },
@@ -581,22 +921,27 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                               right: 4.0,
                             ),
                             child: SvgPicture.asset(
-                              isLiked == false
+                              widget.value?.isLiked(widget.index) == false
                                   ? 'assets/images/like_icon.svg'
                                   : 'assets/images/liked_icon.svg',
                               height: 18.8,
                               width: 17.86,
+                              // color:
+                              //     widget.value?.isLiked(widget.index) == false
+                              //         ? ColorConstants.BLACK
+                              //         : ColorConstants().primaryColor(),
                               allowDrawingOutsideViewBox: true,
                             ),
                           ),
                           Text(
-                            likeCount != 0
-                                ? '${likeCount} ${Strings.of(context)?.Like}'
+                            widget.value?.getLikeCount(widget.index) != 0
+                                ? '${widget.value?.getLikeCount(widget.index)} ${Strings.of(context)?.Like}'
                                 : ' ${Strings.of(context)?.Like}',
                             style: Styles.regular(
                                 size: 12, color: ColorConstants.BLACK),
                           ),
-                          if (likeCount! > 1 &&
+                          if (widget.value?.getLikeCount(widget.index) != 0 &&
+                              widget.value?.getLikeCount(widget.index) != 1 &&
                               Preference.getInt(Preference.APP_LANGUAGE) == 1)
                             Text(
                               's',
@@ -696,6 +1041,11 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
         contentId: widget.contentId, like: like, type: 'contents'));
   }
 
+  void reportPost(int? postId, String category, String comment) {
+    BlocProvider.of<HomeBloc>(context)
+        .add(ReportEvent(postId: postId, comment: comment, category: category));
+  }
+
   _displayDialog(
       {required BuildContext context,
       final String? imgUrl,
@@ -757,10 +1107,18 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                       Center(
                         child: ClipOval(
                             child: Image.network(
-                          widget.profile_path!,
+                          widget.profile_path ?? '',
                           height: 50,
                           width: 50,
                           fit: BoxFit.cover,
+                          errorBuilder: (context, url, error) {
+                            return SvgPicture.asset(
+                              'assets/images/default_user.svg',
+                              height: 50,
+                              width: 50,
+                              allowDrawingOutsideViewBox: true,
+                            );
+                          },
                           loadingBuilder: (BuildContext context, Widget child,
                               ImageChunkEvent? loadingProgress) {
                             if (loadingProgress == null) return child;
@@ -810,10 +1168,10 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                           ],
                         ),
                       ),
-                      /*Icon(
-                    Icons.more_horiz,
-                    color: Colors.black,
-                  )*/ //singh
+                      // Icon(
+                      //   Icons.more_horiz,
+                      //   color: Colors.black,
+                      // ) //singh
                     ],
                   ),
                 ),

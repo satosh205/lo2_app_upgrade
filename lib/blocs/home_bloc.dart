@@ -26,6 +26,7 @@ import 'package:masterg/data/models/response/home_response/onboard_sessions.dart
 import 'package:masterg/data/models/response/home_response/popular_courses_response.dart';
 import 'package:masterg/data/models/response/home_response/post_comment_response.dart';
 import 'package:masterg/data/models/response/home_response/program_list_reponse.dart';
+import 'package:masterg/data/models/response/home_response/report_content_response.dart';
 import 'package:masterg/data/models/response/home_response/save_answer_response.dart';
 import 'package:masterg/data/models/response/home_response/submit_answer_response.dart';
 import 'package:masterg/data/models/response/home_response/test_attempt_response.dart';
@@ -705,6 +706,26 @@ class AnnouncementContentEvent extends HomeEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
+class UpdateVideoCompletionEvent extends HomeEvent {
+  int? bookmark;
+  int? contentId;
+
+  UpdateVideoCompletionEvent({this.bookmark, this.contentId})
+      : super([bookmark, contentId]);
+
+  @override
+  List<Object> get props => throw UnimplementedError();
+}
+
+class UpdateVideoCompletionState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  String? error;
+
+  UpdateVideoCompletionState(this.state, {this.error});
+}
+
 class CreatePostEvent extends HomeEvent {
   int? contentType;
   String? title;
@@ -749,6 +770,17 @@ class LikeContentEvent extends HomeEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
+class ReportEvent extends HomeEvent {
+  int? postId;
+  String? category;
+  String? comment;
+
+  ReportEvent({this.postId, this.category, this.comment})
+      : super([postId, category, comment]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
 class LikeContentState extends HomeState {
   ApiStatus state;
 
@@ -757,6 +789,16 @@ class LikeContentState extends HomeState {
   LikeContentState(
     this.state,
   );
+}
+
+class ReportState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  ReportContentResp? response;
+  String? error;
+
+  ReportState(this.state, {this.response, this.error});
 }
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
@@ -1293,6 +1335,26 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           ApiStatus.ERROR,
         );
       }
+    } else if (event is ReportEvent) {
+      try {
+        yield ReportState(ApiStatus.LOADING);
+
+        final response = await homeRepository.reportContent(
+            event.postId, event.category, event.comment);
+
+        if (response != null) {
+          yield ReportState(ApiStatus.SUCCESS, response: response);
+        } else {
+          yield ReportState(
+            ApiStatus.ERROR,
+          );
+        }
+      } catch (e) {
+        Log.v("ERROR DATA is : $e");
+        yield ReportState(
+          ApiStatus.ERROR,
+        );
+      }
     } else if (event is UserAnalyticsEvent) {
       try {
         yield UserAnalyticsState(ApiStatus.LOADING);
@@ -1450,6 +1512,25 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield ListPortfolioState(
           ApiStatus.ERROR,
         );
+      }
+    } else if (event is UpdateVideoCompletionEvent) {
+      try {
+        yield UpdateVideoCompletionState(ApiStatus.LOADING);
+        final response = await homeRepository.updateVideoCompletion(
+            event.bookmark!, event.contentId!);
+        if (response.status == 1) {
+          yield UpdateVideoCompletionState(
+            ApiStatus.SUCCESS,
+          );
+        } else {
+          Log.v("ERRyyyOR DATA ::: ${response}");
+          yield UpdateVideoCompletionState(ApiStatus.ERROR,
+              error: Strings.somethingWentWrong);
+        }
+      } catch (e) {
+        Log.v("ERROR DATA : $e");
+        yield UpdateVideoCompletionState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
       }
     }
   }

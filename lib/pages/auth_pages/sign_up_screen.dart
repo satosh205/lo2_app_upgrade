@@ -116,7 +116,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   _makeBody() {
-    String appBarImagePath = 'assets/images/${APK_DETAILS['splash_image']}';
+    String appBarImagePath = 'assets/images/${APK_DETAILS['theme_image_url']}';
     int orgid = 3;
 
     return Padding(
@@ -146,7 +146,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   )
                                 : Image.asset(
                                     appBarImagePath,
-                                    fit: BoxFit.cover,
+                                    height: 150,
+                                    width: 150,
                                   ),
                             SizedBox(height: 10),
                             Text(
@@ -266,27 +267,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               context,
                               NextPageRoute(
                                   TermsAndCondition(
-                                      url:
-                                          'https://qa.learningoxygen.com/policy?organization_id=${orgid}'),
+                                      url: APK_DETAILS['policy_url']),
                                   isMaintainState: false));
                         },
                         child: Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                    text:
+                                        '${Strings.of(context)?.byClickingContinue}',
+                                    style: Styles.regular(size: 10)),
+                                TextSpan(
                                   text:
-                                      '${Strings.of(context)?.byClickingContinue}',
-                                  style: Styles.regular(size: 10)),
-                              TextSpan(
-                                text:
-                                    '${Strings.of(context)?.byClickingContinueUnderline}',
-                                style: Styles.bold(
-                                    size: 10, color: ColorConstants.GREY_2),
-                              ),
-                            ],
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+                                      '${Strings.of(context)?.byClickingContinueUnderline}',
+                                  style: Styles.bold(
+                                      size: 10, color: ColorConstants.GREY_2),
+                                ),
+                              ],
+                            ),
+                            textAlign: TextAlign.center),
                       ),
                       Align(
                         alignment: Alignment.center,
