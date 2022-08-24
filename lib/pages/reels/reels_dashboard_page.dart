@@ -713,7 +713,7 @@ class _RightPanelState extends State<RightPanel> {
                           case ApiStatus.SUCCESS:
                             Log.v("ContentReportState....................");
                             Navigator.pop(context);
-                            widget.greelsModel?.hidePost(widget.index);
+                            // widget.greelsModel?.hidePost(widget.index);
 
                             Utility.showSnackBar(
                                 scaffoldContext: context,

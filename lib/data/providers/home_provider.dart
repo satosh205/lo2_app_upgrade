@@ -254,7 +254,7 @@ class HomeProvider {
       int? contentId, String? category, String? comment) async {
     try {
       Map<String, dynamic> data = Map();
-      data["user_id"] = UserSession.userId;
+      data["user_id"] = Preference.getInt(Preference.USER_ID).toString();
       data['post_id'] = contentId;
       data['category'] = category;
       data['comments'] = comment;
