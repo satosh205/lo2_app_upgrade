@@ -1112,8 +1112,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                         collapsed: SizedBox(
                           height: 0,
                         ),
-                        expanded:
-                            ChangeNotifierProvider<TrainingContentProvier>(
+                        expanded: ChangeNotifierProvider<TrainingContentProvier>(
                                 create: (context) => TrainingContentProvier(
                                     TrainingService(ApiService()),
                                     trainingDetailProvider.modules!
@@ -1235,7 +1234,6 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
 //                                   );
 //                                 },
 //                               ))
-
                           if (!isNoteView)
                             Positioned.fill(
                               child: ValueListenableBuilder(
@@ -1697,6 +1695,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
       bool showNotificationIcon = false,
       bool showLiveStatus = false}) {
     //1-> empty circle, 2-> green, 3-> red
+
     return Consumer<MyCourseProvider>(
         builder: (context, value, child) => InkWell(
               onTap: () async {

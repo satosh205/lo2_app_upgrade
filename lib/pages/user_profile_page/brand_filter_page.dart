@@ -142,9 +142,9 @@ class _BrandFilterPageState extends State<BrandFilterPage> {
                     padding: EdgeInsets.all(10.0),
                     child: Container(
                       child: InkWell(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
                               filteredUsers[index].title.toString(),
@@ -153,8 +153,31 @@ class _BrandFilterPageState extends State<BrandFilterPage> {
                                 color: Colors.black,
                               ),
                             ),
-                            SizedBox(
-                              height: 5.0,
+                            Image.network(
+                              addressListData[index].image.toString(),
+                              filterQuality:
+                              FilterQuality.low,
+                              width: 80,
+                              height: 40,
+                              fit: BoxFit.fill,
+                              loadingBuilder: (context, child,
+                                  loadingProgress) {
+                                if (loadingProgress == null) {
+                                  debugPrint('image loading null');
+                                  return child;
+                                }
+                                debugPrint(
+                                    'image loading...');
+                                return const Center(
+                                    child: SizedBox(
+                                        width: 20,
+                                        height: 20,
+                                        child:
+                                        CircularProgressIndicator(
+                                          color: ColorConstants
+                                              .PRIMARY_COLOR,
+                                        )));
+                              },
                             ),
                           ],
                         ),
@@ -194,9 +217,6 @@ class _BrandFilterPageState extends State<BrandFilterPage> {
 
       print(parsedJson);
       var resultsData = parsedJson['data'] as List;
-
-
-      print('object===========');
       print(resultsData.length);
       for(int i = 0; i <resultsData.length; i++){
         setState(() {
@@ -221,6 +241,5 @@ class _BrandFilterPageState extends State<BrandFilterPage> {
 
     return addressListData;
   }
-
 
 }
