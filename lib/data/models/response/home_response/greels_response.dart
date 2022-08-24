@@ -267,6 +267,12 @@ class GReelsModel extends ChangeNotifier {
     notifyListeners();
   }
 
+   void hidePost(index) {
+    _list?.removeAt(index);
+    this._list = _list;
+    notifyListeners();
+  }
+
   
   void increaseLikeCount(int postId) {
     for (var i = 0; i < _list!.length; i++) {

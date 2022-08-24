@@ -284,7 +284,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
 
                               Utility.showSnackBar(
                                   scaffoldContext: context,
-                                  message: 'Post reported');
+                                  message: '${reportState.response?.message}');
                               reportInprogress = false;
                               break;
                             case ApiStatus.ERROR:
@@ -374,27 +374,75 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                                               title: Text(
                                                                   'It\'s Spam')),
                                                           ListTile(
-                                                              onTap: () {},
+                                                              onTap: () {
+                                                                reportPost(
+                                                                    widget
+                                                                        .contentId,
+                                                                    'Nudity or sexual activity',
+                                                                    reportController
+                                                                        .value
+                                                                        .text);
+                                                              },
                                                               title: Text(
                                                                   'Nudity or sexual activity')),
                                                           ListTile(
-                                                              onTap: () {},
+                                                              onTap: () {
+                                                                reportPost(
+                                                                    widget
+                                                                        .contentId,
+                                                                    'Hate speech of symbols',
+                                                                    reportController
+                                                                        .value
+                                                                        .text);
+                                                              },
                                                               title: Text(
                                                                   'Hate speech of symbols')),
                                                           ListTile(
-                                                              onTap: () {},
+                                                              onTap: () {
+                                                                reportPost(
+                                                                    widget
+                                                                        .contentId,
+                                                                    'Violence or dangerous organizations',
+                                                                    reportController
+                                                                        .value
+                                                                        .text);
+                                                              },
                                                               title: Text(
                                                                   'Violence or dangerous organizations')),
                                                           ListTile(
-                                                              onTap: () {},
+                                                              onTap: () {
+                                                                reportPost(
+                                                                    widget
+                                                                        .contentId,
+                                                                    'Bullying or harassment',
+                                                                    reportController
+                                                                        .value
+                                                                        .text);
+                                                              },
                                                               title: Text(
                                                                   'Bullying or harassment')),
                                                           ListTile(
-                                                              onTap: () {},
+                                                              onTap: () {
+                                                                reportPost(
+                                                                    widget
+                                                                        .contentId,
+                                                                    'False information',
+                                                                    reportController
+                                                                        .value
+                                                                        .text);
+                                                              },
                                                               title: Text(
                                                                   'False information')),
                                                           ListTile(
-                                                              onTap: () {},
+                                                              onTap: () {
+                                                                reportPost(
+                                                                    widget
+                                                                        .contentId,
+                                                                    'Scam or fraud',
+                                                                    reportController
+                                                                        .value
+                                                                        .text);
+                                                              },
                                                               title: Text(
                                                                   'Scam or fraud')),
                                                           ListTile(
@@ -444,7 +492,15 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                                               height: 20,
                                                             ),
                                                             InkWell(
-                                                                onTap: () {},
+                                                                onTap: () {
+                                                                  reportPost(
+                                                                      widget
+                                                                          .contentId,
+                                                                      '',
+                                                                      reportController
+                                                                          .value
+                                                                          .text);
+                                                                },
                                                                 child:
                                                                     Container(
                                                                   margin: EdgeInsets

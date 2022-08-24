@@ -255,9 +255,10 @@ class HomeProvider {
     try {
       Map<String, dynamic> data = Map();
       data["user_id"] = UserSession.userToken;
-      data['contentId'] = contentId;
+      data['post_id'] = contentId;
       data['category'] = category;
       data['comments'] = comment;
+      print('form data is $data');
       final response = await api.dio.post(ApiConstants.REPORT_CONTENT,
           data: FormData.fromMap(data),
           options: Options(
@@ -266,23 +267,23 @@ class HomeProvider {
                 "Authorization": "Bearer ${UserSession.userToken}",
                 ApiConstants.API_KEY: ApiConstants().APIKeyValue()
               },
-              contentType: "application/json",
-              responseType: ResponseType.json // or ResponseType.JSON
+              responseType: ResponseType.json
+              // or ResponseType.JSON
               ));
       Log.v("DAta response is ${response.statusCode}");
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return ApiResponse.success(response);
-        // if (response.data.containsKey('error') &&
-        //     (response.data["error"] as List).length != 0) {
-        //   return ApiResponse.error(response.data);
-        // } else {
-        //   return ApiResponse.success(response);
-        // }
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
       } else {
-        return ApiResponse.error(response.data);
+        return ApiResponse.success(response);
       }
     } catch (e) {
+      print('exception is $e');
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
     return null;

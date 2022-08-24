@@ -27,6 +27,7 @@ import 'package:masterg/data/models/response/home_response/onboard_sessions.dart
 import 'package:masterg/data/models/response/home_response/popular_courses_response.dart';
 import 'package:masterg/data/models/response/home_response/post_comment_response.dart';
 import 'package:masterg/data/models/response/home_response/program_list_reponse.dart';
+import 'package:masterg/data/models/response/home_response/report_content_response.dart';
 import 'package:masterg/data/models/response/home_response/save_answer_response.dart';
 import 'package:masterg/data/models/response/home_response/submit_answer_response.dart';
 import 'package:masterg/data/models/response/home_response/test_attempt_response.dart';
@@ -149,19 +150,18 @@ class HomeRepository {
     }
   }
 
-  Future reportContent(
+  Future<ReportContentResp> reportContent(
       int? contentId, String? category, String? comment) async {
     final response =
         await homeProvider.reportContent(contentId, category, comment);
     if (response!.success) {
       Log.v("Report content DATA : ${response.body}");
-      UserProfileResp resp = UserProfileResp.fromJson(response.body);
-      Log.v("Report content DATA : ${resp.toJson()}");
+      ReportContentResp resp = ReportContentResp.fromJson(response.body);
 
       return resp;
     } else {
       Log.v("====> ${response.body}");
-      return;
+      return ReportContentResp(status: 0, message: 'error');
     }
   }
 
