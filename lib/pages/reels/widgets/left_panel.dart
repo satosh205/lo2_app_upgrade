@@ -24,12 +24,10 @@ class LeftPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   
-
     var millis = int.parse(createdAt!);
     DateTime date = DateTime.fromMillisecondsSinceEpoch(
       millis * 1000,
-    ).toUtc();
+    );
 
     final now = DateTime.now();
 
