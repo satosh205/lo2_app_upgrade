@@ -99,7 +99,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
     var millis = int.parse(widget.date);
     DateTime date = DateTime.fromMillisecondsSinceEpoch(
       millis * 1000,
-    ).toUtc();
+    );
 
     final now = DateTime.now();
 
@@ -281,7 +281,6 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                               Log.v("ContentReportState....................");
                               Navigator.pop(context);
                               widget.value?.hidePost(widget.index);
-                            
 
                               Utility.showSnackBar(
                                   scaffoldContext: context,
