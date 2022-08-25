@@ -11,6 +11,7 @@ import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/gcarvaan/comment/comment_view_page.dart';
 import 'package:masterg/pages/ghome/video_player_screen.dart';
+import 'package:masterg/pages/ghome/widget/read_more.dart';
 import 'package:masterg/pages/pdf_view_page.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
@@ -496,12 +497,13 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 7, left: 10),
-              child: Text(
-                widget.description ?? '',
-                style: Styles.regular(size: 14, color: ColorConstants.BLACK),
-              ),
-            ),
+                padding: const EdgeInsets.only(bottom: 7, left: 10),
+                child: ReadMoreText(text: '${widget.description ?? ''}')
+                // child: Text(
+                //   widget.description ?? '',
+                //   style: Styles.regular(size: 14, color: ColorConstants.BLACK),
+                // ),
+                ),
             ConstrainedBox(
               constraints: BoxConstraints(
                 minHeight: 360,

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:masterg/data/providers/video_player_provider.dart';
+import 'package:masterg/pages/ghome/widget/read_more.dart';
 import 'package:masterg/pages/reels/theme/colors.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
@@ -267,164 +268,167 @@ class VideoPlayerState extends State<CustomVideoPlayer> {
         return Scaffold(
           body: Container(
             color: Colors.white,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 70.0,
-                ),
-                Container(
-                  height: 40.0,
-                  margin: EdgeInsets.only(left: 18.0),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: new GestureDetector(
-                      onTap: () {
-                        mute();
-                        Navigator.of(context).pop();
-                      },
-                      child: Icon(Icons.close, color: ColorConstants.BLACK),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                  Container(
+                    height: 40.0,
+                    margin: EdgeInsets.only(left: 18.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: new GestureDetector(
+                        onTap: () {
+                          mute();
+                          Navigator.of(context).pop();
+                        },
+                        child: Icon(Icons.close, color: ColorConstants.BLACK),
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 8.0, right: 8.0, top: 15.0, bottom: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Center(
-                        child: ClipOval(
-                          child: profilePath != null
-                              // ? download.getFilePath(profilePath) != null
-                              //     ? Image.file(
-                              //         File(
-                              //             '${download.getFilePath(profilePath)}'),
-                              //         filterQuality: FilterQuality.low,
-                              //         height: 50,
-                              //         width: 50,
-                              //         fit: BoxFit.cover,
-                              //       )
-                              //     :
-                              ? Image.network(
-                                  profilePath,
-                                  height: 50,
-                                  width: 50,
-                                  fit: BoxFit.cover,
-                                  loadingBuilder: (BuildContext context,
-                                      Widget child,
-                                      ImageChunkEvent? loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return Shimmer.fromColors(
-                                      baseColor: Color(0xffe6e4e6),
-                                      highlightColor: Color(0xffeaf0f3),
-                                      child: Container(
-                                          height: 50,
-                                          margin: EdgeInsets.only(left: 2),
-                                          width: 50,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            shape: BoxShape.circle,
-                                          )),
-                                    );
-                                  },
-                                )
-                              : Icon(Icons.account_circle_rounded,
-                                  size: 50, color: Colors.grey),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 8.0, right: 8.0, top: 15.0, bottom: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Center(
+                          child: ClipOval(
+                            child: profilePath != null
+                                // ? download.getFilePath(profilePath) != null
+                                //     ? Image.file(
+                                //         File(
+                                //             '${download.getFilePath(profilePath)}'),
+                                //         filterQuality: FilterQuality.low,
+                                //         height: 50,
+                                //         width: 50,
+                                //         fit: BoxFit.cover,
+                                //       )
+                                //     :
+                                ? Image.network(
+                                    profilePath,
+                                    height: 50,
+                                    width: 50,
+                                    fit: BoxFit.cover,
+                                    loadingBuilder: (BuildContext context,
+                                        Widget child,
+                                        ImageChunkEvent? loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return Shimmer.fromColors(
+                                        baseColor: Color(0xffe6e4e6),
+                                        highlightColor: Color(0xffeaf0f3),
+                                        child: Container(
+                                            height: 50,
+                                            margin: EdgeInsets.only(left: 2),
+                                            width: 50,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              shape: BoxShape.circle,
+                                            )),
+                                      );
+                                    },
+                                  )
+                                : Icon(Icons.account_circle_rounded,
+                                    size: 50, color: Colors.grey),
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 8.0, right: 8.0, top: 2.0),
-                              child: Text(
-                                userName ?? '',
-                                style: Styles.textRegular(size: 14),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0, right: 8.0, top: 2.0),
+                                child: Text(
+                                  userName ?? '',
+                                  style: Styles.textRegular(size: 14),
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Text(
-                                time,
-                                style: Styles.textRegular(size: 10),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Text(
+                                  time,
+                                  style: Styles.textRegular(size: 10),
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(bottom: 2, left: 4),
-                              child: Text(
-                                desc ?? '',
-                                style: Styles.textRegular(size: 14),
-                              ),
-                            ),
-                          ],
+                              Padding(
+                                  padding:
+                                      const EdgeInsets.only(bottom: 2, left: 4),
+                                  child: ReadMoreText(text: desc ?? '')
+                                  // child: Text(
+                                  //   desc ?? '',
+                                  //   style: Styles.textRegular(size: 14),
+                                  // ),
+                                  ),
+                            ],
+                          ),
                         ),
-                      ),
-                      /*Icon(
-                    Icons.more_horiz,
-                    color: Colors.black,)*/ //singh
-                    ],
+                        /*Icon(
+                      Icons.more_horiz,
+                      color: Colors.black,)*/ //singh
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.65,
-                  child: Column(children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(0),
-                      child: Container(
-                          height: MediaQuery.of(context).size.height * 0.65,
-                          width: MediaQuery.of(context).size.width,
-                          child: url != null && url.isNotEmpty
-                              ? url.contains('.mp4') || url.contains('.mov')
-                                  ? VisibilityDetector(
-                                      key: ObjectKey(flickManager),
-                                      onVisibilityChanged: (visibility) {
-                                        if (visibility.visibleFraction == 0 &&
-                                            this.mounted) {
-                                          flickManager?.flickControlManager
-                                              ?.pause(); //pausing  functionality
-                                        } else {
-                                          flickManager?.flickControlManager
-                                              ?.play(); //playing functionality
-                                        }
-                                      },
-                                      child: FlickVideoPlayer(
-                                          flickManager: flickManager!,
-                                          // flickVideoWithControls:
-                                          //     FlickVideoWithControls(
-                                          //       controls: FlickSeekVideoAction(
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.65,
+                    child: Column(children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(0),
+                        child: Container(
+                            height: MediaQuery.of(context).size.height * 0.65,
+                            width: MediaQuery.of(context).size.width,
+                            child: url != null && url.isNotEmpty
+                                ? url.contains('.mp4') || url.contains('.mov')
+                                    ? VisibilityDetector(
+                                        key: ObjectKey(flickManager),
+                                        onVisibilityChanged: (visibility) {
+                                          if (visibility.visibleFraction == 0 &&
+                                              this.mounted) {
+                                            flickManager?.flickControlManager
+                                                ?.pause(); //pausing  functionality
+                                          } else {
+                                            flickManager?.flickControlManager
+                                                ?.play(); //playing functionality
+                                          }
+                                        },
+                                        child: FlickVideoPlayer(
+                                            flickManager: flickManager!,
+                                            // flickVideoWithControls:
+                                            //     FlickVideoWithControls(
+                                            //       controls: FlickSeekVideoAction(
 
-                                          //       ) ,
-                                          //     ),
-                                          flickVideoWithControls:
-                                              FlickVideoWithControls(
-                                            controls: FlickSeekVideoAction(
-                                              // child: FlickVideoBuffer(),
-                                              seekForward: (value) {
-                                                flickManager
-                                                    ?.flickControlManager
-                                                    ?.seekForward(value);
-                                              },
-                                              seekBackward: (value) {
-                                                flickManager
-                                                    ?.flickControlManager
-                                                    ?.seekBackward(value);
-                                              },
-                                            ),
-                                          )),
-                                    )
-                                  : Container()
-                              : SizedBox(
-                                  child: Text('no data'),
-                                )),
-                    ),
-                  ]),
-                ),
-              ],
+                                            //       ) ,
+                                            //     ),
+                                            flickVideoWithControls:
+                                                FlickVideoWithControls(
+                                              controls: FlickSeekVideoAction(
+                                                // child: FlickVideoBuffer(),
+                                                seekForward: (value) {
+                                                  flickManager
+                                                      ?.flickControlManager
+                                                      ?.seekForward(value);
+                                                },
+                                                seekBackward: (value) {
+                                                  flickManager
+                                                      ?.flickControlManager
+                                                      ?.seekBackward(value);
+                                                },
+                                              ),
+                                            )),
+                                      )
+                                    : Container()
+                                : SizedBox(
+                                    child: Text('no data'),
+                                  )),
+                      ),
+                    ]),
+                  ),
+                ],
+              ),
             ),
           ),
         );

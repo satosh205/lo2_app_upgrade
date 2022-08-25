@@ -263,15 +263,6 @@ class MgAssessmentDetailPage extends StatelessWidget {
                               ? ColorConstants.GREY_3
                               : ColorConstants().primaryColor(),
                           borderRadius: BorderRadius.all(Radius.circular(5)),
-                          border: assessmentDetailProvider
-                                      .assessmentResponse!
-                                      .data!
-                                      .instruction!
-                                      .details!
-                                      .attemptCount! >
-                                  0
-                              ? Border.all(color: Colors.black)
-                              : Border.all(color: Colors.transparent),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(
