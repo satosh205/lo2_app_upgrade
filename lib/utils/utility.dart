@@ -113,6 +113,25 @@ class Utility {
     await Future.delayed(Duration(milliseconds: mili));
   }
 
+  static  List<dynamic> getReportList() {
+    List<dynamic> reportList = [
+      {"title": 'It\'s Spam', 'value': 'spam'},
+      {"title": 'False information', 'value': 'False information'},
+      {"title": 'Bullying or harassment', 'value': 'Bullying or harassment'},
+      {
+        "title": 'Violence or dangerous organizations',
+        'value': 'Violence or dangerous organizations'
+      },
+      {"title": 'Hate speech of symbols', 'value': 'Hate speech of symbols'},
+      {
+        "title": 'Nudity or sexual activity',
+        'value': 'Nudity or sexual activity'
+      },
+      {"title": 'Scam and Fraud', 'value': 'Scam and Fraud'},
+    ];
+    return reportList;
+  }
+
   static int? getCategoryValue(String type) {
     if (UserSession.categoryData == null) return 0;
     int? contentType = 0;

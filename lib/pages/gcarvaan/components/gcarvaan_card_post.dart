@@ -303,6 +303,8 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                         TextEditingController reportController =
                             TextEditingController();
 
+                        List<dynamic> reportList = Utility.getReportList();
+
                         showModalBottomSheet(
                             context: context,
                             backgroundColor: Colors.black,
@@ -358,104 +360,42 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                                           color: ColorConstants
                                                               .WHITE)),
                                                   if (showTextField == false)
-                                                    SingleChildScrollView(
-                                                      child: Column(
-                                                        children: [
-                                                          ListTile(
-                                                              onTap: () {
-                                                                reportPost(
-                                                                    widget
-                                                                        .contentId,
-                                                                    'spam',
-                                                                    reportController
-                                                                        .value
-                                                                        .text);
-                                                              },
-                                                              title: Text(
-                                                                  'It\'s Spam')),
-                                                          ListTile(
-                                                              onTap: () {
-                                                                reportPost(
-                                                                    widget
-                                                                        .contentId,
-                                                                    'Nudity or sexual activity',
-                                                                    reportController
-                                                                        .value
-                                                                        .text);
-                                                              },
-                                                              title: Text(
-                                                                  'Nudity or sexual activity')),
-                                                          ListTile(
-                                                              onTap: () {
-                                                                reportPost(
-                                                                    widget
-                                                                        .contentId,
-                                                                    'Hate speech of symbols',
-                                                                    reportController
-                                                                        .value
-                                                                        .text);
-                                                              },
-                                                              title: Text(
-                                                                  'Hate speech of symbols')),
-                                                          ListTile(
-                                                              onTap: () {
-                                                                reportPost(
-                                                                    widget
-                                                                        .contentId,
-                                                                    'Violence or dangerous organizations',
-                                                                    reportController
-                                                                        .value
-                                                                        .text);
-                                                              },
-                                                              title: Text(
-                                                                  'Violence or dangerous organizations')),
-                                                          ListTile(
-                                                              onTap: () {
-                                                                reportPost(
-                                                                    widget
-                                                                        .contentId,
-                                                                    'Bullying or harassment',
-                                                                    reportController
-                                                                        .value
-                                                                        .text);
-                                                              },
-                                                              title: Text(
-                                                                  'Bullying or harassment')),
-                                                          ListTile(
-                                                              onTap: () {
-                                                                reportPost(
-                                                                    widget
-                                                                        .contentId,
-                                                                    'False information',
-                                                                    reportController
-                                                                        .value
-                                                                        .text);
-                                                              },
-                                                              title: Text(
-                                                                  'False information')),
-                                                          ListTile(
-                                                              onTap: () {
-                                                                reportPost(
-                                                                    widget
-                                                                        .contentId,
-                                                                    'Scam or fraud',
-                                                                    reportController
-                                                                        .value
-                                                                        .text);
-                                                              },
-                                                              title: Text(
-                                                                  'Scam or fraud')),
-                                                          ListTile(
-                                                              onTap: () {
-                                                                setState(() {
-                                                                  showTextField =
-                                                                      true;
-                                                                });
-                                                              },
-                                                              title: Text(
-                                                                  'Something else')),
-                                                        ],
-                                                      ),
+                                                    Column(
+                                                      children: [
+                                                        ListView.builder(
+                                                            physics:
+                                                                BouncingScrollPhysics(),
+                                                            shrinkWrap: true,
+                                                            itemCount:
+                                                                reportList
+                                                                    .length,
+                                                            itemBuilder:
+                                                                (BuildContext
+                                                                        context,
+                                                                    int index) {
+                                                              return ListTile(
+                                                                  onTap: () {
+                                                                    reportPost(
+                                                                        widget
+                                                                            .contentId,
+                                                                        '${reportList[index]['value']}',
+                                                                        reportController
+                                                                            .value
+                                                                            .text);
+                                                                  },
+                                                                  title: Text(
+                                                                      '${reportList[index]['title']}'));
+                                                            }),
+                                                        ListTile(
+                                                            onTap: () {
+                                                              setState(() {
+                                                                showTextField =
+                                                                    true;
+                                                              });
+                                                            },
+                                                            title: Text(
+                                                                'Something else')),
+                                                      ],
                                                     ),
                                                   if (showTextField == true)
                                                     Container(
