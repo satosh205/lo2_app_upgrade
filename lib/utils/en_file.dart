@@ -304,7 +304,7 @@ const EN_TEXT = {
   'enterValidPhoneNumber': 'Enter valid phone number',
   'branchAssociation': 'Brand Associations',
   'addBrand': 'Add a Brand',
-  'brandName': 'Brand Name',
+  'brandName': 'Search brand',
   'uploadBrandLogo': 'Upload Brand Logo',
   'supportedFormat': 'Supported formats',
   'uploadJoiningLetter': 'Upload Joining Letter',
@@ -319,13 +319,11 @@ const EN_TEXT = {
   'from': 'From',
   'to': 'To',
   'fromDate': 'From Date',
-  'present' : 'Present',
-  'toDate' : 'To Date',
-  'awards' : 'Awards',
-  'awardsAssociations' : 'Award Associations',
-  'projects' : 'Projects'
-
-
+  'present': 'Present',
+  'toDate': 'To Date',
+  'awards': 'Awards',
+  'awardsAssociations': 'Award Associations',
+  'projects': 'Projects'
 };
 
 const TA_TEXT = {
@@ -1189,7 +1187,7 @@ const HI_TEXT = {
   'enterPhoneNumber': 'Enter phone number',
   'enterValidPhoneNumber': 'Enter valid phone number',
   'addBrand': 'Add a Brand',
-  'brandName': 'Brand Name',
+  'brandName': 'Search brand',
   'uploadBrandLogo': 'Upload Brand Logo',
   'supportedFormat': 'Supported formats',
   'uploadJoiningLetter': 'Upload Joining Letter',
@@ -1204,13 +1202,11 @@ const HI_TEXT = {
   'from': 'From',
   'to': 'To',
   'fromDate': 'From Date',
-  'present' : 'Present',
-  'toDate' : 'To Date',
-  'awards' : 'Awards',
-  'awardsAssociations' : 'Award Associations',
-  'projects' : 'Projects'
-
-
+  'present': 'Present',
+  'toDate': 'To Date',
+  'awards': 'Awards',
+  'awardsAssociations': 'Award Associations',
+  'projects': 'Projects'
 };
 
 const KN_TEXT = {
