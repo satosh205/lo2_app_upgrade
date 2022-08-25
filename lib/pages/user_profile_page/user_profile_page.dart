@@ -1202,7 +1202,6 @@ class _UserProfilePageState extends State<UserProfilePage>
                                           fontWeight: FontWeight.w600,
                                         ),
                                         keyboardType: TextInputType.text,
-
                                         onChanged: (value) {},
                                         decoration: InputDecoration(
                                           focusColor: Colors.white,
@@ -1250,9 +1249,9 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                         BrandFilterPage(
                                                           onCalledFromOutside,
                                                         )));
-                                          }else{
+                                          } else {
                                             print('else===========');
-                                            setSheetState((){
+                                            setSheetState(() {
                                               readOnly = false;
                                             });
                                           }
@@ -1496,6 +1495,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                     .width *
                                                 0.90,
                                             height: 50,
+                                            margin: EdgeInsets.only(bottom: 10),
                                             padding: EdgeInsets.all(0),
                                             decoration: BoxDecoration(
                                                 color: _result == null &&
@@ -1859,6 +1859,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                     .size
                                                     .width *
                                                 0.85,
+                                            margin: EdgeInsets.only(bottom: 10),
                                             height: 50,
                                             padding: EdgeInsets.all(12),
                                             decoration: BoxDecoration(
@@ -1993,9 +1994,9 @@ class _UserProfilePageState extends State<UserProfilePage>
                         value: checkBoxValue,
                         activeColor: Colors.green,
                         onChanged: (bool? newValue) {
-                          setstate(() {
-                            checkBoxValue = newValue!;
-                          });
+                          // setstate(() {
+                          //   checkBoxValue = newValue!;
+                          // });
                         }),
                   ),
                   Text(
