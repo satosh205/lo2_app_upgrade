@@ -1547,13 +1547,13 @@ class _UserProfilePageState extends State<UserProfilePage>
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Container(
-                                      margin: EdgeInsets.only(top: 5.0),
-                                      height: 3,
-                                      width: 60,
+                                      height: 5,
+                                      width: 48,
+                                      margin: EdgeInsets.only(top: 10),
                                       decoration: BoxDecoration(
-                                          color: Colors.grey[300],
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10))),
+                                          color: ColorConstants.GREY_4,
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
                                     ),
                                     Padding(
                                         padding: const EdgeInsets.only(
@@ -1632,7 +1632,19 @@ class _UserProfilePageState extends State<UserProfilePage>
                                   ],
                                 ),
                               ),
+                              SizedBox(
+                                height: 4,
+                              ),
 
+                              Center(
+                                child: Text(
+                                  '$brandName',
+                                  style: Styles.regular(size: 12),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 4,
+                              ),
                               brandImageUrl.isNotEmpty &&
                                       brandImageUrl != 'null'
                                   ? Image.network(
@@ -1733,24 +1745,35 @@ class _UserProfilePageState extends State<UserProfilePage>
                                 margin: EdgeInsets.only(top: 10.0),
                                 child: Column(
                                   children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        _initFilePiker();
-                                      },
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.file_upload_outlined),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 10.0),
-                                            child: Text(
-                                                '${Strings.of(context)?.uploadJoiningLetter}'),
-                                          ),
-                                        ],
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 8, horizontal: 16),
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 20),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5))),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          _initFilePiker();
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(Icons.file_upload_outlined),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Text(
+                                                  '${Strings.of(context)?.uploadJoiningLetter}'),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
+                                    SizedBox(height: 8),
                                     Text(
                                       '${Strings.of(context)?.supportedFormat} - .pdf, .doc',
                                       style: Styles.textExtraBold(
@@ -2214,11 +2237,80 @@ class _UserProfilePageState extends State<UserProfilePage>
           break;
         case ApiStatus.SUCCESS:
           Navigator.pop(context);
-          print('_handle Master Brand Create Response');
           _isLoadingBrandCreate = false;
           Log.v("Success....................");
           _listPortfolio('brand');
+
+          showModalBottomSheet(
+              context: context,
+              backgroundColor: ColorConstants.WHITE,
+              isScrollControlled: true,
+              builder: (context) {
+                return FractionallySizedBox(
+                  heightFactor: 0.6,
+                  child: Column(children: [
+                    SizedBox(height: 4),
+                    Container(
+                      height: 5,
+                      width: 48,
+                      margin: EdgeInsets.only(top: 10),
+                      decoration: BoxDecoration(
+                          color: ColorConstants.GREY_4,
+                          borderRadius: BorderRadius.circular(8)),
+                    ),
+                    SizedBox(height: 40),
+                    Center(
+                      child: SvgPicture.asset(
+                        'assets/images/thumb_up.svg',
+                        height: 100.0,
+                        width: 100.0,
+                        allowDrawingOutsideViewBox: true,
+                      ),
+                    ),
+                    SizedBox(height: 12),
+                    Center(
+                      child: Text('Congratulations!!',
+                          textAlign: TextAlign.center,
+                          style: Styles.bold(size: 22)),
+                    ),
+                    SizedBox(height: 20),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      child: Center(
+                        child: Text(
+                            'You have succcessfully added brand to your portfolio.',
+                            maxLines: 2,
+                            textAlign: TextAlign.center,
+                            style: Styles.regular(size: 14)),
+                      ),
+                    ),
+                    Expanded(child: SizedBox()),
+                    Center(
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            margin: EdgeInsets.only(bottom: 10),
+                            height: 50,
+                            decoration: BoxDecoration(
+                                color: ColorConstants().primaryColor(),
+                                borderRadius: BorderRadius.circular(8)),
+                            child: Center(
+                              child: Text(
+                                'Done',
+                                style: Styles.regular(size: 16),
+                              ),
+                            )),
+                      ),
+                    )
+                  ]),
+                );
+              });
+
           //_masterBrandResponse = state.response!;
+
           break;
         case ApiStatus.ERROR:
           //Navigator.pop(context);
