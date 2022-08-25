@@ -89,6 +89,7 @@ class _UserProfilePageState extends State<UserProfilePage>
   int? id;
   String fileString = '';
   var _result;
+  bool readOnly = true;
 
   @override
   void initState() {
@@ -1192,18 +1193,16 @@ class _UserProfilePageState extends State<UserProfilePage>
                                           left: 20.0, right: 20.0, top: 10.0),
                                       child: TextFormField(
                                         controller: titleController,
-                                        readOnly: brandImageUrl.isNotEmpty
+                                        /*readOnly: brandImageUrl.isNotEmpty
                                             ? true
-                                            : false,
+                                            : false,*/
+                                        readOnly: readOnly,
                                         style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
                                         ),
                                         keyboardType: TextInputType.text,
-                                        inputFormatters: [
-                                          FilteringTextInputFormatter.deny(
-                                              RegExp(r"[a-zA-Z -]"))
-                                        ],
+
                                         onChanged: (value) {},
                                         decoration: InputDecoration(
                                           focusColor: Colors.white,
@@ -1243,7 +1242,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                               color: ColorConstants.BLACK),
                                         ),
                                         onTap: () {
-                                          if (brandImageUrl.isNotEmpty)
+                                          if (brandImageUrl.isNotEmpty) {
                                             Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
@@ -1251,6 +1250,12 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                         BrandFilterPage(
                                                           onCalledFromOutside,
                                                         )));
+                                          }else{
+                                            print('else===========');
+                                            setSheetState((){
+                                              readOnly = false;
+                                            });
+                                          }
                                         },
                                       ),
                                     ),
