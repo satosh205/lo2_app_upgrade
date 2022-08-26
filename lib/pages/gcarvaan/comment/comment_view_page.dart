@@ -199,13 +199,15 @@ class _CommentViewPageState extends State<CommentViewPage> {
                     commentController.text != null &&
                     commentController.text.isNotEmpty) {
                   postComment(commentController.text);
-                  commentsList!.add(CommentListElement(
-                    name: '${Preference.getString(Preference.FIRST_NAME)}',
-                    content: commentController.text,
-                    createdAt: null,
-                    profileImage:
-                        Preference.getString(Preference.PROFILE_IMAGE),
-                  ));
+                  commentsList!.insert(
+                      0,
+                      CommentListElement(
+                        name: '${Preference.getString(Preference.FIRST_NAME)}',
+                        content: commentController.text,
+                        createdAt: null,
+                        profileImage:
+                            Preference.getString(Preference.PROFILE_IMAGE),
+                      ));
                   widget.value!.incrementCommentCount(widget.postId);
 
                   _scrollDown();
@@ -241,6 +243,8 @@ class _CommentViewPageState extends State<CommentViewPage> {
         case ApiStatus.SUCCESS:
           Log.v("Success....................Get Comments");
           commentsList = state.response!.data;
+          commentsList = commentsList?.reversed.toList();
+
           widget.value!.updateComment(widget.postId, commentsList!.length);
 
           _isLoading = false;
