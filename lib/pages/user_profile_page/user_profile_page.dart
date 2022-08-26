@@ -2031,9 +2031,9 @@ class _UserProfilePageState extends State<UserProfilePage>
                         value: checkBoxValue,
                         activeColor: Colors.green,
                         onChanged: (bool? newValue) {
-                          // setstate(() {
-                          //   checkBoxValue = newValue!;
-                          // });
+                          setstate(() {
+                            checkBoxValue = newValue!;
+                          });
                         }),
                   ),
                   Text(
