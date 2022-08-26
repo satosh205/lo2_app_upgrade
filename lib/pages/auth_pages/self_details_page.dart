@@ -86,41 +86,6 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
             floatingActionButton: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                CheckboxListTile(
-                  title: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          NextPageRoute(
-                              TermsAndCondition(url: APK_DETAILS['policy_url']),
-                              isMaintainState: false));
-                    },
-                    child: Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(
-                                text:
-                                    '${Strings.of(context)?.byClickingContinue}',
-                                style: Styles.regular(size: 10)),
-                            TextSpan(
-                              text:
-                                  '${Strings.of(context)?.byClickingContinueUnderline}',
-                              style: Styles.bold(
-                                  size: 10, color: ColorConstants.GREY_2),
-                            ),
-                          ],
-                        ),
-                        textAlign: TextAlign.left),
-                  ),
-                  value: checkedValue,
-                  onChanged: (newValue) {
-                    setState(() {
-                      checkedValue = newValue;
-                    });
-                  },
-                  controlAffinity:
-                      ListTileControlAffinity.leading, //  <-- leading Checkbox
-                ),
                 InkWell(
                     onTap: () {
                       if (checkedValue == true) saveChanges();
@@ -164,15 +129,8 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
-
-                    // SvgPicture.asset(
-                    //   'assets/images/masterg_logo.svg',
-                    //   height: 75,
-                    //   width: 173,
-                    //   allowDrawingOutsideViewBox: true,
-                    // ),
                     SizedBox(height: 10),
                     Text('${Strings.of(context)?.TellUsAboutYourSelf}',
                         style: Styles.bold()),
@@ -293,8 +251,42 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                   },
                 ),
               ])),
-
-              // Expanded(child: SizedBox()),
+              SizedBox(height: 20),
+              CheckboxListTile(
+                title: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        NextPageRoute(
+                            TermsAndCondition(url: APK_DETAILS['policy_url']),
+                            isMaintainState: false));
+                  },
+                  child: Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                              text:
+                                  '${Strings.of(context)?.byClickingContinue}',
+                              style: Styles.regular(size: 10)),
+                          TextSpan(
+                            text:
+                                '${Strings.of(context)?.byClickingContinueUnderline}',
+                            style: Styles.bold(
+                                size: 10, color: ColorConstants.GREY_2),
+                          ),
+                        ],
+                      ),
+                      textAlign: TextAlign.left),
+                ),
+                value: checkedValue,
+                onChanged: (newValue) {
+                  setState(() {
+                    checkedValue = newValue;
+                  });
+                },
+                controlAffinity:
+                    ListTileControlAffinity.leading, //  <-- leading Checkbox
+              ),
             ],
           ),
         ),

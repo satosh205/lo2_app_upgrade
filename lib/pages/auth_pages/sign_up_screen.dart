@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:masterg/pages/auth_pages/self_details_page.dart';
 import 'package:masterg/utils/config.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:masterg/blocs/auth_bloc.dart';

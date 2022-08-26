@@ -76,148 +76,149 @@ class _BrandFilterPageState extends State<BrandFilterPage> {
         title: Text('Brand Name'),
         backgroundColor: ColorConstants().primaryColor(),
       ),
-      body: Column(
-        children: <Widget>[
-          TextField(
-            controller: titleController,
-            autofocus: true,
-            decoration: InputDecoration(
-              prefixIcon: Icon(Icons.search_rounded),
-              // suffixIcon: IconButton(
-              //   onPressed: () {
-              //     if (titleController.text.isNotEmpty) {
-              //       Navigator.of(context).pop();
-              //       widget.onCalledBack(titleController.text.toString(), '', 0);
-              //     } else {
-              //       Utility.showSnackBar(
-              //           scaffoldContext: context,
-              //           message: 'Please enter brand name.');
-              //     }
-              //   },
-              //   icon: Icon(Icons.add),
-              // ),
-              contentPadding: EdgeInsets.all(15.0),
-              border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey),
-              ),
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey),
-              ),
-              hintText: 'Enter Brand Name',
+      body: Column(children: <Widget>[
+        TextField(
+          controller: titleController,
+          autofocus: true,
+          decoration: InputDecoration(
+            prefixIcon: Icon(Icons.search_rounded),
+            // suffixIcon: IconButton(
+            //   onPressed: () {
+            //     if (titleController.text.isNotEmpty) {
+            //       Navigator.of(context).pop();
+            //       widget.onCalledBack(titleController.text.toString(), '', 0);
+            //     } else {
+            //       Utility.showSnackBar(
+            //           scaffoldContext: context,
+            //           message: 'Please enter brand name.');
+            //     }
+            //   },
+            //   icon: Icon(Icons.add),
+            // ),
+            contentPadding: EdgeInsets.all(15.0),
+            border: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey),
             ),
-            onChanged: (string) {
-              _debouncer.run(() {
-                setState(() {
-                  flagIndicator = true;
-                  /*filteredUsers = addressListData
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey),
+            ),
+            hintText: 'Enter Brand Name',
+          ),
+          onChanged: (string) {
+            _debouncer.run(() {
+              setState(() {
+                flagIndicator = true;
+                /*filteredUsers = addressListData
                       .where((u) => (u.addressLine1
                       .toLowerCase()
                       .contains(string.toLowerCase())))
                       .toList();*/
-                  fetchProducts(string.toString().trim());
-                });
+                fetchProducts(string.toString().trim());
               });
-            },
-          ),
-          flagIndicator == true
-              ? Container(
-                  height: 25,
-                  width: 25,
-                  child: CircularProgressIndicator(),
-                )
-              : SizedBox(),
-          ListView.builder(
-            shrinkWrap: true,
-            padding: EdgeInsets.all(10.0),
-            itemCount: filteredUsers.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Card(
-                child: Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Container(
-                    child: InkWell(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            filteredUsers[index].title.toString(),
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.black,
-                            ),
+            });
+          },
+        ),
+        flagIndicator == true
+            ? Container(
+                height: 25,
+                width: 25,
+                child: CircularProgressIndicator(),
+              )
+            : SizedBox(),
+        ListView.builder(
+          shrinkWrap: true,
+          padding: EdgeInsets.all(10.0),
+          itemCount: filteredUsers.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Card(
+              child: Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Container(
+                  child: InkWell(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          filteredUsers[index].title.toString(),
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.black,
                           ),
-                          Image.network(
-                            addressListData[index].image.toString(),
-                            filterQuality: FilterQuality.low,
-                            width: 80,
-                            height: 40,
-                            fit: BoxFit.fill,
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) {
-                                debugPrint('image loading null');
-                                return child;
-                              }
-                              debugPrint('image loading...');
-                              return  Center(
-                                  child: SizedBox(
-                                      width: 20,
-                                      height: 20,
-                                      child: CircularProgressIndicator(
-                                        color: ColorConstants().primaryColor(),
-                                      )));
-                            },
-                          ),
-                        ],
-                      ),
-
-                      //filteredUsers[index].data![index].title.toString(),
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        widget.onCalledBack(
-                            filteredUsers[index].title.toString(),
-                            filteredUsers[index].image,
-                            filteredUsers[index].id);
-                      },
+                        ),
+                        Image.network(
+                          addressListData[index].image.toString(),
+                          filterQuality: FilterQuality.low,
+                          width: 80,
+                          height: 40,
+                          fit: BoxFit.fill,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) {
+                              debugPrint('image loading null');
+                              return child;
+                            }
+                            debugPrint('image loading...');
+                            return Center(
+                                child: SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      color: ColorConstants().primaryColor(),
+                                    )));
+                          },
+                        ),
+                      ],
                     ),
+
+                    //filteredUsers[index].data![index].title.toString(),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      widget.onCalledBack(filteredUsers[index].title.toString(),
+                          filteredUsers[index].image, filteredUsers[index].id);
+                    },
                   ),
                 ),
-              );
-            },
-          ),
-
-          titleController.text.isNotEmpty ? Column(
-            children: [
-              Text(
-                'Your brand not list hare.',
-                style: Styles.regular(size: 12),
               ),
-              GestureDetector(
-                onTap: () {
-                  if (titleController.text.isNotEmpty) {
-                    Navigator.of(context).pop();
-                    widget.onCalledBack(titleController.text.toString(), '', 0);
-                  } else {
-                    Utility.showSnackBar(
-                        scaffoldContext: context,
-                        message: 'Please enter brand name.');
-                  }
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 7, horizontal: 49),
-                  margin: EdgeInsets.only(top: 20),
-                  decoration: BoxDecoration(
-                      border: Border.all(), borderRadius: BorderRadius.circular(8)),
-                  child: Text('Add your brand', style: Styles.regular(size: 14)),
-                ),
-              ),
-            ],
-          ):SizedBox(),
-        ]
-      ),
+            );
+          },
+        ),
+        titleController.text.isNotEmpty
+            ? Column(
+                children: [
+                  Text(
+                    'We could not find your brand in our list.',
+                    style: Styles.regular(size: 12),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      if (titleController.text.isNotEmpty) {
+                        Navigator.of(context).pop();
+                        widget.onCalledBack(
+                            titleController.text.toString(), '', 0);
+                      } else {
+                        Utility.showSnackBar(
+                            scaffoldContext: context,
+                            message: 'Please enter brand name.');
+                      }
+                    },
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 7, horizontal: 49),
+                      margin: EdgeInsets.only(top: 20),
+                      decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Text('Add your brand',
+                          style: Styles.regular(size: 14)),
+                    ),
+                  ),
+                ],
+              )
+            : SizedBox(),
+      ]),
     );
   }
 
@@ -256,7 +257,7 @@ class _BrandFilterPageState extends State<BrandFilterPage> {
         print(resultsData[i]['title']);
       }
 
-      if(resultsData.length == 0){
+      if (resultsData.length == 0) {
         setState(() {
           flagIndicator = false;
         });
