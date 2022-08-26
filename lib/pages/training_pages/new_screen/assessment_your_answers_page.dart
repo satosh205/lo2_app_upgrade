@@ -205,7 +205,7 @@ class _AssessmentYourAnswersPageState extends State<AssessmentYourAnswersPage> {
                         height: 23,
                         width: 23,
                         decoration: BoxDecoration(
-                          color: ColorConstants.PRIMARY_COLOR,
+                          color: ColorConstants().primaryColor(),
                           borderRadius: BorderRadius.all(Radius.circular(100)),
                         ),
                       ),
@@ -270,7 +270,7 @@ class _AssessmentYourAnswersPageState extends State<AssessmentYourAnswersPage> {
                   },
                   child: Container(
                     height: 50,
-                    color: ColorConstants.PRIMARY_COLOR,
+                    color: ColorConstants().primaryColor(),
                     child: Center(
                         child: Text(
                       'Submit Test',
@@ -317,7 +317,7 @@ class _AssessmentYourAnswersPageState extends State<AssessmentYourAnswersPage> {
                         child: Card(
                           color: _list[index].question!.isCorrect == 0
                               ? ColorConstants.GREY_3
-                              : ColorConstants.PRIMARY_COLOR,
+                              : ColorConstants().primaryColor(),
                           child: Center(
                             child: Text(
                               '${index + 1}',

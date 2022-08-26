@@ -233,7 +233,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
                               width: 100,
                               padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                                  //color: ColorConstants.PRIMARY_COLOR,
+                                  //color: ColorConstants().primaryColor(),
                                   //borderRadius: BorderRadius.circular(8)
                                   ),
                               child: Row(
@@ -258,7 +258,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
                                 width: 100,
                                 //padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
-                                    //color: ColorConstants.PRIMARY_COLOR,
+                                    //color: ColorConstants().primaryColor(),
                                     //borderRadius: BorderRadius.circular(8)
                                     ),
                                 child: Row(
@@ -541,7 +541,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
             //             },
             //             child: Container(
             //               padding: const EdgeInsets.all(15),
-            //               color: ColorConstants.PRIMARY_COLOR,
+            //               color: ColorConstants().primaryColor(),
             //               child: Text(
             //                 "See Solution",
             //                 style: Styles.boldWhite(),

@@ -1335,7 +1335,7 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
               width: 100,
               //padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                  //color: ColorConstants.PRIMARY_COLOR,
+                  //color: ColorConstants().primaryColor(),
                   //borderRadius: BorderRadius.circular(8)
                   ),
               child: Row(
@@ -1387,7 +1387,7 @@ class _AssessmentAttemptPageState extends State<AssessmentAttemptPage>
                 width: 100,
                 //padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                    //color: ColorConstants.PRIMARY_COLOR,
+                    //color: ColorConstants().primaryColor(),
                     //borderRadius: BorderRadius.circular(8)
                     ),
                 child: Row(

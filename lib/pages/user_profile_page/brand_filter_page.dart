@@ -162,12 +162,12 @@ class _BrandFilterPageState extends State<BrandFilterPage> {
                                 return child;
                               }
                               debugPrint('image loading...');
-                              return const Center(
+                              return  Center(
                                   child: SizedBox(
                                       width: 20,
                                       height: 20,
                                       child: CircularProgressIndicator(
-                                        color: ColorConstants.PRIMARY_COLOR,
+                                        color: ColorConstants().primaryColor(),
                                       )));
                             },
                           ),
