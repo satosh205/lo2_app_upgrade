@@ -90,6 +90,7 @@ class _UserProfilePageState extends State<UserProfilePage>
   String fileString = '';
   var _result;
   bool readOnly = true;
+  bool textContentHide = true;
 
   @override
   void initState() {
@@ -603,6 +604,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                         this.setState(() {
                           _isLoadingAdd = true;
                           checkBoxValue = true;
+                          textContentHide = true;
                           //brandImageUrl = '';
                           brandImageUrl = 'null';
                           flagUploadBranVisible = false;
@@ -1202,7 +1204,14 @@ class _UserProfilePageState extends State<UserProfilePage>
                                           fontWeight: FontWeight.w600,
                                         ),
                                         keyboardType: TextInputType.text,
-                                        onChanged: (value) {},
+                                        onChanged: (value) {
+                                          print("on change method called");
+                                          if (brandImageUrl.isEmpty) {
+                                            setSheetState(() {
+                                              textContentHide = false;
+                                            });
+                                          }
+                                        },
                                         decoration: InputDecoration(
                                           focusColor: Colors.white,
                                           border: OutlineInputBorder(
@@ -1217,8 +1226,9 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                 BorderRadius.circular(10.0),
                                           ),
                                           fillColor: Colors.grey,
-                                          hintText:
-                                              "${Strings.of(context)?.brandName}",
+                                          hintText: brandImageUrl.isEmpty
+                                              ? "Enter brand name"
+                                              : "${Strings.of(context)?.brandName}",
                                           //make hint text
                                           hintStyle: TextStyle(
                                             color: Colors.grey,
@@ -1228,8 +1238,9 @@ class _UserProfilePageState extends State<UserProfilePage>
                                           ),
 
                                           //create lable
-                                          labelText:
-                                              "${Strings.of(context)?.brandName}",
+                                          labelText: brandImageUrl.isEmpty
+                                              ? "Enter brand name"
+                                              : "${Strings.of(context)?.brandName}",
                                           //lable style
                                           labelStyle: TextStyle(
                                             color: Colors.grey,
@@ -1237,8 +1248,10 @@ class _UserProfilePageState extends State<UserProfilePage>
                                             fontFamily: "verdana_regular",
                                             fontWeight: FontWeight.w400,
                                           ),
-                                          prefixIcon: Icon(Icons.search_rounded,
-                                              color: ColorConstants.BLACK),
+                                          prefixIcon: brandImageUrl.isNotEmpty
+                                              ? Icon(Icons.search_rounded,
+                                                  color: ColorConstants.BLACK)
+                                              : null,
                                         ),
                                         onTap: () {
                                           if (brandImageUrl.isNotEmpty) {
@@ -1253,6 +1266,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                             print('else===========');
                                             setSheetState(() {
                                               readOnly = false;
+                                              // textContentHide = false;
                                             });
                                           }
                                         },
