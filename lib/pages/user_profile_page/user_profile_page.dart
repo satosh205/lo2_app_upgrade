@@ -1641,13 +1641,13 @@ class _UserProfilePageState extends State<UserProfilePage>
                              ),*/
 
                                     SizedBox(
-                                      height: 10,
+                                      height: 5,
                                     ),
                                   ],
                                 ),
                               ),
                               SizedBox(
-                                height: 4,
+                                height: 1,
                               ),
 
                               Center(
@@ -1743,7 +1743,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                 alignment: Alignment.center,
                                 child: Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 20.0, right: 20.0, top: 30.0),
+                                        left: 20.0, right: 20.0, top: 20.0),
                                     child: Text('Select tenure')),
                               ),
                               SizedBox(
@@ -1967,20 +1967,29 @@ class _UserProfilePageState extends State<UserProfilePage>
             children: [
               Expanded(
                 child: Container(
-                  height: 35,
+                  //height: 35,
                   padding: EdgeInsets.only(right: 5.0),
-                  child: TextFormField(
-                    controller: fromDateController,
-                    readOnly: true,
-                    style: TextStyle(fontSize: 13.0),
-                    decoration: InputDecoration(
-                      hintStyle: TextStyle(fontSize: 13.0),
-                      hintText: '${Strings.of(context)?.fromDate}',
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-                      border: OutlineInputBorder(),
-                      suffixIcon: Icon(Icons.calendar_today),
-                    ),
-                    onTap: () => calenderOpen('from'),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 35,
+                        child: TextFormField(
+                          controller: fromDateController,
+                          readOnly: true,
+                          style: TextStyle(fontSize: 13.0),
+                          decoration: InputDecoration(
+                            hintStyle: TextStyle(fontSize: 13.0),
+                            hintText: '${Strings.of(context)?.fromDate}',
+                            contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                            border: OutlineInputBorder(),
+                            suffixIcon: Icon(Icons.calendar_today),
+                          ),
+                          onTap: () => calenderOpen('from'),
+                        ),
+                      ),
+
+                      checkBoxValue == false ? SizedBox(height: 45,): SizedBox(),
+                    ],
                   ),
                 ),
               ),
@@ -2007,7 +2016,7 @@ class _UserProfilePageState extends State<UserProfilePage>
 
               Expanded(
                 child: Container(
-                  height: 35,
+                  //height: 35,
                   padding: EdgeInsets.only(left: 0.0),
                   child: _checkBox(),
                 ),
@@ -2022,43 +2031,46 @@ class _UserProfilePageState extends State<UserProfilePage>
   Widget _checkBox() {
     return StatefulBuilder(builder: (context, setstate) {
       return Container(
-        //padding: EdgeInsets.all(5.0),
-        child: checkBoxValue == true
-            ? Row(
-                children: <Widget>[
-                  Container(
-                    child: new Checkbox(
-                        value: checkBoxValue,
-                        activeColor: Colors.green,
-                        onChanged: (bool? newValue) {
-                          setstate(() {
-                            checkBoxValue = newValue!;
-                          });
-                        }),
-                  ),
-                  Text(
-                    '${Strings.of(context)?.present}',
-                    style: TextStyle(color: Colors.red),
-                  ),
-                ],
-              )
-            : Container(
-                //height: 35,
-                padding: EdgeInsets.only(left: 5.0),
-                child: TextFormField(
-                  controller: toDateController,
-                  readOnly: true,
-                  style: TextStyle(fontSize: 13.0),
-                  decoration: InputDecoration(
-                    hintStyle: TextStyle(fontSize: 13.0),
-                    hintText: '${Strings.of(context)?.toDate}',
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-                    border: OutlineInputBorder(),
-                    suffixIcon: Icon(Icons.calendar_today),
-                  ),
-                  onTap: () => calenderOpen('to'),
+        child: Column(
+          //padding: EdgeInsets.all(5.0),
+          children: [
+            checkBoxValue == false ? Container(
+              height: 35,
+              padding: EdgeInsets.only(left: 5.0),
+              child: TextFormField(
+                controller: toDateController,
+                readOnly: true,
+                style: TextStyle(fontSize: 13.0),
+                decoration: InputDecoration(
+                  hintStyle: TextStyle(fontSize: 13.0),
+                  hintText: '${Strings.of(context)?.toDate}',
+                  contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                  border: OutlineInputBorder(),
+                  suffixIcon: Icon(Icons.calendar_today),
                 ),
+                onTap: () => calenderOpen('to'),
               ),
+            ) : SizedBox(),
+            Row(
+              children: <Widget>[
+                Container(
+                  child: new Checkbox(
+                      value: checkBoxValue,
+                      activeColor: Colors.green,
+                      onChanged: (bool? newValue) {
+                        setstate(() {
+                          checkBoxValue = newValue!;
+                        });
+                      }),
+                ),
+                Text(
+                  '${Strings.of(context)?.present}',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ],
+            ),
+          ],
+        ),
       );
     });
 

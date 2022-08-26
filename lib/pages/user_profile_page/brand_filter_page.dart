@@ -192,7 +192,7 @@ class _BrandFilterPageState extends State<BrandFilterPage> {
           titleController.text.isNotEmpty ? Column(
             children: [
               Text(
-                'We could not find your brand in our list.',
+                'Your brand not list hare.',
                 style: Styles.regular(size: 12),
               ),
               GestureDetector(
@@ -216,7 +216,7 @@ class _BrandFilterPageState extends State<BrandFilterPage> {
               ),
             ],
           ):SizedBox(),
-        ],
+        ]
       ),
     );
   }
