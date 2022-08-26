@@ -41,7 +41,7 @@ class _ReadMoreTextState extends State<ReadMoreText> {
               });
             },
             child: Text(
-              isExpanded ? 'less' : '...more',
+              isExpanded ? 'See less' : '...See more',
               style: Styles.regular(size: 14, color: ColorConstants.GREY_3),
             ),
           ),
