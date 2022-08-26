@@ -188,29 +188,34 @@ class _BrandFilterPageState extends State<BrandFilterPage> {
               );
             },
           ),
-          Text(
-            'We could not find your brand in our list.',
-            style: Styles.regular(size: 12),
-          ),
-          GestureDetector(
-            onTap: () {
-              if (titleController.text.isNotEmpty) {
-                Navigator.of(context).pop();
-                widget.onCalledBack(titleController.text.toString(), '', 0);
-              } else {
-                Utility.showSnackBar(
-                    scaffoldContext: context,
-                    message: 'Please enter brand name.');
-              }
-            },
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 7, horizontal: 49),
-              margin: EdgeInsets.only(top: 20),
-              decoration: BoxDecoration(
-                  border: Border.all(), borderRadius: BorderRadius.circular(8)),
-              child: Text('Add your brand', style: Styles.regular(size: 14)),
-            ),
-          )
+
+          titleController.text.isNotEmpty ? Column(
+            children: [
+              Text(
+                'We could not find your brand in our list.',
+                style: Styles.regular(size: 12),
+              ),
+              GestureDetector(
+                onTap: () {
+                  if (titleController.text.isNotEmpty) {
+                    Navigator.of(context).pop();
+                    widget.onCalledBack(titleController.text.toString(), '', 0);
+                  } else {
+                    Utility.showSnackBar(
+                        scaffoldContext: context,
+                        message: 'Please enter brand name.');
+                  }
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 7, horizontal: 49),
+                  margin: EdgeInsets.only(top: 20),
+                  decoration: BoxDecoration(
+                      border: Border.all(), borderRadius: BorderRadius.circular(8)),
+                  child: Text('Add your brand', style: Styles.regular(size: 14)),
+                ),
+              ),
+            ],
+          ):SizedBox(),
         ],
       ),
     );
@@ -232,8 +237,9 @@ class _BrandFilterPageState extends State<BrandFilterPage> {
     Map parsedJson = json.decode(response.body);
     if (response.statusCode == 200) {
       flagIndicator = false;
-
+      print('=========== parsedJson===========');
       print(parsedJson);
+
       var resultsData = parsedJson['data'] as List;
       print(resultsData.length);
       for (int i = 0; i < resultsData.length; i++) {
@@ -250,8 +256,14 @@ class _BrandFilterPageState extends State<BrandFilterPage> {
         print(resultsData[i]['title']);
       }
 
+      if(resultsData.length == 0){
+        setState(() {
+          flagIndicator = false;
+        });
+      }
       print(resultsData);
     } else {
+      print('=========== else===========');
       throw Exception('Unable to fetch products from the REST API');
     }
 
