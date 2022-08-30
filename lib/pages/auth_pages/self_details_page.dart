@@ -240,7 +240,10 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                   },
                   validator: (value) {
                     print('the value is $value');
-                    if (value == '') return null;
+                    if (value == '')
+                      return APK_DETAILS['package_name'] == 'com.learn_build'
+                          ? 'Email is required'
+                          : null;
 
                     if (!RegExp(
                             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
