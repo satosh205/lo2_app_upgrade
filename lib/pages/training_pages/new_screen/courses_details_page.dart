@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masterg/data/models/response/auth_response/user_session.dart';
+import 'package:masterg/pages/custom_pages/custom_widgets/CommonWebView.dart';
+import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/utils/Strings.dart';
 
 import '../../../blocs/home_bloc.dart';
 import '../../../data/models/request/home_request/user_program_subscribe.dart';
+import '../../../local/pref/Preference.dart';
 import '../../../utils/Styles.dart';
 import '../../../utils/resource/colors.dart';
 import '../../custom_pages/TapWidget.dart';
@@ -20,6 +24,7 @@ class CoursesDetailsPage extends StatefulWidget {
   final String? trainer;
   final int? enrolmentCount;
   final int? id;
+  final String? shortCode;
   final String? type;
 
   const CoursesDetailsPage(
@@ -34,7 +39,8 @@ class CoursesDetailsPage extends StatefulWidget {
       this.trainer,
       this.enrolmentCount,
       this.id,
-      this.type})
+      this.type,
+      this.shortCode})
       : super(key: key);
 
   @override
@@ -78,8 +84,24 @@ class _CoursesDetailsPageState extends State<CoursesDetailsPage> {
             ),
             TapWidget(
               onTap: () {
-                print('object');
-                _subscribeRequest(widget.type, widget.id);
+                if (widget.type == 'paid') {
+                  final url =
+                      'https://learnandbuild.in/signin.php?username=${Preference.getString(Preference.USER_EMAIL)}&slug=${widget.shortCode}';
+
+                  print(url);
+                  // 'https://learnandbuild.in/signin.php?username=shubhamsharma5may@gmail.com&slug=learn-c-programming';
+
+                  Navigator.push(
+                      context,
+                      NextPageRoute(CommonWebView(
+                        url: url,
+                      ))).then((isSuccess) {
+                    if (isSuccess == true) {
+                      Navigator.pop(context);
+                    }
+                  });
+                } else
+                  _subscribeRequest(widget.type, widget.id);
               },
               child: Container(
                 height: 50,
@@ -94,7 +116,7 @@ class _CoursesDetailsPageState extends State<CoursesDetailsPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Request',
+                        widget.type == 'paid' ? 'Enroll Now' : 'Request',
                         style: Styles.textExtraBold(
                             size: 14, color: ColorConstants.WHITE),
                       ),
