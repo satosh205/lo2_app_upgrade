@@ -32,3 +32,8 @@ const APK_DETAILS = {
 
 
   // "domain_url": "https://qa.learningoxygen.com/"
+
+
+
+//"splash_image": "masterg_logo.svg",
+
