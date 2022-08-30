@@ -3,16 +3,28 @@ import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
 import 'package:injector/injector.dart';
 import 'package:masterg/data/api/api_service.dart';
+import 'package:masterg/data/models/request/home_request/get_course_modules_request.dart';
+import 'package:masterg/data/models/request/home_request/submit_feedback_req.dart';
 import 'package:masterg/data/models/request/home_request/user_program_subscribe.dart';
+import 'package:masterg/data/models/request/home_request/user_tracking_activity.dart';
 import 'package:masterg/data/models/request/save_answer_request.dart';
 import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
+import 'package:masterg/data/models/response/general_resp.dart';
 import 'package:masterg/data/models/response/home_response/assignment_submissions_response.dart';
+import 'package:masterg/data/models/response/home_response/content_tags_resp.dart';
 import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
 import 'package:masterg/data/models/response/home_response/create_post_response.dart';
 import 'package:masterg/data/models/response/home_response/featured_video_response.dart';
+import 'package:masterg/data/models/response/home_response/feedback_response.dart';
 import 'package:masterg/data/models/response/home_response/gcarvaan_post_reponse.dart';
+import 'package:masterg/data/models/response/home_response/get_certificates_resp.dart';
 import 'package:masterg/data/models/response/home_response/get_comment_response.dart';
 import 'package:masterg/data/models/response/home_response/get_content_resp.dart';
+import 'package:masterg/data/models/response/home_response/get_course_leaderboard_resp.dart';
+import 'package:masterg/data/models/response/home_response/get_course_modules_resp.dart';
+import 'package:masterg/data/models/response/home_response/get_courses_resp.dart';
+import 'package:masterg/data/models/response/home_response/get_kpi_analysis_resp.dart';
+import 'package:masterg/data/models/response/home_response/get_module_leaderboard_resp.dart';
 import 'package:masterg/data/models/response/home_response/greels_response.dart';
 import 'package:masterg/data/models/response/home_response/joy_category_response.dart';
 import 'package:masterg/data/models/response/home_response/joy_contentList_response.dart';
@@ -22,6 +34,7 @@ import 'package:masterg/data/models/response/home_response/map_interest_response
 import 'package:masterg/data/models/response/home_response/master_language_response.dart';
 import 'package:masterg/data/models/response/home_response/my_assessment_response.dart';
 import 'package:masterg/data/models/response/home_response/my_assignment_response.dart';
+import 'package:masterg/data/models/response/home_response/notification_resp.dart';
 import 'package:masterg/data/models/response/home_response/onboard_sessions.dart';
 import 'package:masterg/data/models/response/home_response/popular_courses_response.dart';
 import 'package:masterg/data/models/response/home_response/post_comment_response.dart';
@@ -29,8 +42,10 @@ import 'package:masterg/data/models/response/home_response/program_list_reponse.
 import 'package:masterg/data/models/response/home_response/report_content_response.dart';
 import 'package:masterg/data/models/response/home_response/save_answer_response.dart';
 import 'package:masterg/data/models/response/home_response/submit_answer_response.dart';
+import 'package:masterg/data/models/response/home_response/submit_feedback_resp.dart';
 import 'package:masterg/data/models/response/home_response/test_attempt_response.dart';
 import 'package:masterg/data/models/response/home_response/test_review_response.dart';
+import 'package:masterg/data/models/response/home_response/topics_resp.dart';
 import 'package:masterg/data/models/response/home_response/update_user_profile_response.dart';
 import 'package:masterg/data/models/response/home_response/user_analytics_response.dart';
 import 'package:masterg/data/models/response/home_response/user_profile_response.dart';
@@ -756,6 +771,61 @@ class CreatePostState extends HomeState {
   CreatePostState(this.state, {this.response, this.error});
 }
 
+class NotificationState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  NotificationResp? response;
+  String? error;
+
+  NotificationState(this.state, {this.response, this.error});
+}
+
+class NotificationListEvent extends HomeEvent {
+  NotificationListEvent() : super([]);
+
+  @override
+  List<Object> get props => throw UnimplementedError();
+}
+
+class GetCoursesEvent extends HomeEvent {
+  GetCoursesEvent({this.type = 0}) : super([]);
+  int type;
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
+
+class GetCoursesState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  GetCoursesResp? response;
+  String? error;
+
+  GetCoursesState(this.state, {this.response, this.error});
+}
+
+class UserTrackingActivityEvent extends HomeEvent {
+  UserTrackingActivity? trackReq;
+
+  UserTrackingActivityEvent({this.trackReq}) : super([trackReq]);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
+
+class UserTrackingActivityState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  GeneralResp? response;
+  String? error;
+
+  UserTrackingActivityState(this.state, {this.response, this.error});
+}
+
 class LikeContentEvent extends HomeEvent {
   int? contentId;
   String? type;
@@ -801,6 +871,210 @@ class ReportState extends HomeState {
   ReportState(this.state, {this.response, this.error});
 }
 
+class GetKPIAnalysisEvent extends HomeEvent {
+  GetKPIAnalysisEvent() : super([]);
+
+  @override
+  List<Object> get props => throw UnimplementedError();
+}
+
+class GetKPIAnalysisState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  GetKpiAnalysisResp? response;
+  String? error;
+
+  GetKPIAnalysisState(this.state, {this.response, this.error});
+}
+
+class GetCourseModulesState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  GetCourseModulesResp? response;
+  String? error;
+
+  GetCourseModulesState(this.state, {this.response, this.error});
+}
+
+class GetCourseLeaderboardState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  GetCourseLeaderboardResp? response;
+  String? error;
+
+  GetCourseLeaderboardState(this.state, {this.response, this.error});
+}
+
+class GetCourseLeaderboardEvent extends HomeEvent {
+  GetCourseModulesRequest? getCourseModulesReq;
+  int type;
+
+  GetCourseLeaderboardEvent({this.getCourseModulesReq, this.type = 0})
+      : super([getCourseModulesReq, type]);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
+
+class GetCourseModulesEvent extends HomeEvent {
+  GetCourseModulesRequest? getCourseModulesReq;
+  int? type;
+
+  GetCourseModulesEvent({this.getCourseModulesReq, this.type = 0})
+      : super([getCourseModulesReq, type]);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
+
+class GetCertificatesEvent extends HomeEvent {
+  GetCertificatesEvent() : super([]);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
+
+class GetCertificatesState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  GetCertificatesResp? response;
+  String? error;
+
+  GetCertificatesState(this.state, {this.response, this.error});
+}
+
+class GetModuleLeaderboardState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  GetModuleLeaderboardResp? response;
+  String? error;
+
+  GetModuleLeaderboardState(this.state, {this.response, this.error});
+}
+
+class GetModuleLeaderboardEvent extends HomeEvent {
+  GetCourseModulesRequest? getCourseModulesReq;
+  int type;
+
+  GetModuleLeaderboardEvent({this.getCourseModulesReq, this.type = 0})
+      : super([getCourseModulesReq, type]);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
+
+class SubmitFeedbackState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  SubmitFeedbackResp? response;
+  String? error;
+
+  SubmitFeedbackState(this.state, {this.response, this.error});
+}
+
+class SubmitFeedbackEvent extends HomeEvent {
+  FeedbackReq? feedbackReq;
+
+  SubmitFeedbackEvent({this.feedbackReq}) : super([feedbackReq]);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
+
+class TopicsState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  TopicsResp? response;
+  String? error;
+
+  TopicsState(this.state, {this.response, this.error});
+}
+
+class TopicsEvent extends HomeEvent {
+  TopicsEvent() : super([]);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
+
+class FeedbackState extends HomeState {
+  ApiStatus state;
+  int? contentType;
+
+  ApiStatus get apiState => state;
+  FeedbackResp? response;
+  String? error;
+
+  FeedbackState(this.state, {this.response, this.error, this.contentType});
+}
+
+class FeedbackEvent extends HomeEvent {
+  int? categoryType;
+
+  FeedbackEvent({this.categoryType}) : super([categoryType]);
+
+  @override
+  List<Object> get props => throw UnimplementedError();
+}
+
+class ContentTagsState extends HomeState {
+  ApiStatus state;
+  int? contentType;
+
+  ApiStatus get apiState => state;
+  ContentTagsResp? response;
+  String? error;
+
+  ContentTagsState(this.state, {this.response, this.error, this.contentType});
+}
+
+
+class ContentTagsEvent extends HomeEvent {
+  int? categoryType;
+
+  ContentTagsEvent({this.categoryType}) : super([categoryType]);
+
+  @override
+  List<Object> get props => throw UnimplementedError();
+}
+
+
+
+class LibraryContentState extends HomeState {
+  ApiStatus state;
+  int? contentType;
+
+  ApiStatus get apiState => state;
+  GetContentResp? response;
+  String? error;
+
+  LibraryContentState(this.state,
+      {this.response, this.error, this.contentType});
+}
+
+
+class LibraryContentEvent extends HomeEvent {
+  int? contentType;
+
+  LibraryContentEvent({this.contentType}) : super([contentType]);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final homeRepository = Injector.appInstance.get<HomeRepository>();
 
@@ -826,6 +1100,183 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield AnnouncementContentState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }
+    } 
+    else if (event is LibraryContentEvent) {
+      try {
+        yield LibraryContentState(ApiStatus.LOADING);
+        final response =
+            await homeRepository.getContentList(contentType: event.contentType);
+        if (response.data != null) {
+          yield LibraryContentState(ApiStatus.SUCCESS,
+              response: response, contentType: event.contentType);
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield LibraryContentState(ApiStatus.ERROR, error: response.error![0]);
+        }
+      } catch (e) {
+        Log.v("ERROR DATA : $e");
+        yield LibraryContentState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
+      }
+    }
+
+    else   if (event is ContentTagsEvent) {
+      try {
+        yield ContentTagsState(ApiStatus.LOADING);
+        final response = await homeRepository.getContentTagsList(
+            categoryType: event.categoryType);
+        if (response?.data != null) {
+          yield ContentTagsState(ApiStatus.SUCCESS,
+              response: response, contentType: event.categoryType);
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield ContentTagsState(ApiStatus.ERROR, error: response?.error![0]);
+        }
+      } catch (e) {
+        Log.v("ERROR DATA : $e");
+        yield ContentTagsState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
+      }
+    }
+    else if (event is FeedbackEvent) {
+      try {
+        yield FeedbackState(ApiStatus.LOADING);
+        final response = await homeRepository.getFeedbackList();
+        if (response!.data != null) {
+          yield FeedbackState(ApiStatus.SUCCESS,
+              response: response, contentType: event.categoryType);
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield FeedbackState(ApiStatus.ERROR, error: response.error![0]);
+        }
+      } catch (e) {
+        Log.v("ERROR DATA : $e");
+        yield FeedbackState(ApiStatus.ERROR, error: Strings.somethingWentWrong);
+      }
+    }
+    
+    else if (event is TopicsEvent) {
+      try {
+        yield TopicsState(ApiStatus.LOADING);
+        final response = await homeRepository.getTopicsList();
+        if (response.data != null) {
+          yield TopicsState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield TopicsState(ApiStatus.ERROR, error: response.error![0]);
+        }
+      } catch (e) {
+        Log.v("ERROR DATA : $e");
+        yield TopicsState(ApiStatus.ERROR, error: Strings.somethingWentWrong);
+      }
+    } else if (event is SubmitFeedbackEvent) {
+      try {
+        yield SubmitFeedbackState(ApiStatus.LOADING);
+        final response =
+            await homeRepository.submitFeedback(feedbackReq: event.feedbackReq);
+        if (response != null) {
+          yield SubmitFeedbackState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA2 ::: ${response}");
+          yield SubmitFeedbackState(ApiStatus.ERROR, error: response.message);
+        }
+      } catch (e, stacktrace) {
+        print(stacktrace);
+        Log.v("ERROR DATA3 : $e");
+        yield SubmitFeedbackState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
+      }
+    } else if (event is GetModuleLeaderboardEvent) {
+      try {
+        yield GetModuleLeaderboardState(ApiStatus.LOADING);
+        final response = await homeRepository.getModuleLeaderboardList(
+            '${event.getCourseModulesReq?.courseId}',
+            type: event.type);
+        if (response?.data != null) {
+          yield GetModuleLeaderboardState(ApiStatus.SUCCESS,
+              response: response);
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield GetModuleLeaderboardState(ApiStatus.ERROR,
+              error: Strings.somethingWentWrong);
+        }
+      } catch (e, s) {
+        print(s);
+        Log.v("ERROR DATA : $e");
+        yield GetModuleLeaderboardState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
+      }
+    } else if (event is GetCertificatesEvent) {
+      try {
+        yield GetCertificatesState(ApiStatus.LOADING);
+        final response = await homeRepository.getCertificatesList();
+        if (response?.data != null) {
+          yield GetCertificatesState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield GetCertificatesState(ApiStatus.ERROR,
+              error: Strings.somethingWentWrong);
+        }
+      } catch (e) {
+        Log.v("ERROR DATA : $e");
+        yield GetCertificatesState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
+      }
+    } else if (event is GetCourseLeaderboardEvent) {
+      try {
+        yield GetCourseLeaderboardState(ApiStatus.LOADING);
+        final response = await homeRepository.getCourseLeaderboardList(
+            '${event.getCourseModulesReq?.courseId}',
+            type: event.type);
+        if (response!.data != null) {
+          yield GetCourseLeaderboardState(ApiStatus.SUCCESS,
+              response: response);
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield GetCourseLeaderboardState(ApiStatus.ERROR,
+              error: Strings.somethingWentWrong);
+        }
+      } catch (e, s) {
+        print(s);
+        Log.v("ERROR DATA : $e");
+        yield GetCourseLeaderboardState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
+      }
+    } else if (event is GetCourseModulesEvent) {
+      try {
+        yield GetCourseModulesState(ApiStatus.LOADING);
+        final response = await homeRepository.getCourseModulesList(
+            '${event.getCourseModulesReq?.courseId}',
+            type: event.type!);
+        if (response?.data != null) {
+          yield GetCourseModulesState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield GetCourseModulesState(ApiStatus.ERROR,
+              error: Strings.somethingWentWrong);
+        }
+      } catch (e, stacktrace) {
+        print(stacktrace);
+        Log.v("ERROR DATA : $e");
+        yield GetCourseModulesState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
+      }
+    } else if (event is GetKPIAnalysisEvent) {
+      try {
+        yield GetKPIAnalysisState(ApiStatus.LOADING);
+        final response = await homeRepository.getKPIAnalysisList();
+        if (response?.data != null) {
+          yield GetKPIAnalysisState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield GetKPIAnalysisState(ApiStatus.ERROR,
+              error: Strings.somethingWentWrong);
+        }
+      } catch (e) {
+        Log.v("ERROR DATA : $e");
+        yield GetKPIAnalysisState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
+      }
     } else if (event is MyAssessmentEvent) {
       try {
         yield MyAssessmentState(ApiStatus.LOADING);
@@ -839,6 +1290,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       } catch (e) {
         Log.v("ERROR DATA : $e");
         yield MyAssessmentState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
+      }
+    } else if (event is GetCoursesEvent) {
+      try {
+        yield GetCoursesState(ApiStatus.LOADING);
+        final response = await homeRepository.getCoursesList(type: event.type);
+        if (response?.data != null) {
+          yield GetCoursesState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield GetCoursesState(ApiStatus.ERROR,
+              error: Strings.somethingWentWrong);
+        }
+      } catch (e, s) {
+        print(s);
+        Log.v("ERROR DATA : $e");
+        yield GetCoursesState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }
     } else if (event is MyAssignmentEvent) {
