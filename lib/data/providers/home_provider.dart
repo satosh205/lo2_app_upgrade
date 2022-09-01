@@ -6,7 +6,9 @@ import 'package:masterg/data/api/api_constants.dart';
 import 'package:masterg/data/api/api_response.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/request/dealer/submit_reward_req.dart';
+import 'package:masterg/data/models/request/home_request/poll_submit_req.dart';
 import 'package:masterg/data/models/request/home_request/submit_feedback_req.dart';
+import 'package:masterg/data/models/request/home_request/submit_survey_req.dart';
 import 'package:masterg/data/models/request/home_request/track_announcement_request.dart';
 import 'package:masterg/data/models/request/home_request/user_program_subscribe.dart';
 import 'package:masterg/data/models/request/home_request/user_tracking_activity.dart';
@@ -1704,6 +1706,93 @@ class HomeProvider {
     }
   }
 
+   Future<ApiResponse?> getSurveyDataList({int? contentId, int? type}) async {
+    //  Utility.hideKeyboard();
+    print("############  $type");
+    try {
+      final response = await api.dio.get(
+          (type == 1 ? ApiConstants.SURVEY_API : ApiConstants.POLL_API) +
+              "/$contentId",
+          options: Options(
+              method: 'GET',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+  }
+
+   Future<ApiResponse?> submitSurvey({SubmitSurveyReq? req}) async {
+    //  Utility.hideKeyboard();
+    try {
+      final response = await api.dio.post(ApiConstants.SURVEY_API,
+          data: json.encode(req?.toJson()),
+          options: Options(
+              method: 'POST',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      print(response.data);
+      print(response.statusCode);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+  }
+
+
+ Future<ApiResponse?> submitPoll({PollSubmitRequest? req}) async {
+    //  Utility.hideKeyboard();
+    try {
+      final response = await api.dio.post(ApiConstants.POLL_API,
+          data: json.encode(req?.toJson()),
+          options: Options(
+              method: 'POST',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+  }
+
+
   Future<ApiResponse?> updateVideoCompletion(
       int bookmark, int contentId) async {
     try {
@@ -1734,4 +1823,6 @@ class HomeProvider {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
   }
+
+  
 }

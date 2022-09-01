@@ -15,7 +15,7 @@ class Images {
   static const String IC_LOGOUT = "assets/images/ic_logout.png";
 
   static const String SPLASH_LOGO = "assets/images/splash_logo_new.png";
-  static const String SWAYAM_SPLASH_LOGO = "assets/images/ic_launcher.png";
+  static const String SWAYAM_SPLASH_LOGO = "assets/images/swayam_splash_logo.png";
 
   static const String BG_IMAGE = "";
 

@@ -4,7 +4,10 @@ import 'package:hive/hive.dart';
 import 'package:injector/injector.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/request/home_request/get_course_modules_request.dart';
+import 'package:masterg/data/models/request/home_request/poll_submit_req.dart';
 import 'package:masterg/data/models/request/home_request/submit_feedback_req.dart';
+import 'package:masterg/data/models/request/home_request/submit_survey_req.dart';
+import 'package:masterg/data/models/request/home_request/track_announcement_request.dart';
 import 'package:masterg/data/models/request/home_request/user_program_subscribe.dart';
 import 'package:masterg/data/models/request/home_request/user_tracking_activity.dart';
 import 'package:masterg/data/models/request/save_answer_request.dart';
@@ -43,6 +46,7 @@ import 'package:masterg/data/models/response/home_response/report_content_respon
 import 'package:masterg/data/models/response/home_response/save_answer_response.dart';
 import 'package:masterg/data/models/response/home_response/submit_answer_response.dart';
 import 'package:masterg/data/models/response/home_response/submit_feedback_resp.dart';
+import 'package:masterg/data/models/response/home_response/survey_data_resp.dart';
 import 'package:masterg/data/models/response/home_response/test_attempt_response.dart';
 import 'package:masterg/data/models/response/home_response/test_review_response.dart';
 import 'package:masterg/data/models/response/home_response/topics_resp.dart';
@@ -1041,7 +1045,6 @@ class ContentTagsState extends HomeState {
   ContentTagsState(this.state, {this.response, this.error, this.contentType});
 }
 
-
 class ContentTagsEvent extends HomeEvent {
   int? categoryType;
 
@@ -1050,8 +1053,6 @@ class ContentTagsEvent extends HomeEvent {
   @override
   List<Object> get props => throw UnimplementedError();
 }
-
-
 
 class LibraryContentState extends HomeState {
   ApiStatus state;
@@ -1065,7 +1066,6 @@ class LibraryContentState extends HomeState {
       {this.response, this.error, this.contentType});
 }
 
-
 class LibraryContentEvent extends HomeEvent {
   int? contentType;
 
@@ -1075,6 +1075,103 @@ class LibraryContentEvent extends HomeEvent {
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();
 }
+
+class TrackAnnouncementEvent extends HomeEvent {
+  TrackAnnouncementReq? rewardReq;
+
+  TrackAnnouncementEvent({this.rewardReq}) : super([rewardReq]);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
+
+class ActivityAttemptEvent extends HomeEvent {
+  String? filePath;
+  int? contentType;
+  int? contentId;
+
+  ActivityAttemptEvent({this.filePath, this.contentType, this.contentId})
+      : super([filePath, contentType, contentId]);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
+
+class ActivityAttemptState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  GeneralResp? response;
+  String? error;
+
+  ActivityAttemptState(this.state, {this.response, this.error});
+}
+
+class TrackAnnouncementState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  GeneralResp? response;
+  String? error;
+
+  TrackAnnouncementState(this.state, {this.response, this.error});
+}
+
+class SurveyDataState extends HomeState {
+  ApiStatus state;
+  int? contentId;
+
+  ApiStatus get apiState => state;
+  SurveyDataResp? response;
+  String? error;
+  SurveyDataState(this.state, {this.response, this.error, this.contentId});
+}
+
+class SurveyDataEvent extends HomeEvent {
+  int? contentId;
+  int? type;
+
+  SurveyDataEvent({this.contentId, this.type}) : super([contentId, type]);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
+
+class SurveySubmitState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  GeneralResp? response;
+  String? error;
+
+  SurveySubmitState(this.state, {this.response, this.error});
+}
+
+class SubmitSurveyEvent extends HomeEvent {
+  SubmitSurveyReq? submitSurveyReq;
+
+  SubmitSurveyEvent({this.submitSurveyReq}) : super([submitSurveyReq]);
+}
+
+class PollSubmitState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  GeneralResp? response;
+  String? error;
+
+  PollSubmitState(this.state, {this.response, this.error});
+}
+
+class SubmitPollEvent extends HomeEvent {
+  PollSubmitRequest? submitPollReq;
+
+  SubmitPollEvent({this.submitPollReq}) : super([submitPollReq]);
+}
+
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final homeRepository = Injector.appInstance.get<HomeRepository>();
 
@@ -1100,8 +1197,94 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield AnnouncementContentState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }
-    } 
-    else if (event is LibraryContentEvent) {
+    } else if (event is SubmitPollEvent) {
+      try {
+        yield PollSubmitState(ApiStatus.LOADING);
+        final response = await homeRepository.submitPoll(
+            submitSurveyReq: event.submitPollReq);
+        if (response != null) {
+          yield PollSubmitState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield PollSubmitState(ApiStatus.ERROR, error: response?.message);
+        }
+      } catch (e) {
+        Log.v("ERROR DATA : $e");
+        yield PollSubmitState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
+      }
+    } else if (event is SubmitSurveyEvent) {
+      try {
+        yield SurveySubmitState(ApiStatus.LOADING);
+        final response = await homeRepository.submitSurvey(
+            submitSurveyReq: event.submitSurveyReq);
+        if (response != null) {
+          yield SurveySubmitState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield SurveySubmitState(ApiStatus.ERROR, error: response.message);
+        }
+      } catch (e, s) {
+        Log.v("ERROR DATA : $s");
+        yield SurveySubmitState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
+      }
+    } else if (event is SurveyDataEvent) {
+      try {
+        yield SurveyDataState(ApiStatus.LOADING);
+        print("BLOCC");
+        print(event.type);
+        print(event.contentId);
+        final response = await homeRepository.getSurveyDataList(
+            contentId: event.contentId, type: event.type);
+        if (response != null) {
+          yield SurveyDataState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield SurveyDataState(ApiStatus.ERROR, error: response?.error![0]);
+        }
+      } catch (e, s) {
+        print(s);
+        Log.v("ERROR DATA : $s");
+        yield SurveyDataState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
+      }
+    } else if (event is ActivityAttemptEvent) {
+      try {
+        yield ActivityAttemptState(ApiStatus.LOADING);
+        final response = await homeRepository.activityAttempt(
+            filePath: event.filePath,
+            contentType: event.contentType,
+            contentId: event.contentId);
+        if (response?.status == 1) {
+          yield ActivityAttemptState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERRyyyOR DATA ::: ${response}");
+          yield ActivityAttemptState(ApiStatus.ERROR,
+              error: Strings.somethingWentWrong);
+        }
+      } catch (e) {
+        Log.v("ERROR DATA : $e");
+        yield ActivityAttemptState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
+      }
+    } else if (event is TrackAnnouncementEvent) {
+      try {
+        yield TrackAnnouncementState(ApiStatus.LOADING);
+        final response = await homeRepository.trackAnnouncment(
+            trackAnnouncementReq: event.rewardReq);
+        if (response?.status == 1) {
+          yield TrackAnnouncementState(ApiStatus.SUCCESS, response: response);
+        } else {
+          yield TrackAnnouncementState(ApiStatus.ERROR,
+              error: Strings.somethingWentWrong);
+        }
+      } catch (e) {
+        Log.v("ERROR DATA : $e");
+        yield TrackAnnouncementState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
+      }
+    } else if (event is LibraryContentEvent) {
       try {
         yield LibraryContentState(ApiStatus.LOADING);
         final response =
@@ -1118,9 +1301,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield LibraryContentState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }
-    }
-
-    else   if (event is ContentTagsEvent) {
+    } else if (event is ContentTagsEvent) {
       try {
         yield ContentTagsState(ApiStatus.LOADING);
         final response = await homeRepository.getContentTagsList(
@@ -1137,8 +1318,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield ContentTagsState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }
-    }
-    else if (event is FeedbackEvent) {
+    } else if (event is FeedbackEvent) {
       try {
         yield FeedbackState(ApiStatus.LOADING);
         final response = await homeRepository.getFeedbackList();
@@ -1153,9 +1333,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         Log.v("ERROR DATA : $e");
         yield FeedbackState(ApiStatus.ERROR, error: Strings.somethingWentWrong);
       }
-    }
-    
-    else if (event is TopicsEvent) {
+    } else if (event is TopicsEvent) {
       try {
         yield TopicsState(ApiStatus.LOADING);
         final response = await homeRepository.getTopicsList();

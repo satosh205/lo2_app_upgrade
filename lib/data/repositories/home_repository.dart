@@ -3,10 +3,14 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
 import 'package:masterg/blocs/home_bloc.dart';
+import 'package:masterg/data/models/request/home_request/poll_submit_req.dart';
 import 'package:masterg/data/models/request/home_request/submit_feedback_req.dart';
+import 'package:masterg/data/models/request/home_request/submit_survey_req.dart';
+import 'package:masterg/data/models/request/home_request/track_announcement_request.dart';
 import 'package:masterg/data/models/request/home_request/user_program_subscribe.dart';
 import 'package:masterg/data/models/request/save_answer_request.dart';
 import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
+import 'package:masterg/data/models/response/general_resp.dart';
 import 'package:masterg/data/models/response/home_response/assignment_submissions_response.dart';
 import 'package:masterg/data/models/response/home_response/category_response.dart';
 import 'package:masterg/data/models/response/home_response/content_tags_resp.dart';
@@ -40,6 +44,7 @@ import 'package:masterg/data/models/response/home_response/report_content_respon
 import 'package:masterg/data/models/response/home_response/save_answer_response.dart';
 import 'package:masterg/data/models/response/home_response/submit_answer_response.dart';
 import 'package:masterg/data/models/response/home_response/submit_feedback_resp.dart';
+import 'package:masterg/data/models/response/home_response/survey_data_resp.dart';
 import 'package:masterg/data/models/response/home_response/test_attempt_response.dart';
 import 'package:masterg/data/models/response/home_response/test_review_response.dart';
 import 'package:masterg/data/models/response/home_response/topics_resp.dart';
@@ -946,6 +951,83 @@ class HomeRepository {
     } else {
       Log.v("====> ${response.body}");
       return;
+    }
+  }
+
+    Future<GeneralResp?> trackAnnouncment(
+      {TrackAnnouncementReq? trackAnnouncementReq}) async {
+    final response = await homeProvider.trackAnnouncment(
+        submitRewardReq: trackAnnouncementReq!);
+    if (response!.success) {
+      Log.v("ERROR DATA : ${response.body}");
+      GeneralResp resp = GeneralResp.fromJson(response.body);
+      Log.v("ERROR DATA : ${resp.toJson()}");
+      return resp;
+    } else {
+      Log.v("====> ${response.body}");
+      return GeneralResp();
+    }
+  }
+
+   Future<GeneralResp?> activityAttempt(
+      {String? filePath, int? contentType, int? contentId}) async {
+    final response =
+        await homeProvider.activityAttempt(filePath, contentType, contentId);
+    if (response!.success) {
+      Log.v("ERROR DATA : ${response.body}");
+      GeneralResp resp = GeneralResp.fromJson(response.body);
+      Log.v("ERROR DATA : ${resp.toJson()}");
+      return resp;
+    } else {
+      Log.v("====> ${response.body}");
+      return GeneralResp();
+    }
+  }
+
+    Future<SurveyDataResp?> getSurveyDataList({int? contentId, int? type}) async {
+    try {
+      final response = await homeProvider.getSurveyDataList(
+          contentId: contentId, type: type);
+      if (response!.success) {
+        Log.v("ERROR DATA : ${json.encode(response.body)}");
+        SurveyDataResp resp = SurveyDataResp.fromJson(response.body, type!);
+        return resp;
+      } else {
+        Log.v("====> ${response.body}");
+        return SurveyDataResp(
+            error: response.body == null
+                ? "Something went wrong:"
+                : response.body);
+      }
+    } on Exception catch (e, s) {
+      print(s);
+    }
+  }
+
+    Future<GeneralResp> submitSurvey({SubmitSurveyReq? submitSurveyReq}) async {
+    final response = await homeProvider.submitSurvey(req: submitSurveyReq);
+    if (response!.success) {
+      Log.v("ERROR DATA : ${json.encode(response.body)}");
+      GeneralResp resp = GeneralResp.fromJson(response.body);
+      return resp;
+    } else {
+      Log.v("====> ${response.body}");
+      return GeneralResp(
+          message:
+              response.body == null ? "Something went wrong:" : response.body);
+    }
+  }
+    Future<GeneralResp?> submitPoll({PollSubmitRequest? submitSurveyReq}) async {
+    final response = await homeProvider.submitPoll(req: submitSurveyReq);
+    if (response!.success) {
+      Log.v("ERROR DATA : ${json.encode(response.body)}");
+      GeneralResp resp = GeneralResp.fromJson(response.body);
+      return resp;
+    } else {
+      Log.v("====> ${response.body}");
+      return GeneralResp(
+          message:
+              response.body == null ? "Something went wrong:" : response.body);
     }
   }
 }

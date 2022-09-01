@@ -1,46 +1,46 @@
 {
-  "project_info": {
-    "project_number": "306410795424",
-    "project_id": "learningoxygen-6b473",
-    "storage_bucket": "learningoxygen-6b473.appspot.com"
-  },
-  "client": [
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:306410795424:android:50e22388e1a8b8443074c5",
-        "android_client_info": {
-          "package_name": "com.learn_build"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "306410795424-5foe181ab2195vpgfbf6kjmrooe0c9fe.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCFi8WIKtgidOu1S4Ln9BM8yk_p8kAtzAw"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "306410795424-5foe181ab2195vpgfbf6kjmrooe0c9fe.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "306410795424-be9dt4aldvkei82jt63223jvs6cvl86r.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.learnbuild"
+    "project_info": {
+      "project_number": "306410795424",
+      "project_id": "learningoxygen-6b473",
+      "storage_bucket": "learningoxygen-6b473.appspot.com"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:306410795424:android:50e22388e1a8b8443074c5",
+          "android_client_info": {
+            "package_name": "com.learn_build"
+          }
+        },
+        "oauth_client": [
+          {
+            "client_id": "306410795424-5foe181ab2195vpgfbf6kjmrooe0c9fe.apps.googleusercontent.com",
+            "client_type": 3
+          }
+        ],
+        "api_key": [
+          {
+            "current_key": "AIzaSyCFi8WIKtgidOu1S4Ln9BM8yk_p8kAtzAw"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": [
+              {
+                "client_id": "306410795424-5foe181ab2195vpgfbf6kjmrooe0c9fe.apps.googleusercontent.com",
+                "client_type": 3
+              },
+              {
+                "client_id": "306410795424-be9dt4aldvkei82jt63223jvs6cvl86r.apps.googleusercontent.com",
+                "client_type": 2,
+                "ios_info": {
+                  "bundle_id": "com.learnbuild"
+                }
               }
-            }
-          ]
+            ]
+          }
         }
       }
-    }
-  ],
-  "configuration_version": "1"
-}
+    ],
+    "configuration_version": "1"
+  }

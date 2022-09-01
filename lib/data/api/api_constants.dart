@@ -123,4 +123,7 @@ class ApiConstants {
   static const TAGS_API = "api/joy/tags";
 
   static const LIBRARY_TYPE = "Library";
+  static const SURVEY_API = "api/joy/survey";
+  static const POLL_API = 'api/poll'; 
+
 }

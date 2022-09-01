@@ -7,10 +7,15 @@ import 'package:masterg/data/models/response/auth_response/bottombar_response.da
 import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/data/providers/video_player_provider.dart';
 import 'package:masterg/local/pref/Preference.dart';
+import 'package:masterg/pages/analytics_pages/analytic_page.dart';
 import 'package:masterg/pages/gcarvaan/post/gcarvaan_post_page.dart';
 import 'package:masterg/pages/ghome/g_school.dart';
 import 'package:masterg/pages/ghome/ghome.dart';
 import 'package:masterg/pages/reels/reels_dashboard_page.dart';
+import 'package:masterg/pages/swayam_pages/announcemnt_page.dart';
+import 'package:masterg/pages/swayam_pages/library_page.dart';
+import 'package:masterg/pages/swayam_pages/profile_page.dart';
+import 'package:masterg/pages/swayam_pages/training_course.dart';
 import 'package:masterg/pages/user_profile_page/user_profile_page.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/config.dart';
@@ -81,7 +86,14 @@ class _homePageState extends State<homePage> {
         desc: widget.desc,
         filesPath: widget.filesPath,
         formCreatePost: widget.isFromCreatePost,
-      )
+      ),
+      '/training': TrainingCourses(),
+      '/announcements': AnnouncementPage(isViewAll: true),
+      '/analytics': AnalyticPage(isViewAll: true),
+      '/library': LibraryPage(
+        isViewAll: true,
+      ),
+      '/my-space-settings': ProfilePage()
     };
 
     var iconsUnSelected = {
@@ -139,65 +151,63 @@ class _homePageState extends State<homePage> {
         key: _scaffoldKey,
         backgroundColor: ColorConstants.GREY,
         // drawer: Drawer(
-        //   // Add a ListView to the drawer. This ensures the user can scroll
-        //   // through the options in the drawer if there isn't enough vertical
-        //   // space to fit everything.
-        //   child: ListView(
-        //     // Important: Remove any padding from the ListView.
-        //     padding: EdgeInsets.zero,
-        //     children: [
-        //       SizedBox(
-        //         height: 50,
-        //       ),
-        //       ListTile(
-        //         title: const Text('AnalyticPage'),
-        //         onTap: () {
-        //           Navigator.push(
-        //               context,
-        //               MaterialPageRoute(
-        //                   builder: (BuildContext context) => AnalyticPage(
-        //                         isViewAll: true,
-        //                       )));
-        //         },
-        //       ),
-        //       Divider(height: 20),
-        //       ListTile(
-        //         title: const Text('Idea Factory'),
-        //         onTap: () {
-        //           Navigator.push(
-        //               context,
-        //               NextPageRoute(FeedBackPage(
-        //                 isViewAll: true,
-        //               )));
-        //         },
-        //       ),
-        //       Divider(height: 20),
-        //       ListTile(
-        //         title: const Text('Profile 5'),
-        //         onTap: () {
-        //           Navigator.push(context, NextPageRoute(ProfilePage()));
-        //         },
-        //       ),
-        //       Divider(height: 20),
-        //       ListTile(
-        //         title: const Text('Annouccment '),
-        //         onTap: () {
-        //           Navigator.push(context, NextPageRoute(TrainingCourses()));
-        //         },
-        //       ),
-        //       Divider(height: 20),
-        //       ListTile(
-        //         title: const Text('LibraryPage 4 '),
-        //         onTap: () {
-        //           Navigator.push(
-        //               context,
-        //               NextPageRoute(LibraryPage(
-        //                 isViewAll: true,
-        //               )));
-        //         },
-        //       ),
-        //     ],
-        //   ),
+          // Add a ListView to the drawer. This ensures the user can scroll
+          // through the options in the drawer if there isn't enough vertical
+          // space to fit everything.
+          // child: ListView(
+            // Important: Remove any padding from the ListView.
+            // padding: EdgeInsets.zero,
+            // children: [
+            //   SizedBox(
+            //     height: 50,
+            //   ),
+            //   ListTile(
+            //     title: const Text('AnalyticPage'),
+            //     onTap: () {
+            //       Navigator.push(
+            //           context,
+            //           MaterialPageRoute(
+            //               builder: (BuildContext context) => ProfilePage()));
+            //     },
+            //   ),
+            //   Divider(height: 20),
+              // ListTile(
+              //   title: const Text('Idea Factory'),
+              //   onTap: () {
+              //     Navigator.push(
+              //         context,
+              //         NextPageRoute(FeedBackPage(
+              //           isViewAll: true,
+              //         )));
+              //   },
+              // ),
+              // Divider(height: 20),
+              // ListTile(
+              //   title: const Text('Profile 5'),
+              //   onTap: () {
+              //     Navigator.push(context, NextPageRoute(ProfilePage()));
+              //   },
+              // ),
+              // Divider(height: 20),
+              // ListTile(
+              //   title: const Text('Annouccment '),
+              //   onTap: () {
+              //     Navigator.push(context, NextPageRoute(TrainingCourses()));
+              //   },
+              // ),
+              // Divider(height: 20),
+              // ListTile(
+              //   title: const Text('LibraryPage 4 '),
+              //   onTap: () {
+              //     Navigator.push(
+              //         context,
+              //         NextPageRoute(LibraryPage(
+              //           isViewAll: true,
+              //         )));
+              //   },
+              // ),
+            // ],
+          // ),
         // ),
 
         appBar: widget.bottomMenu![currentIndex].url != '/g-reels'
