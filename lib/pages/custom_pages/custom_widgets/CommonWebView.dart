@@ -94,9 +94,10 @@ class _CommonWebViewState extends State<CommonWebView> {
                     resources: resources,
                     action: PermissionRequestResponseAction.GRANT);
               },
-              onLoadStart: (InAppWebViewController controller, Uri? url) {
+              onLoadStart: (InAppWebViewController controller, Uri? url) async {
                 if (url.toString().contains('order-received')) {
-                  Navigator.pop(context, true);
+                  await Future.delayed(Duration(seconds: 5))
+                      .then((value) => Navigator.pop(context, true));
                 }
                 setState(() {
                   this.url = url.toString();

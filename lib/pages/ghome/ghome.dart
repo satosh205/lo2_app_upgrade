@@ -167,7 +167,7 @@ class _GHomeState extends State<GHome> {
                                               }));
                                         
 
-                                         ;
+                                         
                                         },
                                         child: Column(
                                           children: [

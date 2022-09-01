@@ -933,7 +933,13 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                                       otherLearners![index]
                                                           .shortCode,
                                                 )),
-                                      );
+                                      ).then((isSuccess) {
+                                        if (isSuccess == true) {
+
+                                          _getPopularCourses();
+                                          _getFilteredPopularCourses();
+                                        }
+                                      });
                                       /*_subscribeRequest(
                                           otherLearners![index]
                                               .subscriptionType,
@@ -1044,7 +1050,8 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                   tagName: 'TagReco',
                                   name: recommendedcourses![index].name,
                                   description:
-                                      recommendedcourses![index].description,
+                                      recommendedcourses![index].description ??
+                                          '',
                                   regularPrice:
                                       recommendedcourses![index].regularPrice,
                                   salePrice:
@@ -1057,7 +1064,13 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                   id: recommendedcourses![index].id,
                                   shortCode:
                                       recommendedcourses![index].shortCode)),
-                        );
+                        ).then((isSuccess) {
+                          if (isSuccess == true) {
+                            print('sucess enrolled');
+                            _getPopularCourses();
+                            _getFilteredPopularCourses();
+                          }
+                        });
 
                         /*Navigator.push(
                                           context,
