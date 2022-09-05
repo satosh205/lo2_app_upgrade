@@ -60,7 +60,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
   @override
   Widget build(BuildContext context) {
     return CommonContainer(
-      isBackShow: true,
+      isBackShow: false,
       scafKey: _scaffoldKey,
       child: _mainBody(),
       isContainerHeight: !_isLoading ? false : true,
@@ -107,7 +107,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 34),
             child: Text(
-             '${ Strings.of(context)?.Set_your_goals}',
+              '${Strings.of(context)?.Set_your_goals}',
               style: Styles.textBold(
                 size: 14,
                 color: Color.fromRGBO(28, 37, 85, 0.8),
@@ -155,9 +155,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
                         Row(
                           children: [
                             Text(
-                             '${ Strings
-                                  .of(context)
-                                  ?.Select_your_goal}',
+                              '${Strings.of(context)?.Select_your_goal}',
                               style: Styles.textSemiBold(
                                 size: 14,
                                 color: Color.fromRGBO(28, 37, 85, 0.7),
@@ -214,10 +212,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
                 ),
                 Container(
                   color: Colors.white,
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width,
+                  width: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.symmetric(vertical: 2, horizontal: 15),
                   child: Text(
                     "Approx balance man days: ${getBalanceManDays()} Days",
@@ -227,12 +222,12 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
                 _selectedGoal == 0
                     ? _effectiveCoverageCalculator()
                     : _selectedGoal == 1
-                    ? _productiveSalesCallsCalculator()
-                    : _selectedGoal == 2
-                    ? _throughputCalculator()
-                    : _selectedGoal == 3
-                    ? _mSSCalculator()
-                    : Center(),
+                        ? _productiveSalesCallsCalculator()
+                        : _selectedGoal == 2
+                            ? _throughputCalculator()
+                            : _selectedGoal == 3
+                                ? _mSSCalculator()
+                                : Center(),
               ],
             ),
           ),
@@ -263,9 +258,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
             children: [
               Container(
                 child: Text(
-                 '${ Strings
-                      .of(context)
-                      ?.Target}',
+                  '${Strings.of(context)?.Target}',
                   style: Styles.textSemiBold(
                     size: 14,
                     color: Color.fromRGBO(28, 37, 85, 0.7),
@@ -299,9 +292,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
               Container(
                 width: 100,
                 child: Text(
-                  '${Strings
-                      .of(context)
-                      ?.Currently_achieved}',
+                  '${Strings.of(context)?.Currently_achieved}',
                   style: Styles.textSemiBold(
                     size: 14,
                     color: Color.fromRGBO(28, 37, 85, 0.7),
@@ -311,8 +302,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
               SizedBox(
                 width: 106,
                 child: TextFormField(
-                  initialValue:
-                  _currentlyAchieved.round().toString() ,
+                  initialValue: _currentlyAchieved.round().toString(),
                   textAlign: TextAlign.center,
                   style: Styles.textBold(
                     size: 32,
@@ -340,9 +330,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
                 borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
               child: Text(
-               '${ Strings
-                    .of(context)
-                    ?.Calculate_now}',
+                '${Strings.of(context)?.Calculate_now}',
                 style: Styles.textExtraBold(
                   size: 14,
                   color: Color.fromRGBO(255, 255, 255, 1),
@@ -352,7 +340,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
                 // calculate productive sales calls
                 double value =
                     ((int.parse(_targetPCController.text) * getTotalManDays()) -
-                        (_currentlyAchieved * getAchievedManDays())) /
+                            (_currentlyAchieved * getAchievedManDays())) /
                         getBalanceManDays();
 
                 _showResult(context, value.toStringAsFixed(2));
@@ -387,9 +375,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
               children: [
                 Container(
                   child: Text(
-                  '${  Strings
-                        .of(context)
-                        ?.Target}',
+                    '${Strings.of(context)?.Target}',
                     style: Styles.textSemiBold(
                       size: 14,
                       color: Color.fromRGBO(28, 37, 85, 0.7),
@@ -424,9 +410,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
               Container(
                 width: 100,
                 child: Text(
-              '${    Strings
-                      .of(context)
-                      ?.Currently_achieved}',
+                  '${Strings.of(context)?.Currently_achieved}',
                   style: Styles.textSemiBold(
                     size: 14,
                     color: Color.fromRGBO(28, 37, 85, 0.7),
@@ -436,8 +420,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
               SizedBox(
                 width: 106,
                 child: TextFormField(
-                  initialValue:
-                  _currentlyAchieved.round().toString() ,
+                  initialValue: _currentlyAchieved.round().toString(),
                   textAlign: TextAlign.center,
                   style: Styles.textBold(
                     size: 32,
@@ -465,9 +448,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
                 borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
               child: Text(
-              '${  Strings
-                    .of(context)
-                    ?.Calculate_now}',
+                '${Strings.of(context)?.Calculate_now}',
                 style: Styles.textExtraBold(
                   size: 14,
                   color: Color.fromRGBO(255, 255, 255, 1),
@@ -476,7 +457,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
               onPressed: () {
                 // calculate throughput
                 double value = (int.parse(_targetThroughputController.text) -
-                    int.parse(_currentlyAchieved.round().toString())) /
+                        int.parse(_currentlyAchieved.round().toString())) /
                     getBalanceManDays();
 
                 _showResult(context, value.toStringAsFixed(2));
@@ -512,9 +493,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
               children: [
                 Container(
                   child: Text(
-                  '${  Strings
-                        .of(context)
-                        ?.Total_MSS_Points}',
+                    '${Strings.of(context)?.Total_MSS_Points}',
                     style: Styles.textSemiBold(
                       size: 14,
                       color: Color.fromRGBO(28, 37, 85, 0.7),
@@ -559,7 +538,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
               SizedBox(
                 width: 106,
                 child: TextFormField(
-                  initialValue: _percentTargeted.round().toString() ,
+                  initialValue: _percentTargeted.round().toString(),
                   textAlign: TextAlign.center,
                   style: Styles.textBold(
                     size: 32,
@@ -586,9 +565,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
               Container(
                 width: 100,
                 child: Text(
-                  '${Strings
-                      .of(context)
-                      ?.Currently_achieved}',
+                  '${Strings.of(context)?.Currently_achieved}',
                   style: Styles.textSemiBold(
                     size: 14,
                     color: Color.fromRGBO(28, 37, 85, 0.7),
@@ -598,8 +575,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
               SizedBox(
                 width: 106,
                 child: TextFormField(
-                  initialValue:
-                  _currentlyAchieved.round().toString() ,
+                  initialValue: _currentlyAchieved.round().toString(),
                   textAlign: TextAlign.center,
                   style: Styles.textBold(
                     size: 32,
@@ -627,9 +603,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
                 borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
               child: Text(
-                '${Strings
-                    .of(context)
-                    ?.Calculate_now}',
+                '${Strings.of(context)?.Calculate_now}',
                 style: Styles.textExtraBold(
                   size: 14,
                   color: Color.fromRGBO(255, 255, 255, 1),
@@ -671,9 +645,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
               children: [
                 Container(
                   child: Text(
-                  '${  Strings
-                        .of(context)
-                        ?.Targeted_outlets}',
+                    '${Strings.of(context)?.Targeted_outlets}',
                     style: Styles.textSemiBold(
                       size: 14,
                       color: Color.fromRGBO(28, 37, 85, 0.7),
@@ -708,9 +680,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
               Container(
                 width: 100,
                 child: Text(
-                '${  Strings
-                      .of(context)
-                      ?.Billed_outlets}',
+                  '${Strings.of(context)?.Billed_outlets}',
                   style: Styles.textSemiBold(
                     size: 14,
                     color: Color.fromRGBO(28, 37, 85, 0.7),
@@ -720,7 +690,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
               SizedBox(
                 width: 106,
                 child: TextFormField(
-                  initialValue: _billedOutlets.round().toString() ,
+                  initialValue: _billedOutlets.round().toString(),
                   textAlign: TextAlign.center,
                   style: Styles.textBold(
                     size: 32,
@@ -748,9 +718,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
                 borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
               child: Text(
-                '${Strings
-                    .of(context)
-                    ?.Calculate_now}',
+                '${Strings.of(context)?.Calculate_now}',
                 style: Styles.textExtraBold(
                   size: 14,
                   color: Color.fromRGBO(255, 255, 255, 1),
@@ -759,7 +727,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
               onPressed: () {
                 // calculate EC
                 double value = (int.parse(_targetedOutletsECController.text) -
-                    _billedOutlets) /
+                        _billedOutlets) /
                     int.parse(_targetedOutletsECController.text);
 
                 _showResult(context, value.toStringAsFixed(2), isECO: true);
@@ -776,14 +744,8 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
 
   _showResult(BuildContext context, String calculatedValue,
       {bool isECO = false}) {
-    double screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
-    double screenHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
 
     String balanceManDays = getBalanceManDays().toString();
 
@@ -802,9 +764,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
                     flex: 1,
                   ),
                   Text(
-                  '${  Strings
-                        .of(context)
-                        ?.Calculated_asking_rate}',
+                    '${Strings.of(context)?.Calculated_asking_rate}',
                     style: Styles.textExtraBold(
                       size: 22,
                       color: Color.fromRGBO(28, 37, 85, 1),
@@ -817,9 +777,7 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 40),
                     child: Text(
-                     '${ Strings
-                          .of(context)
-                          ?.Manage_your_everyday}',
+                      '${Strings.of(context)?.Manage_your_everyday}',
                       style: Styles.textSemiBold(
                         size: 14,
                         color: Color.fromRGBO(28, 37, 85, 0.8),
@@ -833,55 +791,51 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
                   ),
                   !isECO
                       ? Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        calculatedValue,
-                        style: Styles.textExtraBold(
-                          size: 32,
-                          color: Color.fromRGBO(28, 37, 85, 1),
-                        ),
-                        maxLines: 1,
-                      ),
-                      Text(
-                        "/day",
-                        style: Styles.textSemiBold(
-                          size: 20,
-                          color: Color.fromRGBO(28, 37, 85, 1),
-                        ),
-                        maxLines: 1,
-                      ),
-                    ],
-                  )
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              calculatedValue,
+                              style: Styles.textExtraBold(
+                                size: 32,
+                                color: Color.fromRGBO(28, 37, 85, 1),
+                              ),
+                              maxLines: 1,
+                            ),
+                            Text(
+                              "/day",
+                              style: Styles.textSemiBold(
+                                size: 20,
+                                color: Color.fromRGBO(28, 37, 85, 1),
+                              ),
+                              maxLines: 1,
+                            ),
+                          ],
+                        )
                       : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        calculatedValue,
-                        style: Styles.textExtraBold(
-                          size: 32,
-                          color: Color.fromRGBO(28, 37, 85, 1),
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              calculatedValue,
+                              style: Styles.textExtraBold(
+                                size: 32,
+                                color: Color.fromRGBO(28, 37, 85, 1),
+                              ),
+                              maxLines: 1,
+                            ),
+                            Text(
+                              "%",
+                              style: Styles.textSemiBold(
+                                size: 20,
+                                color: Color.fromRGBO(28, 37, 85, 1),
+                              ),
+                              maxLines: 1,
+                            ),
+                          ],
                         ),
-                        maxLines: 1,
-                      ),
-                      Text(
-                        "%",
-                        style: Styles.textSemiBold(
-                          size: 20,
-                          color: Color.fromRGBO(28, 37, 85, 1),
-                        ),
-                        maxLines: 1,
-                      ),
-                    ],
-                  ),
                   Text(
-                      "${Strings
-                        .of(context)
-                        ?.For_next} $balanceManDays ${Strings
-                        .of(context)
-                        ?.Days}",
+                    "${Strings.of(context)?.For_next} $balanceManDays ${Strings.of(context)?.Days}",
                     style: Styles.textSemiBold(
                       size: 14,
                       color: Color.fromRGBO(28, 37, 85, 0.7),
@@ -902,27 +856,15 @@ class _AskingRateCalculatorPageState extends State<AskingRateCalculatorPage> {
   }
 
   int getTotalManDays() {
-    DateTime startDate = DateTime(DateTime
-        .now()
-        .year, DateTime
-        .now()
-        .month, 1);
-    DateTime endDate = DateTime(DateTime
-        .now()
-        .year, DateTime
-        .now()
-        .month,
+    DateTime startDate = DateTime(DateTime.now().year, DateTime.now().month, 1);
+    DateTime endDate = DateTime(DateTime.now().year, DateTime.now().month,
         lastDayOfMonth(DateTime.now()).day);
 
     return getDifferenceWithoutWeekends(startDate, endDate);
   }
 
   int getAchievedManDays() {
-    DateTime startDate = DateTime(DateTime
-        .now()
-        .year, DateTime
-        .now()
-        .month, 1);
+    DateTime startDate = DateTime(DateTime.now().year, DateTime.now().month, 1);
     DateTime endDate = DateTime.now().subtract(Duration(days: 1));
 
     return getDifferenceWithoutWeekends(startDate, endDate);

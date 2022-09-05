@@ -103,10 +103,10 @@ class _homePageState extends State<homePage> {
       '/g-carvaan': 'assets/images/unselected_gcarvaan.svg',
       '/sic-council': 'assets/images/my_council.svg',
       '/training': 'assets/images/trainings.svg',
-      '/announcements': 'announcements.svg',
-      '/analytics': 'analytics.svg',
-      '/library': 'library.svg',
-      '/my-space-settings': 'mySpaceSettings.svg'
+      '/announcements': 'assets/images/announcements.svg',
+      '/analytics': 'assets/images/analytics.svg',
+      '/library': 'assets/images/library.svg',
+      '/my-space-settings': 'assets/images/mySpaceSettings.svg'
     };
 
     var iconSeleted = {
@@ -116,10 +116,10 @@ class _homePageState extends State<homePage> {
       '/g-carvaan': 'assets/images/selected_gcarvaan.svg',
       '/sic-council': 'assets/images/my_council.svg',
       '/training': 'assets/images/selectedTrainings.svg',
-      '/announcements': 'selectedAnnouncements.svg',
-      '/analytics': 'selectedAnalytics.svg',
-      '/library': 'selectedLibrary.svg',
-      '/my-space-settings': 'selectedMySpaceSettings.svg'
+      '/announcements': 'assets/images/selectedAnnouncements.svg',
+      '/analytics': 'assets/images/selectedAnalytics.svg',
+      '/library': 'assets/images/selectedLibrary.svg',
+      '/my-space-settings': 'assets/images/selectedMySpaceSettings.svg'
     };
 
     if (widget.isFromCreatePost) {
@@ -220,7 +220,8 @@ class _homePageState extends State<homePage> {
         // ),
         // ),
 
-        appBar: widget.bottomMenu![currentIndex].url != '/g-reels'
+        appBar: widget.bottomMenu![currentIndex].url != '/g-reels' &&
+                APK_DETAILS['package_name'] != "com.at.perfetti_swayam"
             ? AppBar(
                 automaticallyImplyLeading: false,
                 leading: IconButton(

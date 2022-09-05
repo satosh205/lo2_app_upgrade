@@ -299,7 +299,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return CommonContainer(
       child: _content(),
       isDrawerEnable: true,
-      isBackShow: true,
+      isBackShow: false,
       isNotification: true,
       onSkipClicked: () {
         Navigator.push(context, NextPageRoute(NotificationListPage()));

@@ -94,7 +94,7 @@ class _TrainingCoursesState extends State<TrainingCourses> {
   _verticalList() {
     return CommonContainer(
       child: _announenmentList(),
-      isBackShow: true,
+      isBackShow: false,
       title: Strings.of(context)?.announcements,
       onBackPressed: () {
         Navigator.pop(context);

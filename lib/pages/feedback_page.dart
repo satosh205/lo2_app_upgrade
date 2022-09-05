@@ -177,7 +177,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
 
   _verticalList() {
     return CommonContainer(
-      isBackShow: true,
+      isBackShow: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,

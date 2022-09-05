@@ -10,6 +10,7 @@ import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/models/request/auth_request/login_request.dart';
 import 'package:masterg/data/models/request/auth_request/swayam_login_request.dart';
+import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
 import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/auth_pages/verify_otp.dart';
@@ -54,6 +55,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   var _obscureText = true;
 
+  List<Menu>? menuList;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -79,27 +82,101 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocManager(
-        initState: (BuildContext context) {},
-        child: BlocListener<AuthBloc, AuthState>(
-          listener: (context, state) {
+    return MultiBlocListener(
+      // initState: (BuildContext context) {},
+      listeners: [
+        BlocListener<AuthBloc, AuthState>(
+          listener: (BuildContext context, state) {
             if (state is LoginState)
               _handleLoginResponse(state);
             else if (state is SwayamLoginState) _swayamLoginResponse(state);
           },
-          child: CommonBgContainer(
-            onBackPressed: (){},
-            isBackShow: false,
-            child: _pvmSwayamLogin(),
-            isLoading: _isLoading,
-          ),
-        ));
+        ),
+        BlocListener<HomeBloc, HomeState>(
+          listener: (BuildContext context, state) {
+            if (state is GetBottomBarState) _handelBottomNavigationBar(state);
+          },
+        ),
+      ],
+
+      child: CommonBgContainer(
+        onBackPressed: () {},
+        isBackShow: false,
+        child: _pvmSwayamLogin(),
+        isLoading: _isLoading,
+      ),
+    );
+    // return BlocManager(
+    //     initState: (BuildContext context) {},
+    //     child: BlocListener<AuthBloc, AuthState>(
+    //       listener: (context, state) {
+    //         if (state is LoginState)
+    //           _handleLoginResponse(state);
+    //         else if (state is SwayamLoginState) _swayamLoginResponse(state);
+    //       },
+    //       child: CommonBgContainer(
+    //         onBackPressed: () {},
+    //         isBackShow: false,
+    //         child: _pvmSwayamLogin(),
+    //         isLoading: _isLoading,
+    //       ),
+    //     ));
   }
 
   _size({double height = 20}) {
     return SizedBox(
       height: height,
     );
+  }
+
+  void getBottomNavigationBar() {
+    BlocProvider.of<HomeBloc>(context).add((GetBottomNavigationBarEvent()));
+  }
+
+  void _handelBottomNavigationBar(GetBottomBarState state) {
+    var getBottomBarState = state;
+    setState(() {
+      switch (getBottomBarState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          _isLoading = true;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("Success....................");
+          menuList = state.response!.data!.menu;
+
+          if (menuList?.length == 0) {
+            AlertsWidget.alertWithOkBtn(
+                context: context,
+                text: 'App Under Maintenance!',
+                onOkClick: () {
+                  FocusScope.of(context).unfocus();
+                });
+          } else {
+            menuList?.sort((a, b) => a.inAppOrder!.compareTo(b.order!));
+            Navigator.pushAndRemoveUntil(
+                context,
+                NextPageRoute(
+                    homePage(
+                      bottomMenu: menuList,
+                    ),
+                    isMaintainState: true),
+                (route) => false);
+          }
+          _isLoading = false;
+          break;
+
+        case ApiStatus.ERROR:
+          _isLoading = false;
+          Log.v("Error..........................");
+          Log.v("Error..........................${getBottomBarState.error}");
+
+          break;
+        case ApiStatus.INITIAL:
+          // TODO: Handle this case.
+          break;
+      }
+    });
   }
 
   void _swayamLoginResponse(SwayamLoginState state) async {
@@ -111,7 +188,8 @@ class _LoginScreenState extends State<LoginScreen> {
           _isLoading = true;
           break;
         case ApiStatus.SUCCESS:
-          Log.v("Success.................... -- ${state.response?.data?.token}");
+          Log.v(
+              "Success.................... -- ${state.response?.data?.token}");
           UserSession.userToken = state.response?.data?.token;
           UserSession.email = state.response?.data?.user?.email;
           UserSession.userName = state.response?.data?.user?.name;
@@ -126,10 +204,10 @@ class _LoginScreenState extends State<LoginScreen> {
               Preference.USERNAME, '${state.response?.data?.user?.name}');
           Preference.setString(
               Preference.USER_EMAIL, '${state.response?.data?.user?.email}');
-          Preference.setString(
-              Preference.PROFILE_IMAGE, '${state.response?.data?.user?.profileImage}');
-          Preference.setInt(
-              Preference.USER_TYPE, int.parse('${state.response?.data?.user?.isTrainer}'));
+          Preference.setString(Preference.PROFILE_IMAGE,
+              '${state.response?.data?.user?.profileImage}');
+          Preference.setInt(Preference.USER_TYPE,
+              int.parse('${state.response?.data?.user?.isTrainer}'));
           /*Preference.setInt(Preference.APP_LANGUAGE, 1);
           Preference.setInt(Preference.CONTENT_LANGUAGE, 1);*/
           _userTrack();
@@ -139,6 +217,7 @@ class _LoginScreenState extends State<LoginScreen> {
           await Hive.openBox(DB.TRAININGS);
           _isLoading = false;
           _moveToNext();
+          getBottomNavigationBar();
           // FirebaseAnalytics().logEvent(
           //     name: "login_successful",
           //     parameters: {"user_id": state.response.data.user.id});
@@ -174,8 +253,13 @@ class _LoginScreenState extends State<LoginScreen> {
             )),
             (Route<dynamic> route) => false);
       } else
-        Navigator.pushAndRemoveUntil(
-            context, NextPageRoute(homePage()), (route) => false);
+        // Navigator.pushAndRemoveUntil(
+        //     context,
+        //     NextPageRoute(homePage(
+        //       bottomMenu: menuList,
+        //     )),
+        //     (route) => false);
+        getBottomNavigationBar();
     } else {
       Navigator.pushAndRemoveUntil(
           context, NextPageRoute(LoginScreen()), (route) => false);
@@ -355,7 +439,8 @@ class _LoginScreenState extends State<LoginScreen> {
             decoration: textInputDecoration.copyWith(
               hintText: 'Username',
             ),
-            validator: (value) => value!.isEmpty ? 'Username is required' : null,
+            validator: (value) =>
+                value!.isEmpty ? 'Username is required' : null,
             textInputAction: TextInputAction.next,
             onChanged: (value) {},
           ),
@@ -377,7 +462,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             obscureText: _obscureText,
-            validator: (value) => value!.isEmpty ? 'password is required' : null,
+            validator: (value) =>
+                value!.isEmpty ? 'password is required' : null,
             textInputAction: TextInputAction.done,
             onChanged: (value) {},
             onFieldSubmitted: (val) {

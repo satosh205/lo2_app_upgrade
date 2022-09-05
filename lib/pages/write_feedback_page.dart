@@ -66,7 +66,7 @@ class _WriteFeedbackPageState extends State<WriteFeedbackPage> {
               if (state is TopicsState) _handleTopicResponse(state);
             },
             child: CommonContainer(
-              isBackShow: true,
+              isBackShow: false,
               isLoading: _isLoading,
               child: _makeBody(),
               title: widget.type == 1

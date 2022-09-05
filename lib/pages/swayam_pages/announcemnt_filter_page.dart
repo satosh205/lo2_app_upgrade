@@ -51,7 +51,7 @@ class _AnnouncementFilterPageState extends State<AnnouncementFilterPage> {
               // if (state is ContentTagsState) _handleResponse(state);
             },
             child: CommonContainer(
-              isBackShow: true,
+              isBackShow: false,
               child: _body(),
               isLoading: false,
               title: Strings.of(context)?.announcements,

@@ -4,12 +4,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
+import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
 import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/data/models/response/home_response/language_response.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/main.dart';
+import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/common_container.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
+import 'package:masterg/pages/ghome/home_page.dart';
 // import 'package:masterg/pages/home_pages/home_page.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
@@ -29,6 +32,8 @@ class LanguagePage extends StatefulWidget {
 class _LanguagePageState extends State<LanguagePage> {
   bool _isLoading = false;
   List<ListData>? myList;
+  List<Menu>? menuList;
+
   var localeCodes = {
     'english': "en",
     'hindi': "hi",
@@ -50,22 +55,28 @@ class _LanguagePageState extends State<LanguagePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocManager(
-      initState: (context) {},
-      child: BlocListener<HomeBloc, HomeState>(
-        listener: (context, state) {
+    return MultiBlocListener(
+      // initState: (BuildContext context) {},
+      listeners: [
+        BlocListener<HomeBloc, HomeState>(listener: (context, state) {
           if (state is LanguageState) _handleResponse(state);
-        },
-        child: Builder(builder: (_context) {
-          return _mainContent();
         }),
-      ),
+        BlocListener<HomeBloc, HomeState>(
+          listener: (BuildContext context, state) {
+            if (state is GetBottomBarState) _handelBottomNavigationBar(state);
+          },
+        ),
+      ],
+
+      child: Builder(builder: (_context) {
+        return _mainContent();
+      }),
     );
   }
 
   _mainContent() {
     return CommonContainer(
-      isBackShow: true,
+      isBackShow: false,
       bgChildColor: ColorConstants.WHITE,
       title: widget.languageType == 1
           ? Strings.of(context)?.chooseAppLanguage
@@ -79,6 +90,7 @@ class _LanguagePageState extends State<LanguagePage> {
           Navigator.pop(context);
           // Navigator.pushAndRemoveUntil(
           //     context, NextPageRoute(HomePage()), (route) => false);
+          getBottomNavigationBar();
         }
         Navigator.pop(context);
       },
@@ -237,6 +249,56 @@ class _LanguagePageState extends State<LanguagePage> {
         : UserSession.userContentLanguageId;
   }
 
+  void getBottomNavigationBar() {
+    BlocProvider.of<HomeBloc>(context).add((GetBottomNavigationBarEvent()));
+  }
+
+  void _handelBottomNavigationBar(GetBottomBarState state) {
+    var getBottomBarState = state;
+    setState(() {
+      switch (getBottomBarState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          _isLoading = true;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("Success....................");
+          menuList = state.response!.data!.menu;
+
+          if (menuList?.length == 0) {
+            AlertsWidget.alertWithOkBtn(
+                context: context,
+                text: 'App Under Maintenance!',
+                onOkClick: () {
+                  FocusScope.of(context).unfocus();
+                });
+          } else {
+            menuList?.sort((a, b) => a.inAppOrder!.compareTo(b.order!));
+            Navigator.pushAndRemoveUntil(
+                context,
+                NextPageRoute(
+                    homePage(
+                      bottomMenu: menuList,
+                    ),
+                    isMaintainState: true),
+                (route) => false);
+          }
+          _isLoading = false;
+          break;
+
+        case ApiStatus.ERROR:
+          _isLoading = false;
+          Log.v("Error..........................");
+          Log.v("Error..........................${getBottomBarState.error}");
+
+          break;
+        case ApiStatus.INITIAL:
+          // TODO: Handle this case.
+          break;
+      }
+    });
+  }
+
   _saveLanguage(ListData item) {
     setState(() {
       if (widget.languageType == 1) {
@@ -261,8 +323,7 @@ class _LanguagePageState extends State<LanguagePage> {
               )));
         } else {
           Navigator.pop(context);
-          // Navigator.pushAndRemoveUntil(context, NextPageRoute(HomePage()),
-          //     (Route<dynamic> route) => false);
+          getBottomNavigationBar();
         }
       }
     });

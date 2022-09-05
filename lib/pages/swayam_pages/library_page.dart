@@ -114,7 +114,7 @@ class _LibraryPageState extends State<LibraryPage> {
 
   _verticalList() {
     return CommonContainer(
-      isBackShow: true,
+      isBackShow: false,
       isDrawerEnable: widget.drawerWidget != null,
       drawerWidget: widget.drawerWidget,
       child: _libraryPageList(),

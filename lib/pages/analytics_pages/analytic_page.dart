@@ -80,7 +80,7 @@ class _AnalyticPageState extends State<AnalyticPage> {
 
   _verticalList() {
     return CommonContainer(
-      isBackShow: true,
+      isBackShow: false,
       isDrawerEnable: widget.drawerWidget != null,
       drawerWidget: widget.drawerWidget,
       child: _mainBody(),
@@ -104,7 +104,7 @@ class _AnalyticPageState extends State<AnalyticPage> {
   _mainBody() {
     if (_selectedPage == 0) {
       print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-     
+
       return ValueListenableBuilder(
         valueListenable: Hive.box("analytics").listenable(),
         builder: (bc, Box box, child) {
@@ -283,7 +283,7 @@ class _AnalyticPageState extends State<AnalyticPage> {
                           ),
                           Spacer(),
                           Text(
-                        '${    Strings.of(context)?.viewAll}',
+                            '${Strings.of(context)?.viewAll}',
                             style: Styles.textBold(
                               size: 16,
                               color: Color.fromRGBO(46, 120, 228, 1),
@@ -357,7 +357,7 @@ class _AnalyticPageState extends State<AnalyticPage> {
                             ),
                           ]),
                       child: Text(
-                    '${    _pageList[index]}',
+                        '${_pageList[index]}',
                         style: _selectedPage == index
                             ? Styles.textExtraBold(
                                 size: 12,

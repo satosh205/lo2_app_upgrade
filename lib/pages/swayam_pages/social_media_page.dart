@@ -68,7 +68,7 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
               if (state is UpdateUserState) _handleResponse(state);
             },
             child: CommonContainer(
-              isBackShow: true,
+              isBackShow: false,
               isSkipEnable: widget.isSkipShow,
               onSkipClicked: () {
                 Navigator.push(

@@ -133,7 +133,7 @@ class _AnnouncementPreviewPageState extends State<AnnouncementPreviewPage> {
         scafKey: key,
         child: _rowItem(widget.announmentData!),
         title: "Content Previews",
-        isBackShow: true,
+        isBackShow: false,
         onBackPressed: () {
           Navigator.pop(context);
         },
@@ -157,7 +157,7 @@ class _AnnouncementPreviewPageState extends State<AnnouncementPreviewPage> {
                 _size(width: 10),
                 Expanded(
                   child: Text(
-                   '${ item.title}',
+                    '${item.title}',
                     style: Styles.textBold(
                         size: 18, color: ColorConstants.TEXT_DARK_BLACK),
                   ),

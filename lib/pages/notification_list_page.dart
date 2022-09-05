@@ -22,7 +22,7 @@ class NotificationListPage extends StatefulWidget {
 }
 
 class _NotificationListPageState extends State<NotificationListPage> {
-  var _isLoading = false;
+  var _isLoading = true;
   List<ListData>? notificationList;
   // var notificationList = <ListData>[];
 
@@ -46,9 +46,9 @@ class _NotificationListPageState extends State<NotificationListPage> {
         },
         child: Builder(builder: (_context) {
           return CommonContainer(
-            child: _content(),
+            child: !_isLoading ? _content() : Text('Loading'),
             isDrawerEnable: widget.drawerWidget != null,
-            isBackShow: true,
+            isBackShow: false,
             onBackPressed: () {
               Navigator.pop(context);
             },
@@ -129,7 +129,7 @@ class _NotificationListPageState extends State<NotificationListPage> {
           _isLoading = false;
           break;
         case ApiStatus.SUCCESS:
-          Log.v("Success....................");
+          Log.v("Success....................Notification");
           _isLoading = false;
           _userTrack();
           notificationList = state.response?.data?.list;

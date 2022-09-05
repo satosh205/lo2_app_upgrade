@@ -165,7 +165,7 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
         scafKey: key,
         child: _rowItem(widget.announmentData!),
         title: widget.title,
-        isBackShow: true,
+        isBackShow: false,
         onBackPressed: () {
           Navigator.pop(context);
         },
@@ -296,7 +296,8 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
                                 context,
                                 NextPageRoute(AnnouncementPreviewPage(
                                   announmentData: widget.announmentData,
-                                  title: '${Strings.of(context)?.announcements}',
+                                  title:
+                                      '${Strings.of(context)?.announcements}',
                                 )));
                           }
                         },
@@ -313,12 +314,10 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
                               widget.announmentData?.userSubmittedMultipleFile
                                       ?.length !=
                                   null &&
-                              int.parse('${widget.announmentData?.userSubmittedMultipleFile
-                                      !.length}') <
-                                  int.parse('${widget
-                                      .announmentData?.multiFileUploadsCount}')),
-
-
+                              int.parse(
+                                      '${widget.announmentData?.userSubmittedMultipleFile!.length}') <
+                                  int.parse(
+                                      '${widget.announmentData?.multiFileUploadsCount}')),
                       title: (widget.announmentData?.isAttempt == 1 &&
                                   widget.announmentData?.multipleFileUpload !=
                                       1) ||
@@ -326,10 +325,10 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
                                   widget.announmentData
                                           ?.userSubmittedMultipleFile?.length !=
                                       null &&
-                                  int.parse('${widget.announmentData
-                                          ?.userSubmittedMultipleFile?.length}') >=
-                                      int.parse('${widget.announmentData
-                                          ?.multiFileUploadsCount}'))
+                                  int.parse(
+                                          '${widget.announmentData?.userSubmittedMultipleFile?.length}') >=
+                                      int.parse(
+                                          '${widget.announmentData?.multiFileUploadsCount}'))
                           ? Strings.of(context)?.submitted
                           : (item.contentType == '12')
                               ? Strings.of(context)?.startSurvey
@@ -570,7 +569,7 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
                   widget.announmentData!.thumbnailUrl!.isNotEmpty
               ? FadeInImage.assetNetwork(
                   placeholder: Images.PLACE_HOLDER,
-                  image:'${ widget.announmentData?.thumbnailUrl}',
+                  image: '${widget.announmentData?.thumbnailUrl}',
                   height: MediaQuery.of(context).size.height / 2.5,
                   fit: BoxFit.cover,
                   width: MediaQuery.of(context).size.width,
@@ -626,11 +625,8 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
 
   final Dio _dio = Dio();
 
- 
-
   Future<void> _showNotification(Map<String, dynamic> downloadStatus) async {
-    final android = AndroidNotificationDetails(
-        'com.perfetti', 'perfetti', 
+    final android = AndroidNotificationDetails('com.perfetti', 'perfetti',
         priority: Priority.high, importance: Importance.max);
     final iOS = IOSNotificationDetails();
     final platform = NotificationDetails(android: android, iOS: iOS);
@@ -856,7 +852,7 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
                               filePath: selectedImage,
                               contentId: widget.announmentData?.id,
                               contentType: int.parse(
-                                 '${ widget.announmentData?.contentType}')));
+                                  '${widget.announmentData?.contentType}')));
                       Navigator.pop(context);
                       setState(() {
                         _isLoading = true;

@@ -1,6 +1,7 @@
 // import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
+import 'package:masterg/pages/notification_list_page.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/images.dart';
@@ -10,7 +11,11 @@ class CommonContainer extends StatelessWidget {
   String? title;
   bool? isBackShow = false, isFloatIconVisible, isSkipEnable;
   bool? isLoading;
-  Function? onBackPressed, floatIconTap, onSkipClicked;
+  // Function? onBackPressed, floatIconTap, onSkipClicked;
+  Function? onBackPressed = () {};
+  Function? floatIconTap = () {};
+  Function? onSkipClicked = () {};
+
   Color? bgChildColor;
   IconData? floatIcon;
   String? backImage;
@@ -155,6 +160,7 @@ class CommonContainer extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: 80,
       padding: EdgeInsets.symmetric(horizontal: 10),
+      margin: EdgeInsets.only(top: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -197,7 +203,12 @@ class CommonContainer extends StatelessWidget {
           isNotification == true
               ? InkWell(
                   onTap: () {
-                    if (onSkipClicked != null) onSkipClicked!();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                NotificationListPage()));
+                    // if (onSkipClicked != null) onSkipClicked!();
                   },
                   child: Container(
                     padding: EdgeInsets.all(isNotification == true ? 0 : 0),

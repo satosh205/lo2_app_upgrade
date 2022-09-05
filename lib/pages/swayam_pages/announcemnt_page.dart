@@ -82,7 +82,7 @@ class _AnnouncementPageState extends _AutoReloadState with AutoReloadMixin {
     return CommonContainer(
         child: _mainBody(),
         isDrawerEnable: true,
-        isBackShow: true,
+        isBackShow: false,
         drawerWidget: widget.drawerWidget,
         bgChildColor: ColorConstants.WHITE,
         title: Strings.of(context)?.announcements,

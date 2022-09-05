@@ -52,7 +52,7 @@ class _MyCertificatesPageState extends State<MyCertificatesPage> {
 
   _verticalList() {
     return CommonContainer(
-      isBackShow: true,
+      isBackShow: false,
       child: _mainBody(),
       isContainerHeight: false,
       isScrollable: true,
@@ -99,7 +99,7 @@ class _MyCertificatesPageState extends State<MyCertificatesPage> {
                 KpiCertificatesDatum.fromJson(Map<String, dynamic>.from(e)))
             .cast<KpiCertificatesDatum>()
             .toList();
-      //  _getCertificatesResp=[];    
+        //  _getCertificatesResp=[];
         return Container(
           width: screenWidth,
           child: Column(
@@ -154,7 +154,7 @@ class _MyCertificatesPageState extends State<MyCertificatesPage> {
               Padding(
                 padding: EdgeInsets.only(left: 20, top: 8),
                 child: Text(
-                 '${ Strings.of(context)?.Your_medals}',
+                  '${Strings.of(context)?.Your_medals}',
                   style: Styles.textExtraBold(
                     size: 18,
                     color: Color.fromRGBO(255, 141, 41, 1),
@@ -164,19 +164,21 @@ class _MyCertificatesPageState extends State<MyCertificatesPage> {
               SizedBox(
                 height: 11,
               ),
-              _getCertificatesResp.isEmpty ? Container(
-            height: MediaQuery.of(context).size.height/2,
-            width: MediaQuery.of(context).size.width,
-            child: Center(
-              child: Text(
-                "There are no certificates available",
-                style: Styles.textBold(),
-              ),
-            ),
-          ) :  SizedBox(
-                width: screenWidth,
-                child: _getList(),
-              ),
+              _getCertificatesResp.isEmpty
+                  ? Container(
+                      height: MediaQuery.of(context).size.height / 2,
+                      width: MediaQuery.of(context).size.width,
+                      child: Center(
+                        child: Text(
+                          "There are no certificates available",
+                          style: Styles.textBold(),
+                        ),
+                      ),
+                    )
+                  : SizedBox(
+                      width: screenWidth,
+                      child: _getList(),
+                    ),
               SizedBox(
                 height: 400,
               ),
@@ -293,7 +295,8 @@ class _MyCertificatesPageState extends State<MyCertificatesPage> {
                       ],
                     ),
                     Spacer(),
-                    Image.asset("assets/images/medal.png",height:50,width: 50)
+                    Image.asset("assets/images/medal.png",
+                        height: 50, width: 50)
                   ],
                 ),
               ),
