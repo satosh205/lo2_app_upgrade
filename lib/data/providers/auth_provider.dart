@@ -7,6 +7,7 @@ import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/request/auth_request/email_request.dart';
 import 'package:masterg/data/models/request/auth_request/login_request.dart';
 import 'package:masterg/data/models/request/auth_request/signup_request.dart';
+import 'package:masterg/data/models/request/auth_request/swayam_login_request.dart';
 import 'package:masterg/data/models/request/auth_request/update_user_request.dart';
 import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/utils/Log.dart';
@@ -190,6 +191,31 @@ class AuthProvider {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
   }
+
+    Future<ApiResponse?> swayamLoginCall({SwayamLoginRequest? request}) async {
+    //  Utility.hideKeyboard();
+    try {
+      final response = await api.dio.post(ApiConstants.SWAYAM_LOGIN,
+          data: json.encode(request?.toJson()),
+          options: Options(
+              method: 'POST',
+              headers: {ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE},
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+  }
+
 
   Future<ApiResponse?> verifyOTP(EmailRequest request) async {
     try {

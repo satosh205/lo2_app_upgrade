@@ -85,6 +85,7 @@ dependencies:
   stop_watch_timer: ^1.4.0
   syncfusion_flutter_gauges: ^20.1.57
   syncfusion_flutter_sliders: ^20.1.57
+  firebase_messaging: ^10.0.0
   url_launcher: ^6.1.2
   video_player: ^2.4.2
   video_thumbnail: ^0.5.0

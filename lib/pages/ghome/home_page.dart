@@ -102,6 +102,11 @@ class _homePageState extends State<homePage> {
       '/g-reels': 'assets/images/unselected_greels.svg',
       '/g-carvaan': 'assets/images/unselected_gcarvaan.svg',
       '/sic-council': 'assets/images/my_council.svg',
+      '/training': 'assets/images/trainings.svg',
+      '/announcements': 'announcements.svg',
+      '/analytics': 'analytics.svg',
+      '/library': 'library.svg',
+      '/my-space-settings': 'mySpaceSettings.svg'
     };
 
     var iconSeleted = {
@@ -110,6 +115,11 @@ class _homePageState extends State<homePage> {
       '/g-reels': 'assets/images/selected_greels.svg',
       '/g-carvaan': 'assets/images/selected_gcarvaan.svg',
       '/sic-council': 'assets/images/my_council.svg',
+      '/training': 'assets/images/selectedTrainings.svg',
+      '/announcements': 'selectedAnnouncements.svg',
+      '/analytics': 'selectedAnalytics.svg',
+      '/library': 'selectedLibrary.svg',
+      '/my-space-settings': 'selectedMySpaceSettings.svg'
     };
 
     if (widget.isFromCreatePost) {
@@ -151,63 +161,63 @@ class _homePageState extends State<homePage> {
         key: _scaffoldKey,
         backgroundColor: ColorConstants.GREY,
         // drawer: Drawer(
-          // Add a ListView to the drawer. This ensures the user can scroll
-          // through the options in the drawer if there isn't enough vertical
-          // space to fit everything.
-          // child: ListView(
-            // Important: Remove any padding from the ListView.
-            // padding: EdgeInsets.zero,
-            // children: [
-            //   SizedBox(
-            //     height: 50,
-            //   ),
-            //   ListTile(
-            //     title: const Text('AnalyticPage'),
-            //     onTap: () {
-            //       Navigator.push(
-            //           context,
-            //           MaterialPageRoute(
-            //               builder: (BuildContext context) => ProfilePage()));
-            //     },
-            //   ),
-            //   Divider(height: 20),
-              // ListTile(
-              //   title: const Text('Idea Factory'),
-              //   onTap: () {
-              //     Navigator.push(
-              //         context,
-              //         NextPageRoute(FeedBackPage(
-              //           isViewAll: true,
-              //         )));
-              //   },
-              // ),
-              // Divider(height: 20),
-              // ListTile(
-              //   title: const Text('Profile 5'),
-              //   onTap: () {
-              //     Navigator.push(context, NextPageRoute(ProfilePage()));
-              //   },
-              // ),
-              // Divider(height: 20),
-              // ListTile(
-              //   title: const Text('Annouccment '),
-              //   onTap: () {
-              //     Navigator.push(context, NextPageRoute(TrainingCourses()));
-              //   },
-              // ),
-              // Divider(height: 20),
-              // ListTile(
-              //   title: const Text('LibraryPage 4 '),
-              //   onTap: () {
-              //     Navigator.push(
-              //         context,
-              //         NextPageRoute(LibraryPage(
-              //           isViewAll: true,
-              //         )));
-              //   },
-              // ),
-            // ],
-          // ),
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        // child: ListView(
+        // Important: Remove any padding from the ListView.
+        // padding: EdgeInsets.zero,
+        // children: [
+        //   SizedBox(
+        //     height: 50,
+        //   ),
+        //   ListTile(
+        //     title: const Text('AnalyticPage'),
+        //     onTap: () {
+        //       Navigator.push(
+        //           context,
+        //           MaterialPageRoute(
+        //               builder: (BuildContext context) => ProfilePage()));
+        //     },
+        //   ),
+        //   Divider(height: 20),
+        // ListTile(
+        //   title: const Text('Idea Factory'),
+        //   onTap: () {
+        //     Navigator.push(
+        //         context,
+        //         NextPageRoute(FeedBackPage(
+        //           isViewAll: true,
+        //         )));
+        //   },
+        // ),
+        // Divider(height: 20),
+        // ListTile(
+        //   title: const Text('Profile 5'),
+        //   onTap: () {
+        //     Navigator.push(context, NextPageRoute(ProfilePage()));
+        //   },
+        // ),
+        // Divider(height: 20),
+        // ListTile(
+        //   title: const Text('Annouccment '),
+        //   onTap: () {
+        //     Navigator.push(context, NextPageRoute(TrainingCourses()));
+        //   },
+        // ),
+        // Divider(height: 20),
+        // ListTile(
+        //   title: const Text('LibraryPage 4 '),
+        //   onTap: () {
+        //     Navigator.push(
+        //         context,
+        //         NextPageRoute(LibraryPage(
+        //           isViewAll: true,
+        //         )));
+        //   },
+        // ),
+        // ],
+        // ),
         // ),
 
         appBar: widget.bottomMenu![currentIndex].url != '/g-reels'

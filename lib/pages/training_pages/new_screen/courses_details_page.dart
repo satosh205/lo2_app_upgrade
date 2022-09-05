@@ -260,7 +260,7 @@ class _CoursesDetailsPageState extends State<CoursesDetailsPage> {
           });
     }
 
-    if (type == "open") {
+    if (type == "open" || type == null) {
       BlocProvider.of<HomeBloc>(context).add(UserProgramSubscribeEvent(
           subrReq: UserProgramSubscribeReq(programId: id)));
 

@@ -1,9 +1,11 @@
 import 'package:masterg/data/models/request/auth_request/email_request.dart';
 import 'package:masterg/data/models/request/auth_request/login_request.dart';
 import 'package:masterg/data/models/request/auth_request/signup_request.dart';
+import 'package:masterg/data/models/request/auth_request/swayam_login_request.dart';
 import 'package:masterg/data/models/request/auth_request/update_user_request.dart';
 import 'package:masterg/data/models/response/auth_response/login_response.dart';
 import 'package:masterg/data/models/response/auth_response/sign_up_response.dart';
+import 'package:masterg/data/models/response/auth_response/swayam_login_response.dart';
 import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/data/models/response/auth_response/verify_otp_resp.dart';
 import 'package:masterg/data/models/response/home_response/app_version_response.dart';
@@ -76,6 +78,21 @@ class AuthRepository {
     } else {
       Log.v("====> ${response.body}");
       return CityStateResp();
+    }
+  }
+
+    Future<SwayamLoginResponse?> swayamLoginCall(
+      {SwayamLoginRequest? request}) async {
+    final response = await userProvider.swayamLoginCall(request: request);
+    if (response!.success) {
+      Log.v("ERROR DATA : ${response.body}");
+      SwayamLoginResponse user = SwayamLoginResponse.fromJson(response.body);
+      return user;
+    } else {
+      Log.v("====> ${response.body}");
+      return SwayamLoginResponse(
+          message:
+              response.body == null ? "Something went wrong:" : response.body);
     }
   }
 

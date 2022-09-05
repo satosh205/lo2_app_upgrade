@@ -125,5 +125,7 @@ class ApiConstants {
   static const LIBRARY_TYPE = "Library";
   static const SURVEY_API = "api/joy/survey";
   static const POLL_API = 'api/poll'; 
+  static const SWAYAM_LOGIN = 'api/login';  
+
 
 }
