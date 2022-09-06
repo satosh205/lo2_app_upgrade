@@ -72,11 +72,11 @@ class VideoPlayerState extends State<CustomVideoPlayer> {
       autoPlay: false,
       videoPlayerController: controller,
     );
-
-    flickManager!.flickDisplayManager!
-        .handleShowPlayerControls(showWithTimeout: false);
+    flickManager!.flickDisplayManager!.handleShowPlayerControls(showWithTimeout: false);
 
     print(controller.value.aspectRatio);
+    print('====*******Singh ******=====');
+    /*print(controller.value.size.height / (controller.value.aspectRatio * 2));*/
   }
 
   @override
@@ -172,7 +172,7 @@ class VideoPlayerState extends State<CustomVideoPlayer> {
         child: Stack(children: [
           FlickVideoPlayer(
             flickVideoWithControls: FlickVideoWithControls(
-                // videoFit: BoxFit.cover,
+                 videoFit: BoxFit.cover,
                 ),
             flickManager: flickManager!,
             flickVideoWithControlsFullscreen: FlickToggleSoundAction(),
@@ -267,6 +267,8 @@ class VideoPlayerState extends State<CustomVideoPlayer> {
       pageBuilder: (context, animation, secondaryAnimation) {
         return Scaffold(
           body: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
             color: Colors.white,
             child: SingleChildScrollView(
               child: Column(
@@ -355,7 +357,7 @@ class VideoPlayerState extends State<CustomVideoPlayer> {
                                   style: Styles.textRegular(size: 10),
                                 ),
                               ),
-                              Padding(
+                              /*Padding(
                                   padding:
                                       const EdgeInsets.only(bottom: 2, left: 4),
                                   child: ReadMoreText(text: desc ?? '')
@@ -363,7 +365,7 @@ class VideoPlayerState extends State<CustomVideoPlayer> {
                                   //   desc ?? '',
                                   //   style: Styles.textRegular(size: 14),
                                   // ),
-                                  ),
+                                  ),*/
                             ],
                           ),
                         ),
@@ -374,12 +376,12 @@ class VideoPlayerState extends State<CustomVideoPlayer> {
                     ),
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.65,
+                    //height: MediaQuery.of(context).size.height * 0.65,
                     child: Column(children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(0),
                         child: Container(
-                            height: MediaQuery.of(context).size.height * 0.65,
+                            //height: MediaQuery.of(context).size.height * 0.65,
                             width: MediaQuery.of(context).size.width,
                             child: url != null && url.isNotEmpty
                                 ? url.contains('.mp4') || url.contains('.mov')
@@ -397,12 +399,6 @@ class VideoPlayerState extends State<CustomVideoPlayer> {
                                         },
                                         child: FlickVideoPlayer(
                                             flickManager: flickManager!,
-                                            // flickVideoWithControls:
-                                            //     FlickVideoWithControls(
-                                            //       controls: FlickSeekVideoAction(
-
-                                            //       ) ,
-                                            //     ),
                                             flickVideoWithControls:
                                                 FlickVideoWithControls(
                                               controls: FlickSeekVideoAction(
@@ -418,6 +414,7 @@ class VideoPlayerState extends State<CustomVideoPlayer> {
                                                       ?.seekBackward(value);
                                                 },
                                               ),
+                                                  videoFit: BoxFit.contain,
                                             )),
                                       )
                                     : Container()
@@ -426,6 +423,22 @@ class VideoPlayerState extends State<CustomVideoPlayer> {
                                   )),
                       ),
                     ]),
+                  ),
+
+                  ///Add New
+                  Stack(
+                    alignment: Alignment.bottomLeft,
+                    children: [
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 10, left: 10, top: 10),
+                            child: Align(
+                              alignment: Alignment.bottomLeft,
+                                child: ReadMoreText(text: desc ?? ''),
+                            ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

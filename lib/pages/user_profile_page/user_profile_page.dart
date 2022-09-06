@@ -1016,10 +1016,10 @@ class _UserProfilePageState extends State<UserProfilePage>
                 child: listPortfolioBrand.length != 0
                     ? GridView.builder(
                         padding:
-                            EdgeInsets.only(left: 0.0, right: 10.0, top: 30.0),
+                            EdgeInsets.only(left: 0.0, right: 0.0, top: 30.0),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
-                          crossAxisSpacing: 10,
+                          crossAxisSpacing: 17,
                           mainAxisSpacing: 10,
                           //childAspectRatio: (itemWidth / itemHeight),
                           childAspectRatio: 1.0,
@@ -1029,13 +1029,14 @@ class _UserProfilePageState extends State<UserProfilePage>
                           return Stack(
                             children: [
                               Container(
-                                height: 70,
-                                width: 130,
+                                height: 37,
+                                width: 100,
                                 child: Center(
                                   //child: Text('${index + 1}' , style: Styles.textRegular(size: 16, color: Colors.white),),
                                   child: Image.network(
                                     '${listPortfolioBrand[index].image}',
                                   ),
+                                  //child: Image.asset('assets/images/br1.png'),
                                 ),
                               ),
                               deleteVisibleIconFlag == true
@@ -2494,6 +2495,7 @@ class _UserProfilePageState extends State<UserProfilePage>
         compressFormat: ImageCompressFormat.jpg,
         compressQuality: 100,
         uiSettings: buildUiSettings(context),
+        aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
       );
       if (croppedFile != null) {
         return croppedFile.path;

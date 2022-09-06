@@ -30,7 +30,7 @@ class _ReadMoreTextState extends State<ReadMoreText> {
         Text(
           widget.text,
           style: Styles.regular(size: 14, color: ColorConstants.BLACK),
-          maxLines: isExpanded != true ? 3 : null,
+          maxLines: isExpanded != true ? 2 : null,
           // overflow: isExpanded != true ? TextOverflow.fade : null,
         ),
         if (widget.text.length != 0 && tp.didExceedMaxLines)

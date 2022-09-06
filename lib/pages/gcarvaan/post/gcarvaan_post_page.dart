@@ -453,7 +453,8 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
             valueListenable: box.listenable(),
             builder: (bc, Box box, child) {
               if (box.get("gcarvaan_post") == null) {
-                */ /*return Shimmer.fromColors(
+                */
+    /*return Shimmer.fromColors(
                   baseColor: Color(0xffe6e4e6),
                   highlightColor: Color(0xffeaf0f3),
                   child: Container(
