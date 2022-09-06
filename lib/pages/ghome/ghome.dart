@@ -1220,7 +1220,7 @@ class _GHomeState extends State<GHome> {
                 Row(
                   children: [
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.07,
+                      ///height: MediaQuery.of(context).size.height * 0.09,
                       width: MediaQuery.of(context).size.width * 0.8,
                       //width: MediaQuery.of(context).size.width,
                       margin: EdgeInsets.only(right: 17.0, top: 5.0),

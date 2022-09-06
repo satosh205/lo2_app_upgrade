@@ -358,9 +358,9 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                               GestureDetector(
                                                 onTap: () async {
                                                   // _ytController.pause();
+                                                  print('FullScreenYoutubePlayer');
 
-                                                  YoutubePlayerController
-                                                      cntrl = _ytController;
+                                                  YoutubePlayerController cntrl = _ytController;
 
                                                   _ytController.pause();
 
@@ -1222,18 +1222,6 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                     child: VideoPlayer(_controller)),
                           ),
 
-// ValueListenableBuilder(
-//                                 valueListenable: _controller,
-//                                 builder:
-//                                     (context, VideoPlayerValue value, child) {
-//                                   //Do Something with the value.
-//                                   return Text(
-//                                     '${value.position.toString().substring(0, 7)}/${value.duration.toString().substring(0, 7)}',
-//                                     style: Styles.regular(
-//                                         color: ColorConstants.WHITE),
-//                                   );
-//                                 },
-//                               ))
                           if (!isNoteView)
                             Positioned.fill(
                               child: ValueListenableBuilder(
@@ -1718,6 +1706,9 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                     opacityLevel = 0.0;
                     String videoUrl = data.learningShots.elementAt(index).url;
                     selectedType = 'Videos';
+                    debugPrint('videoUrl ======$videoUrl');
+
+
                     // if (data!.learningShots!
                     //         .elementAt(index)
                     //         .contentType

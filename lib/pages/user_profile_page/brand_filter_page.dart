@@ -153,7 +153,7 @@ class _BrandFilterPageState extends State<BrandFilterPage> {
                           addressListData[index].image.toString(),
                           filterQuality: FilterQuality.low,
                           width: 80,
-                          height: 40,
+                          height: 37,
                           fit: BoxFit.fill,
                           loadingBuilder: (context, child, loadingProgress) {
                             if (loadingProgress == null) {

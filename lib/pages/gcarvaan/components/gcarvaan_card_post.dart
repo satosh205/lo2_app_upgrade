@@ -104,8 +104,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
 
     final now = DateTime.now();
 
-    String calculateTimeDifferenceBetween(
-        DateTime startDate, DateTime endDate) {
+    String calculateTimeDifferenceBetween(DateTime startDate, DateTime endDate) {
       int seconds = endDate.difference(startDate).inSeconds;
       if (seconds < 60)
         return '$seconds s';
@@ -148,6 +147,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
             borderRadius: BorderRadius.circular(8),
             border: Border.all(color: ColorConstants.GREY_4)),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -532,7 +532,6 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                   minHeight: 360,
                                   maxHeight: 410,
                                 ),
-                          // padding: EdgeInsets.symmetric(horizontal: 2),
                           child: VisibilityDetector(
                             key: ObjectKey('${widget.contentId}'),
                             onVisibilityChanged: (visibility) async {
@@ -614,8 +613,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                                         ),
                                                       ),
                                                     )
-                                                  : widget.fileList![index] !=
-                                                          null
+                                                  : widget.fileList![index] != null
                                                       ? InkWell(
                                                           onTap: () {
                                                             _displayDialog(
@@ -812,6 +810,311 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                     ]);
                   }),
             ),
+
+            ///Add New and changed on post card and fun pending on Api side---
+            /*ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: 360.0,),
+              child: PageView.builder(
+                  scrollDirection: Axis.horizontal,
+                  controller:
+                  PageController(initialPage: 0, viewportFraction: 1),
+                  itemCount: itemCount,
+                  itemBuilder: (BuildContext context, int index) {
+                    //var filePath = download.getFilePath('${widget.fileList![index]}');
+                    //widget.fileList![index]
+                    return Column(children: [
+                      ConstrainedBox(
+                          constraints: widget.fileList![index]
+                              .contains('.mp4') ||
+                              widget.fileList![index].contains('.mov') ==
+                                  true
+                              ? BoxConstraints(
+                            minHeight: 360,
+                            //maxHeight: 420,
+                          ): BoxConstraints(
+                            minHeight: 360,
+                            maxHeight: 410,
+                          ),
+                          child: VisibilityDetector(
+                            key: ObjectKey('${widget.contentId}'),
+                            onVisibilityChanged: (visibility) async {
+                              var visiblePercentage =
+                                  visibility.visibleFraction * 100;
+                              if (visiblePercentage.round() <= 70 &&
+                                  this.mounted) {
+                              } else {
+                                await Future.delayed(Duration(seconds: 2));
+                                updateLikeandViews(null);
+                              }
+                            },
+                            child: Container(
+                              child: Stack(
+                                children: [
+                                  Center(
+                                      child: widget.fileList![index]
+                                          .contains('.mp4') ||
+                                          widget.fileList![index]
+                                              .contains('.mov')
+                                      // ? CustomBetterPlayer(
+                                      //     url: widget.fileList[index])
+
+                                          ? CustomVideoPlayer(
+                                        url: widget.fileList![index],
+                                        isLocalVideo: false,
+                                        likeCount: widget.likeCount,
+                                        viewCount: widget.viewCount,
+                                        commentCount:
+                                        widget.commentCount != null
+                                            ? widget.commentCount
+                                            : 0,
+                                        index: index,
+                                        desc: widget.description,
+                                        userName: widget.user_name,
+                                        profilePath: widget.profile_path,
+                                        time:
+                                        calculateTimeDifferenceBetween(
+                                            DateTime.parse(date
+                                                .toString()
+                                                .substring(0, 19)),
+                                            now),
+                                      )
+                                          : widget.fileList![index]
+                                          .contains('.docx')
+                                          ? InkWell(
+                                          onTap: () {
+                                            OpenFile.open(
+                                                '${widget.fileList![index]}');
+                                          },
+                                          child: Container(
+                                            child: Image.asset(
+                                              'assets/images/docx.png',
+                                              height: 120,
+                                              fit: BoxFit.contain,
+                                            ),
+                                          ))
+                                          : widget.fileList![index]
+                                          .contains('.pdf')
+                                          ? InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              NextPageRoute(
+                                                ViewPdfPage(
+                                                  path: widget
+                                                      .fileList![
+                                                  index],
+                                                ),
+                                                isMaintainState:
+                                                true,
+                                              ));
+                                        },
+                                        child: Container(
+                                          child: Image.asset(
+                                            'assets/images/pdf.png',
+                                            height: 120,
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                      )
+                                          : widget.fileList![index] != null
+                                          ? InkWell(
+                                        onTap: () {
+                                          _displayDialog(
+                                            context: context,
+                                            imgUrl: widget
+                                                .fileList![
+                                            index],
+                                            fileList: widget
+                                                .fileList,
+                                            likeCount: widget
+                                                .likeCount,
+                                            viewCount: widget
+                                                .viewCount,
+                                            commentCount: widget
+                                                .commentCount,
+                                            index: index,
+                                            desc: widget
+                                                .description,
+                                            userName: widget
+                                                .user_name,
+                                            profilePath: widget
+                                                .profile_path,
+                                            time: calculateTimeDifferenceBetween(
+                                                DateTime.parse(date
+                                                    .toString()
+                                                    .substring(
+                                                    0,
+                                                    19)),
+                                                now),
+                                          );
+                                        },
+                                        child:
+                                        CachedNetworkImage(
+                                          imageUrl:
+                                          "${widget.fileList![index]}",
+                                          progressIndicatorBuilder:
+                                              (context, url,
+                                              downloadProgress) =>
+                                              Shimmer
+                                                  .fromColors(
+                                                baseColor: Color(
+                                                    0xffe6e4e6),
+                                                highlightColor:
+                                                Color(
+                                                    0xffeaf0f3),
+                                                child: Container(
+                                                  height: double
+                                                      .infinity,
+                                                  margin: EdgeInsets
+                                                      .symmetric(
+                                                      horizontal:
+                                                      10,
+                                                      vertical:
+                                                      10),
+                                                  width: MediaQuery.of(
+                                                      context)
+                                                      .size
+                                                      .width,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors
+                                                          .white,
+                                                      borderRadius:
+                                                      BorderRadius.circular(
+                                                          6)),
+                                                ),
+                                              ),
+                                          errorWidget:
+                                              (context, url,
+                                              error) =>
+                                              Icon(Icons
+                                                  .error),
+                                        ), // child: Image.network(
+                                        // widget.fileList![
+                                        //     index],
+                                        //   filterQuality:
+                                        //       FilterQuality
+                                        //           .low,
+                                        //   fit: BoxFit.fill,
+                                        //   width:
+                                        //       MediaQuery.of(
+                                        //               context)
+                                        //           .size
+                                        //           .width,
+                                        // ),
+                                      )
+                                          : InkWell(
+                                          onTap: () {
+                                            _displayDialog(
+                                              context: context,
+                                              imgUrl: widget
+                                                  .fileList![
+                                              index],
+                                              fileList: widget
+                                                  .fileList,
+                                              likeCount: widget
+                                                  .likeCount,
+                                              viewCount: widget
+                                                  .viewCount,
+                                              commentCount: widget
+                                                  .commentCount,
+                                              index: index,
+                                              desc: widget
+                                                  .description,
+                                              userName: widget
+                                                  .user_name,
+                                              profilePath: widget
+                                                  .profile_path,
+                                              time: calculateTimeDifferenceBetween(
+                                                  DateTime.parse(date
+                                                      .toString()
+                                                      .substring(
+                                                      0,
+                                                      19)),
+                                                  now),
+                                            );
+                                          },
+                                          child: Image.network(
+                                            widget.fileList![
+                                            index],
+                                            filterQuality:
+                                            FilterQuality
+                                                .low,
+                                            fit: BoxFit.contain,
+                                            width:
+                                            MediaQuery.of(
+                                                context)
+                                                .size
+                                                .width,
+                                            loadingBuilder: (BuildContext
+                                            context,
+                                                Widget child,
+                                                ImageChunkEvent
+                                                loadingProgress) {
+                                              if (loadingProgress ==
+                                                  null)
+                                                return child;
+                                              return Shimmer
+                                                  .fromColors(
+                                                baseColor: Color(
+                                                    0xffe6e4e6),
+                                                highlightColor:
+                                                Color(
+                                                    0xffeaf0f3),
+                                                child:
+                                                Container(
+                                                  height: double
+                                                      .infinity,
+                                                  margin: EdgeInsets.symmetric(
+                                                      horizontal:
+                                                      10,
+                                                      vertical:
+                                                      10),
+                                                  width: MediaQuery.of(
+                                                      context)
+                                                      .size
+                                                      .width,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors
+                                                          .white,
+                                                      borderRadius:
+                                                      BorderRadius.circular(
+                                                          6)),
+                                                ),
+                                              );
+                                            } as Widget Function(
+                                                BuildContext,
+                                                Widget,
+                                                ImageChunkEvent?)?,
+                                          ))),
+                                  if (itemCount > 1)
+                                    Positioned(
+                                      child: Container(
+                                        height: 22,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 8, vertical: 2),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(10),
+                                            color: Colors.black),
+                                        child: Center(
+                                          child: Text(
+                                            '${index + 1}/${itemCount}',
+                                            style: Styles.semiBoldWhite(),
+                                          ),
+                                        ),
+                                      ),
+                                      top: 8,
+                                      right: 8,
+                                    ),
+                                ],
+                              ),
+                            ),
+                          )),
+                    ]);
+                  }),
+            ),*/
+
             Padding(
                 padding:
                     const EdgeInsets.only(left: 10.0, bottom: 8.0, top: 8.0),
@@ -1098,14 +1401,14 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                 style: Styles.textRegular(size: 10),
                               ),
                             ),
-                            Padding(
+                            /*Padding(
                               padding:
                                   const EdgeInsets.only(bottom: 2, left: 4),
                               child: Text(
                                 desc ?? '',
                                 style: Styles.textRegular(size: 14),
                               ),
-                            ),
+                            ),*/
                           ],
                         ),
                       ),
@@ -1119,7 +1422,6 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                 Container(
                   height: MediaQuery.of(context).size.height * 0.65,
                   //height: 300,
-
                   child: Column(children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(0),
@@ -1154,6 +1456,25 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                 )),
                     ),
                   ]),
+                ),
+
+                Stack(
+                  children: [
+                    Container(
+                      child: Padding(
+                        padding:
+                        const EdgeInsets.only(bottom: 10, left: 10, top: 10),
+                        child: Align(
+                          alignment: Alignment.bottomLeft,
+                          /*child: Text(
+                            desc ?? '',
+                            style: Styles.textRegular(size: 14),
+                          ),*/
+                          child: ReadMoreText(text: desc ?? ''),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

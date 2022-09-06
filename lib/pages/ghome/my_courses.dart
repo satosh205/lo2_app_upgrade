@@ -164,7 +164,7 @@ class _MyCoursesState extends State<MyCourses> {
                       padding: EdgeInsets.all(10),
                       margin: EdgeInsets.only(top: 12),
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.13,
+                      //height: MediaQuery.of(context).size.height * 0.13,
                       decoration: BoxDecoration(
                           color: ColorConstants.WHITE,
                           borderRadius: BorderRadius.circular(15)),
@@ -173,7 +173,7 @@ class _MyCoursesState extends State<MyCourses> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SizedBox(
-                              width: 100,
+                              width: 120,
                               height: 100,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
@@ -194,7 +194,7 @@ class _MyCoursesState extends State<MyCourses> {
                             ),
                             Container(
                               width: MediaQuery.of(context).size.width * 0.55,
-                              height: MediaQuery.of(context).size.height * 0.25,
+                              //height: MediaQuery.of(context).size.height * 0.25,
                               child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,
