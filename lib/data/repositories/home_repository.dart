@@ -3,17 +3,30 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
 import 'package:masterg/blocs/home_bloc.dart';
+import 'package:masterg/data/models/request/home_request/poll_submit_req.dart';
+import 'package:masterg/data/models/request/home_request/submit_feedback_req.dart';
+import 'package:masterg/data/models/request/home_request/submit_survey_req.dart';
+import 'package:masterg/data/models/request/home_request/track_announcement_request.dart';
 import 'package:masterg/data/models/request/home_request/user_program_subscribe.dart';
 import 'package:masterg/data/models/request/save_answer_request.dart';
 import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
+import 'package:masterg/data/models/response/general_resp.dart';
 import 'package:masterg/data/models/response/home_response/assignment_submissions_response.dart';
 import 'package:masterg/data/models/response/home_response/category_response.dart';
+import 'package:masterg/data/models/response/home_response/content_tags_resp.dart';
 import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
 import 'package:masterg/data/models/response/home_response/create_post_response.dart';
 import 'package:masterg/data/models/response/home_response/featured_video_response.dart';
+import 'package:masterg/data/models/response/home_response/feedback_response.dart';
 import 'package:masterg/data/models/response/home_response/gcarvaan_post_reponse.dart';
+import 'package:masterg/data/models/response/home_response/get_certificates_resp.dart';
 import 'package:masterg/data/models/response/home_response/get_comment_response.dart';
 import 'package:masterg/data/models/response/home_response/get_content_resp.dart';
+import 'package:masterg/data/models/response/home_response/get_course_leaderboard_resp.dart';
+import 'package:masterg/data/models/response/home_response/get_course_modules_resp.dart';
+import 'package:masterg/data/models/response/home_response/get_courses_resp.dart';
+import 'package:masterg/data/models/response/home_response/get_kpi_analysis_resp.dart';
+import 'package:masterg/data/models/response/home_response/get_module_leaderboard_resp.dart';
 import 'package:masterg/data/models/response/home_response/greels_response.dart';
 import 'package:masterg/data/models/response/home_response/joy_category_response.dart';
 import 'package:masterg/data/models/response/home_response/joy_contentList_response.dart';
@@ -30,8 +43,11 @@ import 'package:masterg/data/models/response/home_response/program_list_reponse.
 import 'package:masterg/data/models/response/home_response/report_content_response.dart';
 import 'package:masterg/data/models/response/home_response/save_answer_response.dart';
 import 'package:masterg/data/models/response/home_response/submit_answer_response.dart';
+import 'package:masterg/data/models/response/home_response/submit_feedback_resp.dart';
+import 'package:masterg/data/models/response/home_response/survey_data_resp.dart';
 import 'package:masterg/data/models/response/home_response/test_attempt_response.dart';
 import 'package:masterg/data/models/response/home_response/test_review_response.dart';
+import 'package:masterg/data/models/response/home_response/topics_resp.dart';
 import 'package:masterg/data/models/response/home_response/update_user_profile_response.dart';
 import 'package:masterg/data/models/response/home_response/user_analytics_response.dart';
 import 'package:masterg/data/models/response/home_response/user_profile_response.dart';
@@ -39,6 +55,7 @@ import 'package:masterg/data/models/response/home_response/user_program_subscrib
 import 'package:masterg/data/providers/home_provider.dart';
 import 'package:masterg/pages/user_profile_page/model/MasterBrand.dart';
 import 'package:masterg/utils/Log.dart';
+import 'package:masterg/utils/constant.dart';
 
 import '../models/response/home_response/create_portfolio_response.dart';
 import '../models/response/home_response/delete_portfolio_response.dart';
@@ -165,6 +182,222 @@ class HomeRepository {
     }
   }
 
+    Future<GetCoursesResp?> getCoursesList({int? type}) async {
+    final response = await homeProvider.getCoursesList(type: type!);
+    var box = Hive.box("analytics");
+    if (response!.success) {
+      Log.v("SUCCESS DATA : ${response.body}");
+      GetCoursesResp gameResponse = GetCoursesResp.fromJson(response.body);
+      if (type == 0) {
+        box.put("myAnalytics",
+            gameResponse.data?.list?.map((e) => e.toJson()).toList());
+      }
+      if (type == 1) {
+        box.put("teamAnalytics",
+            gameResponse.data?.list?.map((e) => e.toJson()).toList());
+      }
+      return gameResponse;
+    } else {
+      if (type == 0) {
+        box.put("myAnalytics", []);
+      }
+      if (type == 1) {
+        box.put("teamAnalytics", []);
+      }
+      Log.v("====> ${response.body}");
+      return GetCoursesResp();
+    }
+  }
+
+    Future<SubmitFeedbackResp> submitFeedback({FeedbackReq? feedbackReq}) async {
+    print(feedbackReq);
+    final response = await homeProvider.submitFeedback(req: feedbackReq);
+    if (response!.success) {
+      Log.v("ERROR DATA1 : ${json.encode(response.body)}");
+      SubmitFeedbackResp resp = SubmitFeedbackResp.fromJson(response.body);
+      return resp;
+    } else {
+      Log.v("====> ${response.body}");
+      return SubmitFeedbackResp(
+          message:
+              response.body == null ? "Something went wrong:" : response.body);
+    }
+  }
+
+    Future<TopicsResp> getTopicsList() async {
+    final response = await homeProvider.getTopicsList();
+    if (response!.success) {
+      Log.v("ERROR DATA : ${json.encode(response.body)}");
+      TopicsResp resp = TopicsResp.fromJson(response.body);
+      return resp;
+    } else {
+      Log.v("====> ${response.body}");
+      return TopicsResp(
+          error:
+              response.body == null ? "Something went wrong:" : response.body);
+    }
+  }
+
+    Future<FeedbackResp?> getFeedbackList({int? categoryType}) async {
+    final response = await homeProvider.getFeedbackList();
+    if (response!.success) {
+      Log.v("ERROR DATA : ${json.encode(response.body)}");
+      FeedbackResp resp = FeedbackResp.fromJson(response.body);
+      var box = Hive.box(DB.CONTENT);
+      box.put("ideas", resp.data?.list?.map((e) => e.toJson()).toList());
+
+      return resp;
+    } else {
+      Log.v("====> ${response.body}");
+      return FeedbackResp(
+          error:
+              response.body == null ? "Something went wrong:" : response.body);
+    }
+  }
+
+    Future<GetKpiAnalysisResp?> getKPIAnalysisList() async {
+    final response = await homeProvider.getKPIAnalysisList();
+    var box = Hive.box("analytics");
+    if (response!.success) {
+      Log.v("SUCCESS DATA : ${response.body}");
+      GetKpiAnalysisResp gameResponse =
+          GetKpiAnalysisResp.fromJson(response.body);
+
+      box.put(
+          "kpiData", gameResponse.data?.kpiData?.map((e) => e.toJson()).toList());
+      return gameResponse;
+    } else {
+      box.put("kpiData", []);
+      Log.v("====> ${response.body}");
+      return GetKpiAnalysisResp();
+    }
+  }
+
+  Future<GetCertificatesResp?> getCertificatesList() async {
+    final response = await homeProvider.getCertificatesList();
+    if (response!.success) {
+      Log.v("SUCCESS DATA : ${response.body}");
+      GetCertificatesResp gameResponse =
+          GetCertificatesResp.fromJson(response.body);
+      Box box = Hive.box(DB.ANALYTICS);
+      box.put(
+          "certificates",
+          gameResponse.data?.kpiCertificatesData
+              ?.map((e) => e.toJson())
+              .toList());
+      return gameResponse;
+    } else {
+      Log.v("====> ${response.body}");
+      return GetCertificatesResp();
+    }
+  }
+
+   Future<ContentTagsResp?> getContentTagsList({int? categoryType}) async {
+    final response =
+        await homeProvider.getContentTagsList(categoryType: categoryType);
+    if (response!.success) {
+      Log.v("ERROR DATA : ${json.encode(response.body)}");
+      ContentTagsResp resp = ContentTagsResp.fromJson(response.body);
+      var box = Hive.box("content");
+      if (categoryType == 8) {
+        box.put("announcementFilters",
+            resp.data?.listTags?.map((e) => e.toJson()).toList());
+      }
+      if (categoryType == 9) {
+        box.put("libraryFilters",
+            resp.data?.listTags?.map((e) => e.toJson()).toList());
+      }
+      return resp;
+    } else {
+      Log.v("====> ${response.body}");
+      return ContentTagsResp(
+          error:
+              response.body == null ? "Something went wrong:" : response.body);
+    }
+  }
+
+    Future<GetModuleLeaderboardResp?> getModuleLeaderboardList(String moduleId,
+      {int type = 0}) async {
+    final response =
+        await homeProvider.getModuleLeaderboardList(moduleId, type: type);
+    if (response!.success) {
+      Log.v("SUCCESS DATA 2: ${response.body}");
+      GetModuleLeaderboardResp gameResponse =
+          GetModuleLeaderboardResp.fromJson(response.body);
+      var box = Hive.box("analytics");
+      if (type == 0) {
+        box.put(moduleId + AnalyticsType.MODULE_LEADERBOARD_TYPE_1,
+            gameResponse.data?.list?.map((e) => e.toJson()).toList());
+      }
+      if (type == 1) {
+        box.put(moduleId + AnalyticsType.MODULE_LEADERBOARD_TYPE_2,
+            gameResponse.data?.list?.map((e) => e.toJson()).toList());
+      }
+      return gameResponse;
+    } else {
+      Log.v("====> ${response.body}");
+      return GetModuleLeaderboardResp();
+    }
+  }
+
+   Future<GetCourseLeaderboardResp?> getCourseLeaderboardList(String courseId,
+      {int type = 0}) async {
+    final response =
+        await homeProvider.getCourseLeaderboardList(courseId, type: type);
+    if (response!.success) {
+      Log.v("SUCCESS DATA LEADER: ${response.body}");
+      GetCourseLeaderboardResp gameResponse =
+          GetCourseLeaderboardResp.fromJson(response.body);
+      var box = Hive.box("analytics");
+      if (type == 0) {
+        box.put(courseId + AnalyticsType.COURSE_LEADERBOARD_TYPE_1,
+            gameResponse.data?.list?.map((e) => e.toJson()).toList());
+      }
+      if (type == 1) {
+        box.put(courseId + AnalyticsType.COURSE_LEADERBOARD_TYPE_2,
+            gameResponse.data?.list?.map((e) => e.toJson()).toList());
+      }
+      return gameResponse;
+    } else {
+      Log.v("====> ${response.body}");
+      return GetCourseLeaderboardResp();
+    }
+  }
+
+
+  Future<GetCourseModulesResp?> getCourseModulesList(String courseId,
+      {int type = 0}) async {
+    try {
+      final response =
+          await homeProvider.getCourseModulesList(courseId, type: 0);
+      if (response!.success) {
+        Log.v("SUCCESS DATA MOD : ${response.body}");
+        GetCourseModulesResp gameResponse =
+            GetCourseModulesResp.fromJson(response.body);
+        var box = Hive.box("analytics");
+        if (type == 0) {
+          box.put(
+              courseId + AnalyticsType.MODULE_TYPE_1,
+              gameResponse.data?.list?.first.modules
+                  ?.map((e) => e.toJson())
+                  .toList());
+        }
+        if (type == 1) {
+          box.put(
+              courseId + AnalyticsType.MODULE_TYPE_2,
+              gameResponse.data?.list?.first.modules
+                  ?.map((e) => e.toJson())
+                  .toList());
+        }
+        return gameResponse;
+      } else {
+        Log.v("====> ${response.body}");
+        return GetCourseModulesResp();
+      }
+    } on Exception catch (e, stacktrace) {
+      print(stacktrace);
+    }
+  }
   Future<CategoryResp> getCategory() async {
     final response = await homeProvider.getCategorys();
     if (response!.success) {
@@ -718,6 +951,83 @@ class HomeRepository {
     } else {
       Log.v("====> ${response.body}");
       return;
+    }
+  }
+
+    Future<GeneralResp?> trackAnnouncment(
+      {TrackAnnouncementReq? trackAnnouncementReq}) async {
+    final response = await homeProvider.trackAnnouncment(
+        submitRewardReq: trackAnnouncementReq!);
+    if (response!.success) {
+      Log.v("ERROR DATA : ${response.body}");
+      GeneralResp resp = GeneralResp.fromJson(response.body);
+      Log.v("ERROR DATA : ${resp.toJson()}");
+      return resp;
+    } else {
+      Log.v("====> ${response.body}");
+      return GeneralResp();
+    }
+  }
+
+   Future<GeneralResp?> activityAttempt(
+      {String? filePath, int? contentType, int? contentId}) async {
+    final response =
+        await homeProvider.activityAttempt(filePath, contentType, contentId);
+    if (response!.success) {
+      Log.v("ERROR DATA : ${response.body}");
+      GeneralResp resp = GeneralResp.fromJson(response.body);
+      Log.v("ERROR DATA : ${resp.toJson()}");
+      return resp;
+    } else {
+      Log.v("====> ${response.body}");
+      return GeneralResp();
+    }
+  }
+
+    Future<SurveyDataResp?> getSurveyDataList({int? contentId, int? type}) async {
+    try {
+      final response = await homeProvider.getSurveyDataList(
+          contentId: contentId, type: type);
+      if (response!.success) {
+        Log.v("ERROR DATA : ${json.encode(response.body)}");
+        SurveyDataResp resp = SurveyDataResp.fromJson(response.body, type!);
+        return resp;
+      } else {
+        Log.v("====> ${response.body}");
+        return SurveyDataResp(
+            error: response.body == null
+                ? "Something went wrong:"
+                : response.body);
+      }
+    } on Exception catch (e, s) {
+      print(s);
+    }
+  }
+
+    Future<GeneralResp> submitSurvey({SubmitSurveyReq? submitSurveyReq}) async {
+    final response = await homeProvider.submitSurvey(req: submitSurveyReq);
+    if (response!.success) {
+      Log.v("ERROR DATA : ${json.encode(response.body)}");
+      GeneralResp resp = GeneralResp.fromJson(response.body);
+      return resp;
+    } else {
+      Log.v("====> ${response.body}");
+      return GeneralResp(
+          message:
+              response.body == null ? "Something went wrong:" : response.body);
+    }
+  }
+    Future<GeneralResp?> submitPoll({PollSubmitRequest? submitSurveyReq}) async {
+    final response = await homeProvider.submitPoll(req: submitSurveyReq);
+    if (response!.success) {
+      Log.v("ERROR DATA : ${json.encode(response.body)}");
+      GeneralResp resp = GeneralResp.fromJson(response.body);
+      return resp;
+    } else {
+      Log.v("====> ${response.body}");
+      return GeneralResp(
+          message:
+              response.body == null ? "Something went wrong:" : response.body);
     }
   }
 }

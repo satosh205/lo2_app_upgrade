@@ -28,6 +28,8 @@ class SignUpResponse {
             : List<String>.from(json["members"].map((x) => x)),
       );
 
+  get message => null;
+
   Map<String, dynamic> toJson() => {
         "status": status == null ? null : status,
         "data": data == null ? null : data!.toJson(),

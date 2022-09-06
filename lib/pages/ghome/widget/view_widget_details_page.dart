@@ -78,7 +78,7 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider<VideoPlayerProvider>(
-            create: (context) => VideoPlayerProvider(true),
+            create: (context) => VideoPlayerProvider(false),
           ),
           ChangeNotifierProvider<JoyContentListModel>(
             create: (context) => JoyContentListModel(joyContentListResponse),

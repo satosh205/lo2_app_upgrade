@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masterg/data/models/response/auth_response/user_session.dart';
+import 'package:masterg/pages/custom_pages/custom_widgets/CommonWebView.dart';
+import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/utils/Strings.dart';
 
 import '../../../blocs/home_bloc.dart';
 import '../../../data/models/request/home_request/user_program_subscribe.dart';
+import '../../../local/pref/Preference.dart';
 import '../../../utils/Styles.dart';
 import '../../../utils/resource/colors.dart';
 import '../../custom_pages/TapWidget.dart';
@@ -20,6 +24,7 @@ class CoursesDetailsPage extends StatefulWidget {
   final String? trainer;
   final int? enrolmentCount;
   final int? id;
+  final String? shortCode;
   final String? type;
 
   const CoursesDetailsPage(
@@ -34,7 +39,8 @@ class CoursesDetailsPage extends StatefulWidget {
       this.trainer,
       this.enrolmentCount,
       this.id,
-      this.type})
+      this.type,
+      this.shortCode})
       : super(key: key);
 
   @override
@@ -47,57 +53,169 @@ class _CoursesDetailsPageState extends State<CoursesDetailsPage> {
     super.initState();
   }
 
+  Future<bool> _willPopCallback() async {
+    Navigator.pop(context, true);
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      backgroundColor: Colors.white,
-      floatingActionButton: Container(
-        width: MediaQuery.of(context).size.width,
-        height: 100,
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        decoration: BoxDecoration(
-          color: ColorConstants.WHITE,
+    return WillPopScope(
+      onWillPop: _willPopCallback,
+      child: Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        backgroundColor: Colors.white,
+        floatingActionButton: Container(
+          width: MediaQuery.of(context).size.width,
+          height: 100,
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          decoration: BoxDecoration(
+            color: ColorConstants.WHITE,
 
-          //top shadow
-          boxShadow: [
-            BoxShadow(
-              color: ColorConstants.BLACK.withOpacity(0.15),
-              spreadRadius: 0,
-              blurRadius: 20,
-              offset: Offset(0, -2), // changes position of shadow
-            ),
-          ],
-        ),
-        child: Column(
-          children: [
-            Text('${widget.enrolmentCount} Students already Enrolled',
-                style: Styles.regular(size: 12)),
-            SizedBox(
-              height: 10,
-            ),
-            TapWidget(
-              onTap: () {
-                print('object');
-                _subscribeRequest(widget.type, widget.id);
-              },
-              child: Container(
-                height: 50,
-                decoration: BoxDecoration(
-                  color: ColorConstants().primaryColor(),
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
+            //top shadow
+            boxShadow: [
+              BoxShadow(
+                color: ColorConstants.BLACK.withOpacity(0.15),
+                spreadRadius: 0,
+                blurRadius: 20,
+                offset: Offset(0, -2), // changes position of shadow
+              ),
+            ],
+          ),
+          child: Column(
+            children: [
+              Text('${widget.enrolmentCount} Students already Enrolled',
+                  style: Styles.regular(size: 12)),
+              SizedBox(
+                height: 10,
+              ),
+              TapWidget(
+                onTap: () {
+                  if (widget.type == 'paid') {
+                    final url =
+                        'https://learnandbuild.in/signin.php?username=${Preference.getString(Preference.USER_EMAIL)}&slug=${widget.shortCode}';
+
+                    print(url);
+                    // 'https://learnandbuild.in/signin.php?username=shubhamsharma5may@gmail.com&slug=learn-c-programming';
+
+                    Navigator.push(
+                        context,
+                        NextPageRoute(CommonWebView(
+                          url: url,
+                        ))).then((isSuccess) {
+                      if (isSuccess == true) {
+                        Navigator.pop(context, true);
+                      }
+                    });
+                  } else
+                    _subscribeRequest(widget.type?.toLowerCase(), widget.id);
+                },
+                child: Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: ColorConstants().primaryColor(),
+                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 8, right: 8, top: 4, bottom: 4),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          widget.type == 'paid' ? 'Enroll Now' : 'Request',
+                          style: Styles.textExtraBold(
+                              size: 14, color: ColorConstants.WHITE),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 8, right: 8, top: 4, bottom: 4),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+              ),
+            ],
+          ),
+        ),
+        body: CustomScrollView(
+          slivers: <Widget>[
+            SliverAppBar(
+              backgroundColor: Colors.white,
+              expandedHeight: 250.0,
+              flexibleSpace: FlexibleSpaceBar(
+                title: Text('', textScaleFactor: 1),
+                background: Hero(
+                  tag: widget.tagName! + widget.indexc.toString(),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15.0),
+                      topRight: Radius.circular(15.0),
+                    ),
+                    child: Image.network(
+                      widget.imgUrl!,
+                      width: MediaQuery.of(context).size.width,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Container(
+                padding: const EdgeInsets.all(20.0),
+                margin: const EdgeInsets.only(bottom: 120.0),
+                child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Request',
-                        style: Styles.textExtraBold(
-                            size: 14, color: ColorConstants.WHITE),
+                        widget.name.toString(),
+                        style: Styles.bold(),
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        child: Text('${widget.description}'),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      RichText(
+                          text: TextSpan(children: [
+                        TextSpan(
+                            text: 'Trainer Name: ',
+                            style: Styles.regular(size: 12)),
+                        TextSpan(
+                            text: '${widget.trainer.toString()}',
+                            style: Styles.bold(size: 12)),
+                      ])),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          if (widget.regularPrice != widget.salePrice)
+                            Text('₹${widget.regularPrice}',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: false,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  decoration: TextDecoration.lineThrough,
+                                )),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          if (widget.salePrice != null)
+                            Text('₹${widget.salePrice}',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: false,
+                                style: Styles.bold(
+                                    size: 23, color: ColorConstants.GREEN)),
+                        ],
+                      )
                     ],
                   ),
                 ),
@@ -105,90 +223,6 @@ class _CoursesDetailsPageState extends State<CoursesDetailsPage> {
             ),
           ],
         ),
-      ),
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            backgroundColor: Colors.white,
-            expandedHeight: 250.0,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text('', textScaleFactor: 1),
-              background: Hero(
-                tag: widget.tagName! + widget.indexc.toString(),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15.0),
-                    topRight: Radius.circular(15.0),
-                  ),
-                  child: Image.network(
-                    widget.imgUrl!,
-                    width: MediaQuery.of(context).size.width,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.name.toString(),
-                    style: Styles.bold(),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    child: Text(widget.description.toString()),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  RichText(
-                      text: TextSpan(children: [
-                    TextSpan(
-                        text: 'Trainer Name: ',
-                        style: Styles.regular(size: 12)),
-                    TextSpan(
-                        text: '${widget.trainer.toString()}',
-                        style: Styles.bold(size: 12)),
-                  ])),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      if (widget.regularPrice != widget.salePrice)
-                        Text('₹${widget.regularPrice}',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            softWrap: false,
-                            style: TextStyle(
-                              fontSize: 15,
-                              decoration: TextDecoration.lineThrough,
-                            )),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      if (widget.salePrice != null)
-                        Text('₹${widget.salePrice}',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            softWrap: false,
-                            style: Styles.bold(
-                                size: 23, color: ColorConstants.GREEN)),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -226,7 +260,7 @@ class _CoursesDetailsPageState extends State<CoursesDetailsPage> {
           });
     }
 
-    if (type == "open") {
+    if (type == "open" || type == null) {
       BlocProvider.of<HomeBloc>(context).add(UserProgramSubscribeEvent(
           subrReq: UserProgramSubscribeReq(programId: id)));
 

@@ -33,10 +33,9 @@ class MyCourses extends StatefulWidget {
 }
 
 class _MyCoursesState extends State<MyCourses> {
-  bool isProgramListLoading = true;
   // List<MProgram> courseList1;
   int nocourseAssigned = 0;
-  bool? _isCourseList1Loading;
+  bool? _isCourseList1Loading = true;
   List<MProgram>? courseList1;
   List<Liveclass>? liveclassList;
   List<PopularCourses>? popularcourses;
@@ -46,7 +45,6 @@ class _MyCoursesState extends State<MyCourses> {
   List<HighlyRated>? highlyRated;
   List<MostViewed>? mostViewed;
 
-  bool _isJoyCategoryLoading = false;
   String? errorMessage;
 
   Box? box;
@@ -54,6 +52,7 @@ class _MyCoursesState extends State<MyCourses> {
   @override
   void initState() {
     super.initState();
+    print('loading page......');
 
     _getAssignedCourses();
   }

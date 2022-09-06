@@ -929,8 +929,17 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                                   type: otherLearners![index]
                                                       .subscriptionType,
                                                   id: otherLearners![index].id,
+                                                  shortCode:
+                                                      otherLearners![index]
+                                                          .shortCode,
                                                 )),
-                                      );
+                                      ).then((isSuccess) {
+                                        if (isSuccess == true) {
+
+                                          _getPopularCourses();
+                                          _getFilteredPopularCourses();
+                                        }
+                                      });
                                       /*_subscribeRequest(
                                           otherLearners![index]
                                               .subscriptionType,
@@ -1036,24 +1045,32 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                           context,
                           MaterialPageRoute(
                               builder: (context) => CoursesDetailsPage(
-                                    imgUrl: recommendedcourses![index].image,
-                                    indexc: index,
-                                    tagName: 'TagReco',
-                                    name: recommendedcourses![index].name,
-                                    description:
-                                        recommendedcourses![index].description,
-                                    regularPrice:
-                                        recommendedcourses![index].regularPrice,
-                                    salePrice:
-                                        recommendedcourses![index].salePrice,
-                                    trainer: recommendedcourses![index].trainer,
-                                    enrolmentCount: recommendedcourses![index]
-                                        .enrolmentCount,
-                                    type: recommendedcourses![index]
-                                        .subscriptionType,
-                                    id: recommendedcourses![index].id,
-                                  )),
-                        );
+                                  imgUrl: recommendedcourses![index].image,
+                                  indexc: index,
+                                  tagName: 'TagReco',
+                                  name: recommendedcourses![index].name,
+                                  description:
+                                      recommendedcourses![index].description ??
+                                          '',
+                                  regularPrice:
+                                      recommendedcourses![index].regularPrice,
+                                  salePrice:
+                                      recommendedcourses![index].salePrice,
+                                  trainer: recommendedcourses![index].trainer,
+                                  enrolmentCount:
+                                      recommendedcourses![index].enrolmentCount,
+                                  type: recommendedcourses![index]
+                                      .subscriptionType,
+                                  id: recommendedcourses![index].id,
+                                  shortCode:
+                                      recommendedcourses![index].shortCode)),
+                        ).then((isSuccess) {
+                          if (isSuccess == true) {
+                            print('sucess enrolled');
+                            _getPopularCourses();
+                            _getFilteredPopularCourses();
+                          }
+                        });
 
                         /*Navigator.push(
                                           context,

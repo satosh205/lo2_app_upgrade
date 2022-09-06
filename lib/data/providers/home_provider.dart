@@ -6,6 +6,9 @@ import 'package:masterg/data/api/api_constants.dart';
 import 'package:masterg/data/api/api_response.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/request/dealer/submit_reward_req.dart';
+import 'package:masterg/data/models/request/home_request/poll_submit_req.dart';
+import 'package:masterg/data/models/request/home_request/submit_feedback_req.dart';
+import 'package:masterg/data/models/request/home_request/submit_survey_req.dart';
 import 'package:masterg/data/models/request/home_request/track_announcement_request.dart';
 import 'package:masterg/data/models/request/home_request/user_program_subscribe.dart';
 import 'package:masterg/data/models/request/home_request/user_tracking_activity.dart';
@@ -248,6 +251,307 @@ class HomeProvider {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
     return null;
+  }
+
+  Future<ApiResponse?> getCertificatesList() async {
+    // Utility.hideKeyboard();
+    try {
+      final response = await api.dio.get(ApiConstants.CERTIFICATES_LIST,
+          options: Options(
+              method: 'GET',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+  }
+
+  Future<ApiResponse?> getModuleLeaderboardList(String moduleId,
+      {int type = 0}) async {
+    // Utility.hideKeyboard();
+    try {
+      final response = await api.dio.get(
+          (type == 0
+                  ? ApiConstants.MODULE_WISE_LEADERBOARD_LIST
+                  : ApiConstants.REPORT_MODULE_WISE_LEADERBOARD_LIST) +
+              '/' +
+              moduleId,
+          options: Options(
+              method: 'GET',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+  }
+
+  Future<ApiResponse?> submitFeedback({FeedbackReq? req}) async {
+    //  Utility.hideKeyboard();
+    try {
+      var formData = FormData.fromMap({
+        "title": req?.title ?? "",
+        "description": req?.description ?? "",
+        "topic": req?.topic ?? "",
+        "type": req?.type ?? "",
+        "email": req?.email,
+        "file": req?.filePath != ""
+            ? await MultipartFile.fromFile('${req?.filePath}',
+                filename: req!.filePath?.split("/").last)
+            : ""
+      });
+
+      print(formData);
+      var header;
+      print("token ${UserSession.userToken}");
+      if (UserSession.userToken == null) {
+        header = {ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE};
+      } else {
+        header = {
+          "Authorization": "Bearer ${UserSession.userToken}",
+          ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+        };
+      }
+      final response = await api.dio.post(ApiConstants.FEEDBACK_API,
+          data: formData,
+          options: Options(
+              method: 'POST',
+              headers: header,
+              contentType: "multipart/form-data"));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+  }
+
+   Future<ApiResponse?> getTopicsList() async {
+    //  Utility.hideKeyboard();
+    try {
+      final response = await api.dio.get(ApiConstants.TOPIC_API,
+          options: Options(
+              method: 'GET',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+  }
+
+  Future<ApiResponse?> getFeedbackList() async {
+    //  Utility.hideKeyboard();
+    try {
+      final response = await api.dio.get(ApiConstants.FEEDBACK_API,
+          options: Options(
+              method: 'GET',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+  }
+
+
+    Future<ApiResponse?> getContentTagsList({int? categoryType}) async {
+    //  Utility.hideKeyboard();
+    try {
+      final response =
+          await api.dio.get(ApiConstants.TAGS_API + "/$categoryType",
+              options: Options(
+                  method: 'GET',
+                  headers: {
+                    "Authorization": "Bearer ${UserSession.userToken}",
+                    ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                  },
+                  contentType: "application/json",
+                  responseType: ResponseType.json // or ResponseType.JSON
+                  ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+  }
+  Future<ApiResponse?> getCourseLeaderboardList(String courseId,
+      {int type = 0}) async {
+    // Utility.hideKeyboard();
+    try {
+      final response = await api.dio.get(
+          (type == 0
+                  ? ApiConstants.LEADERBOARD_LIST
+                  : ApiConstants.REPORT_LEADERBOARD_LIST) +
+              '/' +
+              courseId,
+          options: Options(
+              method: 'GET',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+  }
+
+  Future<ApiResponse?> getCourseModulesList(String courseId,
+      {int type = 0}) async {
+    // Utility.hideKeyboard();
+    try {
+      final response = await api.dio.get(
+          (type == 0
+              ? ApiConstants.PROGRAMS_LIST + '/' + courseId
+              : ApiConstants.REPORT_PROGRAMS_LIST),
+          options: Options(
+              method: 'GET',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e, stacktrace) {
+      //print(stacktrace);
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+  }
+
+  Future<ApiResponse?> getKPIAnalysisList() async {
+    // Utility.hideKeyboard();
+    try {
+      final response = await api.dio.get(ApiConstants.KPI_LIST,
+          options: Options(
+              method: 'GET',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+  }
+
+  Future<ApiResponse?> getCoursesList({required int type}) async {
+    // Utility.hideKeyboard();
+    try {
+      final response = await api.dio.get(
+          type == 0
+              ? ApiConstants.PROGRAMS_LIST
+              : ApiConstants.REPORT_PROGRAMS_LIST,
+          options: Options(
+              method: 'GET',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
   }
 
   Future<ApiResponse?> reportContent(
@@ -1402,6 +1706,93 @@ class HomeProvider {
     }
   }
 
+   Future<ApiResponse?> getSurveyDataList({int? contentId, int? type}) async {
+    //  Utility.hideKeyboard();
+    print("############  $type");
+    try {
+      final response = await api.dio.get(
+          (type == 1 ? ApiConstants.SURVEY_API : ApiConstants.POLL_API) +
+              "/$contentId",
+          options: Options(
+              method: 'GET',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+  }
+
+   Future<ApiResponse?> submitSurvey({SubmitSurveyReq? req}) async {
+    //  Utility.hideKeyboard();
+    try {
+      final response = await api.dio.post(ApiConstants.SURVEY_API,
+          data: json.encode(req?.toJson()),
+          options: Options(
+              method: 'POST',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      print(response.data);
+      print(response.statusCode);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+  }
+
+
+ Future<ApiResponse?> submitPoll({PollSubmitRequest? req}) async {
+    //  Utility.hideKeyboard();
+    try {
+      final response = await api.dio.post(ApiConstants.POLL_API,
+          data: json.encode(req?.toJson()),
+          options: Options(
+              method: 'POST',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+  }
+
+
   Future<ApiResponse?> updateVideoCompletion(
       int bookmark, int contentId) async {
     try {
@@ -1432,4 +1823,6 @@ class HomeProvider {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
   }
+
+  
 }

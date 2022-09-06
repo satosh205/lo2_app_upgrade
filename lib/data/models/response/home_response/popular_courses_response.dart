@@ -114,6 +114,7 @@ class ShortTerm {
   int? categoryId;
   int? regularPrice;
   int? salePrice;
+  String? shortCode;
   int? admissionStartDate;
   int? admissionEndDate;
   String? type;
@@ -138,6 +139,7 @@ class ShortTerm {
       this.categoryId,
       this.regularPrice,
       this.salePrice,
+      this.shortCode,
       this.admissionStartDate,
       this.admissionEndDate,
       this.type,
@@ -172,9 +174,11 @@ class ShortTerm {
     contents = json['contents'];
     totalCoins = json['total_coins'];
     trainer = json['trainer'];
+    shortCode = json['short_code'];
     totalView = json['total_view'];
     subscriptionType = json['subscription_type'];
     isSubscribed = json['is_subscribed'];
+    shortCode = json['short_code'];
     completionPer = json['completion_per'];
     enrolmentCount = json['enrolment_count'];
   }
@@ -187,6 +191,7 @@ class ShortTerm {
     data['description'] = this.description;
     data['category_id'] = this.categoryId;
     data['regular_price'] = this.regularPrice;
+    data['short_code'] = this.shortCode;
     data['sale_price'] = this.salePrice;
     data['admission_start_date'] = this.admissionStartDate;
     data['admission_end_date'] = this.admissionEndDate;
@@ -203,6 +208,7 @@ class ShortTerm {
     data['is_subscribed'] = this.isSubscribed;
     data['subscription_type'] = this.subscriptionType;
     data['enrolment_count'] = this.enrolmentCount;
+    data['short_code'] = this.shortCode;
     return data;
   }
 }
@@ -214,6 +220,7 @@ class Recommended {
   String? description;
   int? categoryId;
   int? regularPrice;
+  String? shortCode;
   int? salePrice;
   int? admissionStartDate;
   int? admissionEndDate;
@@ -248,6 +255,7 @@ class Recommended {
       this.duration,
       this.contents,
       this.totalCoins,
+      this.shortCode,
       this.trainer,
       this.totalView,
       this.subscriptionType,
@@ -278,6 +286,7 @@ class Recommended {
     isSubscribed = json['is_subscribed'];
     completionPer = json['completion_per'];
     enrolmentCount = json['enrolment_count'];
+    shortCode = json['short_code'];
   }
 
   Map<String, dynamic> toJson() {
@@ -300,6 +309,7 @@ class Recommended {
     data['total_coins'] = this.totalCoins;
     data['trainer'] = this.trainer;
     data['total_view'] = this.totalView;
+    data['short_code'] = this.shortCode;
     data['completion_per'] = this.completionPer;
     data['is_subscribed'] = this.isSubscribed;
     data['subscription_type'] = this.subscriptionType;
@@ -315,6 +325,7 @@ class HighlyRated {
   String? description;
   int? categoryId;
   int? regularPrice;
+  String? shortCode;
   int? salePrice;
   int? admissionStartDate;
   int? admissionEndDate;
@@ -350,6 +361,7 @@ class HighlyRated {
       this.contents,
       this.totalCoins,
       this.trainer,
+      this.shortCode,
       this.totalView,
       this.subscriptionType,
       this.isSubscribed,
@@ -379,6 +391,7 @@ class HighlyRated {
     isSubscribed = json['is_subscribed'];
     completionPer = json['completion_per'];
     enrolmentCount = json['enrolment_count'];
+    shortCode = json['short_code'];
   }
 
   Map<String, dynamic> toJson() {
@@ -405,6 +418,7 @@ class HighlyRated {
     data['is_subscribed'] = this.isSubscribed;
     data['subscription_type'] = this.subscriptionType;
     data['enrolment_count'] = this.enrolmentCount;
+    data['short_code'] = this.shortCode;
     return data;
   }
 }
@@ -416,6 +430,7 @@ class OtherLearners {
   String? description;
   int? categoryId;
   int? regularPrice;
+  String? shortCode;
   int? salePrice;
   int? admissionStartDate;
   int? admissionEndDate;
@@ -447,6 +462,7 @@ class OtherLearners {
       this.startDate,
       this.endDate,
       this.image,
+      this.shortCode,
       this.duration,
       this.contents,
       this.totalCoins,
@@ -479,6 +495,7 @@ class OtherLearners {
     subscriptionType = json['subscription_type'];
     isSubscribed = json['is_subscribed'];
     completionPer = json['completion_per'];
+    shortCode = json['short_code'];
     enrolmentCount = json['enrolment_count'];
   }
 
@@ -506,6 +523,7 @@ class OtherLearners {
     data['is_subscribed'] = this.isSubscribed;
     data['subscription_type'] = this.subscriptionType;
     data['enrolment_count'] = this.enrolmentCount;
+    data['short_code'] = this.shortCode;
     return data;
   }
 }
@@ -517,6 +535,7 @@ class MostViewed {
   String? description;
   int? categoryId;
   int? regularPrice;
+  String? shortCode;
   int? salePrice;
   int? admissionStartDate;
   int? admissionEndDate;
@@ -555,6 +574,7 @@ class MostViewed {
       this.totalView,
       this.subscriptionType,
       this.isSubscribed,
+      this.shortCode,
       this.enrolmentCount,
       this.completionPer});
 
@@ -581,6 +601,7 @@ class MostViewed {
     isSubscribed = json['is_subscribed'];
     completionPer = json['completion_per'];
     enrolmentCount = json['enrolment_count'];
+    shortCode = json['short_code'];
   }
 
   Map<String, dynamic> toJson() {
@@ -607,6 +628,7 @@ class MostViewed {
     data['is_subscribed'] = this.isSubscribed;
     data['subscription_type'] = this.subscriptionType;
     data['enrolment_count'] = this.enrolmentCount;
+    data['short_code'] = this.shortCode;
     return data;
   }
 }
@@ -619,6 +641,7 @@ class PopularCourses {
   int? categoryId;
   int? regularPrice;
   int? salePrice;
+  String? shortCode;
   int? admissionStartDate;
   int? admissionEndDate;
   String? type;
@@ -653,6 +676,7 @@ class PopularCourses {
       this.contents,
       this.totalCoins,
       this.trainer,
+      this.shortCode,
       this.totalView,
       this.subscriptionType,
       this.isSubscribed,
@@ -682,6 +706,7 @@ class PopularCourses {
     isSubscribed = json['is_subscribed'];
     enrolmentCount = json['enrolment_count'];
     completionPer = json['completion_per'];
+    shortCode = json['short_code'];
   }
 
   Map<String, dynamic> toJson() {
@@ -708,6 +733,7 @@ class PopularCourses {
     data['is_subscribed'] = this.isSubscribed;
     data['subscription_type'] = this.subscriptionType;
     data['enrolment_count'] = this.enrolmentCount;
+    data['short_code'] = this.shortCode;
     return data;
   }
 }

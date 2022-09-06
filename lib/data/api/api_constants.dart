@@ -77,7 +77,6 @@ class ApiConstants {
   static const ASSIGNMENT_SUBMISSION_DETAILS = '/api/assignmentdetails';
   static const UPDATE_COURSE_COMPLETION = "/api/program-content-attempt";
 
-
   static const JOY_CATEGORY = "/api/joy/category";
   static const JOY_CONTENT_LIST = "/api/joy/content";
   static const LIVECLASSLIST = "/api/onboard-sessions";
@@ -105,4 +104,28 @@ class ApiConstants {
   static const settings = "/api/settings";
 
   static const SWAYAM = 3;
+
+  static const REPORT_PROGRAMS_LIST = "api/learner/programs-user";
+  static const KPI_LIST = "api/learner/kpi";
+  static const LEADERBOARD_LIST = "api/learner/course";
+  static const REPORT_LEADERBOARD_LIST = "api/learner/reported-course";
+  static const CERTIFICATES_LIST = "api/learner/kpi/certificates";
+  static const MODULE_WISE_LEADERBOARD_LIST = "api/learner/module";
+  static const REPORT_MODULE_WISE_LEADERBOARD_LIST =
+      "api/learner/reported-module";
+
+  static const FEEDBACK_API = "api/joy/feedback";
+  static const TOPIC_API = "api/joy/feedback-topics";
+
+  static const UPDATE_PROFILE_API = "api/joy/profile-update";
+  static const STATE_API = "api/joy/state";
+  static const CITY_API = "api/joy/city";
+  static const TAGS_API = "api/joy/tags";
+
+  static const LIBRARY_TYPE = "Library";
+  static const SURVEY_API = "api/joy/survey";
+  static const POLL_API = 'api/poll'; 
+  static const SWAYAM_LOGIN = 'api/login';  
+
+
 }

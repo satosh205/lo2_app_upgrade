@@ -1,17 +1,21 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg/parser.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:masterg/data/api/api_constants.dart';
 import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
 import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/data/providers/video_player_provider.dart';
 import 'package:masterg/local/pref/Preference.dart';
+import 'package:masterg/pages/analytics_pages/analytic_page.dart';
 import 'package:masterg/pages/gcarvaan/post/gcarvaan_post_page.dart';
 import 'package:masterg/pages/ghome/g_school.dart';
 import 'package:masterg/pages/ghome/ghome.dart';
 import 'package:masterg/pages/reels/reels_dashboard_page.dart';
+import 'package:masterg/pages/swayam_pages/announcemnt_page.dart';
+import 'package:masterg/pages/swayam_pages/library_page.dart';
+import 'package:masterg/pages/swayam_pages/profile_page.dart';
+import 'package:masterg/pages/swayam_pages/training_course.dart';
 import 'package:masterg/pages/user_profile_page/user_profile_page.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/config.dart';
@@ -82,7 +86,14 @@ class _homePageState extends State<homePage> {
         desc: widget.desc,
         filesPath: widget.filesPath,
         formCreatePost: widget.isFromCreatePost,
-      )
+      ),
+      '/training': TrainingCourses(),
+      '/announcements': AnnouncementPage(isViewAll: true),
+      '/analytics': AnalyticPage(isViewAll: true),
+      '/library': LibraryPage(
+        isViewAll: true,
+      ),
+      '/my-space-settings': ProfilePage()
     };
 
     var iconsUnSelected = {
@@ -91,6 +102,11 @@ class _homePageState extends State<homePage> {
       '/g-reels': 'assets/images/unselected_greels.svg',
       '/g-carvaan': 'assets/images/unselected_gcarvaan.svg',
       '/sic-council': 'assets/images/my_council.svg',
+      '/training': 'assets/images/trainings.svg',
+      '/announcements': 'assets/images/announcements.svg',
+      '/analytics': 'assets/images/analytics.svg',
+      '/library': 'assets/images/library.svg',
+      '/my-space-settings': 'assets/images/mySpaceSettings.svg'
     };
 
     var iconSeleted = {
@@ -99,6 +115,11 @@ class _homePageState extends State<homePage> {
       '/g-reels': 'assets/images/selected_greels.svg',
       '/g-carvaan': 'assets/images/selected_gcarvaan.svg',
       '/sic-council': 'assets/images/my_council.svg',
+      '/training': 'assets/images/selectedTrainings.svg',
+      '/announcements': 'assets/images/selectedAnnouncements.svg',
+      '/analytics': 'assets/images/selectedAnalytics.svg',
+      '/library': 'assets/images/selectedLibrary.svg',
+      '/my-space-settings': 'assets/images/selectedMySpaceSettings.svg'
     };
 
     if (widget.isFromCreatePost) {
@@ -140,45 +161,67 @@ class _homePageState extends State<homePage> {
         key: _scaffoldKey,
         backgroundColor: ColorConstants.GREY,
         // drawer: Drawer(
-        //   // Add a ListView to the drawer. This ensures the user can scroll
-        //   // through the options in the drawer if there isn't enough vertical
-        //   // space to fit everything.
-        //   child: ListView(
-        //     // Important: Remove any padding from the ListView.
-        //     padding: EdgeInsets.zero,
-        //     children: [
-        //       SizedBox(
-        //         height: 50,
-        //       ),
-        //       ListTile(
-        //         contentPadding: EdgeInsets.zero,
-        //         leading: CircleAvatar(
-        //             backgroundImage:
-        //                 NetworkImage(UserSession.userImageUrl ?? ""),
-        //             radius: 30.0),
-        //         title: Text(
-        //           '${UserSession.firstName}',
-        //           style: Styles.textExtraBold(color: (ColorConstants.WHITE)),
-        //         ),
-        //         subtitle: Text(
-        //           UserSession.email ?? '',
-        //           style: Styles.textExtraBold(
-        //               size: 12, color: (ColorConstants.WHITE)),
-        //         ),
-        //         onTap: () {},
-        //       ),
-        //       Divider(height: 20),
-        //       ListTile(
-        //         title: const Text('FAQs'),
-        //         onTap: () {
-        //           Navigator.push(context, NextPageRoute(FaqPage()));
-        //         },
-        //       ),
-        //     ],
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        // child: ListView(
+        // Important: Remove any padding from the ListView.
+        // padding: EdgeInsets.zero,
+        // children: [
+        //   SizedBox(
+        //     height: 50,
         //   ),
+        //   ListTile(
+        //     title: const Text('AnalyticPage'),
+        //     onTap: () {
+        //       Navigator.push(
+        //           context,
+        //           MaterialPageRoute(
+        //               builder: (BuildContext context) => ProfilePage()));
+        //     },
+        //   ),
+        //   Divider(height: 20),
+        // ListTile(
+        //   title: const Text('Idea Factory'),
+        //   onTap: () {
+        //     Navigator.push(
+        //         context,
+        //         NextPageRoute(FeedBackPage(
+        //           isViewAll: true,
+        //         )));
+        //   },
+        // ),
+        // Divider(height: 20),
+        // ListTile(
+        //   title: const Text('Profile 5'),
+        //   onTap: () {
+        //     Navigator.push(context, NextPageRoute(ProfilePage()));
+        //   },
+        // ),
+        // Divider(height: 20),
+        // ListTile(
+        //   title: const Text('Annouccment '),
+        //   onTap: () {
+        //     Navigator.push(context, NextPageRoute(TrainingCourses()));
+        //   },
+        // ),
+        // Divider(height: 20),
+        // ListTile(
+        //   title: const Text('LibraryPage 4 '),
+        //   onTap: () {
+        //     Navigator.push(
+        //         context,
+        //         NextPageRoute(LibraryPage(
+        //           isViewAll: true,
+        //         )));
+        //   },
+        // ),
+        // ],
+        // ),
         // ),
 
-        appBar: widget.bottomMenu![currentIndex].url != '/g-reels'
+        appBar: widget.bottomMenu![currentIndex].url != '/g-reels' &&
+                APK_DETAILS['package_name'] != "com.at.perfetti_swayam"
             ? AppBar(
                 automaticallyImplyLeading: false,
                 leading: IconButton(

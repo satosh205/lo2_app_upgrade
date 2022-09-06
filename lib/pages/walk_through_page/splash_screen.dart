@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterg/blocs/auth_bloc.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
+import 'package:masterg/pages/swayam_pages/login_screen.dart';
 import 'package:masterg/utils/config.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
@@ -254,8 +255,12 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
     } else {
       if (APK_DETAILS["enable_boarding_screen"] == "0") {
         await Future.delayed(Duration(seconds: 2));
-        Navigator.pushAndRemoveUntil(
-            context, NextPageRoute(ChooseLanguage()), (route) => false);
+        if (APK_DETAILS["package_name"] == 'com.at.perfetti_swayam')
+          Navigator.pushAndRemoveUntil(
+              context, NextPageRoute(LoginScreen()), (route) => false);
+        else
+          Navigator.pushAndRemoveUntil(
+              context, NextPageRoute(ChooseLanguage()), (route) => false);
       } else {
         await Future.delayed(Duration(seconds: 2));
         Navigator.pushAndRemoveUntil(
