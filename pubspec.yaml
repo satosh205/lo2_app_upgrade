@@ -80,7 +80,6 @@ dependencies:
   share_plus: ^4.0.4
   shared_preferences: ^2.0.15
   shimmer: ^2.0.0
-  flutter_swiper: ^1.1.6
   smooth_page_indicator: ^1.0.0+2
   stop_watch_timer: ^1.4.0
   syncfusion_flutter_gauges: ^20.1.57

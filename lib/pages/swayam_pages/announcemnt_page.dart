@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:auto_reload/auto_reload.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
+// import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
@@ -383,22 +383,22 @@ class _AnnouncementPageState extends _AutoReloadState with AutoReloadMixin {
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.max,
       children: [
-        Container(
-            height: 200,
-            child: Swiper(
-              viewportFraction: 0.8,
-              itemBuilder: (BuildContext context, int index) {
-                return _rowItem(list[index]);
-              },
-              onIndexChanged: (page) {
-                setState(() {
-                  selectedIndex = page;
-                });
-              },
-              autoplay: true,
-              loop: false,
-              itemCount: min(list.length, 8),
-            )),
+        // Container(
+        //     height: 200,
+        //     child: Swiper(
+        //       viewportFraction: 0.8,
+        //       itemBuilder: (BuildContext context, int index) {
+        //         return _rowItem(list[index]);
+        //       },
+        //       onIndexChanged: (page) {
+        //         setState(() {
+        //           selectedIndex = page;
+        //         });
+        //       },
+        //       autoplay: true,
+        //       loop: false,
+        //       itemCount: min(list.length, 8),
+        //     )),
         _size(height: 10),
         Container(
           height: 20,
