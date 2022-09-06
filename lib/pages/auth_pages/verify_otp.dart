@@ -7,7 +7,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterg/utils/config.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:masterg/blocs/auth_bloc.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
@@ -26,6 +25,10 @@ import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
+import 'package:otp_autofill/otp_autofill.dart';
+import 'package:otp_text_field/otp_field.dart';
+import 'package:otp_text_field/style.dart';
+import 'package:pinput/pinput.dart';
 //import 'package:otp_text_field/otp_field.dart';
 
 class VerifyOtp extends StatefulWidget {
@@ -43,19 +46,51 @@ class _VerifyOtpState extends State<VerifyOtp> {
   //OtpFieldController _otpController = OtpFieldController();
   var phoneFocus = FocusNode();
   String? changePasswordStatus = null;
-
   String _pin = "";
   String? deviceId;
-
   bool resendFlag = false;
   List<Menu>? menuList;
-
   // NotificationHelper? _notificationHelper;
+  ///Add New code for OTP AutoFill
+  final scaffoldKey = GlobalKey();
+  late OTPTextEditController otpController;
+  late OTPInteractor _otpInteractor;
+  String otpCode = '';
+
 
   @override
   void initState() {
     super.initState();
+
+    ///Add New code for OTP AutoFill
+    _otpInteractor = OTPInteractor();
+    _otpInteractor.getAppSignature()
+    //ignore: avoid_print
+        .then((value) => print('signature - $value'));
+    print(_otpInteractor.getAppSignature());
+    otpController = OTPTextEditController(
+      codeLength: 4,
+      //ignore: avoid_print
+      onCodeReceive: (code) => print('Your Application receive code - $code'),
+      otpInteractor: _otpInteractor,
+    )..startListenUserConsent((code) {
+        final exp = RegExp(r'(\d{4})');
+        return exp.stringMatch(code ?? '') ?? '';
+      },
+      /*strategies: [
+        SampleStrategy('Your code is otp 52222'),
+        //SampleStrategy(otpCode),
+      ],*/
+    );
   }
+
+  ///Add New code for OTP AutoFill
+  @override
+  Future<void> dispose() async {
+    await otpController.stopListen();
+    super.dispose();
+  }
+
 
   void _handleLoginResponseOTP(LoginState state) {
     var loginState = state;
@@ -210,6 +245,16 @@ class _VerifyOtpState extends State<VerifyOtp> {
     });
   }
 
+  final defaultPinTheme = PinTheme(
+    width: 50,
+    height: 50,
+    textStyle: TextStyle(fontSize: 20, color: Color.fromRGBO(30, 60, 87, 1), fontWeight: FontWeight.w600),
+    decoration: BoxDecoration(
+      border: Border.all(color: Color.fromRGBO(234, 239, 243, 1)),
+      borderRadius: BorderRadius.circular(10),
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     String appBarImagePath = 'assets/images/${APK_DETAILS['theme_image_url']}';
@@ -235,7 +280,8 @@ class _VerifyOtpState extends State<VerifyOtp> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: ColorConstants.WHITE,
-          title: Text(''),
+          //title: Text(''),
+          title: Text(otpCode),
           iconTheme: IconThemeData(color: ColorConstants.BLACK),
         ),
         body: ScreenWithLoader(
@@ -294,51 +340,69 @@ class _VerifyOtpState extends State<VerifyOtp> {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  _size(height: 4),
+                  _size(height: 15),
                   // _otpVerificationPart(),
 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 45),
-                    child: OtpTextField(
-                        //controller: _otpController,
-                        keyboardType: Platform.isIOS
-                            ? TextInputType.numberWithOptions(
-                                signed: true, decimal: true)
-                            : TextInputType.number,
-                        numberOfFields: 4,
-                        borderColor: Colors.orange,
-                        //set to true to show as box or false to show as dash
-                        showFieldAsBox: false,
-                        autoFocus: false,
-                        //length: 4,
-                        //width: MediaQuery.of(context).size.width,
-                        //textFieldAlignment: MainAxisAlignment.spaceAround,
-                        fieldWidth: 45,
-                        // fieldStyle: FieldStyle.underline,
-                        //outlineBorderRadius: 15,
-                        //style: TextStyle(fontSize: 17),
-                        onCodeChanged: (String code) {
-                          print("Changed: " + code);
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 45),
+                      /*child: OtpTextField(
+                          //controller: _otpController,
+                          keyboardType: Platform.isIOS
+                              ? TextInputType.numberWithOptions(
+                                  signed: true, decimal: true)
+                              : TextInputType.number,
+                          numberOfFields: 4,
+                          borderColor: Colors.orange,
+                          //set to true to show as box or false to show as dash
+                          showFieldAsBox: false,
+                          autoFocus: false,
+                          //length: 4,
+                          //width: MediaQuery.of(context).size.width,
+                          //textFieldAlignment: MainAxisAlignment.spaceAround,
+                          fieldWidth: 45,
+                          // fieldStyle: FieldStyle.underline,
+                          //outlineBorderRadius: 15,
+                          //style: TextStyle(fontSize: 17),
+                          onCodeChanged: (String code) {
+                            print("Changed: " + code);
+                            setState(() {
+                              _pin = code;
+                            });
+                          },
+                          onSubmit: (String pin) {
+                            print("Completed: " + pin);
+                            setState(() {
+                              _pin = pin;
+                            });
+                          }),*/
+
+                      child: Pinput(
+                        defaultPinTheme: defaultPinTheme,
+                        length: 4,
+                        controller: otpController,
+                        onChanged: (String code){
                           setState(() {
                             _pin = code;
                           });
                         },
-                        onSubmit: (String pin) {
-                          print("Completed: " + pin);
+                        onSubmitted: (String pin){
                           setState(() {
                             _pin = pin;
                           });
-                        }),
+                        },
+                      ),
+                    ),
                   ),
 
-                  _size(height: 30),
-                  Padding(
+                  //_size(height: 30),
+                  /*Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Divider(
                         height: 1,
                         color: ColorConstants.SELECTED_PAGE,
                         thickness: 1.2),
-                  ),
+                  ),*/
 
                   _size(height: 10),
                   Padding(
