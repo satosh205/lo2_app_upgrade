@@ -1176,141 +1176,146 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
         context: context,
         builder: (context) {
           return Container(
-            height: double.infinity,
+            //height: double.infinity,
+            height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             color: Colors.black,
-            child: Stack(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Icon(
-                      Icons.cancel,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                Center(
-                  child: SizedBox(
-                    height: popupHeight,
-                    //height: MediaQuery.of(context).size.height,
-                    width: double.infinity,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(0),
-                      child: Stack(
-                        // alignment: Alignment.center,
-                        children: [
-                          Hero(
-                            tag: 'videoPlayer',
-                            child: isNoteView
-                                ? PdfViewPage(
-                                    url: '$noteUrl',
-                                    callBack: false,
-                                  )
-                                : VisibilityDetector(
-                                    key: Key("popUpUrlVideoPlayer"),
-                                    onVisibilityChanged: (VisibilityInfo info) {
-                                      if (info.visibleFraction == 1.0) {
-                                        currentMin = 0;
-                                        prevMin = 0;
-                                        listenVideoChanges(_controller);
-                                      }
-                                    },
-                                    child: VideoPlayer(_controller)),
-                          ),
+            child: RotatedBox(
+              quarterTurns: isNoteView ? 0 : 1,
+              child: Stack(
+                children: [
+                  Center(
+                    child: SizedBox(
+                      //height: popupHeight,
+                      height: MediaQuery.of(context).size.height,
+                      width: double.infinity,
+                      //width: MediaQuery.of(context).size.width,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(0),
+                        child: Stack(
+                          children: [
+                            Hero(
+                              tag: 'videoPlayer',
+                              child: isNoteView
+                                  ? PdfViewPage(
+                                      url: '$noteUrl',
+                                      callBack: false,
+                                    )
+                                  : VisibilityDetector(
+                                      key: Key("popUpUrlVideoPlayer"),
+                                      onVisibilityChanged: (VisibilityInfo info) {
+                                        if (info.visibleFraction == 1.0) {
+                                          currentMin = 0;
+                                          prevMin = 0;
+                                          listenVideoChanges(_controller);
+                                        }
+                                      },
+                                      child: VideoPlayer(_controller)),
+                            ),
 
-                          if (!isNoteView)
-                            Positioned.fill(
-                              child: ValueListenableBuilder(
-                                valueListenable: _controller,
-                                builder:
-                                    (context, VideoPlayerValue value, child) {
-                                  //Do Something with the value.
-                                  return Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      GestureDetector(
+                            if (!isNoteView)
+                              Positioned.fill(
+                                child: ValueListenableBuilder(
+                                  valueListenable: _controller,
+                                  builder:
+                                      (context, VideoPlayerValue value, child) {
+                                    //Do Something with the value.
+                                    return Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        GestureDetector(
+                                            onTap: () {
+                                              _controller.seekTo(Duration(
+                                                  seconds: _controller.value
+                                                          .position.inSeconds -
+                                                      10));
+                                            },
+                                            child: SvgPicture.asset(
+                                              'assets/images/rewind.svg',
+                                              color: ColorConstants.WHITE,
+                                              height: 30,
+                                              width: 30,
+                                              allowDrawingOutsideViewBox: true,
+                                            )),
+                                        GestureDetector(
                                           onTap: () {
-                                            _controller.seekTo(Duration(
-                                                seconds: _controller.value
-                                                        .position.inSeconds -
-                                                    10));
+                                            setState(() {
+                                              _controller.value.isPlaying
+                                                  ? _controller.pause()
+                                                  : _controller.play();
+                                            });
                                           },
-                                          child: SvgPicture.asset(
-                                            'assets/images/rewind.svg',
-                                            color: ColorConstants.WHITE,
-                                            height: 30,
-                                            width: 30,
-                                            allowDrawingOutsideViewBox: true,
-                                          )),
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            _controller.value.isPlaying
-                                                ? _controller.pause()
-                                                : _controller.play();
-                                          });
-                                        },
-                                        child: !value.isPlaying
-                                            ? SvgPicture.asset(
-                                                'assets/images/play.svg',
-                                                color: ColorConstants.WHITE,
-                                                height: 30,
-                                                width: 30,
-                                                allowDrawingOutsideViewBox:
-                                                    true,
-                                              )
-                                            : Icon(Icons.pause,
-                                                color: ColorConstants.WHITE,
-                                                size: 30),
-                                      ),
-                                      GestureDetector(
-                                          onTap: () {
-                                            _controller.seekTo(Duration(
-                                                seconds: _controller.value
-                                                        .position.inSeconds +
-                                                    10));
-                                          },
-                                          child: SvgPicture.asset(
-                                            'assets/images/forward.svg',
-                                            color: ColorConstants.WHITE,
-                                            height: 30,
-                                            width: 30,
-                                            allowDrawingOutsideViewBox: true,
-                                          )),
-                                    ],
-                                  );
-                                },
+                                          child: !value.isPlaying
+                                              ? SvgPicture.asset(
+                                                  'assets/images/play.svg',
+                                                  color: ColorConstants.WHITE,
+                                                  height: 30,
+                                                  width: 30,
+                                                  allowDrawingOutsideViewBox:
+                                                      true,
+                                                )
+                                              : Icon(Icons.pause,
+                                                  color: ColorConstants.WHITE,
+                                                  size: 30),
+                                        ),
+                                        GestureDetector(
+                                            onTap: () {
+                                              _controller.seekTo(Duration(
+                                                  seconds: _controller.value
+                                                          .position.inSeconds +
+                                                      10));
+                                            },
+                                            child: SvgPicture.asset(
+                                              'assets/images/forward.svg',
+                                              color: ColorConstants.WHITE,
+                                              height: 30,
+                                              width: 30,
+                                              allowDrawingOutsideViewBox: true,
+                                            )),
+                                      ],
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                          if (!isNoteView)
-                            Positioned(
-                              bottom: 0,
-                              child: Container(
-                                  color: Colors.red,
-                                  height: 4,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: VideoProgressIndicator(
-                                    _controller,
-                                    allowScrubbing: true,
-                                    padding: EdgeInsets.all(0),
-                                    colors: VideoProgressColors(
-                                        backgroundColor: ColorConstants.GREY_3,
-                                        bufferedColor: ColorConstants.GREY_3,
-                                        playedColor:
-                                            ColorConstants().primaryColor()),
-                                  )),
-                            ),
-                        ],
+
+                            if (!isNoteView)
+                              Positioned(
+                                bottom: 0,
+                                child: Container(
+                                    color: Colors.red,
+                                    height: 4,
+                                    width: MediaQuery.of(context).size.width+400,
+                                    child: VideoProgressIndicator(
+                                      _controller,
+                                      allowScrubbing: true,
+                                      padding: EdgeInsets.all(0),
+                                      colors: VideoProgressColors(
+                                          backgroundColor: ColorConstants.GREY_3,
+                                          bufferedColor: ColorConstants.GREY_3,
+                                          playedColor:
+                                              ColorConstants().primaryColor()),
+                                    )),
+                              ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Icon(
+                        Icons.cancel,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         });

@@ -26,8 +26,6 @@ import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 import 'package:otp_autofill/otp_autofill.dart';
-import 'package:otp_text_field/otp_field.dart';
-import 'package:otp_text_field/style.dart';
 import 'package:pinput/pinput.dart';
 //import 'package:otp_text_field/otp_field.dart';
 
@@ -52,7 +50,6 @@ class _VerifyOtpState extends State<VerifyOtp> {
   List<Menu>? menuList;
   // NotificationHelper? _notificationHelper;
   ///Add New code for OTP AutoFill
-  final scaffoldKey = GlobalKey();
   late OTPTextEditController otpController;
   late OTPInteractor _otpInteractor;
   String otpCode = '';
@@ -392,6 +389,12 @@ class _VerifyOtpState extends State<VerifyOtp> {
                           });
                         },
                       ),
+
+                      /*child: TextField(
+                        textAlign: TextAlign.center,
+                        keyboardType: TextInputType.number,
+                        controller: otpController,
+                      ),*/
                     ),
                   ),
 

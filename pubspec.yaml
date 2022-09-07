@@ -54,7 +54,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   #flutter_otp_text_field: ^1.1.1
-  otp_text_field: ^1.1.3
+  #otp_text_field: ^1.1.3
   pinput: ^2.2.12
   flutter_pdfview: ^1.2.2
   flutter_svg: ^1.0.0
