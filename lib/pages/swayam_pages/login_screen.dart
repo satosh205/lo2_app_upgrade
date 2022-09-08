@@ -217,7 +217,7 @@ class _LoginScreenState extends State<LoginScreen> {
           await Hive.openBox(DB.TRAININGS);
           _isLoading = false;
           _moveToNext();
-          getBottomNavigationBar();
+          // getBottomNavigationBar();
           // FirebaseAnalytics().logEvent(
           //     name: "login_successful",
           //     parameters: {"user_id": state.response.data.user.id});

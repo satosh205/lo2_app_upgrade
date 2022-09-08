@@ -11,8 +11,8 @@ import 'package:masterg/data/models/response/home_response/training_programs_res
 import 'package:masterg/pages/custom_pages/common_container.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/swayam_pages/announcemnt_filter_page.dart';
-import 'package:masterg/pages/swayam_pages/swayam_training_detail_provider.dart';
-import 'package:masterg/pages/training_pages/training_detail_page.dart';
+import 'package:masterg/pages/swayam_pages/training_detail_page.dart';
+import 'package:masterg/pages/swayam_pages/training_detail_provider.dart';
 import 'package:masterg/pages/training_pages/training_service.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
@@ -56,7 +56,7 @@ class _TrainingCoursesState extends State<TrainingCourses> {
     return BlocManager(
         initState: (BuildContext context) {
           categoryId = Utility.getCategoryValue(ApiConstants.ANNOUNCEMENT_TYPE);
-          // _getHomeData();
+          _getHomeData();
         },
         child: BlocListener<HomeBloc, HomeState>(
           listener: (context, state) {
@@ -68,7 +68,7 @@ class _TrainingCoursesState extends State<TrainingCourses> {
   }
 
   _announenmentList() {
-    //var list = _getFilterList();
+    var list = _getFilterList();
     return widget.programs?.length == 0
         ? Container(
             width: MediaQuery.of(context).size.width,
@@ -115,11 +115,11 @@ class _TrainingCoursesState extends State<TrainingCourses> {
     return InkWell(
       onTap: () {
         Log.v(item.toJson());
-        Navigator.push(
+           Navigator.push(
             context,
-            NextPageRoute(ChangeNotifierProvider<SwayamTrainingDetailProvider>(
-                create: (context) => SwayamTrainingDetailProvider(
-                    TrainingService(ApiService()), item),
+            NextPageRoute(ChangeNotifierProvider<TrainingDetailProvider>(
+                create: (context) =>
+                    TrainingDetailProvider(TrainingService(ApiService()), item),
                 child: TrainingDetailPage())));
         // FirebaseAnalytics()
         //     .logEvent(name: "training_program_opened", parameters: null);
@@ -250,11 +250,12 @@ class _TrainingCoursesState extends State<TrainingCourses> {
   }
 
   _getFilterList() {
-    Log.v("_getFilterList $selectedIndex");
-    if (widget.tags == null || widget.tags.isEmpty) return announcementList;
-    return announcementList
-        ?.where((element) => element.tag!.contains(widget.tags))
-        .toList();
+    // Log.v("_getFilterList $selectedIndex");
+    // if (widget.tags == null || widget.tags.isEmpty) return announcementList;
+    // return announcementList
+    //     ?.where((element) => element.tag!.contains(widget.tags))
+    //     .toList();
+    return announcementList;
   }
 
   void _handleAnnouncmentData(AnnouncementContentState state) {
@@ -268,12 +269,15 @@ class _TrainingCoursesState extends State<TrainingCourses> {
           Log.v("Su22222222ccess....................${state.contentType}");
           _isLoading = false;
           announcementList?.clear();
+          print('category id is $categoryId and state id is ${state.contentType}');
           if (state.contentType == categoryId) {
             announcementList
                 ?.addAll(state.response!.data!.list!.where((element) {
               return element.categoryId == categoryId;
             }).toList());
           }
+          announcementList = state.response!.data!.list!;
+          print('total size is ${announcementList?.length}');
           break;
         case ApiStatus.ERROR:
           _isLoading = false;
@@ -288,8 +292,8 @@ class _TrainingCoursesState extends State<TrainingCourses> {
   }
 
   void _getHomeData() {
-    // BlocProvider.of<HomeBloc>(context)
-    //     .add(AnnouncementContentEvent(contentType: categoryId));
+    BlocProvider.of<HomeBloc>(context)
+        .add(AnnouncementContentEvent(contentType: categoryId));
   }
 
   _horizontalList() {

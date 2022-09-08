@@ -381,7 +381,11 @@ class _ProfilePageState extends State<ProfilePage> {
   _getRowItem(String image, String title, {Function? onTap}) {
     return InkWell(
       onTap: () {
-        onTap;
+      Navigator.push(
+                context,
+                NextPageRoute(SignUpScreen(
+                  isFromProfile: true,
+                )));
       },
       child: Padding(
         padding: EdgeInsets.only(bottom: 10),

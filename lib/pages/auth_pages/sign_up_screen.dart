@@ -86,33 +86,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
           listener: (context, state) {
             if (state is LoginState) _handleLoginResponse(state);
           },
-          child: Scaffold(
-            backgroundColor: ColorConstants.WHITE,
-            appBar: AppBar(
-              backgroundColor: ColorConstants.WHITE,
-              elevation: 0,
-              leading: IconButton(
-                  padding: const EdgeInsets.all(0),
-                  onPressed: () => Navigator.pushReplacement(context,
-                      NextPageRoute(ChooseLanguage(), isMaintainState: false)),
-                  icon: Icon(
-                    CupertinoIcons.back,
-                    color: ColorConstants.BLACK,
-                  )),
-            ),
-            body: KeyboardActions(
-              config: KeyboardActionsConfig(
-                keyboardBarColor: Colors.orange,
-                actions: [
-                  KeyboardActionsItem(focusNode: phoneFocus),
-                ],
-              ),
-              child: ScreenWithLoader(
+
+          child: ScreenWithLoader(
                 isLoading: _isLoading,
                 body: _makeBody(),
               ),
-            ),
-          ),
+          // child: Scaffold(
+          //   backgroundColor: ColorConstants.WHITE,
+          //   appBar: AppBar(
+          //     backgroundColor: ColorConstants.WHITE,
+          //     elevation: 0,
+          //     leading: IconButton(
+          //         padding: const EdgeInsets.all(0),
+          //         onPressed: () => Navigator.pushReplacement(context,
+          //             NextPageRoute(ChooseLanguage(), isMaintainState: false)),
+          //         icon: Icon(
+          //           CupertinoIcons.back,
+          //           color: ColorConstants.BLACK,
+          //         )),
+          //   ),
+          //   body: KeyboardActions(
+          //     config: KeyboardActionsConfig(
+          //       keyboardBarColor: Colors.orange,
+          //       actions: [
+          //         KeyboardActionsItem(focusNode: phoneFocus),
+          //       ],
+          //     ),
+          //     child: ScreenWithLoader(
+          //       isLoading: _isLoading,
+          //       body: _makeBody(),
+          //     ),
+          //   ),
+          // ),
         ));
   }
 

@@ -100,16 +100,13 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                         height: MediaQuery.of(context).size.height * 0.25,
                         child: Image.asset('assets/images/signupimage.png')),
                     SizedBox(height: 40),
-                    Container(
-                      height: 200,
-                      child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: myList?.length ?? 0,
-                        itemBuilder: (BuildContext context, int index) {
-                          return languageCard(myList![index], index);
-                        },
-                      ),
+                    ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: myList?.length ?? 0,
+                      itemBuilder: (BuildContext context, int index) {
+                        return languageCard(myList![index], index);
+                      },
                     ),
                     InkWell(
                         onTap: () {

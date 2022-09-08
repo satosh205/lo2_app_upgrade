@@ -1180,6 +1180,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
     if (event is AnnouncementContentEvent) {
       try {
+        print('call api for getting data');
         yield AnnouncementContentState(ApiStatus.LOADING);
         final response = await homeRepository.getContentList(
           contentType: event.contentType,
