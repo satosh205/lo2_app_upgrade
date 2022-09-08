@@ -348,12 +348,18 @@ class _UserProfilePageState extends State<UserProfilePage>
                               )
                             : userProfileDataList!.profileImage != null
                                 ? ClipOval(
-                                    child: Image.network(
-                                      userProfileDataList!.profileImage!,
-                                      filterQuality: FilterQuality.low,
-                                      width: 100,
-                                      height: 100,
-                                      fit: BoxFit.fill,
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        print('Profile image');
+                                        _showBgProfilePic(context, userProfileDataList!.profileImage!);
+                                      },
+                                      child: Image.network(
+                                        userProfileDataList!.profileImage!,
+                                        filterQuality: FilterQuality.low,
+                                        width: 100,
+                                        height: 100,
+                                        fit: BoxFit.fill,
+                                      ),
                                     ),
                                   )
                                 : SvgPicture.asset(
@@ -547,6 +553,44 @@ class _UserProfilePageState extends State<UserProfilePage>
         ),
       ),
     );
+  }
+
+
+  _showBgProfilePic(BuildContext context, String imgUrl) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            color: Colors.black,
+            child: Stack(
+              children: [
+                Center(
+                  child: Image.network(
+                    userProfileDataList!.profileImage!,
+                    filterQuality: FilterQuality.low,
+                    //width: MediaQuery,
+                    //height: 100,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Icon(
+                      Icons.cancel,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
   }
 
   Widget _addBrand() {
@@ -2174,8 +2218,7 @@ class _UserProfilePageState extends State<UserProfilePage>
     });
   }
 
-  void _handleUpdateUserProfileImageResponse(
-      UpdateUserProfileImageState state) {
+  void _handleUpdateUserProfileImageResponse(UpdateUserProfileImageState state) {
     var loginState = state;
     setState(() {
       switch (loginState.apiState) {
@@ -2496,6 +2539,7 @@ class _UserProfilePageState extends State<UserProfilePage>
         compressQuality: 100,
         uiSettings: buildUiSettings(context),
         aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+        //aspectRatioPresets: const[CropAspectRatioPreset.square],
       );
       if (croppedFile != null) {
         return croppedFile.path;

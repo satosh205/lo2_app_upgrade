@@ -123,8 +123,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   _makeBody() {
     String appBarImagePath = 'assets/images/${APK_DETAILS['theme_image_url']}';
-    int orgid = 3;
-
     return Padding(
       padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
       child: Form(
@@ -139,7 +137,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: EdgeInsets.only(bottom: 10, left: 6, right: 6),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    //mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Center(
@@ -156,10 +154,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     width: 150,
                                   ),
                             SizedBox(height: 10),
-                            Text(
+                            /*Text(
                                 '${Strings.of(context)?.GiveYourCreativityNewPath}',
                                 style: Styles.semibold()),
-                            SizedBox(height: 20),
+                            SizedBox(height: 20),*/
                             SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.25,
@@ -172,7 +170,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Text('${Strings.of(context)?.LetsStartYourJourney}',
                           style: Styles.bold()),
                       SizedBox(
-                        height: 6,
+                        height: 2,
                       ),
                       Text('${Strings.of(context)?.loginCreateAccount}',
                           style: Styles.regular(size: 12)),
@@ -206,7 +204,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ),
                           helperStyle: Styles.regular(
-                              size: 12,
+                              size: 14,
                               color: ColorConstants.GREY_3.withOpacity(0.1)),
                           counterText: "",
                           enabledBorder: UnderlineInputBorder(
@@ -294,7 +292,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             textAlign: TextAlign.center),
                       ),
                       Align(
-                        alignment: Alignment.center,
+                        alignment: Alignment.bottomCenter,
                         child: Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: Text(

@@ -90,7 +90,7 @@ class Styles {
     return textLight(size: size, color: ColorConstants.WHITE);
   }
 
-  static bold({double size = 18, Color color = ColorConstants.BLACK}) {
+  static bold({double size = 16, Color color = ColorConstants.BLACK}) {
     return TextStyle(
         fontSize: size * 1.0,
         fontFamily: _OpenSansBold,

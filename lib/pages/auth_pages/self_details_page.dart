@@ -50,7 +50,8 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
   late AnimationController controller;
   Animation<Offset>? offset;
 
-  final _formKey = GlobalKey<FormState>();
+  //final _formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
 
   @override
@@ -74,41 +75,44 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
             if (state is SignUpState) _handleResponse(state);
             // if (state is LoginByIDState) _handleLoginResponse(state);
           },
-          child: Scaffold(
-            backgroundColor: ColorConstants.WHITE,
-            body: SafeArea(
-                child: ScreenWithLoader(
-              isLoading: _isLoading,
-              body: _makeBody(),
-            )),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerFloat,
-            floatingActionButton: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                InkWell(
-                    onTap: () {
-                      if (checkedValue == true) saveChanges();
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: MediaQuery.of(context).size.height *
-                          WidgetSize.AUTH_BUTTON_SIZE,
-                      margin: EdgeInsets.symmetric(vertical: 2, horizontal: 16),
-                      decoration: BoxDecoration(
-                          color: checkedValue == false
-                              ? Color(0xffFDE5AD)
-                              : ColorConstants().buttonColor(),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Center(
-                          child: Text(
-                        '${Strings.of(context)?.continueStr}',
-                        style: Styles.regular(
-                          color: ColorConstants.BLACK,
-                        ),
+          child: WillPopScope(
+            onWillPop: () async => false,
+            child: Scaffold(
+              backgroundColor: ColorConstants.WHITE,
+              body: SafeArea(
+                  child: ScreenWithLoader(
+                isLoading: _isLoading,
+                body: _makeBody(),
+              )),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerFloat,
+              floatingActionButton: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  InkWell(
+                      onTap: () {
+                        if (checkedValue == true) saveChanges();
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: MediaQuery.of(context).size.height *
+                            WidgetSize.AUTH_BUTTON_SIZE,
+                        margin: EdgeInsets.symmetric(vertical: 2, horizontal: 16),
+                        decoration: BoxDecoration(
+                            color: checkedValue == false
+                                ? Color(0xffFDE5AD)
+                                : ColorConstants().buttonColor(),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Center(
+                            child: Text(
+                          '${Strings.of(context)?.continueStr}',
+                          style: Styles.regular(
+                            color: ColorConstants.BLACK,
+                          ),
+                        )),
                       )),
-                    )),
-              ],
+                ],
+              ),
             ),
           ),
         ));
@@ -182,7 +186,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                       right: 10,
                       top: 0,
                       child: Text(
-                        '*',
+                        '',
                         style: Styles.regular(),
                       ),
                     ),
@@ -363,6 +367,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
         compressFormat: ImageCompressFormat.jpg,
         compressQuality: 100,
         uiSettings: buildUiSettings(context),
+        aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
       );
       if (croppedFile != null) {
         return croppedFile.path;
