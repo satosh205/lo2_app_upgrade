@@ -317,7 +317,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.25,
                             child:
-                                Image.asset('assets/images/signupimage.png')),
+                                Image.asset('assets/images/signupimage.gif')),
                       ],
                     ),
                   ),

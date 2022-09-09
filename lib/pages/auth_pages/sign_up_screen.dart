@@ -157,7 +157,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 height:
                                     MediaQuery.of(context).size.height * 0.25,
                                 child: Image.asset(
-                                    'assets/images/signupimage.png')),
+                                    'assets/images/signupimage.gif')),
                           ],
                         ),
                       ),

@@ -69,72 +69,87 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
               isLoading: _isLoading,
               body: SafeArea(
                   child: SingleChildScrollView(
-                // physics: BouncingScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 50,
-                    ),
-                    appBarImagePath.split('.').last == 'svg'
-                        ? SvgPicture.asset(
-                            appBarImagePath,
-                            fit: BoxFit.cover,
-                          )
-                        : Image.asset(
-                            appBarImagePath,
-                            height: 150,
-                            width: 150,
-                          ),
-                    SizedBox(height: 40),
-                    Center(
-                      child: Text(
-                        '${Strings.of(context)?.chooseAppLanguage}',
-                        style: Styles.bold(size: 18),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.25,
-                        child: Image.asset('assets/images/signupimage.png')),
-                    SizedBox(height: 40),
-                    Container(
-                      height: 200,
-                      child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: myList?.length ?? 0,
-                        itemBuilder: (BuildContext context, int index) {
-                          return languageCard(myList![index], index);
-                        },
-                      ),
-                    ),
-                    InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SignUpScreen()));
-                        },
-                        child: Container(
-                          margin: EdgeInsets.all(12),
-                          width: double.infinity,
-                          height: MediaQuery.of(context).size.height *
-                              WidgetSize.AUTH_BUTTON_SIZE,
-                          decoration: BoxDecoration(
-                              color: ColorConstants().primaryColor(),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Center(
-                              child: Text(
-                            '${Strings.of(context)?.continueStr}',
-                            style: Styles.regular(
-                              color: ColorConstants.WHITE,
+                  //physics: BouncingScrollPhysics(),
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  child: Stack(
+                    children: [
+                      Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            appBarImagePath.split('.').last == 'svg'
+                                ? SvgPicture.asset(
+                              appBarImagePath,
+                              fit: BoxFit.cover,
+                            )
+                                : Image.asset(
+                              appBarImagePath,
+                              height: 150,
+                              width: 150,
                             ),
-                          )),
-                        ))
-                  ],
+                            SizedBox(height: 60),
+                            Center(
+                              child: Text(
+                                '${Strings.of(context)?.chooseAppLanguage}',
+                                style: Styles.bold(size: 18),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            /*SizedBox(
+                          //height: MediaQuery.of(context).size.height * 0.25,
+                        height: 180,
+                          width: 180,
+                          child: Image.asset('assets/images/signupimage.gif')
+                      ),*/
+                            SizedBox(height: 10),
+                            Container(
+                              height: 200,
+                              child: ListView.builder(
+                                physics: BouncingScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: myList?.length ?? 0,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return languageCard(myList![index], index);
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SignUpScreen()));
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(left: 12.0, right: 12.0, bottom: 50.0),
+                              width: double.infinity,
+                              height: MediaQuery.of(context).size.height *
+                                  WidgetSize.AUTH_BUTTON_SIZE,
+                              decoration: BoxDecoration(
+                                  color: ColorConstants().primaryColor(),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Center(
+                                  child: Text(
+                                '${Strings.of(context)?.continueStr}',
+                                style: Styles.regular(
+                                  color: ColorConstants.WHITE,
+                                ),
+                              )),
+                            )),
+                      ),
+
+                    ],
+                  ),
                 ),
               )),
             ),
