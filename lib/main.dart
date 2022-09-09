@@ -74,6 +74,15 @@ class _MyAppState extends State<MyApp> {
           BlocProvider<HomeBloc>(
               create: (context) =>
                   HomeBloc(AnnouncementContentState(ApiStatus.INITIAL))),
+
+                   BlocProvider<AuthBloc>(
+              create: (context) => AuthBloc(LoginState(ApiStatus.INITIAL))),
+          BlocProvider<HomeBloc>(
+              create: (context) =>
+                  HomeBloc(AnnouncementContentState(ApiStatus.INITIAL))),
+          BlocProvider<HomeBloc>(
+              create: (context) =>
+                  HomeBloc(ContentTagsState(ApiStatus.INITIAL))),
         ],
         child: MaterialApp(
           locale: this.locale,

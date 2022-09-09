@@ -1,193 +1,210 @@
+// To parse this JSON data, do
+//
+//     final getContentResp = getContentRespFromJson(jsonString);
+
+import 'dart:convert';
+
+GetContentResp getContentRespFromJson(String str) => GetContentResp.fromJson(json.decode(str));
+
+String getContentRespToJson(GetContentResp data) => json.encode(data.toJson());
+
 class GetContentResp {
-  int? status;
-  Data? data;
-  List<String>? error;
+    GetContentResp({
+        this.status,
+        this.data,
+        this.error,
+    });
 
-  GetContentResp({this.status, this.data, this.error});
+    int? status;
+    Data? data;
+    List<dynamic>? error;
 
-  GetContentResp.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
-    if (json['error'] != null) {
-      error = <String>[];
-      json['error'].forEach((v) {
-        error!.add(v);
-      });
-    }
-  }
+    factory GetContentResp.fromJson(Map<String, dynamic> json) => GetContentResp(
+        status: json["status"],
+        data: Data.fromJson(json["data"]),
+        error: List<dynamic>.from(json["error"].map((x) => x)),
+    );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    if (this.error != null) {
-      data['error'] = this.error!.map((v) => v).toList();
-    }
-    return data;
-  }
+    Map<String, dynamic> toJson() => {
+        "status": status,
+        "data": data?.toJson(),
+        "error": List<dynamic>.from(error!.map((x) => x)),
+    };
 }
 
 class Data {
-  List<ListData>? list;
+    Data({
+        this.list,
+    });
 
-  Data({this.list});
+    List<ListData>? list;
 
-  Data.fromJson(Map<String, dynamic> json) {
-    if (json['list'] != null) {
-      list = <ListData>[];
-      json['list'].forEach((v) {
-        list!.add(new ListData.fromJson(v));
-      });
-    }
-  }
+    factory Data.fromJson(Map<String, dynamic> json) => Data(
+        list: List<ListData>.from(json["list"].map((x) => ListData.fromJson(x))),
+    );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.list != null) {
-      data['list'] = this.list!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+    Map<String, dynamic> toJson() => {
+        "list": List<dynamic>.from(list!.map((x) => x.toJson())),
+    };
 }
 
 class ListData {
-  int? id;
-  String? title;
-  String? description;
-  int? createdAt;
-  int? createdBy;
-  int? updatedAt;
-  int? updatedBy;
-  String? status;
-  int? parentId;
-  int? categoryId;
-  int? contentId;
-  int? programContentId;
-  String? contentType;
-  String? resourcePath;
-  List<String>? multiFileUploads;
-  String? thumbnailUrl;
-  String? userSubmittedFile;
-  List<String>? userSubmittedMultipleFile;
-  String? language;
-  String? tag = '';
-  int? startDate;
-  int? endDate;
-  int? isMultilingual;
-  int? questionCount;
-  int? isAttempt;
-  int? multipleFileUpload;
-  String? multiFileUploadsCount;
+    ListData({
+        this.id,
+        this.title,
+        this.description,
+        this.createdAt,
+        this.createdBy,
+        this.updatedAt,
+        this.updatedBy,
+        this.status,
+        this.parentId,
+        this.categoryId,
+        this.contentType,
+        this.resourcePath,
+        this.language,
+        this.tag,
+        this.totalLikes,
+        this.programContentId,
+        this.startDate,
+        this.endDate,
+        this.isMultilingual,
+        this.visibilityValue,
+        this.visibility,
+        this.multiFileUploads,
+        this.multipleFileUpload,
+        this.viewCount,
+        this.likeCount,
+        this.commentCount,
+        this.isFeatured,
+        this.userLikeTrackingsId,
+        this.actionUrl,
+        this.resourceType,
+        this.multiFileUploadsCount,
+        this.thumbnailUrl,
+        this.userLiked,
+        this.isAttempt,
+        this.userSubmittedFile,
+        this.userSubmittedMultipleFile,
+        this.template,
+    });
 
-  ListData(
-      {this.id,
-      this.title,
-      this.description,
-      this.createdAt,
-      this.createdBy,
-      this.updatedAt,
-      this.updatedBy,
-      this.status,
-      this.userSubmittedFile,
-      this.userSubmittedMultipleFile,
-      this.parentId,
-      this.categoryId,
-      this.contentType,
-      this.resourcePath,
-      this.multiFileUploads,
-      this.language,
-      this.tag,
-      this.startDate,
-      this.endDate,
-      this.programContentId,
-      this.isMultilingual,
-      this.thumbnailUrl,
-      this.isAttempt,
-      this.multiFileUploadsCount,
-      this.multipleFileUpload,
-      this.questionCount});
+    int? id;
+    String? title;
+    String? description;
+    int? createdAt;
+    int? createdBy;
+    int? updatedAt;
+    int? updatedBy;
+    String? status;
+    int? parentId;
+    int? categoryId;
+    String? contentType;
+    String? resourcePath;
+    String? language;
+    String? tag;
+    dynamic totalLikes;
+    int? programContentId;
+    int? startDate;
+    int? endDate;
+    int? isMultilingual;
+    int? visibilityValue;
+    int? visibility;
+    List<String>? multiFileUploads;
+    int? multipleFileUpload;
+    int? viewCount;
+    int? likeCount;
+    int? commentCount;
+    int? isFeatured;
+    int? userLikeTrackingsId;
+    dynamic actionUrl;
+    String? resourceType;
+    dynamic multiFileUploadsCount;
+    String? thumbnailUrl;
+    int? userLiked;
+    int? isAttempt;
+    String? userSubmittedFile;
+    List<String>? userSubmittedMultipleFile;
+    String? template;
 
-  ListData.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    description = json['description'];
-    createdAt = json['created_at'];
-    createdBy = json['created_by'];
-    updatedAt = json['updated_at'];
-    updatedBy = json['updated_by'];
-    status = json['status'];
-    parentId = json['parent_id'];
-    categoryId = json['category_id'];
-    contentType = json['content_type'];
-    resourcePath = json['resource_path'];
-    language = json['language'];
-    tag = json['tag'] is String ? json['tag'] : '';
-    startDate = json['start_date'];
-    endDate = json['end_date'];
-    isMultilingual = json['is_multilingual'];
-    questionCount = json['question_count'];
-    contentId = json['content_id'] != null ? json['content_id'] : null;
-    isAttempt = json['is_attempt'];
-    multiFileUploadsCount = json['multi_file_uploads_count'];
-    multipleFileUpload = json['multiple_file_upload'];
-    multiFileUploads = json['multi_file_uploads'].cast<String>();
-    thumbnailUrl = json['thumbnail_url'];
-    programContentId = json['program_content_id'];
-    userSubmittedFile = json['user_submitted_file'];
-    userSubmittedMultipleFile =
-        json['user_submitted_multiple_file'].cast<String>();
-  }
+    factory ListData.fromJson(Map<String, dynamic> json) => ListData(
+        id: json["id"],
+        title: json["title"],
+        description: json["description"],
+        createdAt: json["created_at"],
+        createdBy: json["created_by"],
+        updatedAt: json["updated_at"],
+        updatedBy: json["updated_by"],
+        status: json["status"],
+        parentId: json["parent_id"],
+        categoryId: json["category_id"],
+        contentType: json["content_type"],
+        resourcePath: json["resource_path"],
+        language: json["language"],
+        tag: json["tag"] ,
+        totalLikes: json["total_likes"],
+        programContentId: json["program_content_id"],
+        startDate: json["start_date"],
+        endDate: json["end_date"],
+        isMultilingual: json["is_multilingual"],
+        visibilityValue: json["visibility_value"],
+        visibility: json["visibility"],
+        multiFileUploads: List<String>.from(json["multi_file_uploads"].map((x) => x)),
+        multipleFileUpload: json["multiple_file_upload"] == null ? null : json["multiple_file_upload"],
+        viewCount: json["view_count"],
+        likeCount: json["like_count"],
+        commentCount: json["comment_count"],
+        isFeatured: json["is_featured"] == null ? null : json["is_featured"],
+        userLikeTrackingsId: json["user_like_trackings_id"] == null ? null : json["user_like_trackings_id"],
+        actionUrl: json["action_url"],
+        resourceType: json["resource_type"] ,
+        multiFileUploadsCount: json["multi_file_uploads_count"],
+        thumbnailUrl: json["thumbnail_url"],
+        userLiked: json["user_liked"],
+        isAttempt: json["is_attempt"],
+        userSubmittedFile: json["user_submitted_file"],
+        userSubmittedMultipleFile: List<String>.from(json["user_submitted_multiple_file"].map((x) => x)),
+        template: json["template"] == null ? null : json["template"],
+    );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['description'] = this.description;
-    data['created_at'] = this.createdAt;
-    data['created_by'] = this.createdBy;
-    data['updated_at'] = this.updatedAt;
-    data['updated_by'] = this.updatedBy;
-    data['status'] = this.status;
-    data['parent_id'] = this.parentId;
-    data['category_id'] = this.categoryId;
-    data['content_type'] = this.contentType;
-    data['resource_path'] = this.resourcePath;
-    data['multi_file_uploads'] = this.multiFileUploads;
-    data['language'] = this.language;
-    data['tag'] = this.tag;
-    data['start_date'] = this.startDate;
-    data['end_date'] = this.endDate;
-    data['is_multilingual'] = this.isMultilingual;
-    data['question_count'] = this.questionCount;
-    data['content_id'] = this.contentId;
-    data['is_attempt'] = this.isAttempt;
-    data['multi_file_uploads_count'] = this.multiFileUploadsCount;
-    data['multiple_file_upload'] = this.multipleFileUpload;
-    data['thumbnail_url'] = this.thumbnailUrl;
-    data['program_content_id'] = this.programContentId;
-    data['user_submitted_file'] = this.userSubmittedFile;
-    data['user_submitted_multiple_file'] = this.userSubmittedMultipleFile;
-    return data;
-  }
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "description": description,
+        "created_at": createdAt,
+        "created_by": createdBy,
+        "updated_at": updatedAt,
+        "updated_by": updatedBy,
+        "status": status,
+        "parent_id": parentId,
+        "category_id": categoryId,
+        "content_type": contentType,
+        "resource_path": resourcePath,
+        "language": language,
+        "tag": tag ,
+        "total_likes": totalLikes,
+        "program_content_id": programContentId,
+        "start_date": startDate,
+        "end_date": endDate,
+        "is_multilingual": isMultilingual,
+        "visibility_value": visibilityValue,
+        "visibility": visibility,
+        "multi_file_uploads": List<dynamic>.from(multiFileUploads!.map((x) => x)),
+        "multiple_file_upload": multipleFileUpload == null ? null : multipleFileUpload,
+        "view_count": viewCount,
+        "like_count": likeCount,
+        "comment_count": commentCount,
+        "is_featured": isFeatured == null ? null : isFeatured,
+        "user_like_trackings_id": userLikeTrackingsId == null ? null : userLikeTrackingsId,
+        "action_url": actionUrl,
+        "resource_type": resourceType ,
+        "multi_file_uploads_count": multiFileUploadsCount,
+        "thumbnail_url": thumbnailUrl,
+        "user_liked": userLiked,
+        "is_attempt": isAttempt,
+        "user_submitted_file": userSubmittedFile,
+        "user_submitted_multiple_file": List<dynamic>.from(userSubmittedMultipleFile!.map((x) => x)),
+        "template": template == null ? null : template,
+    };
 }
 
-class MultiFileUploads {
-  List<String>? video;
-  List<String>? image;
-
-  MultiFileUploads({this.video, this.image});
-
-  MultiFileUploads.fromJson(Map<String, dynamic> json) {
-    video = json['video'].cast<String>();
-    image = json['image'].cast<String>();
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['video'] = this.video;
-    data['image'] = this.image;
-    return data;
-  }
-}

@@ -31,7 +31,7 @@ import 'package:masterg/utils/utility.dart';
 class AnnouncementPage extends StatefulWidget {
   bool? isViewAll;
 
-  Drawer? drawerWidget;
+  Widget? drawerWidget;
 
   AnnouncementPage({this.isViewAll, this.drawerWidget});
 
@@ -337,18 +337,19 @@ class _AnnouncementPageState extends _AutoReloadState with AutoReloadMixin {
 
   void _handleAnnouncmentData(AnnouncementContentState state) {
     var loginState = state;
-    // setState(() {
+    setState(() {
     switch (loginState.apiState) {
       case ApiStatus.LOADING:
         Log.v("Loading....................");
         break;
       case ApiStatus.SUCCESS:
         Log.v(
-            "Su22222222ccess.............${state.contentType}.......${state.contentType}");
+            "Su22222222ccess.............${state.contentType}.......");
         _isLoading = false;
         _userTrack();
         announcementList?.clear();
         if (state.contentType == categoryId) {
+          
           announcementList?.addAll(state.response!.data!.list!.where((element) {
             return element.categoryId == categoryId;
           }).toList());
@@ -363,7 +364,7 @@ class _AnnouncementPageState extends _AutoReloadState with AutoReloadMixin {
         // TODO: Handle this case.
         break;
     }
-    // });
+    });
   }
 
   void _getHomeData() async {

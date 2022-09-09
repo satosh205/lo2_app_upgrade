@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:masterg/data/api/api_constants.dart';
+import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
 import 'package:masterg/data/models/response/auth_response/user_session.dart';
+import 'package:masterg/data/providers/announcement_detail_provider.dart';
 import 'package:masterg/data/providers/video_player_provider.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/analytics_pages/analytic_page.dart';
@@ -16,6 +18,9 @@ import 'package:masterg/pages/swayam_pages/announcemnt_page.dart';
 import 'package:masterg/pages/swayam_pages/library_page.dart';
 import 'package:masterg/pages/swayam_pages/profile_page.dart';
 import 'package:masterg/pages/swayam_pages/training_course.dart';
+import 'package:masterg/pages/swayam_pages/training_home_page.dart';
+import 'package:masterg/pages/swayam_pages/training_provider.dart';
+import 'package:masterg/pages/training_pages/training_service.dart';
 import 'package:masterg/pages/user_profile_page/user_profile_page.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/config.dart';
@@ -87,8 +92,18 @@ class _homePageState extends State<homePage> {
         filesPath: widget.filesPath,
         formCreatePost: widget.isFromCreatePost,
       ),
-      '/training': TrainingCourses(),
-      '/announcements': AnnouncementPage(isViewAll: true),
+      '/training': ChangeNotifierProvider<TrainingProvider>(
+          create: (context) => TrainingProvider(TrainingService(ApiService())),
+          child: TrainingHomePage(
+            drawerWidget: SizedBox(),
+          )),
+      '/announcements': ChangeNotifierProvider<AnnouncementDetailProvider>(
+          create: (context) =>
+              AnnouncementDetailProvider(TrainingService(ApiService())),
+          child: AnnouncementPage(
+            isViewAll: true,
+            drawerWidget: SizedBox(),
+          )),
       '/analytics': AnalyticPage(isViewAll: true),
       '/library': LibraryPage(
         isViewAll: true,

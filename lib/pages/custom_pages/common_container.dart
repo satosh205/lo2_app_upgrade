@@ -1,7 +1,11 @@
 // import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:masterg/data/models/response/auth_response/user_session.dart';
+import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
+import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/notification_list_page.dart';
+import 'package:masterg/pages/swayam_pages/login_screen.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/images.dart';
@@ -13,7 +17,7 @@ class CommonContainer extends StatelessWidget {
   bool? isLoading;
   // Function? onBackPressed, floatIconTap, onSkipClicked;
   Function? onBackPressed = () {};
-  Function? floatIconTap = () {};
+  void Function()? floatIconTap;
   Function? onSkipClicked = () {};
 
   Color? bgChildColor;
@@ -144,9 +148,7 @@ class CommonContainer extends StatelessWidget {
         }),
         floatingActionButton: isFloatIconVisible!
             ? FloatingActionButton(
-                onPressed: () {
-                  floatIconTap;
-                },
+                onPressed: floatIconTap,
                 child: Icon(floatIcon),
                 backgroundColor: ColorConstants.PRIMARY_COLOR,
               )
@@ -165,6 +167,9 @@ class CommonContainer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
               // onTap: isDrawerEnable
               //     ? () {
               //         FirebaseAnalytics()
@@ -203,11 +208,19 @@ class CommonContainer extends StatelessWidget {
           isNotification == true
               ? InkWell(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                NotificationListPage()));
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (BuildContext context) =>
+                    //             NotificationListPage()));
+
+                    print("HeRE1");
+            UserSession.clearSession();
+
+            Preference.clearPref().then((value) {
+              Navigator.pushAndRemoveUntil(
+                  context, NextPageRoute(LoginScreen()), (route) => false);
+            });
                     // if (onSkipClicked != null) onSkipClicked!();
                   },
                   child: Container(

@@ -19,6 +19,7 @@ import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:masterg/utils/constant.dart';
+import 'package:masterg/utils/resource/images.dart';
 // import 'my_module_wise_analysis_page.dart';
 
 class MyAnalyticsPage extends StatefulWidget {
@@ -175,7 +176,11 @@ class _MyAnalyticsPageState extends State<MyAnalyticsPage> {
                       height: 32,
                       child: Image.network(
                         '${widget.getCoursesResp![index].image}',
+                        
                         fit: BoxFit.cover,
+                       errorBuilder: (context, url, error) {
+                                return Image.asset( Images.PLACE_HOLDER);
+                              },
                       ),
                     ),
                   ),

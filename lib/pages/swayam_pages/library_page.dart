@@ -17,6 +17,7 @@ import 'package:masterg/pages/custom_pages/common_container.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 
 import 'package:masterg/pages/notification_list_page.dart';
+import 'package:masterg/pages/swayam_pages/library_filter_page.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
@@ -37,9 +38,9 @@ class LibraryPage extends StatefulWidget {
 class _LibraryPageState extends State<LibraryPage> {
   Box? box;
   Timer? timer;
-  List<ListData> libraryList = [];
+  List<ListData>? libraryList;
   var _isLoading = true;
-  int? categoryId;
+  // int? 18;
   List<ListTags> tagList = <ListTags>[];
 
   @override
@@ -47,7 +48,7 @@ class _LibraryPageState extends State<LibraryPage> {
     // FirebaseAnalytics().logEvent(name: "library_screen", parameters: null);
     // FirebaseAnalytics().setCurrentScreen(screenName: "library_screen");
     super.initState();
-    categoryId = Utility.getCategoryValue(ApiConstants.LIBRARY_TYPE);
+    // 18 = Utility.getCategoryValue(ApiConstants.LIBRARY_TYPE);
     _getHomeData();
     timer = Timer.periodic(Duration(seconds: 20), (Timer t) => _getHomeData());
   }
@@ -107,7 +108,7 @@ class _LibraryPageState extends State<LibraryPage> {
     if (UserSession.libraryTags == null || UserSession.libraryTags!.isEmpty)
       return libraryList;
     return libraryList
-        .where((element) =>
+        ?.where((element) =>
             element.tag?.contains('${UserSession.libraryTags}') as bool)
         .toList();
   }
@@ -129,7 +130,8 @@ class _LibraryPageState extends State<LibraryPage> {
       floatIcon: Icons.filter_alt,
       isFloatIconVisible: true,
       floatIconTap: () {
-        // Navigator.push(context, NextPageRoute(LibraryFilterPage()));
+        print('library filter page');
+        Navigator.push(context, NextPageRoute(LibraryFilterPage()));
       },
     );
   }
@@ -282,20 +284,22 @@ class _LibraryPageState extends State<LibraryPage> {
 
   void _handleAnnouncmentData(LibraryContentState state) {
     var loginState = state;
-    // setState(() {
+    setState(() {
     switch (loginState.apiState) {
       case ApiStatus.LOADING:
         Log.v("Loading....................");
         break;
       case ApiStatus.SUCCESS:
         Log.v("Success....................");
-        libraryList.clear();
+        libraryList?.clear();
         print(state.contentType);
-        print(categoryId);
-        // if (state.contentType == categoryId)
-        //   libraryList.addAll(state.response.data.list.where((element) {
-        //     return element.categoryId == categoryId;
-        //   }).toList());
+        print(18);
+        // if (state.contentType == 18)
+          // libraryList?.addAll(state.response?.data?.list?.where((element) {
+          //   return element.18 == 18;
+          // }).toList());
+
+          libraryList = state.response?.data?.list;
         _isLoading = false;
         break;
       case ApiStatus.ERROR:
@@ -307,13 +311,13 @@ class _LibraryPageState extends State<LibraryPage> {
         // TODO: Handle this case.
         break;
     }
-    // });
+    });
   }
 
   void _getHomeData() {
     box = Hive.box("content");
     BlocProvider.of<HomeBloc>(context)
-        .add(LibraryContentEvent(contentType: categoryId));
+        .add(LibraryContentEvent(contentType: 18));
   }
 
   _listWidget(List<ListData> libraryList) {
