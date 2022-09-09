@@ -1264,7 +1264,7 @@ class _GHomeState extends State<GHome> {
                                             margin: EdgeInsets.symmetric(
                                                 horizontal: 0),
                                             decoration: BoxDecoration(
-                                                color: ColorConstants.WHITE,
+                                                color: ColorConstants.PILL_BG,
                                                 borderRadius:
                                                     BorderRadius.circular(18),
                                                 border: Border.all(

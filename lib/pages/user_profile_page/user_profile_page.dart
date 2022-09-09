@@ -1357,12 +1357,15 @@ class _UserProfilePageState extends State<UserProfilePage>
                                   activeColor:
                                   Colors.green,
                                 ),
-                                title: Text(
-                                    addressListData[index]
-                                        .title
-                                        .toString(),
-                                    style: Styles.bold(
-                                        size: 14)),
+                                title: Transform.translate(
+                                   offset: Offset(-16, 0),
+                                  child: Text(
+                                      addressListData[index]
+                                          .title
+                                          .toString(),
+                                      style: Styles.bold(
+                                          size: 14)),
+                                ),
                                 trailing: Image.network(
                                   addressListData[index]
                                       .image

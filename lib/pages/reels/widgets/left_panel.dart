@@ -91,7 +91,7 @@ class LeftPanel extends StatelessWidget {
           ),
           Row(children: [
             Text(
-              '${viewCounts} view',
+              '$viewCounts view',
               style: Styles.regular(size: 12, color: ColorConstants.WHITE),
             ),
             if (viewCounts! > 1 &&

@@ -360,17 +360,28 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
   Widget build(BuildContext context) {
     return Consumer<ReelsProvider>(
       builder: (context, value, child) {
+
+        //adding temporary for mute
+         if (value.isMuted == true) {
+                  _videoController?.setVolume(1.0);
+                  value.unMute();
+                } else {
+                  _videoController?.setVolume(0.0);
+
+                  value.mute();
+                }
         if (value.isPaused)
           _videoController!.pause();
         else {
           _videoController!.play();
         }
+        
         return Material(
           child: InkWell(
             onTap: () {
               setState(() {
                 value.showVolumnIcon();
-                if (value.isMuted) {
+                if (value.isMuted == true) {
                   _videoController?.setVolume(1.0);
                   value.unMute();
                 } else {
