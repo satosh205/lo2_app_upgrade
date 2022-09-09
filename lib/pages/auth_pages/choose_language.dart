@@ -100,19 +100,19 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                             ),
                             SizedBox(height: 10),
 
-                       if(APK_DETAILS['theme_image_url2'] != "")      APK_DETAILS['theme_image_url2']?.split('.').last == 'svg'
-                                ? SvgPicture.asset(
-                                        height:
-                                    MediaQuery.of(context).size.height * 0.25,
-                            'assets/images/${APK_DETAILS['theme_image_url2']}',
-                              fit: BoxFit.cover,
-                            )
-                                : Image.asset(
-                            'assets/images/${APK_DETAILS['theme_image_url2']}',
-                                height:
-                                    MediaQuery.of(context).size.height * 0.25,
-                              // width: 150,
-                            ),
+                      //  if(APK_DETAILS['theme_image_url2'] != "")      APK_DETAILS['theme_image_url2']?.split('.').last == 'svg'
+                      //           ? SvgPicture.asset(
+                      //                   height:
+                      //               MediaQuery.of(context).size.height * 0.25,
+                      //       'assets/images/${APK_DETAILS['theme_image_url2']}',
+                      //         fit: BoxFit.cover,
+                      //       )
+                      //           : Image.asset(
+                      //       'assets/images/${APK_DETAILS['theme_image_url2']}',
+                      //           height:
+                      //               MediaQuery.of(context).size.height * 0.25,
+                      //         // width: 150,
+                      //       ),
                             /*SizedBox(
                           //height: MediaQuery.of(context).size.height * 0.25,
                         height: 180,
