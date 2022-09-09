@@ -174,6 +174,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                         );
                       }
                     },
+
                     child: SingleChildScrollView(
                       child: Container(
                         child: Column(

@@ -602,8 +602,6 @@ class _UserProfilePageState extends State<UserProfilePage>
     }
 
     var size = MediaQuery.of(context).size;
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 5;
-    final double itemWidth = size.width / 5;
     return Container(
       margin: EdgeInsets.only(left: 10.0, right: 10.0),
       child: Stack(
@@ -1187,14 +1185,13 @@ class _UserProfilePageState extends State<UserProfilePage>
 
   void showBottomSheetBrandShow() {
     void updateValue(value) {
-      print('the value is $value');
-    }
-
+      print('the value is $value');}
     bool nextFlag = false;
 
     showModalBottomSheet(
         context: context,
-        backgroundColor: ColorConstants.WHITE,
+        //backgroundColor: ColorConstants.WHITE,
+        backgroundColor: nextFlag == false ? Colors.transparent : ColorConstants.WHITE,
         isScrollControlled: true,
         builder: (context) {
           return StatefulBuilder(
@@ -1204,205 +1201,778 @@ class _UserProfilePageState extends State<UserProfilePage>
             });
 
             return nextFlag == false
-                ? FractionallySizedBox(
-                    heightFactor: 0.8,
-                    child: CustomScrollView(
-                      slivers: [
-                        SliverList(
-                          delegate: SliverChildListDelegate(
-                            [
-                              Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      height: 5,
-                                      width: 48,
-                                      margin: EdgeInsets.only(top: 10),
-                                      decoration: BoxDecoration(
-                                          color: ColorConstants.GREY_4,
-                                          borderRadius:
-                                              BorderRadius.circular(8)),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 20.0, right: 20.0, top: 10.0),
-                                      child: Text(
-                                        '${Strings.of(context)?.addBrand}',
-                                        style: Styles.bold(size: 14),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 12,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 20.0, right: 20.0, top: 10.0),
-                                      child: TextFormField(
-                                        controller: titleController,
-                                        /*readOnly: brandImageUrl.isNotEmpty
+                ? Container(
+              margin: EdgeInsets.only(top: 200),
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              color: Colors.white,
+              child: Stack(
+                children: [
+                  Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 5,
+                          width: 48,
+                          margin: EdgeInsets.only(top: 10),
+                          decoration: BoxDecoration(
+                              color: ColorConstants.GREY_4,
+                              borderRadius:
+                              BorderRadius.circular(8)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 20.0, right: 20.0, top: 10.0),
+                          child: Text(
+                            '${Strings.of(context)?.addBrand}',
+                            style: Styles.bold(size: 14),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 20.0, right: 20.0, top: 10.0),
+                          child: TextFormField(
+                            controller: titleController,
+                            /*readOnly: brandImageUrl.isNotEmpty
                                             ? true
                                             : false,*/
-                                        readOnly: readOnly,
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        keyboardType: TextInputType.text,
-                                        onChanged: (value) {
-                                          print("on change method called");
-                                          if (brandImageUrl.isEmpty) {
-                                            setSheetState(() {
-                                              textContentHide = false;
-                                            });
-                                          }
-                                        },
-                                        decoration: InputDecoration(
-                                          focusColor: Colors.white,
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
+                            readOnly: readOnly,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            keyboardType: TextInputType.text,
+                            onChanged: (value) {
+                              print("on change method called");
+                              if (brandImageUrl.isEmpty) {
+                                setSheetState(() {
+                                  textContentHide = false;
+                                });
+                              }
+                            },
+                            decoration: InputDecoration(
+                              focusColor: Colors.white,
+                              border: OutlineInputBorder(
+                                borderRadius:
+                                BorderRadius.circular(10.0),
+                              ),
 
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
-                                                color: Colors.blue, width: 1.0),
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          fillColor: Colors.grey,
-                                          hintText: brandImageUrl.isEmpty
-                                              ? "Enter brand name"
-                                              : "${Strings.of(context)?.brandName}",
-                                          //make hint text
-                                          hintStyle: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 16,
-                                            fontFamily: "verdana_regular",
-                                            fontWeight: FontWeight.w400,
-                                          ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.blue, width: 1.0),
+                                borderRadius:
+                                BorderRadius.circular(10.0),
+                              ),
+                              fillColor: Colors.grey,
+                              hintText: brandImageUrl.isEmpty
+                                  ? "Enter brand name"
+                                  : "${Strings.of(context)?.brandName}",
+                              //make hint text
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16,
+                                fontFamily: "verdana_regular",
+                                fontWeight: FontWeight.w400,
+                              ),
 
-                                          //create lable
-                                          labelText: brandImageUrl.isEmpty
-                                              ? "Enter brand name"
-                                              : "${Strings.of(context)?.brandName}",
-                                          //lable style
-                                          labelStyle: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 16,
-                                            fontFamily: "verdana_regular",
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                          prefixIcon: brandImageUrl.isNotEmpty
-                                              ? Icon(Icons.search_rounded,
-                                                  color: ColorConstants.BLACK)
-                                              : null,
-                                        ),
-                                        onTap: () {
-                                          if (brandImageUrl.isNotEmpty) {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        BrandFilterPage(
-                                                          onCalledFromOutside,
-                                                        )));
-                                          } else {
-                                            print('else===========');
-                                            setSheetState(() {
-                                              readOnly = false;
-                                              // textContentHide = false;
-                                            });
-                                          }
-                                        },
-                                      ),
-                                    ),
-                                  ],
+                              //create lable
+                              labelText: brandImageUrl.isEmpty
+                                  ? "Enter brand name"
+                                  : "${Strings.of(context)?.brandName}",
+                              //lable style
+                              labelStyle: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16,
+                                fontFamily: "verdana_regular",
+                                fontWeight: FontWeight.w400,
+                              ),
+                              prefixIcon: brandImageUrl.isNotEmpty
+                                  ? Icon(Icons.search_rounded,
+                                  color: ColorConstants.BLACK)
+                                  : null,
+                            ),
+                            onTap: () {
+                              if (brandImageUrl.isNotEmpty) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            BrandFilterPage(
+                                              onCalledFromOutside,
+                                            )));
+                              } else {
+                                print('else===========');
+                                setSheetState(() {
+                                  readOnly = false;
+                                  // textContentHide = false;
+                                });
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  if (titleController.text.isEmpty)
+                    Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, right: 20.0, top: 10.0),
+                        child: Text('Suggested brand',
+                            style: Styles.regular(
+                                size: 12,
+                                color: ColorConstants.GREY_4))),
+
+                  //TODO: Show Brand List
+                  titleController.text.isEmpty
+                      ? Container(
+                    //padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
+                    //height: 360,
+                    margin: EdgeInsets.only(top: 150.0, bottom: 80.0),
+                    height: MediaQuery.of(context).size.height,
+
+                    child: addressListData.length != 0
+                        ? ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: addressListData.length,
+                      itemBuilder:
+                          (BuildContext context,
+                          int index) {
+                        return Container(
+                          child: Column(
+                            children: [
+                              ListTile(
+                                leading: Radio(
+                                  value: index,
+                                  groupValue: _result,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _result = value;
+                                    });
+                                  },
+                                  activeColor:
+                                  Colors.green,
+                                ),
+                                title: Text(
+                                    addressListData[index]
+                                        .title
+                                        .toString(),
+                                    style: Styles.bold(
+                                        size: 14)),
+                                trailing: Image.network(
+                                  addressListData[index]
+                                      .image
+                                      .toString(),
+                                  filterQuality:
+                                  FilterQuality.low,
+                                  width: 80,
+                                  height: 45,
+                                  //fit: BoxFit.fill,
+                                  loadingBuilder: (context,
+                                      child,
+                                      loadingProgress) {
+                                    if (loadingProgress ==
+                                        null) {
+                                      debugPrint(
+                                          'image loading null');
+                                      return child;
+                                    }
+                                    debugPrint(
+                                        'image loading...');
+                                    return const Center(
+                                        child: SizedBox(
+                                            width: 20,
+                                            height: 20,
+                                            child:
+                                            CircularProgressIndicator(
+                                              color: ColorConstants
+                                                  .PRIMARY_COLOR,
+                                            )));
+                                  },
+                                ),
+                                onTap: () {
+                                  Text('Another data');
+                                },
+                              ),
+                              new Divider(
+                                height: 1.0,
+                                indent: 1.0,
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    )
+                        : const Center(
+                        child: SizedBox(
+                            width: 30,
+                            height: 30,
+                            child:
+                            CircularProgressIndicator(
+                              color: ColorConstants
+                                  .PRIMARY_COLOR,
+                            ))),
+                  )
+                      : SizedBox(),
+
+                  brandImageUrl.isNotEmpty &&
+                      brandImageUrl != 'null'
+                      ? Center(
+                        child: Container(
+                          margin: EdgeInsets.only(top: 0),
+                          child: Image.network(brandImageUrl,
+                    filterQuality: FilterQuality.low,
+                    width: 130,
+                    height: 80,
+                    //fit: BoxFit.fill,
+                    loadingBuilder:
+                            (context, child, loadingProgress) {
+                          if (loadingProgress == null) {
+                            debugPrint('image loading null');
+                            return child;
+                          }
+                          debugPrint('image loading...');
+                          return const Center(
+                              child: SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child:
+                                  CircularProgressIndicator(
+                                    color: ColorConstants
+                                        .PRIMARY_COLOR,
+                                  )));
+                    },
+                  ),
+                        ),
+                      )
+                      : SizedBox(),
+
+
+                  //TODO: Upload Brand Logo Image
+                  brandImageUrl.isEmpty
+                      ? Center(
+                        child: Container(
+                    margin: EdgeInsets.only(top: 250.0),
+                    child: Column(
+                        children: [
+                          // Text(
+                          //   'We could not find your brand in our list.',
+                          //   style: Styles.textExtraBold(
+                          //       size: 14,
+                          //       color: ColorConstants.GREY_3),
+                          // ),
+                          // SizedBox(
+                          //   height: 10,
+                          // ),
+                          GestureDetector(
+                            onTap: () {
+                              showBottomSheet(context, 'brand',
+                                  updateValue);
+                            },
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                    Icons.file_upload_outlined),
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.only(
+                                      left: 10.0),
+                                  child: Text(
+                                      "${Strings.of(context)?.uploadBrandLogo}"),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Text(
+                            '${Strings.of(context)?.supportedFormat} - .jpeg, .png',
+                            style: Styles.textExtraBold(
+                                size: 14,
+                                color: ColorConstants.GREY_3),
+                          ),
+                        ],
+                    ),
+                  ),
+                      )
+                      : SizedBox(),
+
+                  SizedBox(
+                    height: 20,
+                  ),
+                  selectedBrandPath != null &&
+                      selectedBrandPath!.isNotEmpty
+                      ? _selectedBrandLogo()
+                      : SizedBox(),
+
+                  Align(
+                      alignment: Alignment.bottomCenter,
+                      child: TapWidget(
+                        onTap: () {
+                          print(_result);
+                          print(selectedBrandPath);
+
+                          if (selectedBrandPath != null &&
+                              selectedBrandPath!.isNotEmpty ||
+                              _result != null ||
+                              brandImageUrl.isNotEmpty &&
+                                  brandImageUrl != 'null') {
+                            if (_result != null) {
+                              setSheetState(() {
+                                brandImageUrl = addressListData[_result]
+                                    .image
+                                    .toString();
+                                id = addressListData[_result].id;
+                                brandName = addressListData[_result]
+                                    .title
+                                    .toString();
+                                nextFlag = true;
+                              });
+                            } else {
+                              setSheetState(() {
+                                nextFlag = true;
+                              });
+                            }
+                          } else {
+                            AlertsWidget.showCustomDialog(
+                                context: context,
+                                title: "${Strings.of(context)?.error}",
+                                text: "Please Select Brand",
+                                icon:
+                                'assets/images/circle_alert_fill.svg',
+                                oKText: '${Strings.of(context)?.ok}',
+                                showCancel: false,
+                                onOkClick: () async {});
+                          }
+                        },
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            _isLoadingBrandCreate == false
+                                ? Container(
+                              alignment: Alignment.bottomCenter,
+                              width: MediaQuery.of(context)
+                                  .size
+                                  .width *
+                                  0.90,
+                              height: 50,
+                              margin: EdgeInsets.only(bottom: 10),
+                              padding: EdgeInsets.all(0),
+                              decoration: BoxDecoration(
+                                  color: _result == null &&
+                                      titleController
+                                          .text.isEmpty
+                                      ? ColorConstants()
+                                      .primaryColor()
+                                      .withOpacity(0.5)
+                                      : ColorConstants()
+                                      .primaryColor(),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(5))),
+                              child: Center(
+                                child: Text(
+                                  '${Strings.of(context)?.next}',
+                                  textAlign: TextAlign.center,
+                                  style: Styles.textExtraBold(
+                                      size: 14,
+                                      color:
+                                      ColorConstants.WHITE),
                                 ),
                               ),
-                              if (titleController.text.isEmpty)
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 20.0, right: 20.0, top: 10.0),
-                                    child: Text('Suggested brand',
-                                        style: Styles.regular(
-                                            size: 12,
-                                            color: ColorConstants.GREY_4))),
+                            )
+                                : const Center(
+                                child: SizedBox(
+                                    width: 30,
+                                    height: 30,
+                                    child:
+                                    CircularProgressIndicator(
+                                      color: ColorConstants
+                                          .PRIMARY_COLOR,
+                                    ))),
+                          ],
+                        ),
+                      )),
+                ],
+              ),
+            )
 
-                              //TODO: Show Brand List
-                              titleController.text.isEmpty
-                                  ? Container(
-                                      //padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
-                                      height: 360,
-                                      child: addressListData.length != 0
-                                          ? ListView.builder(
-                                              shrinkWrap: true,
-                                              itemCount: addressListData.length,
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                return Column(
-                                                  children: [
-                                                    ListTile(
-                                                      leading: Radio(
-                                                        value: index,
-                                                        groupValue: _result,
-                                                        onChanged: (value) {
-                                                          setState(() {
-                                                            _result = value;
-                                                          });
-                                                        },
-                                                        activeColor:
-                                                            Colors.green,
-                                                      ),
-                                                      title: Text(
-                                                          addressListData[index]
-                                                              .title
-                                                              .toString(),
-                                                          style: Styles.bold(
-                                                              size: 14)),
-                                                      trailing: Image.network(
-                                                        addressListData[index]
-                                                            .image
-                                                            .toString(),
-                                                        filterQuality:
-                                                            FilterQuality.low,
-                                                        width: 80,
-                                                        height: 45,
-                                                        //fit: BoxFit.fill,
-                                                        loadingBuilder: (context,
-                                                            child,
-                                                            loadingProgress) {
-                                                          if (loadingProgress ==
-                                                              null) {
-                                                            debugPrint(
-                                                                'image loading null');
-                                                            return child;
-                                                          }
-                                                          debugPrint(
-                                                              'image loading...');
-                                                          return const Center(
-                                                              child: SizedBox(
-                                                                  width: 20,
-                                                                  height: 20,
-                                                                  child:
-                                                                      CircularProgressIndicator(
-                                                                    color: ColorConstants
-                                                                        .PRIMARY_COLOR,
-                                                                  )));
-                                                        },
-                                                      ),
-                                                      onTap: () {
-                                                        Text('Another data');
-                                                      },
-                                                    ),
-                                                    new Divider(
-                                                      height: 1.0,
-                                                      indent: 1.0,
-                                                    ),
-                                                  ],
-                                                );
-                                              },
+                : Container(
+              color: Colors.white,
+                  child: FractionallySizedBox(
+                      heightFactor: 0.6,
+                      child: CustomScrollView(
+                        slivers: [
+                          SliverList(
+                            delegate: SliverChildListDelegate(
+                              [
+                                Container(
+                                  color: Colors.white,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 5,
+                                        width: 48,
+                                        margin: EdgeInsets.only(top: 10),
+                                        decoration: BoxDecoration(
+                                            color: ColorConstants.GREY_4,
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                      ),
+                                      Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20.0, right: 20.0, top: 10.0),
+                                          child: Text(
+                                              '${Strings.of(context)?.addBrand}')),
+                                      SizedBox(
+                                        height: 12,
+                                      ),
+
+                                      /* Padding(
+                                 padding: const EdgeInsets.only(
+                                     left: 20.0,
+                                     right: 20.0,
+                                     top: 10.0),
+                                 child: TextFormField(
+                                   controller: titleController,
+                                   readOnly: true,
+                                   style: TextStyle(
+                                     fontSize: 14,
+                                     fontWeight: FontWeight.w600,
+                                   ),
+                                   keyboardType: TextInputType.text,
+                                   onChanged: (value) {},
+                                   decoration: InputDecoration(
+                                     focusColor: Colors.white,
+                                     border: OutlineInputBorder(
+                                       borderRadius:
+                                       BorderRadius.circular(10.0),
+                                     ),
+
+                                     focusedBorder: OutlineInputBorder(
+                                       borderSide: const BorderSide(
+                                           color: Colors.blue,
+                                           width: 1.0),
+                                       borderRadius:
+                                       BorderRadius.circular(10.0),
+                                     ),
+                                     fillColor: Colors.grey,
+                                     hintText:
+                                     "${Strings.of(context)?.brandName}",
+                                     //make hint text
+                                     hintStyle: TextStyle(
+                                       color: Colors.grey,
+                                       fontSize: 16,
+                                       fontFamily: "verdana_regular",
+                                       fontWeight: FontWeight.w400,
+                                     ),
+
+                                     //create lable
+                                     labelText:
+                                     "${Strings.of(context)?.brandName}",
+                                     //lable style
+                                     labelStyle: TextStyle(
+                                       color: Colors.grey,
+                                       fontSize: 16,
+                                       fontFamily: "verdana_regular",
+                                       fontWeight: FontWeight.w400,
+                                     ),
+                                   ),
+                                   onTap: () {
+                                     Navigator.push(
+                                         context,
+                                         MaterialPageRoute(
+                                             builder: (context) =>
+                                                 BrandFilterPage(
+                                                   onCalledFromOutside,
+                                                 )));
+                                   },
+                                 ),
+                               ),*/
+
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 1,
+                                ),
+
+                                Center(
+                                  child: Text(
+                                    '$brandName',
+                                    style: Styles.regular(size: 12),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                brandImageUrl.isNotEmpty &&
+                                        brandImageUrl != 'null'
+                                    ? Image.network(
+                                        brandImageUrl,
+                                        filterQuality: FilterQuality.low,
+                                        width: 130,
+                                        height: 80,
+                                        //fit: BoxFit.fill,
+                                        loadingBuilder:
+                                            (context, child, loadingProgress) {
+                                          if (loadingProgress == null) {
+                                            debugPrint('image loading null');
+                                            return child;
+                                          }
+                                          debugPrint('image loading...');
+                                          return const Center(
+                                              child: SizedBox(
+                                                  width: 20,
+                                                  height: 20,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color: ColorConstants
+                                                        .PRIMARY_COLOR,
+                                                  )));
+                                        },
+                                      )
+                                    : SizedBox(),
+
+                                //TODO: Upload Brand Logo Image
+                                /*brandImageUrl.isEmpty
+                             ? Container(
+                           margin:
+                           EdgeInsets.only(top: 10.0),
+                           child: Column(
+                             children: [
+                               GestureDetector(
+                                 onTap: () {
+                                   showBottomSheet(
+                                       context,
+                                       'brand',
+                                       updateValue);
+                                 },
+                                 child: Row(
+                                   mainAxisAlignment:
+                                   MainAxisAlignment
+                                       .center,
+                                   children: [
+                                     Icon(Icons
+                                         .file_upload_outlined),
+                                     Padding(
+                                       padding:
+                                       const EdgeInsets
+                                           .only(
+                                           left: 10.0),
+                                       child: Text(
+                                           "${Strings.of(context)?.uploadBrandLogo}"),
+                                     ),
+                                   ],
+                                 ),
+                               ),
+                               Text(
+                                 '${Strings.of(context)?.supportedFormat} - .jpeg, .png',
+                                 style:
+                                 Styles.textExtraBold(
+                                     size: 14,
+                                     color:
+                                     ColorConstants
+                                         .GREY_3),
+                               ),
+                             ],
+                           ),
+                         )
+                             : SizedBox(),*/
+
+                                selectedBrandPath != null &&
+                                        selectedBrandPath!.isNotEmpty
+                                    ? _selectedBrandLogo()
+                                    : SizedBox(),
+
+                                //TODO: Date selection
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 20.0, right: 20.0, top: 20.0),
+                                      child: Text('Select tenure')),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                _workingTime(),
+
+                                //TODO: Upload Joining Letter
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 10.0),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 8, horizontal: 16),
+                                        margin:
+                                            EdgeInsets.symmetric(horizontal: 20),
+                                        decoration: BoxDecoration(
+                                            border: Border.all(),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5))),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            _initFilePiker();
+                                          },
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(Icons.file_upload_outlined),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10.0),
+                                                child: Text(
+                                                    '${Strings.of(context)?.uploadJoiningLetter}'),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(
+                                        '${Strings.of(context)?.supportedFormat} - .pdf, .doc',
+                                        style: Styles.textExtraBold(
+                                            size: 14,
+                                            color: ColorConstants.GREY_3),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 5.0),
+                                        child: Text(
+                                          fileString.isNotEmpty &&
+                                                  fileString != 'null'
+                                              ? fileString.substring(
+                                                  fileString.length - 20)
+                                              : '',
+                                          style: Styles.textExtraBold(
+                                              size: 14,
+                                              color: ColorConstants.GREY_3),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                                SizedBox(
+                                  height: 30,
+                                ),
+                              ],
+                            ),
+                          ),
+                          SliverFillRemaining(
+                            hasScrollBody: false,
+                            child: Align(
+                                alignment: Alignment.bottomCenter,
+                                child: TapWidget(
+                                  onTap: () {
+                                    if (brandImageUrl.isEmpty) {
+                                      validation();
+                                    } else {
+                                      DateTime now = DateTime.now();
+                                      String formattedDate =
+                                          DateFormat('yyyy-MM-dd').format(now);
+                                      DateTime? valEnd;
+                                      DateTime? date;
+                                      if (fromDateController.text.isNotEmpty) {
+                                        valEnd = DateTime.parse(
+                                            fromDateController.text.toString());
+                                        date = toDateController.text.isNotEmpty
+                                            ? DateTime.parse(
+                                                toDateController.text.toString())
+                                            : DateTime.parse(formattedDate);
+                                      }
+
+                                      if (files!.length == 0) {
+                                        AlertsWidget.showCustomDialog(
+                                            context: context,
+                                            title:
+                                                "${Strings.of(context)?.error}",
+                                            text:
+                                                "${Strings.of(context)?.pleaseSelectedJoiningLetter}",
+                                            icon:
+                                                'assets/images/circle_alert_fill.svg',
+                                            oKText: '${Strings.of(context)?.ok}',
+                                            showCancel: false,
+                                            onOkClick: () async {});
+                                      } else if (fromDateController.text
+                                          .toString()
+                                          .isEmpty) {
+                                        AlertsWidget.showCustomDialog(
+                                            context: context,
+                                            title:
+                                                "${Strings.of(context)?.error}",
+                                            text:
+                                                "${Strings.of(context)?.pleaseSelectFromDate}",
+                                            icon:
+                                                'assets/images/circle_alert_fill.svg',
+                                            oKText: '${Strings.of(context)?.ok}',
+                                            showCancel: false,
+                                            onOkClick: () async {});
+                                      } else {
+                                        if (valEnd!.compareTo(date!) < 0) {
+                                          userBrandCreate(0);
+                                        } else {
+                                          AlertsWidget.showCustomDialog(
+                                              context: context,
+                                              title:
+                                                  "${Strings.of(context)?.error}",
+                                              text:
+                                                  "${Strings.of(context)?.pleaseSelectValidJoiningDate}",
+                                              icon:
+                                                  'assets/images/circle_alert_fill.svg',
+                                              oKText:
+                                                  '${Strings.of(context)?.ok}',
+                                              showCancel: false,
+                                              onOkClick: () async {});
+                                        }
+                                      }
+                                    }
+                                  },
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      _isLoadingBrandCreate == false
+                                          ? Container(
+                                              alignment: Alignment.bottomCenter,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.85,
+                                              margin: EdgeInsets.only(bottom: 10),
+                                              height: 50,
+                                              padding: EdgeInsets.all(12),
+                                              decoration: BoxDecoration(
+                                                  color: ColorConstants()
+                                                      .primaryColor(),
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(5))),
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8,
+                                                    right: 8,
+                                                    top: 4,
+                                                    bottom: 4),
+                                                child: Text(
+                                                  '${Strings.of(context)?.submit}',
+                                                  textAlign: TextAlign.center,
+                                                  style: Styles.textExtraBold(
+                                                      size: 14,
+                                                      color:
+                                                          ColorConstants.WHITE),
+                                                ),
+                                              ),
                                             )
                                           : const Center(
                                               child: SizedBox(
@@ -1413,577 +1983,18 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                     color: ColorConstants
                                                         .PRIMARY_COLOR,
                                                   ))),
-                                    )
-                                  : SizedBox(),
-
-                              brandImageUrl.isNotEmpty &&
-                                      brandImageUrl != 'null'
-                                  ? Image.network(
-                                      brandImageUrl,
-                                      filterQuality: FilterQuality.low,
-                                      width: 130,
-                                      height: 80,
-                                      //fit: BoxFit.fill,
-                                      loadingBuilder:
-                                          (context, child, loadingProgress) {
-                                        if (loadingProgress == null) {
-                                          debugPrint('image loading null');
-                                          return child;
-                                        }
-                                        debugPrint('image loading...');
-                                        return const Center(
-                                            child: SizedBox(
-                                                width: 20,
-                                                height: 20,
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  color: ColorConstants
-                                                      .PRIMARY_COLOR,
-                                                )));
-                                      },
-                                    )
-                                  : SizedBox(),
-
-                              //TODO: Upload Brand Logo Image
-                              brandImageUrl.isEmpty
-                                  ? Container(
-                                      margin: EdgeInsets.only(top: 50.0),
-                                      child: Column(
-                                        children: [
-                                          // Text(
-                                          //   'We could not find your brand in our list.',
-                                          //   style: Styles.textExtraBold(
-                                          //       size: 14,
-                                          //       color: ColorConstants.GREY_3),
-                                          // ),
-                                          // SizedBox(
-                                          //   height: 10,
-                                          // ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              showBottomSheet(context, 'brand',
-                                                  updateValue);
-                                            },
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Icon(
-                                                    Icons.file_upload_outlined),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 10.0),
-                                                  child: Text(
-                                                      "${Strings.of(context)?.uploadBrandLogo}"),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Text(
-                                            '${Strings.of(context)?.supportedFormat} - .jpeg, .png',
-                                            style: Styles.textExtraBold(
-                                                size: 14,
-                                                color: ColorConstants.GREY_3),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  : SizedBox(),
-
-                              SizedBox(
-                                height: 20,
-                              ),
-                              selectedBrandPath != null &&
-                                      selectedBrandPath!.isNotEmpty
-                                  ? _selectedBrandLogo()
-                                  : SizedBox(),
-                            ],
-                          ),
-                        ),
-                        SliverFillRemaining(
-                          hasScrollBody: false,
-                          child: Align(
-                              alignment: Alignment.bottomCenter,
-                              child: TapWidget(
-                                onTap: () {
-                                  print(_result);
-                                  print(selectedBrandPath);
-
-                                  if (selectedBrandPath != null &&
-                                          selectedBrandPath!.isNotEmpty ||
-                                      _result != null ||
-                                      brandImageUrl.isNotEmpty &&
-                                          brandImageUrl != 'null') {
-                                    if (_result != null) {
-                                      setSheetState(() {
-                                        brandImageUrl = addressListData[_result]
-                                            .image
-                                            .toString();
-                                        id = addressListData[_result].id;
-                                        brandName = addressListData[_result]
-                                            .title
-                                            .toString();
-                                        nextFlag = true;
-                                      });
-                                    } else {
-                                      setSheetState(() {
-                                        nextFlag = true;
-                                      });
-                                    }
-                                  } else {
-                                    AlertsWidget.showCustomDialog(
-                                        context: context,
-                                        title: "${Strings.of(context)?.error}",
-                                        text: "Please Select Brand",
-                                        icon:
-                                            'assets/images/circle_alert_fill.svg',
-                                        oKText: '${Strings.of(context)?.ok}',
-                                        showCancel: false,
-                                        onOkClick: () async {});
-                                  }
-                                },
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    _isLoadingBrandCreate == false
-                                        ? Container(
-                                            alignment: Alignment.bottomCenter,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.90,
-                                            height: 50,
-                                            margin: EdgeInsets.only(bottom: 10),
-                                            padding: EdgeInsets.all(0),
-                                            decoration: BoxDecoration(
-                                                color: _result == null &&
-                                                        titleController
-                                                            .text.isEmpty
-                                                    ? ColorConstants()
-                                                        .primaryColor()
-                                                        .withOpacity(0.5)
-                                                    : ColorConstants()
-                                                        .primaryColor(),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(5))),
-                                            child: Center(
-                                              child: Text(
-                                                '${Strings.of(context)?.next}',
-                                                textAlign: TextAlign.center,
-                                                style: Styles.textExtraBold(
-                                                    size: 14,
-                                                    color:
-                                                        ColorConstants.WHITE),
-                                              ),
-                                            ),
-                                          )
-                                        : const Center(
-                                            child: SizedBox(
-                                                width: 30,
-                                                height: 30,
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  color: ColorConstants
-                                                      .PRIMARY_COLOR,
-                                                ))),
-                                  ],
-                                ),
-                              )),
-                        )
-                      ],
+                                    ],
+                                  ),
+                                )),
+                          )
+                        ],
+                      ),
                     ),
-                  )
-                : FractionallySizedBox(
-                    heightFactor: 0.6,
-                    child: CustomScrollView(
-                      slivers: [
-                        SliverList(
-                          delegate: SliverChildListDelegate(
-                            [
-                              Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      height: 5,
-                                      width: 48,
-                                      margin: EdgeInsets.only(top: 10),
-                                      decoration: BoxDecoration(
-                                          color: ColorConstants.GREY_4,
-                                          borderRadius:
-                                              BorderRadius.circular(8)),
-                                    ),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 20.0, right: 20.0, top: 10.0),
-                                        child: Text(
-                                            '${Strings.of(context)?.addBrand}')),
-                                    SizedBox(
-                                      height: 12,
-                                    ),
-
-                                    /* Padding(
-                               padding: const EdgeInsets.only(
-                                   left: 20.0,
-                                   right: 20.0,
-                                   top: 10.0),
-                               child: TextFormField(
-                                 controller: titleController,
-                                 readOnly: true,
-                                 style: TextStyle(
-                                   fontSize: 14,
-                                   fontWeight: FontWeight.w600,
-                                 ),
-                                 keyboardType: TextInputType.text,
-                                 onChanged: (value) {},
-                                 decoration: InputDecoration(
-                                   focusColor: Colors.white,
-                                   border: OutlineInputBorder(
-                                     borderRadius:
-                                     BorderRadius.circular(10.0),
-                                   ),
-
-                                   focusedBorder: OutlineInputBorder(
-                                     borderSide: const BorderSide(
-                                         color: Colors.blue,
-                                         width: 1.0),
-                                     borderRadius:
-                                     BorderRadius.circular(10.0),
-                                   ),
-                                   fillColor: Colors.grey,
-                                   hintText:
-                                   "${Strings.of(context)?.brandName}",
-                                   //make hint text
-                                   hintStyle: TextStyle(
-                                     color: Colors.grey,
-                                     fontSize: 16,
-                                     fontFamily: "verdana_regular",
-                                     fontWeight: FontWeight.w400,
-                                   ),
-
-                                   //create lable
-                                   labelText:
-                                   "${Strings.of(context)?.brandName}",
-                                   //lable style
-                                   labelStyle: TextStyle(
-                                     color: Colors.grey,
-                                     fontSize: 16,
-                                     fontFamily: "verdana_regular",
-                                     fontWeight: FontWeight.w400,
-                                   ),
-                                 ),
-                                 onTap: () {
-                                   Navigator.push(
-                                       context,
-                                       MaterialPageRoute(
-                                           builder: (context) =>
-                                               BrandFilterPage(
-                                                 onCalledFromOutside,
-                                               )));
-                                 },
-                               ),
-                             ),*/
-
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 1,
-                              ),
-
-                              Center(
-                                child: Text(
-                                  '$brandName',
-                                  style: Styles.regular(size: 12),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 4,
-                              ),
-                              brandImageUrl.isNotEmpty &&
-                                      brandImageUrl != 'null'
-                                  ? Image.network(
-                                      brandImageUrl,
-                                      filterQuality: FilterQuality.low,
-                                      width: 130,
-                                      height: 80,
-                                      //fit: BoxFit.fill,
-                                      loadingBuilder:
-                                          (context, child, loadingProgress) {
-                                        if (loadingProgress == null) {
-                                          debugPrint('image loading null');
-                                          return child;
-                                        }
-                                        debugPrint('image loading...');
-                                        return const Center(
-                                            child: SizedBox(
-                                                width: 20,
-                                                height: 20,
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  color: ColorConstants
-                                                      .PRIMARY_COLOR,
-                                                )));
-                                      },
-                                    )
-                                  : SizedBox(),
-
-                              //TODO: Upload Brand Logo Image
-                              /*brandImageUrl.isEmpty
-                           ? Container(
-                         margin:
-                         EdgeInsets.only(top: 10.0),
-                         child: Column(
-                           children: [
-                             GestureDetector(
-                               onTap: () {
-                                 showBottomSheet(
-                                     context,
-                                     'brand',
-                                     updateValue);
-                               },
-                               child: Row(
-                                 mainAxisAlignment:
-                                 MainAxisAlignment
-                                     .center,
-                                 children: [
-                                   Icon(Icons
-                                       .file_upload_outlined),
-                                   Padding(
-                                     padding:
-                                     const EdgeInsets
-                                         .only(
-                                         left: 10.0),
-                                     child: Text(
-                                         "${Strings.of(context)?.uploadBrandLogo}"),
-                                   ),
-                                 ],
-                               ),
-                             ),
-                             Text(
-                               '${Strings.of(context)?.supportedFormat} - .jpeg, .png',
-                               style:
-                               Styles.textExtraBold(
-                                   size: 14,
-                                   color:
-                                   ColorConstants
-                                       .GREY_3),
-                             ),
-                           ],
-                         ),
-                       )
-                           : SizedBox(),*/
-
-                              selectedBrandPath != null &&
-                                      selectedBrandPath!.isNotEmpty
-                                  ? _selectedBrandLogo()
-                                  : SizedBox(),
-
-                              //TODO: Date selection
-                              Align(
-                                alignment: Alignment.center,
-                                child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 20.0, right: 20.0, top: 20.0),
-                                    child: Text('Select tenure')),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              _workingTime(),
-
-                              //TODO: Upload Joining Letter
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 10.0),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 8, horizontal: 16),
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 20),
-                                      decoration: BoxDecoration(
-                                          border: Border.all(),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5))),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          _initFilePiker();
-                                        },
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(Icons.file_upload_outlined),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Text(
-                                                  '${Strings.of(context)?.uploadJoiningLetter}'),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(height: 8),
-                                    Text(
-                                      '${Strings.of(context)?.supportedFormat} - .pdf, .doc',
-                                      style: Styles.textExtraBold(
-                                          size: 14,
-                                          color: ColorConstants.GREY_3),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 5.0),
-                                      child: Text(
-                                        fileString.isNotEmpty &&
-                                                fileString != 'null'
-                                            ? fileString.substring(
-                                                fileString.length - 20)
-                                            : '',
-                                        style: Styles.textExtraBold(
-                                            size: 14,
-                                            color: ColorConstants.GREY_3),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-
-                              SizedBox(
-                                height: 30,
-                              ),
-                            ],
-                          ),
-                        ),
-                        SliverFillRemaining(
-                          hasScrollBody: false,
-                          child: Align(
-                              alignment: Alignment.bottomCenter,
-                              child: TapWidget(
-                                onTap: () {
-                                  if (brandImageUrl.isEmpty) {
-                                    validation();
-                                  } else {
-                                    DateTime now = DateTime.now();
-                                    String formattedDate =
-                                        DateFormat('yyyy-MM-dd').format(now);
-                                    DateTime? valEnd;
-                                    DateTime? date;
-                                    if (fromDateController.text.isNotEmpty) {
-                                      valEnd = DateTime.parse(
-                                          fromDateController.text.toString());
-                                      date = toDateController.text.isNotEmpty
-                                          ? DateTime.parse(
-                                              toDateController.text.toString())
-                                          : DateTime.parse(formattedDate);
-                                    }
-
-                                    if (files!.length == 0) {
-                                      AlertsWidget.showCustomDialog(
-                                          context: context,
-                                          title:
-                                              "${Strings.of(context)?.error}",
-                                          text:
-                                              "${Strings.of(context)?.pleaseSelectedJoiningLetter}",
-                                          icon:
-                                              'assets/images/circle_alert_fill.svg',
-                                          oKText: '${Strings.of(context)?.ok}',
-                                          showCancel: false,
-                                          onOkClick: () async {});
-                                    } else if (fromDateController.text
-                                        .toString()
-                                        .isEmpty) {
-                                      AlertsWidget.showCustomDialog(
-                                          context: context,
-                                          title:
-                                              "${Strings.of(context)?.error}",
-                                          text:
-                                              "${Strings.of(context)?.pleaseSelectFromDate}",
-                                          icon:
-                                              'assets/images/circle_alert_fill.svg',
-                                          oKText: '${Strings.of(context)?.ok}',
-                                          showCancel: false,
-                                          onOkClick: () async {});
-                                    } else {
-                                      if (valEnd!.compareTo(date!) < 0) {
-                                        userBrandCreate(0);
-                                      } else {
-                                        AlertsWidget.showCustomDialog(
-                                            context: context,
-                                            title:
-                                                "${Strings.of(context)?.error}",
-                                            text:
-                                                "${Strings.of(context)?.pleaseSelectValidJoiningDate}",
-                                            icon:
-                                                'assets/images/circle_alert_fill.svg',
-                                            oKText:
-                                                '${Strings.of(context)?.ok}',
-                                            showCancel: false,
-                                            onOkClick: () async {});
-                                      }
-                                    }
-                                  }
-                                },
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    _isLoadingBrandCreate == false
-                                        ? Container(
-                                            alignment: Alignment.bottomCenter,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.85,
-                                            margin: EdgeInsets.only(bottom: 10),
-                                            height: 50,
-                                            padding: EdgeInsets.all(12),
-                                            decoration: BoxDecoration(
-                                                color: ColorConstants()
-                                                    .primaryColor(),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(5))),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 8,
-                                                  right: 8,
-                                                  top: 4,
-                                                  bottom: 4),
-                                              child: Text(
-                                                '${Strings.of(context)?.submit}',
-                                                textAlign: TextAlign.center,
-                                                style: Styles.textExtraBold(
-                                                    size: 14,
-                                                    color:
-                                                        ColorConstants.WHITE),
-                                              ),
-                                            ),
-                                          )
-                                        : const Center(
-                                            child: SizedBox(
-                                                width: 30,
-                                                height: 30,
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  color: ColorConstants
-                                                      .PRIMARY_COLOR,
-                                                ))),
-                                  ],
-                                ),
-                              )),
-                        )
-                      ],
-                    ),
-                  );
+                );
           });
         });
   }
+
 
   Widget _workingTime() {
     return Container(
@@ -2504,8 +2515,8 @@ class _UserProfilePageState extends State<UserProfilePage>
   Future<String> _getImages(ImageSource source, String sourceType) async {
     if (sourceType == 'camera') {
       final picker = ImagePicker();
-      PickedFile? pickedFile =
-          await picker.getImage(source: source, imageQuality: 100);
+      //PickedFile? pickedFile = await picker.getImage(source: source, imageQuality: 100);
+      XFile? pickedFile = await picker.pickImage(source: source, imageQuality: 100);
       if (pickedFile != null) {
         return pickedFile.path;
       } else if (Platform.isAndroid) {
@@ -2517,8 +2528,8 @@ class _UserProfilePageState extends State<UserProfilePage>
       return "";
     } else {
       final picker = ImagePicker();
-      PickedFile? pickedFile =
-          await picker.getImage(source: source, imageQuality: 100);
+      //PickedFile? pickedFile = await picker.getImage(source: source, imageQuality: 100);
+      XFile? pickedFile = await picker.pickImage(source: source, imageQuality: 100);
       if (pickedFile != null)
         return pickedFile.path;
       else if (Platform.isAndroid) {
