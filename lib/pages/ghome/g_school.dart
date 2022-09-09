@@ -852,19 +852,37 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
         ? ValueListenableBuilder(
             valueListenable: box!.listenable(),
             builder: (bc, Box box, child) {
-              if (box.get("other_learners") == null) {
-                return Shimmer.fromColors(
-                  baseColor: Color(0xffe6e4e6),
-                  highlightColor: Color(0xffeaf0f3),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(6)),
-                  ),
-                );
+              if (box.get("other_learners") == null || _isJoyCategoryLoading == true) {
+               return Column(children: [
+          Shimmer.fromColors(
+            baseColor: Color(0xffe6e4e6),
+            highlightColor: Color(0xffeaf0f3),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.02,
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(6)),
+            ),
+          
+          ),
+
+            ListView.builder(
+              itemCount: 4,
+              shrinkWrap: true,
+              itemBuilder: (context, index)=>  Shimmer.fromColors(
+            baseColor: Color(0xffe6e4e6),
+            highlightColor: Color(0xffeaf0f3),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.12,
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(6)),
+            ),
+          
+          )),
+         ],);
               } else if (box.get("other_learners").isEmpty) {
                 return Container(
                     /*height: 290,
@@ -1002,19 +1020,39 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
     return ValueListenableBuilder(
       valueListenable: box!.listenable(),
       builder: (bc, Box box, child) {
-        if (box.get("recommended") == null) {
+        if (box.get("recommended") == null || _isJoyCategoryLoading == true) {
           // return Container();
-          return Shimmer.fromColors(
+         return Column(children: [
+          Shimmer.fromColors(
             baseColor: Color(0xffe6e4e6),
             highlightColor: Color(0xffeaf0f3),
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.07,
+              height: MediaQuery.of(context).size.height * 0.02,
               margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(6)),
             ),
-          );
+          
+          ),
+
+            ListView.builder(
+              itemCount: 4,
+              shrinkWrap: true,
+              itemBuilder: (context, index)=>  Shimmer.fromColors(
+            baseColor: Color(0xffe6e4e6),
+            highlightColor: Color(0xffeaf0f3),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.12,
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(6)),
+            ),
+          
+          )),
+         ],);
+       
         } else if (box.get("recommended").isEmpty) {
           return Container();
         }
@@ -1099,7 +1137,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
 
   Widget _getCourseTemplate(context, yourCourses, int index, String tag) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.12,
+      height: MediaQuery.of(context).size.height * 0.14,
       //decoration: BoxDecoration(color: ColorConstants.GREY),
       //padding: EdgeInsets.all(10),
       margin: EdgeInsets.all(7),
@@ -1144,6 +1182,11 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                     overflow: TextOverflow.ellipsis,
                     softWrap: false,
                     style: Styles.semibold(size: 16)),
+              Text('${yourCourses.approvalStatus ?? ''}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
+                    style: Styles.semibold(size: 12, color: ColorConstants.YELLOW)),
                 Row(
                   children: [
                     Text('${yourCourses.enrolmentCount} Enrollments',

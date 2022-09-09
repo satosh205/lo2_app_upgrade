@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
@@ -81,9 +83,9 @@ class _AssessmentYourReportPageState extends State<AssessmentYourReportPage> {
               int count = state.response!.data!.assessmentReview!.questions![i]
                   .questionOptions!.length;
               for (int j = 0; j < count; j++) {
-                if (state.response!.data!.assessmentReview!.questions![i]
-                        .questionOptions![j].userAnswer ==
-                    1) {
+                // if (state.response!.data!.assessmentReview!.questions![i]
+                //         .questionOptions![j].userAnswer ==
+                //     1) {
                   int value = j;
                   if (value == 0) {
                     selectedOption = 'a';
@@ -96,7 +98,7 @@ class _AssessmentYourReportPageState extends State<AssessmentYourReportPage> {
                   }
                   selectedOptionList.add(selectedOption);
                   break;
-                }
+                // }
               }
             }
 
@@ -344,7 +346,7 @@ class _AssessmentYourReportPageState extends State<AssessmentYourReportPage> {
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 5),
-                          itemCount: _list.length,
+                          itemCount:min(_list.length, selectedOptionList.length),
                           itemBuilder: (BuildContext context, int index) {
                             return _list[index].question!.isCorrect != 0
                                 ? Container(
@@ -363,7 +365,20 @@ class _AssessmentYourReportPageState extends State<AssessmentYourReportPage> {
                                       ),
                                     ),
                                   )
-                                : SizedBox();
+                                :Container(
+                                    child: Card(
+                                      color:
+                                         ColorConstants.GREY_4,
+                                      child: Center(
+                                        //child: Text('${index + 1}' , style: Styles.textRegular(size: 16, color: Colors.white),),
+                                        child: Text(
+                                          '${index + 1}',
+                                          style: Styles.textRegular(
+                                              size: 16, color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                                  );
                           },
                         ),
                       ),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/CommonWebView.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/utils/Strings.dart';
+import 'package:masterg/utils/resource/images.dart';
 
 import '../../../blocs/home_bloc.dart';
 import '../../../data/models/request/home_request/user_program_subscribe.dart';
@@ -152,6 +154,11 @@ class _CoursesDetailsPageState extends State<CoursesDetailsPage> {
                     child: Image.network(
                       widget.imgUrl!,
                       width: MediaQuery.of(context).size.width,
+                       errorBuilder: (context, error, stackTrace) {
+                      return SvgPicture.asset(
+                        'assets/images/gscore_postnow_bg.svg',
+                      );
+                    },
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -230,19 +237,19 @@ class _CoursesDetailsPageState extends State<CoursesDetailsPage> {
   _subscribeRequest(type, id) {
     print(type);
     print(id);
-    if (type == "paid") {
-      AlertsWidget.showCustomDialog(
-          context: context,
-          title: "Contact Administrator to get access to this program!!",
-          text: "",
-          icon: 'assets/images/circle_alert_fill.svg',
-          showCancel: false,
-          // okText:
-          oKText: "Ok",
-          onOkClick: () async {
-            // Navigator.pop(context);
-          });
-    }
+    // if (type == "paid") {
+    //   AlertsWidget.showCustomDialog(
+    //       context: context,
+    //       title: "Contact Administrator to get access to this program!!",
+    //       text: "",
+    //       icon: 'assets/images/circle_alert_fill.svg',
+    //       showCancel: false,
+    //       // okText:
+    //       oKText: "Ok",
+    //       onOkClick: () async {
+    //         // Navigator.pop(context);
+    //       });
+    // }
 
     if (type == "approve") {
       BlocProvider.of<HomeBloc>(context).add(UserProgramSubscribeEvent(

@@ -237,6 +237,7 @@ class Recommended {
   bool? isSubscribed;
   int? completionPer;
   int? enrolmentCount;
+  String? approvalStatus;
 
   Recommended(
       {this.id,
@@ -261,7 +262,7 @@ class Recommended {
       this.subscriptionType,
       this.isSubscribed,
       this.enrolmentCount,
-      this.completionPer});
+      this.completionPer, this.approvalStatus});
 
   Recommended.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -287,6 +288,7 @@ class Recommended {
     completionPer = json['completion_per'];
     enrolmentCount = json['enrolment_count'];
     shortCode = json['short_code'];
+    approvalStatus = json['approval_status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -314,6 +316,7 @@ class Recommended {
     data['is_subscribed'] = this.isSubscribed;
     data['subscription_type'] = this.subscriptionType;
     data['enrolment_count'] = this.enrolmentCount;
+    data['approval_status'] = this.approvalStatus;
     return data;
   }
 }
@@ -447,6 +450,7 @@ class OtherLearners {
   bool? isSubscribed;
   int? completionPer;
   int? enrolmentCount;
+  String? approvalStatus;
 
   OtherLearners(
       {this.id,
@@ -471,7 +475,7 @@ class OtherLearners {
       this.subscriptionType,
       this.isSubscribed,
       this.enrolmentCount,
-      this.completionPer});
+      this.completionPer, this.approvalStatus});
 
   OtherLearners.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -497,6 +501,7 @@ class OtherLearners {
     completionPer = json['completion_per'];
     shortCode = json['short_code'];
     enrolmentCount = json['enrolment_count'];
+    approvalStatus = json['approval_status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -524,6 +529,7 @@ class OtherLearners {
     data['subscription_type'] = this.subscriptionType;
     data['enrolment_count'] = this.enrolmentCount;
     data['short_code'] = this.shortCode;
+    data['approval_status'] = this.approvalStatus;
     return data;
   }
 }
@@ -657,6 +663,7 @@ class PopularCourses {
   bool? isSubscribed;
   int? enrolmentCount;
   int? completionPer;
+  String? approvalStatus;
 
   PopularCourses(
       {this.id,
@@ -681,7 +688,7 @@ class PopularCourses {
       this.subscriptionType,
       this.isSubscribed,
       this.enrolmentCount,
-      this.completionPer});
+      this.completionPer, this.approvalStatus});
 
   PopularCourses.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -707,6 +714,7 @@ class PopularCourses {
     enrolmentCount = json['enrolment_count'];
     completionPer = json['completion_per'];
     shortCode = json['short_code'];
+    approvalStatus = json['approval_status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -734,6 +742,7 @@ class PopularCourses {
     data['subscription_type'] = this.subscriptionType;
     data['enrolment_count'] = this.enrolmentCount;
     data['short_code'] = this.shortCode;
+    data['approval_status'] = this.approvalStatus;
     return data;
   }
 }

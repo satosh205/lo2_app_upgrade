@@ -87,7 +87,13 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                             height: 150,
                             width: 150,
                           ),
-                    SizedBox(height: 40),
+                   
+                    // SizedBox(height: 20),
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        child: Image.asset('assets/images/lnb_banner_2.jpg')),
+                   
+                     SizedBox(height: 40),
                     Center(
                       child: Text(
                         '${Strings.of(context)?.chooseAppLanguage}',
@@ -95,11 +101,8 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    SizedBox(height: 20),
-                    SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.25,
-                        child: Image.asset('assets/images/signupimage.png')),
-                    SizedBox(height: 40),
+                     SizedBox(height: 40),
+
                     ListView.builder(
                       physics: BouncingScrollPhysics(),
                       shrinkWrap: true,

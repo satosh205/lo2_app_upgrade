@@ -86,38 +86,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
           listener: (context, state) {
             if (state is LoginState) _handleLoginResponse(state);
           },
-
-          child: ScreenWithLoader(
+          child: Scaffold(
+            backgroundColor: ColorConstants.WHITE,
+            appBar: AppBar(
+              backgroundColor: ColorConstants.WHITE,
+              elevation: 0,
+              leading: IconButton(
+                  padding: const EdgeInsets.all(0),
+                  onPressed: () => Navigator.pushReplacement(context,
+                      NextPageRoute(ChooseLanguage(), isMaintainState: false)),
+                  icon: Icon(
+                    CupertinoIcons.back,
+                    color: ColorConstants.BLACK,
+                  )),
+            ),
+            body: KeyboardActions(
+              config: KeyboardActionsConfig(
+                keyboardBarColor: Colors.orange,
+                actions: [
+                  KeyboardActionsItem(focusNode: phoneFocus),
+                ],
+              ),
+              child: ScreenWithLoader(
                 isLoading: _isLoading,
                 body: _makeBody(),
               ),
-          // child: Scaffold(
-          //   backgroundColor: ColorConstants.WHITE,
-          //   appBar: AppBar(
-          //     backgroundColor: ColorConstants.WHITE,
-          //     elevation: 0,
-          //     leading: IconButton(
-          //         padding: const EdgeInsets.all(0),
-          //         onPressed: () => Navigator.pushReplacement(context,
-          //             NextPageRoute(ChooseLanguage(), isMaintainState: false)),
-          //         icon: Icon(
-          //           CupertinoIcons.back,
-          //           color: ColorConstants.BLACK,
-          //         )),
-          //   ),
-          //   body: KeyboardActions(
-          //     config: KeyboardActionsConfig(
-          //       keyboardBarColor: Colors.orange,
-          //       actions: [
-          //         KeyboardActionsItem(focusNode: phoneFocus),
-          //       ],
-          //     ),
-          //     child: ScreenWithLoader(
-          //       isLoading: _isLoading,
-          //       body: _makeBody(),
-          //     ),
-          //   ),
-          // ),
+            ),
+          ),
         ));
   }
 
@@ -150,6 +145,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   )
                                 : Image.asset(
                                     appBarImagePath,
+                                    // 'assets/images/${APK_DETAILS' ,
                                     height: 150,
                                     width: 150,
                                   ),
@@ -162,7 +158,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 height:
                                     MediaQuery.of(context).size.height * 0.25,
                                 child: Image.asset(
-                                    'assets/images/signupimage.png')),
+                                    'assets/images/lnb_banner_2.jpg')),
                           ],
                         ),
                       ),
