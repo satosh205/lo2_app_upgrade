@@ -44,16 +44,26 @@ class _CommentViewPageState extends State<CommentViewPage> {
   }
 
   String calculateTimeDifferenceBetween(DateTime startDate, DateTime endDate) {
-    int seconds = endDate.difference(startDate).inSeconds;
-    if (seconds < 60)
-      return '$seconds s';
-    else if (seconds >= 60 && seconds < 3600)
-      return '${startDate.difference(endDate).inMinutes.abs()} m';
-    else if (seconds >= 3600 && seconds < 86400)
-      return '${startDate.difference(endDate).inHours.abs()} h';
-    else
-      return '${startDate.difference(endDate).inDays.abs()} d';
-  }
+      int seconds = endDate.difference(startDate).inSeconds;
+      if (seconds < 60)
+        return '$seconds s';
+      else if (seconds >= 60 && seconds < 3600)
+        return '${startDate.difference(endDate).inMinutes.abs()} m';
+      else if (seconds >= 3600 && seconds < 86400)
+        return '${startDate.difference(endDate).inHours.abs()} h';
+      else {
+        // convert day to month
+        int days = startDate.difference(endDate).inDays.abs();
+        if (days < 30 && days > 7) {
+          return '${(startDate.difference(endDate).inDays ~/ 7).abs()} w';
+        }
+        if (days > 30) {
+          int month = (startDate.difference(endDate).inDays ~/ 30).abs();
+          return '$month mos';
+        } else
+          return '${startDate.difference(endDate).inDays.abs()} d';
+      }
+    }
 
   // bool _isCommentLoading = true;
   Widget commentChild(List<CommentListElement> data) {

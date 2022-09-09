@@ -790,14 +790,19 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
           //gcarvaanPosts = state.response.data.list;
           //if (state.response.data.list.length == 1) {
 
-          /*if (widget.formCreatePost == true) {
-            gcarvaanPosts.insert(0, state.response.data.list.first);
-
-          } else if (state.response.data.list.length > 1) {
-            gcarvaanPosts.addAll(state.response.data.list);
-          }*/
+        
 
           gcarvaanPosts!.addAll(state.response!.data!.list!);
+          print('current data len is ${gcarvaanPosts?.length}');
+
+           var seen = Set<GCarvaanPostElement>();
+          List<GCarvaanPostElement> uniquelist = gcarvaanPosts!.where((element) => seen.add(element)).toList();
+
+          gcarvaanPosts = uniquelist;
+
+          print('current data len is after ${gcarvaanPosts?.length}');
+       
+
 
           model.refreshList(gcarvaanPosts!);
 
@@ -845,11 +850,11 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
           isPostedLoading = false;
           responseData = state.response;
           if (responseData!.status == 1) {
-            isPostedLoading = true;
-            callCount = 1;
-            //_getPosts(callCount, postId: state.response.data.id);
-            _getPosts(callCount);
-            //_refreshController.requestRefresh();
+            // isPostedLoading = true;
+            // callCount = 1;
+            // //_getPosts(callCount, postId: state.response.data.id);
+            // _getPosts(callCount);
+            _refreshController.requestRefresh();
           }
 
           break;

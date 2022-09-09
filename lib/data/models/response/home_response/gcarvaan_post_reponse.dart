@@ -244,12 +244,25 @@ class GCarvaanListModel extends ChangeNotifier {
   }
 
   void updateList(List<GCarvaanPostElement> newData) {
+    print('current len is ${this._list?.length}');
     this._list!.addAll(newData);
+    print('current len is after ${this._list?.length}');
+
+       var seen = Set<GCarvaanPostElement>();
+List<GCarvaanPostElement> uniquelist = _list!.where((element) => seen.add(element)).toList();
+
+ this._list = uniquelist;
+    print('current len is after filter ${this._list?.length}');
+
     notifyListeners();
   }
 
   void refreshList(List<GCarvaanPostElement> list) {
     this._list = list;
+     var seen = Set<GCarvaanPostElement>();
+List<GCarvaanPostElement> uniquelist = _list!.where((element) => seen.add(element)).toList();
+
+ this._list = uniquelist ;
     notifyListeners();
   }
 

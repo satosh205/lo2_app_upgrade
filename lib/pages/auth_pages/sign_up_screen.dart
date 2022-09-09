@@ -154,15 +154,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 '${Strings.of(context)?.GiveYourCreativityNewPath}',
                                 style: Styles.semibold()),
                             SizedBox(height: 20),*/
-                            SizedBox(
+ if(APK_DETAILS['theme_image_url2'] != "")      APK_DETAILS['theme_image_url2']?.split('.').last == 'svg'
+                                ? SvgPicture.asset(
+                                        height:
+                                    MediaQuery.of(context).size.height * 0.25,
+                            'assets/images/${APK_DETAILS['theme_image_url2']}',
+                              fit: BoxFit.cover,
+                            )
+                                : Image.asset(
+                            'assets/images/${APK_DETAILS['theme_image_url2']}',
                                 height:
                                     MediaQuery.of(context).size.height * 0.25,
-                                child: Image.asset(
-<<<<<<< HEAD
-                                    'assets/images/lnb_banner_2.jpg')),
-=======
-                                    'assets/images/signupimage.gif')),
->>>>>>> ad09f9b78b802296e27fca74f52068755b114ab0
+                              // width: 150,
+                            ),
+                            // SizedBox(
+                            //     height:
+                            //         MediaQuery.of(context).size.height * 0.25,
+                            //     child: Image.asset(
+                            //         'assets/images/signupimage.gif')),
                           ],
                         ),
                       ),

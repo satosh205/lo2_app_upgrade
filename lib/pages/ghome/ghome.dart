@@ -150,6 +150,7 @@ class _GHomeState extends State<GHome> {
                                       child: InkWell(
                                         onTap: () async {
                                           value.enableProviderControl();
+                                          value.mute();
                                           value.pause().then((value) =>  showModalBottomSheet(
                                               context: context,
                                               backgroundColor:
