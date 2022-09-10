@@ -505,9 +505,10 @@ class _CreatePostPageState extends State<CreatePostPage> {
             if (result.paths[i]!.contains('.mp4')) {
               //insert showing wrong image
               // pickedList.insert(0, File(result.paths[i]));
-              if (File(result.paths[i]!).lengthSync() / 1000000 > 5.0) {
+              //if (File(result.paths[i]!).lengthSync() / 1000000 > 5.0) {
+              if (File(result.paths[i]!).lengthSync() / 1000000 > 11.0) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Video/image size can't be large than 5MB"),
+                  content: Text("Video/image size can't be large than 5MB tess"),
                 ));
               } else
                 pickedList.add(File(result.paths[i]!));

@@ -112,8 +112,7 @@ class _UserProfilePageState extends State<UserProfilePage>
   }
 
   void _updateUserProfileImage(String? filePath) async {
-    BlocProvider.of<HomeBloc>(context)
-        .add(UpdateUserProfileImageEvent(filePath: filePath));
+    BlocProvider.of<HomeBloc>(context).add(UpdateUserProfileImageEvent(filePath: filePath));
   }
 
   void createPortfolio() {
@@ -2518,8 +2517,12 @@ class _UserProfilePageState extends State<UserProfilePage>
   Future<String> _getImages(ImageSource source, String sourceType) async {
     if (sourceType == 'camera') {
       final picker = ImagePicker();
-      //PickedFile? pickedFile = await picker.getImage(source: source, imageQuality: 100);
-      XFile? pickedFile = await picker.pickImage(source: source, imageQuality: 100);
+      PickedFile? pickedFile = await picker.getImage(
+          source: source,
+          imageQuality: 70,
+      maxWidth: 350,
+      maxHeight: 350);
+      //XFile? pickedFile = await picker.pickImage(source: source, imageQuality: 60);
       if (pickedFile != null) {
         return pickedFile.path;
       } else if (Platform.isAndroid) {
@@ -2531,8 +2534,8 @@ class _UserProfilePageState extends State<UserProfilePage>
       return "";
     } else {
       final picker = ImagePicker();
-      //PickedFile? pickedFile = await picker.getImage(source: source, imageQuality: 100);
-      XFile? pickedFile = await picker.pickImage(source: source, imageQuality: 100);
+      PickedFile? pickedFile = await picker.getImage(source: source, imageQuality: 70);
+      //XFile? pickedFile = await picker.pickImage(source: source, imageQuality: 60);
       if (pickedFile != null)
         return pickedFile.path;
       else if (Platform.isAndroid) {
@@ -2547,13 +2550,12 @@ class _UserProfilePageState extends State<UserProfilePage>
 
   Future<String> _cropImage(_pickedFile) async {
     if (_pickedFile != null) {
-      final croppedFile = await ImageCropper().cropImage(
+      CroppedFile? croppedFile = await ImageCropper().cropImage(
         sourcePath: _pickedFile,
         compressFormat: ImageCompressFormat.jpg,
         compressQuality: 100,
         uiSettings: buildUiSettings(context),
         aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
-        //aspectRatioPresets: const[CropAspectRatioPreset.square],
       );
       if (croppedFile != null) {
         return croppedFile.path;
@@ -2639,11 +2641,12 @@ class _UserProfilePageState extends State<UserProfilePage>
                     await _getImages(ImageSource.gallery, 'gallery')
                         .then((value) async {
                       if (clickSide.endsWith('profile')) {
-                        selectedImage = value;
-                        selectedImage = await _cropImage(value);
+                        if (value != null) {
+                          selectedImage = value;
+                          selectedImage = await _cropImage(value);
+                        }
                         if (selectedImage != null) {
-                          Preference.setString(
-                              Preference.PROFILE_IMAGE, '${selectedImage}');
+                          Preference.setString(Preference.PROFILE_IMAGE, '${selectedImage}');
                           _updateUserProfileImage(selectedImage);
                         }
 
@@ -2677,12 +2680,14 @@ class _UserProfilePageState extends State<UserProfilePage>
                           style: TextStyle(color: Colors.white),
                         ),
                         onTap: () async {
-                          await _getImages(ImageSource.camera, 'camera')
-                              .then((value) async {
+                          await _getImages(ImageSource.camera, 'camera').then((value) async {
                             if (clickSide.endsWith('profile')) {
-                              selectedImage = value;
-                              selectedImage = await _cropImage(value);
-                              _updateUserProfileImage(selectedImage);
+                              if (value != null) {
+                                selectedImage = value;
+                                selectedImage = await _cropImage(value);
+                              }
+                               _updateUserProfileImage(selectedImage);
+
                             } else {
                               setState(() {
                                 selectedBrandPath = value;

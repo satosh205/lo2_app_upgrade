@@ -479,9 +479,9 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
       if (result != null) {
         for (int i = 0; i < result.paths.length; i++) {
           if (i == 4) break;
-          if (File(result.paths[i]!).lengthSync() / 1000000 > 8.0) {
+          if (File(result.paths[i]!).lengthSync() / 1000000 > 18.0) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("Video/image size can't be large than 5MB"),
+              content: Text("Video/image size can't be large than 5MB test"),
             ));
           } else
             provider.addToList(result.paths[i]);

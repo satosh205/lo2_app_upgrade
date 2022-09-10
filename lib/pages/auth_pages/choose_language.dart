@@ -77,7 +77,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                     children: [
                       Center(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          //crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             appBarImagePath.split('.').last == 'svg'
@@ -90,6 +90,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                               height: 150,
                               width: 150,
                             ),
+
                             SizedBox(height: 60),
                             Center(
                               child: Text(
@@ -100,7 +101,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                             ),
                             SizedBox(height: 10),
 
-                      //  if(APK_DETAILS['theme_image_url2'] != "")      APK_DETAILS['theme_image_url2']?.split('.').last == 'svg'
+                            //  if(APK_DETAILS['theme_image_url2'] != "")      APK_DETAILS['theme_image_url2']?.split('.').last == 'svg'
                       //           ? SvgPicture.asset(
                       //                   height:
                       //               MediaQuery.of(context).size.height * 0.25,
@@ -145,7 +146,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                                       builder: (context) => SignUpScreen()));
                             },
                             child: Container(
-                              margin: EdgeInsets.only(left: 12.0, right: 12.0, bottom: 50.0),
+                              margin: EdgeInsets.only(left: 12.0, right: 12.0, bottom: 100.0),
                               width: double.infinity,
                               height: MediaQuery.of(context).size.height *
                                   WidgetSize.AUTH_BUTTON_SIZE,
