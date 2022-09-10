@@ -122,7 +122,9 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                 gcarvaanPosts = [];
                 _getPosts(++callCount);
                 Future.delayed(Duration(seconds: 2)).then((_) {
-                  setState(() {});
+                  setState(() {
+                    isPostedLoading = false;
+                  });
                 });
               },
               onLoading: () async {
@@ -850,7 +852,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
           isPostedLoading = false;
           responseData = state.response;
           if (responseData!.status == 1) {
-            // isPostedLoading = true;
+            isPostedLoading = true;
             // callCount = 1;
             // //_getPosts(callCount, postId: state.response.data.id);
             // _getPosts(callCount);

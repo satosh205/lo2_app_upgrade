@@ -362,14 +362,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
       builder: (context, value, child) {
 
         //adding temporary for mute
-         if (value.isMuted == true) {
-                  _videoController?.setVolume(1.0);
-                  value.unMute();
-                } else {
-                  _videoController?.setVolume(0.0);
-
-                  value.mute();
-                }
+  
         if (value.isPaused)
           _videoController!.pause();
         else {
@@ -381,7 +374,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
             onTap: () {
               setState(() {
                 value.showVolumnIcon();
-                if (value.isMuted == true) {
+                if (value.isMuted ) {
                   _videoController?.setVolume(1.0);
                   value.unMute();
                 } else {
