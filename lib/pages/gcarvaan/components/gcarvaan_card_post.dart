@@ -86,9 +86,9 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
   void initState() {
     super.initState();
     if(Platform.isAndroid) {
-      videoHeight = double.parse('${widget.height}') / 2.8;
+      //videoHeight = double.parse('${widget.height}') / 2.8;
     }else {
-      videoHeight = double.parse('${widget.height}') / 2.9;
+      //videoHeight = double.parse('${widget.height}') / 2.9;
     }
     setValues();
   }
@@ -825,7 +825,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
             ConstrainedBox(
               constraints: BoxConstraints(
                 minHeight: 100.0,
-                  maxHeight: widget.resourceType!.endsWith('video') ? double.parse('${widget.height ?? widget.dimension?.first.height}') / 2.8 : 410),
+                  maxHeight: widget.resourceType!.endsWith('video') ? double.parse('${widget.height ?? widget.dimension?.first.height}') / 2.9 : 410),
                   //maxHeight: 240),
 
               child: PageView.builder(
@@ -872,7 +872,6 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                               .contains('.mov')
                                       // ? CustomBetterPlayer(
                                       //     url: widget.fileList[index])
-
                                           ? CustomVideoPlayer(
                                         url: widget.fileList![index],
                                         isLocalVideo: false,
@@ -882,7 +881,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                         widget.commentCount != null
                                             ? widget.commentCount
                                             : 0,
-                                            height:  double.parse('${widget.height}') / 2.8,
+                                            height:  double.parse('${widget.height ?? widget.dimension?.first.height}')  / 2.9,
                                         index: index,
                                         desc: widget.description,
                                         userName: widget.user_name,
