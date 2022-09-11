@@ -446,6 +446,8 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                       contentId: gcarvaanPosts[index].id,
                       fileList: gcarvaanPosts[index].multiFileUploads,
                       comment_visible: false,
+                      height: gcarvaanPosts[index].dimension.height,
+                      width: gcarvaanPosts[index].dimension.width,
                     )
                   : Container();
             })

@@ -29,6 +29,8 @@ class GCarvaanCardPost extends StatefulWidget {
   final String? profile_path;
   final String? user_name;
   final String date;
+  final int? height;
+  final int? width;
   final String? description;
   final int commentCount;
   final bool comment_visible;
@@ -57,6 +59,7 @@ class GCarvaanCardPost extends StatefulWidget {
       this.islikedPost,
       this.contentId,
       this.fileList,
+      this.height,this.width,
       this.value});
 
   @override
@@ -496,18 +499,11 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                 ],
               ),
             ),
-            Padding(
-                padding: const EdgeInsets.only(bottom: 7, left: 10),
-                child: ReadMoreText(text: '${widget.description ?? ''}')
-                // child: Text(
-                //   widget.description ?? '',
-                //   style: Styles.regular(size: 14, color: ColorConstants.BLACK),
-                // ),
-                ),
+           
             ConstrainedBox(
               constraints: BoxConstraints(
                 minHeight: 360,
-                maxHeight: 420,
+                maxHeight :double.parse('${widget.height}'),
               ),
               // color: Colors.red,
               child: PageView.builder(
@@ -526,7 +522,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                       true
                               ? BoxConstraints(
                                   minHeight: 360,
-                                  maxHeight: 420,
+                                  maxHeight: double.parse('${widget.height}'),
                                 )
                               : BoxConstraints(
                                   minHeight: 360,
@@ -544,228 +540,132 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                 updateLikeandViews(null);
                               }
                             },
-                            child: Container(
-                              child: Stack(
-                                children: [
-                                  Center(
-                                      child: widget.fileList![index]
-                                                  .contains('.mp4') ||
-                                              widget.fileList![index]
-                                                  .contains('.mov')
-                                          // ? CustomBetterPlayer(
-                                          //     url: widget.fileList[index])
-
-                                          ? CustomVideoPlayer(
-                                              url: widget.fileList![index],
-                                              isLocalVideo: false,
-                                              likeCount: widget.likeCount,
-                                              viewCount: widget.viewCount,
-                                              commentCount:
-                                                  widget.commentCount != null
-                                                      ? widget.commentCount
-                                                      : 0,
-                                              index: index,
-                                              desc: widget.description,
-                                              userName: widget.user_name,
-                                              profilePath: widget.profile_path,
-                                              time:
-                                                  calculateTimeDifferenceBetween(
-                                                      DateTime.parse(date
-                                                          .toString()
-                                                          .substring(0, 19)),
-                                                      now),
-                                            )
-                                          : widget.fileList![index]
-                                                  .contains('.docx')
-                                              ? InkWell(
-                                                  onTap: () {
-                                                    OpenFile.open(
-                                                        '${widget.fileList![index]}');
-                                                  },
-                                                  child: Container(
-                                                    child: Image.asset(
-                                                      'assets/images/docx.png',
-                                                      height: 120,
-                                                      fit: BoxFit.contain,
-                                                    ),
-                                                  ))
-                                              : widget.fileList![index]
-                                                      .contains('.pdf')
-                                                  ? InkWell(
-                                                      onTap: () {
-                                                        Navigator.push(
-                                                            context,
-                                                            NextPageRoute(
-                                                              ViewPdfPage(
-                                                                path: widget
+                            child: AspectRatio(
+                              aspectRatio: widget.height!  / widget.width!,
+                              child: Container(
+                                child: Stack(
+                                  children: [
+                                    Center(
+                                        child: widget.fileList![index]
+                                                    .contains('.mp4') ||
+                                                widget.fileList![index]
+                                                    .contains('.mov')
+                                            // ? CustomBetterPlayer(
+                                            //     url: widget.fileList[index])
+                            
+                                            ? CustomVideoPlayer(
+                                                url: widget.fileList![index],
+                                                isLocalVideo: false,
+                                                likeCount: widget.likeCount,
+                                                viewCount: widget.viewCount,
+                                                commentCount:
+                                                    widget.commentCount != null
+                                                        ? widget.commentCount
+                                                        : 0,
+                                                index: index,
+                                                desc: widget.description,
+                                                userName: widget.user_name,
+                                                profilePath: widget.profile_path,
+                                                time:
+                                                    calculateTimeDifferenceBetween(
+                                                        DateTime.parse(date
+                                                            .toString()
+                                                            .substring(0, 19)),
+                                                        now),
+                                              )
+                                            : widget.fileList![index]
+                                                    .contains('.docx')
+                                                ? InkWell(
+                                                    onTap: () {
+                                                      OpenFile.open(
+                                                          '${widget.fileList![index]}');
+                                                    },
+                                                    child: Container(
+                                                      child: Image.asset(
+                                                        'assets/images/docx.png',
+                                                        height: 120,
+                                                        fit: BoxFit.contain,
+                                                      ),
+                                                    ))
+                                                : widget.fileList![index]
+                                                        .contains('.pdf')
+                                                    ? InkWell(
+                                                        onTap: () {
+                                                          Navigator.push(
+                                                              context,
+                                                              NextPageRoute(
+                                                                ViewPdfPage(
+                                                                  path: widget
+                                                                          .fileList![
+                                                                      index],
+                                                                ),
+                                                                isMaintainState:
+                                                                    true,
+                                                              ));
+                                                        },
+                                                        child: Container(
+                                                          child: Image.asset(
+                                                            'assets/images/pdf.png',
+                                                            height: 120,
+                                                            fit: BoxFit.contain,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    : widget.fileList![index] != null
+                                                        ? InkWell(
+                                                            onTap: () {
+                                                              _displayDialog(
+                                                                context: context,
+                                                                imgUrl: widget
                                                                         .fileList![
                                                                     index],
-                                                              ),
-                                                              isMaintainState:
-                                                                  true,
-                                                            ));
-                                                      },
-                                                      child: Container(
-                                                        child: Image.asset(
-                                                          'assets/images/pdf.png',
-                                                          height: 120,
-                                                          fit: BoxFit.contain,
-                                                        ),
-                                                      ),
-                                                    )
-                                                  : widget.fileList![index] != null
-                                                      ? InkWell(
-                                                          onTap: () {
-                                                            _displayDialog(
-                                                              context: context,
-                                                              imgUrl: widget
-                                                                      .fileList![
-                                                                  index],
-                                                              fileList: widget
-                                                                  .fileList,
-                                                              likeCount: widget
-                                                                  .likeCount,
-                                                              viewCount: widget
-                                                                  .viewCount,
-                                                              commentCount: widget
-                                                                  .commentCount,
-                                                              index: index,
-                                                              desc: widget
-                                                                  .description,
-                                                              userName: widget
-                                                                  .user_name,
-                                                              profilePath: widget
-                                                                  .profile_path,
-                                                              time: calculateTimeDifferenceBetween(
-                                                                  DateTime.parse(date
-                                                                      .toString()
-                                                                      .substring(
-                                                                          0,
-                                                                          19)),
-                                                                  now),
-                                                            );
-                                                          },
-                                                          child:
-                                                              CachedNetworkImage(
-                                                            imageUrl:
-                                                                "${widget.fileList![index]}",
-                                                            progressIndicatorBuilder:
-                                                                (context, url,
-                                                                        downloadProgress) =>
-                                                                    Shimmer
-                                                                        .fromColors(
-                                                              baseColor: Color(
-                                                                  0xffe6e4e6),
-                                                              highlightColor:
-                                                                  Color(
-                                                                      0xffeaf0f3),
-                                                              child: Container(
-                                                                height: double
-                                                                    .infinity,
-                                                                margin: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            10,
-                                                                        vertical:
-                                                                            10),
-                                                                width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width,
-                                                                decoration: BoxDecoration(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            6)),
-                                                              ),
-                                                            ),
-                                                            errorWidget:
-                                                                (context, url,
-                                                                        error) =>
-                                                                    Icon(Icons
-                                                                        .error),
-                                                          ), // child: Image.network(
-                                                          // widget.fileList![
-                                                          //     index],
-                                                          //   filterQuality:
-                                                          //       FilterQuality
-                                                          //           .low,
-                                                          //   fit: BoxFit.fill,
-                                                          //   width:
-                                                          //       MediaQuery.of(
-                                                          //               context)
-                                                          //           .size
-                                                          //           .width,
-                                                          // ),
-                                                        )
-                                                      : InkWell(
-                                                          onTap: () {
-                                                            _displayDialog(
-                                                              context: context,
-                                                              imgUrl: widget
-                                                                      .fileList![
-                                                                  index],
-                                                              fileList: widget
-                                                                  .fileList,
-                                                              likeCount: widget
-                                                                  .likeCount,
-                                                              viewCount: widget
-                                                                  .viewCount,
-                                                              commentCount: widget
-                                                                  .commentCount,
-                                                              index: index,
-                                                              desc: widget
-                                                                  .description,
-                                                              userName: widget
-                                                                  .user_name,
-                                                              profilePath: widget
-                                                                  .profile_path,
-                                                              time: calculateTimeDifferenceBetween(
-                                                                  DateTime.parse(date
-                                                                      .toString()
-                                                                      .substring(
-                                                                          0,
-                                                                          19)),
-                                                                  now),
-                                                            );
-                                                          },
-                                                          child: Image.network(
-                                                            widget.fileList![
-                                                                index],
-                                                            filterQuality:
-                                                                FilterQuality
-                                                                    .low,
-                                                            fit: BoxFit.contain,
-                                                            width:
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width,
-                                                            loadingBuilder: (BuildContext
-                                                                    context,
-                                                                Widget child,
-                                                                ImageChunkEvent
-                                                                    loadingProgress) {
-                                                              if (loadingProgress ==
-                                                                  null)
-                                                                return child;
-                                                              return Shimmer
-                                                                  .fromColors(
+                                                                fileList: widget
+                                                                    .fileList,
+                                                                likeCount: widget
+                                                                    .likeCount,
+                                                                viewCount: widget
+                                                                    .viewCount,
+                                                                commentCount: widget
+                                                                    .commentCount,
+                                                                index: index,
+                                                                desc: widget
+                                                                    .description,
+                                                                userName: widget
+                                                                    .user_name,
+                                                                profilePath: widget
+                                                                    .profile_path,
+                                                                time: calculateTimeDifferenceBetween(
+                                                                    DateTime.parse(date
+                                                                        .toString()
+                                                                        .substring(
+                                                                            0,
+                                                                            19)),
+                                                                    now),
+                                                              );
+                                                            },
+                                                            child:
+                                                                CachedNetworkImage(
+                                                              imageUrl:
+                                                                  "${widget.fileList![index]}",
+                                                              progressIndicatorBuilder:
+                                                                  (context, url,
+                                                                          downloadProgress) =>
+                                                                      Shimmer
+                                                                          .fromColors(
                                                                 baseColor: Color(
                                                                     0xffe6e4e6),
                                                                 highlightColor:
                                                                     Color(
                                                                         0xffeaf0f3),
-                                                                child:
-                                                                    Container(
+                                                                child: Container(
                                                                   height: double
                                                                       .infinity,
-                                                                  margin: EdgeInsets.symmetric(
-                                                                      horizontal:
-                                                                          10,
-                                                                      vertical:
-                                                                          10),
+                                                                  margin: EdgeInsets
+                                                                      .symmetric(
+                                                                          horizontal:
+                                                                              10,
+                                                                          vertical:
+                                                                              10),
                                                                   width: MediaQuery.of(
                                                                           context)
                                                                       .size
@@ -777,40 +677,146 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                                                           BorderRadius.circular(
                                                                               6)),
                                                                 ),
+                                                              ),
+                                                              errorWidget:
+                                                                  (context, url,
+                                                                          error) =>
+                                                                      Icon(Icons
+                                                                          .error),
+                                                            ), // child: Image.network(
+                                                            // widget.fileList![
+                                                            //     index],
+                                                            //   filterQuality:
+                                                            //       FilterQuality
+                                                            //           .low,
+                                                            //   fit: BoxFit.fill,
+                                                            //   width:
+                                                            //       MediaQuery.of(
+                                                            //               context)
+                                                            //           .size
+                                                            //           .width,
+                                                            // ),
+                                                          )
+                                                        : InkWell(
+                                                            onTap: () {
+                                                              _displayDialog(
+                                                                context: context,
+                                                                imgUrl: widget
+                                                                        .fileList![
+                                                                    index],
+                                                                fileList: widget
+                                                                    .fileList,
+                                                                likeCount: widget
+                                                                    .likeCount,
+                                                                viewCount: widget
+                                                                    .viewCount,
+                                                                commentCount: widget
+                                                                    .commentCount,
+                                                                index: index,
+                                                                desc: widget
+                                                                    .description,
+                                                                userName: widget
+                                                                    .user_name,
+                                                                profilePath: widget
+                                                                    .profile_path,
+                                                                time: calculateTimeDifferenceBetween(
+                                                                    DateTime.parse(date
+                                                                        .toString()
+                                                                        .substring(
+                                                                            0,
+                                                                            19)),
+                                                                    now),
                                                               );
-                                                            } as Widget Function(
-                                                                BuildContext,
-                                                                Widget,
-                                                                ImageChunkEvent?)?,
-                                                          ))),
-                                  if (itemCount > 1)
-                                    Positioned(
-                                      child: Container(
-                                        height: 22,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 8, vertical: 2),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: Colors.black),
-                                        child: Center(
-                                          child: Text(
-                                            '${index + 1}/${itemCount}',
-                                            style: Styles.semiBoldWhite(),
+                                                            },
+                                                            child: Image.network(
+                                                              widget.fileList![
+                                                                  index],
+                                                              filterQuality:
+                                                                  FilterQuality
+                                                                      .low,
+                                                              fit: BoxFit.contain,
+                                                              width:
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width,
+                                                              loadingBuilder: (BuildContext
+                                                                      context,
+                                                                  Widget child,
+                                                                  ImageChunkEvent
+                                                                      loadingProgress) {
+                                                                if (loadingProgress ==
+                                                                    null)
+                                                                  return child;
+                                                                return Shimmer
+                                                                    .fromColors(
+                                                                  baseColor: Color(
+                                                                      0xffe6e4e6),
+                                                                  highlightColor:
+                                                                      Color(
+                                                                          0xffeaf0f3),
+                                                                  child:
+                                                                      Container(
+                                                                    height: double
+                                                                        .infinity,
+                                                                    margin: EdgeInsets.symmetric(
+                                                                        horizontal:
+                                                                            10,
+                                                                        vertical:
+                                                                            10),
+                                                                    width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width,
+                                                                    decoration: BoxDecoration(
+                                                                        color: Colors
+                                                                            .white,
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                                6)),
+                                                                  ),
+                                                                );
+                                                              } as Widget Function(
+                                                                  BuildContext,
+                                                                  Widget,
+                                                                  ImageChunkEvent?)?,
+                                                            ))),
+                                    if (itemCount > 1)
+                                      Positioned(
+                                        child: Container(
+                                          height: 22,
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 8, vertical: 2),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              color: Colors.black),
+                                          child: Center(
+                                            child: Text(
+                                              '${index + 1}/${itemCount}',
+                                              style: Styles.semiBoldWhite(),
+                                            ),
                                           ),
                                         ),
+                                        top: 8,
+                                        right: 8,
                                       ),
-                                      top: 8,
-                                      right: 8,
-                                    ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           )),
                     ]);
                   }),
             ),
-
+ Padding(
+                padding: const EdgeInsets.only(bottom: 7, left: 10),
+                child: ReadMoreText(text: '${widget.description ?? ''}')
+                // child: Text(
+                //   widget.description ?? '',
+                //   style: Styles.regular(size: 14, color: ColorConstants.BLACK),
+                // ),
+                ),
             ///Add New and changed on post card and fun pending on Api side---
             /*ConstrainedBox(
               constraints: BoxConstraints(
