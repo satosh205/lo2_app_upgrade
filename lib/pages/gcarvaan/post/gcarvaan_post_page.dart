@@ -448,6 +448,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                       comment_visible: false,
                       height: gcarvaanPosts[index].dimension.height,
                       width: gcarvaanPosts[index].dimension.width,
+                      resourceType: gcarvaanPosts[index].resourceType,
                     )
                   : Container();
             })

@@ -41,6 +41,7 @@ class GCarvaanCardPost extends StatefulWidget {
   final int? contentId;
   final List<String>? fileList;
   final GCarvaanListModel? value;
+  final String? resourceType;
 
   // final Widget child;
 
@@ -60,7 +61,7 @@ class GCarvaanCardPost extends StatefulWidget {
       this.contentId,
       this.fileList,
       this.height,this.width,
-      this.value});
+      this.value, this.resourceType});
 
   @override
   _GCarvaanCardPostState createState() => _GCarvaanCardPostState();
@@ -75,10 +76,12 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
   // Download download = new Download();
   FlickManager? flickManager;
 
+  double videoHeight = 0.0;
+
   @override
   void initState() {
     super.initState();
-
+    videoHeight = double.parse('${widget.height}') / 2;
     setValues();
   }
 
@@ -500,7 +503,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
               ),
             ),
            
-            ConstrainedBox(
+            /*ConstrainedBox(
               constraints: BoxConstraints(
                 minHeight: 360,
                 maxHeight :double.parse('${widget.height}'),
@@ -808,8 +811,9 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                           )),
                     ]);
                   }),
-            ),
- Padding(
+            ),*/
+
+            Padding(
                 padding: const EdgeInsets.only(bottom: 7, left: 10),
                 child: ReadMoreText(text: '${widget.description ?? ''}')
                 // child: Text(
@@ -817,10 +821,15 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                 //   style: Styles.regular(size: 14, color: ColorConstants.BLACK),
                 // ),
                 ),
+
+            Text(widget.height.toString()),
+
+
             ///Add New and changed on post card and fun pending on Api side---
-            /*ConstrainedBox(
+            ConstrainedBox(
               constraints: BoxConstraints(
-                minHeight: 360.0,),
+                minHeight: 360.0,
+                  maxHeight: widget.resourceType!.endsWith('video') ? videoHeight : 410),
               child: PageView.builder(
                   scrollDirection: Axis.horizontal,
                   controller:
@@ -836,7 +845,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                               widget.fileList![index].contains('.mov') ==
                                   true
                               ? BoxConstraints(
-                            minHeight: 360,
+                            //minHeight: 360,
                             //maxHeight: 420,
                           ): BoxConstraints(
                             minHeight: 360,
@@ -1119,7 +1128,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                           )),
                     ]);
                   }),
-            ),*/
+            ),
 
             Padding(
                 padding:
