@@ -111,6 +111,7 @@ class GCarvaanPostElement extends ChangeNotifier {
     this.isAttempt,
     this.userSubmittedFile,
     this.userSubmittedMultipleFile,
+    this.dimension
   });
 
   int? id;
@@ -149,6 +150,7 @@ class GCarvaanPostElement extends ChangeNotifier {
   int? isAttempt;
   String? userSubmittedFile;
   List<dynamic>? userSubmittedMultipleFile;
+  Dimension? dimension;
 
   factory GCarvaanPostElement.fromJson(Map<String, dynamic> json) =>
       GCarvaanPostElement(
@@ -189,6 +191,7 @@ class GCarvaanPostElement extends ChangeNotifier {
         multiFileUploadsCount: json["multi_file_uploads_count"],
         isAttempt: json["is_attempt"],
         userSubmittedFile: json["user_submitted_file"],
+        dimension: Dimension.fromJson(json["dimension"]),
         userSubmittedMultipleFile: List<dynamic>.from(
             json["user_submitted_multiple_file"].map((x) => x)),
       );
@@ -232,8 +235,32 @@ class GCarvaanPostElement extends ChangeNotifier {
         "user_submitted_file": userSubmittedFile,
         "user_submitted_multiple_file":
             List<dynamic>.from(userSubmittedMultipleFile!.map((x) => x)),
+
+             "dimension": dimension?.toJson(),
       };
 }
+
+
+class Dimension {
+    Dimension({
+        this.height,
+        this.width,
+    });
+
+    int? height;
+    int? width;
+
+    factory Dimension.fromJson(Map<String, dynamic> json) => Dimension(
+        height: json["height"],
+        width: json["width"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "height": height,
+        "width": width,
+    };
+}
+
 
 class GCarvaanListModel extends ChangeNotifier {
   List<GCarvaanPostElement>? _list = [];
@@ -244,15 +271,12 @@ class GCarvaanListModel extends ChangeNotifier {
   }
 
   void updateList(List<GCarvaanPostElement> newData) {
-    print('current len is ${this._list?.length}');
     this._list!.addAll(newData);
-    print('current len is after ${this._list?.length}');
 
        var seen = Set<GCarvaanPostElement>();
 List<GCarvaanPostElement> uniquelist = _list!.where((element) => seen.add(element)).toList();
 
  this._list = uniquelist;
-    print('current len is after filter ${this._list?.length}');
 
     notifyListeners();
   }
