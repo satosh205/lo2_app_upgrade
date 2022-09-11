@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
@@ -83,7 +85,11 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
   @override
   void initState() {
     super.initState();
-    //videoHeight = double.parse('${widget.height}') / 2.8;
+    if(Platform.isAndroid) {
+      videoHeight = double.parse('${widget.height}') / 2.8;
+    }else {
+      videoHeight = double.parse('${widget.height}') / 2.9;
+    }
     setValues();
   }
 
@@ -819,7 +825,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
             ConstrainedBox(
               constraints: BoxConstraints(
                 minHeight: 100.0,
-                  maxHeight: widget.resourceType!.endsWith('video') ? 200 : 410),
+                  maxHeight: widget.resourceType!.endsWith('video') ? double.parse('${widget.height ?? widget.dimension?.first.height}') / 2.8 : 410),
                   //maxHeight: 240),
 
               child: PageView.builder(
