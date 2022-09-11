@@ -239,7 +239,7 @@ class GCarvaanPostElement extends ChangeNotifier {
         "user_submitted_multiple_file":
             List<dynamic>.from(userSubmittedMultipleFile!.map((x) => x)),
 
-             "dimension": dimension?.toJson(),
+             "dimension": dimension == null ? null : dimension?.toJson(),
              "multi_file_uploads_dimension": List<dynamic>.from(multiFileUploadsDimension!.map((x) => x.toJson())),
       };
 }
