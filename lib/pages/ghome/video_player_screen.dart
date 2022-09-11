@@ -27,6 +27,7 @@ class CustomVideoPlayer extends StatefulWidget {
   final String? profilePath;
   final String? userName;
   final String? time;
+  final double? height;
 
   CustomVideoPlayer({
     Key? key,
@@ -43,6 +44,7 @@ class CustomVideoPlayer extends StatefulWidget {
     this.profilePath,
     this.userName,
     this.time,
+    this.height
   }) : super(key: key);
 
   @override
@@ -170,12 +172,15 @@ class VideoPlayerState extends State<CustomVideoPlayer> {
           }
         },
         child: Stack(children: [
-          FlickVideoPlayer(
-            flickVideoWithControls: FlickVideoWithControls(
-                 videoFit: BoxFit.cover,
-                ),
-            flickManager: flickManager!,
-            flickVideoWithControlsFullscreen: FlickToggleSoundAction(),
+          Container(
+            height:  widget.height,
+            child: FlickVideoPlayer(
+              flickVideoWithControls: FlickVideoWithControls(
+                   videoFit: BoxFit.cover,
+                  ),
+              flickManager: flickManager!,
+              flickVideoWithControlsFullscreen: FlickToggleSoundAction(),
+            ),
           ),
           if (widget.showPlayButton) Positioned.fill(child: isPlaying()),
           Positioned(

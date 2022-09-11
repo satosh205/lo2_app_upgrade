@@ -42,6 +42,7 @@ class GCarvaanCardPost extends StatefulWidget {
   final List<String>? fileList;
   final GCarvaanListModel? value;
   final String? resourceType;
+  final List<Dimension> ? dimension;
 
   // final Widget child;
 
@@ -61,6 +62,7 @@ class GCarvaanCardPost extends StatefulWidget {
       this.contentId,
       this.fileList,
       this.height,this.width,
+      this.dimension,
       this.value, this.resourceType});
 
   @override
@@ -817,7 +819,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
             ConstrainedBox(
               constraints: BoxConstraints(
                 minHeight: 100.0,
-                  maxHeight: widget.resourceType!.endsWith('video') ? double.parse('${widget.height}') / 2.8 : 410),
+                  maxHeight: widget.resourceType!.endsWith('video') ? double.parse('${widget.height ?? widget.dimension?.first.height}') / 2.8 : 410),
                   //maxHeight: 240),
 
               child: PageView.builder(
@@ -874,6 +876,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                         widget.commentCount != null
                                             ? widget.commentCount
                                             : 0,
+                                            height:  double.parse('${widget.height}') / 2.8,
                                         index: index,
                                         desc: widget.description,
                                         userName: widget.user_name,

@@ -111,7 +111,7 @@ class GCarvaanPostElement extends ChangeNotifier {
     this.isAttempt,
     this.userSubmittedFile,
     this.userSubmittedMultipleFile,
-    this.dimension
+    this.dimension,this.multiFileUploadsDimension
   });
 
   int? id;
@@ -151,6 +151,7 @@ class GCarvaanPostElement extends ChangeNotifier {
   String? userSubmittedFile;
   List<dynamic>? userSubmittedMultipleFile;
   Dimension? dimension;
+  List<Dimension>? multiFileUploadsDimension;
 
   factory GCarvaanPostElement.fromJson(Map<String, dynamic> json) =>
       GCarvaanPostElement(
@@ -192,6 +193,8 @@ class GCarvaanPostElement extends ChangeNotifier {
         isAttempt: json["is_attempt"],
         userSubmittedFile: json["user_submitted_file"],
         dimension: Dimension.fromJson(json["dimension"]),
+         multiFileUploadsDimension: List<Dimension>.from(json["multi_file_uploads_dimension"].map((x) => Dimension.fromJson(x))),
+       
         userSubmittedMultipleFile: List<dynamic>.from(
             json["user_submitted_multiple_file"].map((x) => x)),
       );
@@ -237,6 +240,7 @@ class GCarvaanPostElement extends ChangeNotifier {
             List<dynamic>.from(userSubmittedMultipleFile!.map((x) => x)),
 
              "dimension": dimension?.toJson(),
+             "multi_file_uploads_dimension": List<dynamic>.from(multiFileUploadsDimension!.map((x) => x.toJson())),
       };
 }
 
