@@ -81,7 +81,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
   @override
   void initState() {
     super.initState();
-    videoHeight = double.parse('${widget.height}') / 2.8;
+    //videoHeight = double.parse('${widget.height}') / 2.8;
     setValues();
   }
 
@@ -817,7 +817,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
             ConstrainedBox(
               constraints: BoxConstraints(
                 minHeight: 100.0,
-                  maxHeight: widget.resourceType!.endsWith('video') ? videoHeight : 410),
+                  maxHeight: widget.resourceType!.endsWith('video') ? double.parse('${widget.height}') / 2.8 : 410),
                   //maxHeight: 240),
 
               child: PageView.builder(
