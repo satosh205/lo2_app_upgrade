@@ -2517,18 +2517,19 @@ class _UserProfilePageState extends State<UserProfilePage>
   Future<String> _getImages(ImageSource source, String sourceType) async {
     if (sourceType == 'camera') {
       final picker = ImagePicker();
-      PickedFile? pickedFile = await picker.getImage(
-          source: source,
-          imageQuality: 70,
-      maxWidth: 350,
-      maxHeight: 350);
-      //XFile? pickedFile = await picker.pickImage(source: source, imageQuality: 60);
+      //PickedFile? pickedFile = await picker.getImage(source: ImageSource.camera,
+     /* PickedFile? pickedFile = await picker.getImage(source: ImageSource.camera,
+      maxWidth: 400,
+      maxHeight: 400);*/
+      XFile? pickedFile = await picker.pickImage(source: source, imageQuality: 60, maxWidth: 400,
+          maxHeight: 400);
       if (pickedFile != null) {
         return pickedFile.path;
       } else if (Platform.isAndroid) {
-        final LostData response = await picker.getLostData();
+        //final LostData response = await picker.getLostData();
+        final LostDataResponse response = await picker.retrieveLostData();
         if (response.file != null) {
-          return response.file!.path;
+           return response.file!.path;
         }
       }
       return "";
@@ -2547,6 +2548,7 @@ class _UserProfilePageState extends State<UserProfilePage>
       return "";
     }
   }
+
 
   Future<String> _cropImage(_pickedFile) async {
     if (_pickedFile != null) {
@@ -2643,7 +2645,9 @@ class _UserProfilePageState extends State<UserProfilePage>
                       if (clickSide.endsWith('profile')) {
                         if (value != null) {
                           selectedImage = value;
-                          selectedImage = await _cropImage(value);
+                          if(Platform.isIOS) {
+                            selectedImage = await _cropImage(value);
+                          }
                         }
                         if (selectedImage != null) {
                           Preference.setString(Preference.PROFILE_IMAGE, '${selectedImage}');
@@ -2684,9 +2688,15 @@ class _UserProfilePageState extends State<UserProfilePage>
                             if (clickSide.endsWith('profile')) {
                               if (value != null) {
                                 selectedImage = value;
-                                selectedImage = await _cropImage(value);
+                                if(Platform.isIOS) {
+                                  selectedImage = await _cropImage(value);
+                                }
                               }
-                               _updateUserProfileImage(selectedImage);
+                              if (selectedImage != null) {
+                                Preference.setString(Preference.PROFILE_IMAGE, '${selectedImage}');
+                                _updateUserProfileImage(selectedImage);
+                              }
+                               //_updateUserProfileImage(selectedImage);
 
                             } else {
                               setState(() {
