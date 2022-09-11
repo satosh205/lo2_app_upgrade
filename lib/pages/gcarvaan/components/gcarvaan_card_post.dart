@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +29,7 @@ class GCarvaanCardPost extends StatefulWidget {
   final String? profile_path;
   final String? user_name;
   final String date;
-  final int? height;
+   int? height;
   final int? width;
   final String? description;
   final int commentCount;
@@ -85,17 +83,21 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
   @override
   void initState() {
     super.initState();
-    if(Platform.isAndroid) {
-      videoHeight = double.parse('${widget.height}') / 2.8;
-    }else {
-      videoHeight = double.parse('${widget.height}') / 2.9;
-    }
     setValues();
   }
 
   void setValues() {
     // updateLikeandViews(null);
+
     setState(() {
+
+      if(widget.height == null) {
+widget.height = widget.dimension?.first.height;
+          videoHeight = double.parse('${widget.height}');
+      }
+      else
+    videoHeight = double.parse('${widget.height}') / 2.6;
+
       likeCount = widget.likeCount;
     });
   }
@@ -825,7 +827,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
             ConstrainedBox(
               constraints: BoxConstraints(
                 minHeight: 100.0,
-                  maxHeight: widget.resourceType!.endsWith('video') ? double.parse('${widget.height ?? widget.dimension?.first.height}') / 2.8 : 410),
+                  maxHeight: widget.resourceType!.endsWith('video') ? videoHeight : 410),
                   //maxHeight: 240),
 
               child: PageView.builder(
@@ -882,7 +884,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                         widget.commentCount != null
                                             ? widget.commentCount
                                             : 0,
-                                            height:  double.parse('${widget.height}') / 2.8,
+                                            height:  videoHeight,
                                         index: index,
                                         desc: widget.description,
                                         userName: widget.user_name,
