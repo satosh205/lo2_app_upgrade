@@ -2521,17 +2521,21 @@ class _UserProfilePageState extends State<UserProfilePage>
      /* PickedFile? pickedFile = await picker.getImage(source: ImageSource.camera,
       maxWidth: 400,
       maxHeight: 400);*/
-      XFile? pickedFile = await picker.pickImage(source: source, imageQuality: 60, maxWidth: 400,
-          maxHeight: 400);
+
+      /*XFile? pickedFile = await picker.pickImage(source: source, imageQuality: 60, maxWidth: 400,
+          maxHeight: 400);*/
+      final pickedFile = await ImagePicker()
+          .pickImage(source: ImageSource.camera, maxWidth: 400, maxHeight: 400);
       if (pickedFile != null) {
         return pickedFile.path;
-      } else if (Platform.isAndroid) {
+      } /*else if (Platform.isAndroid) {
         //final LostData response = await picker.getLostData();
         final LostDataResponse response = await picker.retrieveLostData();
         if (response.file != null) {
+           //return response.file!.path;
            return response.file!.path;
         }
-      }
+      }*/
       return "";
     } else {
       final picker = ImagePicker();
