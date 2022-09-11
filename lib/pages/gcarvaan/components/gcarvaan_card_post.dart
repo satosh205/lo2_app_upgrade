@@ -81,7 +81,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
   @override
   void initState() {
     super.initState();
-    videoHeight = double.parse('${widget.height}') / 2;
+    videoHeight = double.parse('${widget.height}') / 2.8;
     setValues();
   }
 
@@ -813,23 +813,13 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                   }),
             ),*/
 
-            Padding(
-                padding: const EdgeInsets.only(bottom: 7, left: 10),
-                child: ReadMoreText(text: '${widget.description ?? ''}')
-                // child: Text(
-                //   widget.description ?? '',
-                //   style: Styles.regular(size: 14, color: ColorConstants.BLACK),
-                // ),
-                ),
-
-            Text(widget.height.toString()),
-
-
             ///Add New and changed on post card and fun pending on Api side---
             ConstrainedBox(
               constraints: BoxConstraints(
-                minHeight: 360.0,
+                minHeight: 100.0,
                   maxHeight: widget.resourceType!.endsWith('video') ? videoHeight : 410),
+                  //maxHeight: 240),
+
               child: PageView.builder(
                   scrollDirection: Axis.horizontal,
                   controller:
@@ -845,10 +835,11 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                               widget.fileList![index].contains('.mov') ==
                                   true
                               ? BoxConstraints(
-                            //minHeight: 360,
+                            minHeight: 200,
                             //maxHeight: 420,
+                            //maxHeight: videoHeight,
                           ): BoxConstraints(
-                            minHeight: 360,
+                            minHeight: 200,
                             maxHeight: 410,
                           ),
                           child: VisibilityDetector(
@@ -1128,6 +1119,12 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                           )),
                     ]);
                   }),
+            ),
+
+
+            Padding(
+                padding: const EdgeInsets.only(bottom: 7, left: 10),
+                child: ReadMoreText(text: '${widget.description ?? ''}')
             ),
 
             Padding(

@@ -2525,7 +2525,7 @@ class _UserProfilePageState extends State<UserProfilePage>
       /*XFile? pickedFile = await picker.pickImage(source: source, imageQuality: 60, maxWidth: 400,
           maxHeight: 400);*/
       final pickedFile = await ImagePicker()
-          .pickImage(source: ImageSource.camera, maxWidth: 400, maxHeight: 400);
+          .pickImage(source: ImageSource.camera);
       if (pickedFile != null) {
         return pickedFile.path;
       } /*else if (Platform.isAndroid) {
@@ -2649,9 +2649,9 @@ class _UserProfilePageState extends State<UserProfilePage>
                       if (clickSide.endsWith('profile')) {
                         if (value != null) {
                           selectedImage = value;
-                          if(Platform.isIOS) {
+                          //if(Platform.isIOS) {
                             selectedImage = await _cropImage(value);
-                          }
+                          //}
                         }
                         if (selectedImage != null) {
                           Preference.setString(Preference.PROFILE_IMAGE, '${selectedImage}');
@@ -2692,9 +2692,9 @@ class _UserProfilePageState extends State<UserProfilePage>
                             if (clickSide.endsWith('profile')) {
                               if (value != null) {
                                 selectedImage = value;
-                                if(Platform.isIOS) {
+                                //if(Platform.isIOS) {
                                   selectedImage = await _cropImage(value);
-                                }
+                                //}
                               }
                               if (selectedImage != null) {
                                 Preference.setString(Preference.PROFILE_IMAGE, '${selectedImage}');
