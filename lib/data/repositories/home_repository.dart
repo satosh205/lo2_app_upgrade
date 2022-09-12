@@ -10,6 +10,7 @@ import 'package:masterg/data/models/request/home_request/track_announcement_requ
 import 'package:masterg/data/models/request/home_request/user_program_subscribe.dart';
 import 'package:masterg/data/models/request/save_answer_request.dart';
 import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
+import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/data/models/response/general_resp.dart';
 import 'package:masterg/data/models/response/home_response/assignment_submissions_response.dart';
 import 'package:masterg/data/models/response/home_response/category_response.dart';
@@ -36,6 +37,7 @@ import 'package:masterg/data/models/response/home_response/map_interest_response
 import 'package:masterg/data/models/response/home_response/master_language_response.dart';
 import 'package:masterg/data/models/response/home_response/my_assessment_response.dart';
 import 'package:masterg/data/models/response/home_response/my_assignment_response.dart';
+import 'package:masterg/data/models/response/home_response/notification_resp.dart';
 import 'package:masterg/data/models/response/home_response/onboard_sessions.dart';
 import 'package:masterg/data/models/response/home_response/popular_courses_response.dart';
 import 'package:masterg/data/models/response/home_response/post_comment_response.dart';
@@ -50,9 +52,11 @@ import 'package:masterg/data/models/response/home_response/test_review_response.
 import 'package:masterg/data/models/response/home_response/topics_resp.dart';
 import 'package:masterg/data/models/response/home_response/update_user_profile_response.dart';
 import 'package:masterg/data/models/response/home_response/user_analytics_response.dart';
+import 'package:masterg/data/models/response/home_response/user_info_response.dart';
 import 'package:masterg/data/models/response/home_response/user_profile_response.dart';
 import 'package:masterg/data/models/response/home_response/user_program_subscribe_reponse.dart';
 import 'package:masterg/data/providers/home_provider.dart';
+import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/user_profile_page/model/MasterBrand.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/constant.dart';
@@ -65,6 +69,38 @@ class HomeRepository {
   HomeRepository({required this.homeProvider});
 
   final HomeProvider homeProvider;
+
+  void saveUserInfo(UserInfoResponse user) {
+    if (user == null) return;
+
+    UserData? userData = user.data?.userData;
+    Preference.setInt(Preference.USER_ID, userData!.id!);
+    UserSession.userId = userData.id;
+
+    Preference.setInt(Preference.USER_COINS, userData.totalCoins!);
+    UserSession.userCoins = userData.totalCoins;
+
+    Preference.setString(Preference.USER_EMAIL, userData.email!);
+    UserSession.email = userData.email;
+
+    Preference.setString(Preference.DESIGNATION, userData.designation!);
+    UserSession.designation = userData.designation;
+
+    Preference.setString(Preference.USERNAME, userData.name!);
+    UserSession.userName = userData.name;
+
+    Preference.setString(Preference.PHONE, userData.mobileNo!);
+    UserSession.phone = userData.mobileNo;
+
+    Preference.setString(Preference.PROFILE_IMAGE, userData.profileImage!);
+    UserSession.userImageUrl = userData.profileImage;
+
+    Preference.setString(Preference.GENDER, userData.gender!);
+    UserSession.gender = userData.gender;
+
+    UserSession.userData = json.encode(userData.toJson()).toString();
+    Preference.setString(Preference.USER_DATA, UserSession.userData!);
+  }
 
   Future<MyAssessmentResponse> getMyAssessmentList() async {
     final response = await homeProvider.getMyAssessmentList();
@@ -120,6 +156,19 @@ class HomeRepository {
       return resp;
     } else {
       return UserProgramSubscribeRes();
+    }
+  }
+   Future<UserInfoResponse> getSwayamUserProfile() async {
+    final response = await homeProvider.getSwayamUserProfile();
+    if (response!.success) {
+      Log.v("Profile DATA : ${response.body}");
+      UserInfoResponse resp = UserInfoResponse.fromJson(response.body);
+      Log.v("Sucess DATA : ${resp.toJson()}");
+      saveUserInfo(resp);
+      return resp;
+    } else {
+      Log.v("====> ${response.body}");
+      return UserInfoResponse();
     }
   }
 
@@ -1015,6 +1064,19 @@ class HomeRepository {
       return GeneralResp(
           message:
               response.body == null ? "Something went wrong:" : response.body);
+    }
+  }
+
+    Future<NotificationResp?> getNotifications() async {
+    final response = await homeProvider.getNotifications();
+    if (response!.success) {
+      Log.v("ERROR DATA : ${response.body}");
+      NotificationResp notificationResp =
+          NotificationResp.fromJson(response.body);
+      return notificationResp;
+    } else {
+      Log.v("====> ${response.body}");
+      return NotificationResp();
     }
   }
     Future<GeneralResp?> submitPoll({PollSubmitRequest? submitSurveyReq}) async {

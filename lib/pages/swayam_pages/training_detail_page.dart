@@ -8,7 +8,6 @@ import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/training_detail_response.dart';
 import 'package:masterg/data/providers/training_content_provider.dart';
 import 'package:masterg/data/providers/training_detail_provider.dart';
-import 'package:masterg/pages/custom_pages/card_loader.dart';
 import 'package:masterg/pages/custom_pages/common_container.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 // import 'package:masterg/pages/home_pages/notification_list_page.dart';

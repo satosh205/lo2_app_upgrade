@@ -15,16 +15,16 @@ class TrainingDetailProvider extends BaseState {
 
   //TrainingDetailResponse trainingDetailResponse;
   String description = '';
-  List<Modules> modules = [];
+  List<Modules>? modules = [];
   ApiStatus apiStatus = ApiStatus.LOADING;
 
-  TrainingDetailProvider(@required this.trainingService, this.program) {
+  TrainingDetailProvider( this.trainingService, this.program) {
     getTraningDetail();
   }
 
   void getTraningDetail() {
     box = Hive.box(DB.TRAININGS);
-    if (box?.get('${program?.id.toString()}"MOD"') != null) {
+    if (box?.get('${program?.id}MOD') != null) {
       modules = box
           ?.get("${program?.id}MOD")
           .map((e) => Modules.fromJson(Map<String, dynamic>.from(e)))
@@ -40,14 +40,14 @@ class TrainingDetailProvider extends BaseState {
         TrainingDetailResponse trainingDetailResponse =
             TrainingDetailResponse.fromJson(response.body);
         box?.put(
-            "${program?.id.toString()}MOD",
+            '${program?.id}MOD',
             trainingDetailResponse.data?.list?.first.modules
-                !.map((e) => e.toJson())
+                ?.map((e) => e.toJson())
                 .toList());
         box?.put("${program?.id}DESC",
             trainingDetailResponse.data?.list?.first.description);
         description = '${trainingDetailResponse.data?.list?.first.description}';
-        modules = trainingDetailResponse.data!.list!.first.modules!;
+        modules = trainingDetailResponse.data?.list?.first.modules;
         debugPrint(
             'sdf s sdf sd  ---- ${trainingDetailResponse.data?.list?.length}');
         apiStatus = ApiStatus.SUCCESS;

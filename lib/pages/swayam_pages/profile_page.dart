@@ -8,11 +8,11 @@ import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/data/models/response/home_response/get_content_resp.dart';
 // import 'package:masterg/pages/account_pages/address_screen.dart';
 // import 'package:masterg/pages/announecment_pages/announcemnt_details_page.dart';
-import 'package:masterg/pages/auth_pages/sign_up_screen.dart';
 import 'package:masterg/pages/custom_pages/card_loader.dart';
 import 'package:masterg/pages/custom_pages/common_container.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/notification_list_page.dart';
+import 'package:masterg/pages/swayam_pages/sign_up_screen.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
@@ -299,7 +299,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return CommonContainer(
       child: _content(),
       isDrawerEnable: true,
-      isBackShow: false,
+      isBackShow: true,
       isNotification: true,
       onSkipClicked: () {
         Navigator.push(context, NextPageRoute(NotificationListPage()));

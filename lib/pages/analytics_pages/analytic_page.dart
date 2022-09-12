@@ -80,8 +80,8 @@ class _AnalyticPageState extends State<AnalyticPage> {
 
   _verticalList() {
     return CommonContainer(
-      isBackShow: false,
-      isDrawerEnable: widget.drawerWidget != null,
+      isBackShow: true,
+      isDrawerEnable: true,
       drawerWidget: widget.drawerWidget,
       child: _mainBody(),
       isContainerHeight: !_isLoading ? false : true,

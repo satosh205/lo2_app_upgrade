@@ -4,8 +4,10 @@ import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
+import 'package:masterg/pages/feedback_page.dart';
 import 'package:masterg/pages/notification_list_page.dart';
 import 'package:masterg/pages/swayam_pages/login_screen.dart';
+import 'package:masterg/pages/swayam_pages/profile_page.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/images.dart';
@@ -162,21 +164,67 @@ class CommonContainer extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: 80,
       padding: EdgeInsets.symmetric(horizontal: 10),
-      margin: EdgeInsets.only(top: 20),
+      margin:isDrawerEnable == false ? null :  EdgeInsets.only(top: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
             onTap: (){
-              Navigator.pop(context);
+  if(isBackShow == true)  Navigator.pop(context);
+       else    showDialog(
+  context: context,
+  builder: (_) => new AlertDialog(
+  shape: RoundedRectangleBorder(
+    borderRadius:
+      BorderRadius.all(
+        Radius.circular(10.0))),
+    content: Builder(
+      builder: (context) {
+        // Get available height and width of the build area of this widget. Make a choice depending on the size.                              
+        var height = MediaQuery.of(context).size.height * 0.55;
+        var width = MediaQuery.of(context).size.width;
+
+        return Container(
+          height: height - 20,
+          width: width - 20,
+          child: SingleChildScrollView(child: Column(children: [
+             ListTile(
+          title: const Text('Idea Factory'),
+          onTap: () {
+           
+            Navigator.push(
+                context,
+                NextPageRoute(FeedBackPage(
+                  isViewAll: true,
+                ))).then((value) =>   Navigator.pop(context));
+               
+          },
+        ),
+           ListTile(
+          title: const Text('Profile 5'),
+          onTap: () {
+            Navigator.push(context, NextPageRoute(ProfilePage()));
+          },
+        ),
+        ListTile(
+          title: const Text('Logout'),
+          onTap: () {
+             Preference.clearPref().then((value) {
+              Navigator.pushAndRemoveUntil(
+                  context, NextPageRoute(LoginScreen()), (route) => false);
+            });
+          },
+        ),
+          ],)),
+        );
+      },
+    ),
+  )
+);
+
+      
             },
-              // onTap: isDrawerEnable
-              //     ? () {
-              //         FirebaseAnalytics()
-              //             .logEvent(name: "drawer_opened", parameters: null);
-              //         _scaffoldKey.currentState.openDrawer();
-              //       }
-              //     : onBackPressed,
+           
               child: isBackShow!
                   ? isDrawerEnable
                       ? Image(
@@ -208,19 +256,16 @@ class CommonContainer extends StatelessWidget {
           isNotification == true
               ? InkWell(
                   onTap: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (BuildContext context) =>
-                    //             NotificationListPage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                NotificationListPage()));
 
                     print("HeRE1");
-            UserSession.clearSession();
+            // UserSession.clearSession();
 
-            Preference.clearPref().then((value) {
-              Navigator.pushAndRemoveUntil(
-                  context, NextPageRoute(LoginScreen()), (route) => false);
-            });
+          
                     // if (onSkipClicked != null) onSkipClicked!();
                   },
                   child: Container(

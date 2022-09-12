@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_constants.dart';
@@ -22,6 +23,7 @@ import 'package:masterg/utils/resource/images.dart';
 import 'package:masterg/utils/utility.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class TrainingCourses extends StatefulWidget {
   bool? isViewAll;
@@ -115,17 +117,19 @@ class _TrainingCoursesState extends State<TrainingCourses> {
     return InkWell(
       onTap: () {
         Log.v(item.toJson());
-           Navigator.push(
-            context,
-            NextPageRoute(ChangeNotifierProvider<TrainingDetailProvider>(
-                create: (context) =>
-                    TrainingDetailProvider(TrainingService(ApiService()), item),
-                child: TrainingDetailPage())));
+
+        Navigator.push(context, NextPageRoute(TrainingDetailPage()));
+          //  Navigator.push(
+          //   context,
+          //   NextPageRoute(ChangeNotifierProvider<TrainingDetailProvider>(
+          //       create: (context) =>
+          //           TrainingDetailProvider(TrainingService(ApiService()), item),
+          //       child: TrainingDetailPage())));
         // FirebaseAnalytics()
         //     .logEvent(name: "training_program_opened", parameters: null);
       },
       child: Padding(
-        padding: const EdgeInsets.only(right: 8),
+        padding: const EdgeInsets.only(right: 8), 
         child: Container(
           margin: EdgeInsets.only(bottom: widget.isViewAll == false ? 10 : 0),
           decoration: BoxDecoration(
@@ -146,15 +150,51 @@ class _TrainingCoursesState extends State<TrainingCourses> {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(12)),
-                      child: FadeInImage.assetNetwork(
-                        placeholder: Images.PLACE_HOLDER,
-                        image: '${item.image}',
-                        height: widget.isViewAll == true
+                      // child: FadeInImage.assetNetwork(
+                        
+                      //   placeholder: Images.PLACE_HOLDER,
+                      //   image: '${item.image}',
+                      //   height: widget.isViewAll == true
+                      //       ? MediaQuery.of(context).size.width / 1.68 - 60
+                      //       : 140,
+                      //   fit: BoxFit.cover,
+                      //   width: MediaQuery.of(context).size.width,
+                      // ),
+
+                      child: Image.network(
+                             '${item.image}',
+                                height: widget.isViewAll == true
+                            ? MediaQuery.of(context).size.width / 1.68 - 60
+                            : 140,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, url, error) {
+                                return Image.asset(
+                                   Images.PLACE_HOLDER,
+                                                         height: widget.isViewAll == true
                             ? MediaQuery.of(context).size.width / 1.68 - 60
                             : 140,
                         fit: BoxFit.cover,
                         width: MediaQuery.of(context).size.width,
-                      ),
+                                );
+                              },
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent? loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Shimmer.fromColors(
+                                  baseColor: Color(0xffe6e4e6),
+                                  highlightColor: Color(0xffeaf0f3),
+                                  child: Container(
+                                      height: 45,
+                                      margin: EdgeInsets.only(left: 2),
+                                      width: 45,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        shape: BoxShape.circle,
+                                      )),
+                                );
+                              },
+                            )
                     ),
                     Visibility(
                       child: Image(

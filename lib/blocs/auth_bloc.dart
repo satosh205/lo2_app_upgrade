@@ -13,6 +13,7 @@ import 'package:masterg/data/models/response/auth_response/verify_otp_resp.dart'
 import 'package:masterg/data/models/response/home_response/app_version_response.dart';
 import 'package:masterg/data/models/response/home_response/category_response.dart';
 import 'package:masterg/data/models/response/home_response/city_state_response.dart';
+import 'package:masterg/data/models/response/home_response/user_info_response.dart';
 import 'package:masterg/data/repositories/auth_repository.dart';
 import 'package:masterg/data/repositories/home_repository.dart';
 import 'package:masterg/utils/Log.dart';
@@ -197,6 +198,16 @@ class SwayamLoginState extends AuthState {
 }
 
 
+class SignUp extends AuthEvent {
+  final SignUpRequest? request;
+
+  SignUp({this.request}) : super([request]);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
+}
+
 class PvmSwayamLogin extends AuthEvent {
   final SwayamLoginRequest? request;
 
@@ -205,6 +216,19 @@ class PvmSwayamLogin extends AuthEvent {
   @override
   List<Object> get props => throw UnimplementedError();
 }
+
+class UserProfileState extends AuthState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  UserInfoResponse? response;
+  String? error;
+
+  UserProfileState(this.state, {this.response, this.error});
+}
+
+
+
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final authRepository = Injector.appInstance.get<AuthRepository>();
@@ -228,7 +252,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         yield LoginState(ApiStatus.ERROR, error: Strings.somethingWentWrong);
       }
     } 
-
+else if (event is UserProfileEvent) {
+      try {
+        yield UserProfileState(ApiStatus.LOADING);
+        final response = await homeRepository.getSwayamUserProfile();
+        if (response.data != null) {
+          yield UserProfileState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield UserProfileState(ApiStatus.ERROR,
+              error: Strings.somethingWentWrong);
+        }
+      } catch (e, stacktrace) {
+        Log.v("ERROR DATA : $e");
+        print(stacktrace);
+        yield UserProfileState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
+      }
+    }
     else if (event is PvmSwayamLogin) {
       try {
         yield SwayamLoginState(ApiStatus.LOADING);

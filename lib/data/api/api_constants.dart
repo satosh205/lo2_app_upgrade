@@ -51,6 +51,7 @@ class ApiConstants {
   /// swayam language
 
   static const USER_PROFILE_API = "/api/profilev1";
+  static const USER_PROFILE_SWAYAM_API = "api/joy/profile";
   static const USER_PROFILE_IMAGE_API = "/api/profile-update_v1";
 
   static const GET_PARTNER_API = "api/joy/rewards/partner_benefits";
@@ -102,6 +103,8 @@ class ApiConstants {
   static const ANNOUNCEMENT_TYPE = "Announcement";
   static const TRAININGS = "Trainings";
   static const settings = "/api/settings";
+  static const NOTIFICATION_API = "api/joy/notifications";
+
 
   static const SWAYAM = 3;
 

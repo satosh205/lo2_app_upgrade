@@ -133,6 +133,9 @@ class _LoginScreenState extends State<LoginScreen> {
     BlocProvider.of<HomeBloc>(context).add((GetBottomNavigationBarEvent()));
   }
 
+  void _getUserProfile() {
+    BlocProvider.of<AuthBloc>(context).add(UserProfileEvent());
+  }
   void _handelBottomNavigationBar(GetBottomBarState state) {
     var getBottomBarState = state;
     setState(() {
@@ -143,7 +146,10 @@ class _LoginScreenState extends State<LoginScreen> {
           break;
         case ApiStatus.SUCCESS:
           Log.v("Success....................");
+          _getUserProfile();
+
           menuList = state.response!.data!.menu;
+          
 
           if (menuList?.length == 0) {
             AlertsWidget.alertWithOkBtn(
@@ -196,6 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
           UserSession.userImageUrl = state.response?.data?.user?.profileImage;
           UserSession.socialEmail = state.response?.data?.user?.email;
           UserSession.userType = state.response?.data?.user?.isTrainer;
+          // UserSession.userDAta = state.response?.data?.user?.isTrainer;
           /*UserSession.userContentLanguageId = 1;
           UserSession.userAppLanguageId = 1;*/
           Preference.setString(

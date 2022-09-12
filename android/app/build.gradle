@@ -48,7 +48,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.at.masterg"
+        applicationId "com.at.perfetti_swayam"
         minSdkVersion 24
         targetSdkVersion 31
         versionCode 4

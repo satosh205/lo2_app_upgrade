@@ -46,7 +46,7 @@ class _NotificationListPageState extends State<NotificationListPage> {
         },
         child: Builder(builder: (_context) {
           return CommonContainer(
-            child: !_isLoading ? _content() : Text('Loading'),
+            child: _isLoading == false ? _content() : Text('Loading'),
             isDrawerEnable: widget.drawerWidget != null,
             isBackShow: false,
             onBackPressed: () {
@@ -126,13 +126,14 @@ class _NotificationListPageState extends State<NotificationListPage> {
       switch (loginState.apiState) {
         case ApiStatus.LOADING:
           Log.v("Loading....................");
-          _isLoading = false;
+          _isLoading = true;
           break;
         case ApiStatus.SUCCESS:
           Log.v("Success....................Notification");
           _isLoading = false;
           _userTrack();
           notificationList = state.response?.data?.list;
+            _isLoading = false;
           break;
         case ApiStatus.ERROR:
           _isLoading = false;

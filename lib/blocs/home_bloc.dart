@@ -1250,7 +1250,26 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield SurveyDataState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }
-    } else if (event is ActivityAttemptEvent) {
+    }
+    else if (event is NotificationListEvent) {
+      try {
+        yield NotificationState(ApiStatus.LOADING);
+        final response = await homeRepository.getNotifications();
+        if (response?.data != null) {
+          yield NotificationState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield NotificationState(ApiStatus.ERROR,
+              error: Strings.somethingWentWrong);
+        }
+      } catch (e) {
+        Log.v("ERROR DATA : $e");
+        yield NotificationState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
+      }
+    } 
+    
+     else if (event is ActivityAttemptEvent) {
       try {
         yield ActivityAttemptState(ApiStatus.LOADING);
         final response = await homeRepository.activityAttempt(
