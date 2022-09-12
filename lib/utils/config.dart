@@ -15,6 +15,7 @@ const APK_DETAILS = {
   "policy_url": "https://qa.learningoxygen.com/policy"
 };
 
+
 // const APK_DETAILS = {
 //   "app_name": "PVM Swayam",
 //   "package_name": "com.at.perfetti_swayam",
