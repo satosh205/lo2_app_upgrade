@@ -1132,9 +1132,8 @@ widget.height = widget.dimension?.first.height;
                   }),
             ),
 
-
             Padding(
-                padding: const EdgeInsets.only(bottom: 7, left: 10),
+                padding: const EdgeInsets.only(bottom: 7, left: 10, top: 13),
                 child: ReadMoreText(text: '${widget.description ?? ''}')
             ),
 
