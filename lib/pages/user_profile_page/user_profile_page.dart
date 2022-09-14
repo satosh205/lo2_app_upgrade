@@ -1470,6 +1470,16 @@ class _UserProfilePageState extends State<UserProfilePage>
                           // SizedBox(
                           //   height: 10,
                           // ),
+
+                          selectedBrandPath != null &&
+                              selectedBrandPath!.isNotEmpty
+                              ? _selectedBrandLogo()
+                              : SizedBox(),
+
+                          SizedBox(
+                            height: 30,
+                          ),
+
                           GestureDetector(
                             onTap: () {
                               showBottomSheet(context, 'brand',
@@ -1492,7 +1502,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                             ),
                           ),
                           Text(
-                            '${Strings.of(context)?.supportedFormat} - .jpeg, .png',
+                            '${Strings.of(context)?.supportedFormat} - .jpeg, .png ...',
                             style: Styles.textExtraBold(
                                 size: 14,
                                 color: ColorConstants.GREY_3),
@@ -1503,13 +1513,13 @@ class _UserProfilePageState extends State<UserProfilePage>
                       )
                       : SizedBox(),
 
-                  SizedBox(
+                  /*SizedBox(
                     height: 20,
                   ),
                   selectedBrandPath != null &&
                       selectedBrandPath!.isNotEmpty
                       ? _selectedBrandLogo()
-                      : SizedBox(),
+                      : SizedBox(),*/
 
                   Align(
                       alignment: Alignment.bottomCenter,

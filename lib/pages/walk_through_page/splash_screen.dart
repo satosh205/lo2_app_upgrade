@@ -149,7 +149,7 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
                       });
                     });
 
-                AlertsWidget.alertWithOkCancelBtn(
+                /*AlertsWidget.alertWithOkCancelBtn(
                     context: context,
                     title: Strings.of(context)!.updateVersionTitle,
                     text: Strings.of(context)!.updateVersionText1,
@@ -162,7 +162,7 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
                       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                         _moveToNext();
                       });
-                    });
+                    });*/
               } else {
                 _moveToNext();
               }

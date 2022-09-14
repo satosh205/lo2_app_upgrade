@@ -166,11 +166,44 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
                               return Stack(children: [
                                 Container(
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      GestureDetector(
+                                      Stack(children: [
+                                        Container(
+                                          child: joyContentListResponse
+                                              .list![index]
+                                              .resourceType ==
+                                              'image'
+                                              ? Image.network(
+                                              '${joyContentListResponse.list![index].multiFileUploads![indexIn]}',
+                                fit: BoxFit.fitHeight,
+                                //height: MediaQuery.of(context).size.height * 0.87,
+                                width: double.infinity,
+                              ): joyContentListResponse
+                                              .list![index]
+                                              .resourceType ==
+                                              'video'
+                                              ? Container(
+                                            height: MediaQuery.of(
+                                                context)
+                                                .size
+                                                .height *
+                                                0.9,
+                                            child:
+                                            CustomVideoPlayer(
+                                              url: joyContentListResponse
+                                                  .list![index]
+                                                  .multiFileUploads![
+                                              indexIn],
+                                            ),
+                                          )
+                                              : Container(
+                                            height: 370,
+                                          ),
+                                        ),
+                                      ]),
+                                      /*GestureDetector(
                                         onTap: () {
                                           showModalBottomSheet(
                                               context: context,
@@ -309,7 +342,7 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
                                                       ),
                                           ),
                                         ]),
-                                      ),
+                                      ),*/
                                     ],
                                   ),
                                 ),

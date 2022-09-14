@@ -166,9 +166,6 @@ class _GHomeState extends State<GHome> {
                                                       currentIndex: index,
                                                     ));
                                               }));
-                                        
-
-                                         
                                         },
                                         child: Column(
                                           children: [
@@ -1333,8 +1330,6 @@ class _GHomeState extends State<GHome> {
                   width: double.infinity,
                   child: PageView.builder(
                       physics: NeverScrollableScrollPhysics(),
-
-                      // controller: ScrollController(initialScrollOffset: 2),
                       controller: controller,
                       scrollDirection: Axis.horizontal,
                       itemCount: joyCategoryList!.length,
