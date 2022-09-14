@@ -83,10 +83,14 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
       setState(() {
         isPostedLoading = true;
       });
+String? firstExtension = widget.fileToUpload?.first.filename?.split('/').last.split('.').last.toString();
+     bool isVideo =  false;
+
+    if(firstExtension == 'mp4' || firstExtension == 'mov'  )isVideo = true ;
 
       BlocProvider.of<HomeBloc>(context).add(CreatePostEvent(
           files: widget.fileToUpload,
-          contentType: 2,
+          contentType: isVideo == true ? 2 : 1,
           title: '',
           description: widget.desc,
           postType: 'caravan',
