@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/providers/notes_detail_provider.dart';
-import 'package:masterg/data/providers/training_content_provider.dart';
+// import 'package:masterg/data/providers/training_content_provider.dart';
 import 'package:masterg/pages/custom_pages/common_container.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/notification_list_page.dart';
 import 'package:masterg/pages/swayam_pages/notes_details_page.dart';
+import 'package:masterg/pages/swayam_pages/training_content_provider.dart';
 // import 'package:masterg/pages/home_pages/notification_list_page.dart';
 import 'package:masterg/pages/training_pages/custom_dialog.dart';
 // import 'package:masterg/pages/training_pages/notes_details_page.dart';
@@ -27,15 +28,17 @@ class TrainingContentPage extends StatelessWidget {
     final traininDetailProvider = Provider.of<TrainingContentProvier>(context);
     return SafeArea(
         child: Scaffold(
-      //  key: traininDetailProvider.scaffoldKey,
-      // resizeToAvoidBottomInset: false,
+       key: traininDetailProvider.scaffoldKey,
+      resizeToAvoidBottomInset: false,
       backgroundColor: ColorConstants.PRIMARY_COLOR,
       body: traininDetailProvider.trainingModuleResponse != null
           ? CommonContainer(
               child: Container(
                   width: MediaQuery.of(context).size.width,
-                  child: _content(traininDetailProvider)),
-              title: traininDetailProvider.modules.name,
+                  child: _content(traininDetailProvider)
+                  // child: _content(traininDetailProvider)
+                  ),
+              title: traininDetailProvider.modules?.name,
               isBackShow: true,
               isNotification: true,
               onSkipClicked: () {
@@ -51,30 +54,30 @@ class TrainingContentPage extends StatelessWidget {
     ));
   }
 
-  // Widget trainingModuleWidget(TrainingContentProvier traininDetailProvider) {
-  //   Widget trainingDetailWidget;
-  //   switch (traininDetailProvider.apiStatus) {
-  //     case ApiStatus.INITIAL:
-  //       trainingDetailWidget = Center(
-  //         child: CustomProgressIndicator(true, ColorConstants.GREY),
-  //       );
-  //       break;
-  //     case ApiStatus.LOADING:
-  //       trainingDetailWidget = Center(
-  //         child: CustomProgressIndicator(true, ColorConstants.GREY),
-  //       );
-  //       break;
-  //     case ApiStatus.SUCCESS:
-  //       trainingDetailWidget = _content(traininDetailProvider);
-  //       break;
-  //     case ApiStatus.ERROR:
-  //       trainingDetailWidget = Center(
-  //         child: Text('${traininDetailProvider.error}'),
-  //       );
-  //       break;
-  //   }
-  //   return trainingDetailWidget;
-  // }
+  Widget trainingModuleWidget(TrainingContentProvier traininDetailProvider) {
+    Widget trainingDetailWidget;
+    switch (traininDetailProvider.apiStatus) {
+      case ApiStatus.INITIAL:
+        trainingDetailWidget = Center(
+          child: CustomProgressIndicator(true, ColorConstants.GREY),
+        );
+        break;
+      case ApiStatus.LOADING:
+        trainingDetailWidget = Center(
+          child: CustomProgressIndicator(true, ColorConstants.GREY),
+        );
+        break;
+      case ApiStatus.SUCCESS:
+        trainingDetailWidget = _content(traininDetailProvider);
+        break;
+      case ApiStatus.ERROR:
+        trainingDetailWidget = Center(
+          child: Text('${traininDetailProvider.error}'),
+        );
+        break;
+    }
+    return trainingDetailWidget;
+  }
 
   Widget _content(TrainingContentProvier trainingDetailProvider) {
     return Padding(
@@ -119,51 +122,51 @@ class TrainingContentPage extends StatelessWidget {
       case 'scorm':
         title = '${Strings.of(mContext!)?.Scorm}';
         subTitle =
-            "${trainingDetailProvider.trainingModuleResponse.data?.module?.elementAt(0).content?.scorm?.length} ${Strings.of(mContext!)?.Scorm}";
+            "${trainingDetailProvider.trainingModuleResponse?.data?.module?.elementAt(0).content?.scorm?.length} ${Strings.of(mContext!)?.Scorm}";
         imagePath = Images.SCORM;
         break;
       case 'sessions':
         title = '${Strings.of(mContext!)?.Live_sessions}';
         subTitle =
-            "${trainingDetailProvider.trainingModuleResponse.data?.module?.elementAt(0).content?.sessions?.length} sessions";
+            "${trainingDetailProvider.trainingModuleResponse?.data?.module?.elementAt(0).content?.sessions?.length} sessions";
         imagePath = Images.LIVE_SESSIONS;
         break;
       case 'notes':
         // title = '${Strings.of(mContext!)?.Notes +" & "+Strings.of(mContext).Videos;
         title = '${Strings.of(mContext!)?.Notes} & ${Strings.of(mContext!)?.Videos}';
         subTitle =
-            "${trainingDetailProvider.trainingModuleResponse.data?.module?.elementAt(0).content?.learningShots?.length} note";
+            "${trainingDetailProvider.trainingModuleResponse?.data?.module?.elementAt(0).content?.learningShots?.length} note";
         imagePath = Images.NOTES;
         break;
       case 'assignments':
         title = '${Strings.of(mContext!)?.Assignment}';
         subTitle =
-            "${trainingDetailProvider.trainingModuleResponse.data?.module?.elementAt(0).content?.assignments?.length} assignment";
+            "${trainingDetailProvider.trainingModuleResponse?.data?.module?.elementAt(0).content?.assignments?.length} assignment";
         imagePath = Images.ASSIGNMENT;
         break;
       case 'assessments':
         title = "Assessment";
         subTitle =
-            "${trainingDetailProvider.trainingModuleResponse.data?.module?.elementAt(0).content?.assessments?.length} assessments";
+            "${trainingDetailProvider.trainingModuleResponse?.data?.module?.elementAt(0).content?.assessments?.length} assessments";
         imagePath = Images.ASSIGNMENT;
         break;
       case 'polls':
         title = "Polls";
         subTitle =
-            "${trainingDetailProvider.trainingModuleResponse.data?.module?.elementAt(0).content?.polls?.length} poll";
+            "${trainingDetailProvider.trainingModuleResponse?.data?.module?.elementAt(0).content?.polls?.length} poll";
         imagePath = Images.SURVEY;
         break;
       case 'survey':
         title = '${Strings.of(mContext!)?.survey}';
         subTitle =
-            "${trainingDetailProvider.trainingModuleResponse.data?.module?.elementAt(0).content?.survey?.length} survey";
+            "${trainingDetailProvider.trainingModuleResponse?.data?.module?.elementAt(0).content?.survey?.length} survey";
         imagePath = Images.SURVEY;
         break;
     }
     return InkWell(
       onTap: () {
         if (type == 'sessions') {
-          if (trainingDetailProvider.trainingModuleResponse.data?.module
+          if (trainingDetailProvider.trainingModuleResponse?.data?.module
                   ?.elementAt(0)
                   .content
                   ?.sessions?.isNotEmpty == true)
@@ -173,14 +176,14 @@ class TrainingContentPage extends StatelessWidget {
                   return CustomDialogBox(
                     type: 'Live Sessions',
                     data: trainingDetailProvider
-                        .trainingModuleResponse.data?.module
+                        .trainingModuleResponse?.data?.module
                         ?.elementAt(0)
                         .content,
                     imagePath: imagePath,
                   );
                 });
         } else if (type == 'polls') {
-          if (trainingDetailProvider.trainingModuleResponse.data?.module
+          if (trainingDetailProvider.trainingModuleResponse?.data?.module
                   ?.elementAt(0)
                   .content
                   ?.assessments
@@ -191,14 +194,14 @@ class TrainingContentPage extends StatelessWidget {
                   return CustomDialogBox(
                     type: 'Polls',
                     data: trainingDetailProvider
-                        .trainingModuleResponse.data?.module
+                        .trainingModuleResponse?.data?.module
                         ?.elementAt(0)
                         .content,
                     imagePath: imagePath,
                   );
                 });
         } else if (type == 'assignments') {
-          if (trainingDetailProvider.trainingModuleResponse.data?.module
+          if (trainingDetailProvider.trainingModuleResponse?.data?.module
                   ?.elementAt(0)
                   .content
                   ?.assignments
@@ -209,14 +212,14 @@ class TrainingContentPage extends StatelessWidget {
                   return CustomDialogBox(
                     type: 'Assignment',
                     data: trainingDetailProvider
-                        .trainingModuleResponse.data?.module
+                        .trainingModuleResponse?.data?.module
                         ?.elementAt(0)
                         .content,
                     imagePath: imagePath,
                   );
                 });
         } else if (type == 'notes') {
-          if (trainingDetailProvider.trainingModuleResponse.data?.module
+          if (trainingDetailProvider.trainingModuleResponse?.data?.module
                   ?.elementAt(0)
                   .content
                   ?.learningShots
@@ -228,14 +231,14 @@ class TrainingContentPage extends StatelessWidget {
                         create: (context) => NotesDetailProvider(
                             TrainingService(ApiService()),
                             trainingDetailProvider
-                                .trainingModuleResponse.data?.module
+                                .trainingModuleResponse?.data?.module
                                 ?.elementAt(0)
                                 .content
                                 ?.learningShots),
                         child: NotesDetailsPage()),
                     isMaintainState: true));
         } else if (type == 'scorm') {
-          if (trainingDetailProvider.trainingModuleResponse.data?.module
+          if (trainingDetailProvider.trainingModuleResponse?.data?.module
                   ?.elementAt(0)
                   .content
                   ?.scorm
@@ -246,14 +249,14 @@ class TrainingContentPage extends StatelessWidget {
                   return CustomDialogBox(
                     type: 'Scorm',
                     data: trainingDetailProvider
-                        .trainingModuleResponse.data?.module
+                        .trainingModuleResponse?.data?.module
                         ?.elementAt(0)
                         .content,
                     imagePath: imagePath,
                   );
                 });
         } else if (type == 'survey') {
-          if (trainingDetailProvider.trainingModuleResponse.data?.module
+          if (trainingDetailProvider.trainingModuleResponse?.data?.module
                   ?.elementAt(0)
                   .content
                   ?.survey
@@ -264,14 +267,14 @@ class TrainingContentPage extends StatelessWidget {
                   return CustomDialogBox(
                     type: 'Survey',
                     data: trainingDetailProvider
-                        .trainingModuleResponse.data?.module
+                        .trainingModuleResponse?.data?.module
                         ?.elementAt(0)
                         .content,
                     imagePath: imagePath,
                   );
                 });
         } else if (type == 'assessments') {
-          if (trainingDetailProvider.trainingModuleResponse.data?.module
+          if (trainingDetailProvider.trainingModuleResponse?.data?.module
                   ?.elementAt(0)
                   .content
                   ?.assessments
@@ -282,7 +285,7 @@ class TrainingContentPage extends StatelessWidget {
                   return CustomDialogBox(
                     type: 'Assessments',
                     data: trainingDetailProvider
-                        .trainingModuleResponse.data?.module
+                        .trainingModuleResponse?.data?.module
                         ?.elementAt(0)
                         .content,
                     imagePath: imagePath,

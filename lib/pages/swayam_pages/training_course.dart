@@ -116,15 +116,15 @@ class _TrainingCoursesState extends State<TrainingCourses> {
   Widget _rowItem(Program item) {
     return InkWell(
       onTap: () {
-        Log.v(item.toJson());
 
-        Navigator.push(context, NextPageRoute(TrainingDetailPage()));
-          //  Navigator.push(
-          //   context,
-          //   NextPageRoute(ChangeNotifierProvider<TrainingDetailProvider>(
-          //       create: (context) =>
-          //           TrainingDetailProvider(TrainingService(ApiService()), item),
-          //       child: TrainingDetailPage())));
+
+     
+           Navigator.push(
+            context,
+            NextPageRoute(ChangeNotifierProvider<TrainingDetailProvider>(
+                create: (context) =>
+                    TrainingDetailProvider(TrainingService(ApiService()), item),
+                child: TrainingDetailPage())));
         // FirebaseAnalytics()
         //     .logEvent(name: "training_program_opened", parameters: null);
       },
@@ -163,6 +163,7 @@ class _TrainingCoursesState extends State<TrainingCourses> {
 
                       child: Image.network(
                              '${item.image}',
+                              width: MediaQuery.of(context).size.width,
                                 height: widget.isViewAll == true
                             ? MediaQuery.of(context).size.width / 1.68 - 60
                             : 140,
@@ -247,7 +248,7 @@ class _TrainingCoursesState extends State<TrainingCourses> {
                           child: Visibility(
                             visible: true,
                             child: CircularPercentIndicator(
-                              radius: 40,
+                              radius: 20,
                               lineWidth: 2.0,
                               percent: item.completion! / 100,
                               backgroundColor: ColorConstants.GREY,

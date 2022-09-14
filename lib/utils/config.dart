@@ -25,7 +25,7 @@ const APK_DETAILS = {
   "nlms_api_key": "0612b32b39f4b29f48c5c5363028ee916bb99422",
   "domain_url": "https://stage.learningoxygen.com/",
   "enable_boarding_screen": "0",
-  "splash_image": "masterg_logo.svg",
+  "splash_image": "swayam_splash_new.png",
   "isBrandEnabled": "1",
   "faqEnabled": "0",
   "policy_url": "https://qa.learningoxygen.com/policy"

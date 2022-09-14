@@ -273,7 +273,7 @@ class _SharePostState extends State<SharePost> {
       });
       BlocProvider.of<HomeBloc>(context).add(CreatePostEvent(
           files: widget.fileToUpload,
-          contentType: 1,
+          contentType: 2,
           title: '',
           description: postDescriptionController.value.text,
           postType: 'reels',

@@ -1,23 +1,24 @@
 // import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:masterg/pages/notification_list_page.dart';
-import 'package:masterg/pages/swayam_pages/training_content_page.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/training_detail_response.dart';
-import 'package:masterg/data/providers/training_content_provider.dart';
-import 'package:masterg/data/providers/training_detail_provider.dart';
+// import 'package:masterg/data/providers/training_content_provider.dart';
+// import 'package:masterg/data/providers/training_detail_provider.dart';
 import 'package:masterg/pages/custom_pages/common_container.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
-// import 'package:masterg/pages/home_pages/notification_list_page.dart';
-// import 'package:masterg/pages/training_pages/training_content_page.dart';
-import 'package:masterg/pages/training_pages/training_service.dart';
+import 'package:masterg/pages/notification_list_page.dart';
+import 'package:masterg/pages/swayam_pages/training_content_page.dart';
+import 'package:masterg/pages/swayam_pages/training_content_provider.dart';
+import 'package:masterg/pages/swayam_pages/training_detail_provider.dart';
+import 'package:masterg/pages/swayam_pages/training_service.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/custom_progress_indicator.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:masterg/utils/resource/images.dart';
 import 'package:masterg/utils/utility.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 
 class TrainingDetailPage extends StatelessWidget {
@@ -184,7 +185,7 @@ class TrainingDetailPage extends StatelessWidget {
       child: InkWell(
         onTap: () {
           Navigator.push(
-              trainingDetailProvider.scaffoldKey.currentContext!,
+              trainingDetailProvider.scaffoldKey.currentContext! ,
               NextPageRoute(
                   ChangeNotifierProvider<TrainingContentProvier>(
                       create: (context) => TrainingContentProvier(
@@ -220,6 +221,15 @@ class TrainingDetailPage extends StatelessWidget {
                         '${module.image}',
                         height: 57.0,
                         width: 57.0,
+                        errorBuilder: (context, url, error) {
+                                return Image.asset(
+                                   Images.PLACE_HOLDER,
+                                                          height: 60,
+                        width: 60,
+                        fit: BoxFit.cover,
+                       
+                                );
+                              },
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -256,7 +266,7 @@ class TrainingDetailPage extends StatelessWidget {
                   children: [
                     Container(
                       child: CircularPercentIndicator(
-                        radius: 40,
+                        radius: 20,
                         lineWidth: 2.0,
                         percent: module.completion is int
                             ? (module.completion as int) / 100

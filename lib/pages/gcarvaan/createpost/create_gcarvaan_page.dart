@@ -332,10 +332,14 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
     setState(() {
       isPostedLoading = true;
     });
+
+    String? firstExtension = widget.fileToUpload?.first.filename?.split('/').last.split('.').last.toString();
+     bool isVideo =  false;
     if (!widget.isReelsPost) {
+      
       BlocProvider.of<HomeBloc>(context).add(CreatePostEvent(
           files: widget.fileToUpload,
-          contentType: 2,
+          contentType:isVideo == true ? 2  :1 ,
           title: '',
           description: '${postDescriptionController.value.text}',
           postType: 'caravan',
@@ -343,7 +347,7 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
     } else {
       BlocProvider.of<HomeBloc>(context).add(CreatePostEvent(
           files: widget.fileToUpload,
-          contentType: 1,
+          contentType: 2,
           title: '',
           description: postDescriptionController.value.text,
           postType: 'reels',
