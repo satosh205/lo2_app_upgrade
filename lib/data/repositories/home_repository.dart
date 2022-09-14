@@ -188,8 +188,8 @@ class HomeRepository {
   }
 
   Future<UpdateProfileImageResponse> updateUserProfileImage(
-      String? filePath) async {
-    final response = await homeProvider.updateUserProfileImage(filePath);
+      String? filePath, String? name, String? email) async {
+    final response = await homeProvider.updateUserProfileImage(filePath, name, email);
     if (response!.success) {
       Log.v("Profile DATA : ${response.body}");
       UpdateProfileImageResponse resp =

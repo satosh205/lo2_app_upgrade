@@ -57,11 +57,8 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
   @override
   void initState() {
     phoneController.text = widget.phoneNumber;
-    controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
-
-    offset = Tween<Offset>(begin: Offset.zero, end: Offset(0.0, 5.0))
-        .animate(controller);
+    controller = AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+    offset = Tween<Offset>(begin: Offset.zero, end: Offset(0.0, 5.0)).animate(controller);
     controller.forward();
     super.initState();
   }
