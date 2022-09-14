@@ -323,7 +323,8 @@ const EN_TEXT = {
   'toDate': 'To Date',
   'awards': 'Awards',
   'awardsAssociations': 'Award Associations',
-  'projects': 'Projects'
+  'projects': 'Projects',
+  'forYou': 'For You'
 };
 
 const TA_TEXT = {
@@ -1145,7 +1146,7 @@ const HI_TEXT = {
   "resend": "पुन: भेजें",
   "code_in": "ओटीपी पुनः भेजें",
   'change_phone_number': 'फ़ोन नंबर बदलें',
-  'select_categories': 'श्रेणियाँ चुनें',
+  'select_categories': 'श्रेणियों का चयन करें',
   'select_atleast_category': 'कम से कम 1 श्रेणी चुनें',
   'verification_title': 'भेजा गया ओटीपी दर्ज करें',
   'enter_full_name': 'पूरा नाम दर्ज करें',
@@ -1206,7 +1207,9 @@ const HI_TEXT = {
   'toDate': 'To Date',
   'awards': 'Awards',
   'awardsAssociations': 'Award Associations',
-  'projects': 'Projects'
+  'projects': 'Projects',
+  'forYou': 'आपके लिए'
+
 };
 
 const KN_TEXT = {

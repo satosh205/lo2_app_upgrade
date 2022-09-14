@@ -129,6 +129,7 @@ class Strings {
       _localizedValues[locale.languageCode]!['update_profile'];
 
   String? get gender => _localizedValues[locale.languageCode]!['gender'];
+  String? get forYou => _localizedValues[locale.languageCode]!['forYou'];
 
   static Strings? of(BuildContext context) {
     // Locale myLocale = Localizations.localeOf(context);

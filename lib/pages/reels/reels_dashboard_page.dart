@@ -941,9 +941,13 @@ class LikeWidget extends StatelessWidget {
   const LikeWidget({Key? key, required this.contentId, this.mcontext})
       : super(key: key);
 
+
+
   @override
   Widget build(BuildContext context) {
     var joyContentModel = Provider.of<GReelsModel>(mcontext!);
+    updateLikeandViews(null);
+
 
     bool isLiked = joyContentModel.isUserLiked(contentId);
     return InkWell(

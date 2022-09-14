@@ -1189,8 +1189,8 @@ class _GHomeState extends State<GHome> {
                   0,
                   ListElement(
                     id: 1,
-                    title: 'For You',
-                    description: "For You",
+                    title: '${Strings.of(context)?.forYou}',
+                    description:  '${Strings.of(context)?.forYou}',
                     createdAt: 1647343211,
                     updatedAt: 1647343211,
                     createdBy: 0,
