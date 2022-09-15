@@ -1317,7 +1317,7 @@ class HomeProvider {
       data['description'] = description;
       data['content_type'] = contentType;
       data['status'] = '1';
-      Log.v("upload file data is $data");
+      Log.v("upload file data is ${files.length}");
 
       final response = await api.dio.post(ApiConstants.CREATE_POST,
           data: FormData.fromMap(data),
