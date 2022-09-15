@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
@@ -88,16 +90,16 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
 
   void setValues() {
     // updateLikeandViews(null);
+    //print('MediaQuery.of(context).size.height');
+    //print(MediaQuery.of(context).size.height.toString());
 
     setState(() {
-
-      if(widget.height == null) {
-widget.height = widget.dimension?.first.height;
-          videoHeight = double.parse('${widget.height}');
+      if (widget.height == null) {
+        widget.height = widget.dimension?.first.height;
+        videoHeight = double.parse('${widget.height}');
       }
       else
-    videoHeight = double.parse('${widget.height}') / 2.6;
-
+        videoHeight = double.parse('${widget.height}') / 2.6;
       likeCount = widget.likeCount;
     });
   }
@@ -827,9 +829,9 @@ widget.height = widget.dimension?.first.height;
             ConstrainedBox(
               constraints: BoxConstraints(
                 minHeight: 100.0,
-                  maxHeight: widget.resourceType!.endsWith('video') ? videoHeight : 410),
+                  //maxHeight: widget.resourceType!.endsWith('video') ? min(videoHeight, MediaQuery.of(context).size.height) : 410),
+                  maxHeight: widget.resourceType!.endsWith('video') ? min(videoHeight, MediaQuery.of(context).size.height - MediaQuery.of(context).size.height * 0.20) : 410),
                   //maxHeight: 240),
-
               child: PageView.builder(
                   scrollDirection: Axis.horizontal,
                   controller:
@@ -874,7 +876,6 @@ widget.height = widget.dimension?.first.height;
                                               .contains('.mov')
                                       // ? CustomBetterPlayer(
                                       //     url: widget.fileList[index])
-
                                           ? CustomVideoPlayer(
                                         url: widget.fileList![index],
                                         isLocalVideo: false,
@@ -884,7 +885,8 @@ widget.height = widget.dimension?.first.height;
                                         widget.commentCount != null
                                             ? widget.commentCount
                                             : 0,
-                                            height:  videoHeight,
+                                            //height:  videoHeight,
+                                            height:  min(videoHeight, MediaQuery.of(context).size.height - MediaQuery.of(context).size.height * 0.20),
                                         index: index,
                                         desc: widget.description,
                                         userName: widget.user_name,
@@ -933,8 +935,7 @@ widget.height = widget.dimension?.first.height;
                                             fit: BoxFit.contain,
                                           ),
                                         ),
-                                      )
-                                          : widget.fileList![index] != null
+                                      ): widget.fileList![index] != null
                                           ? InkWell(
                                         onTap: () {
                                           _displayDialog(
@@ -1133,7 +1134,8 @@ widget.height = widget.dimension?.first.height;
             ),
 
             Padding(
-                padding: const EdgeInsets.only(bottom: 7, left: 10, top: 13),
+                padding: widget.description != null ? const EdgeInsets.only(bottom: 7, left: 10, top: 13) :
+                const EdgeInsets.only(bottom: 0, left: 10, top: 0),
                 child: ReadMoreText(text: '${widget.description ?? ''}')
             ),
 
@@ -1345,160 +1347,180 @@ widget.height = widget.dimension?.first.height;
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             color: Colors.white,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 70.0,
-                ),
-                Container(
-                  height: 40.0,
-                  margin: EdgeInsets.only(left: 18.0),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: new GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Icon(Icons.close, color: ColorConstants.BLACK),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 70.0,
+                  ),
+                  Container(
+                    height: 40.0,
+                    margin: EdgeInsets.only(left: 18.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: new GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Icon(Icons.close, color: ColorConstants.BLACK),
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 8.0, right: 8.0, top: 15.0, bottom: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Center(
-                        child: ClipOval(
-                            child: Image.network(
-                          widget.profile_path ?? '',
-                          height: 50,
-                          width: 50,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, url, error) {
-                            return SvgPicture.asset(
-                              'assets/images/default_user.svg',
-                              height: 50,
-                              width: 50,
-                              allowDrawingOutsideViewBox: true,
-                            );
-                          },
-                          loadingBuilder: (BuildContext context, Widget child,
-                              ImageChunkEvent? loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return Shimmer.fromColors(
-                              baseColor: Color(0xffe6e4e6),
-                              highlightColor: Color(0xffeaf0f3),
-                              child: Container(
-                                  height: 50,
-                                  margin: EdgeInsets.only(left: 2),
-                                  width: 50,
-                                  decoration: BoxDecoration(
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 8.0, right: 8.0, top: 15.0, bottom: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Center(
+                          child: ClipOval(
+                              child: Image.network(
+                            widget.profile_path ?? '',
+                            height: 50,
+                            width: 50,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, url, error) {
+                              return SvgPicture.asset(
+                                'assets/images/default_user.svg',
+                                height: 50,
+                                width: 50,
+                                allowDrawingOutsideViewBox: true,
+                              );
+                            },
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Shimmer.fromColors(
+                                baseColor: Color(0xffe6e4e6),
+                                highlightColor: Color(0xffeaf0f3),
+                                child: Container(
+                                    height: 50,
+                                    margin: EdgeInsets.only(left: 2),
+                                    width: 50,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                    )),
+                              );
+                            },
+                          )),
+                        ),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0, right: 8.0, top: 2.0),
+                                child: Text(
+                                  userName ?? '',
+                                  style: Styles.textRegular(size: 14),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Text(
+                                  time ?? '',
+                                  style: Styles.textRegular(size: 10),
+                                ),
+                              ),
+                              /*Padding(
+                                padding:
+                                    const EdgeInsets.only(bottom: 2, left: 4),
+                                child: Text(
+                                  desc ?? '',
+                                  style: Styles.textRegular(size: 14),
+                                ),
+                              ),*/
+                            ],
+                          ),
+                        ),
+                        // Icon(
+                        //   Icons.more_horiz,
+                        //   color: Colors.black,
+                        // ) //singh
+                      ],
+                    ),
+                  ),
+                  Container(
+                    //height: MediaQuery.of(context).size.height * 0.65,
+                    //height: 300,
+                    child: Column(children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(0),
+                        child: Container(
+                            //height: MediaQuery.of(context).size.height * 0.65,
+                            width: MediaQuery.of(context).size.width,
+                            child: fileList![index!] != null &&
+                                    fileList[index].isNotEmpty
+                                ? fileList[index].contains('.mp4')
+                                    ? VisibilityDetector(
+                                        key: ObjectKey(flickManager),
+                                        onVisibilityChanged: (visibility) {
+                                          if (visibility.visibleFraction == 0 &&
+                                              this.mounted) {
+                                            flickManager?.flickControlManager
+                                                ?.pause(); //pausing  functionality
+                                          } else {
+                                            flickManager?.flickControlManager
+                                                ?.play(); //playing functionality
+                                          }
+                                        },
+                                        child: FlickVideoPlayer(
+                                          flickManager: flickManager!,
+                                        ),
+                                      )
+                                    : Image.network(
+                                        imgUrl!,
+                                        fit: BoxFit.fitWidth,
+                              loadingBuilder: (context,
+                                  child,
+                                  loadingProgress) {
+                                if (loadingProgress ==
+                                    null) {
+                                  return child;
+                                }
+                                return Shimmer.fromColors(
+                                  baseColor: Colors.grey[300]!,
+                                  highlightColor: Colors.grey[100]!,
+                                  enabled: true,
+                                  child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 300,
                                     color: Colors.white,
-                                    shape: BoxShape.circle,
+                                ),
+                                );
+                              },
+                            )
+                                : SizedBox(
+                                    child: Text('no data'),
                                   )),
-                            );
-                          },
-                        )),
                       ),
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 8.0, right: 8.0, top: 2.0),
-                              child: Text(
-                                userName ?? '',
-                                style: Styles.textRegular(size: 14),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Text(
-                                time ?? '',
-                                style: Styles.textRegular(size: 10),
-                              ),
-                            ),
-                            /*Padding(
-                              padding:
-                                  const EdgeInsets.only(bottom: 2, left: 4),
-                              child: Text(
-                                desc ?? '',
-                                style: Styles.textRegular(size: 14),
-                              ),
+                    ]),
+                  ),
+
+                  Stack(
+                    children: [
+                      Container(
+                        child: Padding(
+                          padding:
+                          const EdgeInsets.only(bottom: 10, left: 10, top: 10),
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            /*child: Text(
+                              desc ?? '',
+                              style: Styles.textRegular(size: 14),
                             ),*/
-                          ],
+                            child: ReadMoreText(text: desc ?? ''),
+                          ),
                         ),
                       ),
-                      // Icon(
-                      //   Icons.more_horiz,
-                      //   color: Colors.black,
-                      // ) //singh
                     ],
                   ),
-                ),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.65,
-                  //height: 300,
-                  child: Column(children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(0),
-                      child: Container(
-                          height: MediaQuery.of(context).size.height * 0.65,
-                          width: MediaQuery.of(context).size.width,
-                          child: fileList![index!] != null &&
-                                  fileList[index].isNotEmpty
-                              ? fileList[index].contains('.mp4')
-                                  ? VisibilityDetector(
-                                      key: ObjectKey(flickManager),
-                                      onVisibilityChanged: (visibility) {
-                                        if (visibility.visibleFraction == 0 &&
-                                            this.mounted) {
-                                          flickManager?.flickControlManager
-                                              ?.pause(); //pausing  functionality
-                                        } else {
-                                          flickManager?.flickControlManager
-                                              ?.play(); //playing functionality
-                                        }
-                                      },
-                                      child: FlickVideoPlayer(
-                                        flickManager: flickManager!,
-                                      ),
-                                    )
-                                  : Image.network(
-                                      imgUrl!,
-                                      fit: BoxFit.fitWidth,
-                                    )
-                              : SizedBox(
-                                  child: Text('no data'),
-                                )),
-                    ),
-                  ]),
-                ),
-
-                Stack(
-                  children: [
-                    Container(
-                      child: Padding(
-                        padding:
-                        const EdgeInsets.only(bottom: 10, left: 10, top: 10),
-                        child: Align(
-                          alignment: Alignment.bottomLeft,
-                          /*child: Text(
-                            desc ?? '',
-                            style: Styles.textRegular(size: 14),
-                          ),*/
-                          child: ReadMoreText(text: desc ?? ''),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );
