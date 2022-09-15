@@ -1238,7 +1238,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                               widget.value?.getLikeCount(widget.index) != 1 &&
                               Preference.getInt(Preference.APP_LANGUAGE) == 1)
                             Text(
-                              's',
+                            Preference.getInt(Preference.APP_LANGUAGE) == 1 ? 's' : '',
                               style: Styles.regular(
                                   size: 12, color: ColorConstants.BLACK),
                             )
@@ -1286,7 +1286,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                           if (widget.commentCount > 1 &&
                               Preference.getInt(Preference.APP_LANGUAGE) == 1)
                             Text(
-                              's',
+                              Preference.getInt(Preference.APP_LANGUAGE) == 1 ? 's' : '',
                               style: Styles.regular(
                                   size: 12, color: ColorConstants.BLACK),
                             )

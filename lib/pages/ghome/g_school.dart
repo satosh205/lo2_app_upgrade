@@ -263,7 +263,6 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
           Log.v("PopularCourses....................");
           Log.v(state.response!.data);
           //liveclassList = state.response.data;
-          //liveclassList.insert(0, Liveclass(id: 1, name: 'For You'));
           Log.v("PopularCourses Done ....................${liveclassList}");
           _isJoyCategoryLoading = false;
           break;
@@ -290,8 +289,6 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
           Log.v("JoyCategoryState....................");
           Log.v(state.response!.data);
 
-          //liveclassList = state.response.data;
-          //liveclassList.insert(0, Liveclass(id: 1, name: 'For You'));
 
           Log.v("LiveClassState Done ....................${liveclassList}");
 
@@ -327,7 +324,6 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
               ?.where((element) =>
                   element.liveclassStatus?.toLowerCase() == 'upcoming')
               .toList();
-          //liveclassList.insert(0, Liveclass(id: 1, name: 'For You'));
 
           Log.v("LiveClassState Done ....................${liveclassList}");
 

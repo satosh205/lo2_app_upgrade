@@ -493,7 +493,7 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
                                                               .APP_LANGUAGE) ==
                                                           1)
                                                     Text(
-                                                      's',
+                                                      Preference.getInt(Preference.APP_LANGUAGE) == 1 ? 's' : '',
                                                       style: Styles.regular(
                                                           size: 14,
                                                           color: ColorConstants

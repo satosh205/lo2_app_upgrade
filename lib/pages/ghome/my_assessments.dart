@@ -203,17 +203,12 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
                     children: [
                       Row(
                         children: [
-                          Text('Sort By: ', style: Styles.regular(size: 14)),
+                          Text('${Strings.of(context)?.sortBy}: ', style: Styles.regular(size: 14)),
                           DropdownButton<String>(
                             underline: SizedBox(),
                             hint: Text('$selectedOption',
                                 style: Styles.bold(size: 14)),
-                            items: <String>[
-                              'All',
-                              'Upcoming',
-                              'Completed',
-                              'Pending',
-                            ].map((String value) {
+                              items: <String>['${Strings.of(context)?.all}', '${Strings.of(context)?.upcoming}', '${Strings.of(context)?.Completed}', '${Strings.of(context)?.ongoing}'].map((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: Text(value),

@@ -129,6 +129,7 @@ class Strings {
       _localizedValues[locale.languageCode]!['update_profile'];
 
   String? get gender => _localizedValues[locale.languageCode]!['gender'];
+  String? get forYou => _localizedValues[locale.languageCode]!['forYou'];
 
   static Strings? of(BuildContext context) {
     // Locale myLocale = Localizations.localeOf(context);
@@ -744,6 +745,13 @@ class Strings {
       _localizedValues[locale.languageCode]!['recent_activity'];
   String? get MyCourses => _localizedValues[locale.languageCode]!['my_courses'];
   String? get MyQuiz => _localizedValues[locale.languageCode]!['my_quiz'];
+
+  String? get sortBy => _localizedValues[locale.languageCode]!['sort_by'];
+  String? get all => _localizedValues[locale.languageCode]!['all'];
+  String? get pending => _localizedValues[locale.languageCode]!['pending'];
+  String? get upcoming => _localizedValues[locale.languageCode]!['upcoming'];
+  String? get ongoing => _localizedValues[locale.languageCode]!['Ongoing'];
+
   // String get Completed => _localizedValues[locale.languageCode]['completed'];
 
   static const SERVER_DATE_YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";

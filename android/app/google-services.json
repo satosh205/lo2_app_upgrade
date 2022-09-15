@@ -1,58 +1,49 @@
 {
   "project_info": {
-    "project_number": "779763900060",
-    "project_id": "perfetti-swayam",
-    "storage_bucket": "perfetti-swayam.appspot.com"
+    "project_number": "247661112249",
+    "project_id": "masterg-ac593",
+    "storage_bucket": "masterg-ac593.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:779763900060:android:01dfd4861c57d47d469759",
+        "mobilesdk_app_id": "1:247661112249:android:aaa6005fd1b2576af72468",
         "android_client_info": {
-          "package_name": "com.at.perfetti_swayam"
+          "package_name": "com.at.masterg"
         }
       },
       "oauth_client": [
         {
-          "client_id": "779763900060-hoa1cm4i704isr3a70te4u1qii9115nn.apps.googleusercontent.com",
+          "client_id": "247661112249-jb0eocftkphg890o6l9is3g3f0om4l60.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.at.perfetti_swayam",
-            "certificate_hash": "5a05fdf905a38ce8b44371bdafc416071fe11d45"
+            "package_name": "com.at.masterg",
+            "certificate_hash": "2d0ecab98d881466465e12c5a2dc5b1792e5651e"
           }
         },
         {
-          "client_id": "779763900060-okb267bdff7hkugf4s3ffurm474afavv.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.at.perfetti_swayam",
-            "certificate_hash": "349284d2cacc7a79cde6fd21359f078fc4f14065"
-          }
-        },
-        {
-          "client_id": "779763900060-oue7h65l81ap3pdad6q486kcqur5obvv.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.at.perfetti_swayam",
-            "certificate_hash": "c5ae352d6174faef8b8bcbc01d19406a0013517e"
-          }
-        },
-        {
-          "client_id": "779763900060-ufa9imo6v0psukbnuhrlkdr7promjcng.apps.googleusercontent.com",
+          "client_id": "247661112249-vg2chtnjtp8ludkqgfumqt9f3mriqkpg.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC0s1JWN9VtFl99EtgQOj2kGeVFBnYIXrA"
+          "current_key": "AIzaSyAnGKUlAY2n90iOv6rY7A8wOVx-1XL3Rs0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "779763900060-ufa9imo6v0psukbnuhrlkdr7promjcng.apps.googleusercontent.com",
+              "client_id": "247661112249-vg2chtnjtp8ludkqgfumqt9f3mriqkpg.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "247661112249-v4gp6k91vtpgi4ef6o5iv62r2satedtg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.at.masterg"
+              }
             }
           ]
         }

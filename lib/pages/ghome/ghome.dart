@@ -273,7 +273,7 @@ class _GHomeState extends State<GHome> {
                                                                         index]
                                                                     .viewCount! >
                                                                 1)
-                                                              Text('s',
+                                                              Text(Preference.getInt(Preference.APP_LANGUAGE) == 1 ? 's' : '',
                                                                   style: Styles.regular(
                                                                       size: 10,
                                                                       color: ColorConstants
@@ -1189,8 +1189,8 @@ class _GHomeState extends State<GHome> {
                   0,
                   ListElement(
                     id: 1,
-                    title: 'For You',
-                    description: "For You",
+                    title: '${Strings.of(context)?.forYou}',
+                    description:  '${Strings.of(context)?.forYou}',
                     createdAt: 1647343211,
                     updatedAt: 1647343211,
                     createdBy: 0,
