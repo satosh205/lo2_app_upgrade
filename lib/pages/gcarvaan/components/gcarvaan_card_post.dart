@@ -1210,7 +1210,7 @@ widget.height = widget.dimension?.first.height;
                               widget.value?.getLikeCount(widget.index) != 1 &&
                               Preference.getInt(Preference.APP_LANGUAGE) == 1)
                             Text(
-                              's',
+                            Preference.getInt(Preference.APP_LANGUAGE) == 1 ? 's' : '',
                               style: Styles.regular(
                                   size: 12, color: ColorConstants.BLACK),
                             )
@@ -1258,7 +1258,7 @@ widget.height = widget.dimension?.first.height;
                           if (widget.commentCount > 1 &&
                               Preference.getInt(Preference.APP_LANGUAGE) == 1)
                             Text(
-                              's',
+                              Preference.getInt(Preference.APP_LANGUAGE) == 1 ? 's' : '',
                               style: Styles.regular(
                                   size: 12, color: ColorConstants.BLACK),
                             )

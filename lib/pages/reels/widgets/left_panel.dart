@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/reels/widgets/column_social_icon.dart';
+import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
 
@@ -91,13 +92,13 @@ class LeftPanel extends StatelessWidget {
           ),
           Row(children: [
             Text(
-              '$viewCounts view',
+              '$viewCounts ${Strings.of(context)?.Views}',
               style: Styles.regular(size: 12, color: ColorConstants.WHITE),
             ),
             if (viewCounts! > 1 &&
                 Preference.getInt(Preference.APP_LANGUAGE) == 1)
               Text(
-                's',
+                Preference.getInt(Preference.APP_LANGUAGE) == 1 ? 's' : '',
                 style: Styles.regular(size: 12, color: ColorConstants.WHITE),
               ),
           ])

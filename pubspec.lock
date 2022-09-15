@@ -119,7 +119,7 @@ packages:
       name: camera_avfoundation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.8+2"
+    version: "0.9.8+5"
   camera_platform_interface:
     dependency: transitive
     description:
@@ -664,7 +664,7 @@ packages:
       name: image_picker_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.5+1"
+    version: "0.8.5+3"
   image_picker_for_web:
     dependency: transitive
     description:
@@ -678,14 +678,14 @@ packages:
       name: image_picker_ios
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.5+5"
+    version: "0.8.6"
   image_picker_platform_interface:
     dependency: transitive
     description:
       name: image_picker_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.5.0"
+    version: "2.6.1"
   injector:
     dependency: "direct main"
     description:

@@ -273,7 +273,7 @@ class _GHomeState extends State<GHome> {
                                                                         index]
                                                                     .viewCount! >
                                                                 1)
-                                                              Text('s',
+                                                              Text(Preference.getInt(Preference.APP_LANGUAGE) == 1 ? 's' : '',
                                                                   style: Styles.regular(
                                                                       size: 10,
                                                                       color: ColorConstants

@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,7 @@ import 'package:masterg/pages/user_profile_page/model/MasterBrand.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
+import 'package:masterg/utils/click_picker.dart';
 import 'package:masterg/utils/config.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
@@ -92,11 +94,33 @@ class _UserProfilePageState extends State<UserProfilePage>
   bool readOnly = true;
   bool textContentHide = true;
 
+    late CameraController _controller;
+  late Future<void> _initializeControllerFuture;
+
   @override
   void initState() {
     super.initState();
+    
+      
     //apiFetch();
     _getUserProfile();
+  }
+
+  void initCamera()async{
+     final cameras = await availableCameras();
+
+  // Get a specific camera from the list of available cameras.
+  final firstCamera = cameras.first;
+
+  _controller = CameraController(
+      // Get a specific camera from the list of available cameras.
+      firstCamera,
+      // Define the resolution to use.
+      ResolutionPreset.medium,
+    );
+
+    // Next, initialize the controller. This returns a Future.
+    _initializeControllerFuture = _controller.initialize();
   }
 
   Future<void> apiFetch() async {
@@ -2698,7 +2722,12 @@ class _UserProfilePageState extends State<UserProfilePage>
                           style: TextStyle(color: Colors.white),
                         ),
                         onTap: () async {
-                          await _getImages(ImageSource.camera, 'camera').then((value) async {
+                           final cameras = await availableCameras();
+
+  // Get a specific camera from the list of available cameras.
+  final firstCamera = cameras.first;
+
+Navigator.push(context, MaterialPageRoute(builder: (context)=> TakePictureScreen(camera: firstCamera))).then((value) async {
                             if (clickSide.endsWith('profile')) {
                               if (value != null) {
                                 selectedImage = value;
@@ -2713,14 +2742,16 @@ class _UserProfilePageState extends State<UserProfilePage>
                                //_updateUserProfileImage(selectedImage);
 
                             } else {
-                              setState(() {
+                           if(mounted)   setState(() {
                                 selectedBrandPath = value;
                               });
                               callback(value);
                             }
-                            setState(() {});
-                          });
                           Navigator.pop(context);
+
+                          if(mounted)  setState(() {});
+                          });
+                          // Navigator.pop(context);
                         },
                       ),
                     )
