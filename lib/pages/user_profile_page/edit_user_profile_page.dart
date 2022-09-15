@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,6 +23,7 @@ import 'package:masterg/pages/user_profile_page/mobile_ui_helper.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
+import 'package:masterg/utils/click_picker.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:shimmer/shimmer.dart';
@@ -491,7 +493,12 @@ class _EditUserProfilePageState extends State<EditUserProfilePage>
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () async {
-                    await _getImages(ImageSource.camera, 'camera')
+                                  final cameras = await availableCameras();
+
+  // Get a specific camera from the list of available cameras.
+  final firstCamera = cameras.first;
+
+Navigator.push(context, MaterialPageRoute(builder: (context)=> TakePictureScreen(camera: firstCamera)))
                         .then((value) async {
                       selectedImage = value;
                       selectedImage = await _cropImage(value);

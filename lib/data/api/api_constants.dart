@@ -96,6 +96,7 @@ class ApiConstants {
 
   static const COMMENT_LIST = "/api/comments";
   static const POST_COMMENT_LIST = "/api/user-comment-tracking";
+  static const DELETE_POST = "/api/joy/content/delete/";
 
   static const COURSE_LIST = "/api/courses-list";
   static const FEATURED_VIDEOS = "/api/joy/content?is_featured=1";

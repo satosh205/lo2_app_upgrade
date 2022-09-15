@@ -83,8 +83,8 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
       setState(() {
         isPostedLoading = true;
       });
-String? firstExtension = widget.fileToUpload?.first.filename?.split('/').last.split('.').last.toString();
-     bool isVideo =  false;
+  String? firstExtension = widget.filesPath?.first?.split('/').last.split('.').last.toString();
+    bool isVideo =  false;
 
     if(firstExtension == 'mp4' || firstExtension == 'mov'  )isVideo = true ;
 

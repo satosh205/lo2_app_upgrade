@@ -10,6 +10,7 @@ import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/greels_response.dart';
 import 'package:masterg/data/models/response/home_response/joy_contentList_response.dart';
 import 'package:masterg/data/providers/reels_proivder.dart';
+import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/gcarvaan/createpost/create_post_provider.dart';
 import 'package:masterg/pages/reels/theme/colors.dart';
 import 'package:masterg/pages/reels/video_recording/video_recording_camera_page.dart';
@@ -224,6 +225,7 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
             createdAt: greelsList.list![index].createdAt.toString(),
             greelsModel: greelsList,
             index: index,
+            userID: greelsList.list![index].userId,
           );
 
           // return;
@@ -507,6 +509,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
                                             contentId: widget.contentId,
                                             greelsModel: widget.greelsModel,
                                             index: widget.index,
+                                            userID: widget.userID
                                           ),
                                         )
                                       ],
@@ -647,7 +650,7 @@ class _RightPanelState extends State<RightPanel> {
                                       return Navigator.pop(context);
                                     },
                                   ),
-                                   ListTile(
+                              if(Preference.getInt(Preference.USER_ID) == widget.userID)     ListTile(
                                     leading: new Icon(
                                       Icons.delete,
                                       color: Colors.white,

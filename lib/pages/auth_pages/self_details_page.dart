@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -25,6 +26,8 @@ import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/config.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/widget_size.dart';
+
+import '../../utils/click_picker.dart';
 
 class SelfDetailsPage extends StatefulWidget {
   bool isFromProfile;
@@ -478,7 +481,12 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () async {
-                    await _getImages(ImageSource.camera).then((value) async {
+                                    final cameras = await availableCameras();
+
+  // Get a specific camera from the list of available cameras.
+  final firstCamera = cameras.first;
+
+Navigator.push(context, MaterialPageRoute(builder: (context)=> TakePictureScreen(camera: firstCamera))).then((value) async {
                       if (value != null) {
                         selectedImage = value;
                         selectedImage = await _cropImage(value);

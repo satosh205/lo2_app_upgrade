@@ -333,8 +333,8 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
       isPostedLoading = true;
     });
 
-    String? firstExtension = widget.fileToUpload?.first.filename?.split('/').last.split('.').last.toString();
-     bool isVideo =  false;
+    // String? firstExtension = widget.fileToUpload?.first.filename?.split('/').last.split('.').last.toString();
+     bool isVideo =  true;
     if (!widget.isReelsPost) {
       
       BlocProvider.of<HomeBloc>(context).add(CreatePostEvent(
