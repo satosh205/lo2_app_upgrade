@@ -26,6 +26,8 @@ import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../data/models/response/auth_response/user_session.dart';
+
 class GCarvaanCardPost extends StatefulWidget {
   final String? image_path;
   final String? profile_path;
@@ -45,6 +47,7 @@ class GCarvaanCardPost extends StatefulWidget {
   final GCarvaanListModel? value;
   final String? resourceType;
   final List<Dimension> ? dimension;
+  final int? userID;
 
   // final Widget child;
 
@@ -65,7 +68,9 @@ class GCarvaanCardPost extends StatefulWidget {
       this.fileList,
       this.height,this.width,
       this.dimension,
-      this.value, this.resourceType});
+      this.value,
+      this.resourceType,
+      this.userID});
 
   @override
   _GCarvaanCardPostState createState() => _GCarvaanCardPostState();
@@ -79,7 +84,6 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
   int currentIndex = 0;
   // Download download = new Download();
   FlickManager? flickManager;
-
   double videoHeight = 0.0;
 
   @override
@@ -92,6 +96,9 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
     // updateLikeandViews(null);
     //print('MediaQuery.of(context).size.height');
     //print(MediaQuery.of(context).size.height.toString());
+    print('********* userID **********');
+    print(widget.userID);
+    print(UserSession.userId);
 
     setState(() {
       if (widget.height == null) {
@@ -99,7 +106,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
         videoHeight = double.parse('${widget.height}');
       }
       else
-        videoHeight = double.parse('${widget.height}') / 2.6;
+        videoHeight = double.parse('${widget.height}') / 2.8;
       likeCount = widget.likeCount;
     });
   }
@@ -110,7 +117,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
     //flickManager.dispose();
     // if (_videoController != null) {
     //   _videoController.dispose();
-    // }
+    //}
   }
 
   @override
@@ -283,6 +290,26 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                     },
                                   ),
                                 ),
+
+                                UserSession.userId == widget.userID ? Container(
+                                  child: ListTile(
+                                    leading: new Icon(
+                                      Icons.delete,
+                                      color: Colors.white,
+                                    ),
+                                    title: new Text(
+                                      'Delete this post',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        debugPrint('Api call');
+                                        //reportPostFormEnabled = true;
+                                      });
+                                      return Navigator.pop(context);
+                                    },
+                                  ),
+                                ): SizedBox(),
                               ],
                             );
                           });
@@ -292,8 +319,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                         setState(() {
                           switch (reportState.apiState) {
                             case ApiStatus.LOADING:
-                              Log.v(
-                                  "ContentReportState Loading....................");
+                              Log.v("ContentReportState Loading....................");
                               reportInprogress = true;
                               break;
                             case ApiStatus.SUCCESS:
@@ -830,7 +856,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
               constraints: BoxConstraints(
                 minHeight: 100.0,
                   //maxHeight: widget.resourceType!.endsWith('video') ? min(videoHeight, MediaQuery.of(context).size.height) : 410),
-                  maxHeight: widget.resourceType!.endsWith('video') ? min(videoHeight, MediaQuery.of(context).size.height - MediaQuery.of(context).size.height * 0.20) : 410),
+                  maxHeight: widget.resourceType!.endsWith('video') ? min(videoHeight, MediaQuery.of(context).size.height - MediaQuery.of(context).size.height * 0.25) : 410),
                   //maxHeight: 240),
               child: PageView.builder(
                   scrollDirection: Axis.horizontal,
@@ -886,7 +912,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                             ? widget.commentCount
                                             : 0,
                                             //height:  videoHeight,
-                                            height:  min(videoHeight, MediaQuery.of(context).size.height - MediaQuery.of(context).size.height * 0.20),
+                                            height:  min(videoHeight, MediaQuery.of(context).size.height - MediaQuery.of(context).size.height * 0.25),
                                         index: index,
                                         desc: widget.description,
                                         userName: widget.user_name,

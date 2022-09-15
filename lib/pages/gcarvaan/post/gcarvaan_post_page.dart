@@ -445,16 +445,15 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                       profile_path: gcarvaanPosts[index].profileImage,
                       likeCount: gcarvaanPosts[index].likeCount ?? 0,
                       viewCount: gcarvaanPosts[index].viewCount ?? 0,
-                      islikedPost:
-                          gcarvaanPosts[index].userLiked == 1 ? true : false,
+                      islikedPost: gcarvaanPosts[index].userLiked == 1 ? true : false,
                       contentId: gcarvaanPosts[index].id,
                       fileList: gcarvaanPosts[index].multiFileUploads,
                       comment_visible: false,
                       height: gcarvaanPosts[index].dimension.height,
                       dimension: gcarvaanPosts[index].multiFileUploadsDimension,
-
                       width: gcarvaanPosts[index].dimension.width,
                       resourceType: gcarvaanPosts[index].resourceType,
+                      userID: gcarvaanPosts[index].userId,
                     )
                   : Container();
             })
