@@ -234,7 +234,5 @@ class _EditSelfDetailsPageState extends State<EditSelfDetailsPage> {
       }
     });
   }
-
-
 }
 
