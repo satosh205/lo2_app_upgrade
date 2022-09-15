@@ -17,6 +17,7 @@ import 'package:masterg/data/models/response/home_response/category_response.dar
 import 'package:masterg/data/models/response/home_response/content_tags_resp.dart';
 import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
 import 'package:masterg/data/models/response/home_response/create_post_response.dart';
+import 'package:masterg/data/models/response/home_response/delete_post_response.dart';
 import 'package:masterg/data/models/response/home_response/featured_video_response.dart';
 import 'package:masterg/data/models/response/home_response/feedback_response.dart';
 import 'package:masterg/data/models/response/home_response/gcarvaan_post_reponse.dart';
@@ -228,6 +229,20 @@ class HomeRepository {
     } else {
       Log.v("====> ${response.body}");
       return ReportContentResp(status: 0, message: 'error');
+    }
+  }
+  Future<DeletePostResponse?> deletePost(
+      int? postId) async {
+    final response =
+        await homeProvider.deletePost(postId);
+    if (response!.success) {
+      Log.v("Delete Post DATA : ${response.body}");
+      DeletePostResponse resp = DeletePostResponse.fromJson(response.body);
+
+      return resp;
+    } else {
+      Log.v("====> ${response.body}");
+      return DeletePostResponse(status: 0, message: 'error');
     }
   }
 

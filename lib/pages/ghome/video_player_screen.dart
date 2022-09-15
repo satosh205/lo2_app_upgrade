@@ -76,8 +76,7 @@ class VideoPlayerState extends State<CustomVideoPlayer> {
     );
     flickManager!.flickDisplayManager!.handleShowPlayerControls(showWithTimeout: false);
 
-    print(controller.value.aspectRatio);
-    print('====*******Singh ******=====');
+  
     /*print(controller.value.size.height / (controller.value.aspectRatio * 2));*/
   }
 

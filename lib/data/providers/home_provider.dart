@@ -691,6 +691,36 @@ class HomeProvider {
     return null;
   }
 
+   Future<ApiResponse?> deletePost(int? postId) async {
+    //  Utility.hideKeyboard();
+    try {
+      final response = await api.dio.get(ApiConstants.DELETE_POST + postId.toString(),
+          options: Options(
+              method: 'GET',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          Log.v("====> ${response.statusCode}");
+          return ApiResponse.error(response.data);
+        } else {
+          Log.v("====> ${response.statusCode}");
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // Log.v("====> ${e.response.data["message"]}");
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+    return null;
+  }
+
   Future<ApiResponse?> getjoyCategory() async {
     //  Utility.hideKeyboard();
     try {

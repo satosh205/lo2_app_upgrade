@@ -26,7 +26,7 @@ void main() async {
     setupDependencyInjections();
     initHive();
     Preference.getInstance();
-    runApp(MyApp());
+    runApp(MyApp()); 
     Preference.load().then((value) {
       UserSession();
     });

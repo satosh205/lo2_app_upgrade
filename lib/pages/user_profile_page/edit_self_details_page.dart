@@ -203,7 +203,7 @@ class _EditSelfDetailsPageState extends State<EditSelfDetailsPage> {
 
   _finishEdit(){
     Navigator.pop(context, true);
-    widget!.onCalledBack!();
+    widget.onCalledBack!();
   }
 
   void _handleUpdateUserProfileImageResponse(UpdateUserProfileImageState state) {
@@ -221,7 +221,7 @@ class _EditSelfDetailsPageState extends State<EditSelfDetailsPage> {
           Preference.setString(Preference.USERNAME, '${state.response!.data!.name}');
           //Navigator.of(context).pop();
           Navigator.pop(context, true);
-          widget!.onCalledBack!();
+          widget.onCalledBack!();
           _isLoading = false;
           break;
         case ApiStatus.ERROR:

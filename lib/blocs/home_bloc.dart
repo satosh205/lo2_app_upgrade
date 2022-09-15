@@ -17,6 +17,7 @@ import 'package:masterg/data/models/response/home_response/assignment_submission
 import 'package:masterg/data/models/response/home_response/content_tags_resp.dart';
 import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
 import 'package:masterg/data/models/response/home_response/create_post_response.dart';
+import 'package:masterg/data/models/response/home_response/delete_post_response.dart';
 import 'package:masterg/data/models/response/home_response/featured_video_response.dart';
 import 'package:masterg/data/models/response/home_response/feedback_response.dart';
 import 'package:masterg/data/models/response/home_response/gcarvaan_post_reponse.dart';
@@ -857,6 +858,17 @@ class ReportEvent extends HomeEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
+
+class DeletePostEvent extends HomeEvent {
+  int? postId;
+  
+
+  DeletePostEvent({this.postId})
+      : super([postId, ]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
 class LikeContentState extends HomeState {
   ApiStatus state;
 
@@ -875,6 +887,15 @@ class ReportState extends HomeState {
   String? error;
 
   ReportState(this.state, {this.response, this.error});
+}
+class DeletePostState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  DeletePostResponse? response;
+  String? error;
+
+  DeletePostState(this.state, {this.response, this.error});
 }
 
 class GetKPIAnalysisEvent extends HomeEvent {
@@ -2023,7 +2044,31 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           ApiStatus.ERROR,
         );
       }
-    } else if (event is UserAnalyticsEvent) {
+    }
+    
+    else if (event is DeletePostEvent) {
+      try {
+        yield DeletePostState(ApiStatus.LOADING);
+
+        final response = await homeRepository.deletePost(
+            event.postId);
+
+        if (response != null) {
+          yield DeletePostState(ApiStatus.SUCCESS, response: response);
+        } else {
+          yield DeletePostState(
+            ApiStatus.ERROR,
+          );
+        }
+      } catch (e) {
+        Log.v("ERROR DATA is : $e");
+        yield DeletePostState(
+          ApiStatus.ERROR,
+        );
+      }
+    }
+    
+     else if (event is UserAnalyticsEvent) {
       try {
         yield UserAnalyticsState(ApiStatus.LOADING);
         final response = await homeRepository.UserAnalytics();

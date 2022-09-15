@@ -6,6 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
@@ -26,14 +27,16 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
+import '../../user_profile_page/mobile_ui_helper.dart';
+
 class CreateGCarvaanPage extends StatefulWidget {
   // final File postDocPath;
   final List<MultipartFile>? fileToUpload;
-  final List<String?>? filesPath;
+ List<String?>? filesPath;
   final bool isReelsPost;
   final CreatePostProvider? provider;
 
-  const CreateGCarvaanPage(
+   CreateGCarvaanPage(
       {Key? key,
       this.fileToUpload,
       this.filesPath,
@@ -328,13 +331,17 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
     );
   }
 
+
   void createPost(MenuListProvider provider) {
     setState(() {
       isPostedLoading = true;
-    });
+ widget.filesPath = widget.provider?.getFiles();
 
-    // String? firstExtension = widget.fileToUpload?.first.filename?.split('/').last.split('.').last.toString();
-     bool isVideo =  true;
+    });
+String? firstExtension = widget.filesPath?.first?.split('/').last.split('.').last.toString();
+    bool isVideo =  false;
+
+    if(firstExtension == 'mp4' || firstExtension == 'mov'  )isVideo = true ;
     if (!widget.isReelsPost) {
       
       BlocProvider.of<HomeBloc>(context).add(CreatePostEvent(
@@ -510,6 +517,22 @@ class ShowReadyToPost extends StatefulWidget {
 }
 
 class _ShowReadyToPostState extends State<ShowReadyToPost> {
+
+  Future<String> _cropImage(_pickedFile) async {
+    if (_pickedFile != null) {
+      CroppedFile? croppedFile = await ImageCropper().cropImage(
+        sourcePath: _pickedFile,
+        compressFormat: ImageCompressFormat.jpg,
+        compressQuality: 100,
+        uiSettings: buildUiSettings(context),
+        aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+      );
+      if (croppedFile != null) {
+        return croppedFile.path;
+      }
+    }
+    return "";
+  }
   @override
   Widget build(BuildContext context) {
     List<String?>? readyToPost;
@@ -585,7 +608,44 @@ class _ShowReadyToPostState extends State<ShowReadyToPost> {
                       constraints: BoxConstraints(),
                       icon: Icon(Icons.delete_forever, color: Colors.white),
                     ),
-                  )
+                  ),
+
+                    Positioned(
+                    left: 5,
+                    top: 5,
+                    child: Container(
+                      padding: EdgeInsets.all(2),
+                      decoration: BoxDecoration(color: ColorConstants.BLACK,shape: BoxShape.circle),
+                      child:   IconButton(
+                        onPressed: () {
+                          //provider.removeFromList(index);
+                          AlertsWidget.alertWithOkCancelBtn(
+                            context: context,
+                            text: "Are you sure you want to Crop.",
+                            title: "Alert!",
+                            okText: "Yes",
+                            cancelText: "No",
+                            onOkClick: () async {
+                              // widget.provider!.removeFromList(index);
+
+                             String  croppedPath = await _cropImage(pickedFile.path);
+                            //  setState(() {
+                              //  readyToPost![index] = croppedPath;
+                              Log.v("crop path is $croppedPath");
+                               widget.provider?.updateAtIndex(croppedPath, index);
+                               
+                            //  });
+
+
+                            },
+                          );
+                        },
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(),
+                        icon: Icon(Icons.crop,size: 15 ,color: Colors.white),
+                      ),
+                    ),
+                  ),
                 ]),
               ),
             );

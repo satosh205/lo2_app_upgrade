@@ -531,6 +531,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
   }
 }
 
+
 class RightPanel extends StatefulWidget {
   final BuildContext mContext;
   final int? likes;
@@ -567,6 +568,10 @@ class RightPanel extends StatefulWidget {
 }
 
 class _RightPanelState extends State<RightPanel> {
+  void deletePost(int? postId){
+     BlocProvider.of<HomeBloc>(context)
+        .add(DeletePostEvent(postId: postId));
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -660,9 +665,9 @@ class _RightPanelState extends State<RightPanel> {
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onTap: () {
-                                      setState(() {
-                                       print('New Call API For This');
-                                      });
+                                      deletePost(widget.contentId);
+                          widget.greelsModel?.hidePost(widget.index);
+
                                       return Navigator.pop(context);
                                     },
                                   ),

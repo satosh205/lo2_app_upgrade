@@ -16,6 +16,15 @@ class CreatePostProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  List<String?>? getFiles(){
+    return this.files;
+  }
+
+  void updateAtIndex(String? path, int index){
+    this.files![index] = path;
+    notifyListeners();
+  }
+
   void removeFromList(int index) {
     this.files!.removeAt(index);
     notifyListeners();

@@ -302,10 +302,11 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onTap: () {
-                                      setState(() {
-                                        debugPrint('Api call');
+                                  
+                                        deletePost(widget.contentId);
+                                         widget.value?.hidePost(widget.index);
                                         //reportPostFormEnabled = true;
-                                      });
+                                   
                                       return Navigator.pop(context);
                                     },
                                   ),
@@ -1338,6 +1339,11 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
   void reportPost(int? postId, String category, String comment) {
     BlocProvider.of<HomeBloc>(context)
         .add(ReportEvent(postId: postId, comment: comment, category: category));
+  }
+
+  void deletePost(int? postId){
+     BlocProvider.of<HomeBloc>(context)
+        .add(DeletePostEvent(postId: postId));
   }
 
   _displayDialog(

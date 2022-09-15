@@ -107,22 +107,22 @@ class _UserProfilePageState extends State<UserProfilePage>
     _getUserProfile();
   }
 
-  void initCamera()async{
-     final cameras = await availableCameras();
+  // void initCamera()async{
+  //    final cameras = await availableCameras();
 
-  // Get a specific camera from the list of available cameras.
-  final firstCamera = cameras.first;
+  // // Get a specific camera from the list of available cameras.
+  // final firstCamera = cameras.first;
 
-  _controller = CameraController(
-      // Get a specific camera from the list of available cameras.
-      firstCamera,
-      // Define the resolution to use.
-      ResolutionPreset.medium,
-    );
+  // _controller = CameraController(
+  //     // Get a specific camera from the list of available cameras.
+  //     firstCamera,
+  //     // Define the resolution to use.
+  //     ResolutionPreset.medium,
+  //   );
 
-    // Next, initialize the controller. This returns a Future.
-    _initializeControllerFuture = _controller.initialize();
-  }
+  //   // Next, initialize the controller. This returns a Future.
+  //   _initializeControllerFuture = _controller.initialize();
+  // }
 
   Future<void> apiFetch() async {
     await _listPortfolio('brand');
