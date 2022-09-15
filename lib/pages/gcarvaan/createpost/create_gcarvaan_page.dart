@@ -528,7 +528,7 @@ class _ShowReadyToPostState extends State<ShowReadyToPost> {
         compressFormat: ImageCompressFormat.jpg,
         compressQuality: 100,
         uiSettings: buildUiSettings(context),
-        aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+        // aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
       );
       if (croppedFile != null) {
         return croppedFile.path;
@@ -596,16 +596,26 @@ class _ShowReadyToPostState extends State<ShowReadyToPost> {
                     child: IconButton(
                       onPressed: () {
                         //provider.removeFromList(index);
-                        AlertsWidget.alertWithOkCancelBtn(
-                          context: context,
-                          text: "Are you sure you want to Delete.",
-                          title: "Alert!",
-                          okText: "Yes",
-                          cancelText: "No",
-                          onOkClick: () async {
-                            widget.provider!.removeFromList(index);
-                          },
-                        );
+
+
+                          AlertsWidget.showCustomDialog(
+                        context: context,
+                        title: "Delete Post!",
+                     text: "Are you sure you want to Delete.",
+                        icon: 'assets/images/circle_alert_fill.svg',
+                        onOkClick: () async {
+                        widget.provider!.removeFromList(index);
+                        });
+                        // AlertsWidget.alertWithOkCancelBtn(
+                        //   context: context,
+                        //   text: "Are you sure you want to Delete.",
+                        //   title: "Alert!",
+                        //   okText: "Yes",
+                        //   cancelText: "No",
+                        //   onOkClick: () async {
+                        //     widget.provider!.removeFromList(index);
+                        //   },
+                        // );
                       },
                       padding: EdgeInsets.zero,
                       constraints: BoxConstraints(),
@@ -624,22 +634,32 @@ class _ShowReadyToPostState extends State<ShowReadyToPost> {
                       child:   IconButton(
                         onPressed: () {
                           //provider.removeFromList(index);
-                          AlertsWidget.alertWithOkCancelBtn(
-                            context: context,
-                            text: "Are you sure you want to Crop.",
-                            title: "Alert!",
-                            okText: "Yes",
-                            cancelText: "No",
-                            onOkClick: () async {
 
-                             String  croppedPath = await _cropImage(pickedFile.path);
+                           AlertsWidget.showCustomDialog(
+                        context: context,
+                        title: "",
+                    text: "Are you sure you want to Crop.",
+                        icon: 'assets/images/circle_alert_fill.svg',
+                        onOkClick: () async {
+ String  croppedPath = await _cropImage(pickedFile.path);
                          
-                               widget.provider?.updateAtIndex(croppedPath, index);
+                               widget.provider?.updateAtIndex(croppedPath, index);                        });
+                          // AlertsWidget.alertWithOkCancelBtn(
+                          //   context: context,
+                          //   text: "Are you sure you want to Crop.",
+                          //   title: "Alert!",
+                          //   okText: "Yes",
+                          //   cancelText: "No",
+                          //   onOkClick: () async {
+
+                          //    String  croppedPath = await _cropImage(pickedFile.path);
+                         
+                          //      widget.provider?.updateAtIndex(croppedPath, index);
                                
 
 
-                            },
-                          );
+                          //   },
+                          // );
                         },
                         padding: EdgeInsets.zero,
                         constraints: BoxConstraints(),

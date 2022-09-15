@@ -10,6 +10,7 @@ import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/gcarvaan_post_reponse.dart';
 import 'package:masterg/local/pref/Preference.dart';
+import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/gcarvaan/comment/comment_view_page.dart';
 import 'package:masterg/pages/ghome/video_player_screen.dart';
@@ -301,13 +302,24 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                       'Delete this post',
                                       style: TextStyle(color: Colors.white),
                                     ),
-                                    onTap: () {
-                                  
-                                        deletePost(widget.contentId);
+                                    onTap: ()async {
+ Navigator.pop(context);
+
+                                      
+                          AlertsWidget.showCustomDialog(
+                        context: context,
+                        title: "Delete Post!",
+                     text: "Are you sure you want to Delete.",
+                        icon: 'assets/images/circle_alert_fill.svg',
+                        onOkClick: () async {
+                        deletePost(widget.contentId);
                                          widget.value?.hidePost(widget.index);
+                        });
+                                    
+
+                                   
                                         //reportPostFormEnabled = true;
                                    
-                                      return Navigator.pop(context);
                                     },
                                   ),
                                 ): SizedBox(),
