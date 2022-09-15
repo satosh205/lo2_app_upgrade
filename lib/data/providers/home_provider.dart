@@ -210,16 +210,24 @@ class HomeProvider {
     return null;
   }
 
-  Future<ApiResponse?> updateUserProfileImage(String? filePath) async {
+  Future<ApiResponse?> updateUserProfileImage(String? filePath, String? name, String? email) async {
     //  Utility.hideKeyboard();
 
     try {
       Map<String, dynamic> data = Map();
       if (filePath != null && filePath.isNotEmpty) {
         String fileName = filePath.split('/').last;
-        data['profile_pic'] =
-            await MultipartFile.fromFile(filePath, filename: fileName);
+        data['profile_pic'] = await MultipartFile.fromFile(filePath, filename: fileName);
+      }else{
+        data['first_name'] = name;
+        data['email_address'] = email;
       }
+
+      print('********** updateUserProfileImage ************');
+      print(name);
+      print(email);
+      print(data);
+
       final response = await api.dio.post(ApiConstants.USER_PROFILE_IMAGE_API,
           data: FormData.fromMap(data),
           options: Options(

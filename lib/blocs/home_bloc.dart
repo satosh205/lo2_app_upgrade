@@ -333,7 +333,9 @@ class GetUserProfileEvent extends HomeEvent {
 
 class UpdateUserProfileImageEvent extends HomeEvent {
   String? filePath;
-  UpdateUserProfileImageEvent({this.filePath}) : super([filePath]);
+  String? name;
+  String? email;
+  UpdateUserProfileImageEvent({this.filePath, this.name, this.email}) : super([filePath, name, email]);
 
   List<Object> get props => throw UnimplementedError();
 }
@@ -1962,7 +1964,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield UpdateUserProfileImageState(ApiStatus.LOADING);
 
         final response =
-            await homeRepository.updateUserProfileImage(event.filePath);
+            await homeRepository.updateUserProfileImage(event.filePath, event.name, event.email);
 
         if (response != null) {
           yield UpdateUserProfileImageState(ApiStatus.SUCCESS,

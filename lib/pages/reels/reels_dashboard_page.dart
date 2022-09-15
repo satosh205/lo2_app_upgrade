@@ -278,6 +278,7 @@ class VideoPlayerItem extends StatefulWidget {
   final String? createdAt;
   final GReelsModel? greelsModel;
   final int? index;
+  final int? userID;
   VideoPlayerItem(
       {Key? key,
       required this.size,
@@ -294,6 +295,7 @@ class VideoPlayerItem extends StatefulWidget {
       this.viewCount,
       this.createdAt,
       this.index,
+      this.userID,
       this.greelsModel})
       : super(key: key);
 
@@ -536,6 +538,7 @@ class RightPanel extends StatefulWidget {
   final bool? isLiked;
   final int? contentId;
   final int? index;
+  final int? userID;
   final GReelsModel? greelsModel;
 
   const RightPanel(
@@ -550,6 +553,7 @@ class RightPanel extends StatefulWidget {
       this.contentId,
       this.greelsModel,
       this.index,
+      this.userID,
       required this.mContext})
       : super(key: key);
 
@@ -602,8 +606,10 @@ class _RightPanelState extends State<RightPanel> {
                 height: 18,
               ),
               GestureDetector(
-                onTap: () {
-                  showModalBottomSheet(
+                onTap: () async {
+                  bool reportPostFormEnabled = false;
+                  bool reportInprogress = false;
+                  await showModalBottomSheet(
                       context: context,
                       backgroundColor: Colors.black,
                       builder: (context) {
@@ -623,310 +629,276 @@ class _RightPanelState extends State<RightPanel> {
                               ),
                             ),
                             Container(
-                              child: ListTile(
-                                leading: new Icon(
-                                  Icons.report,
-                                  color: Colors.white,
-                                ),
-                                title: new Text(
-                                  'Report this post',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                onTap: () async {},
+                              child: Column(
+                                children: [
+                                  ListTile(
+                                    leading: new Icon(
+                                      Icons.report,
+                                      color: Colors.white,
+                                    ),
+                                    title: new Text(
+                                      'Report this post',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        reportPostFormEnabled = true;
+                                      });
+                                      return Navigator.pop(context);
+                                    },
+                                  ),
+                                   ListTile(
+                                    leading: new Icon(
+                                      Icons.delete,
+                                      color: Colors.white,
+                                    ),
+                                    title: new Text(
+                                      'Delete this post',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                       print('New Call API For This');
+                                      });
+                                      return Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
                               ),
                             ),
-                            Container(
-                              child: ListTile(
-                                leading: new Icon(
-                                  Icons.visibility_off,
-                                  color: Colors.white,
-                                ),
-                                title: new Text(
-                                  'Hide this post',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                onTap: () async {},
-                              ),
-                            )
                           ],
                         );
                       });
-                },
-                child: GestureDetector(
-                  onTap: () async {
-                    bool reportPostFormEnabled = false;
-                    bool reportInprogress = false;
-                    await showModalBottomSheet(
+
+                  void reportPost(
+                      int? postId, String category, String comment) {
+                    BlocProvider.of<HomeBloc>(context).add(ReportEvent(
+                        postId: postId,
+                        comment: comment,
+                        category: category));
+                  }
+
+                  void _handleReport(ReportState state) {
+                    var reportState = state;
+                    setState(() {
+                      switch (reportState.apiState) {
+                        case ApiStatus.LOADING:
+                          Log.v(
+                              "ContentReportState Loading....................");
+                          reportInprogress = true;
+                          break;
+                        case ApiStatus.SUCCESS:
+                          Log.v("ContentReportState....................");
+                          Navigator.pop(context);
+                          // widget.greelsModel?.hidePost(widget.index);
+
+                          Utility.showSnackBar(
+                              scaffoldContext: context,
+                              message: '${reportState.response?.message}');
+                          reportInprogress = false;
+                          break;
+                        case ApiStatus.ERROR:
+                          Log.v(
+                              "ContentReportState error....................");
+                          reportInprogress = false;
+                          break;
+                        case ApiStatus.INITIAL:
+                          break;
+                      }
+                    });
+                  }
+
+                  if (reportPostFormEnabled) {
+                    bool showTextField = false;
+                    TextEditingController reportController =
+                    TextEditingController();
+                    List<dynamic> reportList = Utility.getReportList();
+                    showModalBottomSheet(
                         context: context,
                         backgroundColor: Colors.black,
-                        builder: (context) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Center(
-                                child: Container(
-                                  padding: EdgeInsets.all(10),
-                                  margin: EdgeInsets.only(top: 10),
-                                  height: 4,
-                                  width: 70,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8)),
-                                ),
-                              ),
-                              Container(
-                                child: ListTile(
-                                  leading: new Icon(
-                                    Icons.report,
-                                    color: Colors.white,
-                                  ),
-                                  title: new Text(
-                                    'Report this post',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      reportPostFormEnabled = true;
-                                    });
-                                    return Navigator.pop(context);
-                                  },
-                                ),
-                              ),
-                            ],
-                          );
-                        });
-
-                    void reportPost(
-                        int? postId, String category, String comment) {
-                      BlocProvider.of<HomeBloc>(context).add(ReportEvent(
-                          postId: postId,
-                          comment: comment,
-                          category: category));
-                    }
-
-                    void _handleReport(ReportState state) {
-                      var reportState = state;
-                      setState(() {
-                        switch (reportState.apiState) {
-                          case ApiStatus.LOADING:
-                            Log.v(
-                                "ContentReportState Loading....................");
-                            reportInprogress = true;
-                            break;
-                          case ApiStatus.SUCCESS:
-                            Log.v("ContentReportState....................");
-                            Navigator.pop(context);
-                            // widget.greelsModel?.hidePost(widget.index);
-
-                            Utility.showSnackBar(
-                                scaffoldContext: context,
-                                message: '${reportState.response?.message}');
-                            reportInprogress = false;
-                            break;
-                          case ApiStatus.ERROR:
-                            Log.v(
-                                "ContentReportState error....................");
-                            reportInprogress = false;
-                            break;
-                          case ApiStatus.INITIAL:
-                            break;
-                        }
-                      });
-                    }
-
-                    if (reportPostFormEnabled) {
-                      bool showTextField = false;
-                      TextEditingController reportController =
-                          TextEditingController();
-                      List<dynamic> reportList = Utility.getReportList();
-                      showModalBottomSheet(
-                          context: context,
-                          backgroundColor: Colors.black,
-                          builder: (BuildContext context) {
-                            return FractionallySizedBox(
-                              heightFactor: 1,
-                              child: BlocManager(
-                                initState: (BuildContext context) {},
-                                child: BlocListener<HomeBloc, HomeState>(
-                                  listener: (BuildContext context, state) {
-                                    if (state is ReportState) {
-                                      _handleReport(state);
-                                    }
-                                  },
-                                  child: BottomSheet(
-                                      onClosing: () {},
-                                      builder: (BuildContext context) {
-                                        return StatefulBuilder(
-                                          builder: (BuildContext context,
-                                                  setState) =>
-                                              SingleChildScrollView(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: <Widget>[
-                                                Center(
-                                                  child: Container(
-                                                    padding: EdgeInsets.all(10),
-                                                    margin: EdgeInsets.only(
-                                                        top: 10),
-                                                    height: 4,
-                                                    width: 70,
-                                                    decoration: BoxDecoration(
-                                                        color: ColorConstants
-                                                            .GREY_4,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8)),
-                                                  ),
-                                                ),
-                                                Center(
-                                                  child: Text(
-                                                    'Report',
-                                                    style: Styles.bold(),
-                                                  ),
-                                                ),
-                                                Divider(),
-                                                Text(
-                                                    'Why are you reporting this post?',
-                                                    style: Styles.regular(
-                                                        color: ColorConstants
-                                                            .WHITE)),
-                                                if (showTextField == false)
-                                                  SingleChildScrollView(
-                                                    child: Column(
-                                                      children: [
-                                                        ListView.builder(
-                                                            physics:
-                                                                BouncingScrollPhysics(),
-                                                            shrinkWrap: true,
-                                                            itemCount:
-                                                                reportList
-                                                                    .length,
-                                                            itemBuilder:
-                                                                (BuildContext
-                                                                        context,
-                                                                    int index) {
-                                                              return ListTile(
-                                                                  onTap: () {
-                                                                    reportPost(
-                                                                        widget
-                                                                            .contentId,
-                                                                        '${reportList[index]['value']}',
-                                                                        reportController
-                                                                            .value
-                                                                            .text);
-                                                                  },
-                                                                  title: Text(
-                                                                      '${reportList[index]['title']}'));
-                                                            }),
-                                                        ListTile(
-                                                            onTap: () {
-                                                              setState(() {
-                                                                showTextField =
-                                                                    true;
-                                                              });
-                                                            },
-                                                            title: Text(
-                                                                'Something else')),
-                                                      ],
+                        builder: (BuildContext context) {
+                          return FractionallySizedBox(
+                            heightFactor: 1,
+                            child: BlocManager(
+                              initState: (BuildContext context) {},
+                              child: BlocListener<HomeBloc, HomeState>(
+                                listener: (BuildContext context, state) {
+                                  if (state is ReportState) {
+                                    _handleReport(state);
+                                  }
+                                },
+                                child: BottomSheet(
+                                    onClosing: () {},
+                                    builder: (BuildContext context) {
+                                      return StatefulBuilder(
+                                        builder: (BuildContext context,
+                                            setState) =>
+                                            SingleChildScrollView(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: <Widget>[
+                                                  Center(
+                                                    child: Container(
+                                                      padding: EdgeInsets.all(10),
+                                                      margin: EdgeInsets.only(
+                                                          top: 10),
+                                                      height: 4,
+                                                      width: 70,
+                                                      decoration: BoxDecoration(
+                                                          color: ColorConstants
+                                                              .GREY_4,
+                                                          borderRadius:
+                                                          BorderRadius
+                                                              .circular(8)),
                                                     ),
                                                   ),
-                                                if (showTextField == true)
-                                                  Container(
-                                                    margin:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 14,
-                                                            vertical: 8),
-                                                    child:
-                                                        SingleChildScrollView(
+                                                  Center(
+                                                    child: Text(
+                                                      'Report',
+                                                      style: Styles.bold(),
+                                                    ),
+                                                  ),
+                                                  Divider(),
+                                                  Text(
+                                                      'Why are you reporting this post?',
+                                                      style: Styles.regular(
+                                                          color: ColorConstants
+                                                              .WHITE)),
+                                                  if (showTextField == false)
+                                                    SingleChildScrollView(
                                                       child: Column(
                                                         children: [
-                                                          TextFormField(
-                                                            controller:
-                                                                reportController,
-                                                            style: Styles.bold(
-                                                              size: 14,
-                                                            ),
-                                                            decoration:
-                                                                InputDecoration(
-                                                              hintText:
-                                                                  'What are you trying to report?',
-                                                              isDense: true,
-                                                              helperStyle: Styles.regular(
-                                                                  size: 12,
-                                                                  color: ColorConstants
-                                                                      .GREY_3
-                                                                      .withOpacity(
-                                                                          0.1)),
-                                                              counterText: "",
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 20,
-                                                          ),
-                                                          InkWell(
+                                                          ListView.builder(
+                                                              physics:
+                                                              BouncingScrollPhysics(),
+                                                              shrinkWrap: true,
+                                                              itemCount:
+                                                              reportList
+                                                                  .length,
+                                                              itemBuilder:
+                                                                  (BuildContext
+                                                              context,
+                                                                  int index) {
+                                                                return ListTile(
+                                                                    onTap: () {
+                                                                      reportPost(
+                                                                          widget
+                                                                              .contentId,
+                                                                          '${reportList[index]['value']}',
+                                                                          reportController
+                                                                              .value
+                                                                              .text);
+                                                                    },
+                                                                    title: Text(
+                                                                        '${reportList[index]['title']}'));
+                                                              }),
+                                                          ListTile(
                                                               onTap: () {
-                                                                reportPost(
-                                                                    widget
-                                                                        .contentId,
-                                                                    '',
-                                                                    reportController
-                                                                        .value
-                                                                        .text);
+                                                                setState(() {
+                                                                  showTextField =
+                                                                  true;
+                                                                });
                                                               },
-                                                              child: Container(
-                                                                margin: EdgeInsets
-                                                                    .symmetric(
-                                                                        vertical:
-                                                                            12),
-                                                                width: double
-                                                                    .infinity,
-                                                                height: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .height *
-                                                                    WidgetSize
-                                                                        .AUTH_BUTTON_SIZE,
-                                                                decoration: BoxDecoration(
-                                                                    color: ColorConstants()
-                                                                        .buttonColor(),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10)),
-                                                                child: Center(
-                                                                    child: Text(
-                                                                  'Submit',
-                                                                  style: Styles
-                                                                      .regular(
-                                                                    color: ColorConstants
-                                                                        .WHITE,
-                                                                  ),
-                                                                )),
-                                                              )),
+                                                              title: Text(
+                                                                  'Something else')),
                                                         ],
                                                       ),
                                                     ),
-                                                  )
-                                              ],
+                                                  if (showTextField == true)
+                                                    Container(
+                                                      margin:
+                                                      EdgeInsets.symmetric(
+                                                          horizontal: 14,
+                                                          vertical: 8),
+                                                      child:
+                                                      SingleChildScrollView(
+                                                        child: Column(
+                                                          children: [
+                                                            TextFormField(
+                                                              controller:
+                                                              reportController,
+                                                              style: Styles.bold(
+                                                                size: 14,
+                                                              ),
+                                                              decoration:
+                                                              InputDecoration(
+                                                                hintText:
+                                                                'What are you trying to report?',
+                                                                isDense: true,
+                                                                helperStyle: Styles.regular(
+                                                                    size: 12,
+                                                                    color: ColorConstants
+                                                                        .GREY_3
+                                                                        .withOpacity(
+                                                                        0.1)),
+                                                                counterText: "",
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 20,
+                                                            ),
+                                                            InkWell(
+                                                                onTap: () {
+                                                                  reportPost(
+                                                                      widget
+                                                                          .contentId,
+                                                                      '',
+                                                                      reportController
+                                                                          .value
+                                                                          .text);
+                                                                },
+                                                                child: Container(
+                                                                  margin: EdgeInsets
+                                                                      .symmetric(
+                                                                      vertical:
+                                                                      12),
+                                                                  width: double
+                                                                      .infinity,
+                                                                  height: MediaQuery.of(
+                                                                      context)
+                                                                      .size
+                                                                      .height *
+                                                                      WidgetSize
+                                                                          .AUTH_BUTTON_SIZE,
+                                                                  decoration: BoxDecoration(
+                                                                      color: ColorConstants()
+                                                                          .buttonColor(),
+                                                                      borderRadius:
+                                                                      BorderRadius.circular(
+                                                                          10)),
+                                                                  child: Center(
+                                                                      child: Text(
+                                                                        'Submit',
+                                                                        style: Styles
+                                                                            .regular(
+                                                                          color: ColorConstants
+                                                                              .WHITE,
+                                                                        ),
+                                                                      )),
+                                                                )),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    )
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        );
-                                      }),
-                                ),
+                                      );
+                                    }),
                               ),
-                            );
-                          });
-                    }
-                  },
-                  child: Icon(
-                    Icons.more_vert,
-                    color: ColorConstants.WHITE,
-                    size: 40,
-                  ),
+                            ),
+                          );
+                        });
+                  }
+                },
+                child: Icon(
+                  Icons.more_vert,
+                  color: ColorConstants.WHITE,
+                  size: 40,
                 ),
-              )
+              ),
             ],
           ))
         ],

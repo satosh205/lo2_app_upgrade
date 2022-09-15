@@ -44,6 +44,7 @@ import '../../data/models/response/home_response/list_portfolio_responsed.dart';
 import '../../utils/utility.dart';
 import '../custom_pages/TapWidget.dart';
 import 'brand_filter_page.dart';
+import 'edit_self_details_page.dart';
 import 'g_portfolio_page.dart';
 import 'package:http/http.dart' as http;
 
@@ -422,6 +423,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                     ),
                   ),
 
+                  ///TODO: Profile Edit
                   SizedBox(
                     height: 10,
                   ),
@@ -436,6 +438,19 @@ class _UserProfilePageState extends State<UserProfilePage>
                       ),
                       /*SvgPicture.asset('assets/images/edit_profile_icon.svg',
                           width: 20, height: 20)*/
+                      GestureDetector(
+                        onTap: (){
+                          //print('object ..');
+                          Navigator.push(
+                              context,
+                              NextPageRoute(EditSelfDetailsPage(
+                                  name: userProfileDataList!.name,
+                              email: userProfileDataList!.email, onCalledBack: editCallBack,)),);
+                        },
+                          child: Container(
+                            height: 30,
+                              width: 30,
+                              child: Icon(Icons.edit, size: 20,)),),
                     ],
                   ),
 
@@ -2779,6 +2794,12 @@ Navigator.push(context, MaterialPageRoute(builder: (context)=> TakePictureScreen
       });
     }*/
   }
+
+
+  void editCallBack(){
+    _getUserProfile();
+  }
+
 }
 
 class BlankPage extends StatelessWidget {
