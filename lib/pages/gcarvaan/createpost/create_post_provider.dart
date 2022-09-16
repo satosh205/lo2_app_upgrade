@@ -16,6 +16,11 @@ class CreatePostProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateList(List<String?>? list){
+    this.files  = list;
+    notifyListeners();
+  }
+
   List<String?>? getFiles(){
     return this.files;
   }

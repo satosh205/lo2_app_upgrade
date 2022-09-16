@@ -1300,7 +1300,7 @@ class HomeProvider {
       Map<String, dynamic> data = Map();
       List<MultipartFile> files = [];
 
-      if (contentType == 2) {
+      if (postType == 'caravan') {
         for (var item in filepaths!) {
           files.add(await MultipartFile.fromFile(item!,
               filename: item.split('/').last));

@@ -2616,7 +2616,7 @@ class _UserProfilePageState extends State<UserProfilePage>
         return croppedFile.path;
       }
     }
-    return "";
+    return _pickedFile;
   }
 
   void _initFilePiker() async {

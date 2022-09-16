@@ -11,6 +11,7 @@ import 'package:masterg/data/models/response/home_response/greels_response.dart'
 import 'package:masterg/data/models/response/home_response/joy_contentList_response.dart';
 import 'package:masterg/data/providers/reels_proivder.dart';
 import 'package:masterg/local/pref/Preference.dart';
+import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/gcarvaan/createpost/create_post_provider.dart';
 import 'package:masterg/pages/reels/theme/colors.dart';
 import 'package:masterg/pages/reels/video_recording/video_recording_camera_page.dart';
@@ -665,10 +666,22 @@ class _RightPanelState extends State<RightPanel> {
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onTap: () {
-                                      deletePost(widget.contentId);
-                          widget.greelsModel?.hidePost(widget.index);
 
-                                      return Navigator.pop(context);
+
+                                       Navigator.pop(context);
+
+                                      
+                          AlertsWidget.showCustomDialog(
+                        context: context,
+                        title: "Delete Post!",
+                     text: "Are you sure you want to Delete.",
+                        icon: 'assets/images/circle_alert_fill.svg',
+                        onOkClick: () async {
+                         deletePost(widget.contentId);
+                          widget.greelsModel?.hidePost(widget.index);
+                        });
+                                   
+
                                     },
                                   ),
                                 ],
