@@ -32,7 +32,7 @@ import '../../user_profile_page/mobile_ui_helper.dart';
 class CreateGCarvaanPage extends StatefulWidget {
   // final File postDocPath;
   final List<MultipartFile>? fileToUpload;
- List<String?>? filesPath;
+   List<String?>? filesPath;
   final bool isReelsPost;
   final CreatePostProvider? provider;
 
@@ -307,7 +307,15 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                       child: InkWell(
                         onTap: () {
                           if (value.files!.length != 0)
-                            createPost(menuProvider);
+                          {
+                            
+   String? firstExtension = value.files?.first?.split('/').last.split('.').last.toString();
+    bool isVideo =  true;
+Log.v('the extension is $firstExtension');
+    if(firstExtension == 'mp4' || firstExtension == 'mov'  )isVideo = true ;
+                            createPost(menuProvider, isVideo);
+
+                          }
                         },
                         child: Container(
                           margin: EdgeInsets.symmetric(
@@ -331,17 +339,12 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
     );
   }
 
-
-  void createPost(MenuListProvider provider) {
+  void createPost(MenuListProvider provider, bool isVideo) {
     setState(() {
       isPostedLoading = true;
- widget.filesPath = widget.provider?.getFiles();
-
+      widget.filesPath = widget.provider?.getFiles();
     });
-String? firstExtension = widget.filesPath?.first?.split('/').last.split('.').last.toString();
-    bool isVideo =  false;
 
-    if(firstExtension == 'mp4' || firstExtension == 'mov'  )isVideo = true ;
     if (!widget.isReelsPost) {
 
       BlocProvider.of<HomeBloc>(context).add(CreatePostEvent(
@@ -526,7 +529,7 @@ class _ShowReadyToPostState extends State<ShowReadyToPost> {
         compressFormat: ImageCompressFormat.jpg,
         compressQuality: 100,
         uiSettings: buildUiSettings(context),
-        aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+        // aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
       );
       if (croppedFile != null) {
         return croppedFile.path;
@@ -594,24 +597,36 @@ class _ShowReadyToPostState extends State<ShowReadyToPost> {
                     child: IconButton(
                       onPressed: () {
                         //provider.removeFromList(index);
-                        AlertsWidget.alertWithOkCancelBtn(
-                          context: context,
-                          text: "Are you sure you want to Delete.",
-                          title: "Alert!",
-                          okText: "Yes",
-                          cancelText: "No",
-                          onOkClick: () async {
-                            widget.provider!.removeFromList(index);
-                          },
-                        );
+
+
+                          AlertsWidget.showCustomDialog(
+                        context: context,
+                        title: "Delete Post!",
+                     text: "Are you sure you want to Delete.",
+                        icon: 'assets/images/circle_alert_fill.svg',
+                        onOkClick: () async {
+                        widget.provider!.removeFromList(index);
+                        });
+                        // AlertsWidget.alertWithOkCancelBtn(
+                        //   context: context,
+                        //   text: "Are you sure you want to Delete.",
+                        //   title: "Alert!",
+                        //   okText: "Yes",
+                        //   cancelText: "No",
+                        //   onOkClick: () async {
+                        //     widget.provider!.removeFromList(index);
+                        //   },
+                        // );
                       },
                       padding: EdgeInsets.zero,
                       constraints: BoxConstraints(),
                       icon: Icon(Icons.delete_forever, color: Colors.white),
                     ),
                   ),
-
-                    Positioned(
+             if(!(pickedFile.path.contains('.mp4') ||
+                      pickedFile.path.contains('.mov') ||
+                      pickedFile.path.contains('.hevc') ||
+                      pickedFile.path.contains('.h.265')))     Positioned(
                     left: 5,
                     top: 5,
                     child: Container(
@@ -620,26 +635,32 @@ class _ShowReadyToPostState extends State<ShowReadyToPost> {
                       child:   IconButton(
                         onPressed: () {
                           //provider.removeFromList(index);
-                          AlertsWidget.alertWithOkCancelBtn(
-                            context: context,
-                            text: "Are you sure you want to Crop.",
-                            title: "Alert!",
-                            okText: "Yes",
-                            cancelText: "No",
-                            onOkClick: () async {
-                              // widget.provider!.removeFromList(index);
 
-                             String  croppedPath = await _cropImage(pickedFile.path);
-                            //  setState(() {
-                              //  readyToPost![index] = croppedPath;
-                              Log.v("crop path is $croppedPath");
-                               widget.provider?.updateAtIndex(croppedPath, index);
+                           AlertsWidget.showCustomDialog(
+                        context: context,
+                        title: "",
+                    text: "Are you sure you want to Crop.",
+                        icon: 'assets/images/circle_alert_fill.svg',
+                        onOkClick: () async {
+ String  croppedPath = await _cropImage(pickedFile.path);
+                         
+                               widget.provider?.updateAtIndex(croppedPath, index);                        });
+                          // AlertsWidget.alertWithOkCancelBtn(
+                          //   context: context,
+                          //   text: "Are you sure you want to Crop.",
+                          //   title: "Alert!",
+                          //   okText: "Yes",
+                          //   cancelText: "No",
+                          //   onOkClick: () async {
+
+                          //    String  croppedPath = await _cropImage(pickedFile.path);
+                         
+                          //      widget.provider?.updateAtIndex(croppedPath, index);
                                
-                            //  });
 
 
-                            },
-                          );
+                          //   },
+                          // );
                         },
                         padding: EdgeInsets.zero,
                         constraints: BoxConstraints(),
