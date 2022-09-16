@@ -219,7 +219,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
           if (loginState.status == 2)
             Navigator.push(
                 context,
-                NextPageRoute(SelfDetailsPage(
+                MaterialPageRoute(builder: (context)=> SelfDetailsPage(
                   phoneNumber: widget.username,
                 )));
           else {

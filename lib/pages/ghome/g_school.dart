@@ -24,6 +24,7 @@ import 'package:masterg/pages/ghome/my_courses.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
+import 'package:masterg/utils/config.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:shimmer/shimmer.dart';
@@ -843,7 +844,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
   }
 
   Widget _getOtherLearnerTopics(context) {
-    var title = Strings.of(context)!.otherLearnerCourses;
+    var title = APK_DETAILS['package_name'] == 'com.at.masterg' ?  Strings.of(context)!.otherLearnerCoursesMasterG :Strings.of(context)!.otherLearnerCourses;
     return box != null
         ? ValueListenableBuilder(
             valueListenable: box!.listenable(),
@@ -1178,11 +1179,11 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                     overflow: TextOverflow.ellipsis,
                     softWrap: false,
                     style: Styles.semibold(size: 16)),
-              Text('${yourCourses.approvalStatus ?? ''}',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: false,
-                    style: Styles.semibold(size: 12, color: ColorConstants.YELLOW)),
+              // Text('${yourCourses.approvalStatus ?? ''}',
+              //       maxLines: 1,
+              //       overflow: TextOverflow.ellipsis,
+              //       softWrap: false,
+              //       style: Styles.semibold(size: 12, color: ColorConstants.YELLOW)),
                 Row(
                   children: [
                     Text('${yourCourses.enrolmentCount} Enrollments',

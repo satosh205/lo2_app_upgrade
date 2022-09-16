@@ -101,18 +101,18 @@ class _MyClassesState extends State<MyClasses> {
               Text('Class Completed')
             ]),
             value: '3'),
-        PopupMenuItem<String>(
-            child: Row(children: [
-              SvgPicture.asset(
-                'assets/images/pending_icon.svg',
-                width: 20,
-                height: 20,
-                allowDrawingOutsideViewBox: true,
-              ),
-              SizedBox(width: 20),
-              Text('Class Pending')
-            ]),
-            value: '4'),
+        // PopupMenuItem<String>(
+        //     child: Row(children: [
+        //       SvgPicture.asset(
+        //         'assets/images/pending_icon.svg',
+        //         width: 20,
+        //         height: 20,
+        //         allowDrawingOutsideViewBox: true,
+        //       ),
+        //       SizedBox(width: 20),
+        //       Text('Class Pending')
+        //     ]),
+        //     value: '4'),
       ],
       elevation: 8.0,
     );
@@ -719,7 +719,7 @@ class _MyClassesState extends State<MyClasses> {
 
   void _handleLiveClassResponse(getLiveClassState state, LiveclassModel model) {
     var loginState = state;
-    // setState(() {
+    setState(() {
     switch (loginState.apiState) {
       case ApiStatus.LOADING:
         _isJoyCategoryLoading = true;
@@ -758,6 +758,6 @@ class _MyClassesState extends State<MyClasses> {
       case ApiStatus.INITIAL:
         break;
     }
-    // });
+    });
   }
 }

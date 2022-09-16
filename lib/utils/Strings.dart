@@ -228,6 +228,8 @@ class Strings {
       _localizedValues[locale.languageCode]!["recommendedCourses"];
   String? get otherLearnerCourses =>
       _localizedValues[locale.languageCode]!["otherLearnerCourses"];
+  String? get otherLearnerCoursesMasterG =>
+      _localizedValues[locale.languageCode]!["otherLearnerCoursesMasterG"];
 
   String? get shortCourses =>
       _localizedValues[locale.languageCode]!["shortCourses"];

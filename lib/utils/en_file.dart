@@ -330,6 +330,7 @@ const EN_TEXT = {
   'pending' : 'Pending',
   'upcoming' : 'Upcoming',
   'Ongoing' : 'चल रहे',
+   "otherLearnerCoursesMasterG": "Learn what other MasterG’s are learning",
 };
 
 
@@ -338,6 +339,8 @@ const HI_TEXT = {
   "recommendedCourses": "आपके लिए अनुशंसित पाठ्यक्रम",
   "learnNewEveryday": "हर रोज नया सीखें",
   "otherLearnerCourses": "जानें कि अन्य लोकप्रिय पाठ्यक्रम क्या हैं",
+  "otherLearnerCoursesMasterG": "जानें कि अन्य लोकप्रिय पाठ्यक्रम क्या हैं",
+  
   "alert": "अलर्ट",
   "login": "लॉग इन करें",
   "logout": "लॉग आउट",

@@ -366,16 +366,16 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
         sourcePath: _pickedFile,
         compressFormat: ImageCompressFormat.jpg,
         compressQuality: 100,
-        //uiSettings: buildUiSettings(context),
-        uiSettings: [
-          AndroidUiSettings(
-              //toolbarTitle: 'Cropper',
-              toolbarColor: Colors.deepOrange,
-              toolbarWidgetColor: Colors.white,
-              initAspectRatio: CropAspectRatioPreset.square,
-              hideBottomControls: true,
-              lockAspectRatio: false),
-        ],
+        uiSettings: buildUiSettings(context),
+        // uiSettings: [
+        //   AndroidUiSettings(
+        //       //toolbarTitle: 'Cropper',
+        //       toolbarColor: Colors.deepOrange,
+        //       toolbarWidgetColor: Colors.white,
+        //       initAspectRatio: CropAspectRatioPreset.square,
+        //       hideBottomControls: true,
+        //       lockAspectRatio: false),
+        // ],
         aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
       );
       if (croppedFile != null) {
@@ -500,13 +500,16 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                         builder: (context) =>
                             TakePictureScreen(camera: firstCamera))).then((
                         value) async {
-                      print('Camera on click ..$value');
+                   
                       if (value != null) {
                         selectedImage = value;
                         selectedImage = await _cropImage(value);
                       }
+                      setState(() {
+                        
+                      });
                       Navigator.pop(context);
-                      setState(() {});
+                     
                     });
                   },
                 ),
