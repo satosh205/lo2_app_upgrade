@@ -188,7 +188,7 @@ class _MyClassesState extends State<MyClasses> {
                         ? _getClasses(liveClassModel)
                         : Center(
                             child: Text(
-                              'No active programs for this user.',
+                              'There are no classes available.',
                               style: Styles.bold(size: 16),
                             ),
                           )
