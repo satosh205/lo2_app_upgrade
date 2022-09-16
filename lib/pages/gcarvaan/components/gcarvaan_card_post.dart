@@ -292,7 +292,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                   ),
                                 ),
 
-                                UserSession.userId == widget.userID ? Container(
+                                Preference.getInt(Preference.USER_ID) == widget.userID ? Container(
                                   child: ListTile(
                                     leading: new Icon(
                                       Icons.delete,

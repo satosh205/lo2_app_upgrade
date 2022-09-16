@@ -360,6 +360,7 @@ Log.v('the extension is $firstExtension');
           postType: 'caravan',
           filePath: widget.filesPath));
     } else {
+      print('create reel ${widget.filesPath?.first}');
       BlocProvider.of<HomeBloc>(context).add(CreatePostEvent(
           files: widget.fileToUpload,
           contentType: 2,
@@ -368,6 +369,11 @@ Log.v('the extension is $firstExtension');
           postType: 'reels',
           filePath: widget.filesPath));
     }
+
+    // setState(() {
+    //   isPostedLoading = false;
+    //   widget.filesPath = widget.provider?.getFiles();
+    // });
   }
 
   // void _getPosts(callCount, {postId}) {
@@ -450,7 +456,7 @@ Log.v('the extension is $firstExtension');
           isPostedLoading = true;
           break;
         case ApiStatus.SUCCESS:
-          Log.v("Success.................... create Reels");
+          Log.v("Success.................... create post");
           isPostedLoading = false;
           responseData = state.response;
           widget.provider?.clearList();
@@ -645,6 +651,10 @@ List<String?>? readyToPost;
                           icon: 'assets/images/circle_alert_fill.svg',
                           onOkClick: () async {
                           widget.provider!.removeFromList(index);
+
+                          setState(() {
+                      croppedList =       widget.provider?.files;
+                          });
                           });
                           // AlertsWidget.alertWithOkCancelBtn(
                           //   context: context,
