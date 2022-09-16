@@ -427,32 +427,42 @@ class _UserProfilePageState extends State<UserProfilePage>
                   SizedBox(
                     height: 10,
                   ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '${userProfileDataList!.name}',
-                        style:
-                            Styles.bold(color: ColorConstants.BLACK, size: 20),
-                      ),
-                      /*SvgPicture.asset('assets/images/edit_profile_icon.svg',
-                          width: 20, height: 20)*/
-                      GestureDetector(
-                        onTap: (){
-                          //print('object ..');
-                          Navigator.push(
-                              context,
-                              NextPageRoute(EditSelfDetailsPage(
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                    child: Flexible(
+                      fit: FlexFit.loose,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '${userProfileDataList!.name}',
+                            style: Styles.bold(color: ColorConstants.BLACK, size: 20,),
+                          ),
+                          GestureDetector(
+                            onTap: (){
+                              //print('object ..');
+                              Navigator.push(
+                                context,
+                                NextPageRoute(EditSelfDetailsPage(
                                   name: userProfileDataList!.name,
-                              email: userProfileDataList!.email, onCalledBack: editCallBack,)),);
-                        },
-                          child: Container(
-                            height: 30,
-                              width: 30,
-                              child: Icon(Icons.edit, size: 20,)),),
-                    ],
+                                  email: userProfileDataList!.email, onCalledBack: editCallBack,)),);
+                            },
+                            child: Container(
+                                margin: EdgeInsets.only(left: 5.0),
+                                height: 30,
+                                width: 30,
+                                child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Icon(Icons.edit, size: 15,))),
+                          ),
+                          /*SvgPicture.asset('assets/images/edit_profile_icon.svg',
+                            width: 20, height: 20)*/
+                        ],
+                      ),
+                    ),
                   ),
+
 
                   Text(
                     userProfileDataList!.organization!,

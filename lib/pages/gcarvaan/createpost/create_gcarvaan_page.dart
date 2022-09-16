@@ -350,9 +350,10 @@ Log.v('the extension is $firstExtension');
     });
 
     if (!widget.isReelsPost) {
-      
+
       BlocProvider.of<HomeBloc>(context).add(CreatePostEvent(
           files: widget.fileToUpload,
+          //contentType:isVideo == true ? 2  :1 ,
           contentType:isVideo == true ? 2  :1 ,
           title: '',
           description: '${postDescriptionController.value.text}',

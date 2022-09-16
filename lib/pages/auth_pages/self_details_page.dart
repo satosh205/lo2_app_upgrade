@@ -366,7 +366,16 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
         sourcePath: _pickedFile,
         compressFormat: ImageCompressFormat.jpg,
         compressQuality: 100,
-        uiSettings: buildUiSettings(context),
+        //uiSettings: buildUiSettings(context),
+        uiSettings: [
+          AndroidUiSettings(
+              //toolbarTitle: 'Cropper',
+              toolbarColor: Colors.deepOrange,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.square,
+              hideBottomControls: true,
+              lockAspectRatio: false),
+        ],
         aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
       );
       if (croppedFile != null) {
@@ -375,6 +384,8 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
     }
     return "";
   }
+
+
 
   void saveChanges() {
     if (!_formKey.currentState!.validate()) return;
@@ -459,7 +470,6 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                         selectedImage = value;
                         selectedImage = await _cropImage(value);
                       }
-
                       setState(() {});
                     });
                     Navigator.pop(context);
@@ -481,19 +491,23 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () async {
-                                    final cameras = await availableCameras();
+                    print('Camera on click');
+                    final cameras = await availableCameras();
+                    // Get a specific camera from the list of available cameras.
+                    final firstCamera = cameras.first;
 
-  // Get a specific camera from the list of available cameras.
-  final firstCamera = cameras.first;
-
-Navigator.push(context, MaterialPageRoute(builder: (context)=> TakePictureScreen(camera: firstCamera))).then((value) async {
+                   await Navigator.push(context, MaterialPageRoute(
+                        builder: (context) =>
+                            TakePictureScreen(camera: firstCamera))).then((
+                        value) async {
+                      print('Camera on click ..$value');
                       if (value != null) {
                         selectedImage = value;
                         selectedImage = await _cropImage(value);
                       }
+                      Navigator.pop(context);
                       setState(() {});
                     });
-                    Navigator.pop(context);
                   },
                 ),
               ),

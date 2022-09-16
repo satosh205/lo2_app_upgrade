@@ -68,6 +68,7 @@ class _EditSelfDetailsPageState extends State<EditSelfDetailsPage> {
           appBar: AppBar(
             elevation: 0,
             leading: BackButton(color: Colors.black),
+            title: Text('Edit profile', style: TextStyle(color: Colors.black, fontSize: 16),),
             backgroundColor: ColorConstants().primaryColor(),
             actions: [
               IconButton(
@@ -121,14 +122,16 @@ class _EditSelfDetailsPageState extends State<EditSelfDetailsPage> {
               style: Styles.regular(),
               maxLength: 100,
               decoration: InputDecoration(
+                labelText: 'Name',
                 hintText: '${Strings.of(context)?.EnterFullName}',
                 helperStyle: Styles.regular(color: ColorConstants.GREY_4),
                 counterText: "",
                 suffixIconConstraints: BoxConstraints(minWidth: 0),
-                // suffixIcon: Text(
-                //   fullNameController.value.text.length > 0 ? '' : "*",
-                //   style: Styles.regular(color: ColorConstants.RED_BG),
-                // ),
+                prefixIcon: Icon(Icons.person, color: Colors.black54,),
+                /*suffixIcon: Text(
+                  fullNameController.value.text.length > 0 ? '' : "*",
+                  style: Styles.regular(color: ColorConstants.RED_BG),
+                ),*/
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
                       color: ColorConstants().primaryColor(), width: 1.5),
@@ -144,14 +147,16 @@ class _EditSelfDetailsPageState extends State<EditSelfDetailsPage> {
                 return null;
               },
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 40),
             TextFormField(
               controller: emailController,
               style: Styles.regular(),
               decoration: InputDecoration(
+                labelText: 'Email',
                 hintText: '${Strings.of(context)?.emailAddress}',
                 helperStyle: Styles.regular(color: ColorConstants.GREY_4),
                 counterText: "",
+                prefixIcon: Icon(Icons.email, color: Colors.black54),
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
                       color: ColorConstants().primaryColor(), width: 1.5),
@@ -189,7 +194,7 @@ class _EditSelfDetailsPageState extends State<EditSelfDetailsPage> {
                       borderRadius: BorderRadius.circular(10)),
                   child: Center(
                       child: Text(
-                        '${Strings.of(context)?.continueStr}',
+                        '${Strings.of(context)?.updateProfile}',
                         style: Styles.regular(
                           color: ColorConstants.BLACK,
                         ),
