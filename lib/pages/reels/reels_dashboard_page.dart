@@ -545,6 +545,8 @@ class RightPanel extends StatefulWidget {
   final int? index;
   final int? userID;
   final GReelsModel? greelsModel;
+  final GReelsModel? joyContentModel;
+
 
   const RightPanel(
       {Key? key,
@@ -559,7 +561,7 @@ class RightPanel extends StatefulWidget {
       this.greelsModel,
       this.index,
       this.userID,
-      required this.mContext})
+      required this.mContext, this.joyContentModel})
       : super(key: key);
 
   final Size size;
@@ -568,7 +570,9 @@ class RightPanel extends StatefulWidget {
   State<RightPanel> createState() => _RightPanelState();
 }
 
-class _RightPanelState extends State<RightPanel> {
+class _RightPanelState extends State<RightPanel>   with TickerProviderStateMixin{
+
+
   void deletePost(int? postId){
      BlocProvider.of<HomeBloc>(context)
         .add(DeletePostEvent(postId: postId));
@@ -679,6 +683,16 @@ class _RightPanelState extends State<RightPanel> {
                         onOkClick: () async {
                          deletePost(widget.contentId);
                           widget.greelsModel?.hidePost(widget.index);
+ if(widget.index == 0) {
+  await Future.delayed(Duration(milliseconds: 500)).then((value) => setState((){
+  _tabController?.animateTo(1);
+}));
+// Future.delayed(Duration(milliseconds: 1000)).then((value) => setState((){
+//   _tabController?.animateTo(0);
+// }));
+ }
+                         
+                    
                         });
                                    
 

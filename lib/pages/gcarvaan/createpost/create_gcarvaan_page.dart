@@ -510,6 +510,10 @@ Log.v('the extension is $firstExtension');
             ));
           } else
             provider.addToList(result.paths[i]);
+
+             
+    croppedList = provider.files?.toList();
+            
         }
 
         if (provider.files!.length > 4) {
