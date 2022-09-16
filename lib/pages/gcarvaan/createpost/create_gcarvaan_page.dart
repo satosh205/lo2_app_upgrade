@@ -343,9 +343,10 @@ String? firstExtension = widget.filesPath?.first?.split('/').last.split('.').las
 
     if(firstExtension == 'mp4' || firstExtension == 'mov'  )isVideo = true ;
     if (!widget.isReelsPost) {
-      
+
       BlocProvider.of<HomeBloc>(context).add(CreatePostEvent(
           files: widget.fileToUpload,
+          //contentType:isVideo == true ? 2  :1 ,
           contentType:isVideo == true ? 2  :1 ,
           title: '',
           description: '${postDescriptionController.value.text}',

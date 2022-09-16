@@ -369,11 +369,15 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
       } else {
         result = await FilePicker.platform.pickFiles(
             allowMultiple: true,
-            type: FileType.custom,
-            allowedExtensions: isVideo ? ['mp4'] : ['jpg', 'png', 'jpeg']);
+            type: isVideo ? FileType.video : FileType.image,
+            allowedExtensions: []);
+            //type: FileType.custom,
+            //allowedExtensions: isVideo ? ['mp4'] : ['jpg', 'png', 'jpeg']);
       }
 
       if (result != null) {
+        print('result length ******');
+        print(result.paths.length);
         for (int i = 0; i < result.paths.length; i++) {
           if (i == 4) break;
           if (File(result.paths[i]!).lengthSync() / 1000000 > 8.0) {
@@ -390,7 +394,6 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
             content: Text("Only 4 images/videos are allowed"),
           ));
         }
-
         Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -400,7 +403,6 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                         filesPath: provider.files,
                         provider: provider)))
             .then((value) => _refreshController.requestRefresh());
-        ;
       }
     }
   }

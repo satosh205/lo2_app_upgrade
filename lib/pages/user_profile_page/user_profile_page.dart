@@ -448,9 +448,13 @@ class _UserProfilePageState extends State<UserProfilePage>
                               email: userProfileDataList!.email, onCalledBack: editCallBack,)),);
                         },
                           child: Container(
+                            margin: EdgeInsets.only(left: 5.0),
                             height: 30,
                               width: 30,
-                              child: Icon(Icons.edit, size: 20,)),),
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                  child: Icon(Icons.edit, size: 15,))),
+                      ),
                     ],
                   ),
 
