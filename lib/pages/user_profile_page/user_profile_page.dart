@@ -439,7 +439,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                         ),*/
 
                         Container(
-                          width: MediaQuery.of(context).size.width * 0.8,
+                            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
                           child: new Text(
                             '${userProfileDataList!.name}',
                             maxLines:1,
@@ -484,7 +484,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                   //       Styles.regular(size: 14, color: ColorConstants.GREY_3),
                   // ),
                 Container(
-                             width: MediaQuery.of(context).size.width * 0.8,
+                             constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
                           child: new Text(
                            '${userProfileDataList!.email}',
                             maxLines:2,
