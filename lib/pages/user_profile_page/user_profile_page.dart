@@ -430,7 +430,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      // crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         /*Text(
@@ -439,10 +439,12 @@ class _UserProfilePageState extends State<UserProfilePage>
                         ),*/
 
                         Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
                           child: new Text(
-                            'Text largeeeeeeeeeeeeeeeeeeeeeee',
-                            maxLines:2,
+                            '${userProfileDataList!.name}',
+                            maxLines:1,
                             overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
                             style: Styles.bold(color: ColorConstants.BLACK, size: 20,),
                           ),
                         ),
@@ -476,11 +478,21 @@ class _UserProfilePageState extends State<UserProfilePage>
                         color: ColorConstants.GREY_3, size: 14),
                   ),
 
-                  Text(
-                    '${userProfileDataList!.email}',
-                    style:
-                        Styles.regular(size: 14, color: ColorConstants.GREY_3),
-                  ),
+                  // Text(
+                  //   '${userProfileDataList!.email}',
+                  //   style:
+                  //       Styles.regular(size: 14, color: ColorConstants.GREY_3),
+                  // ),
+                Container(
+                             width: MediaQuery.of(context).size.width * 0.8,
+                          child: new Text(
+                           '${userProfileDataList!.email}',
+                            maxLines:2,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style:  Styles.regular(size: 14, color: ColorConstants.GREY_3),
+                          ),
+                        ),
 
                   Text('${userProfileDataList!.mobileNo}',
                       style: Styles.regular(
