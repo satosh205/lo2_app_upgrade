@@ -1179,11 +1179,11 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                     overflow: TextOverflow.ellipsis,
                     softWrap: false,
                     style: Styles.semibold(size: 16)),
-              // Text('${yourCourses.approvalStatus ?? ''}',
-              //       maxLines: 1,
-              //       overflow: TextOverflow.ellipsis,
-              //       softWrap: false,
-              //       style: Styles.semibold(size: 12, color: ColorConstants.YELLOW)),
+            if( APK_DETAILS['package_name'] == 'com.learn_build') Text('${yourCourses.approvalStatus ?? ''}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
+                    style: Styles.semibold(size: 12, color: ColorConstants.YELLOW)),
                 Row(
                   children: [
                     Text('${yourCourses.enrolmentCount} Enrollments',
