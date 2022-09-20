@@ -56,8 +56,8 @@ class _CoursesDetailsPageState extends State<CoursesDetailsPage> {
   }
 
   Future<bool> _willPopCallback() async {
-    Navigator.pop(context, true);
-    return true;
+    Navigator.pop(context, false);
+    return false;
   }
 
   @override

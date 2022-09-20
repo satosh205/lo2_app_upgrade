@@ -953,8 +953,11 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                       ).then((isSuccess) {
                                         if (isSuccess == true) {
 
+                            print('sucess enrolled');
                                           _getPopularCourses();
                                           _getFilteredPopularCourses();
+                                             Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MyCourses()));
                                         }
                                       });
                                       /*_subscribeRequest(
@@ -1106,6 +1109,9 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                             print('sucess enrolled');
                             _getPopularCourses();
                             _getFilteredPopularCourses();
+
+                           Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MyCourses()));
                           }
                         });
 
