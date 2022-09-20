@@ -313,7 +313,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
         case ApiStatus.LOADING:
           Log.v("Loading....................");
 
-          _isJoyCategoryLoading = true;
+          // _isJoyCategoryLoading = true;
           break;
         case ApiStatus.SUCCESS:
           Log.v("LiveClassState....................");
@@ -845,6 +845,8 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
 
   Widget _getOtherLearnerTopics(context) {
     var title = APK_DETAILS['package_name'] == 'com.at.masterg' ?  Strings.of(context)!.otherLearnerCoursesMasterG :Strings.of(context)!.otherLearnerCourses;
+
+    print('the title is $title');
     return box != null
         ? ValueListenableBuilder(
             valueListenable: box!.listenable(),
