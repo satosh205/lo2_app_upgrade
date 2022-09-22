@@ -428,37 +428,40 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
 
   Widget _postListWidget(gcarvaanPosts, GCarvaanListModel value) {
     return gcarvaanPosts.length != 0
-        ? ListView.builder(
-            scrollDirection: Axis.vertical,
-            itemCount: gcarvaanPosts == null ? 0 : gcarvaanPosts.length,
-            physics: BouncingScrollPhysics(),
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return gcarvaanPosts != null &&
-                      gcarvaanPosts[index].resourcePath != null
-                  ? GCarvaanCardPost(
-                      index: index,
-                      value: value,
-                      image_path: gcarvaanPosts[index].resourcePath,
-                      date: gcarvaanPosts[index].createdAt.toString(),
-                      description: gcarvaanPosts[index].description,
-                      commentCount: gcarvaanPosts[index].commentCount ?? 0,
-                      user_name: gcarvaanPosts[index].name,
-                      profile_path: gcarvaanPosts[index].profileImage,
-                      likeCount: gcarvaanPosts[index].likeCount ?? 0,
-                      viewCount: gcarvaanPosts[index].viewCount ?? 0,
-                      islikedPost: gcarvaanPosts[index].userLiked == 1 ? true : false,
-                      contentId: gcarvaanPosts[index].id,
-                      fileList: gcarvaanPosts[index].multiFileUploads,
-                      comment_visible: false,
-                      height: gcarvaanPosts[index].dimension.height,
-                      dimension: gcarvaanPosts[index].multiFileUploadsDimension,
-                      width: gcarvaanPosts[index].dimension.width,
-                      resourceType: gcarvaanPosts[index].resourceType,
-                      userID: gcarvaanPosts[index].userId,
-                    )
-                  : Container();
-            })
+        ? Container(
+          height: 500,
+          child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: gcarvaanPosts == null ? 0 : gcarvaanPosts.length,
+              physics: BouncingScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return gcarvaanPosts != null &&
+                        gcarvaanPosts[index].resourcePath != null
+                    ? GCarvaanCardPost(
+                        index: index,
+                        value: value,
+                        image_path: gcarvaanPosts[index].resourcePath,
+                        date: gcarvaanPosts[index].createdAt.toString(),
+                        description: gcarvaanPosts[index].description,
+                        commentCount: gcarvaanPosts[index].commentCount ?? 0,
+                        user_name: gcarvaanPosts[index].name,
+                        profile_path: gcarvaanPosts[index].profileImage,
+                        likeCount: gcarvaanPosts[index].likeCount ?? 0,
+                        viewCount: gcarvaanPosts[index].viewCount ?? 0,
+                        islikedPost: gcarvaanPosts[index].userLiked == 1 ? true : false,
+                        contentId: gcarvaanPosts[index].id,
+                        fileList: gcarvaanPosts[index].multiFileUploads,
+                        comment_visible: false,
+                        height: gcarvaanPosts[index].dimension.height,
+                        dimension: gcarvaanPosts[index].multiFileUploadsDimension,
+                        width: gcarvaanPosts[index].dimension.width,
+                        resourceType: gcarvaanPosts[index].resourceType,
+                        userID: gcarvaanPosts[index].userId,
+                      )
+                    : Container();
+              }),
+        )
         : _emptyPostListWidget();
 
     //TODO: OLd Code

@@ -120,6 +120,20 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                           width: 180,
                           child: Image.asset('assets/images/signupimage.gif')
                       ),*/
+
+                       if(APK_DETAILS['theme_image_url2'] != "")      APK_DETAILS['theme_image_url2']?.split('.').last == 'svg'
+                                ? SvgPicture.asset(
+                                        height:
+                                    MediaQuery.of(context).size.height * 0.25,
+                            'assets/images/${APK_DETAILS['theme_image_url2']}',
+                              fit: BoxFit.cover,
+                            )
+                                : Image.asset(
+                            'assets/images/${APK_DETAILS['theme_image_url2']}',
+                                height:
+                                    MediaQuery.of(context).size.height * 0.25,
+                              // width: 150,
+                            ),
                             SizedBox(height: 10),
                             Container(
                               height: 200,

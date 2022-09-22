@@ -313,7 +313,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
         case ApiStatus.LOADING:
           Log.v("Loading....................");
 
-          _isJoyCategoryLoading = true;
+          // _isJoyCategoryLoading = true;
           break;
         case ApiStatus.SUCCESS:
           Log.v("LiveClassState....................");
@@ -845,6 +845,8 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
 
   Widget _getOtherLearnerTopics(context) {
     var title = APK_DETAILS['package_name'] == 'com.at.masterg' ?  Strings.of(context)!.otherLearnerCoursesMasterG :Strings.of(context)!.otherLearnerCourses;
+
+    print('the title is $title');
     return box != null
         ? ValueListenableBuilder(
             valueListenable: box!.listenable(),
@@ -951,8 +953,11 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                       ).then((isSuccess) {
                                         if (isSuccess == true) {
 
+                            print('sucess enrolled');
                                           _getPopularCourses();
                                           _getFilteredPopularCourses();
+                                             Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MyCourses()));
                                         }
                                       });
                                       /*_subscribeRequest(
@@ -1104,6 +1109,9 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                             print('sucess enrolled');
                             _getPopularCourses();
                             _getFilteredPopularCourses();
+
+                           Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MyCourses()));
                           }
                         });
 
@@ -1179,11 +1187,11 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                     overflow: TextOverflow.ellipsis,
                     softWrap: false,
                     style: Styles.semibold(size: 16)),
-              // Text('${yourCourses.approvalStatus ?? ''}',
-              //       maxLines: 1,
-              //       overflow: TextOverflow.ellipsis,
-              //       softWrap: false,
-              //       style: Styles.semibold(size: 12, color: ColorConstants.YELLOW)),
+            if( APK_DETAILS['package_name'] == 'com.learn_build') Text('${yourCourses.approvalStatus ?? ''}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
+                    style: Styles.semibold(size: 12, color: ColorConstants.YELLOW)),
                 Row(
                   children: [
                     Text('${yourCourses.enrolmentCount} Enrollments',

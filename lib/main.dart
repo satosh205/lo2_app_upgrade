@@ -27,7 +27,7 @@ void main() async {
     initHive();
     Preference.getInstance();
     runApp(MyApp()); 
-    Preference.load().then((value) {
+    Preference.load().then((value) {  
       UserSession();
     });
   }, (error, stackTrace) {});
