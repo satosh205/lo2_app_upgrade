@@ -577,6 +577,15 @@ class _RightPanelState extends State<RightPanel>   with TickerProviderStateMixin
      BlocProvider.of<HomeBloc>(context)
         .add(DeletePostEvent(postId: postId));
   }
+
+   void reportPost(
+              String? status,        int? postId, String category, String comment) {
+                    BlocProvider.of<HomeBloc>(context).add(ReportEvent(
+                    status: status,
+                        postId: postId,
+                        comment: comment,
+                        category: category));
+                  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -660,6 +669,32 @@ class _RightPanelState extends State<RightPanel>   with TickerProviderStateMixin
                                       return Navigator.pop(context);
                                     },
                                   ),
+
+                                   Container(
+                                  child: ListTile(
+                                    leading: new Icon(
+                                      Icons.delete,
+                                      color: Colors.white,
+                                    ),
+                                    title: new Text(
+                                      'Remove/Hide',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    onTap: () {
+                                      reportPost(
+                                        
+                                                                    'remove',
+                                                                      widget
+                                                                          .contentId,
+                                                                      '',
+                                                                     '');
+                          widget.greelsModel?.hidePost(widget.index);
+
+
+                                      return Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
                               if(Preference.getInt(Preference.USER_ID) == widget.userID)     ListTile(
                                     leading: new Icon(
                                       Icons.delete,
@@ -705,13 +740,7 @@ class _RightPanelState extends State<RightPanel>   with TickerProviderStateMixin
                         );
                       });
 
-                  void reportPost(
-                      int? postId, String category, String comment) {
-                    BlocProvider.of<HomeBloc>(context).add(ReportEvent(
-                        postId: postId,
-                        comment: comment,
-                        category: category));
-                  }
+                 
 
                   void _handleReport(ReportState state) {
                     var reportState = state;
@@ -820,6 +849,7 @@ class _RightPanelState extends State<RightPanel>   with TickerProviderStateMixin
                                                                 return ListTile(
                                                                     onTap: () {
                                                                       reportPost(
+                                                                        'offensive',
                                                                           widget
                                                                               .contentId,
                                                                           '${reportList[index]['value']}',
@@ -878,6 +908,7 @@ class _RightPanelState extends State<RightPanel>   with TickerProviderStateMixin
                                                             InkWell(
                                                                 onTap: () {
                                                                   reportPost(
+                                                                      'offensive',
                                                                       widget
                                                                           .contentId,
                                                                       '',

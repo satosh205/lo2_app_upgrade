@@ -218,9 +218,9 @@ class HomeRepository {
   }
 
   Future<ReportContentResp> reportContent(
-      int? contentId, String? category, String? comment) async {
+String? status,      int? contentId, String? category, String? comment) async {
     final response =
-        await homeProvider.reportContent(contentId, category, comment);
+        await homeProvider.reportContent(status, contentId, category, comment);
     if (response!.success) {
       Log.v("Report content DATA : ${response.body}");
       ReportContentResp resp = ReportContentResp.fromJson(response.body);

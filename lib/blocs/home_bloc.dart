@@ -848,12 +848,14 @@ class LikeContentEvent extends HomeEvent {
 }
 
 class ReportEvent extends HomeEvent {
+  String? status;
+
   int? postId;
   String? category;
   String? comment;
 
-  ReportEvent({this.postId, this.category, this.comment})
-      : super([postId, category, comment]);
+  ReportEvent({this.postId, this.category, this.comment, this.status})
+      : super([status, postId, category, comment]);
 
   List<Object> get props => throw UnimplementedError();
 }
@@ -2029,6 +2031,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield ReportState(ApiStatus.LOADING);
 
         final response = await homeRepository.reportContent(
+          event.status,
+        
             event.postId, event.category, event.comment);
 
         if (response != null) {

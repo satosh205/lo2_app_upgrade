@@ -291,6 +291,29 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                     },
                                   ),
                                 ),
+                                Container(
+                                  child: ListTile(
+                                    leading: new Icon(
+                                      Icons.delete,
+                                      color: Colors.white,
+                                    ),
+                                    title: new Text(
+                                      'Remove/Hide',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    onTap: () {
+                                      reportPost(
+                                                                    'remove',
+                                                                      widget
+                                                                          .contentId,
+                                                                      '',
+                                                                     '');
+                                                                      widget.value?.hidePost(widget.index);
+
+                                      return Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
 
                                 Preference.getInt(Preference.USER_ID) == widget.userID ? Container(
                                   child: ListTile(
@@ -434,6 +457,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                                               return ListTile(
                                                                   onTap: () {
                                                                     reportPost(
+                                                                      'offensive',
                                                                         widget
                                                                             .contentId,
                                                                         '${reportList[index]['value']}',
@@ -492,6 +516,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                                             InkWell(
                                                                 onTap: () {
                                                                   reportPost(
+                                                                    'offensive',
                                                                       widget
                                                                           .contentId,
                                                                       '',
@@ -1348,9 +1373,9 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
         contentId: widget.contentId, like: like, type: 'contents'));
   }
 
-  void reportPost(int? postId, String category, String comment) {
+  void reportPost( String? status, int? postId, String category, String comment) {
     BlocProvider.of<HomeBloc>(context)
-        .add(ReportEvent(postId: postId, comment: comment, category: category));
+        .add(ReportEvent(status: status,postId: postId, comment: comment, category: category));
   }
 
   void deletePost(int? postId){
