@@ -235,8 +235,8 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                           ),
                           InkWell(
                             onTap: () async {
-                              await _getImages(value);
-                              setState(() {});
+                               _getImages(value);
+                         
                             },
                             child: Row(
                               children: [
@@ -481,7 +481,7 @@ Log.v('the extension is $firstExtension');
         .pickImage(source: ImageSource.camera, maxWidth: 900, maxHeight: 450);
     if (pickedFileC != null) {
       provider.addToList(pickedFileC.path);
-    }
+ croppedList = provider.files?.toList();    }
     return null;
   }
 
