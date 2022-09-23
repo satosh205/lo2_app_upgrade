@@ -294,11 +294,11 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                 Container(
                                   child: ListTile(
                                     leading: new Icon(
-                                      Icons.delete,
+                                      Icons.hide_image_outlined,
                                       color: Colors.white,
                                     ),
                                     title: new Text(
-                                      'Remove/Hide',
+                                      'Remove/Hide post',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onTap: () {

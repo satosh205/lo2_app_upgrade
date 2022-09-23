@@ -673,11 +673,11 @@ class _RightPanelState extends State<RightPanel>   with TickerProviderStateMixin
                                    Container(
                                   child: ListTile(
                                     leading: new Icon(
-                                      Icons.delete,
+                                      Icons.hide_image_outlined,
                                       color: Colors.white,
                                     ),
                                     title: new Text(
-                                      'Remove/Hide',
+                                      'Remove/Hide post',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onTap: () {
