@@ -689,6 +689,11 @@ class _RightPanelState extends State<RightPanel>   with TickerProviderStateMixin
                                                                       '',
                                                                      '');
                           widget.greelsModel?.hidePost(widget.index);
+                           if(widget.index == 0) {
+   Future.delayed(Duration(milliseconds: 500)).then((value) => setState((){
+  _tabController?.animateTo(1);
+}));
+                           }
 
 
                                       return Navigator.pop(context);
@@ -755,6 +760,13 @@ class _RightPanelState extends State<RightPanel>   with TickerProviderStateMixin
                           Log.v("ContentReportState....................");
                           Navigator.pop(context);
                           widget.greelsModel?.hidePost(widget.index);
+
+                           if(widget.index == 0) {
+   Future.delayed(Duration(milliseconds: 500)).then((value) => setState((){
+  _tabController?.animateTo(1);
+}));
+                           }
+                          
                           
 
                           Utility.showSnackBar(
