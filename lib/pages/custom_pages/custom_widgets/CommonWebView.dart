@@ -98,8 +98,7 @@ class _CommonWebViewState extends State<CommonWebView> {
 
                 // if(controller.)
                 if (url.toString().contains('g-home')) {
-                  await Future.delayed(Duration(seconds: 5))
-                      .then((value) => Navigator.pop(context, true));
+                 Navigator.pop(context, true);
                 }
                 setState(() {
                   this.url = url.toString();
@@ -114,7 +113,6 @@ class _CommonWebViewState extends State<CommonWebView> {
                   (InAppWebViewController controller, int progress) {
                 setState(() {
                   this.progress = progress / 100;
-                  Log.v('progress is $progress');
                progress == 100  ?   widget._isLoading = false: widget._isLoading = true;
                 });
               },
