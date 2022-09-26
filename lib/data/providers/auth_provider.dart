@@ -102,7 +102,7 @@ class AuthProvider {
               ApiConstants.API_KEY: ApiConstants().APIKeyValue(),
             },
             // responseType: ResponseType.json // or ResponseType.JSON
-          ));
+          )); 
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         return ApiResponse.success(response);
