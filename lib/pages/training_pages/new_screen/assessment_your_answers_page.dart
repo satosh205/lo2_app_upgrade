@@ -13,6 +13,8 @@ import '../../custom_pages/alert_widgets/alerts_widget.dart';
 import '../../custom_pages/custom_widgets/NextPageRouting.dart';
 import '../../ghome/home_page.dart';
 import 'assessment_your_report_page.dart';
+import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
+
 
 class AssessmentYourAnswersPage extends StatefulWidget {
   final int? contentId;
@@ -171,120 +173,125 @@ class _AssessmentYourAnswersPageState extends State<AssessmentYourAnswersPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorConstants.WHITE,
-      appBar: AppBar(
-        title: Text("Your Answers", style: Styles.bold(size: 18)),
-        centerTitle: false,
+    return 
+      
+       Scaffold(
         backgroundColor: ColorConstants.WHITE,
-        elevation: 0.0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
+        appBar: AppBar(
+          title: Text("Your Answers", style: Styles.bold(size: 18)),
+          centerTitle: false,
+          backgroundColor: ColorConstants.WHITE,
+          elevation: 0.0,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
         ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        elevation: 0,
-        child: Padding(
-          padding: const EdgeInsets.only(
-              left: 30.0, top: 10.0, right: 30.0, bottom: 10.0),
-          child: Container(
-            height: 120,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 23,
-                        width: 23,
-                        decoration: BoxDecoration(
-                          color: ColorConstants().primaryColor(),
-                          borderRadius: BorderRadius.all(Radius.circular(100)),
+        bottomNavigationBar: BottomAppBar(
+          elevation: 0,
+          child: Padding(
+            padding: const EdgeInsets.only(
+                left: 30.0, top: 10.0, right: 30.0, bottom: 10.0),
+            child: Container(
+              height: 120,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 23,
+                          width: 23,
+                          decoration: BoxDecoration(
+                            color: ColorConstants().primaryColor(),
+                            borderRadius: BorderRadius.all(Radius.circular(100)),
+                          ),
                         ),
-                      ),
-                      Text(' Answers'),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Container(
-                        height: 23,
-                        width: 23,
-                        decoration: BoxDecoration(
-                          color: ColorConstants.GREY_3,
-                          borderRadius: BorderRadius.all(Radius.circular(100)),
+                        Text(' Answers'),
+                        SizedBox(
+                          width: 20,
                         ),
-                      ),
-                      Text(' Skipped'),
-                    ],
+                        Container(
+                          height: 23,
+                          width: 23,
+                          decoration: BoxDecoration(
+                            color: ColorConstants.GREY_3,
+                            borderRadius: BorderRadius.all(Radius.circular(100)),
+                          ),
+                        ),
+                        Text(' Skipped'),
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                InkWell(
-                  onTap: () {
-                    //AssessmentYourReportPage
-                    /*Navigator.push(
-                         context,
-                         MaterialPageRoute(
-                             builder: (context) => AssessmentYourReportPage(
-                               contentId: widget.contentId,)));*/
-
-                    if (widget.isReview) {
-                      Navigator.pushAndRemoveUntil(
-                          context, NextPageRoute(homePage()), (route) => false);
-                    } else {
-                      if (!widget.isOptionSelected) {
-                        AlertsWidget.alertWithOkCancelBtn(
-                          context: context,
-                          onOkClick: () {
-                            /*widget._stopWatchTimer.onExecute
-                                 .add(StopWatchExecute.reset);
-                             widget._allTimer!.cancel();*/
-                            print('ANSWER 1');
-                            _submitAnswers();
-                          },
-                          text:
-                              "You still have time left. Do you want to submit your test now?",
-                          title: "Finish Assessment",
-                        );
+                  SizedBox(
+                    height: 20,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      //AssessmentYourReportPage
+                      /*Navigator.push(
+                           context,
+                           MaterialPageRoute(
+                               builder: (context) => AssessmentYourReportPage(
+                                 contentId: widget.contentId,)));*/
+      
+                      if (widget.isReview) {
+                        Navigator.pushAndRemoveUntil(
+                            context, NextPageRoute(homePage()), (route) => false);
                       } else {
-                        AlertsWidget.alertWithOkBtn(
-                          context: context,
-                          onOkClick: () {
-                            _showSubmitDialog = true;
-                            _submitAnswers();
-                          },
-                          text:
-                              "You still have time left. Do you want to submit your test now?",
-                        );
+                        if (!widget.isOptionSelected) {
+                          AlertsWidget.alertWithOkCancelBtn(
+                            context: context,
+                            onOkClick: () {
+                              /*widget._stopWatchTimer.onExecute
+                                   .add(StopWatchExecute.reset);
+                               widget._allTimer!.cancel();*/
+                              print('ANSWER 1');
+                              _submitAnswers();
+                            },
+                            text:
+                                "You still have time left. Do you want to submit your test now?",
+                            title: "Finish Assessment",
+                          );
+                        } else {
+                          AlertsWidget.alertWithOkBtn(
+                            context: context,
+                            onOkClick: () {
+                              _showSubmitDialog = true;
+                              _submitAnswers();
+                            },
+                            text:
+                                "You still have time left. Do you want to submit your test now?",
+                          );
+                        }
                       }
-                    }
-                  },
-                  child: Container(
-                    height: 50,
-                    color: ColorConstants().primaryColor(),
-                    child: Center(
-                        child: Text(
-                      'Submit Test',
-                      style: Styles.textRegular(size: 16),
-                    )),
+                    },
+                    child: Container(
+                      height: 50,
+                      color: ColorConstants().primaryColor(),
+                      child: Center(
+                          child: Text(
+                        'Submit Test',
+                        style: Styles.textRegular(size: 16),
+                      )),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      body: _mainBody(),
-    );
+        body:ScreenWithLoader(
+          isLoading: _isLoading,
+          body: _mainBody(),
+        ),
+      );
   }
 
   _mainBody() {

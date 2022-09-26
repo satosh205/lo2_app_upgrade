@@ -73,7 +73,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                 child: Container(
                   height: MediaQuery.of(context).size.height,
                   width: MediaQuery.of(context).size.width,
-                  child: Stack(
+                  child: Column(
                     children: [
                       Center(
                         child: Column(
@@ -137,12 +137,14 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                             SizedBox(height: 10),
                             Container(
                               height: 200,
+                              margin: EdgeInsets.only(bottom:20.0),
+
                               child: ListView.builder(
                                 physics: BouncingScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount: myList?.length ?? 0,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return languageCard(myList![index], index);
+                                  return   languageCard(myList![index], index);
                                 },
                               ),
                             ),
@@ -150,32 +152,29 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                         ),
                       ),
 
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SignUpScreen()));
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(left: 12.0, right: 12.0, bottom: 60.0,),
-                              width: double.infinity,
-                              height: MediaQuery.of(context).size.height *
-                                  WidgetSize.AUTH_BUTTON_SIZE,
-                              decoration: BoxDecoration(
-                                  color: ColorConstants().primaryColor(),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Center(
-                                  child: Text(
-                                '${Strings.of(context)?.continueStr}',
-                                style: Styles.regular(
-                                  color: ColorConstants.WHITE,
-                                ),
-                              )),
+                      InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SignUpScreen()));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(left: 12.0, right: 12.0,),
+                            width: double.infinity,
+                            height: MediaQuery.of(context).size.height *
+                                WidgetSize.AUTH_BUTTON_SIZE,
+                            decoration: BoxDecoration(
+                                color: ColorConstants().primaryColor(),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Center(
+                                child: Text(
+                              '${Strings.of(context)?.continueStr}',
+                              style: Styles.regular(
+                                color: ColorConstants.WHITE,
+                              ),
                             )),
-                      ),
+                          )),
 
                     ],
                   ),
