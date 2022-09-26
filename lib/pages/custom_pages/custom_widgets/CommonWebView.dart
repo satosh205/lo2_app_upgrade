@@ -95,6 +95,8 @@ class _CommonWebViewState extends State<CommonWebView> {
                     action: PermissionRequestResponseAction.GRANT);
               },
               onLoadStart: (InAppWebViewController controller, Uri? url) async {
+
+                // if(controller.)
                 if (url.toString().contains('g-home')) {
                   await Future.delayed(Duration(seconds: 5))
                       .then((value) => Navigator.pop(context, true));
@@ -112,7 +114,8 @@ class _CommonWebViewState extends State<CommonWebView> {
                   (InAppWebViewController controller, int progress) {
                 setState(() {
                   this.progress = progress / 100;
-                  Log.v(progress);
+                  Log.v('progress is $progress');
+               progress == 100  ?   widget._isLoading = false: widget._isLoading = true;
                 });
               },
             ),
