@@ -100,7 +100,9 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                         margin: EdgeInsets.symmetric(vertical: 2, horizontal: 16),
                         decoration: BoxDecoration(
                             color: checkedValue == false
-                                ? Color(0xffFDE5AD)
+                                ? ColorConstants()
+                                .buttonColor()
+                                .withOpacity(0.5)
                                 : ColorConstants().buttonColor(),
                             borderRadius: BorderRadius.circular(10)),
                         child: Center(

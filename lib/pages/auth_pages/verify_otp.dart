@@ -523,6 +523,8 @@ class _VerifyOtpState extends State<VerifyOtp> {
       return;
     }
 
+    print(UserSession.firebaseToken);
+
     Utility.checkNetwork().then((isConnected) {
       if (isConnected) {
         var verifyOtp = EmailRequest(
