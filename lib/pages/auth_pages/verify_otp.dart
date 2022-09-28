@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:masterg/pages/swayam_pages/notification_helper.dart';
 import 'package:masterg/utils/config.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
@@ -48,7 +49,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
   String? deviceId;
   bool resendFlag = false;
   List<Menu>? menuList;
-  // NotificationHelper? _notificationHelper;
+  NotificationHelper? _notificationHelper;
   ///Add New code for OTP AutoFill
   late OTPTextEditController otpController;
   late OTPInteractor _otpInteractor;
@@ -60,6 +61,8 @@ class _VerifyOtpState extends State<VerifyOtp> {
     super.initState();
 
     ///Add New code for OTP AutoFill
+      _notificationHelper = NotificationHelper.getInstance(context);
+    _notificationHelper?.getFcmToken();
     _otpInteractor = OTPInteractor();
     _otpInteractor.getAppSignature()
     //ignore: avoid_print

@@ -22,6 +22,7 @@ import 'package:masterg/data/models/request/home_request/user_tracking_activity.
 import 'package:masterg/pages/ghome/home_page.dart';
 import 'package:masterg/pages/swayam_pages/common_bg_container.dart';
 import 'package:masterg/pages/swayam_pages/language_page.dart';
+import 'package:masterg/pages/swayam_pages/notification_helper.dart';
 // import 'package:masterg/pages/home_pages/home_page.dart';
 // import 'package:masterg/pages/language_page/language_page.dart';
 // import 'package:masterg/pages/auth_pages/reset_password.dart';
@@ -51,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
   var userNameNode = FocusNode();
   final passwordController = TextEditingController();
   var passwordNode = FocusNode();
-  // NotificationHelper _notificationHelper;
+  NotificationHelper? _notificationHelper;
 
   var _obscureText = true;
 
@@ -59,9 +60,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    // _notificationHelper = NotificationHelper.getInstance(context);
-    // _notificationHelper.getFcmToken();
+    _notificationHelper = NotificationHelper.getInstance(context);
+    _notificationHelper?.getFcmToken();
     // FirebaseAnalytics().logEvent(name: "login_screen", parameters: null);
     // FirebaseAnalytics().setCurrentScreen(screenName: "login_screen");
 

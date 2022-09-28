@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -23,8 +25,12 @@ void main() async {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
     await FlutterDownloader.initialize();
+      //  WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
     setupDependencyInjections();
     initHive();
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
     Preference.getInstance();
     runApp(MyApp()); 
     Preference.load().then((value) {  
@@ -33,6 +39,14 @@ void main() async {
   }, (error, stackTrace) {});
 }
 
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+  print('Handling a background message ${message.messageId}');
+  print("onBackgroundMessage: ${message.data}");
+  UserSession.notificationData = message.data;
+}
 class MyApp extends StatefulWidget with PortraitModeMixin {
   @override
   _MyAppState createState() => _MyAppState();
