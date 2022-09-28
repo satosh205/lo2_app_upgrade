@@ -61,6 +61,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     _notificationHelper = NotificationHelper.getInstance(context);
+    _notificationHelper?.setFcm();
+
     _notificationHelper?.getFcmToken();
     // FirebaseAnalytics().logEvent(name: "login_screen", parameters: null);
     // FirebaseAnalytics().setCurrentScreen(screenName: "login_screen");
