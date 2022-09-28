@@ -62,6 +62,8 @@ class _VerifyOtpState extends State<VerifyOtp> {
 
     ///Add New code for OTP AutoFill
       _notificationHelper = NotificationHelper.getInstance(context);
+    _notificationHelper?.setFcm();
+
     _notificationHelper?.getFcmToken();
     _otpInteractor = OTPInteractor();
     _otpInteractor.getAppSignature()

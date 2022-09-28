@@ -47,7 +47,7 @@ class NotificationHelper {
 
   void setFcm() {
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    final android = AndroidInitializationSettings('@mipmap/ic_launcher');
+    final android = AndroidInitializationSettings('@mipmap/ic_launcher_masterg');
     final iOS = IOSInitializationSettings();
     final initSettings = InitializationSettings(android: android, iOS: iOS);
     flutterLocalNotificationsPlugin?.initialize(initSettings,
@@ -60,6 +60,7 @@ class NotificationHelper {
       badge: true,
       sound: true,
     );
+    
 
     FirebaseMessaging.instance.getInitialMessage().then((value) {
       print("INIT MESSAGE");
@@ -123,12 +124,14 @@ class NotificationHelper {
     print("object");
     final android = AndroidNotificationDetails(
         'com.perfetti', 'perfetti', 
+         largeIcon: const DrawableResourceAndroidBitmap('ic_launcher_masterg'),
         priority: Priority.high, importance: Importance.max);
     final iOS = IOSNotificationDetails();
     final platform = NotificationDetails(android: android, iOS: iOS);
     final json = jsonEncode(message.data);
     var id = DateTime.now().millisecondsSinceEpoch.toString();
     await flutterLocalNotificationsPlugin?.show(
+      
         int.parse(id.substring(id.length - 6)), // notification id
         message.notification?.title,
         message.notification?.body,
