@@ -20,7 +20,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
       appBar: AppBar(
         centerTitle: true,
            backgroundColor: ColorConstants.WHITE,
-elevation: 0.7,
+elevation: 0.0,
       iconTheme: IconThemeData(color: ColorConstants.BLACK),
       title: Text('Delete Account', style: Styles.bold(),)),
       
