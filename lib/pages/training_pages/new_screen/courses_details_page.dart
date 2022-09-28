@@ -97,7 +97,7 @@ class _CoursesDetailsPageState extends State<CoursesDetailsPage> {
                     final url =
                         'https://learnandbuild.in/signin.php?username=${Preference.getString(Preference.USER_EMAIL)}&slug=${widget.shortCode}';
 
-                    print(url);
+                    print('url is $url');
                     // 'https://learnandbuild.in/signin.php?username=shubhamsharma5may@gmail.com&slug=learn-c-programming';
 
                     Navigator.push(

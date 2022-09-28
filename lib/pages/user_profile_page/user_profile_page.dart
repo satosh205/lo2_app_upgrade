@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,6 +26,7 @@ import 'package:masterg/pages/auth_pages/sign_up_screen.dart';
 import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/custom_pages/faq_page.dart';
+import 'package:masterg/pages/user_profile_page/delete_accont_page.dart';
 import 'package:masterg/pages/user_profile_page/mobile_ui_helper.dart';
 import 'package:masterg/pages/user_profile_page/model/MasterBrand.dart';
 import 'package:masterg/utils/Log.dart';
@@ -314,9 +316,7 @@ class _UserProfilePageState extends State<UserProfilePage>
   }
 
   Widget _makeBody() {
-    void updateValue(value) {
-      print('the value is $value');
-    }
+    
 
     return SingleChildScrollView(
       child: Container(
@@ -339,6 +339,7 @@ class _UserProfilePageState extends State<UserProfilePage>
 
               child: Column(
                 children: [
+                
                   Container(
                     height: 100.0,
                     width: 100.0,
@@ -397,7 +398,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                           top: 62,
                           child: InkWell(
                             onTap: () {
-                              showBottomSheet(context, 'profile', updateValue);
+                              showBottomSheet(context, 'profile', (){});
                               /*Navigator.push(
                                   context,
                                   NextPageRoute(ChangeImage()));*/
@@ -603,19 +604,88 @@ class _UserProfilePageState extends State<UserProfilePage>
                               ),
                             ),
                           ),
-                          Divider(
-                            color: Colors.grey,
-                            indent: 60,
-                          )
+                          // Divider(
+                          //   color: Colors.grey,
+                          //   indent: 60,
+                          // ),
                         ],
                       ),
                     ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: InkWell(
+                        onTap: (){
 
+
+                          showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.black,
+        builder: (context) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Center(
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.only(top: 10),
+                  height: 4,
+                  width: 70,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8)),
+                ),
+              ),
+              Container(
+                child: ListTile(
+                  leading: new Icon(
+                    Icons.delete,
+                    color: Colors.white,
+                  ),
+                  title: new Text(
+                    'Delete Account',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () async {
+                   Navigator.push(context, MaterialPageRoute(builder: (context)=> DeleteAccountPage(imageUrl:  userProfileDataList!.profileImage ?? selectedImage,)));
+                  },
+                ),
+              ),
+             
+              
+            ],
+          );
+        });
+                        },
+                        child: Padding(
+                         padding: EdgeInsets.symmetric(horizontal: 20),
+                          child:Row(
+                                  children: [
+                                    Container(
+                                        width: 30,
+                                        height: 30,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: ColorConstants().primaryColor(),
+                                        ),
+                                        child: Icon(
+                                          Icons.settings,
+                                          color: ColorConstants.WHITE,
+                                          size: 20,
+                                        )),
+                                    SizedBox(width: 10),
+                                    Text('Setting & Account', style: Styles.regular()),
+                                    Expanded(child: SizedBox()),
+                                    Icon(Icons.arrow_forward_ios, size: 15),
+                                  ],
+                                ),
+                        ),
+                      ))  ,
                   Expanded(child: SizedBox()),
                 ],
               ),
             ),
-          ],
+      ],
         ),
       ),
     );
