@@ -83,14 +83,10 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
       setState(() {
         isPostedLoading = true;
       });
-  String? firstExtension = widget.filesPath?.first?.split('/').last.split('.').last.toString();
-    bool isVideo =  false;
-
-    if(firstExtension == 'mp4' || firstExtension == 'mov'  )isVideo = true ;
 
       BlocProvider.of<HomeBloc>(context).add(CreatePostEvent(
           files: widget.fileToUpload,
-          contentType: isVideo == true ? 2 : 1,
+          contentType: 2,
           title: '',
           description: widget.desc,
           postType: 'caravan',
@@ -337,10 +333,10 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                               ),
                             ),
                             Container(
-                              // margin: const EdgeInsets.only(
-                              //   top: 3,
-                              // ),
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              margin: const EdgeInsets.only(
+                                top: 3,
+                              ),
+                              padding: const EdgeInsets.all(8),
                               width: double.infinity,
                               color: ColorConstants.SECTION_DIVIDER,
                               child: Container(
@@ -369,15 +365,11 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
       } else {
         result = await FilePicker.platform.pickFiles(
             allowMultiple: true,
-            type: isVideo ? FileType.video : FileType.image,
-            allowedExtensions: []);
-            //type: FileType.custom,
-            //allowedExtensions: isVideo ? ['mp4'] : ['jpg', 'png', 'jpeg']);
+            type: FileType.custom,
+            allowedExtensions: isVideo ? ['mp4'] : ['jpg', 'png', 'jpeg']);
       }
 
       if (result != null) {
-        print('result length ******');
-        print(result.paths.length);
         for (int i = 0; i < result.paths.length; i++) {
           if (i == 4) break;
           if (File(result.paths[i]!).lengthSync() / 1000000 > 8.0) {
@@ -394,6 +386,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
             content: Text("Only 4 images/videos are allowed"),
           ));
         }
+
         Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -403,6 +396,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                         filesPath: provider.files,
                         provider: provider)))
             .then((value) => _refreshController.requestRefresh());
+        ;
       }
     }
   }
@@ -428,40 +422,38 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
 
   Widget _postListWidget(gcarvaanPosts, GCarvaanListModel value) {
     return gcarvaanPosts.length != 0
-        ? Container(
-          height: 500,
-          child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: gcarvaanPosts == null ? 0 : gcarvaanPosts.length,
-              physics: BouncingScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return gcarvaanPosts != null &&
-                        gcarvaanPosts[index].resourcePath != null
-                    ? GCarvaanCardPost(
-                        index: index,
-                        value: value,
-                        image_path: gcarvaanPosts[index].resourcePath,
-                        date: gcarvaanPosts[index].createdAt.toString(),
-                        description: gcarvaanPosts[index].description,
-                        commentCount: gcarvaanPosts[index].commentCount ?? 0,
-                        user_name: gcarvaanPosts[index].name,
-                        profile_path: gcarvaanPosts[index].profileImage,
-                        likeCount: gcarvaanPosts[index].likeCount ?? 0,
-                        viewCount: gcarvaanPosts[index].viewCount ?? 0,
-                        islikedPost: gcarvaanPosts[index].userLiked == 1 ? true : false,
-                        contentId: gcarvaanPosts[index].id,
-                        fileList: gcarvaanPosts[index].multiFileUploads,
-                        comment_visible: false,
-                        height: gcarvaanPosts[index].dimension.height,
-                        dimension: gcarvaanPosts[index].multiFileUploadsDimension,
-                        width: gcarvaanPosts[index].dimension.width,
-                        resourceType: gcarvaanPosts[index].resourceType,
-                        userID: gcarvaanPosts[index].userId,
-                      )
-                    : Container();
-              }),
-        )
+        ? ListView.builder(
+            scrollDirection: Axis.vertical,
+            itemCount: gcarvaanPosts == null ? 0 : gcarvaanPosts.length,
+            physics: BouncingScrollPhysics(),
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return gcarvaanPosts != null &&
+                      gcarvaanPosts[index].resourcePath != null
+                  ? GCarvaanCardPost(
+                      index: index,
+                      value: value,
+                      image_path: gcarvaanPosts[index].resourcePath,
+                      date: gcarvaanPosts[index].createdAt.toString(),
+                      description: gcarvaanPosts[index].description,
+                      commentCount: gcarvaanPosts[index].commentCount ?? 0,
+                      user_name: gcarvaanPosts[index].name,
+                      profile_path: gcarvaanPosts[index].profileImage,
+                      likeCount: gcarvaanPosts[index].likeCount ?? 0,
+                      viewCount: gcarvaanPosts[index].viewCount ?? 0,
+                      islikedPost:
+                          gcarvaanPosts[index].userLiked == 1 ? true : false,
+                      contentId: gcarvaanPosts[index].id,
+                      fileList: gcarvaanPosts[index].multiFileUploads,
+                      comment_visible: false,
+                      height: gcarvaanPosts[index].dimension.height,
+                      dimension: gcarvaanPosts[index].multiFileUploadsDimension,
+
+                      width: gcarvaanPosts[index].dimension.width,
+                      resourceType: gcarvaanPosts[index].resourceType,
+                    )
+                  : Container();
+            })
         : _emptyPostListWidget();
 
     //TODO: OLd Code

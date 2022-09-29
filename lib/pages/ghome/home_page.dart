@@ -295,7 +295,7 @@ class _homePageState extends State<homePage> {
 
         //bottom Navigator bar
         bottomNavigationBar: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.11,
+          height: MediaQuery.of(context).size.height * 0.10,
           child: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             currentIndex: currentIndex,
