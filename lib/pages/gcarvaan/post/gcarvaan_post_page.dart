@@ -337,10 +337,10 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                               ),
                             ),
                             Container(
-                              margin: const EdgeInsets.only(
-                                top: 3,
-                              ),
-                              padding: const EdgeInsets.all(8),
+                              // margin: const EdgeInsets.only(
+                              //   top: 3,
+                              // ),
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
                               width: double.infinity,
                               color: ColorConstants.SECTION_DIVIDER,
                               child: Container(

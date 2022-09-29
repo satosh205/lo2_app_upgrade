@@ -75,6 +75,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                   width: MediaQuery.of(context).size.width,
                   child: Column(
                     children: [
+                      SizedBox(height: 40),
                       Center(
                         child: Column(
                           //crossAxisAlignment: CrossAxisAlignment.center,
