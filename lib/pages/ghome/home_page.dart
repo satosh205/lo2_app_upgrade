@@ -297,15 +297,21 @@ class _homePageState extends State<homePage> {
         bottomNavigationBar: SizedBox(
           height: MediaQuery.of(context).size.height * 0.10,
           child: BottomNavigationBar(
+            // backgroundColor: Colors.red,
+          
             type: BottomNavigationBarType.fixed,
             currentIndex: currentIndex,
             selectedItemColor: ColorConstants().primaryColor(),
             unselectedItemColor: Colors.blue,
             items: [
+              
               for (int i = 0; i < widget.bottomMenu!.length; i++)
                 BottomNavigationBarItem(
+                  
                   icon: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      SizedBox(height: 3),
                       currentIndex ==
                               widget.bottomMenu!.indexOf(widget.bottomMenu![i])
                           ? SvgPicture.asset(
@@ -331,7 +337,10 @@ class _homePageState extends State<homePage> {
                                     widget.bottomMenu!
                                         .indexOf(widget.bottomMenu![i])
                                 ? ColorConstants().primaryColor()
-                                : Colors.black.withOpacity(0.8)),
+                                : Colors.black.withOpacity(0.8)
+                                
+                                
+                                ),
                       ),
                     ],
                   ),
