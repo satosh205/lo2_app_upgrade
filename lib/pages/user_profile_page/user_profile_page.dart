@@ -97,14 +97,13 @@ class _UserProfilePageState extends State<UserProfilePage>
   bool readOnly = true;
   bool textContentHide = true;
 
-    late CameraController _controller;
+  late CameraController _controller;
   late Future<void> _initializeControllerFuture;
 
   @override
   void initState() {
     super.initState();
-    
-      
+
     //apiFetch();
     _getUserProfile();
   }
@@ -139,7 +138,8 @@ class _UserProfilePageState extends State<UserProfilePage>
   }
 
   void _updateUserProfileImage(String? filePath) async {
-    BlocProvider.of<HomeBloc>(context).add(UpdateUserProfileImageEvent(filePath: filePath));
+    BlocProvider.of<HomeBloc>(context)
+        .add(UpdateUserProfileImageEvent(filePath: filePath));
   }
 
   void createPortfolio() {
@@ -316,8 +316,6 @@ class _UserProfilePageState extends State<UserProfilePage>
   }
 
   Widget _makeBody() {
-    
-
     return SingleChildScrollView(
       child: Container(
         height: MediaQuery.of(context).size.height,
@@ -339,7 +337,6 @@ class _UserProfilePageState extends State<UserProfilePage>
 
               child: Column(
                 children: [
-                
                   Container(
                     height: 100.0,
                     width: 100.0,
@@ -374,9 +371,10 @@ class _UserProfilePageState extends State<UserProfilePage>
                             : userProfileDataList!.profileImage != null
                                 ? ClipOval(
                                     child: GestureDetector(
-                                      onTap: (){
+                                      onTap: () {
                                         print('Profile image');
-                                        _showBgProfilePic(context, userProfileDataList!.profileImage!);
+                                        _showBgProfilePic(context,
+                                            userProfileDataList!.profileImage!);
                                       },
                                       child: Image.network(
                                         userProfileDataList!.profileImage!,
@@ -398,7 +396,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                           top: 62,
                           child: InkWell(
                             onTap: () {
-                              showBottomSheet(context, 'profile', (){});
+                              showBottomSheet(context, 'profile', () {});
                               /*Navigator.push(
                                   context,
                                   NextPageRoute(ChangeImage()));*/
@@ -440,23 +438,31 @@ class _UserProfilePageState extends State<UserProfilePage>
                         ),*/
 
                         Container(
-                            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
+                          constraints: BoxConstraints(
+                              maxWidth:
+                                  MediaQuery.of(context).size.width * 0.8),
                           child: new Text(
                             '${userProfileDataList!.name}',
-                            maxLines:1,
+                            maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
-                            style: Styles.bold(color: ColorConstants.BLACK, size: 20,),
+                            style: Styles.bold(
+                              color: ColorConstants.BLACK,
+                              size: 20,
+                            ),
                           ),
                         ),
                         GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             //print('object ..');
                             Navigator.push(
                               context,
                               NextPageRoute(EditSelfDetailsPage(
                                 name: userProfileDataList!.name,
-                                email: userProfileDataList!.email, onCalledBack: editCallBack,)),);
+                                email: userProfileDataList!.email,
+                                onCalledBack: editCallBack,
+                              )),
+                            );
                           },
                           child: Container(
                               margin: EdgeInsets.only(left: 5.0),
@@ -464,14 +470,16 @@ class _UserProfilePageState extends State<UserProfilePage>
                               width: 30,
                               child: Align(
                                   alignment: Alignment.topLeft,
-                                  child: Icon(Icons.edit, size: 15,))),
+                                  child: Icon(
+                                    Icons.edit,
+                                    size: 15,
+                                  ))),
                         ),
                         /*SvgPicture.asset('assets/images/edit_profile_icon.svg',
                               width: 20, height: 20)*/
                       ],
                     ),
                   ),
-
 
                   Text(
                     userProfileDataList!.organization!,
@@ -484,16 +492,18 @@ class _UserProfilePageState extends State<UserProfilePage>
                   //   style:
                   //       Styles.regular(size: 14, color: ColorConstants.GREY_3),
                   // ),
-                Container(
-                             constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
-                          child: new Text(
-                           '${userProfileDataList!.email}',
-                            maxLines:2,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
-                            style:  Styles.regular(size: 14, color: ColorConstants.GREY_3),
-                          ),
-                        ),
+                  Container(
+                    constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width * 0.8),
+                    child: new Text(
+                      '${userProfileDataList!.email}',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      style: Styles.regular(
+                          size: 14, color: ColorConstants.GREY_3),
+                    ),
+                  ),
 
                   Text('${userProfileDataList!.mobileNo}',
                       style: Styles.regular(
@@ -611,86 +621,92 @@ class _UserProfilePageState extends State<UserProfilePage>
                         ],
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: InkWell(
-                        onTap: (){
-
-
-                          showModalBottomSheet(
-        context: context,
-        backgroundColor: Colors.black,
-        builder: (context) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Center(
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  margin: EdgeInsets.only(top: 10),
-                  height: 4,
-                  width: 70,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8)),
-                ),
-              ),
-              Container(
-                child: ListTile(
-                  leading: new Icon(
-                    Icons.delete,
-                    color: Colors.white,
-                  ),
-                  title: new Text(
-                    'Delete Account',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onTap: () async {
-                   Navigator.push(context, MaterialPageRoute(builder: (context)=> DeleteAccountPage(imageUrl:  userProfileDataList!.profileImage ?? selectedImage,)));
-                  },
-                ),
-              ),
-             
-              
-            ],
-          );
-        });
-                        },
-                        child: Padding(
-                         padding: EdgeInsets.symmetric(horizontal: 20),
-                          child:Row(
-                                  children: [
-                                    Container(
-                                        width: 30,
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: ColorConstants().primaryColor(),
-                                        ),
-                                        child: Icon(
-                                          Icons.settings,
-                                          color: ColorConstants.WHITE,
-                                          size: 20,
-                                        )),
-                                    SizedBox(width: 10),
-                                    Text('Setting & Account', style: Styles.regular()),
-                                    Expanded(child: SizedBox()),
-                                    Icon(Icons.arrow_forward_ios, size: 15),
-                                  ],
-                                ),
-                        ),
-                      ))  ,
+                  // Align(
+                  //     alignment: Alignment.topLeft,
+                  //     child: InkWell(
+                  //       onTap: () {
+                  //         showModalBottomSheet(
+                  //             context: context,
+                  //             backgroundColor: Colors.black,
+                  //             builder: (context) {
+                  //               return Column(
+                  //                 crossAxisAlignment: CrossAxisAlignment.center,
+                  //                 mainAxisSize: MainAxisSize.min,
+                  //                 children: <Widget>[
+                  //                   Center(
+                  //                     child: Container(
+                  //                       padding: EdgeInsets.all(10),
+                  //                       margin: EdgeInsets.only(top: 10),
+                  //                       height: 4,
+                  //                       width: 70,
+                  //                       decoration: BoxDecoration(
+                  //                           color: Colors.white,
+                  //                           borderRadius:
+                  //                               BorderRadius.circular(8)),
+                  //                     ),
+                  //                   ),
+                  //                   Container(
+                  //                     child: ListTile(
+                  //                       leading: new Icon(
+                  //                         Icons.delete,
+                  //                         color: Colors.white,
+                  //                       ),
+                  //                       title: new Text(
+                  //                         'Delete Account',
+                  //                         style: TextStyle(color: Colors.white),
+                  //                       ),
+                  //                       onTap: () async {
+                  //                         Navigator.push(
+                  //                             context,
+                  //                             MaterialPageRoute(
+                  //                                 builder: (context) =>
+                  //                                     DeleteAccountPage(
+                  //                                       imageUrl:
+                  //                                           userProfileDataList!
+                  //                                                   .profileImage ??
+                  //                                               selectedImage,
+                  //                                     )));
+                  //                       },
+                  //                     ),
+                  //                   ),
+                  //                 ],
+                  //               );
+                  //             });
+                  //       },
+                  //       child: Padding(
+                  //         padding: EdgeInsets.symmetric(horizontal: 20),
+                  //         child: Row(
+                  //           children: [
+                  //             Container(
+                  //                 width: 30,
+                  //                 height: 30,
+                  //                 decoration: BoxDecoration(
+                  //                   borderRadius: BorderRadius.circular(10),
+                  //                   color: ColorConstants().primaryColor(),
+                  //                 ),
+                  //                 child: Icon(
+                  //                   Icons.settings,
+                  //                   color: ColorConstants.WHITE,
+                  //                   size: 20,
+                  //                 )),
+                  //             SizedBox(width: 10),
+                  //             Text('Setting & Account',
+                  //                 style: Styles.regular()),
+                  //             Expanded(child: SizedBox()),
+                  //             Icon(Icons.arrow_forward_ios, size: 15),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     )),
                   Expanded(child: SizedBox()),
                 ],
               ),
             ),
-      ],
+          ],
         ),
       ),
     );
   }
-
 
   _showBgProfilePic(BuildContext context, String imgUrl) {
     return showDialog(
@@ -1321,13 +1337,16 @@ class _UserProfilePageState extends State<UserProfilePage>
 
   void showBottomSheetBrandShow() {
     void updateValue(value) {
-      print('the value is $value');}
+      print('the value is $value');
+    }
+
     bool nextFlag = false;
 
     showModalBottomSheet(
         context: context,
         //backgroundColor: ColorConstants.WHITE,
-        backgroundColor: nextFlag == false ? Colors.transparent : ColorConstants.WHITE,
+        backgroundColor:
+            nextFlag == false ? Colors.transparent : ColorConstants.WHITE,
         isScrollControlled: true,
         builder: (context) {
           return StatefulBuilder(
@@ -1338,319 +1357,309 @@ class _UserProfilePageState extends State<UserProfilePage>
 
             return nextFlag == false
                 ? Container(
-              margin: EdgeInsets.only(top: 200),
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              color: Colors.white,
-              child: Stack(
-                children: [
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    margin: EdgeInsets.only(top: 200),
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    color: Colors.white,
+                    child: Stack(
                       children: [
                         Container(
-                          height: 5,
-                          width: 48,
-                          margin: EdgeInsets.only(top: 10),
-                          decoration: BoxDecoration(
-                              color: ColorConstants.GREY_4,
-                              borderRadius:
-                              BorderRadius.circular(8)),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20.0, right: 20.0, top: 10.0),
-                          child: Text(
-                            '${Strings.of(context)?.addBrand}',
-                            style: Styles.bold(size: 14),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20.0, right: 20.0, top: 10.0),
-                          child: TextFormField(
-                            controller: titleController,
-                            /*readOnly: brandImageUrl.isNotEmpty
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 5,
+                                width: 48,
+                                margin: EdgeInsets.only(top: 10),
+                                decoration: BoxDecoration(
+                                    color: ColorConstants.GREY_4,
+                                    borderRadius: BorderRadius.circular(8)),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 20.0, right: 20.0, top: 10.0),
+                                child: Text(
+                                  '${Strings.of(context)?.addBrand}',
+                                  style: Styles.bold(size: 14),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 12,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 20.0, right: 20.0, top: 10.0),
+                                child: TextFormField(
+                                  controller: titleController,
+                                  /*readOnly: brandImageUrl.isNotEmpty
                                             ? true
                                             : false,*/
-                            readOnly: readOnly,
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            keyboardType: TextInputType.text,
-                            onChanged: (value) {
-                              print("on change method called");
-                              if (brandImageUrl.isEmpty) {
-                                setSheetState(() {
-                                  textContentHide = false;
-                                });
-                              }
-                            },
-                            decoration: InputDecoration(
-                              focusColor: Colors.white,
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                BorderRadius.circular(10.0),
-                              ),
-
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.blue, width: 1.0),
-                                borderRadius:
-                                BorderRadius.circular(10.0),
-                              ),
-                              fillColor: Colors.grey,
-                              hintText: brandImageUrl.isEmpty
-                                  ? "Enter brand name"
-                                  : "${Strings.of(context)?.brandName}",
-                              //make hint text
-                              hintStyle: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 16,
-                                fontFamily: "verdana_regular",
-                                fontWeight: FontWeight.w400,
-                              ),
-
-                              //create lable
-                              labelText: brandImageUrl.isEmpty
-                                  ? "Enter brand name"
-                                  : "${Strings.of(context)?.brandName}",
-                              //lable style
-                              labelStyle: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 16,
-                                fontFamily: "verdana_regular",
-                                fontWeight: FontWeight.w400,
-                              ),
-                              prefixIcon: brandImageUrl.isNotEmpty
-                                  ? Icon(Icons.search_rounded,
-                                  color: ColorConstants.BLACK)
-                                  : null,
-                            ),
-                            onTap: () {
-                              if (brandImageUrl.isNotEmpty) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            BrandFilterPage(
-                                              onCalledFromOutside,
-                                            )));
-                              } else {
-                                print('else===========');
-                                setSheetState(() {
-                                  readOnly = false;
-                                  // textContentHide = false;
-                                });
-                              }
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  if (titleController.text.isEmpty)
-                    Padding(
-                        padding: const EdgeInsets.only(
-                            left: 20.0, right: 20.0, top: 10.0),
-                        child: Text('Suggested brand',
-                            style: Styles.regular(
-                                size: 12,
-                                color: ColorConstants.GREY_4))),
-
-                  //TODO: Show Brand List
-                  titleController.text.isEmpty
-                      ? Container(
-                    //padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
-                    //height: 360,
-                    margin: EdgeInsets.only(top: 150.0, bottom: 80.0),
-                    height: MediaQuery.of(context).size.height,
-
-                    child: addressListData.length != 0
-                        ? ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: addressListData.length,
-                      itemBuilder:
-                          (BuildContext context,
-                          int index) {
-                        return Container(
-                          child: Column(
-                            children: [
-                              ListTile(
-                                leading: Radio(
-                                  value: index,
-                                  groupValue: _result,
+                                  readOnly: readOnly,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  keyboardType: TextInputType.text,
                                   onChanged: (value) {
-                                    setState(() {
-                                      _result = value;
-                                    });
-                                  },
-                                  activeColor:
-                                  Colors.green,
-                                ),
-                                title: Transform.translate(
-                                   offset: Offset(-16, 0),
-                                  child: Text(
-                                      addressListData[index]
-                                          .title
-                                          .toString(),
-                                      style: Styles.bold(
-                                          size: 14)),
-                                ),
-                                trailing: Image.network(
-                                  addressListData[index]
-                                      .image
-                                      .toString(),
-                                  filterQuality:
-                                  FilterQuality.low,
-                                  width: 80,
-                                  height: 45,
-                                  //fit: BoxFit.fill,
-                                  loadingBuilder: (context,
-                                      child,
-                                      loadingProgress) {
-                                    if (loadingProgress ==
-                                        null) {
-                                      debugPrint(
-                                          'image loading null');
-                                      return child;
+                                    print("on change method called");
+                                    if (brandImageUrl.isEmpty) {
+                                      setSheetState(() {
+                                        textContentHide = false;
+                                      });
                                     }
-                                    debugPrint(
-                                        'image loading...');
-                                    return const Center(
-                                        child: SizedBox(
-                                            width: 20,
-                                            height: 20,
-                                            child:
-                                            CircularProgressIndicator(
-                                              color: ColorConstants
-                                                  .PRIMARY_COLOR,
-                                            )));
+                                  },
+                                  decoration: InputDecoration(
+                                    focusColor: Colors.white,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.blue, width: 1.0),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    fillColor: Colors.grey,
+                                    hintText: brandImageUrl.isEmpty
+                                        ? "Enter brand name"
+                                        : "${Strings.of(context)?.brandName}",
+                                    //make hint text
+                                    hintStyle: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 16,
+                                      fontFamily: "verdana_regular",
+                                      fontWeight: FontWeight.w400,
+                                    ),
+
+                                    //create lable
+                                    labelText: brandImageUrl.isEmpty
+                                        ? "Enter brand name"
+                                        : "${Strings.of(context)?.brandName}",
+                                    //lable style
+                                    labelStyle: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 16,
+                                      fontFamily: "verdana_regular",
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    prefixIcon: brandImageUrl.isNotEmpty
+                                        ? Icon(Icons.search_rounded,
+                                            color: ColorConstants.BLACK)
+                                        : null,
+                                  ),
+                                  onTap: () {
+                                    if (brandImageUrl.isNotEmpty) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  BrandFilterPage(
+                                                    onCalledFromOutside,
+                                                  )));
+                                    } else {
+                                      print('else===========');
+                                      setSheetState(() {
+                                        readOnly = false;
+                                        // textContentHide = false;
+                                      });
+                                    }
                                   },
                                 ),
-                                onTap: () {
-                                  Text('Another data');
-                                },
-                              ),
-                              new Divider(
-                                height: 1.0,
-                                indent: 1.0,
                               ),
                             ],
                           ),
-                        );
-                      },
-                    )
-                        : const Center(
-                        child: SizedBox(
-                            width: 30,
-                            height: 30,
-                            child:
-                            CircularProgressIndicator(
-                              color: ColorConstants
-                                  .PRIMARY_COLOR,
-                            ))),
-                  )
-                      : SizedBox(),
-
-                  brandImageUrl.isNotEmpty &&
-                      brandImageUrl != 'null'
-                      ? Center(
-                        child: Container(
-                          margin: EdgeInsets.only(top: 0),
-                          child: Image.network(brandImageUrl,
-                    filterQuality: FilterQuality.low,
-                    width: 130,
-                    height: 80,
-                    //fit: BoxFit.fill,
-                    loadingBuilder:
-                            (context, child, loadingProgress) {
-                          if (loadingProgress == null) {
-                            debugPrint('image loading null');
-                            return child;
-                          }
-                          debugPrint('image loading...');
-                          return const Center(
-                              child: SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child:
-                                  CircularProgressIndicator(
-                                    color: ColorConstants
-                                        .PRIMARY_COLOR,
-                                  )));
-                    },
-                  ),
                         ),
-                      )
-                      : SizedBox(),
 
+                        if (titleController.text.isEmpty)
+                          Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20.0, right: 20.0, top: 10.0),
+                              child: Text('Suggested brand',
+                                  style: Styles.regular(
+                                      size: 12, color: ColorConstants.GREY_4))),
 
-                  //TODO: Upload Brand Logo Image
-                  brandImageUrl.isEmpty
-                      ? Center(
-                        child: Container(
-                    margin: EdgeInsets.only(top: 250.0),
-                    child: Column(
-                        children: [
-                          // Text(
-                          //   'We could not find your brand in our list.',
-                          //   style: Styles.textExtraBold(
-                          //       size: 14,
-                          //       color: ColorConstants.GREY_3),
-                          // ),
-                          // SizedBox(
-                          //   height: 10,
-                          // ),
+                        //TODO: Show Brand List
+                        titleController.text.isEmpty
+                            ? Container(
+                                //padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
+                                //height: 360,
+                                margin:
+                                    EdgeInsets.only(top: 150.0, bottom: 80.0),
+                                height: MediaQuery.of(context).size.height,
 
-                          selectedBrandPath != null &&
-                              selectedBrandPath!.isNotEmpty
-                              ? _selectedBrandLogo()
-                              : SizedBox(),
+                                child: addressListData.length != 0
+                                    ? ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: addressListData.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return Container(
+                                            child: Column(
+                                              children: [
+                                                ListTile(
+                                                  leading: Radio(
+                                                    value: index,
+                                                    groupValue: _result,
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        _result = value;
+                                                      });
+                                                    },
+                                                    activeColor: Colors.green,
+                                                  ),
+                                                  title: Transform.translate(
+                                                    offset: Offset(-16, 0),
+                                                    child: Text(
+                                                        addressListData[index]
+                                                            .title
+                                                            .toString(),
+                                                        style: Styles.bold(
+                                                            size: 14)),
+                                                  ),
+                                                  trailing: Image.network(
+                                                    addressListData[index]
+                                                        .image
+                                                        .toString(),
+                                                    filterQuality:
+                                                        FilterQuality.low,
+                                                    width: 80,
+                                                    height: 45,
+                                                    //fit: BoxFit.fill,
+                                                    loadingBuilder: (context,
+                                                        child,
+                                                        loadingProgress) {
+                                                      if (loadingProgress ==
+                                                          null) {
+                                                        debugPrint(
+                                                            'image loading null');
+                                                        return child;
+                                                      }
+                                                      debugPrint(
+                                                          'image loading...');
+                                                      return const Center(
+                                                          child: SizedBox(
+                                                              width: 20,
+                                                              height: 20,
+                                                              child:
+                                                                  CircularProgressIndicator(
+                                                                color: ColorConstants
+                                                                    .PRIMARY_COLOR,
+                                                              )));
+                                                    },
+                                                  ),
+                                                  onTap: () {
+                                                    Text('Another data');
+                                                  },
+                                                ),
+                                                new Divider(
+                                                  height: 1.0,
+                                                  indent: 1.0,
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      )
+                                    : const Center(
+                                        child: SizedBox(
+                                            width: 30,
+                                            height: 30,
+                                            child: CircularProgressIndicator(
+                                              color:
+                                                  ColorConstants.PRIMARY_COLOR,
+                                            ))),
+                              )
+                            : SizedBox(),
 
-                          SizedBox(
-                            height: 30,
-                          ),
-
-                          GestureDetector(
-                            onTap: () {
-                              showBottomSheet(context, 'brand',
-                                  updateValue);
-                            },
-                            child: Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                    Icons.file_upload_outlined),
-                                Padding(
-                                  padding:
-                                  const EdgeInsets.only(
-                                      left: 10.0),
-                                  child: Text(
-                                      "${Strings.of(context)?.uploadBrandLogo}"),
+                        brandImageUrl.isNotEmpty && brandImageUrl != 'null'
+                            ? Center(
+                                child: Container(
+                                  margin: EdgeInsets.only(top: 0),
+                                  child: Image.network(
+                                    brandImageUrl,
+                                    filterQuality: FilterQuality.low,
+                                    width: 130,
+                                    height: 80,
+                                    //fit: BoxFit.fill,
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        debugPrint('image loading null');
+                                        return child;
+                                      }
+                                      debugPrint('image loading...');
+                                      return const Center(
+                                          child: SizedBox(
+                                              width: 20,
+                                              height: 20,
+                                              child: CircularProgressIndicator(
+                                                color: ColorConstants
+                                                    .PRIMARY_COLOR,
+                                              )));
+                                    },
+                                  ),
                                 ),
-                              ],
-                            ),
-                          ),
-                          Text(
-                            '${Strings.of(context)?.supportedFormat} - .jpeg, .png ...',
-                            style: Styles.textExtraBold(
-                                size: 14,
-                                color: ColorConstants.GREY_3),
-                          ),
-                        ],
-                    ),
-                  ),
-                      )
-                      : SizedBox(),
+                              )
+                            : SizedBox(),
 
-                  /*SizedBox(
+                        //TODO: Upload Brand Logo Image
+                        brandImageUrl.isEmpty
+                            ? Center(
+                                child: Container(
+                                  margin: EdgeInsets.only(top: 250.0),
+                                  child: Column(
+                                    children: [
+                                      // Text(
+                                      //   'We could not find your brand in our list.',
+                                      //   style: Styles.textExtraBold(
+                                      //       size: 14,
+                                      //       color: ColorConstants.GREY_3),
+                                      // ),
+                                      // SizedBox(
+                                      //   height: 10,
+                                      // ),
+
+                                      selectedBrandPath != null &&
+                                              selectedBrandPath!.isNotEmpty
+                                          ? _selectedBrandLogo()
+                                          : SizedBox(),
+
+                                      SizedBox(
+                                        height: 30,
+                                      ),
+
+                                      GestureDetector(
+                                        onTap: () {
+                                          showBottomSheet(
+                                              context, 'brand', updateValue);
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(Icons.file_upload_outlined),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Text(
+                                                  "${Strings.of(context)?.uploadBrandLogo}"),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Text(
+                                        '${Strings.of(context)?.supportedFormat} - .jpeg, .png ...',
+                                        style: Styles.textExtraBold(
+                                            size: 14,
+                                            color: ColorConstants.GREY_3),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            : SizedBox(),
+
+                        /*SizedBox(
                     height: 20,
                   ),
                   selectedBrandPath != null &&
@@ -1658,100 +1667,97 @@ class _UserProfilePageState extends State<UserProfilePage>
                       ? _selectedBrandLogo()
                       : SizedBox(),*/
 
-                  Align(
-                      alignment: Alignment.bottomCenter,
-                      child: TapWidget(
-                        onTap: () {
-                          print(_result);
-                          print(selectedBrandPath);
+                        Align(
+                            alignment: Alignment.bottomCenter,
+                            child: TapWidget(
+                              onTap: () {
+                                print(_result);
+                                print(selectedBrandPath);
 
-                          if (selectedBrandPath != null &&
-                              selectedBrandPath!.isNotEmpty ||
-                              _result != null ||
-                              brandImageUrl.isNotEmpty &&
-                                  brandImageUrl != 'null') {
-                            if (_result != null) {
-                              setSheetState(() {
-                                brandImageUrl = addressListData[_result]
-                                    .image
-                                    .toString();
-                                id = addressListData[_result].id;
-                                brandName = addressListData[_result]
-                                    .title
-                                    .toString();
-                                nextFlag = true;
-                              });
-                            } else {
-                              setSheetState(() {
-                                nextFlag = true;
-                              });
-                            }
-                          } else {
-                            AlertsWidget.showCustomDialog(
-                                context: context,
-                                title: "${Strings.of(context)?.error}",
-                                text: "Please Select Brand",
-                                icon:
-                                'assets/images/circle_alert_fill.svg',
-                                oKText: '${Strings.of(context)?.ok}',
-                                showCancel: false,
-                                onOkClick: () async {});
-                          }
-                        },
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            _isLoadingBrandCreate == false
-                                ? Container(
-                              alignment: Alignment.bottomCenter,
-                              width: MediaQuery.of(context)
-                                  .size
-                                  .width *
-                                  0.90,
-                              height: 50,
-                              margin: EdgeInsets.only(bottom: 10),
-                              padding: EdgeInsets.all(0),
-                              decoration: BoxDecoration(
-                                  color: _result == null &&
-                                      titleController
-                                          .text.isEmpty
-                                      ? ColorConstants()
-                                      .primaryColor()
-                                      .withOpacity(0.5)
-                                      : ColorConstants()
-                                      .primaryColor(),
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(5))),
-                              child: Center(
-                                child: Text(
-                                  '${Strings.of(context)?.next}',
-                                  textAlign: TextAlign.center,
-                                  style: Styles.textExtraBold(
-                                      size: 14,
-                                      color:
-                                      ColorConstants.WHITE),
-                                ),
+                                if (selectedBrandPath != null &&
+                                        selectedBrandPath!.isNotEmpty ||
+                                    _result != null ||
+                                    brandImageUrl.isNotEmpty &&
+                                        brandImageUrl != 'null') {
+                                  if (_result != null) {
+                                    setSheetState(() {
+                                      brandImageUrl = addressListData[_result]
+                                          .image
+                                          .toString();
+                                      id = addressListData[_result].id;
+                                      brandName = addressListData[_result]
+                                          .title
+                                          .toString();
+                                      nextFlag = true;
+                                    });
+                                  } else {
+                                    setSheetState(() {
+                                      nextFlag = true;
+                                    });
+                                  }
+                                } else {
+                                  AlertsWidget.showCustomDialog(
+                                      context: context,
+                                      title: "${Strings.of(context)?.error}",
+                                      text: "Please Select Brand",
+                                      icon:
+                                          'assets/images/circle_alert_fill.svg',
+                                      oKText: '${Strings.of(context)?.ok}',
+                                      showCancel: false,
+                                      onOkClick: () async {});
+                                }
+                              },
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  _isLoadingBrandCreate == false
+                                      ? Container(
+                                          alignment: Alignment.bottomCenter,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.90,
+                                          height: 50,
+                                          margin: EdgeInsets.only(bottom: 10),
+                                          padding: EdgeInsets.all(0),
+                                          decoration: BoxDecoration(
+                                              color: _result == null &&
+                                                      titleController
+                                                          .text.isEmpty
+                                                  ? ColorConstants()
+                                                      .primaryColor()
+                                                      .withOpacity(0.5)
+                                                  : ColorConstants()
+                                                      .primaryColor(),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(5))),
+                                          child: Center(
+                                            child: Text(
+                                              '${Strings.of(context)?.next}',
+                                              textAlign: TextAlign.center,
+                                              style: Styles.textExtraBold(
+                                                  size: 14,
+                                                  color: ColorConstants.WHITE),
+                                            ),
+                                          ),
+                                        )
+                                      : const Center(
+                                          child: SizedBox(
+                                              width: 30,
+                                              height: 30,
+                                              child: CircularProgressIndicator(
+                                                color: ColorConstants
+                                                    .PRIMARY_COLOR,
+                                              ))),
+                                ],
                               ),
-                            )
-                                : const Center(
-                                child: SizedBox(
-                                    width: 30,
-                                    height: 30,
-                                    child:
-                                    CircularProgressIndicator(
-                                      color: ColorConstants
-                                          .PRIMARY_COLOR,
-                                    ))),
-                          ],
-                        ),
-                      )),
-                ],
-              ),
-            )
-
+                            )),
+                      ],
+                    ),
+                  )
                 : Container(
-              color: Colors.white,
-                  child: FractionallySizedBox(
+                    color: Colors.white,
+                    child: FractionallySizedBox(
                       heightFactor: 0.6,
                       child: CustomScrollView(
                         slivers: [
@@ -1761,7 +1767,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                                 Container(
                                   color: Colors.white,
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Container(
                                         height: 5,
@@ -1774,7 +1781,9 @@ class _UserProfilePageState extends State<UserProfilePage>
                                       ),
                                       Padding(
                                           padding: const EdgeInsets.only(
-                                              left: 20.0, right: 20.0, top: 10.0),
+                                              left: 20.0,
+                                              right: 20.0,
+                                              top: 10.0),
                                           child: Text(
                                               '${Strings.of(context)?.addBrand}')),
                                       SizedBox(
@@ -1965,8 +1974,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                                       Container(
                                         padding: EdgeInsets.symmetric(
                                             vertical: 8, horizontal: 16),
-                                        margin:
-                                            EdgeInsets.symmetric(horizontal: 20),
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 20),
                                         decoration: BoxDecoration(
                                             border: Border.all(),
                                             borderRadius: BorderRadius.all(
@@ -1998,7 +2007,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                                             color: ColorConstants.GREY_3),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(top: 5.0),
+                                        padding:
+                                            const EdgeInsets.only(top: 5.0),
                                         child: Text(
                                           fileString.isNotEmpty &&
                                                   fileString != 'null'
@@ -2038,8 +2048,9 @@ class _UserProfilePageState extends State<UserProfilePage>
                                         valEnd = DateTime.parse(
                                             fromDateController.text.toString());
                                         date = toDateController.text.isNotEmpty
-                                            ? DateTime.parse(
-                                                toDateController.text.toString())
+                                            ? DateTime.parse(toDateController
+                                                .text
+                                                .toString())
                                             : DateTime.parse(formattedDate);
                                       }
 
@@ -2052,7 +2063,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                 "${Strings.of(context)?.pleaseSelectedJoiningLetter}",
                                             icon:
                                                 'assets/images/circle_alert_fill.svg',
-                                            oKText: '${Strings.of(context)?.ok}',
+                                            oKText:
+                                                '${Strings.of(context)?.ok}',
                                             showCancel: false,
                                             onOkClick: () async {});
                                       } else if (fromDateController.text
@@ -2066,7 +2078,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                 "${Strings.of(context)?.pleaseSelectFromDate}",
                                             icon:
                                                 'assets/images/circle_alert_fill.svg',
-                                            oKText: '${Strings.of(context)?.ok}',
+                                            oKText:
+                                                '${Strings.of(context)?.ok}',
                                             showCancel: false,
                                             onOkClick: () async {});
                                       } else {
@@ -2099,14 +2112,16 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                       .size
                                                       .width *
                                                   0.85,
-                                              margin: EdgeInsets.only(bottom: 10),
+                                              margin:
+                                                  EdgeInsets.only(bottom: 10),
                                               height: 50,
                                               padding: EdgeInsets.all(12),
                                               decoration: BoxDecoration(
                                                   color: ColorConstants()
                                                       .primaryColor(),
-                                                  borderRadius: BorderRadius.all(
-                                                      Radius.circular(5))),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(5))),
                                               child: Padding(
                                                 padding: const EdgeInsets.only(
                                                     left: 8,
@@ -2139,11 +2154,10 @@ class _UserProfilePageState extends State<UserProfilePage>
                         ],
                       ),
                     ),
-                );
+                  );
           });
         });
   }
-
 
   Widget _workingTime() {
     return Container(
@@ -2185,15 +2199,19 @@ class _UserProfilePageState extends State<UserProfilePage>
                           decoration: InputDecoration(
                             hintStyle: TextStyle(fontSize: 13.0),
                             hintText: '${Strings.of(context)?.fromDate}',
-                            contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 10.0),
                             border: OutlineInputBorder(),
                             suffixIcon: Icon(Icons.calendar_today),
                           ),
                           onTap: () => calenderOpen('from'),
                         ),
                       ),
-
-                      checkBoxValue == false ? SizedBox(height: 45,): SizedBox(),
+                      checkBoxValue == false
+                          ? SizedBox(
+                              height: 45,
+                            )
+                          : SizedBox(),
                     ],
                   ),
                 ),
@@ -2239,23 +2257,25 @@ class _UserProfilePageState extends State<UserProfilePage>
         child: Column(
           //padding: EdgeInsets.all(5.0),
           children: [
-            checkBoxValue == false ? Container(
-              height: 35,
-              padding: EdgeInsets.only(left: 5.0),
-              child: TextFormField(
-                controller: toDateController,
-                readOnly: true,
-                style: TextStyle(fontSize: 13.0),
-                decoration: InputDecoration(
-                  hintStyle: TextStyle(fontSize: 13.0),
-                  hintText: '${Strings.of(context)?.toDate}',
-                  contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-                  border: OutlineInputBorder(),
-                  suffixIcon: Icon(Icons.calendar_today),
-                ),
-                onTap: () => calenderOpen('to'),
-              ),
-            ) : SizedBox(),
+            checkBoxValue == false
+                ? Container(
+                    height: 35,
+                    padding: EdgeInsets.only(left: 5.0),
+                    child: TextFormField(
+                      controller: toDateController,
+                      readOnly: true,
+                      style: TextStyle(fontSize: 13.0),
+                      decoration: InputDecoration(
+                        hintStyle: TextStyle(fontSize: 13.0),
+                        hintText: '${Strings.of(context)?.toDate}',
+                        contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                        border: OutlineInputBorder(),
+                        suffixIcon: Icon(Icons.calendar_today),
+                      ),
+                      onTap: () => calenderOpen('to'),
+                    ),
+                  )
+                : SizedBox(),
             Row(
               children: <Widget>[
                 Container(
@@ -2378,7 +2398,8 @@ class _UserProfilePageState extends State<UserProfilePage>
     });
   }
 
-  void _handleUpdateUserProfileImageResponse(UpdateUserProfileImageState state) {
+  void _handleUpdateUserProfileImageResponse(
+      UpdateUserProfileImageState state) {
     var loginState = state;
     setState(() {
       switch (loginState.apiState) {
@@ -2665,14 +2686,14 @@ class _UserProfilePageState extends State<UserProfilePage>
     if (sourceType == 'camera') {
       final picker = ImagePicker();
       //PickedFile? pickedFile = await picker.getImage(source: ImageSource.camera,
-     /* PickedFile? pickedFile = await picker.getImage(source: ImageSource.camera,
+      /* PickedFile? pickedFile = await picker.getImage(source: ImageSource.camera,
       maxWidth: 400,
       maxHeight: 400);*/
 
       /*XFile? pickedFile = await picker.pickImage(source: source, imageQuality: 60, maxWidth: 400,
           maxHeight: 400);*/
-      final pickedFile = await ImagePicker()
-          .pickImage(source: ImageSource.camera);
+      final pickedFile =
+          await ImagePicker().pickImage(source: ImageSource.camera);
       if (pickedFile != null) {
         return pickedFile.path;
       } /*else if (Platform.isAndroid) {
@@ -2686,7 +2707,8 @@ class _UserProfilePageState extends State<UserProfilePage>
       return "";
     } else {
       final picker = ImagePicker();
-      PickedFile? pickedFile = await picker.getImage(source: source, imageQuality: 70);
+      PickedFile? pickedFile =
+          await picker.getImage(source: source, imageQuality: 70);
       //XFile? pickedFile = await picker.pickImage(source: source, imageQuality: 60);
       if (pickedFile != null)
         return pickedFile.path;
@@ -2699,7 +2721,6 @@ class _UserProfilePageState extends State<UserProfilePage>
       return "";
     }
   }
-
 
   Future<String> _cropImage(_pickedFile) async {
     if (_pickedFile != null) {
@@ -2797,11 +2818,12 @@ class _UserProfilePageState extends State<UserProfilePage>
                         if (value != null) {
                           selectedImage = value;
                           //if(Platform.isIOS) {
-                            selectedImage = await _cropImage(value);
+                          selectedImage = await _cropImage(value);
                           //}
                         }
                         if (selectedImage != null) {
-                          Preference.setString(Preference.PROFILE_IMAGE, '${selectedImage}');
+                          Preference.setString(
+                              Preference.PROFILE_IMAGE, '${selectedImage}');
                           _updateUserProfileImage(selectedImage);
                         }
 
@@ -2835,34 +2857,41 @@ class _UserProfilePageState extends State<UserProfilePage>
                           style: TextStyle(color: Colors.white),
                         ),
                         onTap: () async {
-                           final cameras = await availableCameras();
+                          final cameras = await availableCameras();
 
-  // Get a specific camera from the list of available cameras.
-  final firstCamera = cameras.first;
+                          // Get a specific camera from the list of available cameras.
+                          final firstCamera = cameras.first;
 
-Navigator.push(context, MaterialPageRoute(builder: (context)=> TakePictureScreen(camera: firstCamera))).then((value) async {
+                          Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TakePictureScreen(
+                                          camera: firstCamera)))
+                              .then((value) async {
                             if (clickSide.endsWith('profile')) {
                               if (value != null) {
                                 selectedImage = value;
                                 //if(Platform.isIOS) {
-                                  selectedImage = await _cropImage(value);
+                                selectedImage = await _cropImage(value);
                                 //}
                               }
                               if (selectedImage != null) {
-                                Preference.setString(Preference.PROFILE_IMAGE, '${selectedImage}');
+                                Preference.setString(Preference.PROFILE_IMAGE,
+                                    '${selectedImage}');
                                 _updateUserProfileImage(selectedImage);
                               }
-                               //_updateUserProfileImage(selectedImage);
+                              //_updateUserProfileImage(selectedImage);
 
                             } else {
-                           if(mounted)   setState(() {
-                                selectedBrandPath = value;
-                              });
+                              if (mounted)
+                                setState(() {
+                                  selectedBrandPath = value;
+                                });
                               callback(value);
                             }
-                          Navigator.pop(context);
+                            Navigator.pop(context);
 
-                          if(mounted)  setState(() {});
+                            if (mounted) setState(() {});
                           });
                           // Navigator.pop(context);
                         },
@@ -2893,11 +2922,9 @@ Navigator.push(context, MaterialPageRoute(builder: (context)=> TakePictureScreen
     }*/
   }
 
-
-  void editCallBack(){
+  void editCallBack() {
     _getUserProfile();
   }
-
 }
 
 class BlankPage extends StatelessWidget {

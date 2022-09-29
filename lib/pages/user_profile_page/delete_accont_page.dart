@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:masterg/pages/user_profile_page/choose_option_deletion.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
 
@@ -65,7 +66,47 @@ SizedBox(height: 10),
 Expanded(child: SizedBox()),
       CupertinoButton(
         color: ColorConstants().primaryColor(),
-        child: Text('Deactivate Account', style: Styles.regular(size: 12, color: ColorConstants.WHITE),), onPressed: (){}),
+        child: Text('Deactivate Account', style: Styles.regular(size: 12, color: ColorConstants.WHITE),), onPressed: (){
+ showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)), 
+          
+            child: Container(
+height: 230,                   padding: EdgeInsets.symmetric(horizontal: 20),
+                  decoration: BoxDecoration(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                Text('Delete your Instagram Account?', style: Styles.bold(),textAlign: TextAlign.center),
+                SizedBox(height: 10),
+                Text('You\'re requesting to delete. You can stop the deletion process by logging back in before 27 Octboer 2022.', textAlign: TextAlign.center,),
+
+                Divider(),
+                InkWell(
+                   onTap: (){
+
+Navigator.push(context, MaterialPageRoute(builder: (context)=> ChooseOptionDeletion()));
+                  },
+                  child: Text('Continue Deleting Account', style: Styles.bold(color: ColorConstants.RED),),),
+                Divider(),
+
+                SizedBox(height: 10),
+
+                InkWell(
+                  onTap: (){
+                    Navigator.pop(context);
+                  },
+                  child: Text('Cancel', style: Styles.regular(size: 14)))
+              ],),
+            ));});
+
+
+
+        }),
         CupertinoButton(
         child: Text('Delete Account', style: Styles.regular(size: 12 ,color:  ColorConstants.BLACK),), onPressed: (){}), SizedBox(height: 10,)
       ],),);
@@ -97,4 +138,6 @@ Column(
   ],),
 );
   }
+
+  
 }

@@ -94,6 +94,7 @@ dependencies:
   visibility_detector: ^0.3.3
   webview_flutter: ^3.0.4
   youtube_player_flutter: ^8.1.0
+  device_info_plus: any
 
 dependency_overrides: null
 

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,10 +56,25 @@ class _VerifyOtpState extends State<VerifyOtp> {
   late OTPInteractor _otpInteractor;
   String otpCode = '';
 
+  Future<Null> _getId() async {
+  var deviceInfo = DeviceInfoPlugin();
+  if (Platform.isIOS) { // import 'dart:io'
+    var iosDeviceInfo = await deviceInfo.iosInfo;
+   deviceId =  iosDeviceInfo.identifierForVendor; // unique ID on iOS
+  } else if(Platform.isAndroid) {
+    var androidDeviceInfo = await deviceInfo.androidInfo;
+   deviceId = androidDeviceInfo.androidId; // unique ID on Android
+  }
+  setState(() {
+    
+  });
+}
+
 
   @override
   void initState() {
     super.initState();
+    _getId();
 
     ///Add New code for OTP AutoFill
       _notificationHelper = NotificationHelper.getInstance(context);
@@ -531,6 +547,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
     print(UserSession.firebaseToken);
 
     Utility.checkNetwork().then((isConnected) {
+      print('the device id is $deviceId');
       if (isConnected) {
         var verifyOtp = EmailRequest(
             mobileNo: widget.username,
