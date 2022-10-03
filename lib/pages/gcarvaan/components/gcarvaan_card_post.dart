@@ -26,6 +26,7 @@ import 'package:open_file/open_file.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+import 'package:zoom_pinch_overlay/zoom_pinch_overlay.dart';
 
 import '../../../data/models/response/auth_response/user_session.dart';
 
@@ -1032,45 +1033,50 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                           );
                                         },
                                         child:
-                                        CachedNetworkImage(
-                                          imageUrl:
-                                          "${widget.fileList![index]}",
-                                          progressIndicatorBuilder:
-                                              (context, url,
-                                              downloadProgress) =>
-                                              Shimmer
-                                                  .fromColors(
-                                                baseColor: Color(
-                                                    0xffe6e4e6),
-                                                highlightColor:
-                                                Color(
-                                                    0xffeaf0f3),
-                                                child: Container(
-                                                  height: double
-                                                      .infinity,
-                                                  margin: EdgeInsets
-                                                      .symmetric(
-                                                      horizontal:
-                                                      10,
-                                                      vertical:
-                                                      10),
-                                                  width: MediaQuery.of(
-                                                      context)
-                                                      .size
-                                                      .width,
-                                                  decoration: BoxDecoration(
-                                                      color: Colors
-                                                          .white,
-                                                      borderRadius:
-                                                      BorderRadius.circular(
-                                                          6)),
+                                        ZoomOverlay(
+                                            minScale: 0.5, // Optional
+    maxScale: 3.0, // Optional
+    twoTouchOnly: true, 
+                                          child: CachedNetworkImage(
+                                            imageUrl:
+                                            "${widget.fileList![index]}",
+                                            progressIndicatorBuilder:
+                                                (context, url,
+                                                downloadProgress) =>
+                                                Shimmer
+                                                    .fromColors(
+                                                  baseColor: Color(
+                                                      0xffe6e4e6),
+                                                  highlightColor:
+                                                  Color(
+                                                      0xffeaf0f3),
+                                                  child: Container(
+                                                    height: double
+                                                        .infinity,
+                                                    margin: EdgeInsets
+                                                        .symmetric(
+                                                        horizontal:
+                                                        10,
+                                                        vertical:
+                                                        10),
+                                                    width: MediaQuery.of(
+                                                        context)
+                                                        .size
+                                                        .width,
+                                                    decoration: BoxDecoration(
+                                                        color: Colors
+                                                            .white,
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            6)),
+                                                  ),
                                                 ),
-                                              ),
-                                          errorWidget:
-                                              (context, url,
-                                              error) =>
-                                              Icon(Icons
-                                                  .error),
+                                            errorWidget:
+                                                (context, url,
+                                                error) =>
+                                                Icon(Icons
+                                                    .error),
+                                          ),
                                         ), // child: Image.network(
                                         // widget.fileList![
                                         //     index],

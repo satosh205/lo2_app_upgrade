@@ -95,7 +95,7 @@ dependencies:
   webview_flutter: ^3.0.4
   youtube_player_flutter: ^8.1.0
   device_info_plus: any
-
+  zoom_pinch_overlay: ^1.2.0
 dependency_overrides: null
 
 dev_dependencies:
