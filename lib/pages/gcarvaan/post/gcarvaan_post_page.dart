@@ -451,6 +451,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
 
                       width: gcarvaanPosts[index].dimension.width,
                       resourceType: gcarvaanPosts[index].resourceType,
+                      userID: gcarvaanPosts[index].userId,
                     )
                   : Container();
             })

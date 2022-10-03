@@ -65,6 +65,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
     var androidDeviceInfo = await deviceInfo.androidInfo;
    deviceId = androidDeviceInfo.androidId; // unique ID on Android
   }
+
   setState(() {
     
   });
