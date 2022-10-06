@@ -133,8 +133,11 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
 
     String calculateTimeDifferenceBetween(DateTime startDate, DateTime endDate) {
       int seconds = endDate.difference(startDate).inSeconds;
-      if (seconds < 60)
+      if (seconds < 60){
+        if(seconds.abs() < 4) return 'Just Now';
         return '${seconds.abs()} s';
+      }
+        
       else if (seconds >= 60 && seconds < 3600)
         return '${startDate.difference(endDate).inMinutes.abs()} m';
       else if (seconds >= 3600 && seconds < 86400)

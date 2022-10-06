@@ -26,8 +26,7 @@ void main() async {
 
   
   runZoned(() {
-    // Ends up printing: "Intercepted: in zone".
-    print("in zone");
+    
       runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
     await FlutterDownloader.initialize();
