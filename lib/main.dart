@@ -21,8 +21,14 @@ import 'dependency_injections.dart';
 import 'local/pref/Preference.dart';
 import 'utils/Strings.dart';
 
+
 void main() async {
-  runZonedGuarded(() async {
+
+  
+  runZoned(() {
+    // Ends up printing: "Intercepted: in zone".
+    print("in zone");
+      runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
     await FlutterDownloader.initialize();
       //  WidgetsFlutterBinding.ensureInitialized();
@@ -37,6 +43,13 @@ void main() async {
       UserSession();
     });
   }, (error, stackTrace) {});
+  }, zoneSpecification:  ZoneSpecification(
+      print: (Zone self, ZoneDelegate parent, Zone zone, String line) {
+
+        //comment to hide all print
+    // parent.print(zone, "$line");
+  }));
+ 
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {

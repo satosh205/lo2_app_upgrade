@@ -329,7 +329,7 @@ const EN_TEXT = {
   'all' : 'All',
   'pending' : 'Pending',
   'upcoming' : 'Upcoming',
-  'Ongoing' : 'चल रहे',
+  'Ongoing' : 'Ongoing',
    "otherLearnerCoursesMasterG": "Learn what other MasterG’s are learning",
 };
 
