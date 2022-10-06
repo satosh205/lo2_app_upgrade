@@ -169,10 +169,13 @@ class _EditSelfDetailsPageState extends State<EditSelfDetailsPage> {
                 print('the value is $value');
                 if (value == '')
                   return 'Email is required';
+                          int index = value?.length as int;
+
+                    if(value![index-1] == '.') return '${Strings.of(context)?.emailAddressError}';
 
                 if (!RegExp(
                     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                    .hasMatch(value!))
+                    .hasMatch(value))
                   return '${Strings.of(context)?.emailAddressError}';
 
                 return null;
