@@ -68,120 +68,118 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
             body: ScreenWithLoader(
               isLoading: _isLoading,
               body: SafeArea(
-                  child: SingleChildScrollView(
-                  //physics: BouncingScrollPhysics(),
-                child: Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    children: [
-                                                 SizedBox(height:APK_DETAILS['package_name'] == 'com.at.masterg' ? 40 : 20 ),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      children: [
+                                                   SizedBox(height:APK_DETAILS['package_name'] == 'com.at.masterg' ? 40 : 20 ),
 
-                      Center(
-                        child: Column(
-                          //crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            appBarImagePath.split('.').last == 'svg'
-                                ? SvgPicture.asset(
-                              appBarImagePath,
-                              fit: BoxFit.cover,
-                            )
-                                : Image.asset(
-                              appBarImagePath,
-                              height: 150,
-                              width: 150,
-                            ),
-
-                            SizedBox(height:APK_DETAILS['package_name'] == 'com.at.masterg' ? 60 : 10 ),
-                            Center(
-                              child: Text(
-                                '${Strings.of(context)?.chooseAppLanguage}',
-                                style: Styles.bold(size: 18),
-                                textAlign: TextAlign.center,
+                        Center(
+                          child: Column(
+                            //crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              appBarImagePath.split('.').last == 'svg'
+                                  ? SvgPicture.asset(
+                                appBarImagePath,
+                                fit: BoxFit.cover,
+                              )
+                                  : Image.asset(
+                                appBarImagePath,
+                                height: 150,
+                                width: 150,
                               ),
-                            ),
-                            SizedBox(height: 10),
 
-                            //  if(APK_DETAILS['theme_image_url2'] != "")      APK_DETAILS['theme_image_url2']?.split('.').last == 'svg'
-                      //           ? SvgPicture.asset(
-                      //                   height:
-                      //               MediaQuery.of(context).size.height * 0.25,
-                      //       'assets/images/${APK_DETAILS['theme_image_url2']}',
-                      //         fit: BoxFit.cover,
-                      //       )
-                      //           : Image.asset(
-                      //       'assets/images/${APK_DETAILS['theme_image_url2']}',
-                      //           height:
-                      //               MediaQuery.of(context).size.height * 0.25,
-                      //         // width: 150,
-                      //       ),
-                            /*SizedBox(
-                          //height: MediaQuery.of(context).size.height * 0.25,
-                        height: 180,
-                          width: 180,
-                          child: Image.asset('assets/images/signupimage.gif')
-                      ),*/
-
-                       if(APK_DETAILS['theme_image_url2'] != "")      APK_DETAILS['theme_image_url2']?.split('.').last == 'svg'
-                                ? SvgPicture.asset(
-                                        height:
-                                    MediaQuery.of(context).size.height * 0.25,
-                            'assets/images/${APK_DETAILS['theme_image_url2']}',
-                              fit: BoxFit.cover,
-                            )
-                                : Image.asset(
-                            'assets/images/${APK_DETAILS['theme_image_url2']}',
-                                height:
-                                    MediaQuery.of(context).size.height * 0.25,
-                              // width: 150,
-                            ),
-                            SizedBox(height: 10),
-                            Container(
-                              height: 200,
-                              margin: EdgeInsets.only(bottom:20.0),
-
-                              child: ListView.builder(
-                                physics: BouncingScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: myList?.length ?? 0,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return   languageCard(myList![index], index);
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SignUpScreen()));
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(left: 12.0, right: 12.0,),
-                            width: double.infinity,
-                            height: MediaQuery.of(context).size.height *
-                                WidgetSize.AUTH_BUTTON_SIZE,
-                            decoration: BoxDecoration(
-                                color: ColorConstants().primaryColor(),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Center(
+                              SizedBox(height:APK_DETAILS['package_name'] == 'com.at.masterg' ? 60 : 10 ),
+                              Center(
                                 child: Text(
-                              '${Strings.of(context)?.continueStr}',
-                              style: Styles.regular(
-                                color: ColorConstants.WHITE,
+                                  '${Strings.of(context)?.chooseAppLanguage}',
+                                  style: Styles.bold(size: 18),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
-                            )),
-                          )),
+                              SizedBox(height: 10),
 
-                    ],
-                  ),
-                ),
-              )),
+                              //  if(APK_DETAILS['theme_image_url2'] != "")      APK_DETAILS['theme_image_url2']?.split('.').last == 'svg'
+                        //           ? SvgPicture.asset(
+                        //                   height:
+                        //               MediaQuery.of(context).size.height * 0.25,
+                        //       'assets/images/${APK_DETAILS['theme_image_url2']}',
+                        //         fit: BoxFit.cover,
+                        //       )
+                        //           : Image.asset(
+                        //       'assets/images/${APK_DETAILS['theme_image_url2']}',
+                        //           height:
+                        //               MediaQuery.of(context).size.height * 0.25,
+                        //         // width: 150,
+                        //       ),
+                              /*SizedBox(
+                            //height: MediaQuery.of(context).size.height * 0.25,
+                          height: 180,
+                            width: 180,
+                            child: Image.asset('assets/images/signupimage.gif')
+                        ),*/
+
+                         if(APK_DETAILS['theme_image_url2'] != "")      APK_DETAILS['theme_image_url2']?.split('.').last == 'svg'
+                                  ? SvgPicture.asset(
+                                          height:
+                                      MediaQuery.of(context).size.height * 0.25,
+                              'assets/images/${APK_DETAILS['theme_image_url2']}',
+                                fit: BoxFit.cover,
+                              )
+                                  : Image.asset(
+                              'assets/images/${APK_DETAILS['theme_image_url2']}',
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.25,
+                                // width: 150,
+                              ),
+                              
+                              SizedBox(height: 10),
+                              Container(
+                                height: 200,
+                                margin: EdgeInsets.only(bottom:0.0),
+
+                                child: ListView.builder(
+                                  physics: BouncingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: myList?.length ?? 0,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return   languageCard(myList![index], index);
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SignUpScreen()));
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(left: 12.0, right: 12.0,),
+                              width: double.infinity,
+                              height: MediaQuery.of(context).size.height *
+                                  WidgetSize.AUTH_BUTTON_SIZE,
+                              decoration: BoxDecoration(
+                                  color: ColorConstants().primaryColor(),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Center(
+                                  child: Text(
+                                '${Strings.of(context)?.continueStr}',
+                                style: Styles.regular(
+                                  color: ColorConstants.WHITE,
+                                ),
+                              )),
+                            )),
+
+                      ],
+                    ),
+                  )),
             ),
           );
         }),

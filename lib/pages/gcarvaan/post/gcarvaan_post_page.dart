@@ -42,11 +42,12 @@ class GCarvaanPostPage extends StatefulWidget {
 }
 
 bool visible = false;
+  bool isGCarvaanPostLoading = true;
+
 
 class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
   // Download download = new Download();
   Box? box;
-  bool isGCarvaanPostLoading = true;
   List<GCarvaanPostElement>? gcarvaanPosts;
   //List<GCarvaanPostElement> showList = [];
   bool isPostedLoading = false;
@@ -421,13 +422,18 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
   // }
 
   Widget _postListWidget(gcarvaanPosts, GCarvaanListModel value) {
-    return gcarvaanPosts.length != 0
+    print('the length is ${value.list?.length} and  loadin is $isGCarvaanPostLoading');
+    if(value.list?.length == 0 && isGCarvaanPostLoading == false) return  Container(
+          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
+          child: Center(child: Text('No Post Available')));
+    return gcarvaanPosts.length != 0 || value.list?.length != 0
         ? ListView.builder(
             scrollDirection: Axis.vertical,
             itemCount: gcarvaanPosts == null ? 0 : gcarvaanPosts.length,
             physics: BouncingScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (context, index) {
+            
               return gcarvaanPosts != null &&
                       gcarvaanPosts[index].resourcePath != null
                   ? GCarvaanCardPost(
@@ -795,6 +801,8 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
           break;
         case ApiStatus.SUCCESS:
           isPostedLoading = false;
+          isGCarvaanPostLoading = false;
+
           //gcarvaanPosts = state.response.data.list;
           //if (state.response.data.list.length == 1) {
 
@@ -818,8 +826,9 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
 
           _refreshController.refreshCompleted();
           _refreshController.loadComplete();
+    print('the length is and and  loadin is $isGCarvaanPostLoading');
 
-          isGCarvaanPostLoading = false;
+
           // gcarvaanPosts.forEach((element) {
           //   download.download(element.profileImage);
           //   element.multiFileUploads.forEach((data) {

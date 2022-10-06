@@ -245,15 +245,19 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                     setState(() {});
                   },
                   validator: (value) {
-                    print('the value is $value');
+                  
                     if (value == '')
                       return APK_DETAILS['package_name'] == 'com.learn_build'
                           ? 'Email is required'
                           : null;
+                          int index = value?.length as int;
+                        
+
+                    if(value![index-1] == '.') return '${Strings.of(context)?.emailAddressError}';
 
                     if (!RegExp(
                             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        .hasMatch(value!))
+                        .hasMatch(value) )
                       return '${Strings.of(context)?.emailAddressError}';
 
                     return null;
