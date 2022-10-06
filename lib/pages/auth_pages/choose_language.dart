@@ -75,7 +75,8 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                   width: MediaQuery.of(context).size.width,
                   child: Column(
                     children: [
-                      SizedBox(height: 40),
+                                                 SizedBox(height:APK_DETAILS['package_name'] == 'com.at.masterg' ? 40 : 20 ),
+
                       Center(
                         child: Column(
                           //crossAxisAlignment: CrossAxisAlignment.center,
@@ -92,7 +93,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                               width: 150,
                             ),
 
-                            SizedBox(height: 60),
+                            SizedBox(height:APK_DETAILS['package_name'] == 'com.at.masterg' ? 60 : 10 ),
                             Center(
                               child: Text(
                                 '${Strings.of(context)?.chooseAppLanguage}',

@@ -27,7 +27,7 @@ void main() async {
   
   runZoned(() {
     
-      runZonedGuarded(() async {
+    runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
     await FlutterDownloader.initialize();
       //  WidgetsFlutterBinding.ensureInitialized();
@@ -46,7 +46,7 @@ void main() async {
       print: (Zone self, ZoneDelegate parent, Zone zone, String line) {
 
         //comment to hide all print
-    // parent.print(zone, "$line");
+    parent.print(zone, "$line");
   }));
  
 }
