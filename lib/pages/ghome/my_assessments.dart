@@ -208,7 +208,7 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
                             underline: SizedBox(),
                             hint: Text('$selectedOption',
                                 style: Styles.bold(size: 14)),
-                              items: <String>['${Strings.of(context)?.all}', '${Strings.of(context)?.upcoming}', '${Strings.of(context)?.Completed}', '${Strings.of(context)?.ongoing}'].map((String value) {
+                              items: <String>['${Strings.of(context)?.all}', '${Strings.of(context)?.upcoming}', '${Strings.of(context)?.Completed}', '${Strings.of(context)?.pending}'].map((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: Text(value),
