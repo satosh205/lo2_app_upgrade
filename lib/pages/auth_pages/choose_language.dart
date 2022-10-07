@@ -161,7 +161,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                                       builder: (context) => SignUpScreen()));
                             },
                             child: Container(
-                              margin: EdgeInsets.only(left: 12.0, right: 12.0,),
+                              margin: EdgeInsets.only(left: 12.0, right: 12.0, top: 10),
                               width: double.infinity,
                               height: MediaQuery.of(context).size.height *
                                   WidgetSize.AUTH_BUTTON_SIZE,

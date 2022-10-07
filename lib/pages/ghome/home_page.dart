@@ -316,8 +316,8 @@ class _homePageState extends State<homePage> {
                               widget.bottomMenu!.indexOf(widget.bottomMenu![i])
                           ? SvgPicture.asset(
                               '${iconSeleted['${widget.bottomMenu?[i].url}']}',
-                              color: APK_DETAILS['package_name'] ==
-                                      'com.learn_build'
+                              color: APK_DETAILS['package_name'] !=
+                                      'com.at.masterg'
                                   ? ColorConstants().primaryColor()
                                   : null,
                               allowDrawingOutsideViewBox: false,
