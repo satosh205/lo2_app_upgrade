@@ -167,7 +167,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                   FocusScope.of(context).unfocus();
                 });
           } else {
-            menuList?.sort((a, b) => a.inAppOrder!.compareTo(b.order!));
+            menuList?.sort((a, b) => a.inAppOrder!.compareTo(b.inAppOrder!));
             Navigator.pushAndRemoveUntil(
                 context,
                 NextPageRoute(
