@@ -221,7 +221,7 @@ class _FullContentPageState extends State<FullContentPage> {
       final savePath = path.join(dir.path,
           "${widget.resourcePath?.split("/").last.split(".").first ?? "File"} - ${widget.updatedAt??""}.$ext");
       print(savePath);
-      if (await File(savePath).exists()) {
+      if (await File(savePath).exists()) {         
        // if (Platform.isAndroid) {
           Navigator.pop(context);
           await OpenFile.open(savePath);

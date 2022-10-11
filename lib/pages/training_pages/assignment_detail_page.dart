@@ -382,9 +382,10 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                                           InkWell(
                                             onTap: () async {
                                               print('List View Click');
-                                              _downloadSubmission(
-                                                  _attempts![currentIndex]
+                                              download( _attempts![currentIndex]
                                                       .file);
+                                              // _downloadSubmission(
+                                              //    );
                                             },
                                             child: SvgPicture.asset(
                                               'assets/images/download_icon.svg',

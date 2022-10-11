@@ -251,6 +251,7 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                                           InkWell(
                                             onTap: () async {
                                               print('List View Click');
+                                            
                                               _downloadSubmission(
                                                   _attempts![currentIndex]
                                                       .file);

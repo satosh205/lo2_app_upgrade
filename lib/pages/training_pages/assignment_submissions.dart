@@ -160,9 +160,11 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
                                         children: [
                                           InkWell(
                                             onTap: () async {
-                                              _downloadSubmission(
-                                                  _attempts![currentIndex]
+                                              download( _attempts![currentIndex]
                                                       .file);
+                                              // _downloadSubmission(
+                                              //     _attempts![currentIndex]
+                                              //         .file);
                                             },
                                             child: SvgPicture.asset(
                                               'assets/images/download_icon.svg',
@@ -335,6 +337,45 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
       print(taskId);
     } catch (e) {
       print(e);
+    }
+  }
+
+    void download(String? usersFile) async {
+    print('downloading');
+    if (await Permission.storage.request().isGranted) {
+      // var tempDir = await getApplicationDocumentsDirectory();
+      String localPath = "";
+      if (Platform.isAndroid) {
+        final path = (await getExternalStorageDirectories(
+                type: StorageDirectory.downloads))!
+            .first;
+
+        localPath = path.path;
+
+        //check if file exists
+        final file = File(localPath + "/" + usersFile!.split('/').last);
+        if (file.existsSync()) {
+          print("FILE EXISTS");
+          Utility.showSnackBar(
+              scaffoldContext: context, message: "File already exists");
+
+          await FlutterDownloader.open(taskId: usersFile.split('/').last);
+          return;
+        }
+      } else {
+        localPath = (await getApplicationDocumentsDirectory()).path;
+      }
+      //String localPath = (tempDir.path) + Platform.pathSeparator + 'MyCoach';
+      var savedDir = Directory(localPath);
+      bool hasExisted = await savedDir.exists();
+      if (!hasExisted) {
+        savedDir = await savedDir.create();
+      }
+      download2(usersFile!, localPath);
+    } else {
+      Utility.showSnackBar(
+          scaffoldContext: context,
+          message: "Please enable storage permission");
     }
   }
 
