@@ -7,7 +7,7 @@ import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
-import 'package:open_file/open_file.dart';
+import 'package:open_file_safe/open_file_safe.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';

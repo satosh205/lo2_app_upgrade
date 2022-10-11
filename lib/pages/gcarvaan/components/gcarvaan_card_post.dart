@@ -22,7 +22,7 @@ import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 import 'package:masterg/utils/widget_size.dart';
-import 'package:open_file/open_file.dart';
+import 'package:open_file_safe/open_file_safe.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:visibility_detector/visibility_detector.dart';

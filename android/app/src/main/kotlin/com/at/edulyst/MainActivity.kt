@@ -1,4 +1,4 @@
-package com.at.masterg
+package com.at.edulyst
 
 import io.flutter.embedding.android.FlutterActivity
 

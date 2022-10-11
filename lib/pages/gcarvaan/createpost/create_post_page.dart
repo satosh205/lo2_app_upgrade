@@ -15,7 +15,7 @@ import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
-import 'package:open_file/open_file.dart';
+import 'package:open_file_safe/open_file_safe.dart';
 import 'package:path/path.dart' as path;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:video_player/video_player.dart';
