@@ -41,7 +41,7 @@ dependencies:
   ffmpeg_kit_flutter: 4.5.1-LTS
   file_picker: ^4.5.1
   firebase_core: ^1.23.0
-  firebase_messaging: ^10.0.0
+  firebase_messaging: ^13.1.0
   flick_video_player: ^0.4.0-dev.4
   flutter:
     sdk: flutter
