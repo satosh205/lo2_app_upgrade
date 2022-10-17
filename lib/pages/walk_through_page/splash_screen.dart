@@ -123,7 +123,7 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
                     showCancel: false,
                     onOkClick: () async {
                       launchUrl(Uri.parse(
-                          'https://play.google.com/store/apps/details?id=com.at.masterg'));
+                          'https://play.google.com/store/apps/details?id='+APK_DETAILS['package_name']!));
 
                       _moveToNext();
                     });
@@ -139,7 +139,7 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
                     showCancel: true,
                     onOkClick: () {
                       launchUrl(Uri.parse(
-                          'https://play.google.com/store/apps/details?id=com.at.masterg'));
+                          'https://play.google.com/store/apps/details?id='+APK_DETAILS['package_name']!));
 
                       _moveToNext();
                     },
