@@ -1064,72 +1064,98 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
             .map((e) => Recommended.fromJson(Map<String, dynamic>.from(e)))
             .cast<Recommended>()
             .toList();
+
+            // recommendedcourse.sor 
+         if(APK_DETAILS['package_name'] == 'com.learn_build')   recommendedcourses?.sort((a,b) => a.categoryName!.compareTo(b.categoryName!));
         //var list = _getFilterList();
         return Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(color: ColorConstants.GREY),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+
+
               Padding(
                   padding: EdgeInsets.only(left: 10, top: 10),
                   child: Text(title!, style: Styles.semibold(size: 18))),
               ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                      onTap: () {
-                        /*_subscribeRequest(
-                            recommendedcourses![index].subscriptionType,
-                            recommendedcourses![index].id);*/
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+if(APK_DETAILS['package_name'] == 'com.learn_build')...[
 
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CoursesDetailsPage(
-                                  imgUrl: recommendedcourses![index].image,
-                                  indexc: index,
-                                  tagName: 'TagReco',
-                                  name: recommendedcourses![index].name,
-                                  description:
-                                      recommendedcourses![index].description ??
-                                          '',
-                                  regularPrice:
-                                      recommendedcourses![index].regularPrice,
-                                  salePrice:
-                                      recommendedcourses![index].salePrice,
-                                  trainer: recommendedcourses![index].trainer,
-                                  enrolmentCount:
-                                      recommendedcourses![index].enrolmentCount,
-                                  type: recommendedcourses![index]
-                                      .subscriptionType,
-                                  id: recommendedcourses![index].id,
-                                  shortCode:
-                                      recommendedcourses![index].shortCode)),
-                        ).then((isSuccess) {
-                          if (isSuccess == true) {
-                            print('sucess enrolled');
-                            _getPopularCourses();
-                            _getFilteredPopularCourses();
+   if(index == 0) Container(
+    margin: EdgeInsets.only(left: 8),
+    child: Text('${recommendedcourses![index].categoryName}',  maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
+                    style: Styles.semibold(size: 16))),
+                      if(index > 0 && recommendedcourses![index].categoryName != recommendedcourses![index-1].categoryName) Container(
+                            margin: EdgeInsets.only(left: 8),
 
-                           Navigator.push(
+                        child: Text('${recommendedcourses![index].categoryName}',  maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
+                    style: Styles.semibold(size: 16))),
+],
+                      InkWell(
+                          onTap: () {
+                            /*_subscribeRequest(
+                                recommendedcourses![index].subscriptionType,
+                                recommendedcourses![index].id);*/
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CoursesDetailsPage(
+                                      imgUrl: recommendedcourses![index].image,
+                                      indexc: index,
+                                      tagName: 'TagReco',
+                                      name: recommendedcourses![index].name,
+                                      description:
+                                          recommendedcourses![index].description ??
+                                              '',
+                                      regularPrice:
+                                          recommendedcourses![index].regularPrice,
+                                      salePrice:
+                                          recommendedcourses![index].salePrice,
+                                      trainer: recommendedcourses![index].trainer,
+                                      enrolmentCount:
+                                          recommendedcourses![index].enrolmentCount,
+                                      type: recommendedcourses![index]
+                                          .subscriptionType,
+                                      id: recommendedcourses![index].id,
+                                      shortCode:
+                                          recommendedcourses![index].shortCode)),
+                            ).then((isSuccess) {
+                              if (isSuccess == true) {
+                                print('sucess enrolled');
+                                _getPopularCourses();
+                                _getFilteredPopularCourses();
+
+                               Navigator.push(
               context, MaterialPageRoute(builder: (context) => MyCourses()));
-                          }
-                        });
+                              }
+                            });
 
-                        /*Navigator.push(
-                                          context,
-                                          NextPageRoute(ChangeNotifierProvider<
-                                                  RecommendedCourseProvider>(
-                                              create: (context) =>
-                                                  RecommendedCourseProvider(
-                                                      TrainingService(
-                                                          ApiService()),
-                                                      recommendedcourses[
-                                                          index]),
-                                              child:
-                                                  PopularCourseDetailPage())));*/
-                      },
-                      child: _getCourseTemplate(context,
-                          recommendedcourses![index], index, 'TagReco'));
+                            /*Navigator.push(
+                                              context,
+                                              NextPageRoute(ChangeNotifierProvider<
+                                                      RecommendedCourseProvider>(
+                                                  create: (context) =>
+                                                      RecommendedCourseProvider(
+                                                          TrainingService(
+                                                              ApiService()),
+                                                          recommendedcourses[
+                                                              index]),
+                                                  child:
+                                                      PopularCourseDetailPage())));*/
+                          },
+                          child: _getCourseTemplate(context,
+                              recommendedcourses![index], index, 'TagReco')),
+                    ],
+                  );
                 },
                 itemCount: recommendedcourses?.length ?? 0,
                 shrinkWrap: true,

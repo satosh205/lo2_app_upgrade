@@ -221,6 +221,7 @@ class Recommended {
   int? categoryId;
   int? regularPrice;
   String? shortCode;
+  String? categoryName;
   int? salePrice;
   int? admissionStartDate;
   int? admissionEndDate;
@@ -262,6 +263,7 @@ class Recommended {
       this.subscriptionType,
       this.isSubscribed,
       this.enrolmentCount,
+      this.categoryName,
       this.completionPer, this.approvalStatus});
 
   Recommended.fromJson(Map<String, dynamic> json) {
@@ -272,6 +274,7 @@ class Recommended {
     categoryId = json['category_id'];
     regularPrice = json['regular_price'];
     salePrice = json['sale_price'];
+    categoryName = json['category_name'];
     admissionStartDate = json['admission_start_date'];
     admissionEndDate = json['admission_end_date'];
     type = json['type'];
@@ -306,6 +309,7 @@ class Recommended {
     data['start_date'] = this.startDate;
     data['end_date'] = this.endDate;
     data['image'] = this.image;
+    data['category_name'] = this.categoryName;
     data['duration'] = this.duration;
     data['contents'] = this.contents;
     data['total_coins'] = this.totalCoins;
