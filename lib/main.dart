@@ -23,10 +23,7 @@ import 'utils/Strings.dart';
 
 
 void main() async {
-
-  
   runZoned(() {
-    
     runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
     await FlutterDownloader.initialize();

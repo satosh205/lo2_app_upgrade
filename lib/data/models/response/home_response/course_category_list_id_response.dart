@@ -67,6 +67,7 @@ class MProgram {
       this.categoryId,
       this.regularPrice,
       this.salePrice,
+      this.categoryName,
       this.admissionStartDate,
       this.admissionEndDate,
       this.type,
@@ -92,6 +93,7 @@ class MProgram {
   int? admissionStartDate;
   int? admissionEndDate;
   String? type;
+  String? categoryName;
   int? startDate;
   int? endDate;
   String? image;
@@ -115,6 +117,7 @@ class MProgram {
       admissionStartDate: json["admission_start_date"],
       admissionEndDate: json["admission_end_date"],
       type: json["type"],
+      categoryName: json['category_name'],
       startDate: json["start_date"],
       endDate: json["end_date"],
       image: json["image"],
@@ -138,6 +141,7 @@ class MProgram {
         "admission_start_date": admissionStartDate,
         "admission_end_date": admissionEndDate,
         "type": type,
+        "category_name": categoryName,
         "start_date": startDate,
         "end_date": endDate,
         "image": image,

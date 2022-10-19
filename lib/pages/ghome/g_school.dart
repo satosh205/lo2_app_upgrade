@@ -912,7 +912,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                         Padding(
                             padding: EdgeInsets.only(left: 10),
                             child:
-                                Text(title!, style: Styles.semibold(size: 18))),
+                                Text(title!, style: Styles.DMSansbold(size: 18))),
                         ListView.builder(
                           itemBuilder: (BuildContext context, int index) {
                             return otherLearners!.length > 0
@@ -1077,7 +1077,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
 
               Padding(
                   padding: EdgeInsets.only(left: 10, top: 10),
-                  child: Text(title!, style: Styles.semibold(size: 18))),
+                  child: Text(title!, style: Styles.DMSansbold(size: 18))),
               ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
                   return Column(
@@ -1086,13 +1086,13 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
 if(APK_DETAILS['package_name'] == 'com.learn_build')...[
 
    if(index == 0) Container(
-    margin: EdgeInsets.only(left: 8),
+    margin: EdgeInsets.only(left: 9, top: 6),
     child: Text('${recommendedcourses![index].categoryName}',  maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     softWrap: false,
                     style: Styles.semibold(size: 16))),
                       if(index > 0 && recommendedcourses![index].categoryName != recommendedcourses![index-1].categoryName) Container(
-                            margin: EdgeInsets.only(left: 8),
+                            margin: EdgeInsets.only(left: 9, top: 6),
 
                         child: Text('${recommendedcourses![index].categoryName}',  maxLines: 2,
                     overflow: TextOverflow.ellipsis,
