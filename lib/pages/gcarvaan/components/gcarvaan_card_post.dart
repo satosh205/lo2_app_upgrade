@@ -95,22 +95,16 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
   }
 
   void setValues() {
-    print('********* userID **********');
     setState(() {
       if (widget.height == null) {
         widget.height = widget.dimension?.first.height;
-        print(widget.height);
         videoHeight = double.parse('${widget.height}');
       }else {
         if(double.parse('${widget.height}') < 1200) {
-          videoHeight = double.parse('${widget.height}') / 4.8;
-          print('***con-if $videoHeight');
+          videoHeight = double.parse('${widget.height}') / 5.4;
         }else{
           print(widget.height);
           videoHeight = double.parse('${widget.height}') / 2.8;
-          //videoHeight = double.parse('${widget.height}');
-          print(widget.height);
-          print('***con-else $videoHeight');
         }
         likeCount = widget.likeCount;
       }
@@ -129,10 +123,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
   @override
   Widget build(BuildContext context) {
     var millis = int.parse(widget.date);
-    DateTime date = DateTime.fromMillisecondsSinceEpoch(
-      millis * 1000,
-    );
-
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(millis * 1000,);
     final now = DateTime.now();
 
     String calculateTimeDifferenceBetween(DateTime startDate, DateTime endDate) {
