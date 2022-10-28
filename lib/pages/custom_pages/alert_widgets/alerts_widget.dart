@@ -190,6 +190,7 @@ class AlertsWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         text!,
+                        textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 14),
                       ),
                     ),
