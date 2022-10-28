@@ -144,7 +144,7 @@ PODS:
     - nanopb/encode (= 2.30909.0)
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
-  - open_file (0.0.1):
+  - open_file_safe (0.0.1):
     - Flutter
   - OrderedSet (5.0.0)
   - otp_autofill (0.0.1):
@@ -200,7 +200,7 @@ DEPENDENCIES:
   - flutter_pdfview (from `.symlinks/plugins/flutter_pdfview/ios`)
   - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
-  - open_file (from `.symlinks/plugins/open_file/ios`)
+  - open_file_safe (from `.symlinks/plugins/open_file_safe/ios`)
   - otp_autofill (from `.symlinks/plugins/otp_autofill/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
@@ -270,8 +270,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_cropper/ios"
   image_picker_ios:
     :path: ".symlinks/plugins/image_picker_ios/ios"
-  open_file:
-    :path: ".symlinks/plugins/open_file/ios"
+  open_file_safe:
+    :path: ".symlinks/plugins/open_file_safe/ios"
   otp_autofill:
     :path: ".symlinks/plugins/otp_autofill/ios"
   package_info_plus:
@@ -334,7 +334,7 @@ SPEC CHECKSUMS:
   image_picker_ios: b786a5dcf033a8336a657191401bfdf12017dabb
   libwebp: 60305b2e989864154bd9be3d772730f08fc6a59c
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
-  open_file: 02eb5cb6b21264bd3a696876f5afbfb7ca4f4b7d
+  open_file_safe: 84c01ac91378bd9166ab570d7f22f4fb3532141a
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   otp_autofill: 93bcc21475705d35445927cb9aef24e818bbf083
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
@@ -357,4 +357,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 88bcfa1640b94bd0639de89ce659aa29187c24d2
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

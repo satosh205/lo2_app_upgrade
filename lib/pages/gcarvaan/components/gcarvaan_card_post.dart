@@ -95,21 +95,25 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
   }
 
   void setValues() {
-    // updateLikeandViews(null);
-    //print('MediaQuery.of(context).size.height');
-    //print(MediaQuery.of(context).size.height.toString());
     print('********* userID **********');
-    print(widget.userID);
-    print(UserSession.userId);
-
     setState(() {
       if (widget.height == null) {
         widget.height = widget.dimension?.first.height;
+        print(widget.height);
         videoHeight = double.parse('${widget.height}');
+      }else {
+        if(double.parse('${widget.height}') < 1200) {
+          videoHeight = double.parse('${widget.height}') / 4.8;
+          print('***con-if $videoHeight');
+        }else{
+          print(widget.height);
+          videoHeight = double.parse('${widget.height}') / 2.8;
+          //videoHeight = double.parse('${widget.height}');
+          print(widget.height);
+          print('***con-else $videoHeight');
+        }
+        likeCount = widget.likeCount;
       }
-      else
-        videoHeight = double.parse('${widget.height}') / 2.8;
-      likeCount = widget.likeCount;
     });
   }
 
