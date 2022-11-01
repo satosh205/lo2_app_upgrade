@@ -138,14 +138,16 @@ class _MyCoursesState extends State<MyCourses> {
 
                   children: [
 
-                    if(APK_DETAILS['package_name'] == 'com.learn_build')...[
+                    if(APK_DETAILS['package_name'] == 'com.learn_build')
 
-   if(index == 0) Container(
-    margin: EdgeInsets.only(left: 9, top: 3),
-    child: Text('${courseList1![index].categoryName}',  maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: false,
-                    style: Styles.semibold(size: 16))),
+                    if(index == 0) Container(
+                            margin: EdgeInsets.only(left: 9, top: 3),
+                            child: Text('${courseList1![index].categoryName}',  maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: false,
+                            style: Styles.semibold(size: 16))
+                    ),
+
                       if(index > 0 && courseList1![index].categoryName != courseList1![index-1].categoryName) Container(
                             margin: EdgeInsets.only(left: 9, top: 12),
 
@@ -267,7 +269,7 @@ class _MyCoursesState extends State<MyCourses> {
                               ]),
                         )),
                   ],
-               ] );
+               );
               },
               itemCount: courseList1?.length ?? 0,
               scrollDirection: Axis.vertical,
