@@ -1165,6 +1165,24 @@ class SurveyDataEvent extends HomeEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
+
+class RemoveAccountEvent extends HomeEvent {
+  String? type;
+
+  RemoveAccountEvent({ this.type}) : super([type]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+class RemoveAccountState extends HomeState {
+  ApiStatus state;
+  String? type;
+
+  ApiStatus get apiState => state;
+  GeneralResp? response;
+  RemoveAccountState(this.state, {this.response, this.type});
+}
+
 class SurveySubmitState extends HomeState {
   ApiStatus state;
 
@@ -1255,7 +1273,26 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield SurveySubmitState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }
-    } else if (event is SurveyDataEvent) {
+    } 
+    
+    else if (event is RemoveAccountEvent) {
+      try {
+        yield RemoveAccountState(ApiStatus.LOADING);
+        final response = await homeRepository.removeAccount(
+            type: event.type);
+        if (response != null) {
+          yield RemoveAccountState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA ::: $response");
+          yield RemoveAccountState(ApiStatus.ERROR);
+        }
+      } catch (e, s) {
+        Log.v("ERROR DATA : $s");
+        yield RemoveAccountState(ApiStatus.ERROR,
+           );
+      }
+    }
+    else if (event is SurveyDataEvent) {
       try {
         yield SurveyDataState(ApiStatus.LOADING);
         print("BLOCC");

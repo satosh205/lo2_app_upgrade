@@ -26,7 +26,7 @@ import 'package:masterg/pages/auth_pages/sign_up_screen.dart';
 import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/custom_pages/faq_page.dart';
-import 'package:masterg/pages/user_profile_page/delete_accont_page.dart';
+import 'package:masterg/pages/user_profile_page/delete_account_page.dart';
 import 'package:masterg/pages/user_profile_page/mobile_ui_helper.dart';
 import 'package:masterg/pages/user_profile_page/model/MasterBrand.dart';
 import 'package:masterg/utils/Log.dart';
