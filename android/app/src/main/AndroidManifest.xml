@@ -20,7 +20,11 @@
         </intent>
     </queries>
 
+<<<<<<< HEAD
     <application android:name="${applicationName}" android:icon="@mipmap/ic_launcher_lnb" android:label="Learn And Build" android:requestLegacyExternalStorage="true" android:allowBackup="false" android:usesCleartextTraffic="true" android:largeHeap="true" android:supportsRtl="true" android:roundIcon="@mipmap/ic_launcher_lnb">
+=======
+    <application android:name="${applicationName}" android:icon="@mipmap/ic_launcher_lnb" android:label="Learn And Build" android:requestLegacyExternalStorage="true" android:allowBackup="false" android:usesCleartextTraffic="true" android:largeHeap="true" android:supportsRtl="true" android:roundIcon="@mipmap/ic_launcher_round_lnb">
+>>>>>>> 08fcf1f047d63416bf46419e5e1d8f4d36596610
      <provider android:name="vn.hunghd.flutterdownloader.DownloadedFileProvider" android:authorities="${applicationId}.flutter_downloader.provider" android:exported="false" android:grantUriPermissions="true">
     <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/provider_paths"/>
 </provider>@
@@ -76,5 +80,5 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <uses-permission android:name="android.permission.VIDEO_CAPTURE"/>
     <uses-permission android:name="android.permission.AUDIO_CAPTURE"/>
-</manifest>
 
+</manifest>
