@@ -159,7 +159,8 @@ class HomeRepository {
       return UserProgramSubscribeRes();
     }
   }
-   Future<UserInfoResponse> getSwayamUserProfile() async {
+
+  Future<UserInfoResponse> getSwayamUserProfile() async {
     final response = await homeProvider.getSwayamUserProfile();
     if (response!.success) {
       Log.v("Profile DATA : ${response.body}");
@@ -190,7 +191,8 @@ class HomeRepository {
 
   Future<UpdateProfileImageResponse> updateUserProfileImage(
       String? filePath, String? name, String? email) async {
-    final response = await homeProvider.updateUserProfileImage(filePath, name, email);
+    final response =
+        await homeProvider.updateUserProfileImage(filePath, name, email);
     if (response!.success) {
       Log.v("Profile DATA : ${response.body}");
       UpdateProfileImageResponse resp =
@@ -218,7 +220,7 @@ class HomeRepository {
   }
 
   Future<ReportContentResp> reportContent(
-String? status,      int? contentId, String? category, String? comment) async {
+      String? status, int? contentId, String? category, String? comment) async {
     final response =
         await homeProvider.reportContent(status, contentId, category, comment);
     if (response!.success) {
@@ -231,10 +233,9 @@ String? status,      int? contentId, String? category, String? comment) async {
       return ReportContentResp(status: 0, message: 'error');
     }
   }
-  Future<DeletePostResponse?> deletePost(
-      int? postId) async {
-    final response =
-        await homeProvider.deletePost(postId);
+
+  Future<DeletePostResponse?> deletePost(int? postId) async {
+    final response = await homeProvider.deletePost(postId);
     if (response!.success) {
       Log.v("Delete Post DATA : ${response.body}");
       DeletePostResponse resp = DeletePostResponse.fromJson(response.body);
@@ -246,7 +247,7 @@ String? status,      int? contentId, String? category, String? comment) async {
     }
   }
 
-    Future<GetCoursesResp?> getCoursesList({int? type}) async {
+  Future<GetCoursesResp?> getCoursesList({int? type}) async {
     final response = await homeProvider.getCoursesList(type: type!);
     var box = Hive.box("analytics");
     if (response!.success) {
@@ -273,7 +274,7 @@ String? status,      int? contentId, String? category, String? comment) async {
     }
   }
 
-    Future<SubmitFeedbackResp> submitFeedback({FeedbackReq? feedbackReq}) async {
+  Future<SubmitFeedbackResp> submitFeedback({FeedbackReq? feedbackReq}) async {
     print(feedbackReq);
     final response = await homeProvider.submitFeedback(req: feedbackReq);
     if (response!.success) {
@@ -288,7 +289,7 @@ String? status,      int? contentId, String? category, String? comment) async {
     }
   }
 
-    Future<TopicsResp> getTopicsList() async {
+  Future<TopicsResp> getTopicsList() async {
     final response = await homeProvider.getTopicsList();
     if (response!.success) {
       Log.v("ERROR DATA : ${json.encode(response.body)}");
@@ -302,7 +303,7 @@ String? status,      int? contentId, String? category, String? comment) async {
     }
   }
 
-    Future<FeedbackResp?> getFeedbackList({int? categoryType}) async {
+  Future<FeedbackResp?> getFeedbackList({int? categoryType}) async {
     final response = await homeProvider.getFeedbackList();
     if (response!.success) {
       Log.v("ERROR DATA : ${json.encode(response.body)}");
@@ -319,7 +320,7 @@ String? status,      int? contentId, String? category, String? comment) async {
     }
   }
 
-    Future<GetKpiAnalysisResp?> getKPIAnalysisList() async {
+  Future<GetKpiAnalysisResp?> getKPIAnalysisList() async {
     final response = await homeProvider.getKPIAnalysisList();
     var box = Hive.box("analytics");
     if (response!.success) {
@@ -327,8 +328,8 @@ String? status,      int? contentId, String? category, String? comment) async {
       GetKpiAnalysisResp gameResponse =
           GetKpiAnalysisResp.fromJson(response.body);
 
-      box.put(
-          "kpiData", gameResponse.data?.kpiData?.map((e) => e.toJson()).toList());
+      box.put("kpiData",
+          gameResponse.data?.kpiData?.map((e) => e.toJson()).toList());
       return gameResponse;
     } else {
       box.put("kpiData", []);
@@ -356,7 +357,7 @@ String? status,      int? contentId, String? category, String? comment) async {
     }
   }
 
-   Future<ContentTagsResp?> getContentTagsList({int? categoryType}) async {
+  Future<ContentTagsResp?> getContentTagsList({int? categoryType}) async {
     final response =
         await homeProvider.getContentTagsList(categoryType: categoryType);
     if (response!.success) {
@@ -380,7 +381,7 @@ String? status,      int? contentId, String? category, String? comment) async {
     }
   }
 
-    Future<GetModuleLeaderboardResp?> getModuleLeaderboardList(String moduleId,
+  Future<GetModuleLeaderboardResp?> getModuleLeaderboardList(String moduleId,
       {int type = 0}) async {
     final response =
         await homeProvider.getModuleLeaderboardList(moduleId, type: type);
@@ -404,7 +405,7 @@ String? status,      int? contentId, String? category, String? comment) async {
     }
   }
 
-   Future<GetCourseLeaderboardResp?> getCourseLeaderboardList(String courseId,
+  Future<GetCourseLeaderboardResp?> getCourseLeaderboardList(String courseId,
       {int type = 0}) async {
     final response =
         await homeProvider.getCourseLeaderboardList(courseId, type: type);
@@ -427,7 +428,6 @@ String? status,      int? contentId, String? category, String? comment) async {
       return GetCourseLeaderboardResp();
     }
   }
-
 
   Future<GetCourseModulesResp?> getCourseModulesList(String courseId,
       {int type = 0}) async {
@@ -462,6 +462,7 @@ String? status,      int? contentId, String? category, String? comment) async {
       print(stacktrace);
     }
   }
+
   Future<CategoryResp> getCategory() async {
     final response = await homeProvider.getCategorys();
     if (response!.success) {
@@ -1018,7 +1019,7 @@ String? status,      int? contentId, String? category, String? comment) async {
     }
   }
 
-    Future<GeneralResp?> trackAnnouncment(
+  Future<GeneralResp?> trackAnnouncment(
       {TrackAnnouncementReq? trackAnnouncementReq}) async {
     final response = await homeProvider.trackAnnouncment(
         submitRewardReq: trackAnnouncementReq!);
@@ -1033,7 +1034,7 @@ String? status,      int? contentId, String? category, String? comment) async {
     }
   }
 
-   Future<GeneralResp?> activityAttempt(
+  Future<GeneralResp?> activityAttempt(
       {String? filePath, int? contentType, int? contentId}) async {
     final response =
         await homeProvider.activityAttempt(filePath, contentType, contentId);
@@ -1048,7 +1049,7 @@ String? status,      int? contentId, String? category, String? comment) async {
     }
   }
 
-    Future<SurveyDataResp?> getSurveyDataList({int? contentId, int? type}) async {
+  Future<SurveyDataResp?> getSurveyDataList({int? contentId, int? type}) async {
     try {
       final response = await homeProvider.getSurveyDataList(
           contentId: contentId, type: type);
@@ -1068,7 +1069,7 @@ String? status,      int? contentId, String? category, String? comment) async {
     }
   }
 
-    Future<GeneralResp> submitSurvey({SubmitSurveyReq? submitSurveyReq}) async {
+  Future<GeneralResp> submitSurvey({SubmitSurveyReq? submitSurveyReq}) async {
     final response = await homeProvider.submitSurvey(req: submitSurveyReq);
     if (response!.success) {
       Log.v("ERROR DATA : ${json.encode(response.body)}");
@@ -1082,7 +1083,21 @@ String? status,      int? contentId, String? category, String? comment) async {
     }
   }
 
-    Future<NotificationResp?> getNotifications() async {
+  Future<GeneralResp> removeAccount({String? type}) async {
+    final response = await homeProvider.removeAccount(type: type);
+    if (response!.success) {
+      Log.v("DATA : ${json.encode(response.body)}");
+      GeneralResp resp = GeneralResp.fromJson(response.body);
+      return resp;
+    } else {
+      Log.v("====> ${response.body}");
+      return GeneralResp(
+          message:
+              response.body == null ? "Something went wrong:" : response.body);
+    }
+  }
+
+  Future<NotificationResp?> getNotifications() async {
     final response = await homeProvider.getNotifications();
     if (response!.success) {
       Log.v("ERROR DATA : ${response.body}");
@@ -1094,7 +1109,8 @@ String? status,      int? contentId, String? category, String? comment) async {
       return NotificationResp();
     }
   }
-    Future<GeneralResp?> submitPoll({PollSubmitRequest? submitSurveyReq}) async {
+
+  Future<GeneralResp?> submitPoll({PollSubmitRequest? submitSurveyReq}) async {
     final response = await homeProvider.submitPoll(req: submitSurveyReq);
     if (response!.success) {
       Log.v("ERROR DATA : ${json.encode(response.body)}");

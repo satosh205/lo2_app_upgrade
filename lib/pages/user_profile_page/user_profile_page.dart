@@ -621,83 +621,83 @@ class _UserProfilePageState extends State<UserProfilePage>
                         ],
                       ),
                     ),
-                  // Align(
-                  //     alignment: Alignment.topLeft,
-                  //     child: InkWell(
-                  //       onTap: () {
-                  //         showModalBottomSheet(
-                  //             context: context,
-                  //             backgroundColor: Colors.black,
-                  //             builder: (context) {
-                  //               return Column(
-                  //                 crossAxisAlignment: CrossAxisAlignment.center,
-                  //                 mainAxisSize: MainAxisSize.min,
-                  //                 children: <Widget>[
-                  //                   Center(
-                  //                     child: Container(
-                  //                       padding: EdgeInsets.all(10),
-                  //                       margin: EdgeInsets.only(top: 10),
-                  //                       height: 4,
-                  //                       width: 70,
-                  //                       decoration: BoxDecoration(
-                  //                           color: Colors.white,
-                  //                           borderRadius:
-                  //                               BorderRadius.circular(8)),
-                  //                     ),
-                  //                   ),
-                  //                   Container(
-                  //                     child: ListTile(
-                  //                       leading: new Icon(
-                  //                         Icons.delete,
-                  //                         color: Colors.white,
-                  //                       ),
-                  //                       title: new Text(
-                  //                         'Delete Account',
-                  //                         style: TextStyle(color: Colors.white),
-                  //                       ),
-                  //                       onTap: () async {
-                  //                         Navigator.push(
-                  //                             context,
-                  //                             MaterialPageRoute(
-                  //                                 builder: (context) =>
-                  //                                     DeleteAccountPage(
-                  //                                       imageUrl:
-                  //                                           userProfileDataList!
-                  //                                                   .profileImage ??
-                  //                                               selectedImage,
-                  //                                     )));
-                  //                       },
-                  //                     ),
-                  //                   ),
-                  //                 ],
-                  //               );
-                  //             });
-                  //       },
-                  //       child: Padding(
-                  //         padding: EdgeInsets.symmetric(horizontal: 20),
-                  //         child: Row(
-                  //           children: [
-                  //             Container(
-                  //                 width: 30,
-                  //                 height: 30,
-                  //                 decoration: BoxDecoration(
-                  //                   borderRadius: BorderRadius.circular(10),
-                  //                   color: ColorConstants().primaryColor(),
-                  //                 ),
-                  //                 child: Icon(
-                  //                   Icons.settings,
-                  //                   color: ColorConstants.WHITE,
-                  //                   size: 20,
-                  //                 )),
-                  //             SizedBox(width: 10),
-                  //             Text('Setting & Account',
-                  //                 style: Styles.regular()),
-                  //             Expanded(child: SizedBox()),
-                  //             Icon(Icons.arrow_forward_ios, size: 15),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //     )),
+                  Align(
+                      alignment: Alignment.topLeft,
+                      child: InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                              context: context,
+                              backgroundColor: Colors.black,
+                              builder: (context) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Center(
+                                      child: Container(
+                                        padding: EdgeInsets.all(10),
+                                        margin: EdgeInsets.only(top: 10),
+                                        height: 4,
+                                        width: 70,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                      ),
+                                    ),
+                                    Container(
+                                      child: ListTile(
+                                        leading: new Icon(
+                                          Icons.delete,
+                                          color: Colors.white,
+                                        ),
+                                        title: new Text(
+                                          'Delete Account',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        onTap: () async {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      DeleteAccountPage(
+                                                        imageUrl:
+                                                            userProfileDataList!
+                                                                    .profileImage ??
+                                                                selectedImage,
+                                                      )));
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              });
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(
+                            children: [
+                              Container(
+                                  width: 30,
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: ColorConstants().primaryColor(),
+                                  ),
+                                  child: Icon(
+                                    Icons.settings,
+                                    color: ColorConstants.WHITE,
+                                    size: 20,
+                                  )),
+                              SizedBox(width: 10),
+                              Text('Setting & Account',
+                                  style: Styles.regular()),
+                              Expanded(child: SizedBox()),
+                              Icon(Icons.arrow_forward_ios, size: 15),
+                            ],
+                          ),
+                        ),
+                      )),
                   Expanded(child: SizedBox()),
                 ],
               ),
