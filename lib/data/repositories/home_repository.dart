@@ -65,6 +65,7 @@ import 'package:masterg/utils/constant.dart';
 import '../models/response/home_response/create_portfolio_response.dart';
 import '../models/response/home_response/delete_portfolio_response.dart';
 import '../models/response/home_response/list_portfolio_responsed.dart';
+import '../models/response/home_response/remove_account_resp.dart';
 
 class HomeRepository {
   HomeRepository({required this.homeProvider});
@@ -1083,17 +1084,15 @@ class HomeRepository {
     }
   }
 
-  Future<GeneralResp> removeAccount({String? type}) async {
+  Future<RemoveAccountResponse> removeAccount({String? type}) async {
     final response = await homeProvider.removeAccount(type: type);
     if (response!.success) {
       Log.v("DATA : ${json.encode(response.body)}");
-      GeneralResp resp = GeneralResp.fromJson(response.body);
+      RemoveAccountResponse resp = RemoveAccountResponse.fromJson(response.body);
       return resp;
     } else {
       Log.v("====> ${response.body}");
-      return GeneralResp(
-          message:
-              response.body == null ? "Something went wrong:" : response.body);
+      return RemoveAccountResponse.fromJson(response.body);
     }
   }
 

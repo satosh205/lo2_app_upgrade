@@ -63,6 +63,7 @@ import 'package:masterg/utils/Strings.dart';
 import '../data/models/response/home_response/create_portfolio_response.dart';
 import '../data/models/response/home_response/delete_portfolio_response.dart';
 import '../data/models/response/home_response/list_portfolio_responsed.dart';
+import '../data/models/response/home_response/remove_account_resp.dart';
 import '../data/models/response/home_response/top_scroing_user_response.dart';
 
 abstract class HomeEvent {
@@ -1179,7 +1180,7 @@ class RemoveAccountState extends HomeState {
   String? type;
 
   ApiStatus get apiState => state;
-  GeneralResp? response;
+  RemoveAccountResponse? response;
   RemoveAccountState(this.state, {this.response, this.type});
 }
 

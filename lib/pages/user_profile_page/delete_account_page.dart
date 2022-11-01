@@ -281,7 +281,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
         AlertsWidget.showCustomDialog(
             context: context,
             title: "",
-            text: '${removeState.response?.message}',
+            text: '${removeState.response?.data![0]}',
             icon: 'assets/images/circle_alert_fill.svg',
             onOkClick: () async {
               UserSession.clearSession();
