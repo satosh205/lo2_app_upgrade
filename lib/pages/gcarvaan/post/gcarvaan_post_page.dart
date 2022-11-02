@@ -422,7 +422,6 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
   // }
 
   Widget _postListWidget(gcarvaanPosts, GCarvaanListModel value) {
-    print('the length is ${value.list?.length} and  loadin is $isGCarvaanPostLoading');
     if(value.list?.length == 0 && isGCarvaanPostLoading == false) return  Container(
           margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
           child: Center(child: Text('No Post Available')));
@@ -827,7 +826,6 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
 
           _refreshController.refreshCompleted();
           _refreshController.loadComplete();
-    print('the length is and and  loadin is $isGCarvaanPostLoading');
 
 
           // gcarvaanPosts.forEach((element) {

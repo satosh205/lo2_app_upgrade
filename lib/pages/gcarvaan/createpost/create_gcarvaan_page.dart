@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:camera/camera.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -25,20 +26,21 @@ import 'package:masterg/utils/resource/colors.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:video_thumbnail/video_thumbnail.dart';
+import 'package:video_thumbnail/video_thumbnail.dart' as Thumbnail;
 
+import '../../../utils/click_picker.dart';
 import '../../user_profile_page/mobile_ui_helper.dart';
-    List<String?>? croppedList;
 
+List<String?>? croppedList;
 
 class CreateGCarvaanPage extends StatefulWidget {
   // final File postDocPath;
   final List<MultipartFile>? fileToUpload;
-   List<String?>? filesPath;
+  List<String?>? filesPath;
   final bool isReelsPost;
   final CreatePostProvider? provider;
 
-   CreateGCarvaanPage(
+  CreateGCarvaanPage(
       {Key? key,
       this.fileToUpload,
       this.filesPath,
@@ -235,8 +237,23 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                           ),
                           InkWell(
                             onTap: () async {
-                               _getImages(value);
-                         
+                              //  _getImages(value);
+
+                              final cameras = await availableCameras();
+                              final firstCamera = cameras.first;
+
+                              await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TakePictureScreen(
+                                          camera: firstCamera))).then(
+                                  (files) async {
+
+                                if (files != null) {
+                                  value.addToList(files);
+                                  croppedList = value.files?.toList();
+                                }
+                              });                       
                             },
                             child: Row(
                               children: [
@@ -308,17 +325,19 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                       ),
                       child: InkWell(
                         onTap: () {
-
                           widget.provider?.updateList(croppedList);
-                          if (value.files!.length != 0)
-                          {
-                            
-   String? firstExtension = value.files?.first?.split('/').last.split('.').last.toString();
-    bool isVideo =  true;
-Log.v('the extension is $firstExtension');
-    if(firstExtension == 'mp4' || firstExtension == 'mov'  )isVideo = true ;
+                          if (value.files!.length != 0) {
+                            String? firstExtension = value.files?.first
+                                ?.split('/')
+                                .last
+                                .split('.')
+                                .last
+                                .toString();
+                            bool isVideo = true;
+                            Log.v('the extension is $firstExtension');
+                            if (firstExtension == 'mp4' ||
+                                firstExtension == 'mov') isVideo = true;
                             createPost(menuProvider, isVideo);
-
                           }
                         },
                         child: Container(
@@ -350,11 +369,10 @@ Log.v('the extension is $firstExtension');
     });
 
     if (!widget.isReelsPost) {
-
       BlocProvider.of<HomeBloc>(context).add(CreatePostEvent(
           files: widget.fileToUpload,
           //contentType:isVideo == true ? 2  :1 ,
-          contentType:isVideo == true ? 2  :1 ,
+          contentType: isVideo == true ? 2 : 1,
           title: '',
           description: '${postDescriptionController.value.text}',
           postType: 'caravan',
@@ -481,7 +499,8 @@ Log.v('the extension is $firstExtension');
         .pickImage(source: ImageSource.camera, maxWidth: 900, maxHeight: 450);
     if (pickedFileC != null) {
       provider.addToList(pickedFileC.path);
- croppedList = provider.files?.toList();    }
+      croppedList = provider.files?.toList();
+    }
     return null;
   }
 
@@ -511,9 +530,7 @@ Log.v('the extension is $firstExtension');
           } else
             provider.addToList(result.paths[i]);
 
-             
-    croppedList = provider.files?.toList();
-            
+          croppedList = provider.files?.toList();
         }
 
         if (provider.files!.length > 4) {
@@ -535,39 +552,32 @@ class ShowReadyToPost extends StatefulWidget {
 }
 
 class _ShowReadyToPostState extends State<ShowReadyToPost> {
-
   List<PlatformUiSettings>? buildUiSettings(BuildContext context) {
-  return [
-    AndroidUiSettings(
-        toolbarTitle: '',
-        toolbarColor: ColorConstants().primaryColor(),
-        toolbarWidgetColor: Colors.white,
-        hideBottomControls:  !Platform.isAndroid,
-        initAspectRatio: CropAspectRatioPreset.original,
-        lockAspectRatio: false),
-    IOSUiSettings(
-      title: '',
-    ),
-  ];
-}
+    return [
+      AndroidUiSettings(
+          toolbarTitle: '',
+          toolbarColor: ColorConstants().primaryColor(),
+          toolbarWidgetColor: Colors.white,
+          hideBottomControls: !Platform.isAndroid,
+          initAspectRatio: CropAspectRatioPreset.original,
+          lockAspectRatio: false),
+      IOSUiSettings(
+        title: '',
+      ),
+    ];
+  }
 
+  @override
+  void initState() {
+    super.initState();
+    setValue();
+  }
 
-
-
-
-@override
-void initState() {
-  super.initState();
-  setValue();
-}
-
-void setValue(){
-List<String?>? readyToPost;
+  void setValue() {
+    List<String?>? readyToPost;
     readyToPost = widget.provider!.files;
     croppedList = readyToPost?.toList();
-
-}
-
+  }
 
   Future<String> _cropImage(_pickedFile) async {
     if (_pickedFile != null) {
@@ -584,9 +594,9 @@ List<String?>? readyToPost;
     }
     return _pickedFile;
   }
+
   @override
   Widget build(BuildContext context) {
-    
     return Container(
       padding: EdgeInsets.only(top: 10),
       height: MediaQuery.of(context).size.height * 0.5,
@@ -641,25 +651,25 @@ List<String?>? readyToPost;
                     right: 5,
                     top: 5,
                     child: Container(
-                        padding: EdgeInsets.all(2),
-                      decoration: BoxDecoration(color: ColorConstants.BLACK,shape: BoxShape.circle),
+                      padding: EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                          color: ColorConstants.BLACK, shape: BoxShape.circle),
                       child: IconButton(
                         onPressed: () {
                           //provider.removeFromList(index);
 
+                          AlertsWidget.showCustomDialog(
+                              context: context,
+                              title: "Delete Post!",
+                              text: "Are you sure you want to Delete.",
+                              icon: 'assets/images/circle_alert_fill.svg',
+                              onOkClick: () async {
+                                widget.provider!.removeFromList(index);
 
-                            AlertsWidget.showCustomDialog(
-                          context: context,
-                          title: "Delete Post!",
-                       text: "Are you sure you want to Delete.",
-                          icon: 'assets/images/circle_alert_fill.svg',
-                          onOkClick: () async {
-                          widget.provider!.removeFromList(index);
-
-                          setState(() {
-                      croppedList =       widget.provider?.files;
-                          });
-                          });
+                                setState(() {
+                                  croppedList = widget.provider?.files;
+                                });
+                              });
                           // AlertsWidget.alertWithOkCancelBtn(
                           //   context: context,
                           //   text: "Are you sure you want to Delete.",
@@ -673,60 +683,63 @@ List<String?>? readyToPost;
                         },
                         padding: EdgeInsets.zero,
                         constraints: BoxConstraints(),
-                        icon: Icon(Icons.delete_forever,size: 18 , color: Colors.white),
+                        icon: Icon(Icons.delete_forever,
+                            size: 18, color: Colors.white),
                       ),
                     ),
                   ),
-             if(!(pickedFile.path.contains('.mp4') ||
+                  if (!(pickedFile.path.contains('.mp4') ||
                       pickedFile.path.contains('.mov') ||
                       pickedFile.path.contains('.hevc') ||
-                      pickedFile.path.contains('.h.265')))     Positioned(
-                    left: 5,
-                    top: 5,
-                    child: Container(
-                      padding: EdgeInsets.all(2),
-                      decoration: BoxDecoration(color: ColorConstants.BLACK,shape: BoxShape.circle),
-                      child:   IconButton(
-                        onPressed: () {
-                          //provider.removeFromList(index);
+                      pickedFile.path.contains('.h.265')))
+                    Positioned(
+                      left: 5,
+                      top: 5,
+                      child: Container(
+                        padding: EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                            color: ColorConstants.BLACK,
+                            shape: BoxShape.circle),
+                        child: IconButton(
+                          onPressed: () {
+                            //provider.removeFromList(index);
 
-                           AlertsWidget.showCustomDialog(
-                        context: context,
-                        title: "",
-                    text: "Are you sure you want to Crop.",
-                        icon: 'assets/images/circle_alert_fill.svg',
-                        onOkClick: () async {
- String  croppedPath = await _cropImage( widget.provider!.files?[index]);
-if(widget.provider!.files?[index] != croppedPath)
-setState(() {
-   croppedList![index] = croppedPath;
-});
-  // widget.provider?.updateAtIndex(croppedPath, index);  
-                         
-                                                    });
-                          // AlertsWidget.alertWithOkCancelBtn(
-                          //   context: context,
-                          //   text: "Are you sure you want to Crop.",
-                          //   title: "Alert!",
-                          //   okText: "Yes",
-                          //   cancelText: "No",
-                          //   onOkClick: () async {
+                            AlertsWidget.showCustomDialog(
+                                context: context,
+                                title: "",
+                                text: "Are you sure you want to Crop.",
+                                icon: 'assets/images/circle_alert_fill.svg',
+                                onOkClick: () async {
+                                  String croppedPath = await _cropImage(
+                                      widget.provider!.files?[index]);
+                                  if (widget.provider!.files?[index] !=
+                                      croppedPath)
+                                    setState(() {
+                                      croppedList![index] = croppedPath;
+                                    });
+                                  // widget.provider?.updateAtIndex(croppedPath, index);
+                                });
+                            // AlertsWidget.alertWithOkCancelBtn(
+                            //   context: context,
+                            //   text: "Are you sure you want to Crop.",
+                            //   title: "Alert!",
+                            //   okText: "Yes",
+                            //   cancelText: "No",
+                            //   onOkClick: () async {
 
-                          //    String  croppedPath = await _cropImage(pickedFile.path);
-                         
-                          //      widget.provider?.updateAtIndex(croppedPath, index);
-                               
+                            //    String  croppedPath = await _cropImage(pickedFile.path);
 
+                            //      widget.provider?.updateAtIndex(croppedPath, index);
 
-                          //   },
-                          // );
-                        },
-                        padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(),
-                        icon: Icon(Icons.crop,size: 15 ,color: Colors.white),
+                            //   },
+                            // );
+                          },
+                          padding: EdgeInsets.zero,
+                          constraints: BoxConstraints(),
+                          icon: Icon(Icons.crop, size: 15, color: Colors.white),
+                        ),
                       ),
                     ),
-                  ),
                 ]),
               ),
             );
@@ -742,9 +755,9 @@ class ShowImage extends StatelessWidget {
   Uint8List? imageFile;
 
   Future<Uint8List?> getFile() async {
-    final uint8list = await VideoThumbnail.thumbnailData(
+    final uint8list = await Thumbnail.VideoThumbnail.thumbnailData(
       video: path!,
-      imageFormat: ImageFormat.PNG,
+      imageFormat: Thumbnail.ImageFormat.PNG,
       quality: 10,
     );
 

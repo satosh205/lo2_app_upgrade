@@ -344,7 +344,6 @@ class _VideoRecordingCameraPageState extends State<VideoRecordingCameraPage> {
         } else if (result.paths.first!.contains('.mp4') ||
             result.paths.first!.contains('.mov')) {
           provider.addToList(result.paths.first);
-          // print('the length is ${provider.files?.length}');
 
           await Navigator.of(context).push(
             MaterialPageRoute(builder: (context) {
