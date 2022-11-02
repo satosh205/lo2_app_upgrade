@@ -36,6 +36,7 @@ class GCarvaanCardPost extends StatefulWidget {
   final String? user_name;
   final String date;
    int? height;
+   final String userStatus;
   final int? width;
   final String? description;
   final int commentCount;
@@ -61,7 +62,7 @@ class GCarvaanCardPost extends StatefulWidget {
       required this.user_name,
       required this.profile_path,
       required this.index,
-      // @required this.child,
+      required this.userStatus,
       required this.comment_visible,
       this.likeCount,
       this.viewCount,
@@ -185,7 +186,12 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                   Container(
                       child: Center(
                     child: ClipOval(
-                      child: widget.profile_path != null
+                      child:widget.userStatus.toLowerCase() == "deleted" ?  SvgPicture.asset(
+                                  'assets/images/default_user.svg',
+                                  height: 50,
+                                  width: 50,
+                                  allowDrawingOutsideViewBox: true,
+                                ) : widget.profile_path != null
                           ? Image.network(
                               widget.profile_path ?? '',
                               height: 45,
@@ -231,9 +237,12 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                             left: 8.0,
                             right: 8.0,
                           ),
-                          child: Text(
-                            widget.user_name ?? '',
+                          child: widget.userStatus.toLowerCase() == "deleted" ? Text(
+                            'User Deleted',
                             style: Styles.semibold(size: 14),
+                          ) :  Text(
+                            widget.user_name ?? '',
+                            style: Styles.semibold(size: 14, color: widget.userStatus.toLowerCase() == "inactive" ?  ColorConstants.GREY_3.withOpacity(0.5) : ColorConstants.BLACK),
                           ),
                         ),
                         Padding(

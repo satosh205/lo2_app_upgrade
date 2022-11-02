@@ -439,6 +439,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                   ? GCarvaanCardPost(
                       index: index,
                       value: value,
+                      userStatus: gcarvaanPosts[index].userStatus,
                       image_path: gcarvaanPosts[index].resourcePath,
                       date: gcarvaanPosts[index].createdAt.toString(),
                       description: gcarvaanPosts[index].description,

@@ -104,6 +104,7 @@ class GCarvaanPostElement extends ChangeNotifier {
     this.name,
     this.email,
     this.profileImage,
+    this.userStatus,
     this.userLikeTrackingsId,
     this.userLiked,
     this.resourceType,
@@ -143,6 +144,7 @@ class GCarvaanPostElement extends ChangeNotifier {
   String? name;
   String? email;
   String? profileImage;
+  String? userStatus;
   dynamic userLikeTrackingsId;
   int? userLiked;
   String? resourceType;
@@ -185,6 +187,7 @@ class GCarvaanPostElement extends ChangeNotifier {
         name: json["name"],
         email: json["email"],
         profileImage: json["profile_image"],
+        userStatus: json['user_status'],
         userLikeTrackingsId: json["user_like_trackings_id"],
         userLiked: json["user_liked"],
         resourceType:
@@ -230,6 +233,7 @@ class GCarvaanPostElement extends ChangeNotifier {
         "name": name,
         "email": email,
         "profile_image": profileImage,
+        "user_status" : userStatus,
         "user_like_trackings_id": userLikeTrackingsId,
         "user_liked": userLiked,
         "resource_type": resourceType == null ? null : resourceType,
