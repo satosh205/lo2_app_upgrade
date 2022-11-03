@@ -239,7 +239,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                           ),
                           child:  Text(
                             widget.user_name ?? '',
-                            style: Styles.semibold(size: 14, color: widget.userStatus.toLowerCase() == "inactive" ?  ColorConstants.GREY_3.withOpacity(0.3) : ColorConstants.BLACK),
+                            style: Styles.semibold(size: 14, color: widget.userStatus.toLowerCase() != "active" ?  ColorConstants.GREY_3.withOpacity(0.3) : ColorConstants.BLACK),
                           ),
                         ),
                         Padding(

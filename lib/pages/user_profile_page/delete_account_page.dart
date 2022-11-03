@@ -27,6 +27,7 @@ class DeleteAccountPage extends StatefulWidget {
 
 class _DeleteAccountPageState extends State<DeleteAccountPage> {
   bool isloading = false;
+  int selectedOption = 0;
   @override
   Widget build(BuildContext context) {
     return BlocManager(
@@ -87,21 +88,38 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                       textAlign: TextAlign.center,
                     )),
                 SizedBox(height: 10),
-                infoCard(
-                    Icons.visibility,
-                    'Deactivating your account is temporary',
-                    'Your profile, photos, comments and likes will be hidden until you enable it by logging back in.'),
-                infoCard(Icons.info_sharp, 'Deleting your account is permanent',
-                    'Your profile, photos, videos, comments, likes and followers will be permanently deleted.'),
+                InkWell(
+                  onTap: () {
+                    selectedOption = 1;
+                    setState(() {});
+                  },
+                  child: infoCard(
+                      Icons.visibility,
+                      'Deactivating your account is temporary',
+                      'Your profile, photos, comments and likes will be hidden until you enable it by logging back in.',
+                      selected: selectedOption == 1),
+                ),
+                InkWell(
+                    onTap: () {
+                      selectedOption = 2;
+                      setState(() {});
+                    },
+                    child: infoCard(
+                        Icons.info_sharp,
+                        'Deleting your account is permanent',
+                        'Your profile, photos, videos, comments, likes and followers will be permanently deleted.',
+                        selected: selectedOption == 2)),
                 Expanded(child: SizedBox()),
                 CupertinoButton(
-                    color: ColorConstants().primaryColor(),
+                
+                    color:selectedOption != 0 ?  ColorConstants().primaryColor() : ColorConstants.GREY_4,
                     child: Text(
-                      'Deactivate Account',
+                      'Continue',
                       style:
-                          Styles.regular(size: 12, color: ColorConstants.WHITE),
+                          Styles.regular(size: 12, color:selectedOption != 0 ? ColorConstants.WHITE:  ColorConstants.GREY_3),
                     ),
                     onPressed: () {
+                      if(selectedOption == 1)
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -154,16 +172,12 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                                     ],
                                   ),
                                 ));
+
+                          
                           });
-                    }),
-                CupertinoButton(
-                    child: Text(
-                      'Delete Account',
-                      style:
-                          Styles.regular(size: 12, color: ColorConstants.BLACK),
-                    ),
-                    onPressed: () {
-                      showDialog(
+
+                          else if(selectedOption == 2){
+                            showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return Dialog(
@@ -216,9 +230,11 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                                   ),
                                 ));
                           });
+                          }
                     }),
+               
                 SizedBox(
-                  height: 10,
+                  height: 20,
                 )
               ],
             ),
@@ -228,15 +244,27 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
     );
   }
 
-  Widget infoCard(IconData icon, String title, String desc) {
+  Widget infoCard(IconData icon, String title, String desc,
+      {bool selected = false}) {
     return Container(
+      height: MediaQuery.of(context).size.height * 0.12,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(
+              color: selected == true
+                  ? ColorConstants.PRIMARY_COLOR_DARK
+                  : ColorConstants.BLACK,
+              width: 2)),
       margin: EdgeInsets.only(left: 20, right: 10, top: 10, bottom: 10),
+      padding: EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(icon),
           SizedBox(width: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 title,

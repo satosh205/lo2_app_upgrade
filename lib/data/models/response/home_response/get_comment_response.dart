@@ -14,18 +14,18 @@ String commentListResponseToJson(CommentListResponse data) =>
 
 class CommentListResponse {
   CommentListResponse({
-    this.status,
+    this.userStatus,
     this.data,
     this.error,
   });
 
-  int? status;
+  int? userStatus;
   List<CommentListElement>? data;
   List<dynamic>? error;
 
   factory CommentListResponse.fromJson(Map<String, dynamic> json) =>
       CommentListResponse(
-        status: json["status"] == null ? null : json["status"],
+        userStatus: json["userStatus"] == null ? null : json["userStatus"],
         data: json["data"] == null
             ? null
             : List<CommentListElement>.from(json["data"].map((x) => CommentListElement.fromJson(x))),
@@ -35,7 +35,7 @@ class CommentListResponse {
       );
 
   Map<String, dynamic> toJson() => {
-        "status": status == null ? null : status,
+        "userStatus": userStatus == null ? null : userStatus,
         "data": data == null
             ? null
             : List<dynamic>.from(data!.map((x) => x.toJson())),
@@ -60,6 +60,7 @@ class CommentListElement {
     this.mobileNo,
     this.profileImage,
     this.organizationId,
+    this.userStatus,
     this.reply,
   });
 
@@ -78,6 +79,7 @@ class CommentListElement {
   String? mobileNo;
   String? profileImage;
   int? organizationId;
+  String? userStatus;
   List<dynamic>? reply;
 
   factory CommentListElement.fromJson(Map<String, dynamic> json) => CommentListElement(
@@ -96,6 +98,7 @@ class CommentListElement {
         mobileNo: json["mobile_no"],
         profileImage: json["profile_image"],
         organizationId: json["organization_id"],
+        userStatus: json['user_status'],
         reply: List<dynamic>.from(json["reply"].map((x) => x)),
       );
 
@@ -115,6 +118,7 @@ class CommentListElement {
         "mobile_no": mobileNo,
         "profile_image": profileImage,
         "organization_id": organizationId,
+        "user_status" : userStatus,
         "reply": List<dynamic>.from(reply!.map((x) => x)),
       };
 }

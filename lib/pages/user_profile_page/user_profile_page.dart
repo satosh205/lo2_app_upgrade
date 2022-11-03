@@ -651,9 +651,15 @@ class _UserProfilePageState extends State<UserProfilePage>
                                           Icons.delete,
                                           color: Colors.white,
                                         ),
-                                        title: new Text(
-                                          'Delete Account',
-                                          style: TextStyle(color: Colors.white),
+                                         minLeadingWidth : 10,
+                                        title: Align(
+                                          alignment: Alignment(-1, 0),
+                                          child: Text(
+                                            'Delete Account',
+
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
                                         ),
                                         onTap: () async {
                                           Navigator.push(

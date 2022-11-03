@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
@@ -91,7 +92,12 @@ class _CommentViewPageState extends State<CommentViewPage> {
               children: [
                 Row(
                   children: [
-                    Container(
+                 data[index].userStatus?.toLowerCase() !=  "active"  && data[index].userStatus?.toLowerCase() != null ? SvgPicture.asset(
+                                'assets/images/default_user.svg',
+                                height: 30,
+                                width: 30,
+                                allowDrawingOutsideViewBox: true,
+                              ) :  Container(
                       height: 30.0,
                       width: 30.0,
                       decoration: new BoxDecoration(
@@ -110,7 +116,7 @@ class _CommentViewPageState extends State<CommentViewPage> {
                       child: Text(
                         '${data[index].name}',
                         style:
-                            Styles.bold(size: 12, color: ColorConstants.BLACK),
+                            Styles.bold(size: 12, color:  data[index].userStatus?.toLowerCase() != "active"  && data[index].userStatus?.toLowerCase() != null?  ColorConstants.GREY_3.withOpacity(0.3) : ColorConstants.BLACK),
                       ),
                     ),
 
