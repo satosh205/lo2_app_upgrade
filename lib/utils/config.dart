@@ -1,37 +1,37 @@
-// const APK_DETAILS = {
-//   "app_name": "MasterG",
-//   "package_name": "com.at.masterg",
-//   "logo_url": "masterg_app_bar.svg",
-//   "theme_image_url": "masterg_logo.svg",
-//   "theme_image_url2": "signupimage.gif",
-//   "theme_color": "FDB515",
-//   "element_color": "#FFFFFF",
-//   "nlms_api_key": "0612b32b39f4b29f48c5c5363028ee916bb99MasterG",
-//   "domain_url": "https://qa.learningoxygen.com/",
-//   "enable_boarding_screen": "0",
-//   "splash_image": "masterg_logo.svg",
-//   "isBrandEnabled": "1",
-//   "faqEnabled": "0",
-//   "policy_url": "https://qa.learningoxygen.com/policy"
-// };
-
-
 const APK_DETAILS = {
-  "app_name": "Edulyst",
-  "package_name": "com.at.edulyst",
-  "logo_url": "edulystlearnings-logo.png",
-  "theme_image_url": "edulystlearning.jpg",
+  "app_name": "MasterG",
+  "package_name": "com.at.masterg",
+  "logo_url": "masterg_app_bar.svg",
+  "theme_image_url": "masterg_logo.svg",
   "theme_image_url2": "signupimage.gif",
-  "theme_color": "7062e3",
+  "theme_color": "FDB515",
   "element_color": "#FFFFFF",
-  "nlms_api_key": "0612b32b39f4b29f48c5c5363028ee916bb99Edulyst",
-  "domain_url": "https://stage.learningoxygen.com/",
+  "nlms_api_key": "0612b32b39f4b29f48c5c5363028ee916bb99MasterG",
+  "domain_url": "https://qa.learningoxygen.com/",
   "enable_boarding_screen": "0",
-  "splash_image": "edulystlearnings-logo.png",
+  "splash_image": "masterg_logo.svg",
   "isBrandEnabled": "1",
   "faqEnabled": "0",
   "policy_url": "https://qa.learningoxygen.com/policy"
 };
+
+
+// const APK_DETAILS = {
+//   "app_name": "Edulyst",
+//   "package_name": "com.at.edulyst",
+//   "logo_url": "edulystlearnings-logo.png",
+//   "theme_image_url": "edulystlearning.jpg",
+//   "theme_image_url2": "signupimage.gif",
+//   "theme_color": "7062e3",
+//   "element_color": "#FFFFFF",
+//   "nlms_api_key": "0612b32b39f4b29f48c5c5363028ee916bb99Edulyst",
+//   "domain_url": "https://stage.learningoxygen.com/",
+//   "enable_boarding_screen": "0",
+//   "splash_image": "edulystlearnings-logo.png",
+//   "isBrandEnabled": "1",
+//   "faqEnabled": "0",
+//   "policy_url": "https://qa.learningoxygen.com/policy"
+// };
 
 // const APK_DETAILS = {
 //   "app_name": "learn_build",
