@@ -247,7 +247,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
           else {
             AlertsWidget.showCustomDialog(
                 context: context,
-                title: "Invalid OTP",
+                title: "${loginState.error}",
                 text: "",
                 icon: 'assets/images/circle_alert_fill.svg',
                 oKText: '${Strings.of(context)?.ok}',

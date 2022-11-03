@@ -60,6 +60,7 @@ class CommentListElement {
     this.mobileNo,
     this.profileImage,
     this.organizationId,
+    this.status,
     this.reply,
   });
 
@@ -78,6 +79,7 @@ class CommentListElement {
   String? mobileNo;
   String? profileImage;
   int? organizationId;
+  String? status;
   List<dynamic>? reply;
 
   factory CommentListElement.fromJson(Map<String, dynamic> json) => CommentListElement(
@@ -96,6 +98,7 @@ class CommentListElement {
         mobileNo: json["mobile_no"],
         profileImage: json["profile_image"],
         organizationId: json["organization_id"],
+        status: json['status'],
         reply: List<dynamic>.from(json["reply"].map((x) => x)),
       );
 
@@ -115,6 +118,7 @@ class CommentListElement {
         "mobile_no": mobileNo,
         "profile_image": profileImage,
         "organization_id": organizationId,
+        "status" : status,
         "reply": List<dynamic>.from(reply!.map((x) => x)),
       };
 }
