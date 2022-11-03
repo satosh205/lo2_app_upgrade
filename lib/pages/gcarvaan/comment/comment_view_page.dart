@@ -92,7 +92,7 @@ class _CommentViewPageState extends State<CommentViewPage> {
               children: [
                 Row(
                   children: [
-                 data[index].userStatus?.toLowerCase() !=  "active" ? SvgPicture.asset(
+                 data[index].userStatus?.toLowerCase() !=  "active"  && data[index].userStatus?.toLowerCase() != null ? SvgPicture.asset(
                                 'assets/images/default_user.svg',
                                 height: 30,
                                 width: 30,
@@ -116,7 +116,7 @@ class _CommentViewPageState extends State<CommentViewPage> {
                       child: Text(
                         '${data[index].name}',
                         style:
-                            Styles.bold(size: 12, color:  data[index].userStatus?.toLowerCase() != "active" ?  ColorConstants.GREY_3.withOpacity(0.3) : ColorConstants.BLACK),
+                            Styles.bold(size: 12, color:  data[index].userStatus?.toLowerCase() != "active"  && data[index].userStatus?.toLowerCase() != null?  ColorConstants.GREY_3.withOpacity(0.3) : ColorConstants.BLACK),
                       ),
                     ),
 
