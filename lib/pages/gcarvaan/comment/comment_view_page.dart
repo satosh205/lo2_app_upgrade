@@ -78,6 +78,7 @@ class _CommentViewPageState extends State<CommentViewPage> {
         controller: _controller,
         itemBuilder: (itemBuilder, index) {
           var millis;
+          String? userStatusValue = data[index].userStatus?.toLowerCase() ;
           DateTime? date;
           if (data[index].createdAt != null) {
             millis = int.parse(data[index].createdAt.toString());
@@ -92,7 +93,7 @@ class _CommentViewPageState extends State<CommentViewPage> {
               children: [
                 Row(
                   children: [
-                 data[index].userStatus?.toLowerCase() !=  "active"  && data[index].userStatus?.toLowerCase() != null ? SvgPicture.asset(
+                 userStatusValue !=  "active"  && userStatusValue != null ? SvgPicture.asset(
                                 'assets/images/default_user.svg',
                                 height: 30,
                                 width: 30,
@@ -116,7 +117,7 @@ class _CommentViewPageState extends State<CommentViewPage> {
                       child: Text(
                         '${data[index].name}',
                         style:
-                            Styles.bold(size: 12, color:  data[index].userStatus?.toLowerCase() != "active"  && data[index].userStatus?.toLowerCase() != null?  ColorConstants.GREY_3.withOpacity(0.3) : ColorConstants.BLACK),
+                            Styles.bold(size: 12, color:  userStatusValue != "active"  && userStatusValue != null?  ColorConstants.GREY_3.withOpacity(0.3) : ColorConstants.BLACK),
                       ),
                     ),
 
@@ -124,7 +125,7 @@ class _CommentViewPageState extends State<CommentViewPage> {
                       data[index].createdAt == null
                           ? 'Just Now'
                           : '${calculateTimeDifferenceBetween(DateTime.parse(date.toString().substring(0, 19)), now)}',
-                      style: Styles.regular(size: 12),
+                      style: Styles.regular(size: 12, color:  userStatusValue != "active"  && userStatusValue != null?  ColorConstants.GREY_3.withOpacity(0.3) : ColorConstants.BLACK),
                     ),
                     // Text(
                     //   '${data[index].createdAt.toString()}',
@@ -140,7 +141,7 @@ class _CommentViewPageState extends State<CommentViewPage> {
                   child: Text(
                     '${data[index].content}',
                     style:
-                        Styles.regular(size: 14, color: ColorConstants.BLACK),
+                    userStatusValue !=  "active" && userStatusValue != null ?Styles.regular(size: 14, color: ColorConstants.BLACK) :   Styles.regular(size: 14, color: ColorConstants.BLACK),
                   ),
                 ),
                 SizedBox(
