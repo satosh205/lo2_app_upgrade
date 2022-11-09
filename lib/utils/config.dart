@@ -8,7 +8,7 @@
 //   "element_color": "#FFFFFF",
 //   "nlms_api_key": "0612b32b39f4b29f48c5c5363028ee916bb99MasterG",
 //   "domain_url": "https://qa.learningoxygen.com/",
-//   "enable_boarding_screen": "0",
+// "enable_boarding_screen": "0",
 //   "splash_image": "masterg_logo.svg",
 //   "isBrandEnabled": "1",
 //   "faqEnabled": "0",

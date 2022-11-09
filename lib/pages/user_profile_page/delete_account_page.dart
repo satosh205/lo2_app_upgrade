@@ -135,7 +135,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                                         CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text('Delete your Account?',
+                                      Text('Are you sure you want to delete your account?',
                                           style: Styles.bold(),
                                           textAlign: TextAlign.center),
                                       SizedBox(height: 10),
@@ -155,7 +155,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                                           deActivateAccount();
                                         },
                                         child: Text(
-                                          'Continue Deactivating Account',
+                                          'Continue deleting account',
                                           textAlign: TextAlign.center,
                                           style: Styles.bold(
                                               color: ColorConstants.RED),
@@ -192,7 +192,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                                         CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text('Delete your Account?',
+                                      Text('Are you sure you want to deactivate your account?',
                                           style: Styles.bold(),
                                           textAlign: TextAlign.center),
                                       SizedBox(height: 10),
@@ -212,7 +212,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                                           deleteAccount();
                                         },
                                         child: Text(
-                                          'Continue Deleting Account',
+                                          'Continue deactivating account',
                                           textAlign: TextAlign.center,
                                           style: Styles.bold(
                                               color: ColorConstants.RED),
@@ -311,6 +311,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
             title: "",
             text: '${removeState.response?.data![0]}',
             icon: 'assets/images/circle_alert_fill.svg',
+            showCancel : false,
             onOkClick: () async {
               UserSession.clearSession();
               await Hive.deleteFromDisk();

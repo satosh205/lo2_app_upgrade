@@ -714,7 +714,7 @@ class Strings {
   String? get SelectAleastSixCategories =>
       _localizedValues[locale.languageCode]!['select_aleast_six_categories'];
 
-  String? get CreatePost =>
+  String? get createPost =>
       _localizedValues[locale.languageCode]!['create_post'];
   String? get CreateReels =>
       _localizedValues[locale.languageCode]!['create_reels'];

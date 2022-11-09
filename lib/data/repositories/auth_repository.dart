@@ -22,11 +22,11 @@ class AuthRepository {
   Future<LoginResponse> loginCall({required LoginRequest request}) async {
     final response = await userProvider.loginCall(request: request);
     if (response!.success) {
-      Log.v("ERROR DATA : ${response.body}");
+      Log.v("Success DATA : ${response.body}");
       LoginResponse user = LoginResponse.fromJson(response.body);
       return user;
     } else {
-      Log.v("====> ${response.body}");
+      Log.v("Fail ====> ${response.body}");
       return LoginResponse(
           message:
               response.body == null ? "Something went wrong:" : response.body);

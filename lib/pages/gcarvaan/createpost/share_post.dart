@@ -87,7 +87,7 @@ class _SharePostState extends State<SharePost> {
             height: 10,
           ),
           Text(
-            '${Strings.of(context)?.CreatePost} ',
+            '${Strings.of(context)?.createPost} ',
             style: Styles.bold(size: 14, color: ColorConstants.BLACK),
           )
         ]),

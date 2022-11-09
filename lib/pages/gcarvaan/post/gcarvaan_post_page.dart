@@ -397,7 +397,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                         filesPath: provider.files,
                         provider: provider)))
             .then((value) => _refreshController.requestRefresh());
-        ;
+        
       }
     }
   }

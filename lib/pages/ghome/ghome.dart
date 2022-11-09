@@ -151,7 +151,7 @@ class _GHomeState extends State<GHome> {
                                         onTap: () async {
                                           value.enableProviderControl();
                                           value.mute();
-                                          value.pause().then((value) =>  showModalBottomSheet(
+                                          value.pause().then((data) =>  showModalBottomSheet(
                                               context: context,
                                               backgroundColor:
                                                   ColorConstants.WHITE,
@@ -1336,6 +1336,10 @@ class _GHomeState extends State<GHome> {
                       itemBuilder: (BuildContext context, int index) {
                         YoutubePlayerController ytController =
                             YoutubePlayerController(
+                               flags: YoutubePlayerFlags(
+        autoPlay: false,
+       
+    ),
                                 initialVideoId:
                                     '${YoutubePlayer.convertUrlToId('${joyCategoryList![index].video}')}');
                         return Column(
@@ -1383,6 +1387,7 @@ class _GHomeState extends State<GHome> {
                                             }
                                           },
                                           child: YoutubePlayer(
+                                            
                                             controller: ytController,
                                             showVideoProgressIndicator: false,
                                             bottomActions: [

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -26,6 +27,7 @@ import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/config.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/widget_size.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../utils/click_picker.dart';
 
@@ -60,8 +62,10 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
   @override
   void initState() {
     phoneController.text = widget.phoneNumber;
-    controller = AnimationController(vsync: this, duration: Duration(milliseconds: 400));
-    offset = Tween<Offset>(begin: Offset.zero, end: Offset(0.0, 5.0)).animate(controller);
+    controller =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+    offset = Tween<Offset>(begin: Offset.zero, end: Offset(0.0, 5.0))
+        .animate(controller);
     controller.forward();
     super.initState();
   }
@@ -97,12 +101,13 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                         width: double.infinity,
                         height: MediaQuery.of(context).size.height *
                             WidgetSize.AUTH_BUTTON_SIZE,
-                        margin: EdgeInsets.symmetric(vertical: 2, horizontal: 16),
+                        margin:
+                            EdgeInsets.symmetric(vertical: 2, horizontal: 16),
                         decoration: BoxDecoration(
                             color: checkedValue == false
                                 ? ColorConstants()
-                                .buttonColor()
-                                .withOpacity(0.5)
+                                    .buttonColor()
+                                    .withOpacity(0.5)
                                 : ColorConstants().buttonColor(),
                             borderRadius: BorderRadius.circular(10)),
                         child: Center(
@@ -245,19 +250,18 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                     setState(() {});
                   },
                   validator: (value) {
-                  
                     if (value == '')
                       return APK_DETAILS['package_name'] == 'com.learn_build'
                           ? 'Email is required'
                           : null;
-                          int index = value?.length as int;
-                        
+                    int index = value?.length as int;
 
-                    if(value![index-1] == '.') return '${Strings.of(context)?.emailAddressError}';
+                    if (value![index - 1] == '.')
+                      return '${Strings.of(context)?.emailAddressError}';
 
                     if (!RegExp(
                             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        .hasMatch(value) )
+                        .hasMatch(value))
                       return '${Strings.of(context)?.emailAddressError}';
 
                     return null;
@@ -318,9 +322,14 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
         case ApiStatus.SUCCESS:
           Log.v("Success....................");
           // print("processed to login");
-
           Preference.setString(
-              Preference.USER_TOKEN, '${loginState.response?.data?.token}');
+              Preference.FIRST_NAME, '${state.response!.data!.user!.name}');
+          Preference.setString(
+              Preference.USER_TOKEN, '${state.response!.data!.token}');
+          Preference.setString(
+              Preference.PHONE, '${state.response!.data!.user!.mobileNo}');
+          Preference.setString(Preference.PROFILE_IMAGE,
+              '${state.response!.data!.user!.profileImage}');
           Preference.setInt(
               Preference.USER_ID, loginState.response!.data!.user!.id!);
           Preference.setString(Preference.USER_EMAIL,
@@ -339,6 +348,8 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
           UserSession.email = state.response!.data!.user!.email;
           UserSession.userImageUrl = state.response!.data!.user!.profileImage;
           UserSession.socialEmail = state.response!.data!.user!.email;
+            Preference.setString(
+              Preference.USER_EMAIL, '${state.response!.data!.user!.email}');
           Navigator.push(context, NextPageRoute(InterestPage()));
           // doLogin();
           break;
@@ -390,8 +401,6 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
     }
     return "";
   }
-
-
 
   void saveChanges() {
     if (!_formKey.currentState!.validate()) return;
@@ -471,13 +480,33 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () async {
-                    await _getImages(ImageSource.gallery).then((value) async {
+
+
+                    FilePickerResult? result;
+                    try {
+                      if (await Permission.storage.request().isGranted) {
+                        if (Platform.isIOS) {
+                          result = await FilePicker.platform.pickFiles(
+                              allowMultiple: false,
+                              type: FileType.image,
+                              allowedExtensions: []);
+                        } else {
+                          result = await FilePicker.platform.pickFiles(
+                              allowMultiple: false,
+                              type: FileType.custom,
+                              allowedExtensions: ['jpg', 'png', 'jpeg']);
+                        }
+                      }
+                    } catch (e) {
+                      print('the expection is $e');
+                    }
+
+                     String? value = result?.paths.first;
                       if (value != null) {
                         selectedImage = value;
                         selectedImage = await _cropImage(value);
                       }
                       setState(() {});
-                    });
                     Navigator.pop(context);
                   },
                 ),
@@ -502,20 +531,18 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                     // Get a specific camera from the list of available cameras.
                     final firstCamera = cameras.first;
 
-                   await Navigator.push(context, MaterialPageRoute(
-                        builder: (context) =>
-                            TakePictureScreen(camera: firstCamera))).then((
-                        value) async {
-                   
+                    await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    TakePictureScreen(camera: firstCamera)))
+                        .then((value) async {
                       if (value != null) {
                         selectedImage = value;
                         selectedImage = await _cropImage(value);
                       }
-                      setState(() {
-                        
-                      });
+                      setState(() {});
                       Navigator.pop(context);
-                     
                     });
                   },
                 ),
