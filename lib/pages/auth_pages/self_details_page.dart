@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -26,6 +27,7 @@ import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/config.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/widget_size.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../utils/click_picker.dart';
 
@@ -478,13 +480,33 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () async {
-                    await _getImages(ImageSource.gallery).then((value) async {
+
+
+                    FilePickerResult? result;
+                    try {
+                      if (await Permission.storage.request().isGranted) {
+                        if (Platform.isIOS) {
+                          result = await FilePicker.platform.pickFiles(
+                              allowMultiple: false,
+                              type: FileType.image,
+                              allowedExtensions: []);
+                        } else {
+                          result = await FilePicker.platform.pickFiles(
+                              allowMultiple: false,
+                              type: FileType.custom,
+                              allowedExtensions: ['jpg', 'png', 'jpeg']);
+                        }
+                      }
+                    } catch (e) {
+                      print('the expection is $e');
+                    }
+
+                     String? value = result?.paths.first;
                       if (value != null) {
                         selectedImage = value;
                         selectedImage = await _cropImage(value);
                       }
                       setState(() {});
-                    });
                     Navigator.pop(context);
                   },
                 ),

@@ -154,6 +154,7 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
                         Container(
                             child: Container(
                           child: PageView.builder(
+                            // ignore: unrelated_type_equality_checks
                             itemCount: joyContentListResponse
                                         .list![index].multiFileUploads !=
                                     0
@@ -203,146 +204,7 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
                                           ),
                                         ),
                                       ]),
-                                      /*GestureDetector(
-                                        onTap: () {
-                                          showModalBottomSheet(
-                                              context: context,
-                                              isScrollControlled: true,
-                                              builder:
-                                                  (context) =>
-                                                      FractionallySizedBox(
-                                                        //heightFactor: 0.97,
-                                                        heightFactor: 1.0,
-                                                        child: Container(
-                                                          child:
-                                                              PageView.builder(
-                                                            controller:
-                                                                PageController(
-                                                                    initialPage:
-                                                                        0,
-                                                                    keepPage:
-                                                                        true,
-                                                                    viewportFraction:
-                                                                        1),
-                                                            scrollDirection:
-                                                                Axis.horizontal,
-                                                            itemBuilder:
-                                                                (context,
-                                                                    viewIndex) {
-                                                              return Stack(
-                                                                children: [
-                                                                  Image.network(
-                                                                    '${joyContentListResponse.list![index].multiFileUploads![viewIndex]}',
-                                                                    // 'https://images.unsplash.com/photo-1644982647869-e1337f992828?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=435&q=80',
-                                                                    fit: BoxFit
-                                                                        .contain,
-                                                                    width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width,
-                                                                    height: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .height,
-                                                                  ),
-                                                                  Positioned(
-                                                                      top: 10,
-                                                                      right: 10,
-                                                                      child:
-                                                                          GestureDetector(
-                                                                        onTap: () =>
-                                                                            Navigator.pop(context),
-                                                                        child:
-                                                                            //Icon(Icons.zoom_out_map_sharp, color: Colors.red,),
-                                                                            SvgPicture.asset(
-                                                                          'assets/images/shrink_icon.svg',
-                                                                          height:
-                                                                              20.0,
-                                                                          width:
-                                                                              20.0,
-                                                                          allowDrawingOutsideViewBox:
-                                                                              true,
-                                                                        ),
-                                                                      )),
-                                                                  Align(
-                                                                    alignment:
-                                                                        FractionalOffset
-                                                                            .bottomCenter,
-                                                                    child:
-                                                                        DotsIndicator(
-                                                                      dotsCount: joyContentListResponse
-                                                                          .list![
-                                                                              index]
-                                                                          .multiFileUploads!
-                                                                          .length,
-                                                                      position:
-                                                                          viewIndex
-                                                                              .toDouble(),
-                                                                      decorator:
-                                                                          DotsDecorator(
-                                                                        size: const Size.square(
-                                                                            9.0),
-                                                                        activeSize: const Size(
-                                                                            18.0,
-                                                                            9.0),
-                                                                        activeColor:
-                                                                            ColorConstants.WHITE,
-                                                                        color: ColorConstants
-                                                                            .GREY_4,
-                                                                        activeShape:
-                                                                            RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0)),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              );
-                                                            },
-                                                            itemCount:
-                                                                joyContentListResponse
-                                                                    .list![
-                                                                        index]
-                                                                    .multiFileUploads!
-                                                                    .length,
-                                                          ),
-                                                        ),
-                                                      ));
-                                        },
-                                        child: Stack(children: [
-                                          Container(
-                                            child: joyContentListResponse
-                                                        .list![index]
-                                                        .resourceType ==
-                                                    'image'
-                                                ? Image.network(
-                                                    '${joyContentListResponse.list![index].multiFileUploads![indexIn]}',
-                                                    fit: BoxFit.fitHeight,
-                                                    //height: MediaQuery.of(context).size.height * 0.87,
-                                                    width: double.infinity,
-                                                  )
-                                                : joyContentListResponse
-                                                            .list![index]
-                                                            .resourceType ==
-                                                        'video'
-                                                    ? Container(
-                                                        height: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .height *
-                                                            0.9,
-                                                        child:
-                                                            CustomVideoPlayer(
-                                                          url: joyContentListResponse
-                                                                  .list![index]
-                                                                  .multiFileUploads![
-                                                              indexIn],
-                                                        ),
-                                                      )
-                                                    : Container(
-                                                        height: 370,
-                                                      ),
-                                          ),
-                                        ]),
-                                      ),*/
+                                      
                                     ],
                                   ),
                                 ),
@@ -350,68 +212,13 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
                             },
                           ),
                         )),
-                        /*Positioned(
-                            top: 0,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              color: ColorConstants.BLACK.withOpacity(0.4),
-                              child: Column(
-                                mainAxisAlignment:
-                                MainAxisAlignment.start,
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                                children: [
-
-                                  Padding(
-                                    padding:
-                                    const EdgeInsets.only(
-                                        left: 8.0,
-                                        right: 8.0,
-                                        top: 8.0),
-                                    child: joyContentListResponse[index].title != null ? Text(
-                                      '${joyContentListResponse[index].title}',
-                                      style: Styles.bold(
-                                          size: 14,
-                                          color: ColorConstants
-                                              .WHITE),
-                                    ):null,
-                                  ),
-                                  Padding(
-                                    padding:
-                                    const EdgeInsets.only(
-                                        bottom: 20,
-                                        left: 8,
-                                        right: 8),
-                                    child: Text(
-                                      joyContentListResponse[index].description != null ?
-                                      '${joyContentListResponse[index].description}' : '',
-                                      style: Styles.regular(
-                                          size: 12,
-                                          color: ColorConstants
-                                              .WHITE),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )),*/
 
                         Positioned(
                           left: 0,
                           bottom: 0,
                           child: Container(
                             width: MediaQuery.of(context).size.width,
-                            //color: ColorConstants.BLACK.withOpacity(0.5),
-                            /*decoration: BoxDecoration(
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.5),
-                                    spreadRadius: 2,
-                                    blurRadius: 40,
-                                    offset: Offset(0.0, 20.0)
-
-                                )
-                              ],
-                            ),*/
+                           
                             constraints: BoxConstraints(minHeight: 120),
                             decoration: BoxDecoration(
                               gradient: LinearGradient(

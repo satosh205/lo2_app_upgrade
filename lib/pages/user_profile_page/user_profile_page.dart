@@ -14,7 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
+// import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
@@ -651,12 +651,11 @@ class _UserProfilePageState extends State<UserProfilePage>
                                           Icons.delete,
                                           color: Colors.white,
                                         ),
-                                         minLeadingWidth : 10,
+                                        minLeadingWidth: 10,
                                         title: Align(
                                           alignment: Alignment(-1, 0),
                                           child: Text(
                                             'Delete Account',
-
                                             style:
                                                 TextStyle(color: Colors.white),
                                           ),
@@ -2688,45 +2687,45 @@ class _UserProfilePageState extends State<UserProfilePage>
     return addressListData;
   }
 
-  Future<String> _getImages(ImageSource source, String sourceType) async {
-    if (sourceType == 'camera') {
-      final picker = ImagePicker();
-      //PickedFile? pickedFile = await picker.getImage(source: ImageSource.camera,
-      /* PickedFile? pickedFile = await picker.getImage(source: ImageSource.camera,
-      maxWidth: 400,
-      maxHeight: 400);*/
+  // Future<String> _getImages(ImageSource source, String sourceType) async {
+  //   if (sourceType == 'camera') {
+  //     final picker = ImagePicker();
+  //     //PickedFile? pickedFile = await picker.getImage(source: ImageSource.camera,
+  //     /* PickedFile? pickedFile = await picker.getImage(source: ImageSource.camera,
+  //     maxWidth: 400,
+  //     maxHeight: 400);*/
 
-      /*XFile? pickedFile = await picker.pickImage(source: source, imageQuality: 60, maxWidth: 400,
-          maxHeight: 400);*/
-      final pickedFile =
-          await ImagePicker().pickImage(source: ImageSource.camera);
-      if (pickedFile != null) {
-        return pickedFile.path;
-      } /*else if (Platform.isAndroid) {
-        //final LostData response = await picker.getLostData();
-        final LostDataResponse response = await picker.retrieveLostData();
-        if (response.file != null) {
-           //return response.file!.path;
-           return response.file!.path;
-        }
-      }*/
-      return "";
-    } else {
-      final picker = ImagePicker();
-      PickedFile? pickedFile =
-          await picker.getImage(source: source, imageQuality: 70);
-      //XFile? pickedFile = await picker.pickImage(source: source, imageQuality: 60);
-      if (pickedFile != null)
-        return pickedFile.path;
-      else if (Platform.isAndroid) {
-        final LostData response = await picker.getLostData();
-        if (response.file != null) {
-          return response.file!.path;
-        }
-      }
-      return "";
-    }
-  }
+  //     /*XFile? pickedFile = await picker.pickImage(source: source, imageQuality: 60, maxWidth: 400,
+  //         maxHeight: 400);*/
+  //     final pickedFile =
+  //         await ImagePicker().pickImage(source: ImageSource.camera);
+  //     if (pickedFile != null) {
+  //       return pickedFile.path;
+  //     } /*else if (Platform.isAndroid) {
+  //       //final LostData response = await picker.getLostData();
+  //       final LostDataResponse response = await picker.retrieveLostData();
+  //       if (response.file != null) {
+  //          //return response.file!.path;
+  //          return response.file!.path;
+  //       }
+  //     }*/
+  //     return "";
+  //   } else {
+  //     final picker = ImagePicker();
+  //     PickedFile? pickedFile =
+  //         await picker.getImage(source: source, imageQuality: 70);
+  //     //XFile? pickedFile = await picker.pickImage(source: source, imageQuality: 60);
+  //     if (pickedFile != null)
+  //       return pickedFile.path;
+  //     else if (Platform.isAndroid) {
+  //       final LostData response = await picker.getLostData();
+  //       if (response.file != null) {
+  //         return response.file!.path;
+  //       }
+  //     }
+  //     return "";
+  //   }
+  // }
 
   Future<String> _cropImage(_pickedFile) async {
     if (_pickedFile != null) {
@@ -2818,29 +2817,46 @@ class _UserProfilePageState extends State<UserProfilePage>
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () async {
-                    await _getImages(ImageSource.gallery, 'gallery')
-                        .then((value) async {
-                      if (clickSide.endsWith('profile')) {
-                        if (value != null) {
-                          selectedImage = value;
-                          //if(Platform.isIOS) {
-                          selectedImage = await _cropImage(value);
-                          //}
+                    FilePickerResult? result;
+                    try {
+                      if (await Permission.storage.request().isGranted) {
+                        if (Platform.isIOS) {
+                          result = await FilePicker.platform.pickFiles(
+                              allowMultiple: false,
+                              type: FileType.image,
+                              allowedExtensions: []);
+                        } else {
+                          result = await FilePicker.platform.pickFiles(
+                              allowMultiple: false,
+                              type: FileType.custom,
+                              allowedExtensions: ['jpg', 'png', 'jpeg']);
                         }
-                        if (selectedImage != null) {
-                          Preference.setString(
-                              Preference.PROFILE_IMAGE, '${selectedImage}');
-                          _updateUserProfileImage(selectedImage);
-                        }
-
-                        setState(() {});
-                      } else {
-                        setState(() {
-                          selectedBrandPath = value;
-                        });
-                        callback(value);
                       }
-                    });
+                    } catch (e) {
+                      print('the expection is $e');
+                    }
+
+                    String? value = result?.paths.first;
+
+                    if (clickSide.endsWith('profile')) {
+                      selectedImage = value;
+                      //if(Platform.isIOS) {
+                      selectedImage = await _cropImage(value);
+
+                      if (selectedImage != null) {
+                        Preference.setString(
+                            Preference.PROFILE_IMAGE, '$selectedImage');
+                        _updateUserProfileImage(selectedImage);
+                      }
+
+                      setState(() {});
+                    } else {
+                      setState(() {
+                        selectedBrandPath = value;
+                      });
+                      callback(value);
+                    }
+
                     Navigator.pop(context);
                   },
                 ),
