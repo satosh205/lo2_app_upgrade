@@ -258,10 +258,11 @@ class _homePageState extends State<homePage> {
                     const Expanded(child: SizedBox()),
                     InkWell(
                       onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return UserProfilePage();
-                        })).then(onGoBack);
+                        print('the path is $appBarImagePath');
+                        // Navigator.push(context,
+                        //     MaterialPageRoute(builder: (context) {
+                        //   return UserProfilePage();
+                        // })).then(onGoBack);
                       },
                       child: Transform.scale(
                         scale: 1,
