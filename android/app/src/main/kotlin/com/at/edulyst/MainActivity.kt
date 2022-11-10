@@ -1,4 +1,4 @@
-package com.learn_build
+package com.at.edulyst
 
 import io.flutter.embedding.android.FlutterActivity
 

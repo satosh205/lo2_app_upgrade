@@ -1,41 +1,34 @@
 {
   "project_info": {
-    "project_number": "306410795424",
-    "project_id": "learningoxygen-6b473",
-    "storage_bucket": "learningoxygen-6b473.appspot.com"
+    "project_number": "283266549880",
+    "project_id": "edulyst-6ae6e",
+    "storage_bucket": "edulyst-6ae6e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:306410795424:android:50e22388e1a8b8443074c5",
+        "mobilesdk_app_id": "1:283266549880:android:b695b3e9640f4b6dd8058d",
         "android_client_info": {
-          "package_name": "com.learn_build"
+          "package_name": "com.at.edulyst"
         }
       },
       "oauth_client": [
         {
-          "client_id": "306410795424-5foe181ab2195vpgfbf6kjmrooe0c9fe.apps.googleusercontent.com",
+          "client_id": "283266549880-u3890cipbu8dtttjr80vf1qairq7thgi.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCFi8WIKtgidOu1S4Ln9BM8yk_p8kAtzAw"
+          "current_key": "AIzaSyAkBRt20YlFU7hd3NKfz0E93v4i3LvuWWI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "306410795424-5foe181ab2195vpgfbf6kjmrooe0c9fe.apps.googleusercontent.com",
+              "client_id": "283266549880-u3890cipbu8dtttjr80vf1qairq7thgi.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "306410795424-be9dt4aldvkei82jt63223jvs6cvl86r.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.learnbuild"
-              }
             }
           ]
         }
