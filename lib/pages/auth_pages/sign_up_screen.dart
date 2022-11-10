@@ -344,10 +344,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
         case ApiStatus.ERROR:
           _isLoading = false;
           Log.v("Error..........................");
-          Log.v("Error..........................${loginState.error}");
+          Log.v("Error..........................${loginState.response?.error?[0]}");
           AlertsWidget.alertWithOkBtn(
               context: context,
-              text: loginState.error,
+              text: loginState.response?.error?[0],
               onOkClick: () {
                 FocusScope.of(context).unfocus();
               });
