@@ -19,7 +19,7 @@
 const APK_DETAILS = {
   "app_name": "Edulyst",
   "package_name": "com.at.edulyst",
-  "logo_url": "edulyst_logo.png",
+  "logo_url": "edulyst_logo_appbar.png",
   "theme_image_url": "edulystlearning.jpg",
   "theme_image_url2": "edulyst_theme_2.png",
   "theme_color": "7062e3",
@@ -27,7 +27,7 @@ const APK_DETAILS = {
   "nlms_api_key": "0612b32b39f4b29f48c5c5363028ee916bb99Edulyst",
   "domain_url": "https://stage.learningoxygen.com/",
   "enable_boarding_screen": "0",
-  "splash_image": "edulyst_logo.png",
+  "splash_image": "splash_edulyst.png",
   "isBrandEnabled": "1",
   "faqEnabled": "0",
   "policy_url": "https://qa.learningoxygen.com/policy"

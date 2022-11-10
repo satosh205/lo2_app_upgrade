@@ -241,8 +241,13 @@ class _homePageState extends State<homePage> {
                 automaticallyImplyLeading: false,
                 leading: IconButton(
                   onPressed: () {
-                    _scaffoldKey.currentState?.openDrawer();
+                    // _scaffoldKey.currentState?.openDrawer();
                   },
+                  // icon: Image.asset(
+                  //         'assets/images/edulyst_logo_appbar.png',
+
+                  //         fit: BoxFit.contain,
+                  //       ),
                   icon: appBarImagePath.split('.').last == 'svg'
                       ? SvgPicture.asset(
                           appBarImagePath,
@@ -258,11 +263,11 @@ class _homePageState extends State<homePage> {
                     const Expanded(child: SizedBox()),
                     InkWell(
                       onTap: () {
-                        print('the path is $appBarImagePath');
-                        // Navigator.push(context,
-                        //     MaterialPageRoute(builder: (context) {
-                        //   return UserProfilePage();
-                        // })).then(onGoBack);
+                        // print('the path is $appBarImagePath');
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return UserProfilePage();
+                        })).then(onGoBack);
                       },
                       child: Transform.scale(
                         scale: 1,

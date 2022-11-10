@@ -113,6 +113,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/splash/
     - assets/policy.html
     - assets/terms.html
 
