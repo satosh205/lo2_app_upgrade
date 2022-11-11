@@ -48,10 +48,16 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
 
   void setCurrentLanguage() async {
     int? currentLanId =   Preference.getInt(Preference.APP_LANGUAGE);
-   
+    if(currentLanId != null)
     for(int i = 0; i < myList!.length; i++)
-      if(currentLanId == myList?[i].languageId)
+      if(currentLanId == myList?[i].languageId){
         selected = i;
+        break;
+      }
+    else  {
+      MyApp.setLocale(context, Locale(localeCodes['english']!));
+      selected = 0;
+    }
 
     setState(() {
     });
@@ -146,14 +152,37 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                                 height:widget.showEdulystLogo?  200 : 240,
                                 margin: EdgeInsets.only(bottom:0.0),
 
-                                child: ListView.builder(
-                                  physics: BouncingScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: myList?.length ?? 0,
-                                  itemBuilder: (BuildContext context, int index) {
+                                child: GridView.builder(
+                                  
+                                  
+                                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+
+                                    mainAxisSpacing: 0,
+                                          crossAxisSpacing: 1,
+                                          childAspectRatio: 10 / 4,
+
+                                          
+                                          // mainAxisExtent: MediaQuery.of(context)
+                                          //         .size
+                                          //         .height *
+                                          //     0.45,
+            crossAxisCount: 2,
+          ), 
+itemCount: myList?.length ?? 0,
+             itemBuilder: (BuildContext context, int index) {
                                     return   languageCard(myList![index], index);
                                   },
-                                ),
+          
+          )
+
+                                // child: ListView.builder(
+                                //   physics: BouncingScrollPhysics(),
+                                //   shrinkWrap: true,
+                                //   itemCount: myList?.length ?? 0,
+                                  // itemBuilder: (BuildContext context, int index) {
+                                  //   return   languageCard(myList![index], index);
+                                  // },
+                                // ),
                               ),
                             ],
                           ),
@@ -238,8 +267,10 @@ if(!widget.showEdulystLogo) SizedBox(height: MediaQuery.of(context).size.height 
         });
       },
       child: Container(
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+          // width: double.infinity,
+          width: MediaQuery.of(context).size.width * 0.4,
+          height: MediaQuery.of(context).size.width * 0.2,
+          // padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
           margin: EdgeInsets.all(10),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -248,15 +279,29 @@ if(!widget.showEdulystLogo) SizedBox(height: MediaQuery.of(context).size.height 
                   color: index == selected
                       ? ColorConstants.GREEN
                       : ColorConstants.DARK_GREY)),
-          child: Center(
-              child: Text(
-            '${langauge.name}',
-            style: Styles.regular(
-                size: 18,
-                color: index == selected
-                    ? ColorConstants.GREEN
-                    : ColorConstants.BLACK),
-          ))),
+          child: Stack(
+            children: [
+              Positioned(
+                 left: 5,
+                 top: 5,
+                child:  SvgPicture.asset(
+                                    height:
+                                16,
+                          index == selected ? 'assets/images/selected_lang.svg' : 'assets/images/unselected_lang.svg',
+                          fit: BoxFit.cover,
+                        )),
+
+              Center(
+                  child: Text(
+                '${langauge.name}',
+                style: Styles.regular(
+                    size: 18,
+                    color: index == selected
+                        ? ColorConstants.GREEN
+                        : ColorConstants.BLACK),
+              )),
+            ],
+          )),
     );
   }
 }
