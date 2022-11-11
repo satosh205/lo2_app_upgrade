@@ -513,9 +513,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                     height: 20,
                   ),
 
-                  //TODO: User Information
                   Container(
-                    height: 12,
+                    height: 8,
                     color: Colors.grey[200],
                   ),
                   /* Container(
@@ -574,7 +573,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                   ),
                   if (APK_DETAILS["isBrandEnabled"] == "1")
                     Container(
-                      height: 12,
+                      height: 8,
                       color: Colors.grey[200],
                     ),
                   if (APK_DETAILS["faqEnabled"] == "1")
@@ -621,6 +620,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                         ],
                       ),
                     ),
+                    SizedBox(height:15),
                   Align(
                       alignment: Alignment.topLeft,
                       child: InkWell(
@@ -661,6 +661,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                           ),
                                         ),
                                         onTap: () async {
+                                          Navigator.pop(context);
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
