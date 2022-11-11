@@ -44,6 +44,7 @@ import '../../data/models/response/home_response/create_portfolio_response.dart'
 import '../../data/models/response/home_response/delete_portfolio_response.dart';
 import '../../data/models/response/home_response/list_portfolio_responsed.dart';
 import '../../utils/utility.dart';
+import '../auth_pages/choose_language.dart';
 import '../custom_pages/TapWidget.dart';
 import 'brand_filter_page.dart';
 import 'edit_self_details_page.dart';
@@ -282,7 +283,7 @@ class _UserProfilePageState extends State<UserProfilePage>
           backgroundColor: Colors.white,
           appBar: AppBar(
             elevation: 0,
-            leading: BackButton(color: Colors.black),
+            leading: BackButton(color: ColorConstants().primaryForgroundColor()),
             backgroundColor: ColorConstants().primaryColor(),
             actions: [
               IconButton(
@@ -305,7 +306,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                   },
                   icon: Icon(
                     Icons.logout,
-                    color: Colors.black,
+                    color: ColorConstants().primaryForgroundColor(),
                   ))
             ],
           ),
@@ -692,11 +693,45 @@ class _UserProfilePageState extends State<UserProfilePage>
                                   ),
                                   child: Icon(
                                     Icons.settings,
-                                    color: ColorConstants.WHITE,
+                                    color: ColorConstants().primaryForgroundColor(),
                                     size: 20,
                                   )),
                               SizedBox(width: 10),
                               Text('Setting & Account',
+                                  style: Styles.regular()),
+                              Expanded(child: SizedBox()),
+                              Icon(Icons.arrow_forward_ios, size: 15),
+                            ],
+                          ),
+                        ),
+                      )),
+                    SizedBox(height:15),
+
+                      Align(
+                      alignment: Alignment.topLeft,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseLanguage(showEdulystLogo: false,)));
+                       
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(
+                            children: [
+                              Container(
+                                  width: 30,
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: ColorConstants().primaryColor(),
+                                  ),
+                                  child: Icon(
+                                    Icons.language,
+                                    color: ColorConstants().primaryForgroundColor(),
+                                    size: 20,
+                                  )),
+                              SizedBox(width: 10),
+                              Text('Change Language',
                                   style: Styles.regular()),
                               Expanded(child: SizedBox()),
                               Icon(Icons.arrow_forward_ios, size: 15),

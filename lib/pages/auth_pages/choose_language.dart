@@ -17,7 +17,8 @@ import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/widget_size.dart';
 
 class ChooseLanguage extends StatefulWidget {
-  ChooseLanguage({Key? key}) : super(key: key);
+  final bool showEdulystLogo;
+  ChooseLanguage({Key? key, required this.showEdulystLogo}) : super(key: key);
 
   @override
   _ChooseLanguageState createState() => _ChooseLanguageState();
@@ -46,10 +47,15 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
   }
 
   void setCurrentLanguage() async {
+    int? currentLanId =   Preference.getInt(Preference.APP_LANGUAGE);
+   
+    for(int i = 0; i < myList!.length; i++)
+      if(currentLanId == myList?[i].languageId)
+        selected = i;
+
     setState(() {
-      MyApp.setLocale(context, Locale(localeCodes['english']!));
-      selected = 0;
     });
+    
   }
 
   @override
@@ -80,7 +86,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                             //crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              appBarImagePath.split('.').last == 'svg'
+                        if(widget.showEdulystLogo == true)      appBarImagePath.split('.').last == 'svg'
                                   ? SvgPicture.asset(
                                 appBarImagePath,
                                 fit: BoxFit.cover,
@@ -94,7 +100,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                               SizedBox(height:APK_DETAILS['package_name'] == 'com.at.masterg' ? 60 : 10 ),
                               Center(
                                 child: Text(
-                                  '${Strings.of(context)?.chooseAppLanguage}',
+                                  '${Strings.of(context)?.chooseAppLanguage} ',
                                   style: Styles.bold(size: 18),
                                   textAlign: TextAlign.center,
                                 ),
@@ -137,7 +143,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                               
                               SizedBox(height: 10),
                               Container(
-                                height: 200,
+                                height:widget.showEdulystLogo?  200 : 240,
                                 margin: EdgeInsets.only(bottom:0.0),
 
                                 child: ListView.builder(
@@ -152,13 +158,16 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                             ],
                           ),
                         ),
-
+if(!widget.showEdulystLogo) SizedBox(height: MediaQuery.of(context).size.height * 0.2),
                         InkWell(
                             onTap: () {
-                              Navigator.push(
+
+                        //       print('${ MyApp.getLocal(context)}');
+                         if(widget.showEdulystLogo)     Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => SignUpScreen()));
+                                      else Navigator.pop(context);
                             },
                             child: Container(
                               margin: EdgeInsets.only(left: 12.0, right: 12.0, top: 10),

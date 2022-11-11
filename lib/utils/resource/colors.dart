@@ -120,4 +120,9 @@ class ColorConstants {
   Color buttonColor() {
     return HexColor.fromHex(APK_DETAILS['theme_color']!);
   }
+
+  Color primaryForgroundColor(){
+    return HexColor.fromHex(APK_DETAILS['theme_forground_color']!);
+
+  }
 }

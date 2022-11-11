@@ -94,7 +94,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               leading: IconButton(
                   padding: const EdgeInsets.all(0),
                   onPressed: () => Navigator.pushReplacement(context,
-                      NextPageRoute(ChooseLanguage(), isMaintainState: false)),
+                      NextPageRoute(ChooseLanguage(showEdulystLogo: true,), isMaintainState: false)),
                   icon: Icon(
                     CupertinoIcons.back,
                     color: ColorConstants.BLACK,

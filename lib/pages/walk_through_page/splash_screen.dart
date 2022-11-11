@@ -260,7 +260,7 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
               context, NextPageRoute(LoginScreen()), (route) => false);
         else
           Navigator.pushAndRemoveUntil(
-              context, NextPageRoute(ChooseLanguage()), (route) => false);
+              context, NextPageRoute(ChooseLanguage(showEdulystLogo: true,)), (route) => false);
       } else {
         await Future.delayed(Duration(seconds: 2));
         Navigator.pushAndRemoveUntil(
