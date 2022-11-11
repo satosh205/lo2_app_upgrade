@@ -144,6 +144,7 @@ class Strings {
   String? get login => _localizedValues[locale.languageCode]!['login'];
 
   String? get alert => _localizedValues[locale.languageCode]!['alert'];
+  String? get hello => _localizedValues[locale.languageCode]!['hello'];
 
   String? get coinHistoryTitle =>
       _localizedValues[locale.languageCode]!['coin_history_title'];

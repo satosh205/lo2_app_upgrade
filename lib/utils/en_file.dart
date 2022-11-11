@@ -331,6 +331,7 @@ const EN_TEXT = {
   'upcoming' : 'Upcoming',
   'Ongoing' : 'Ongoing',
    "otherLearnerCoursesMasterG": "Learn what other MasterG’s are learning",
+   'hello' : "Hello"
 };
 
 
@@ -601,6 +602,7 @@ const HI_TEXT = {
   'pending' : 'लंबित',
   'upcoming' : 'आगामी',
   'ongoing' : 'चल रहे',
+  'hello' : "नमस्ते"
 
 
 };
