@@ -91,25 +91,23 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           if (widget.showEdulystLogo == true)
-                            appBarImagePath.split('.').last == 'svg'
-                                ? SvgPicture.asset(
-                                    appBarImagePath,
-                                    fit: BoxFit.cover,
-                                  )
-                                : Image.asset(
-                                    appBarImagePath,
-                                    height: 150,
-                                    width: 150,
-                                  ),
-
+                            Transform.scale(
+                                scale: 1.2,
+                                child: appBarImagePath.split('.').last == 'svg'
+                                    ? SvgPicture.asset(
+                                        appBarImagePath,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.asset(
+                                        appBarImagePath,
+                                        height: 150,
+                                        width: 150,
+                                      )),
                           SizedBox(
                               height: APK_DETAILS['package_name'] ==
                                       'com.at.masterg'
                                   ? 60
                                   : 10),
-                        
-                        
-
                           if (APK_DETAILS['theme_image_url2'] != "")
                             APK_DETAILS['theme_image_url2']?.split('.').last ==
                                     'svg'
@@ -125,10 +123,18 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                                         0.25,
                                     // width: 150,
                                   ),
+                          SizedBox(height: 30),
 
+                          Center(
+                            child: Text(
+                              '${Strings.of(context)?.chooseAppLanguage}',
+                              style: Styles.bold(size: 18),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                           SizedBox(height: 10),
                           Container(
-                              height: widget.showEdulystLogo ? 200 : 240,
+                              height: 180,
                               margin: EdgeInsets.symmetric(horizontal: 10),
                               child: GridView.builder(
                                 gridDelegate:
@@ -265,8 +271,9 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                             ? ColorConstants.GREEN
                             : ColorConstants.BLACK),
                   ),
-                  Text('${Strings.of(context)?.hello}',
+                  Text(langauge.title ?? '',
                       style: Styles.regular(
+                      size: 12,
                         color: ColorConstants.BLACK,
                       )),
                 ],

@@ -44,12 +44,15 @@ class _VerifyOtpState extends State<VerifyOtp> {
   int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
   bool _isLoading = false;
   //OtpFieldController _otpController = OtpFieldController();
-  var phoneFocus = FocusNode();
+  // var phoneFocus = FocusNode();
+  FocusNode focusNode = FocusNode();
+
   String? changePasswordStatus = null;
   String _pin = "";
   String? deviceId;
   bool resendFlag = false;
   List<Menu>? menuList;
+  bool isFocused = false;
   NotificationHelper? _notificationHelper;
   ///Add New code for OTP AutoFill
   late OTPTextEditController otpController;
@@ -75,6 +78,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
   @override
   void initState() {
     super.initState();
+     focusNode.addListener(_onFocusChange);
     _getId();
 
     ///Add New code for OTP AutoFill
@@ -101,6 +105,12 @@ class _VerifyOtpState extends State<VerifyOtp> {
         //SampleStrategy(otpCode),
       ],*/
     );
+  }
+
+   void _onFocusChange(){
+    setState(() {
+      isFocused = focusNode.hasFocus;
+    });
   }
 
   ///Add New code for OTP AutoFill
@@ -305,16 +315,21 @@ class _VerifyOtpState extends State<VerifyOtp> {
         ),
         body: ScreenWithLoader(
           isLoading: _isLoading,
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+          body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8),
+            child: SingleChildScrollView(
+          physics: isFocused ? BouncingScrollPhysics():  NeverScrollableScrollPhysics(),
+
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                // crossAxisAlignment: CrossAxisAlignment.start,
+            
                 children: [
                   Center(
                     child: Column(
                       children: [
-                        appBarImagePath.split('.').last == 'svg'
+                     Transform.scale(
+                    scale: 1.2,
+                    child:        appBarImagePath.split('.').last == 'svg'
                             ? SvgPicture.asset(
                                 appBarImagePath,
                                 fit: BoxFit.cover,
@@ -323,19 +338,19 @@ class _VerifyOtpState extends State<VerifyOtp> {
                                 appBarImagePath,
                                 height: 150,
                                 width: 150,
-                              ),
+                              )),
                         // SvgPicture.asset(
                         //   'assets/images/masterg_logo.svg',
                         //   height: 75,
                         //   width: 173,
                         //   allowDrawingOutsideViewBox: true,
                         // ),
-                        SizedBox(height: 10),
                         // SizedBox(height: 10),
-                        Text(
-                            '${Strings.of(context)?.GiveYourCreativityNewPath} ',
-                            style: Styles.semibold()),
-                        SizedBox(height: 20),
+                        // SizedBox(height: 10),
+                        // Text(
+                        //     '${Strings.of(context)?.GiveYourCreativityNewPath} ',
+                        //     style: Styles.semibold()),
+                        // SizedBox(height: 20),
                       APK_DETAILS['package_name'] == 'com.at.masterg' ?   SizedBox(
                             height: MediaQuery.of(context).size.height * 0.25,
                             child:
@@ -373,7 +388,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                   ),
                   _size(height: 15),
                   // _otpVerificationPart(),
-
+            
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 45),
@@ -407,7 +422,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                               _pin = pin;
                             });
                           }),*/
-
+            
                       child: Pinput(
                         defaultPinTheme: defaultPinTheme,
                         length: 4,
@@ -417,13 +432,14 @@ class _VerifyOtpState extends State<VerifyOtp> {
                             _pin = code;
                           });
                         },
+                        focusNode: focusNode,
                         onSubmitted: (String pin){
                           setState(() {
                             _pin = pin;
                           });
                         },
                       ),
-
+            
                       /*child: TextField(
                         textAlign: TextAlign.center,
                         keyboardType: TextInputType.number,
@@ -431,7 +447,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                       ),*/
                     ),
                   ),
-
+            
                   //_size(height: 30),
                   /*Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -440,7 +456,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                         color: ColorConstants.SELECTED_PAGE,
                         thickness: 1.2),
                   ),*/
-
+            
                   _size(height: 10),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),

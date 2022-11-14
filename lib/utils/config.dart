@@ -21,7 +21,7 @@ const APK_DETAILS = {
   "app_name": "Edulyst",
   "package_name": "com.at.edulyst",
   "logo_url": "edulyst_logo_appbar.png",
-  "theme_image_url": "edulyst_banner.png",
+  "theme_image_url": "edulyst_banner1.png",
   "theme_image_url2": "edulyst_theme_2.png",
   "theme_color": "7062e3",
   "theme_forground_color": "FFFFFF",

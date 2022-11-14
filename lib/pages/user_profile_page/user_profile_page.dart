@@ -621,7 +621,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                         ],
                       ),
                     ),
-                    SizedBox(height:15),
+                    SizedBox(height:20),
                   Align(
                       alignment: Alignment.topLeft,
                       child: InkWell(
@@ -705,7 +705,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                           ),
                         ),
                       )),
-                    SizedBox(height:15),
+                    SizedBox(height:30),
 
                       Align(
                       alignment: Alignment.topLeft,

@@ -54,6 +54,7 @@ class ListLanguage {
   String? updatedAt;
   String? englishName;
   String? languageCode;
+  String? title;
 
   ListLanguage(
       {this.id,
@@ -63,7 +64,7 @@ class ListLanguage {
       this.createdAt,
       this.updatedAt,
       this.englishName,
-      this.languageCode});
+      this.languageCode, this.title});
 
   ListLanguage.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -74,6 +75,7 @@ class ListLanguage {
     updatedAt = json['updated_at'];
     englishName = json['english_name'];
     languageCode = json['language_code'];
+    title = json['title'];
   }
 
   Map<String, dynamic> toJson() {
@@ -86,6 +88,7 @@ class ListLanguage {
     data['updated_at'] = this.updatedAt;
     data['english_name'] = this.englishName;
     data['language_code'] = this.languageCode;
+    data['title'] = this.title;
     return data;
   }
 }
