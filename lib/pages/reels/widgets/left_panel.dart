@@ -11,6 +11,7 @@ class LeftPanel extends StatelessWidget {
   final int? viewCounts;
   final String? createdAt;
   final String? profileImg;
+  final String? userStatus;
   const LeftPanel(
       {Key? key,
       required this.size,
@@ -18,6 +19,7 @@ class LeftPanel extends StatelessWidget {
       this.caption,
       this.viewCounts,
       this.createdAt,
+      this.userStatus,
       this.profileImg})
       : super(key: key);
 
@@ -60,7 +62,7 @@ class LeftPanel extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              getProfile(profileImg),
+              getProfile(profileImg, userStatus == 'active'),
               SizedBox(
                 width: 10,
               ),
@@ -70,7 +72,7 @@ class LeftPanel extends StatelessWidget {
                   children: [
                     Text(name!,
                         style: Styles.semibold(
-                            size: 14, color: ColorConstants.WHITE)),
+                            size: 14,  color: userStatus != "active" ?  ColorConstants.GREY_3.withOpacity(0.8) : ColorConstants.WHITE)),
                     Text(
                       calculateTimeDifferenceBetween(
                           DateTime.parse(date.toString().substring(0, 19)),

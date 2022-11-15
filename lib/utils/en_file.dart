@@ -23,7 +23,7 @@ const EN_TEXT = {
       "Enter your mobile number, we will send you OTP to verify later",
   "request_otp": "Request OTP",
   "create_an_account": "Create an Account",
-  "verification_title": "Enter OTP that ",
+  "verification_title": "Enter OTP that sent to ",
   "submit": "Submit",
   "resend": "Re-send",
   "code_in": "OTP in",
@@ -842,7 +842,7 @@ const TA_TEXT = {
   'change_phone_number': 'Change Phone Number',
   'select_categories': 'Select Categories',
   'select_atleast_category': 'Select atleast 1 Category',
-  'verification_title': "Enter OTP that ",
+  'verification_title': "Enter OTP that sent to  ",
   'enter_full_name': 'Enter Full Name',
   'choose_image': 'Choose Image',
   'choose_image_description':
@@ -1049,7 +1049,7 @@ const TE_TEXT = {
   'change_phone_number': 'Change Phone Number',
   'select_categories': 'Select Categories',
   'select_atleast_category': 'Select atleast 1 Category',
-  'verification_title': "Enter OTP that ",
+  'verification_title': "Enter OTP that sent to  ",
   'enter_full_name': 'Enter Full Name',
   'choose_image': 'Choose Image',
   'choose_image_description':
@@ -1254,7 +1254,7 @@ const BN_TEXT = {
   'change_phone_number': 'Change Phone Number',
   'select_categories': 'Select Categories',
   'select_atleast_category': 'Select atleast 1 Category',
-  'verification_title': "Enter OTP that ",
+  'verification_title': "Enter OTP that sent to  ",
   'enter_full_name': 'Enter Full Name',
   'choose_image': 'Choose Image',
   'choose_image_description':
@@ -1455,7 +1455,7 @@ const KN_TEXT = {
   'change_phone_number': 'Change Phone Number',
   'select_categories': 'Select Categories',
   'select_atleast_category': 'Select atleast 1 Category',
-  'verification_title': "Enter OTP that ",
+  'verification_title': "Enter OTP that sent to  ",
   'enter_full_name': 'Enter Full Name',
   'choose_image': 'Choose Image',
   'choose_image_description':
@@ -1655,7 +1655,7 @@ const MR_TEXT = {
   'change_phone_number': 'Change Phone Number',
   'select_categories': 'Select Categories',
   'select_atleast_category': 'Select atleast 1 Category',
-  'verification_title': "Enter OTP that ",
+  'verification_title': "Enter OTP that sent to  ",
   'enter_full_name': 'Enter Full Name',
   'choose_image': 'Choose Image',
   'choose_image_description':
@@ -1860,7 +1860,7 @@ const ML_TEXT = {
   'change_phone_number': 'Change Phone Number',
   'select_categories': 'Select Categories',
   'select_atleast_category': 'Select atleast 1 Category',
-  'verification_title': "Enter OTP that ",
+  'verification_title': "Enter OTP that sent to  ",
   'enter_full_name': 'Enter Full Name',
   'choose_image': 'Choose Image',
   'choose_image_description':

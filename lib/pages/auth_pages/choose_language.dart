@@ -269,16 +269,17 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    '${langauge.name}',
+                    '${langauge.title}',
                     style: Styles.bold(
                         size: 18,
                         color: index == selected
                             ? ColorConstants.GREEN
                             : ColorConstants.BLACK),
                   ),
-                  Text(langauge.title ?? '',
+                  SizedBox(height: 2),
+                  Text(langauge.name ?? '',
                       style: Styles.regular(
-                      size: 12,
+                      size: 14,
                         color: ColorConstants.BLACK,
                       )),
                 ],

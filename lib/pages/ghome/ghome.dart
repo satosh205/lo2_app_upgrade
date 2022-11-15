@@ -63,6 +63,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
   // FlickManager _flickManager;
   Box? box;
 
+
   @override
   void initState() {
     super.initState();
@@ -78,9 +79,9 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
+    print('the life cycle is $state');
     if(state == AppLifecycleState.resumed){
       //pause video
-      print('video is paused');
       _videoController.pause();
     }
      
@@ -96,7 +97,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider<VideoPlayerProvider>(
-            create: (context) => VideoPlayerProvider(true),
+            create: (context) => VideoPlayerProvider(false),
           ),
         ],
         child: Consumer<VideoPlayerProvider>(
@@ -1858,7 +1859,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
           setState(() {
             isShowPlaying = true;
           });
-          _videoController.play();
+          // _videoController.play();
         }));
     print('===========>>widget.videoUrl3333');
   }

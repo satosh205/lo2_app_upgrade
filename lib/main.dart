@@ -146,7 +146,7 @@ mixin PortraitModeMixin on StatefulWidget {
   }*/
 
   Widget? build(BuildContext context) {
-    print("initualize remote config");
+
     _portraitModeOnly();
     return null;
   }

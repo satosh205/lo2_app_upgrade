@@ -70,6 +70,8 @@ class VideoPlayerState extends State<CustomVideoPlayer> {
         : VideoPlayerController.network(widget.url);
 
     controller.setLooping(true);
+    controller.setVolume(1.0);
+    
     flickManager = FlickManager(
       autoPlay: false,
       videoPlayerController: controller,
@@ -160,12 +162,12 @@ class VideoPlayerState extends State<CustomVideoPlayer> {
               }
               if (this.mounted)
                 setState(() {
-                  flickManager?.flickControlManager?.play();
-                  videoPlayerState.play();
+                  // flickManager?.flickControlManager?.play();
+                  // videoPlayerState.play();
 
-                  videoPlayerState.isMute
-                      ? controller.setVolume(0.0)
-                      : controller.setVolume(1.0);
+                  // videoPlayerState.isMute
+                  //     ? controller.setVolume(0.0)
+                  //     : controller.setVolume(1.0);
                 });
             }
           }

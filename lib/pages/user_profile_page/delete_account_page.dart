@@ -83,7 +83,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                     margin: EdgeInsets.only(
                         left: 20, right: 10, top: 10, bottom: 10),
                     child: Text(
-                      'Deactivate your account insted of deleting?',
+                      'Deactivate your account instead of deleting?',
                       style: Styles.bold(size: 16),
                       textAlign: TextAlign.center,
                     )),
@@ -96,7 +96,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                   child: infoCard(
                       Icons.visibility,
                       'Deactivating your account is temporary',
-                      'Your profile, photos, comments and likes will be hidden until you enable it by logging back in.',
+                      'Your profile and learning content will be temporary hidden.',
                       selected: selectedOption == 1),
                 ),
                 InkWell(
@@ -107,7 +107,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                     child: infoCard(
                         Icons.info_sharp,
                         'Deleting your account is permanent',
-                        'Your profile, photos, videos, comments, likes and followers will be permanently deleted.',
+                        'Your profile (email, name, mobile no.) will be permanently deleted.',
                         selected: selectedOption == 2)),
                 Expanded(child: SizedBox()),
                 CupertinoButton(
