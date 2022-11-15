@@ -23,7 +23,7 @@ const EN_TEXT = {
       "Enter your mobile number, we will send you OTP to verify later",
   "request_otp": "Request OTP",
   "create_an_account": "Create an Account",
-  "verification_title": "Enter OTP that sent to",
+  "verification_title": "Enter OTP that ",
   "submit": "Submit",
   "resend": "Re-send",
   "code_in": "OTP in",
@@ -302,6 +302,7 @@ const EN_TEXT = {
 
   'enterPhoneNumber': 'Enter phone number',
   'enterValidPhoneNumber': 'Enter valid phone number',
+  'enterValidOtp' : 'Enter valid otp',
   'branchAssociation': 'Brand Associations',
   'addBrand': 'Add a Brand',
   'brandName': 'Search brand',
@@ -349,11 +350,11 @@ const EN_TEXT = {
   'writeAPost' : 'Write a post...',
    'imageVideoSizeLarge' : 'Video/image size can\'t be large than 5MB',
   'only4ImagesVideosAllowed' : 'Only 4 images/videos are allowed',
-  'noPostAvailable' : 'No Post Available'
+  'noPostAvailable' : 'No Post Available',
+  'enterOtp': 'Enter otp',
 
 
 };
-
 
 
 const HI_TEXT = {
@@ -362,6 +363,9 @@ const HI_TEXT = {
   "otherLearnerCourses": "जानें कि अन्य लोकप्रिय पाठ्यक्रम क्या हैं",
   "otherLearnerCoursesMasterG": "जानें कि अन्य लोकप्रिय पाठ्यक्रम क्या हैं",
   "change_language": "भाषा बदलो",
+  'enterValidOtp' : 'अमान्य ओटीपी',
+  "next": "आगे बढ़ो",
+  'enterOtp': 'ओटीपी दर्ज करें',
   "alert": "अलर्ट",
   "login": "लॉग इन करें",
   "logout": "लॉग आउट",
@@ -838,7 +842,7 @@ const TA_TEXT = {
   'change_phone_number': 'Change Phone Number',
   'select_categories': 'Select Categories',
   'select_atleast_category': 'Select atleast 1 Category',
-  'verification_title': "Enter OTP that sent to",
+  'verification_title': "Enter OTP that ",
   'enter_full_name': 'Enter Full Name',
   'choose_image': 'Choose Image',
   'choose_image_description':
@@ -1045,7 +1049,7 @@ const TE_TEXT = {
   'change_phone_number': 'Change Phone Number',
   'select_categories': 'Select Categories',
   'select_atleast_category': 'Select atleast 1 Category',
-  'verification_title': "Enter OTP that sent to",
+  'verification_title': "Enter OTP that ",
   'enter_full_name': 'Enter Full Name',
   'choose_image': 'Choose Image',
   'choose_image_description':
@@ -1250,7 +1254,7 @@ const BN_TEXT = {
   'change_phone_number': 'Change Phone Number',
   'select_categories': 'Select Categories',
   'select_atleast_category': 'Select atleast 1 Category',
-  'verification_title': "Enter OTP that sent to",
+  'verification_title': "Enter OTP that ",
   'enter_full_name': 'Enter Full Name',
   'choose_image': 'Choose Image',
   'choose_image_description':
@@ -1451,7 +1455,7 @@ const KN_TEXT = {
   'change_phone_number': 'Change Phone Number',
   'select_categories': 'Select Categories',
   'select_atleast_category': 'Select atleast 1 Category',
-  'verification_title': "Enter OTP that sent to",
+  'verification_title': "Enter OTP that ",
   'enter_full_name': 'Enter Full Name',
   'choose_image': 'Choose Image',
   'choose_image_description':
@@ -1651,7 +1655,7 @@ const MR_TEXT = {
   'change_phone_number': 'Change Phone Number',
   'select_categories': 'Select Categories',
   'select_atleast_category': 'Select atleast 1 Category',
-  'verification_title': "Enter OTP that sent to",
+  'verification_title': "Enter OTP that ",
   'enter_full_name': 'Enter Full Name',
   'choose_image': 'Choose Image',
   'choose_image_description':
@@ -1856,7 +1860,7 @@ const ML_TEXT = {
   'change_phone_number': 'Change Phone Number',
   'select_categories': 'Select Categories',
   'select_atleast_category': 'Select atleast 1 Category',
-  'verification_title': "Enter OTP that sent to",
+  'verification_title': "Enter OTP that ",
   'enter_full_name': 'Enter Full Name',
   'choose_image': 'Choose Image',
   'choose_image_description':

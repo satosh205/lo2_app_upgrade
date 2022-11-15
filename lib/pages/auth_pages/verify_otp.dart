@@ -228,7 +228,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
               Preference.USER_EMAIL, '${state.response!.data!.user!.email}');
           Preference.setString(
               Preference.USER_TOKEN, '${state.response!.data!.token}');
-          Preference.setString(
+          Preference.setString( 
               Preference.PHONE, '${state.response!.data!.user!.mobileNo}');
           Preference.setString(Preference.PROFILE_IMAGE,
               '${state.response!.data!.user!.profileImage}');
@@ -511,11 +511,11 @@ class _VerifyOtpState extends State<VerifyOtp> {
                           } else {
                             Utility.showSnackBar(
                                 scaffoldContext: context,
-                                message: 'Enter valid OTP.');
+                                message: '${Strings.of(context)?.enterValidOtp}');
                           }
                         } else {
                           Utility.showSnackBar(
-                              scaffoldContext: context, message: 'Enter OTP.');
+                              scaffoldContext: context, message: '${Strings.of(context)?.enterOtp}');
                         }
                       },
                       child: Container(
@@ -564,7 +564,6 @@ class _VerifyOtpState extends State<VerifyOtp> {
     print(UserSession.firebaseToken);
 
     Utility.checkNetwork().then((isConnected) {
-      print('the device id is $deviceId');
       if (isConnected) {
         var verifyOtp = EmailRequest(
             mobileNo: widget.username,

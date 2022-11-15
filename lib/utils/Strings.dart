@@ -158,6 +158,8 @@ class Strings {
       _localizedValues[locale.languageCode]!['profile_title'];
 
   String? get cancel => _localizedValues[locale.languageCode]!['cancel'];
+  String? get enterValidOtp => _localizedValues[locale.languageCode]!['enterValidOtp'];
+  String? get enterOtp => _localizedValues[locale.languageCode]!['enterOtp'];
   String? get noPostAvailable => _localizedValues[locale.languageCode]!['noPostAvailable'];
   String? get imageVideoSizeLarge => _localizedValues[locale.languageCode]!['imageVideoSizeLarge'];
   String? get only4ImagesVideosAllowed => _localizedValues[locale.languageCode]!['only4ImagesVideosAllowed'];

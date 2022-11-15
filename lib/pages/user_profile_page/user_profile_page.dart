@@ -698,40 +698,40 @@ class _UserProfilePageState extends State<UserProfilePage>
                           ),
                         ),
                       )),
-                    SizedBox(height:30),
+                    // SizedBox(height:30),
 
-                      Align(
-                      alignment: Alignment.topLeft,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseLanguage(showEdulystLogo: false,)));
+                      // Align(
+                      // alignment: Alignment.topLeft,
+                      // child: InkWell(
+                      //   onTap: () {
+                      //     Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseLanguage(showEdulystLogo: false,)));
                        
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Row(
-                            children: [
-                              Container(
-                                  width: 30,
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: ColorConstants().primaryColor(),
-                                  ),
-                                  child: Icon(
-                                    Icons.language,
-                                    color: ColorConstants().primaryForgroundColor(),
-                                    size: 20,
-                                  )),
-                              SizedBox(width: 10),
-                              Text('${Strings.of(context)?.changeLanguage}',
-                                  style: Styles.regular()),
-                              Expanded(child: SizedBox()),
-                              Icon(Icons.arrow_forward_ios, size: 15),
-                            ],
-                          ),
-                        ),
-                      )),
+                      //   },
+                      //   child: Padding(
+                      //     padding: EdgeInsets.symmetric(horizontal: 20),
+                      //     child: Row(
+                      //       children: [
+                      //         Container(
+                      //             width: 30,
+                      //             height: 30,
+                      //             decoration: BoxDecoration(
+                      //               borderRadius: BorderRadius.circular(10),
+                      //               color: ColorConstants().primaryColor(),
+                      //             ),
+                      //             child: Icon(
+                      //               Icons.language,
+                      //               color: ColorConstants().primaryForgroundColor(),
+                      //               size: 20,
+                      //             )),
+                      //         SizedBox(width: 10),
+                      //         Text('${Strings.of(context)?.changeLanguage}',
+                      //             style: Styles.regular()),
+                      //         Expanded(child: SizedBox()),
+                      //         Icon(Icons.arrow_forward_ios, size: 15),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // )),
                   Expanded(child: SizedBox()),
                 ],
               ),

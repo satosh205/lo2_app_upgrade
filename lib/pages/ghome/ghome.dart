@@ -45,7 +45,7 @@ class GHome extends StatefulWidget {
   State<GHome> createState() => _GHomeState();
 }
 
-class _GHomeState extends State<GHome> {
+class _GHomeState extends State<GHome> with WidgetsBindingObserver {
   bool _isJoyCategoryLoading = true;
   bool _isJoyContentListLoading = true;
   bool _isCourseList1Loading = true;
@@ -66,11 +66,30 @@ class _GHomeState extends State<GHome> {
   @override
   void initState() {
     super.initState();
+     WidgetsBinding.instance.addObserver(this);
 
     _getJoyCategory();
     _getJoyContentList();
     _getCategoryList();
     _getFeaturedVideo();
+  }
+
+  
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if(state == AppLifecycleState.resumed){
+      //pause video
+      print('video is paused');
+      _videoController.pause();
+    }
+     
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   Widget build(BuildContext context) {
