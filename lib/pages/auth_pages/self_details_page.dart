@@ -530,7 +530,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                     color: Colors.white,
                   ),
                   title: new Text(
-                    '${Strings.of(context)?.Camera}',
+                    '${Strings.of(context)?.camera}',
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () async {

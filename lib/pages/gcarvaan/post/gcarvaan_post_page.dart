@@ -23,6 +23,8 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../utils/Strings.dart';
+
 class GCarvaanPostPage extends StatefulWidget {
   List<MultipartFile>? fileToUpload;
   String? desc;
@@ -277,7 +279,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                             color: ColorConstants.TEXT_FIELD_BG,
                                             borderRadius:
                                                 BorderRadius.circular(8)),
-                                        child: Text('Write a post...',
+                                        child: Text('${Strings.of(context)?.writeAPost}',
                                             style: Styles.regular(
                                                 color: ColorConstants.GREY_4,
                                                 size: 14)),
@@ -300,7 +302,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                                     true,
                                               ),
                                               SizedBox(width: 4),
-                                              Text('Photo',
+                                              Text('${Strings.of(context)?.photo}',
                                                   style:
                                                       Styles.regular(size: 14))
                                             ],
@@ -321,7 +323,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                                     true,
                                               ),
                                               SizedBox(width: 4),
-                                              Text('Video',
+                                              Text('${Strings.of(context)?.video}',
                                                   style:
                                                       Styles.regular(size: 14))
                                             ],
@@ -375,7 +377,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
           if (i == 4) break;
           if (File(result.paths[i]!).lengthSync() / 1000000 > 8.0) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("Video/image size can't be large than 5MB"),
+              content: Text('${Strings.of(context)?.imageVideoSizeLarge}'),
             ));
           } else {
             provider.addToList(result.paths[i]);
@@ -384,7 +386,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
 
         if (provider.files!.length > 4) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text("Only 4 images/videos are allowed"),
+            content: Text('${Strings.of(context)?.only4ImagesVideosAllowed}'),
           ));
         }
 
@@ -424,7 +426,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
   Widget _postListWidget(gcarvaanPosts, GCarvaanListModel value) {
     if(value.list?.length == 0 && isGCarvaanPostLoading == false) return  Container(
           margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
-          child: Center(child: Text('No Post Available')));
+          child: Center(child: Text('${Strings.of(context)?.noPostAvailable}')));
     return gcarvaanPosts.length != 0 || value.list?.length != 0
         ? ListView.builder(
             scrollDirection: Axis.vertical,
@@ -813,28 +815,10 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
 
            var seen = Set<GCarvaanPostElement>();
           List<GCarvaanPostElement> uniquelist = gcarvaanPosts!.where((element) => seen.add(element)).toList();
-
           gcarvaanPosts = uniquelist;
-
-          print('current data len is after ${gcarvaanPosts?.length}');
-       
-
-
           model.refreshList(gcarvaanPosts!);
-
-          Log.v("Data first data title is ${model.list?.first.description}");
-
           _refreshController.refreshCompleted();
           _refreshController.loadComplete();
-
-
-          // gcarvaanPosts.forEach((element) {
-          //   download.download(element.profileImage);
-          //   element.multiFileUploads.forEach((data) {
-          //     download.download(data);
-          //   });
-          // });
-
           break;
         case ApiStatus.ERROR:
           isGCarvaanPostLoading = false;

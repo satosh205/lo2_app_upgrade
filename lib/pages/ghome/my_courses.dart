@@ -50,7 +50,7 @@ class _MyCoursesState extends State<MyCourses> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Courses", style: Styles.bold(size: 18)),
+        title: Text('${Strings.of(context)?.MyCourses}', style: Styles.bold(size: 18)),
         centerTitle: false,
         backgroundColor: Colors.white,
         elevation: 0.0,
@@ -289,13 +289,13 @@ class _MyCoursesState extends State<MyCourses> {
                           allowDrawingOutsideViewBox: true,
                         ),
                         Text(
-                            'You do not have any classes yet, Subscribe to a course to get started.')
+                            '${Strings.of(context)?.subscribeToCourseToGetStarted}')
                       ],
                     ),
                   )
                 : Center(
                     child: Text(
-                    errorMessage ?? ' No Active Courses',
+                    errorMessage ?? '${Strings.of(context)?.noActiveCourses}',
                     style: Styles.bold(size: 16),
                   ));
   }

@@ -44,6 +44,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
   void initState() {
     super.initState();
     _getLanguage();
+    setCurrentLanguage();
   }
 
   void setCurrentLanguage() async {
@@ -52,6 +53,10 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
       for (int i = 0; i < myList!.length; i++)
         if (currentLanId == myList?[i].languageId) {
           selected = i;
+           Preference.setString(
+              Preference.LANGUAGE, '${myList?[i].languageCode?.toLowerCase()}');
+          MyApp.setLocale(context, Locale(localeCodes['${myList?[i].englishName?.toLowerCase()}']!));
+
           break;
         } else {
           MyApp.setLocale(context, Locale(localeCodes['english']!));

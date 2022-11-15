@@ -206,7 +206,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                         Padding(
                           padding: const EdgeInsets.only(right: 10.0, left: 10),
                           child: Text(
-                            '${Strings.of(context)?.Camera}',
+                            '${Strings.of(context)?.camera}',
                             style: Styles.semibold(
                                 size: 14, color: ColorConstants.BLACK),
                           ),
@@ -508,14 +508,14 @@ class _CreatePostPageState extends State<CreatePostPage> {
               //if (File(result.paths[i]!).lengthSync() / 1000000 > 5.0) {
               if (File(result.paths[i]!).lengthSync() / 1000000 > 11.0) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Video/image size can't be large than 5MB tess"),
+                  content: Text('${Strings.of(context)?.imageVideoSizeLarge}'),
                 ));
               } else
                 pickedList.add(File(result.paths[i]!));
             } else {
               Utility.showSnackBar(
                   scaffoldContext: context,
-                  message: 'Upload only mp4 videos!!');
+                  message: '${Strings.of(context)?.only4ImagesVideosAllowed}');
             }
           }
         } else {

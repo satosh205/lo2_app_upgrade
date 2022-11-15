@@ -12,7 +12,6 @@ import '../../local/pref/Preference.dart';
 import '../../utils/Log.dart';
 import '../../utils/Strings.dart';
 import '../../utils/Styles.dart';
-import '../../utils/config.dart';
 import '../../utils/widget_size.dart';
 import '../auth_pages/sign_up_screen.dart';
 import '../custom_pages/ScreenWithLoader.dart';
@@ -35,6 +34,7 @@ class _EditSelfDetailsPageState extends State<EditSelfDetailsPage> {
   final fullNameController = TextEditingController();
   final emailController = TextEditingController();
   bool _isLoading = false;
+  Color primaryForeGroundColor = ColorConstants.BLACK;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
 
@@ -42,6 +42,7 @@ class _EditSelfDetailsPageState extends State<EditSelfDetailsPage> {
   void initState() {
     fullNameController.text = widget.name!;
     emailController.text = widget.email!;
+   primaryForeGroundColor =   ColorConstants().primaryForgroundColor();
     super.initState();
   }
 
@@ -67,16 +68,16 @@ class _EditSelfDetailsPageState extends State<EditSelfDetailsPage> {
           backgroundColor: Colors.grey[200],
           appBar: AppBar(
             elevation: 0,
-            leading: BackButton(color: Colors.black),
-            title: Text('Edit profile', style: TextStyle(color: Colors.black, fontSize: 16),),
+            leading: BackButton(color: primaryForeGroundColor),
+            title: Text('${Strings.of(context)?.editProfile}', style: TextStyle(color: primaryForeGroundColor, fontSize: 16),),
             backgroundColor: ColorConstants().primaryColor(),
             actions: [
               IconButton(
                   onPressed: () {
                     AlertsWidget.showCustomDialog(
                         context: context,
-                        title: "Leaving so soon…",
-                        text: "Are you sure you want to exit?",
+                        title:'${Strings.of(context)?.leavingSoSoon}',
+                        text: '${Strings.of(context)?.areYouSureYouWantToExit}',
                         icon: 'assets/images/circle_alert_fill.svg',
                         onOkClick: () async {
                           UserSession.clearSession();
@@ -91,7 +92,7 @@ class _EditSelfDetailsPageState extends State<EditSelfDetailsPage> {
                   },
                   icon: Icon(
                     Icons.logout,
-                    color: Colors.black,
+                    color: primaryForeGroundColor,
                   ))
             ],
           ),
@@ -122,7 +123,7 @@ class _EditSelfDetailsPageState extends State<EditSelfDetailsPage> {
               style: Styles.regular(),
               maxLength: 100,
               decoration: InputDecoration(
-                labelText: 'Name',
+                labelText: '${Strings.of(context)?.name}',
                 hintText: '${Strings.of(context)?.EnterFullName}',
                 helperStyle: Styles.regular(color: ColorConstants.GREY_4),
                 counterText: "",
@@ -152,7 +153,7 @@ class _EditSelfDetailsPageState extends State<EditSelfDetailsPage> {
               controller: emailController,
               style: Styles.regular(),
               decoration: InputDecoration(
-                labelText: 'Email',
+                labelText: '${Strings.of(context)?.email}',
                 hintText: '${Strings.of(context)?.emailAddress}',
                 helperStyle: Styles.regular(color: ColorConstants.GREY_4),
                 counterText: "",
@@ -168,7 +169,7 @@ class _EditSelfDetailsPageState extends State<EditSelfDetailsPage> {
               validator: (value) {
                 print('the value is $value');
                 if (value == '')
-                  return 'Email is required';
+                  return '${Strings.of(context)?.emailIsRequired}';
                           int index = value?.length as int;
 
                     if(value![index-1] == '.') return '${Strings.of(context)?.emailAddressError}';
@@ -199,7 +200,7 @@ class _EditSelfDetailsPageState extends State<EditSelfDetailsPage> {
                       child: Text(
                         '${Strings.of(context)?.updateProfile}',
                         style: Styles.regular(
-                          color: ColorConstants.BLACK,
+                          color: primaryForeGroundColor,
                         ),
                       )),
                 )),

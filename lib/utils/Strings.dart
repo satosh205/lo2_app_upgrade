@@ -150,6 +150,7 @@ class Strings {
       _localizedValues[locale.languageCode]!['coin_history_title'];
 
   String? get logout => _localizedValues[locale.languageCode]!['logout'];
+  String? get editProfile => _localizedValues[locale.languageCode]!['editProfile'];
   String? get editPortfolio =>
       _localizedValues[locale.languageCode]!['edit_portfolio'];
 
@@ -157,6 +158,13 @@ class Strings {
       _localizedValues[locale.languageCode]!['profile_title'];
 
   String? get cancel => _localizedValues[locale.languageCode]!['cancel'];
+  String? get noPostAvailable => _localizedValues[locale.languageCode]!['noPostAvailable'];
+  String? get imageVideoSizeLarge => _localizedValues[locale.languageCode]!['imageVideoSizeLarge'];
+  String? get only4ImagesVideosAllowed => _localizedValues[locale.languageCode]!['only4ImagesVideosAllowed'];
+  String? get writeAPost => _localizedValues[locale.languageCode]!['writeAPost'];
+  String? get photo => _localizedValues[locale.languageCode]!['photo'];
+  String? get video => _localizedValues[locale.languageCode]!['video'];
+  String? get emailIsRequired => _localizedValues[locale.languageCode]!['emailIsRequired'];
 
   String? get takeAPicture =>
       _localizedValues[locale.languageCode]!['take_a_picture'];
@@ -277,6 +285,7 @@ class Strings {
       _localizedValues[locale.languageCode]!['account_settings'];
 
   String? get fAQs => _localizedValues[locale.languageCode]!['FAQs'];
+  String? get faq => _localizedValues[locale.languageCode]!['FAQ'];
 
   String? get contactUs => _localizedValues[locale.languageCode]!['contact_us'];
   String? get changePassword =>
@@ -700,7 +709,7 @@ class Strings {
   String? get ChooseImageDescription =>
       _localizedValues[locale.languageCode]!['choose_image_description'];
   String? get Gallery => _localizedValues[locale.languageCode]!['gallery'];
-  String? get Camera => _localizedValues[locale.languageCode]!['camera'];
+  String? get camera => _localizedValues[locale.languageCode]!['camera'];
 
   String? get ChooseProfileImage =>
       _localizedValues[locale.languageCode]!['choose_profile_image'];
@@ -754,6 +763,17 @@ class Strings {
   String? get pending => _localizedValues[locale.languageCode]!['pending'];
   String? get upcoming => _localizedValues[locale.languageCode]!['upcoming'];
   String? get ongoing => _localizedValues[locale.languageCode]!['Ongoing'];
+
+  String? get deleteAccount => _localizedValues[locale.languageCode]!['deleteAccount'];
+  String? get settingAndAccount => _localizedValues[locale.languageCode]!['settingAndAccount'];
+  String? get enterBrandName => _localizedValues[locale.languageCode]!['enterBrandName'];
+  String? get suggestedBrand => _localizedValues[locale.languageCode]!['suggestedBrand'];
+  String? get pleaseSelectBrand => _localizedValues[locale.languageCode]!['pleaseSelectBrand'];
+  String? get selectTenure => _localizedValues[locale.languageCode]!['selectTenure'];
+  String? get noActiveCourses => _localizedValues[locale.languageCode]!['noActiveCourses'];
+  String? get subscribeToCourseToGetStarted => _localizedValues[locale.languageCode]!['subscribeToCourseToGetStarted'];
+  String? get areYouSureYouWantToExit => _localizedValues[locale.languageCode]!['areYouSureYouWantToExit'];
+  String? get leavingSoSoon => _localizedValues[locale.languageCode]!['leavingSoSoon'];
 
   // String get Completed => _localizedValues[locale.languageCode]['completed'];
 

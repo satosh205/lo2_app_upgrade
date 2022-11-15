@@ -48,7 +48,6 @@ import '../auth_pages/choose_language.dart';
 import '../custom_pages/TapWidget.dart';
 import 'brand_filter_page.dart';
 import 'edit_self_details_page.dart';
-import 'g_portfolio_page.dart';
 import 'package:http/http.dart' as http;
 
 import 'model/BrandModel.dart';
@@ -290,8 +289,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                   onPressed: () {
                     AlertsWidget.showCustomDialog(
                         context: context,
-                        title: "Leaving so soon…",
-                        text: "Are you sure you want to exit?",
+                      title:'${Strings.of(context)?.leavingSoSoon}',
+                        text: '${Strings.of(context)?.areYouSureYouWantToExit}',
                         icon: 'assets/images/circle_alert_fill.svg',
                         onOkClick: () async {
                           UserSession.clearSession();
@@ -430,14 +429,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                     child: Row(
-                      // crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        /*Text(
-                          '${userProfileDataList!.name}',
-                          style: Styles.bold(color: ColorConstants.BLACK, size: 20,),
-                        ),*/
-
                         Container(
                           constraints: BoxConstraints(
                               maxWidth:
@@ -607,7 +600,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                         size: 20,
                                       )),
                                   SizedBox(width: 10),
-                                  Text('FAQ', style: Styles.regular()),
+                                  Text('${Strings.of(context)?.faq}', style: Styles.regular()),
                                   Expanded(child: SizedBox()),
                                   Icon(Icons.arrow_forward_ios, size: 15),
                                 ],
@@ -656,7 +649,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                         title: Align(
                                           alignment: Alignment(-1, 0),
                                           child: Text(
-                                            'Delete Account',
+                                            '${Strings.of(context)?.deleteAccount}',
                                             style:
                                                 TextStyle(color: Colors.white),
                                           ),
@@ -697,7 +690,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                     size: 20,
                                   )),
                               SizedBox(width: 10),
-                              Text('Setting & Account',
+                              Text('${Strings.of(context)?.settingAndAccount}',
                                   style: Styles.regular()),
                               Expanded(child: SizedBox()),
                               Icon(Icons.arrow_forward_ios, size: 15),
@@ -731,7 +724,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                     size: 20,
                                   )),
                               SizedBox(width: 10),
-                              Text('Change Language',
+                              Text('${Strings.of(context)?.changeLanguage}',
                                   style: Styles.regular()),
                               Expanded(child: SizedBox()),
                               Icon(Icons.arrow_forward_ios, size: 15),
@@ -788,7 +781,6 @@ class _UserProfilePageState extends State<UserProfilePage>
 
   Widget _addBrand() {
     void updateValue(value) {
-      print('the updated vaue is $value');
       setState(() {
         selectedBrandPath = value;
       });
@@ -1378,7 +1370,6 @@ class _UserProfilePageState extends State<UserProfilePage>
 
   void showBottomSheetBrandShow() {
     void updateValue(value) {
-      print('the value is $value');
     }
 
     bool nextFlag = false;
@@ -1462,7 +1453,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                     ),
                                     fillColor: Colors.grey,
                                     hintText: brandImageUrl.isEmpty
-                                        ? "Enter brand name"
+                                        ? "${Strings.of(context)?.enterBrandName}"
                                         : "${Strings.of(context)?.brandName}",
                                     //make hint text
                                     hintStyle: TextStyle(
@@ -1474,7 +1465,7 @@ class _UserProfilePageState extends State<UserProfilePage>
 
                                     //create lable
                                     labelText: brandImageUrl.isEmpty
-                                        ? "Enter brand name"
+                                        ? '${Strings.of(context)?.enterBrandName}'
                                         : "${Strings.of(context)?.brandName}",
                                     //lable style
                                     labelStyle: TextStyle(
@@ -1498,7 +1489,6 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                     onCalledFromOutside,
                                                   )));
                                     } else {
-                                      print('else===========');
                                       setSheetState(() {
                                         readOnly = false;
                                         // textContentHide = false;
@@ -1515,7 +1505,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                           Padding(
                               padding: const EdgeInsets.only(
                                   left: 20.0, right: 20.0, top: 10.0),
-                              child: Text('Suggested brand',
+                              child: Text('${Strings.of(context)?.suggestedBrand}',
                                   style: Styles.regular(
                                       size: 12, color: ColorConstants.GREY_4))),
 
@@ -1571,12 +1561,10 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                         loadingProgress) {
                                                       if (loadingProgress ==
                                                           null) {
-                                                        debugPrint(
-                                                            'image loading null');
+                                                        
                                                         return child;
                                                       }
-                                                      debugPrint(
-                                                          'image loading...');
+                                                     
                                                       return const Center(
                                                           child: SizedBox(
                                                               width: 20,
@@ -1589,7 +1577,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                     },
                                                   ),
                                                   onTap: () {
-                                                    Text('Another data');
+                                                    // Text('Another data');
                                                   },
                                                 ),
                                                 new Divider(
@@ -1625,10 +1613,10 @@ class _UserProfilePageState extends State<UserProfilePage>
                                     loadingBuilder:
                                         (context, child, loadingProgress) {
                                       if (loadingProgress == null) {
-                                        debugPrint('image loading null');
+                                        // debugPrint('image loading null');
                                         return child;
                                       }
-                                      debugPrint('image loading...');
+                                      // debugPrint('image loading...');
                                       return const Center(
                                           child: SizedBox(
                                               width: 20,
@@ -1740,7 +1728,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                   AlertsWidget.showCustomDialog(
                                       context: context,
                                       title: "${Strings.of(context)?.error}",
-                                      text: "Please Select Brand",
+                                      text: "${Strings.of(context)?.pleaseSelectBrand}",
                                       icon:
                                           'assets/images/circle_alert_fill.svg',
                                       oKText: '${Strings.of(context)?.ok}',
@@ -1997,7 +1985,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                   child: Padding(
                                       padding: const EdgeInsets.only(
                                           left: 20.0, right: 20.0, top: 20.0),
-                                      child: Text('Select tenure')),
+                                      child: Text('${Strings.of(context)?.selectTenure}')),
                                 ),
                                 SizedBox(
                                   height: 20,
@@ -2911,7 +2899,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                           color: Colors.white,
                         ),
                         title: new Text(
-                          '${Strings.of(context)?.Camera}',
+                          '${Strings.of(context)?.camera}',
                           style: TextStyle(color: Colors.white),
                         ),
                         onTap: () async {
