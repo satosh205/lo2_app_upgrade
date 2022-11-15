@@ -140,8 +140,54 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                           ? __getJoyCategoryWidget(context)
                           : CardLoader(),
 
-                      joyContentListResponse != null
-                          ? Padding(
+                      ValueListenableBuilder(
+                                    valueListenable: box!.listenable(),
+                                    builder: (bc, Box box, child) {
+                                      if (box.get("joyContentListResponse") == null) {
+                                        return Shimmer.fromColors(
+                                          baseColor: Color(0xffe6e4e6),
+                                          highlightColor: Color(0xffeaf0f3),
+                                          child: Container(
+                                            height: MediaQuery.of(context).size.height *
+                                                0.07,
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 10, vertical: 20),
+                                            width: MediaQuery.of(context).size.width,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(6)),
+                                          ),
+                                        );
+                                      } else if (box
+                                          .get("joyContentListResponse")
+                                          .isEmpty) {
+                                        return Container(
+                                          height: 290,
+                                          width: MediaQuery.of(context).size.width,
+                                          child: Center(
+                                            child: Text(
+                                              "There are no libraries available",
+                                              style: Styles.textBold(),
+                                            ),
+                                          ),
+                                        );
+                                      }
+
+                                      joyContentListResponse = box
+                                          .get("joyContentListResponse")
+                                          .map((e) => JoyContentListElement.fromJson(
+                                              Map<String, dynamic>.from(e)))
+                                          .cast<JoyContentListElement>()
+                                          .toList();
+                                      joyContentListView = joyContentListResponse;
+
+                                      if(selectedJoyContentCategoryId != 1)
+                                      {
+                                        joyContentListView = joyContentListView?.where((element) => element.categoryId == selectedJoyContentCategoryId).toList();
+                                      }
+
+// return Text('nice ${joyContentListView?.length} and $selectedJoyContentCategoryId');
+                                      return Padding(
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               child: Visibility(
                                 visible: joyContentListView!.length > 0,
@@ -338,8 +384,8 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                   },
                                 ),
                               ),
-                            )
-                          : SizedBox()
+                            );
+     }   )
 
                       //live stream card
                       // Padding(
