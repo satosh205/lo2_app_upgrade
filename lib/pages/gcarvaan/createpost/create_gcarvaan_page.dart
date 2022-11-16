@@ -216,7 +216,7 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 5.0),
-                                  child: Text('Photo/Video ',
+                                  child: Text('${Strings.of(context)?.photo}/${Strings.of(context)?.video}',
                                       style: Styles.regular(
                                           size: 14,
                                           color: ColorConstants.BLACK)),
@@ -263,7 +263,7 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 5.0),
-                                  child: Text('Camera',
+                                  child: Text('${Strings.of(context)?.camera}',
                                       style: Styles.regular(
                                           size: 14,
                                           color: ColorConstants.BLACK)),
@@ -334,7 +334,6 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                                 .last
                                 .toString();
                             bool isVideo = true;
-                            Log.v('the extension is $firstExtension');
                             if (firstExtension == 'mp4' ||
                                 firstExtension == 'mov') isVideo = true;
                             createPost(menuProvider, isVideo);
@@ -351,7 +350,7 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                           child: Center(
                             child: Text('${Strings.of(context)?.Share} ',
                                 style: Styles.regular(
-                                    size: 16, color: ColorConstants.BLACK)),
+                                    size: 16, color: ColorConstants().primaryForgroundColor())),
                           ),
                         ),
                       ),

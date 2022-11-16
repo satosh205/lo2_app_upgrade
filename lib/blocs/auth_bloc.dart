@@ -245,10 +245,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           yield LoginState(ApiStatus.SUCCESS, response: response);
         } else {
           Log.v("ERROR DATA ::: $response");
-          yield LoginState(ApiStatus.ERROR, error: response.message);
+          yield LoginState(ApiStatus.ERROR,response: response);
         }
       } catch (e) {
-        Log.v("ERROR DATA : $e");
+        Log.v("Expection DATA : $e");
         yield LoginState(ApiStatus.ERROR, error: Strings.somethingWentWrong);
       }
     } 

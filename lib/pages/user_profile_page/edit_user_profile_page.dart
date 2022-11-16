@@ -83,8 +83,8 @@ class _EditUserProfilePageState extends State<EditUserProfilePage>
                   onPressed: () {
                     AlertsWidget.showCustomDialog(
                         context: context,
-                        title: "Leaving so soon…",
-                        text: "Are you sure you want to exit?",
+                      title:'${Strings.of(context)?.leavingSoSoon}',
+                        text: '${Strings.of(context)?.areYouSureYouWantToExit}',
                         icon: 'assets/images/circle_alert_fill.svg',
                         onOkClick: () async {
                           UserSession.clearSession();
@@ -489,7 +489,7 @@ class _EditUserProfilePageState extends State<EditUserProfilePage>
                     color: Colors.white,
                   ),
                   title: new Text(
-                    '${Strings.of(context)?.Camera}',
+                    '${Strings.of(context)?.camera}',
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () async {

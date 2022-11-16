@@ -8,7 +8,6 @@ import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/greels_response.dart';
-import 'package:masterg/data/models/response/home_response/joy_contentList_response.dart';
 import 'package:masterg/data/providers/reels_proivder.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
@@ -212,6 +211,7 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
           return VideoPlayerItem(
             videoUrl: greelsList.list![index].resourcePath,
             size: size,
+            userStatus: greelsList.list![index].userStatus?.toLowerCase(),
             name: greelsList.list![index].name,
             caption: greelsList.list![index].description,
             profileImg: greelsList.list![index].profileImage,
@@ -282,6 +282,7 @@ class VideoPlayerItem extends StatefulWidget {
   final GReelsModel? greelsModel;
   final int? index;
   final int? userID;
+  final String? userStatus;
   VideoPlayerItem(
       {Key? key,
       required this.size,
@@ -299,6 +300,7 @@ class VideoPlayerItem extends StatefulWidget {
       this.createdAt,
       this.index,
       this.userID,
+      this.userStatus,
       this.greelsModel})
       : super(key: key);
 
@@ -489,6 +491,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
                                       children: <Widget>[
                                         LeftPanel(
                                           size: widget.size,
+                                          userStatus : widget.userStatus,
                                           name: "${widget.name}",
                                           caption: "${widget.caption}",
                                           viewCounts: widget.viewCount,

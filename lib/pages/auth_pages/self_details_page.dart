@@ -90,7 +90,9 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
               )),
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.centerFloat,
-              floatingActionButton: Column(
+              floatingActionButton: Visibility(
+                visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
+                child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   InkWell(
@@ -122,7 +124,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
               ),
             ),
           ),
-        ));
+        )));
   }
 
   _makeBody() {
@@ -269,40 +271,46 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                 ),
               ])),
               SizedBox(height: 20),
-              CheckboxListTile(
-                title: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        NextPageRoute(
-                            TermsAndCondition(url: APK_DETAILS['policy_url']),
-                            isMaintainState: false));
-                  },
-                  child: Text.rich(
-                      TextSpan(
-                        children: [
+              Transform.translate(
+                offset: Offset(-28, 0.0),
+                child: CheckboxListTile(
+                  title: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          NextPageRoute(
+                              TermsAndCondition(url: APK_DETAILS['policy_url']),
+                              isMaintainState: false));
+                    },
+                    child: Transform.translate(
+                      offset: const Offset(-10, 0),
+                      child: Text.rich(
                           TextSpan(
-                              text:
-                                  '${Strings.of(context)?.byClickingContinue}',
-                              style: Styles.regular(size: 10)),
-                          TextSpan(
-                            text:
-                                '${Strings.of(context)?.byClickingContinueUnderline}',
-                            style: Styles.bold(
-                                size: 10, color: ColorConstants.GREY_2),
+                            children: [
+                              TextSpan(
+                                  text:
+                                      '${Strings.of(context)?.byClickingContinue}',
+                                  style: Styles.regular(size: 10)),
+                              TextSpan(
+                                text:
+                                    '${Strings.of(context)?.byClickingContinueUnderline}',
+                                style: Styles.bold(
+                                    size: 10, color: ColorConstants.GREY_2),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      textAlign: TextAlign.left),
+                          textAlign: TextAlign.left),
+                    ),
+                  ),
+                  value: checkedValue,
+                  onChanged: (newValue) {
+                    setState(() {
+                      checkedValue = newValue;
+                    });
+                  },
+                  controlAffinity:
+                      ListTileControlAffinity.leading, //  <-- leading Checkbox
                 ),
-                value: checkedValue,
-                onChanged: (newValue) {
-                  setState(() {
-                    checkedValue = newValue;
-                  });
-                },
-                controlAffinity:
-                    ListTileControlAffinity.leading, //  <-- leading Checkbox
               ),
             ],
           ),
@@ -522,7 +530,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                     color: Colors.white,
                   ),
                   title: new Text(
-                    '${Strings.of(context)?.Camera}',
+                    '${Strings.of(context)?.camera}',
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () async {

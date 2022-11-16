@@ -47,6 +47,7 @@ class ApiConstants {
   static const TRACK_ANNOUNCMENT_API = "api/joy/content-tracking";
   static const SUBSCRIBE_PROGRAM = "api/program/subscribe";
   static const TRACK_USER_ACTIVITY = "api/user-track-activity";
+  static const BRAND_SEARCH = "api/master-brand-search";
 
   /// swayam language
 

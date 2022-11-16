@@ -17,7 +17,8 @@ import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/widget_size.dart';
 
 class ChooseLanguage extends StatefulWidget {
-  ChooseLanguage({Key? key}) : super(key: key);
+  final bool showEdulystLogo;
+  ChooseLanguage({Key? key, required this.showEdulystLogo}) : super(key: key);
 
   @override
   _ChooseLanguageState createState() => _ChooseLanguageState();
@@ -43,19 +44,31 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
   void initState() {
     super.initState();
     _getLanguage();
+    setCurrentLanguage();
   }
 
   void setCurrentLanguage() async {
-    setState(() {
-      MyApp.setLocale(context, Locale(localeCodes['english']!));
-      selected = 0;
-    });
+    int? currentLanId = Preference.getInt(Preference.APP_LANGUAGE);
+    if (currentLanId != null)
+      for (int i = 0; i < myList!.length; i++)
+        if (currentLanId == myList?[i].languageId) {
+          selected = i;
+           Preference.setString(
+              Preference.LANGUAGE, '${myList?[i].languageCode?.toLowerCase()}');
+          MyApp.setLocale(context, Locale(localeCodes['${myList?[i].englishName?.toLowerCase()}']!));
+
+          break;
+        } else {
+          MyApp.setLocale(context, Locale(localeCodes['english']!));
+          selected = 0;
+        }
+
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     String appBarImagePath = 'assets/images/${APK_DETAILS['theme_image_url']}';
-    print(appBarImagePath);
     return BlocManager(
       initState: (context) {},
       child: BlocListener<HomeBloc, HomeState>(
@@ -69,117 +82,114 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
               isLoading: _isLoading,
               body: SafeArea(
                   child: Container(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      children: [
-                                                   SizedBox(height:APK_DETAILS['package_name'] == 'com.at.masterg' ? 40 : 20 ),
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: [
+                    SizedBox(
+                        height: APK_DETAILS['package_name'] == 'com.at.masterg'
+                            ? 40
+                            : 20),
+                    Center(
+                      child: Column(
+                        //crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (widget.showEdulystLogo == true)
+                            Transform.scale(
+                                scale: 1.2,
+                                child: appBarImagePath.split('.').last == 'svg'
+                                    ? SvgPicture.asset(
+                                        appBarImagePath,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.asset(
+                                        appBarImagePath,
+                                        height: 150,
+                                        width: 150,
+                                      )),
+                          SizedBox(
+                              height: APK_DETAILS['package_name'] ==
+                                      'com.at.masterg'
+                                  ? 60
+                                  : 10),
+                          if (APK_DETAILS['theme_image_url2'] != "")
+                            APK_DETAILS['theme_image_url2']?.split('.').last ==
+                                    'svg'
+                                ? SvgPicture.asset(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.25,
+                                    'assets/images/${APK_DETAILS['theme_image_url2']}',
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.asset(
+                                    'assets/images/${APK_DETAILS['theme_image_url2']}',
+                                    height: MediaQuery.of(context).size.height *
+                                        0.25,
+                                    // width: 150,
+                                  ),
+                          SizedBox(height: 30),
 
-                        Center(
-                          child: Column(
-                            //crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              appBarImagePath.split('.').last == 'svg'
-                                  ? SvgPicture.asset(
-                                appBarImagePath,
-                                fit: BoxFit.cover,
-                              )
-                                  : Image.asset(
-                                appBarImagePath,
-                                height: 150,
-                                width: 150,
-                              ),
-
-                              SizedBox(height:APK_DETAILS['package_name'] == 'com.at.masterg' ? 60 : 10 ),
-                              Center(
-                                child: Text(
-                                  '${Strings.of(context)?.chooseAppLanguage}',
-                                  style: Styles.bold(size: 18),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              SizedBox(height: 10),
-
-                              //  if(APK_DETAILS['theme_image_url2'] != "")      APK_DETAILS['theme_image_url2']?.split('.').last == 'svg'
-                        //           ? SvgPicture.asset(
-                        //                   height:
-                        //               MediaQuery.of(context).size.height * 0.25,
-                        //       'assets/images/${APK_DETAILS['theme_image_url2']}',
-                        //         fit: BoxFit.cover,
-                        //       )
-                        //           : Image.asset(
-                        //       'assets/images/${APK_DETAILS['theme_image_url2']}',
-                        //           height:
-                        //               MediaQuery.of(context).size.height * 0.25,
-                        //         // width: 150,
-                        //       ),
-                              /*SizedBox(
-                            //height: MediaQuery.of(context).size.height * 0.25,
-                          height: 180,
-                            width: 180,
-                            child: Image.asset('assets/images/signupimage.gif')
-                        ),*/
-
-                         if(APK_DETAILS['theme_image_url2'] != "")      APK_DETAILS['theme_image_url2']?.split('.').last == 'svg'
-                                  ? SvgPicture.asset(
-                                          height:
-                                      MediaQuery.of(context).size.height * 0.25,
-                              'assets/images/${APK_DETAILS['theme_image_url2']}',
-                                fit: BoxFit.cover,
-                              )
-                                  : Image.asset(
-                              'assets/images/${APK_DETAILS['theme_image_url2']}',
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.25,
-                                // width: 150,
-                              ),
-                              
-                              SizedBox(height: 10),
-                              Container(
-                                height: 200,
-                                margin: EdgeInsets.only(bottom:0.0),
-
-                                child: ListView.builder(
-                                  physics: BouncingScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: myList?.length ?? 0,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    return   languageCard(myList![index], index);
-                                  },
-                                ),
-                              ),
-                            ],
+                          Center(
+                            child: Text(
+                              '${Strings.of(context)?.chooseAppLanguage}',
+                              style: Styles.bold(size: 18),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
-                        ),
-
-                        InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SignUpScreen()));
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(left: 12.0, right: 12.0, top: 10),
-                              width: double.infinity,
-                              height: MediaQuery.of(context).size.height *
-                                  WidgetSize.AUTH_BUTTON_SIZE,
-                              decoration: BoxDecoration(
-                                  color: ColorConstants().primaryColor(),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Center(
-                                  child: Text(
-                                '${Strings.of(context)?.continueStr}',
-                                style: Styles.regular(
-                                  color: ColorConstants.WHITE,
+                          SizedBox(height: 10),
+                          Container(
+                              height: 180,
+                              margin: EdgeInsets.symmetric(horizontal: 10),
+                              child: GridView.builder(
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  mainAxisSpacing: 0,
+                                  crossAxisSpacing: 0,
+                                  childAspectRatio: 10 / 4.4,
+                                  crossAxisCount: 2,
                                 ),
+                                itemCount: myList?.length ?? 0,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return languageCard(myList![index], index);
+                                },
                               )),
-                            )),
-
-                      ],
+                        ],
+                      ),
                     ),
-                  )),
+                    if (!widget.showEdulystLogo)
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.2),
+                    InkWell(
+                        onTap: () {
+                          if (widget.showEdulystLogo)
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SignUpScreen()));
+                          else
+                            Navigator.pop(context);
+                        },
+                        child: Container(
+                          margin:
+                              EdgeInsets.only(left: 12.0, right: 12.0, top: 10),
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.height *
+                              WidgetSize.AUTH_BUTTON_SIZE,
+                          decoration: BoxDecoration(
+                              color: ColorConstants().primaryColor(),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Center(
+                              child: Text(
+                            '${Strings.of(context)?.continueStr}',
+                            style: Styles.regular(
+                              color: ColorConstants.WHITE,
+                            ),
+                          )),
+                        )),
+                  ],
+                ),
+              )),
             ),
           );
         }),
@@ -229,9 +239,11 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
         });
       },
       child: Container(
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-          margin: EdgeInsets.all(10),
+          // width: double.infinity,
+          width: MediaQuery.of(context).size.width * 0.4,
+          height: MediaQuery.of(context).size.width * 0.2,
+          // padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+          margin: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
@@ -239,15 +251,41 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                   color: index == selected
                       ? ColorConstants.GREEN
                       : ColorConstants.DARK_GREY)),
-          child: Center(
-              child: Text(
-            '${langauge.name}',
-            style: Styles.regular(
-                size: 18,
-                color: index == selected
-                    ? ColorConstants.GREEN
-                    : ColorConstants.BLACK),
-          ))),
+          child: Stack(
+            children: [
+              Positioned(
+                  left: 5,
+                  top: 5,
+                  child: SvgPicture.asset(
+                    height: 16,
+                    index == selected
+                        ? 'assets/images/selected_lang.svg'
+                        : 'assets/images/unselected_lang.svg',
+                    fit: BoxFit.cover,
+                  )),
+              Center(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '${langauge.title}',
+                    style: Styles.bold(
+                        size: 18,
+                        color: index == selected
+                            ? ColorConstants.GREEN
+                            : ColorConstants.BLACK),
+                  ),
+                  SizedBox(height: 2),
+                  Text(langauge.name ?? '',
+                      style: Styles.regular(
+                      size: 14,
+                        color: ColorConstants.BLACK,
+                      )),
+                ],
+              )),
+            ],
+          )),
     );
   }
 }

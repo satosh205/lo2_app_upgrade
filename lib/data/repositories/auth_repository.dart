@@ -27,9 +27,7 @@ class AuthRepository {
       return user;
     } else {
       Log.v("Fail ====> ${response.body}");
-      return LoginResponse(
-          message:
-              response.body == null ? "Something went wrong:" : response.body);
+      return LoginResponse.fromJson(response.body);
     }
   }
 

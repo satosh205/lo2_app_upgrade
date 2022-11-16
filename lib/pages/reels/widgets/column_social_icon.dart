@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterg/pages/reels/theme/colors.dart';
 
 Widget getAlbum(albumImg) {
@@ -49,23 +50,25 @@ Widget getIcons(icon, count, size, {color = white}) {
   );
 }
 
-Widget getProfile(img) {
-  print(img);
-  return Container(
-    width: 36.56,
-    height: 38.64,
-    decoration: BoxDecoration(
-        // border: Border.all(color: white),
-        shape: BoxShape.circle,
-        image: DecorationImage(
-            image: img.toString().isNotEmpty &&
-                    img != null &&
-                    (img.toString().contains('jpg') ||
-                        img.toString().contains('png') ||
-                        img.toString().contains('jpeg'))
-                ? NetworkImage(img)
-                : NetworkImage(
-                    'https://learningoxygen.com/theme1/images/profile/default.png'),
-            fit: BoxFit.cover)),
-  );
+Widget getProfile(img, bool isActive) {
+  return isActive == img.toString().isNotEmpty &&
+          img != null &&
+          (img.toString().contains('jpg') ||
+              img.toString().contains('png') ||
+              img.toString().contains('jpeg'))
+      ? Container(
+          width: 36.56,
+          height: 38.64,
+          decoration: BoxDecoration(
+              // border: Border.all(color: white),
+              shape: BoxShape.circle,
+              image:
+                  DecorationImage(image: NetworkImage(img), fit: BoxFit.cover)),
+        )
+      : SvgPicture.asset(
+          'assets/images/default_user.svg',
+          width: 36.56,
+          height: 38.64,
+          allowDrawingOutsideViewBox: true,
+        );
 }

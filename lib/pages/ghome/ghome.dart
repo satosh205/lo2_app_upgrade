@@ -45,7 +45,7 @@ class GHome extends StatefulWidget {
   State<GHome> createState() => _GHomeState();
 }
 
-class _GHomeState extends State<GHome> {
+class _GHomeState extends State<GHome> with WidgetsBindingObserver {
   bool _isJoyCategoryLoading = true;
   bool _isJoyContentListLoading = true;
   bool _isCourseList1Loading = true;
@@ -63,9 +63,11 @@ class _GHomeState extends State<GHome> {
   // FlickManager _flickManager;
   Box? box;
 
+
   @override
   void initState() {
     super.initState();
+     WidgetsBinding.instance.addObserver(this);
 
     _getJoyCategory();
     _getJoyContentList();
@@ -73,11 +75,29 @@ class _GHomeState extends State<GHome> {
     _getFeaturedVideo();
   }
 
+  
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    print('the life cycle is $state');
+    if(state == AppLifecycleState.resumed){
+      //pause video
+      _videoController.pause();
+    }
+     
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider<VideoPlayerProvider>(
-            create: (context) => VideoPlayerProvider(true),
+            create: (context) => VideoPlayerProvider(false),
           ),
         ],
         child: Consumer<VideoPlayerProvider>(
@@ -120,8 +140,54 @@ class _GHomeState extends State<GHome> {
                           ? __getJoyCategoryWidget(context)
                           : CardLoader(),
 
-                      joyContentListResponse != null
-                          ? Padding(
+                      ValueListenableBuilder(
+                                    valueListenable: box!.listenable(),
+                                    builder: (bc, Box box, child) {
+                                      if (box.get("joyContentListResponse") == null) {
+                                        return Shimmer.fromColors(
+                                          baseColor: Color(0xffe6e4e6),
+                                          highlightColor: Color(0xffeaf0f3),
+                                          child: Container(
+                                            height: MediaQuery.of(context).size.height *
+                                                0.07,
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 10, vertical: 20),
+                                            width: MediaQuery.of(context).size.width,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(6)),
+                                          ),
+                                        );
+                                      } else if (box
+                                          .get("joyContentListResponse")
+                                          .isEmpty) {
+                                        return Container(
+                                          height: 290,
+                                          width: MediaQuery.of(context).size.width,
+                                          child: Center(
+                                            child: Text(
+                                              "There are no libraries available",
+                                              style: Styles.textBold(),
+                                            ),
+                                          ),
+                                        );
+                                      }
+
+                                      joyContentListResponse = box
+                                          .get("joyContentListResponse")
+                                          .map((e) => JoyContentListElement.fromJson(
+                                              Map<String, dynamic>.from(e)))
+                                          .cast<JoyContentListElement>()
+                                          .toList();
+                                      joyContentListView = joyContentListResponse;
+
+                                      if(selectedJoyContentCategoryId != 1)
+                                      {
+                                        joyContentListView = joyContentListView?.where((element) => element.categoryId == selectedJoyContentCategoryId).toList();
+                                      }
+
+// return Text('nice ${joyContentListView?.length} and $selectedJoyContentCategoryId');
+                                      return Padding(
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               child: Visibility(
                                 visible: joyContentListView!.length > 0,
@@ -318,8 +384,8 @@ class _GHomeState extends State<GHome> {
                                   },
                                 ),
                               ),
-                            )
-                          : SizedBox()
+                            );
+     }   )
 
                       //live stream card
                       // Padding(
@@ -1236,10 +1302,12 @@ class _GHomeState extends State<GHome> {
                                       controller.jumpToPage(index);
                                       selectedJoyContentCategoryId =
                                           joyCategoryList![index].id;
+                                          print('selected id is $selectedJoyContentCategoryId');
 
                                       if (selectedJoyContentCategoryId == 1) {
                                         joyContentListView =
                                             joyContentListResponse;
+                                            print('the list size is ${joyContentListView?.length}');
                                       } else {
                                         joyContentListView =
                                             joyContentListResponse!
@@ -1247,6 +1315,8 @@ class _GHomeState extends State<GHome> {
                                                     element.categoryId ==
                                                     joyCategoryList![index].id)
                                                 .toList();
+                                            print('the list size is ${joyContentListView?.length}');
+
                                       }
                                     });
                                   },
@@ -1839,7 +1909,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
           setState(() {
             isShowPlaying = true;
           });
-          _videoController.play();
+          // _videoController.play();
         }));
     print('===========>>widget.videoUrl3333');
   }

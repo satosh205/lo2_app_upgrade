@@ -106,6 +106,7 @@ class GReelsElement extends ChangeNotifier {
     this.userSubmittedFile,
     this.userSubmittedMultipleFile,
     this.thumbnailUrl,
+    this.userStatus
   });
 
   int? id;
@@ -124,6 +125,7 @@ class GReelsElement extends ChangeNotifier {
   String? tag;
   int? likeCount;
   int? programContentId;
+  String? userStatus;
   int? startDate;
   int? endDate;
   int? isMultilingual;
@@ -154,6 +156,7 @@ class GReelsElement extends ChangeNotifier {
         updatedAt: json["updated_at"],
         updatedBy: json["updated_by"],
         status: json["status"],
+        userStatus : json['user_status'],
         parentId: json["parent_id"],
         categoryId: json["category_id"],
         contentType: json["content_type"],
@@ -201,6 +204,7 @@ class GReelsElement extends ChangeNotifier {
         "updated_at": updatedAt,
         "updated_by": updatedBy,
         "status": status,
+        "user_status" : userStatus,
         "parent_id": parentId,
         "category_id": categoryId,
         "content_type": contentType,

@@ -83,7 +83,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                     margin: EdgeInsets.only(
                         left: 20, right: 10, top: 10, bottom: 10),
                     child: Text(
-                      'Deactivate your account insted of deleting?',
+                      'Deactivate your account instead of deleting?',
                       style: Styles.bold(size: 16),
                       textAlign: TextAlign.center,
                     )),
@@ -96,7 +96,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                   child: infoCard(
                       Icons.visibility,
                       'Deactivating your account is temporary',
-                      'Your profile, photos, comments and likes will be hidden until you enable it by logging back in.',
+                      'Your profile and learning content will be temporary hidden.',
                       selected: selectedOption == 1),
                 ),
                 InkWell(
@@ -107,132 +107,122 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                     child: infoCard(
                         Icons.info_sharp,
                         'Deleting your account is permanent',
-                        'Your profile, photos, videos, comments, likes and followers will be permanently deleted.',
+                        'Your profile (email, name, mobile no.) will be permanently deleted.',
                         selected: selectedOption == 2)),
                 Expanded(child: SizedBox()),
                 CupertinoButton(
-                
-                    color:selectedOption != 0 ?  ColorConstants().primaryColor() : ColorConstants.GREY_4,
+                    color: selectedOption != 0
+                        ? ColorConstants().primaryColor()
+                        : ColorConstants.GREY_4,
                     child: Text(
                       'Continue',
-                      style:
-                          Styles.regular(size: 12, color:selectedOption != 0 ? ColorConstants.WHITE:  ColorConstants.GREY_3),
+                      style: Styles.regular(
+                          size: 12,
+                          color: selectedOption != 0
+                              ? ColorConstants.WHITE
+                              : ColorConstants.GREY_3),
                     ),
                     onPressed: () {
-                      if(selectedOption == 1)
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Dialog(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.0)),
-                                child: Container(
-                                  height: 230,
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
-                                  decoration: BoxDecoration(),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text('Are you sure you want to delete your account?',
-                                          style: Styles.bold(),
-                                          textAlign: TextAlign.center),
-                                      SizedBox(height: 10),
-                                      // Text(
-                                      //   'You\'re requesting to delete. You can stop the deletion process by logging back in before 27 Octboer 2022.',
-                                      //   textAlign: TextAlign.center,
-                                      // ),
-                                      Divider(),
-                                      InkWell(
-                                        onTap: () {
-                                          // Navigator.push(
-                                          //     context,
-                                          //     MaterialPageRoute(
-                                          //         builder: (context) =>
-                                          //             ChooseOptionDeletion()));
-
-                                          deActivateAccount();
-                                        },
-                                        child: Text(
-                                          'Continue deleting account',
-                                          textAlign: TextAlign.center,
-                                          style: Styles.bold(
-                                              color: ColorConstants.RED),
-                                        ),
-                                      ),
-                                      Divider(),
-                                      SizedBox(height: 10),
-                                      InkWell(
+                      if (selectedOption == 2)
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Dialog(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(20.0)),
+                                  child: Container(
+                                    height: 230,
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
+                                    decoration: BoxDecoration(),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                            'Are you sure you want to delete your account?',
+                                            style: Styles.bold(),
+                                            textAlign: TextAlign.center),
+                                        SizedBox(height: 10),
+                                        Divider(),
+                                        InkWell(
                                           onTap: () {
-                                            Navigator.pop(context);
+                                            deleteAccount();
                                           },
-                                          child: Text('Cancel',
-                                              style: Styles.regular(size: 14)))
-                                    ],
-                                  ),
-                                ));
-
-                          
-                          });
-
-                          else if(selectedOption == 2){
-                            showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Dialog(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.0)),
-                                child: Container(
-                                  height: 230,
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
-                                  decoration: BoxDecoration(),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text('Are you sure you want to deactivate your account?',
-                                          style: Styles.bold(),
-                                          textAlign: TextAlign.center),
-                                      SizedBox(height: 10),
-                                      // Text(
-                                      //   'You\'re requesting to delete. You can stop the deletion process by logging back in before 27 Octboer 2022.',
-                                      //   textAlign: TextAlign.center,
-                                      // ),
-                                      Divider(),
-                                      InkWell(
-                                        onTap: () {
-                                          // Navigator.push(
-                                          //     context,
-                                          //     MaterialPageRoute(
-                                          //         builder: (context) =>
-                                          //             ChooseOptionDeletion()));
-
-                                          deleteAccount();
-                                        },
-                                        child: Text(
-                                          'Continue deactivating account',
-                                          textAlign: TextAlign.center,
-                                          style: Styles.bold(
-                                              color: ColorConstants.RED),
+                                          child: Text(
+                                            'Continue deleting account',
+                                            textAlign: TextAlign.center,
+                                            style: Styles.bold(
+                                                color: ColorConstants.RED),
+                                          ),
                                         ),
-                                      ),
-                                      Divider(),
-                                      SizedBox(height: 10),
-                                      InkWell(
+                                        Divider(),
+                                        SizedBox(height: 10),
+                                        InkWell(
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text('Cancel',
+                                                style:
+                                                    Styles.regular(size: 14)))
+                                      ],
+                                    ),
+                                  ));
+                            });
+                      else if (selectedOption == 1) {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Dialog(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(20.0)),
+                                  child: Container(
+                                    height: 230,
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
+                                    decoration: BoxDecoration(),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                            'Are you sure you want to deactivate your account?',
+                                            style: Styles.bold(),
+                                            textAlign: TextAlign.center),
+                                        SizedBox(height: 10),
+                                        Divider(),
+                                        InkWell(
                                           onTap: () {
-                                            Navigator.pop(context);
+                                            deActivateAccount();
                                           },
-                                          child: Text('Cancel',
-                                              style: Styles.regular(size: 14)))
-                                    ],
-                                  ),
-                                ));
-                          });
-                          }
+                                          child: Text(
+                                            'Continue deactivating account',
+                                            textAlign: TextAlign.center,
+                                            style: Styles.bold(
+                                                color: ColorConstants.RED),
+                                          ),
+                                        ),
+                                        Divider(),
+                                        SizedBox(height: 10),
+                                        InkWell(
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text('Cancel',
+                                                style:
+                                                    Styles.regular(size: 14)))
+                                      ],
+                                    ),
+                                  ));
+                            });
+                      }
                     }),
-               
                 SizedBox(
                   height: 20,
                 )
@@ -311,7 +301,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
             title: "",
             text: '${removeState.response?.data![0]}',
             icon: 'assets/images/circle_alert_fill.svg',
-            showCancel : false,
+            showCancel: false,
             onOkClick: () async {
               UserSession.clearSession();
               await Hive.deleteFromDisk();
