@@ -79,6 +79,7 @@ class ListElement {
     this.image,
     this.isSelected,
     this.video,
+    this.parentId,
   });
 
   int? id;
@@ -93,6 +94,7 @@ class ListElement {
   String? image;
   int? isSelected;
   String? video;
+  int? parentId;
 
   factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
       id: json["id"],
@@ -106,7 +108,9 @@ class ListElement {
       sectionType: json["section_type"],
       image: json["image"],
       isSelected: json["is_selected"],
-      video: json['video']);
+      video: json['video'],
+      parentId: json['parent_id']
+      );
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -120,6 +124,7 @@ class ListElement {
         "section_type": sectionType,
         "image": image,
         "is_selected": isSelected,
-        "video": video
+        "video": video,
+        "parent_id" : parentId
       };
 }

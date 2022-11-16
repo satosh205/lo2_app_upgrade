@@ -1302,10 +1302,12 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                       controller.jumpToPage(index);
                                       selectedJoyContentCategoryId =
                                           joyCategoryList![index].id;
+                                          print('selected id is $selectedJoyContentCategoryId');
 
                                       if (selectedJoyContentCategoryId == 1) {
                                         joyContentListView =
                                             joyContentListResponse;
+                                            print('the list size is ${joyContentListView?.length}');
                                       } else {
                                         joyContentListView =
                                             joyContentListResponse!
@@ -1313,6 +1315,8 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                                     element.categoryId ==
                                                     joyCategoryList![index].id)
                                                 .toList();
+                                            print('the list size is ${joyContentListView?.length}');
+
                                       }
                                     });
                                   },

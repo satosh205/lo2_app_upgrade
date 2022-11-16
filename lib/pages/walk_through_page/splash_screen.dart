@@ -3,6 +3,7 @@ import 'package:entry/entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive/hive.dart';
 import 'package:masterg/blocs/auth_bloc.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/pages/swayam_pages/login_screen.dart';
@@ -39,6 +40,25 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
   @override
   void initState() {
     super.initState();
+    actionOnOffline();
+  }
+
+  void actionOnOffline() async {
+    bool isConnected = await Utility.checkNetwork();
+    if (isConnected == false) {
+      var box = Hive.box("content");
+      dynamic resp = box.get('bottomMenu');
+      await Future.delayed(Duration(seconds: 2));
+
+      Navigator.pushAndRemoveUntil(
+          context,
+          NextPageRoute(
+              homePage(
+                bottomMenu: resp,
+              ),
+              isMaintainState: true),
+          (route) => false);
+    }
   }
 
   @override
@@ -123,7 +143,8 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
                     showCancel: false,
                     onOkClick: () async {
                       launchUrl(Uri.parse(
-                          'https://play.google.com/store/apps/details?id='+APK_DETAILS['package_name']!));
+                          'https://play.google.com/store/apps/details?id=' +
+                              APK_DETAILS['package_name']!));
 
                       _moveToNext();
                     });
@@ -139,7 +160,8 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
                     showCancel: true,
                     onOkClick: () {
                       launchUrl(Uri.parse(
-                          'https://play.google.com/store/apps/details?id='+APK_DETAILS['package_name']!));
+                          'https://play.google.com/store/apps/details?id=' +
+                              APK_DETAILS['package_name']!));
 
                       _moveToNext();
                     },
@@ -260,7 +282,11 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
               context, NextPageRoute(LoginScreen()), (route) => false);
         else
           Navigator.pushAndRemoveUntil(
-              context, NextPageRoute(ChooseLanguage(showEdulystLogo: true,)), (route) => false);
+              context,
+              NextPageRoute(ChooseLanguage(
+                showEdulystLogo: true,
+              )),
+              (route) => false);
       } else {
         await Future.delayed(Duration(seconds: 2));
         Navigator.pushAndRemoveUntil(

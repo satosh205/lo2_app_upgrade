@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hive/hive.dart';
 import 'package:masterg/data/api/api_constants.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
@@ -27,6 +28,8 @@ import 'package:masterg/utils/config.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import '../custom_pages/custom_widgets/NextPageRouting.dart';
 
 class homePage extends StatefulWidget {
   final index;
@@ -240,8 +243,25 @@ class _homePageState extends State<homePage> {
             ? AppBar(
                 automaticallyImplyLeading: false,
                 leading: IconButton(
-                  onPressed: () {
+                  onPressed: () async{
                     // _scaffoldKey.currentState?.openDrawer();
+                   var box = Hive.box("content");
+      // List<Menu> resp = box.get('bottomMenu');
+      // dynamic resp =  Data.fromJson(box.get('bottomMenu'));
+      await Future.delayed(Duration(seconds: 2));
+      print('the response is ${box.get('bottomMenu')}');
+            // resp.menu?.sort((a, b) => a.inAppOrder!.compareTo(b.inAppOrder!));
+
+
+      // Navigator.pushAndRemoveUntil(
+      //     context,
+      //     NextPageRoute(
+      //         homePage(
+      //           bottomMenu: resp.menu,
+      //         ),
+      //         isMaintainState: true),
+      //     (route) => false);
+                    
                   },
                   // icon: Image.asset(
                   //         'assets/images/edulyst_logo_appbar.png',

@@ -226,8 +226,10 @@ class _BrandFilterPageState extends State<BrandFilterPage> {
     //List<AddressModel> addressListData = new List<AddressModel>();
     addressListData.clear();
     String url =
-        'https://qa.learningoxygen.com/api/master-brand-search?key=$strBrandName';
+        '${ApiConstants().PRODUCTION_BASE_URL()}/${ApiConstants.BRAND_SEARCH}?key=$strBrandName';
     //final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
+    print('====> Calling api $url');
+   
     final response = await http.post(
       Uri.parse(url),
       headers: {
@@ -235,6 +237,8 @@ class _BrandFilterPageState extends State<BrandFilterPage> {
         ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
       },
     );
+
+    
     Map parsedJson = json.decode(response.body);
     if (response.statusCode == 200) {
       flagIndicator = false;

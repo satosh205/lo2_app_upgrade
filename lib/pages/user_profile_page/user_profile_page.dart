@@ -2682,7 +2682,8 @@ class _UserProfilePageState extends State<UserProfilePage>
   Future<List<BrandModel>> fetchProducts(String strBrandName) async {
     addressListData.clear();
     String url =
-        'https://qa.learningoxygen.com/api/master-brand-search?key= &all_data=1';
+        '${ApiConstants().PRODUCTION_BASE_URL()}/${ApiConstants.BRAND_SEARCH}?key= &all_data=1';
+        print('====> Calling api $url');
     final response = await http.post(
       Uri.parse(url),
       headers: {

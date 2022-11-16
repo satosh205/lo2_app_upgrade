@@ -32,14 +32,17 @@ class _InterestPageState extends State<InterestPage> {
   List<String>? interestMapResponse;
   List<ListElement>? programs_list;
   List<int?> selectProgramId = [];
+  List<int?> selectProgramParentId = [];
   List<int> selectedPrograms = [];
   List<ListElement> joyCategoryList = [];
   bool isUpdating = false;
   List<Menu>? menuList;
+  Color foregroundColor = ColorConstants.BLACK;
 
   @override
   void initState() {
     super.initState();
+    foregroundColor = ColorConstants().primaryForgroundColor();
     _getInterestPrograms();
   }
 
@@ -75,10 +78,10 @@ class _InterestPageState extends State<InterestPage> {
             child: Scaffold(
               appBar: AppBar(
                 backgroundColor: ColorConstants().primaryColor(),
-                leading: BackButton(color: Colors.black),
+                leading: BackButton(color: foregroundColor),
                 title: Text(
                   '${Strings.of(context)?.ChooseYourInterests}',
-                  style: Styles.semibold(),
+                  style: Styles.semibold(color: foregroundColor),
                 ),
                 elevation: 0,
                 automaticallyImplyLeading:
@@ -127,16 +130,23 @@ class _InterestPageState extends State<InterestPage> {
                                     child: InkWell(
                                         onTap: () {
                                           var parameter = '';
-                                          print(selectProgramId);
-                                          selectProgramId.forEach((element) {
+                                          var localId = '';
+                                          print(selectProgramParentId);
+                                          selectProgramParentId.forEach((element) {
                                             parameter +=
+                                                element.toString() + ',';
+                                          });
+                                          selectProgramId.forEach((element) {
+                                            localId +=
                                                 element.toString() + ',';
                                           });
                                           parameter = parameter.substring(
                                               0, parameter.length - 1);
+                                                localId = localId.substring(
+                                              0, localId.length - 1);
                                           Preference.setString(
                                               'interestCategory',
-                                              '${parameter}');
+                                              '$localId');
                                           _mapInterest(parameter);
                                         },
                                         child: Container(
@@ -156,7 +166,7 @@ class _InterestPageState extends State<InterestPage> {
                                               child: Text(
                                                   '${Strings.of(context)?.continueStr}',
                                                   style: Styles.regular(
-                                                    color: ColorConstants.BLACK,
+                                                    color: foregroundColor,
                                                   ))),
                                         )),
                                   ),
@@ -234,9 +244,18 @@ class _InterestPageState extends State<InterestPage> {
               if (programs_list![i].isSelected == 1) {
                 joyCategoryList.add(programs_list![i]);
                 setState(() {
-                  selectProgramId.contains(programs_list![i].id)
-                      ? selectProgramId.remove(programs_list![i].id)
-                      : selectProgramId.add(programs_list![i].id);
+                  // selectProgramId.contains(programs_list![i].id)
+                  //     ? selectProgramId.remove(programs_list![i].id)
+                  //     : selectProgramId.add(programs_list![i].id);
+
+                    if(selectProgramId.contains(programs_list![i].id)){
+selectProgramId.remove(programs_list![i].id);
+selectProgramParentId.remove(programs_list![i].parentId);
+            }
+            else{
+selectProgramId.add(programs_list![i].id);
+selectProgramParentId.add(programs_list![i].parentId);
+            }
                 });
               }
             }
@@ -337,15 +356,24 @@ class _InterestPageState extends State<InterestPage> {
     for (int i = 0; i < programs_list!.length; i++)
       yield InkWell(
         onTap: () {
-          if (joyCategoryList.contains(programs_list![i]))
-            joyCategoryList.add(programs_list![i]);
-          else
-            joyCategoryList.remove(programs_list![i]);
+          // if (joyCategoryList.contains(programs_list![i]))
+          //   joyCategoryList.add(programs_list![i]);
+          // else
+          //   joyCategoryList.remove(programs_list![i]);
 
           setState(() {
-            selectProgramId.contains(programs_list![i].id)
-                ? selectProgramId.remove(programs_list![i].id)
-                : selectProgramId.add(programs_list![i].id);
+            // selectProgramId.contains(programs_list![i].id)
+            //     ? selectProgramId.remove(programs_list![i].id)
+            //     : selectProgramId.add(programs_list![i].id);
+
+            if(selectProgramId.contains(programs_list![i].id)){
+selectProgramId.remove(programs_list![i].id);
+selectProgramParentId.remove(programs_list![i].parentId);
+            }
+            else{
+selectProgramId.add(programs_list![i].id);
+selectProgramParentId.add(programs_list![i].parentId);
+            }
           });
         },
         child: Padding(

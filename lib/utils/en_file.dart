@@ -352,6 +352,8 @@ const EN_TEXT = {
   'only4ImagesVideosAllowed' : 'Only 4 images/videos are allowed',
   'noPostAvailable' : 'No Post Available',
   'enterOtp': 'Enter otp',
+  'noActiveCourses' : 'No active courses',
+
 
 
 };

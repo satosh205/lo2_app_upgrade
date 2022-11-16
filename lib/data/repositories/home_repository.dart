@@ -528,10 +528,9 @@ class HomeRepository {
       Log.v("RESPONSE DATA : ${response.body}");
       JoyConentListResponse joyConentListResponse =
           JoyConentListResponse.fromJson(response.body);
-
       var box = Hive.box("content");
       box.put("joyContentListResponse",
-          joyConentListResponse.data!.list!.map((e) => e.toJson()).toList());
+          joyConentListResponse.data!.list?.map((e) => e.toJson()).toList());
 
       return joyConentListResponse;
     } else {
@@ -675,8 +674,11 @@ class HomeRepository {
   Future<BottomBarResponse> bottombarResponse() async {
     final response = await homeProvider.bottombarResponse();
     if (response!.success) {
-      Log.v("List Portfoio DATA : ${response.body}");
+      Log.v("Bttom Menu DATA : ${response.body}");
       BottomBarResponse resp = BottomBarResponse.fromJson(response.body);
+       var box = Hive.box("content");
+      box.put("bottomMenu",
+          resp.data?.menu?.map((e) => e.toJson()).toList());
 
       return resp;
     } else {

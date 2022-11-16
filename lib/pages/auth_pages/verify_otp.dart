@@ -132,7 +132,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
         case ApiStatus.SUCCESS:
           Log.v("Success....................");
           print('=================OTP');
-          Navigator.of(context).pop();
+          // Navigator.of(context).pop();
           _isLoading = false;
           break;
 
