@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/resource/colors.dart';
 
 import '../../../utils/Styles.dart';
@@ -41,7 +42,7 @@ class _ReadMoreTextState extends State<ReadMoreText> {
               });
             },
             child: Text(
-              isExpanded ? 'See less' : '...See more',
+              isExpanded ? '${Strings.of(context)?.seeLess}' : '...${Strings.of(context)?.seeMore}',
               style: Styles.regular(size: 14, color: ColorConstants.GREY_3),
             ),
           ),

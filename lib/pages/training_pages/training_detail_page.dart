@@ -207,7 +207,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
 
     if (selectedType == 'Assignment' && selectedContentId != null) {
       if (selectedData?.totalAttempts == 0)
-        title = 'Start Assignment';
+        title = '${Strings.of(context)?.startAssignment}';
       else
         title = 'Re-Submit/ Review';
 
@@ -256,7 +256,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
         isButtonActive = false;
       }
     } else if (selectedType == 'Notes' && selectedContentId != null) {
-      title = 'View Notes';
+      title = '${Strings.of(context)?.viewNote}s';
     } else if (selectedType == 'Videos' && selectedContentId != null) {
       title = 'Start Video';
     } else if (selectedType == 'Quiz' && selectedContentId != null) {
@@ -525,7 +525,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                           .spaceBetween,
                                                   children: [
                                                     Text(
-                                                      'Submit before: ${Utility.convertDateFromMillis(selectedData?.endDate, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
+                                                      '${Strings.of(context)?.submitBefore}: ${Utility.convertDateFromMillis(selectedData?.endDate, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
                                                       // '${selectedType}',
                                                       style: Styles.bold(
                                                           size: 14,
@@ -822,7 +822,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                         ? Center(child: CircularProgressIndicator())
                         : Center(
                             child: Text(
-                            'No Content found',
+                            '${Strings.of(context)?.noContentFound}',
                             style: Styles.regular(),
                           )),
                   ),
@@ -847,7 +847,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
               children: [
                 Text(
                     (selectedType == 'Classes' || selectedType == 'Videos')
-                        ? 'Now playing'
+                        ? '${Strings.of(context)?.nowPlaying}'
                         : selectedType,
                     style: Styles.regular(
                       size: 14,

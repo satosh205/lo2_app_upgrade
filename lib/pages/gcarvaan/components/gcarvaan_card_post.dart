@@ -285,7 +285,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                       color: Colors.white,
                                     ),
                                     title: new Text(
-                                      'Report this post',
+                                      '${Strings.of(context)?.reportThisPost}',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onTap: () {
@@ -303,7 +303,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                       color: Colors.white,
                                     ),
                                     title: new Text(
-                                      'Remove/Hide post',
+                                      '${Strings.of(context)?.removeHidePost}',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onTap: () {
@@ -327,7 +327,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                       color: Colors.white,
                                     ),
                                     title: new Text(
-                                      'Delete this post',
+                                      '${Strings.of(context)?.deleteThisPost}',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onTap: ()async {
@@ -336,8 +336,8 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                       
                           AlertsWidget.showCustomDialog(
                         context: context,
-                        title: "Delete Post!",
-                     text: "Are you sure you want to Delete.",
+                        title: "${Strings.of(context)?.deletePost}!",
+                     text: "${Strings.of(context)?.areYouSureDelete}",
                         icon: 'assets/images/circle_alert_fill.svg',
                         onOkClick: () async {
                         deletePost(widget.contentId);

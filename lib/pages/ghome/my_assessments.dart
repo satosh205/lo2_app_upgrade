@@ -389,7 +389,7 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
                                     size: 12, color: Colors.black)),
                             SizedBox(height: 5),
                             Text(
-                                'Submit before: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
+                                '${Strings.of(context)?.submitBefore}: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
                                 style: Styles.regular(size: 12))
                           ] else ...[
                             SizedBox(height: 5),
@@ -399,7 +399,7 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
                                     size: 12, color: Colors.black)),
                             SizedBox(height: 5),
                             Text(
-                                'Submit before: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
+                                '${Strings.of(context)?.submitBefore}: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
                                 style: Styles.regular(size: 12)),
                           ],
                         ]),

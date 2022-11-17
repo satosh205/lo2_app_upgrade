@@ -1220,7 +1220,7 @@ if(APK_DETAILS['package_name'] == 'com.learn_build')...[
                     style: Styles.semibold(size: 12, color: ColorConstants.YELLOW)),
                 Row(
                   children: [
-                    Text('${yourCourses.enrolmentCount} Enrollments',
+                    Text('${yourCourses.enrolmentCount} ${Strings.of(context)?.enrollments}',
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         softWrap: false,
@@ -1292,7 +1292,7 @@ if(APK_DETAILS['package_name'] == 'com.learn_build')...[
         //           Row(
         //             mainAxisAlignment: MainAxisAlignment.start,
         //             children: [
-        //               Text('${yourCourses.enrolmentCount} Enrollments',
+        //               Text('${yourCourses.enrolmentCount} ${Strings.of(context)?.enrollments}',
         //                   style: Styles.regular(size: 12)),
         //               Row(
         //                 children: [
@@ -1337,7 +1337,7 @@ if(APK_DETAILS['package_name'] == 'com.learn_build')...[
 
       AlertsWidget.showCustomDialog(
           context: context,
-          title: "Approval Request has been sent,",
+          title: "Approval ${Strings.of(context)?.request} has been sent,",
           text: "You will be assigned to this course soon!!",
           icon: 'assets/images/circle_alert_fill.svg',
           showCancel: false,

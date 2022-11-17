@@ -4,8 +4,6 @@ import 'package:masterg/data/providers/mg_assessment_detail_provioder.dart';
 import 'package:masterg/pages/custom_pages/TapWidget.dart';
 import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
-import 'package:masterg/pages/training_pages/assessment_attempt_page.dart';
-import 'package:masterg/pages/training_pages/assessment_review_page.dart';
 import 'package:masterg/pages/training_pages/new_screen/assessment_attempt_page.dart';
 import 'package:masterg/pages/training_pages/new_screen/assessment_review_page.dart';
 import 'package:masterg/utils/Strings.dart';
@@ -28,12 +26,12 @@ class MgAssessmentDetailPage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: ColorConstants.WHITE,
       body: assessmentDetailProvider.assessmentResponse != null
-          ? _buildBody()
+          ? _buildBody(context)
           : CustomProgressIndicator(true, ColorConstants.WHITE),
     ));
   }
 
-  _buildBody() {
+  _buildBody(context) {
     return Container(
       height: MediaQuery.of(mContext!).size.height,
       width: MediaQuery.of(mContext!).size.width,
@@ -68,7 +66,7 @@ class MgAssessmentDetailPage extends StatelessWidget {
                 ],
               ),
             ),
-            _belowTitle(assessmentDetailProvider),
+            _belowTitle(assessmentDetailProvider, context),
             _body(),
           ],
         ),
@@ -76,7 +74,7 @@ class MgAssessmentDetailPage extends StatelessWidget {
     );
   }
 
-  _belowTitle(MgAssessmentDetailProvider assessmentProvider) {
+  _belowTitle(MgAssessmentDetailProvider assessmentProvider, context) {
     int attempLeft = assessmentDetailProvider
             .assessmentResponse!.data!.instruction!.details!.attemptAllowed! -
         assessmentDetailProvider
@@ -91,7 +89,7 @@ class MgAssessmentDetailPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                  'Submit before: '
+                  '${Strings.of(context)?.submitBefore}: '
                   '${Utility.convertDateFromMillis(assessmentProvider.assessments.endDate!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
                   style:
                       Styles.semibold(size: 14, color: ColorConstants.BLACK)),

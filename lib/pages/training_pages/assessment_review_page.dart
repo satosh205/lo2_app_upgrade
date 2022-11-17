@@ -741,10 +741,10 @@ class _TestReviewPageState extends State<TestReviewPage> {
   //                       borderRadius: BorderRadius.only(
   //                         topLeft: Radius.circular(5),
   //                         bottomLeft: Radius.circular(5),
-  //                         bottomRight: testAttemptBean.question.marks == 0.0
+  //                         bottomRight: testAttemptBean.question.${Strings.of(context)?.marks} == 0.0
   //                             ? Radius.circular(5)
   //                             : Radius.circular(0),
-  //                         topRight: testAttemptBean.question.marks == 0.0
+  //                         topRight: testAttemptBean.question.${Strings.of(context)?.marks} == 0.0
   //                             ? Radius.circular(5)
   //                             : Radius.circular(0),
   //                       ),
@@ -777,7 +777,7 @@ class _TestReviewPageState extends State<TestReviewPage> {
   //                   ),
   //           ),
   //           Visibility(
-  //             visible: testAttemptBean.question.marks != 0.0,
+  //             visible: testAttemptBean.question.${Strings.of(context)?.marks} != 0.0,
   //             child: testAttemptBean.question.questionTypeId == "6"
   //                 ? Container(
   //                     height: 35,
@@ -803,7 +803,7 @@ class _TestReviewPageState extends State<TestReviewPage> {
   //                     ),
   //                     child: Center(
   //                       child: Text(
-  //                         "${testAttemptBean.question.analytics.score}/${testAttemptBean.question.marks}",
+  //                         "${testAttemptBean.question.analytics.score}/${testAttemptBean.question.${Strings.of(context)?.marks}}",
   //                         style: testAttemptBean.question.questionTypeId == "6"
   //                             ? Styles.correctGreen()
   //                             : testAttemptBean.question.analytics.isCorrect
@@ -839,7 +839,7 @@ class _TestReviewPageState extends State<TestReviewPage> {
   //                         ),
   //                         child: Center(
   //                           child: Text(
-  //                             "${testAttemptBean.question.analytics.score}/${testAttemptBean.question.marks}",
+  //                             "${testAttemptBean.question.analytics.score}/${testAttemptBean.question.${Strings.of(context)?.marks}}",
   //                             style: testAttemptBean.question.questionTypeId ==
   //                                     "6"
   //                                 ? Styles.correctGreen()

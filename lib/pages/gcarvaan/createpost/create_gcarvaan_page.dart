@@ -166,7 +166,7 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                         color: ColorConstants.GREY,
                       ),
                     )),*/
-                    //Text('Create Post', style: Styles.textExtraBold()),
+                    //Text('${Strings.of(context)?.create} Post', style: Styles.textExtraBold()),
                     //text field with grey background height
                     Container(
                       margin: EdgeInsets.only(top: size.height * 0.02),
@@ -659,8 +659,8 @@ class _ShowReadyToPostState extends State<ShowReadyToPost> {
 
                           AlertsWidget.showCustomDialog(
                               context: context,
-                              title: "Delete Post!",
-                              text: "Are you sure you want to Delete.",
+                              title: "${Strings.of(context)?.deletePost}!",
+                              text: "${Strings.of(context)?.areYouSureDelete}",
                               icon: 'assets/images/circle_alert_fill.svg',
                               onOkClick: () async {
                                 widget.provider!.removeFromList(index);
@@ -671,7 +671,7 @@ class _ShowReadyToPostState extends State<ShowReadyToPost> {
                               });
                           // AlertsWidget.alertWithOkCancelBtn(
                           //   context: context,
-                          //   text: "Are you sure you want to Delete.",
+                          //   text: "${Strings.of(context)?.areYouSureDelete}",
                           //   title: "Alert!",
                           //   okText: "Yes",
                           //   cancelText: "No",

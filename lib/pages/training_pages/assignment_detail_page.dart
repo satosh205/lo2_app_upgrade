@@ -522,7 +522,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Submit before: ${'${Utility.convertDateFromMillis(assignmentDetailProvider.assignment!.endDate!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}'}',
+            '${Strings.of(context)?.submitBefore}: ${'${Utility.convertDateFromMillis(assignmentDetailProvider.assignment!.endDate!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}'}',
             style: Styles.bold(size: 14, color: ColorConstants.BLACK),
           ),
           _size(height: 10),

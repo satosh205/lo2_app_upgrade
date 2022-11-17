@@ -12,6 +12,7 @@ import 'package:masterg/data/models/response/home_response/post_comment_response
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/gcarvaan/comment/comment_box.dart';
 import 'package:masterg/utils/Log.dart';
+import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/resource/images.dart';
@@ -206,10 +207,10 @@ class _CommentViewPageState extends State<CommentViewPage> {
             child: CommentBox(
               userImage: '${UserSession.userImageUrl}',
               child: _isLoading
-                  ? Center(child: Text('Loading Comments...'))
+                  ? Center(child: Text('${Strings.of(context)?.loadingComment}'))
                   : commentChild(commentsList!),
-              labelText: 'Write a comment....',
-              errorText: 'Comment cannot be blank',
+              labelText: '${Strings.of(context)?.writeAComment}',
+              errorText: '${Strings.of(context)?.commentCantBlank}',
               withBorder: true,
               sendButtonMethod: () {
                 // if (formKey.currentState.validate()) {

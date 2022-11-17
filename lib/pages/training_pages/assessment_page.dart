@@ -82,7 +82,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                  'Submit before: '
+                  '${Strings.of(context)?.submitBefore}: '
                   '${Utility.convertDateFromMillis(assignmentDetailProvider.assignments.endDate!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
                   style:
                       Styles.semibold(size: 14, color: ColorConstants.BLACK)),

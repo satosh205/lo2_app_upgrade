@@ -1,6 +1,7 @@
 import 'package:accordion/accordion.dart';
 import 'package:accordion/controllers.dart';
 import 'package:flutter/material.dart';
+import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/resource/colors.dart';
 
 class FaqPage extends StatelessWidget {
@@ -62,7 +63,7 @@ class FaqPage extends StatelessWidget {
               headerBackgroundColorOpened: ColorConstants().primaryColor(),
               header: Text('How to enroll in a course?', style: _headerStyle),
               content: Text(
-                  'Login into your app and scroll down to find the course of your choice. Click on the course icon and then click enroll now to add the course in your cart. Enter any coupon code you have and click on Proceed To Checkout. In the next step, enter any missing details in your billing address and click on place order to successfully enroll in any course.',
+                  'Login into your app and scroll down to find the course of your choice. Click on the course icon and then click ${Strings.of(context)?.enrollNow} to add the course in your cart. Enter any coupon code you have and click on Proceed To Checkout. In the next step, enter any missing details in your billing address and click on place order to successfully enroll in any course.',
                   style: _contentStyle),
               contentHorizontalPadding: 20,
               contentBorderWidth: 1,

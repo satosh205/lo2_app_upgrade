@@ -139,7 +139,7 @@ class _SharePostState extends State<SharePost> {
                         color: ColorConstants.GREY,
                       ),
                     )),*/
-                    //Text('Create Post', style: Styles.textExtraBold()),
+                    //Text('${Strings.of(context)?.create} Post', style: Styles.textExtraBold()),
                     //text field with grey background height
                     Container(
                       margin: EdgeInsets.only(top: size.height * 0.02),

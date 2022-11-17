@@ -167,7 +167,7 @@ class TrainingDetailPage extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 8, bottom: 8),
                   child: _rowItem(
                       trainingDetailProvider.modules!.elementAt(index),
-                      trainingDetailProvider),
+                      trainingDetailProvider, context),
                 );
               }),
           const SizedBox(
@@ -179,7 +179,7 @@ class TrainingDetailPage extends StatelessWidget {
   }
 
   Widget _rowItem(
-      Modules module, TrainingDetailProvider trainingDetailProvider) {
+      Modules module, TrainingDetailProvider trainingDetailProvider, context) {
     return Padding(
       padding: const EdgeInsets.only(left: 8.0),
       child: InkWell(
@@ -255,7 +255,7 @@ class TrainingDetailPage extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Start date : ${Utility.convertDateFromMillis(module.startDate!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
+                          '${Strings.of(context)?.Start_date} : ${Utility.convertDateFromMillis(module.startDate!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
                           style: Styles.textSemiBold(size: 12),
                         )
                       ],
