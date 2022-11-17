@@ -234,6 +234,8 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
           Preference.setInt(Preference.APP_LANGUAGE, langauge.languageId);
           Preference.setString(
               Preference.LANGUAGE, langauge.languageCode.toLowerCase());
+          Preference.setString(
+              Preference.APP_ENGLISH_NAME, langauge.englishName.toLowerCase());
           MyApp.setLocale(context,
               Locale(localeCodes[langauge.englishName.toLowerCase()]!));
         });

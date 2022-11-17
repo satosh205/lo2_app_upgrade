@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/utils/config.dart';
 
 import 'en_file.dart';
@@ -861,7 +862,7 @@ class DemoLocalizationsDelegate extends LocalizationsDelegate<Strings> {
 
   @override
   Future<Strings> load(Locale locale) {
-    // if (UserSession.language != null) locale = new Locale(UserSession.language);
+    // if (UserSession.language != null) locale = new Locale(UserSession.language!);
     return SynchronousFuture<Strings>(Strings(locale));
   }
 

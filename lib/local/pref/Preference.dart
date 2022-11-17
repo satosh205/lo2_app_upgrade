@@ -18,6 +18,7 @@ class Preference {
   static String IS_LOGIN = "isLogin";
   static const APP_VERSION = "APP_VERSION";
 
+  static String APP_ENGLISH_NAME = "APPENGLISHNAME";
   static String APP_LANGUAGE = "APPLANGUAGE";
   static String CONTENT_LANGUAGE = "CONTEN_LANGUAGE";
   static String LANGUAGE = "LANGUAGE";

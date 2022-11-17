@@ -385,7 +385,9 @@ const EN_TEXT = {
   'w' : 'w',
   'h' :  'h',
   'm' : 'm',
+  's' : 's',
   'seeLess' : 'See Less',
+  'justNow' : 'Just Now'
 };
 
 
