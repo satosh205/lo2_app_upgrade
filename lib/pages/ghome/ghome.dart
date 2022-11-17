@@ -37,6 +37,14 @@ import 'package:visibility_detector/visibility_detector.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 late VideoPlayerController _videoController;
+                         YoutubePlayerController ytController =  YoutubePlayerController(
+                               flags: YoutubePlayerFlags(
+        autoPlay: false,
+       
+    ),
+                                initialVideoId:
+                                    '');
+
 
 class GHome extends StatefulWidget {
   GHome({Key? key}) : super(key: key);
@@ -1404,7 +1412,9 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                       scrollDirection: Axis.horizontal,
                       itemCount: joyCategoryList!.length,
                       itemBuilder: (BuildContext context, int index) {
-                        YoutubePlayerController ytController =
+
+                        if(ytController.initialVideoId == '')
+                         ytController =
                             YoutubePlayerController(
                                flags: YoutubePlayerFlags(
         autoPlay: false,
