@@ -68,43 +68,60 @@ class Strings {
   get enterEmail => _localizedValues[locale.languageCode]!['enter_email'];
 
   String? get male => _localizedValues[locale.languageCode]!['male'];
-  String? get reportThisPost => _localizedValues[locale.languageCode]!['reportThisPost'];
-  String? get removeHidePost => _localizedValues[locale.languageCode]!['removeHidePost'];
-  String? get loadingComment => _localizedValues[locale.languageCode]!['loadingComment'];
-  String? get writeYourComment => _localizedValues[locale.languageCode]!['writeYourComment'];
-  String? get writeAComment => _localizedValues[locale.languageCode]!['writeAComment'];
-  String? get enrollments => _localizedValues[locale.languageCode]!['enrollments'];
+  String? get reportThisPost =>
+      _localizedValues[locale.languageCode]!['reportThisPost'];
+  String? get removeHidePost =>
+      _localizedValues[locale.languageCode]!['removeHidePost'];
+  String? get loadingComment =>
+      _localizedValues[locale.languageCode]!['loadingComment'];
+  String? get writeYourComment =>
+      _localizedValues[locale.languageCode]!['writeYourComment'];
+  String? get writeAComment =>
+      _localizedValues[locale.languageCode]!['writeAComment'];
+  String? get enrollments =>
+      _localizedValues[locale.languageCode]!['enrollments'];
 
-String? get trainerName => _localizedValues[locale.languageCode]!['trainerName'];
-String? get studentsAlreadyEnrolled => _localizedValues[locale.languageCode]!['studentsAlreadyEnrolled'];
-String? get enrollNow => _localizedValues[locale.languageCode]!['enrollNow'];
-String? get request => _localizedValues[locale.languageCode]!['request'];
-String? get noActiveProgram => _localizedValues[locale.languageCode]!['noActiveProgram'];
-String? get submitBefore => _localizedValues[locale.languageCode]!['submitBefore'];
-String? get marks => _localizedValues[locale.languageCode]!['marks'];
-String? get create => _localizedValues[locale.languageCode]!['create'];
-String? get deleteThisPost => _localizedValues[locale.languageCode]!['deleteThisPost'];
-String? get deletePost => _localizedValues[locale.languageCode]!['deletePost'];
-String? get areYouSureDelete => _localizedValues[locale.languageCode]!['areYouSureDelete'];
-String? get noContentFound => _localizedValues[locale.languageCode]!['noContentFound'];
-String? get multipleAttempts => _localizedValues[locale.languageCode]!['multipleAttempts'];
-String? get startAssignment => _localizedValues[locale.languageCode]!['startAssignment'];
-String? get nowPlaying => _localizedValues[locale.languageCode]!['nowPlaying'];
-String? get viewNote => _localizedValues[locale.languageCode]!['viewNote'];
-String? get startQuiz => _localizedValues[locale.languageCode]!['startQuiz']; 
-String? get months => _localizedValues[locale.languageCode]!['months']; 
-String? get days => _localizedValues[locale.languageCode]!['days']; 
-String? get seeMore => _localizedValues[locale.languageCode]!['seeMore']; 
-String? get seeLess => _localizedValues[locale.languageCode]!['seeLess']; 
-String? get d => _localizedValues[locale.languageCode]!['d']; 
-String? get mos => _localizedValues[locale.languageCode]!['mos']; 
-String? get w => _localizedValues[locale.languageCode]!['w']; 
-String? get h => _localizedValues[locale.languageCode]!['h']; 
-String? get m => _localizedValues[locale.languageCode]!['m']; 
-String? get commentCantBlank => _localizedValues[locale.languageCode]!['commentCantBlank']; 
-String? get justNow => _localizedValues[locale.languageCode]!['justNow']; 
-String? get s => _localizedValues[locale.languageCode]!['s']; 
-
+  String? get trainerName =>
+      _localizedValues[locale.languageCode]!['trainerName'];
+  String? get studentsAlreadyEnrolled =>
+      _localizedValues[locale.languageCode]!['studentsAlreadyEnrolled'];
+  String? get enrollNow => _localizedValues[locale.languageCode]!['enrollNow'];
+  String? get request => _localizedValues[locale.languageCode]!['request'];
+  String? get noActiveProgram =>
+      _localizedValues[locale.languageCode]!['noActiveProgram'];
+  String? get submitBefore =>
+      _localizedValues[locale.languageCode]!['submitBefore'];
+  String? get marks => _localizedValues[locale.languageCode]!['marks'];
+  String? get create => _localizedValues[locale.languageCode]!['create'];
+  String? get deleteThisPost =>
+      _localizedValues[locale.languageCode]!['deleteThisPost'];
+  String? get deletePost =>
+      _localizedValues[locale.languageCode]!['deletePost'];
+  String? get areYouSureDelete =>
+      _localizedValues[locale.languageCode]!['areYouSureDelete'];
+  String? get noContentFound =>
+      _localizedValues[locale.languageCode]!['noContentFound'];
+  String? get multipleAttempts =>
+      _localizedValues[locale.languageCode]!['multipleAttempts'];
+  String? get startAssignment =>
+      _localizedValues[locale.languageCode]!['startAssignment'];
+  String? get nowPlaying =>
+      _localizedValues[locale.languageCode]!['nowPlaying'];
+  String? get viewNote => _localizedValues[locale.languageCode]!['viewNote'];
+  String? get startQuiz => _localizedValues[locale.languageCode]!['startQuiz'];
+  String? get months => _localizedValues[locale.languageCode]!['months'];
+  String? get days => _localizedValues[locale.languageCode]!['days'];
+  String? get seeMore => _localizedValues[locale.languageCode]!['seeMore'];
+  String? get seeLess => _localizedValues[locale.languageCode]!['seeLess'];
+  String? get d => _localizedValues[locale.languageCode]!['d'];
+  String? get mos => _localizedValues[locale.languageCode]!['mos'];
+  String? get w => _localizedValues[locale.languageCode]!['w'];
+  String? get h => _localizedValues[locale.languageCode]!['h'];
+  String? get m => _localizedValues[locale.languageCode]!['m'];
+  String? get commentCantBlank =>
+      _localizedValues[locale.languageCode]!['commentCantBlank'];
+  String? get justNow => _localizedValues[locale.languageCode]!['justNow'];
+  String? get s => _localizedValues[locale.languageCode]!['s'];
 
   String? get phone => _localizedValues[locale.languageCode]!['phone'];
   String? get branchAssociation =>
@@ -189,7 +206,8 @@ String? get s => _localizedValues[locale.languageCode]!['s'];
       _localizedValues[locale.languageCode]!['coin_history_title'];
 
   String? get logout => _localizedValues[locale.languageCode]!['logout'];
-  String? get editProfile => _localizedValues[locale.languageCode]!['editProfile'];
+  String? get editProfile =>
+      _localizedValues[locale.languageCode]!['editProfile'];
   String? get editPortfolio =>
       _localizedValues[locale.languageCode]!['edit_portfolio'];
 
@@ -197,15 +215,21 @@ String? get s => _localizedValues[locale.languageCode]!['s'];
       _localizedValues[locale.languageCode]!['profile_title'];
 
   String? get cancel => _localizedValues[locale.languageCode]!['cancel'];
-  String? get enterValidOtp => _localizedValues[locale.languageCode]!['enterValidOtp'];
+  String? get enterValidOtp =>
+      _localizedValues[locale.languageCode]!['enterValidOtp'];
   String? get enterOtp => _localizedValues[locale.languageCode]!['enterOtp'];
-  String? get noPostAvailable => _localizedValues[locale.languageCode]!['noPostAvailable'];
-  String? get imageVideoSizeLarge => _localizedValues[locale.languageCode]!['imageVideoSizeLarge'];
-  String? get only4ImagesVideosAllowed => _localizedValues[locale.languageCode]!['only4ImagesVideosAllowed'];
-  String? get writeAPost => _localizedValues[locale.languageCode]!['writeAPost'];
+  String? get noPostAvailable =>
+      _localizedValues[locale.languageCode]!['noPostAvailable'];
+  String? get imageVideoSizeLarge =>
+      _localizedValues[locale.languageCode]!['imageVideoSizeLarge'];
+  String? get only4ImagesVideosAllowed =>
+      _localizedValues[locale.languageCode]!['only4ImagesVideosAllowed'];
+  String? get writeAPost =>
+      _localizedValues[locale.languageCode]!['writeAPost'];
   String? get photo => _localizedValues[locale.languageCode]!['photo'];
   String? get video => _localizedValues[locale.languageCode]!['video'];
-  String? get emailIsRequired => _localizedValues[locale.languageCode]!['emailIsRequired'];
+  String? get emailIsRequired =>
+      _localizedValues[locale.languageCode]!['emailIsRequired'];
 
   String? get takeAPicture =>
       _localizedValues[locale.languageCode]!['take_a_picture'];
@@ -798,26 +822,82 @@ String? get s => _localizedValues[locale.languageCode]!['s'];
       _localizedValues[locale.languageCode]!['recent_activity'];
   String? get MyCourses => _localizedValues[locale.languageCode]!['my_courses'];
   String? get MyQuiz => _localizedValues[locale.languageCode]!['my_quiz'];
-
   String? get sortBy => _localizedValues[locale.languageCode]!['sort_by'];
   String? get all => _localizedValues[locale.languageCode]!['all'];
   String? get pending => _localizedValues[locale.languageCode]!['pending'];
   String? get upcoming => _localizedValues[locale.languageCode]!['upcoming'];
   String? get ongoing => _localizedValues[locale.languageCode]!['Ongoing'];
+  String? get deleteAccount =>
+      _localizedValues[locale.languageCode]!['deleteAccount'];
+  String? get settingAndAccount =>
+      _localizedValues[locale.languageCode]!['settingAndAccount'];
+  String? get enterBrandName =>
+      _localizedValues[locale.languageCode]!['enterBrandName'];
+  String? get suggestedBrand =>
+      _localizedValues[locale.languageCode]!['suggestedBrand'];
+  String? get pleaseSelectBrand =>
+      _localizedValues[locale.languageCode]!['pleaseSelectBrand'];
+  String? get selectTenure =>
+      _localizedValues[locale.languageCode]!['selectTenure'];
+  String? get noActiveCourses =>
+      _localizedValues[locale.languageCode]!['noActiveCourses'];
+  String? get subscribeToCourseToGetStarted =>
+      _localizedValues[locale.languageCode]!['subscribeToCourseToGetStarted'];
+  String? get areYouSureYouWantToExit =>
+      _localizedValues[locale.languageCode]!['areYouSureYouWantToExit'];
+  String? get leavingSoSoon =>
+      _localizedValues[locale.languageCode]!['leavingSoSoon'];
 
-  String? get deleteAccount => _localizedValues[locale.languageCode]!['deleteAccount'];
-  String? get settingAndAccount => _localizedValues[locale.languageCode]!['settingAndAccount'];
-  String? get enterBrandName => _localizedValues[locale.languageCode]!['enterBrandName'];
-  String? get suggestedBrand => _localizedValues[locale.languageCode]!['suggestedBrand'];
-  String? get pleaseSelectBrand => _localizedValues[locale.languageCode]!['pleaseSelectBrand'];
-  String? get selectTenure => _localizedValues[locale.languageCode]!['selectTenure'];
-  String? get noActiveCourses => _localizedValues[locale.languageCode]!['noActiveCourses'];
-  String? get subscribeToCourseToGetStarted => _localizedValues[locale.languageCode]!['subscribeToCourseToGetStarted'];
-  String? get areYouSureYouWantToExit => _localizedValues[locale.languageCode]!['areYouSureYouWantToExit'];
-  String? get leavingSoSoon => _localizedValues[locale.languageCode]!['leavingSoSoon'];
-
-  // String get Completed => _localizedValues[locale.languageCode]['completed'];
-
+  String? get upcomingQuiz =>
+      _localizedValues[locale.languageCode]!['upcomingQuiz'];
+  String? get quizCompleted =>
+      _localizedValues[locale.languageCode]!['quizCompleted'];
+  String? get quizPending =>
+      _localizedValues[locale.languageCode]!['quizPending'];
+  String? get dailyQuiz => _localizedValues[locale.languageCode]!['dailyQuiz'];
+  String? get noAssessmentAvailable =>
+      _localizedValues[locale.languageCode]!['noAssessmentAvailable'];
+  String? get assessmentSubmissionNotReady =>
+      _localizedValues[locale.languageCode]!['assessmentSubmissionNotReady'];
+  String? get assessmentSubmissionDeadlineOver => _localizedValues[
+      locale.languageCode]!['assessmentSubmissionDeadlineOver'];
+  String? get attemptLeft =>
+      _localizedValues[locale.languageCode]!['attemptLeft'];
+  String? get report => _localizedValues[locale.languageCode]!['report'];
+  String? get upcomingAssignment =>
+      _localizedValues[locale.languageCode]!['upcomingAssignment'];
+  String? get assignmentCompleted =>
+      _localizedValues[locale.languageCode]!['assignmentCompleted'];
+  String? get assignmentPending =>
+      _localizedValues[locale.languageCode]!['assignmentPending'];
+  String? get myAssignments =>
+      _localizedValues[locale.languageCode]!['myAssignments'];
+  String? get noAssignmentsAvailable =>
+      _localizedValues[locale.languageCode]!['noAssignmentsAvailable'];
+  String? get assignmentNotReady =>
+      _localizedValues[locale.languageCode]!['assignmentNotReady'];
+  String? get assignmentDeadline =>
+      _localizedValues[locale.languageCode]!['assignmentDeadline'];
+  String? get deadline => _localizedValues[locale.languageCode]!['deadline'];
+  String? get scoreEarned =>
+      _localizedValues[locale.languageCode]!['scoreEarned'];
+  String? get ongoingClass =>
+      _localizedValues[locale.languageCode]!['ongoingClass'];
+  String? get upcomingClass =>
+      _localizedValues[locale.languageCode]!['upcomingClass'];
+  String? get classCompleted =>
+      _localizedValues[locale.languageCode]!['classCompleted'];
+  String? get noClassesAvailable =>
+      _localizedValues[locale.languageCode]!['noClassesAvailable'];
+  String? get liveNow => _localizedValues[locale.languageCode]!['liveNow'];
+  String? get live => _localizedValues[locale.languageCode]!['live'];
+  String? get classroom => _localizedValues[locale.languageCode]!['classroom'];
+  String? get comingSoon =>
+      _localizedValues[locale.languageCode]!['comingSoon'];
+  String? get joinNow => _localizedValues[locale.languageCode]!['joinNow'];
+  String? get markYourAttendance =>
+      _localizedValues[locale.languageCode]!['markYourAttendance'];
+  String? get concluded => _localizedValues[locale.languageCode]!['concluded'];
   static const SERVER_DATE_YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
   static const REQUIRED_DATE_YYYY_MM_DD_HH_MM_A = "yyyy-MM-dd hh:mm a";
   static const REQUIRED_DATE_YYYY_MM_DD = "yyyy-MM-dd";

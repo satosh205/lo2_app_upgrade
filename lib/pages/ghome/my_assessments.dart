@@ -76,7 +76,7 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
                 allowDrawingOutsideViewBox: true,
               ),
               SizedBox(width: 20),
-              Text('Upcoming Quiz')
+              Text('${Strings.of(context)?.upcomingQuiz}')
             ]),
             value: '1'),
         PopupMenuItem<String>(
@@ -88,7 +88,7 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
                 allowDrawingOutsideViewBox: true,
               ),
               SizedBox(width: 20),
-              Text('Quiz Completed')
+              Text('${Strings.of(context)?.quizCompleted}')
             ]),
             value: '2'),
         PopupMenuItem<String>(
@@ -100,7 +100,7 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
                 allowDrawingOutsideViewBox: true,
               ),
               SizedBox(width: 20),
-              Text('Quiz Pending')
+              Text('${Strings.of(context)?.quizPending}')
             ]),
             value: '3'),
       ],
@@ -113,7 +113,7 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
     return Scaffold(
       backgroundColor: ColorConstants.GREY,
       appBar: AppBar(
-        title: Text(Strings.of(context)!.MyAssessments ?? "Daily Quiz",
+        title: Text(Strings.of(context)!.MyAssessments ?? "${Strings.of(context)?.dailyQuiz}",
             style: Styles.bold(size: 18)),
         centerTitle: false,
         backgroundColor: ColorConstants.WHITE,
@@ -182,13 +182,12 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
                   width: MediaQuery.of(context).size.width,
                   child: Center(
                     child: Text(
-                      "There are no Assessments available",
+                      "${Strings.of(context)?.noAssessmentAvailable}",
                       style: Styles.textBold(),
                     ),
                   ),
                 );
               }
-              print("#8Amit");
               assessmentList = box
                   .get("myassessment")
                   .map((e) =>
@@ -208,7 +207,7 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
                             underline: SizedBox(),
                             hint: Text('$selectedOption',
                                 style: Styles.bold(size: 14)),
-                              items: <String>['${Strings.of(context)?.all}', '${Strings.of(context)?.upcoming}', '${Strings.of(context)?.Completed}', '${Strings.of(context)?.pending}'].map((String value) {
+                             items: <String>['All', 'Upcoming', 'Completed', 'Pending'].map((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: Text(value),
@@ -306,7 +305,7 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
           if (item.status?.toLowerCase() == 'upcoming')
             AlertsWidget.showCustomDialog(
                 context: context,
-                title: "Assessment is not ready for submission",
+                title: "${Strings.of(context)?.assessmentSubmissionNotReady}",
                 text: "",
                 icon: 'assets/images/circle_alert_fill.svg',
                 showCancel: false,
@@ -317,7 +316,7 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
           else if (Utility.isExpired(item.endDate!)) {
             AlertsWidget.showCustomDialog(
                 context: context,
-                title: "Assessment deadline is over",
+                title: "${Strings.of(context)?.assessmentSubmissionDeadlineOver}",
                 text: "",
                 icon: 'assets/images/circle_alert_fill.svg',
                 showCancel: false,
@@ -384,7 +383,7 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
                           if (item.status == 'Completed') ...[
                             SizedBox(height: 5),
                             Text(
-                                '${item.score}/${item.maximumMarks} Marks • ${item.attemptAllowed! - item.attemptCount!} attempts left ',
+                                '${item.score}/${item.maximumMarks} ${Strings.of(context)?.marks} • ${item.attemptAllowed! - item.attemptCount!} ${Strings.of(context)?.attemptLeft} ',
                                 style: Styles.regular(
                                     size: 12, color: Colors.black)),
                             SizedBox(height: 5),
@@ -394,7 +393,7 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
                           ] else ...[
                             SizedBox(height: 5),
                             Text(
-                                '${item.durationInMinutes} mins • ${item.maximumMarks} Marks',
+                                '${item.durationInMinutes} ${Strings.of(context)?.m} • ${item.maximumMarks} ${Strings.of(context)?.marks}',
                                 style: Styles.regular(
                                     size: 12, color: Colors.black)),
                             SizedBox(height: 5),

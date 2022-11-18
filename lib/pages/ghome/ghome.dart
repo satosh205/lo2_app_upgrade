@@ -1620,7 +1620,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                                 size: 20,
                                               ),
                                               SizedBox(width: 10),
-                                              Text('Live',
+                                              Text('${Strings.of(context)?.liveNow}',
                                                   style: Styles.textBold(
                                                       size: 12,
                                                       color: ColorConstants
