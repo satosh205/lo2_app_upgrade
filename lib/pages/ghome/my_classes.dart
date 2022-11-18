@@ -281,7 +281,7 @@ class _MyClassesState extends State<MyClasses> {
               DropdownButton<String>(
                 underline: SizedBox(),
                 hint: Text('$selectedOption', style: Styles.bold(size: 14)),
-                items: <String>['${Strings.of(context)?.all}', '${Strings.of(context)?.upcoming}', '${Strings.of(context)?.Completed}', '${Strings.of(context)?.ongoing}']
+               items: <String>['All', 'Upcoming', 'Completed', 'Pending']
                     .map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,

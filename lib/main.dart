@@ -98,26 +98,11 @@ class _MyAppState extends State<MyApp> {
   }
   void updateLocale(){
     if (Preference.getString(Preference.APP_ENGLISH_NAME) != null) {
-// try{
-//         //  MyApp.setLocale(
-//         //       context,
-//         //       Locale(
-//         //           '${localeCodes[Preference.getString(Preference.APP_ENGLISH_NAME)]}'));
-// }
-// catch(e){
-//   print('setting locale error $e');
-// }
-//           print('setting locale');
           this.locale = Locale(
               '${localeCodes[Preference.getString(Preference.APP_ENGLISH_NAME)]}');
-          print('setting locale to ${this.locale}');
-         
-          print('setting locale to ${this.locale}');
         }
         isLocalLanguageLoaded = true;
-
         setState(() {
-          
         });
   }
 

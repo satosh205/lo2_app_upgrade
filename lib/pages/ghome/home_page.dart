@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:masterg/data/api/api_constants.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
@@ -62,7 +63,7 @@ class _homePageState extends State<homePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   var currentIndex = 0;
   String? profileImage = '';
-  bool isConnected  = true;
+  bool isConnected = true;
 
   final Shader linearGradient = const LinearGradient(
     colors: <Color>[Color(0xffDA44bb), Color(0xff8921aa)],
@@ -75,33 +76,30 @@ class _homePageState extends State<homePage> {
     profileImage = Preference.getString(Preference.PROFILE_IMAGE);
   }
 
-
-  
-Future<bool> loop()async{
-  while(true){
-    await Future.delayed(const Duration(seconds:6));
-   return checkConnection();
-  }
-}
-
-  Future<bool> checkConnection()async{
-
-  try {
-    final result = await InternetAddress.lookup('example.com');
-    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-      setState(() {
-        isConnected = true;
-      });
-      return true;
+  Future<bool> loop() async {
+    while (true) {
+      await Future.delayed(const Duration(seconds: 6));
+      return checkConnection();
     }
-  } on SocketException catch (_) {
+  }
+
+  Future<bool> checkConnection() async {
+    try {
+      final result = await InternetAddress.lookup('example.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        setState(() {
+          isConnected = true;
+        });
+        return true;
+      }
+    } on SocketException catch (_) {
       setState(() {
         isConnected = false;
       });
+      return false;
+    }
     return false;
   }
-  return false;
-    }
 
   void refreshData() {
     profileImage = Preference.getString(Preference.PROFILE_IMAGE);
@@ -198,257 +196,195 @@ Future<bool> loop()async{
 
     String appBarImagePath = 'assets/images/${APK_DETAILS['logo_url']}';
 
-    return 
-    
-    FutureBuilder<bool>(
-      future: loop(),
-      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        
- return CheckInternet(
-          isConnected: snapshot.data  ?? true,
-          body: MultiProvider(
-            providers: [
-              ChangeNotifierProvider<VideoPlayerProvider>(
-                create: (context) => VideoPlayerProvider(true),
-              ),
-              ChangeNotifierProvider<MenuListProvider>(
-                create: (context) => MenuListProvider(widget.bottomMenu!),
-              ),
-            ],
-            child: Scaffold(
-              key: _scaffoldKey,
-              backgroundColor: ColorConstants.GREY,
-              // drawer: Drawer(
-              // Add a ListView to the drawer. This ensures the user can scroll
-              // through the options in the drawer if there isn't enough vertical
-              // space to fit everything.
-              // child: ListView(
-              // Important: Remove any padding from the ListView.
-              // padding: EdgeInsets.zero,
-              // children: [
-              //   SizedBox(
-              //     height: 50,
-              //   ),
-              //   ListTile(
-              //     title: const Text('AnalyticPage'),
-              //     onTap: () {
-              //       Navigator.push(
-              //           context,
-              //           MaterialPageRoute(
-              //               builder: (BuildContext context) => ProfilePage()));
-              //     },
-              //   ),
-              //   Divider(height: 20),
-              // ListTile(
-              //   title: const Text('Idea Factory'),
-              //   onTap: () {
-              //     Navigator.push(
-              //         context,
-              //         NextPageRoute(FeedBackPage(
-              //           isViewAll: true,
-              //         )));
-              //   },
-              // ),
-              // Divider(height: 20),
-              // ListTile(
-              //   title: const Text('Profile 5'),
-              //   onTap: () {
-              //     Navigator.push(context, NextPageRoute(ProfilePage()));
-              //   },
-              // ),
-              // Divider(height: 20),
-              // ListTile(
-              //   title: const Text('Annouccment '),
-              //   onTap: () {
-              //     Navigator.push(context, NextPageRoute(TrainingCourses()));
-              //   },
-              // ),
-              // Divider(height: 20),
-              // ListTile(
-              //   title: const Text('LibraryPage 4 '),
-              //   onTap: () {
-              //     Navigator.push(
-              //         context,
-              //         NextPageRoute(LibraryPage(
-              //           isViewAll: true,
-              //         )));
-              //   },
-              // ),
-              // ],
-              // ),
-              // ),
-        
-              appBar: widget.bottomMenu![currentIndex].url != '/g-reels' &&
-                      APK_DETAILS['package_name'] != "com.at.perfetti_swayam"
-                  ? AppBar(
-                      automaticallyImplyLeading: false,
-                      leading: IconButton(
-                        onPressed: () async{
-                          // _scaffoldKey.currentState?.openDrawer();
-                         var box = Hive.box("content");
-            // List<Menu> resp = box.get('bottomMenu');
-            // dynamic resp =  Data.fromJson(box.get('bottomMenu'));
-            await Future.delayed(Duration(seconds: 2));
-            print('the response is ${box.get('bottomMenu')}');
-                  // resp.menu?.sort((a, b) => a.inAppOrder!.compareTo(b.inAppOrder!));
-        
-        
-            // Navigator.pushAndRemoveUntil(
-            //     context,
-            //     NextPageRoute(
-            //         homePage(
-            //           bottomMenu: resp.menu,
-            //         ),
-            //         isMaintainState: true),
-            //     (route) => false);
-                          
-                        },
-                        // icon: Image.asset(
-                        //         'assets/images/edulyst_logo_appbar.png',
-        
-                        //         fit: BoxFit.contain,
-                        //       ),
-                        icon: appBarImagePath.split('.').last == 'svg'
-                            ? SvgPicture.asset(
-                                appBarImagePath,
-                                fit: BoxFit.contain,
-                              )
-                            : Image.asset(
-                                appBarImagePath,
-                                fit: BoxFit.contain,
-                              ),
-                      ),
-                      title: Row(
-                        children: [
-                          const Expanded(child: SizedBox()),
-                          InkWell(
-                            onTap: () {
-                              // print('the path is $appBarImagePath');
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return UserProfilePage();
-                              })).then(onGoBack);
-                            },
-                            child: Transform.scale(
-                              scale: 1,
-                              child: profileImage != null && profileImage != ''
-                                  ? CircleAvatar(
-                                      onBackgroundImageError: (_, __) {
-                                        setState(() {
-                                          profileImage = '';
-                                        });
-                                      },
-                                      backgroundImage: NetworkImage(
-                                        profileImage!,
-                                      ))
-                                  : SvgPicture.asset(
-                                      'assets/images/default_user.svg',
-                                      height: 40.0,
-                                      width: 40.0,
-                                      allowDrawingOutsideViewBox: true,
-                                    ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      backgroundColor: ColorConstants().primaryColor(),
-                      elevation: 0.0,
-                      centerTitle: true,
-                    )
-                  : PreferredSize(child: SizedBox(), preferredSize: Size.zero),
-        
-              // body: pages[widget.bottomMenu![currentIndex].url],
-        body: pages[widget.bottomMenu![currentIndex].url],
-              //bottom Navigator bar
-              bottomNavigationBar: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.10,
-                child: BottomNavigationBar(
-                  // backgroundColor: Colors.red,
-                
-                  type: BottomNavigationBarType.fixed,
-                  currentIndex: currentIndex,
-                  selectedItemColor: ColorConstants().primaryColor(),
-                  unselectedItemColor: Colors.blue,
-                  items: [
-                    
-                    for (int i = 0; i < widget.bottomMenu!.length; i++)
-                      BottomNavigationBarItem(
-                        
-                        icon: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(height: 3),
-                            currentIndex ==
-                                    widget.bottomMenu!.indexOf(widget.bottomMenu![i])
-                                ? SvgPicture.asset(
-                                    '${iconSeleted['${widget.bottomMenu?[i].url}']}',
-                                    color: APK_DETAILS['package_name'] !=
-                                            'com.at.masterg'
-                                        ? ColorConstants().primaryColor()
-                                        : null,
-                                    allowDrawingOutsideViewBox: false,
-                                  )
-                                : SvgPicture.asset(
-                                    '${iconsUnSelected['${widget.bottomMenu?[i].url}']}',
-                                    allowDrawingOutsideViewBox: true,
-                                  ),
-                            const SizedBox(
-                              height: 2,
-                            ),
-                            Text(
-                              '${widget.bottomMenu![i].label}',
-                              style: Styles.regular(
-                                  size: 12,
-                                  color: currentIndex ==
-                                          widget.bottomMenu!
-                                              .indexOf(widget.bottomMenu![i])
-                                      ? ColorConstants().primaryColor()
-                                      : Colors.black.withOpacity(0.8)
-                                      
-                                      
-                                      ),
-                            ),
-                          ],
-                        ),
-                        label: '',
-                      ),
-                  ],
-                  onTap: (index) {
-                    if (widget.bottomMenu![index].linkType != 0) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Scaffold(
-                                    appBar: AppBar(
-                                      backgroundColor:
-                                          ColorConstants().primaryColor(),
-                                      elevation: 0.0,
-                                      leading: IconButton(
-                                        icon: const Icon(Icons.arrow_back),
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-                                    ),
-                                    body: WebView(
-                                      javascriptMode: JavascriptMode.unrestricted,
-                                      initialUrl:
-                                          '${ApiConstants().PRODUCTION_BASE_URL()}${widget.bottomMenu![index].url}?cred=${UserSession.userToken}',
-                                    ),
-                                  )));
-                    } else {
-                      setState(() {
-                        currentIndex = index;
-                      });
-                    }
-                  },
+    return FutureBuilder<bool>(
+        future: loop(),
+        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          return CheckInternet(
+            isConnected: snapshot.data ?? true,
+            body: MultiProvider(
+              providers: [
+                ChangeNotifierProvider<VideoPlayerProvider>(
+                  create: (context) => VideoPlayerProvider(true),
                 ),
-              ),
+                ChangeNotifierProvider<MenuListProvider>(
+                  create: (context) => MenuListProvider(widget.bottomMenu!),
+                ),
+              ],
+              child: ValueListenableBuilder(
+                  valueListenable: Hive.box("content").listenable(),
+                  builder: (bc, Box box, child) {
+                    if (box.get('bottomMenu') == null) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    List<Menu>? menuList = box
+                        .get('bottomMenu')
+                        .map((e) => Menu.fromJson(
+                            Map<String, dynamic>.from(e)))
+                        .cast<Menu>()
+                        .toList();
+widget.bottomMenu!= menuList;
+                    return Scaffold(
+                      key: _scaffoldKey,
+                      backgroundColor: ColorConstants.GREY,
+                     
+
+                      appBar: widget.bottomMenu![currentIndex].url !=
+                                  '/g-reels' &&
+                              APK_DETAILS['package_name'] !=
+                                  "com.at.perfetti_swayam"
+                          ? AppBar(
+                              automaticallyImplyLeading: false,
+                              leading: IconButton(
+                                onPressed: () async {
+                                  var box = Hive.box("content");
+
+                                  await Future.delayed(Duration(seconds: 2));
+                                  print(
+                                      'the response is ${box.get('bottomMenu')}');
+                                },
+                                icon: appBarImagePath.split('.').last == 'svg'
+                                    ? SvgPicture.asset(
+                                        appBarImagePath,
+                                        fit: BoxFit.contain,
+                                      )
+                                    : Image.asset(
+                                        appBarImagePath,
+                                        fit: BoxFit.contain,
+                                      ),
+                              ),
+                              title: Row(
+                                children: [
+                                  const Expanded(child: SizedBox()),
+                                  InkWell(
+                                    onTap: () {
+                                      // print('the path is $appBarImagePath');
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return UserProfilePage();
+                                      })).then(onGoBack);
+                                    },
+                                    child: Transform.scale(
+                                      scale: 1,
+                                      child: profileImage != null &&
+                                              profileImage != ''
+                                          ? CircleAvatar(
+                                              onBackgroundImageError: (_, __) {
+                                                setState(() {
+                                                  profileImage = '';
+                                                });
+                                              },
+                                              backgroundImage: NetworkImage(
+                                                profileImage!,
+                                              ))
+                                          : SvgPicture.asset(
+                                              'assets/images/default_user.svg',
+                                              height: 40.0,
+                                              width: 40.0,
+                                              allowDrawingOutsideViewBox: true,
+                                            ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              backgroundColor: ColorConstants().primaryColor(),
+                              elevation: 0.0,
+                              centerTitle: true,
+                            )
+                          : PreferredSize(
+                              child: SizedBox(), preferredSize: Size.zero),
+
+                      body: pages[widget.bottomMenu![currentIndex].url],
+                      //bottom Navigator bar
+                      bottomNavigationBar: SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.10,
+                        child: BottomNavigationBar(
+                          // backgroundColor: Colors.red,
+
+                          type: BottomNavigationBarType.fixed,
+                          currentIndex: currentIndex,
+                          selectedItemColor: ColorConstants().primaryColor(),
+                          unselectedItemColor: Colors.blue,
+                          items: [
+                            for (int i = 0; i < widget.bottomMenu!.length; i++)
+                              BottomNavigationBarItem(
+                                icon: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(height: 3),
+                                    currentIndex ==
+widget.bottomMenu!
+                                                .indexOf(widget.bottomMenu![i])
+                                        ? SvgPicture.asset(
+                                            '${iconSeleted['${widget.bottomMenu![i].url}']}',
+                                            color:
+                                                APK_DETAILS['package_name'] !=
+                                                        'com.at.masterg'
+                                                    ? ColorConstants()
+                                                        .primaryColor()
+                                                    : null,
+                                            allowDrawingOutsideViewBox: false,
+                                          )
+                                        : SvgPicture.asset(
+                                            '${iconsUnSelected['${widget.bottomMenu![i].url}']}',
+                                            allowDrawingOutsideViewBox: true,
+                                          ),
+                                    const SizedBox(
+                                      height: 2,
+                                    ),
+                                    Text(
+                                      '${widget.bottomMenu![i].label}',
+                                      style: Styles.regular(
+                                          size: 12,
+                                          color: currentIndex ==
+                                                  widget.bottomMenu!.indexOf(
+                                                      widget.bottomMenu![i])
+                                              ? ColorConstants().primaryColor()
+                                              : Colors.black.withOpacity(0.8)),
+                                    ),
+                                  ],
+                                ),
+                                label: '',
+                              ),
+                          ],
+                          onTap: (index) {
+                            if (widget.bottomMenu![index].linkType != 0) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Scaffold(
+                                            appBar: AppBar(
+                                              backgroundColor: ColorConstants()
+                                                  .primaryColor(),
+                                              elevation: 0.0,
+                                              leading: IconButton(
+                                                icon: const Icon(
+                                                    Icons.arrow_back),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                              ),
+                                            ),
+                                            body: WebView(
+                                              javascriptMode:
+                                                  JavascriptMode.unrestricted,
+                                              initialUrl:
+                                                  '${ApiConstants().PRODUCTION_BASE_URL()}${widget.bottomMenu![index].url}?cred=${UserSession.userToken}',
+                                            ),
+                                          )));
+                            } else {
+                              setState(() {
+                                currentIndex = index;
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                    );
+                  }),
             ),
-          ),
-        );
-       }
-       
-    );
+          );
+        });
   }
 }
