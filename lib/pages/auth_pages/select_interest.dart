@@ -129,25 +129,27 @@ class _InterestPageState extends State<InterestPage> {
                                     visible: selectProgramId.length > 0,
                                     child: InkWell(
                                         onTap: () {
-                                          var parameter = '';
+                                          var parentId = '';
                                           var localId = '';
                                           print(selectProgramParentId);
                                           selectProgramParentId.forEach((element) {
-                                            parameter +=
+                                            parentId +=
                                                 element.toString() + ',';
                                           });
                                           selectProgramId.forEach((element) {
                                             localId +=
                                                 element.toString() + ',';
                                           });
-                                          parameter = parameter.substring(
-                                              0, parameter.length - 1);
+                                          parentId = parentId.substring(
+                                              0, parentId.length - 1);
                                                 localId = localId.substring(
                                               0, localId.length - 1);
                                           Preference.setString(
                                               'interestCategory',
                                               '$localId');
-                                          _mapInterest(parameter);
+                                          bool? isParentLanguage =     Preference.getBool(Preference.APP_LANGUAGE);
+
+                                      isParentLanguage == true?    _mapInterest(localId) : _mapInterest(parentId);
                                         },
                                         child: Container(
                                           margin: EdgeInsets.only(

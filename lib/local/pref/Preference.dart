@@ -15,6 +15,8 @@ class Preference {
   static const USER_ID = "USER_ID";
   static const FIRST_NAME = "FIRST_NAME";
   static const LAST_NAME = "LATS_NAME";
+  static const IS_PRIMARY_LANGUAGE = "IS_PRIMARY_LANGUAGE";
+
   static String IS_LOGIN = "isLogin";
   static const APP_VERSION = "APP_VERSION";
 

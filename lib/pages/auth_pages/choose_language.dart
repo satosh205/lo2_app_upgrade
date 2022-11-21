@@ -232,6 +232,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
         setState(() {
           selected = index;
           Preference.setInt(Preference.APP_LANGUAGE, langauge.languageId);
+          Preference.setInt(Preference.IS_PRIMARY_LANGUAGE, langauge.isPrimaryLanguage);
           Preference.setString(
               Preference.LANGUAGE, langauge.languageCode.toLowerCase());
           Preference.setString(

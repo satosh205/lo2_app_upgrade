@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,7 +19,6 @@ import 'package:masterg/pages/reels/reels_dashboard_page.dart';
 import 'package:masterg/pages/swayam_pages/announcemnt_page.dart';
 import 'package:masterg/pages/swayam_pages/library_page.dart';
 import 'package:masterg/pages/swayam_pages/profile_page.dart';
-import 'package:masterg/pages/swayam_pages/training_course.dart';
 import 'package:masterg/pages/swayam_pages/training_home_page.dart';
 import 'package:masterg/pages/swayam_pages/training_provider.dart';
 import 'package:masterg/pages/training_pages/training_service.dart';
@@ -33,7 +30,6 @@ import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../utils/check_connection.dart';
-import '../custom_pages/custom_widgets/NextPageRouting.dart';
 
 class homePage extends StatefulWidget {
   final index;
@@ -63,7 +59,6 @@ class _homePageState extends State<homePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   var currentIndex = 0;
   String? profileImage = '';
-  bool isConnected = true;
 
   final Shader linearGradient = const LinearGradient(
     colors: <Color>[Color(0xffDA44bb), Color(0xff8921aa)],
@@ -76,30 +71,7 @@ class _homePageState extends State<homePage> {
     profileImage = Preference.getString(Preference.PROFILE_IMAGE);
   }
 
-  Future<bool> loop() async {
-    while (true) {
-      await Future.delayed(const Duration(seconds: 6));
-      return checkConnection();
-    }
-  }
-
-  Future<bool> checkConnection() async {
-    try {
-      final result = await InternetAddress.lookup('example.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        setState(() {
-          isConnected = true;
-        });
-        return true;
-      }
-    } on SocketException catch (_) {
-      setState(() {
-        isConnected = false;
-      });
-      return false;
-    }
-    return false;
-  }
+  
 
   void refreshData() {
     profileImage = Preference.getString(Preference.PROFILE_IMAGE);
@@ -196,11 +168,8 @@ class _homePageState extends State<homePage> {
 
     String appBarImagePath = 'assets/images/${APK_DETAILS['logo_url']}';
 
-    return FutureBuilder<bool>(
-        future: loop(),
-        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-          return CheckInternet(
-            isConnected: snapshot.data ?? true,
+    return  CheckInternet(
+         
             body: MultiProvider(
               providers: [
                 ChangeNotifierProvider<VideoPlayerProvider>(
@@ -210,22 +179,8 @@ class _homePageState extends State<homePage> {
                   create: (context) => MenuListProvider(widget.bottomMenu!),
                 ),
               ],
-              child: ValueListenableBuilder(
-                  valueListenable: Hive.box("content").listenable(),
-                  builder: (bc, Box box, child) {
-                    if (box.get('bottomMenu') == null) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    List<Menu>? menuList = box
-                        .get('bottomMenu')
-                        .map((e) => Menu.fromJson(
-                            Map<String, dynamic>.from(e)))
-                        .cast<Menu>()
-                        .toList();
-widget.bottomMenu!= menuList;
-                    return Scaffold(
+              child: 
+                    Scaffold(
                       key: _scaffoldKey,
                       backgroundColor: ColorConstants.GREY,
                      
@@ -233,13 +188,12 @@ widget.bottomMenu!= menuList;
                       appBar: widget.bottomMenu![currentIndex].url !=
                                   '/g-reels' &&
                               APK_DETAILS['package_name'] !=
-                                  "com.at.perfetti_swayam"
+                                  "com.at.perfetti_swayam"                      
                           ? AppBar(
                               automaticallyImplyLeading: false,
                               leading: IconButton(
                                 onPressed: () async {
                                   var box = Hive.box("content");
-
                                   await Future.delayed(Duration(seconds: 2));
                                   print(
                                       'the response is ${box.get('bottomMenu')}');
@@ -381,10 +335,8 @@ widget.bottomMenu!
                           },
                         ),
                       ),
-                    );
-                  }),
-            ),
-          );
-        });
+                    )
+     
+            ));
   }
 }

@@ -2,6 +2,7 @@
 
 import 'dart:typed_data';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:camerawesome/camerawesome_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -82,16 +83,14 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
     _getFeaturedVideo();
   }
 
-    @override
+  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    if(state == AppLifecycleState.resumed){
+    if (state == AppLifecycleState.resumed) {
       //pause video
       // print('video is paused');
-       _videoController.pause();
-     
+      _videoController.pause();
     }
-
   }
 
   @override
@@ -109,8 +108,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
         ],
         child: Consumer<VideoPlayerProvider>(
           builder: (context, value, child) => BlocManager(
-            initState: (context) {
-            },
+            initState: (context) {},
             child: BlocListener<HomeBloc, HomeState>(
               listener: (context, state) async {
                 if (state is JoyCategoryState) {
@@ -289,24 +287,31 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                                                     0.4),
                                                             Colors.black12
                                                                 .withOpacity(
-                                                                    0.0)
+                                                                        0.0)
                                                           ],
                                                         )),
-                                                        child:
-                                                            // joyContentListView![
-                                                            //             index]
-                                                            //         .resourcePath!
-                                                            //         .contains(
-                                                            //             '.mp4')
-                                                            //     ? ShowImage(
-                                                            //         path: joyContentListView![
-                                                            //                 index]
-                                                            //             .resourcePath)
-                                                            //     :
-                                                            Image.network(
-                                                          '${joyContentListView![index].thumbnailUrl}',
-                                                          fit: BoxFit.fill,
-                                                        ),
+
+                                                        child: CachedNetworkImage(
+  imageUrl: '${joyContentListView![index].thumbnailUrl}',
+  imageBuilder: (context, imageProvider) => Container(
+    decoration: BoxDecoration(
+      image: DecorationImage(
+          image: imageProvider,
+          fit: BoxFit.fill,
+      )
+    ),
+  ),
+  placeholder: (context, url) => Image.asset('assets/images/placeholder.png' ,
+  fit: BoxFit.fill, ),
+  errorWidget: (context, url, error) => Image.asset('assets/images/placeholder.png'
+  ,
+  fit: BoxFit.fill,
+  ),
+)
+                                                        // child: Image.network(
+                                                        //   '${joyContentListView![index].thumbnailUrl}',
+                                                        //   fit: BoxFit.fill,
+                                                        // ),
                                                       ),
                                                     ),
                                                     if (joyContentListView![
@@ -1947,13 +1952,13 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
     print(widget.videoUrl!.trim());
 
     _videoController = VideoPlayerController.network(widget.videoUrl!);
-   
+
     _videoController.setLooping(true);
     _videoController.initialize().then((_) => setState(() {
           setState(() {
             isShowPlaying = true;
-             _videoController.play();
-        _videoController.setVolume(0);
+            _videoController.play();
+            _videoController.setVolume(0);
           });
           // _videoController.play();
         }));
