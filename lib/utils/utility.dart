@@ -27,17 +27,16 @@ class Utility {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
   }
 
-   Future<bool> loop() async {
-    while (true) {
-      await Future.delayed(const Duration(seconds: 6));
+  //  Future<bool> loop() async {
+  //   while (true) {
+  //     await Future.delayed(const Duration(seconds: 6));
      
-      return checkConnection();
+  //     return checkConnection();
     
-    }
-  }
+  //   }
+  // }
 
   Future<bool> checkConnection() async {
-    print('checking internet connection.\n');
     try {
 
       final result = await InternetAddress.lookup('example.com');

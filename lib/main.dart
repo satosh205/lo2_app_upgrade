@@ -10,6 +10,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/pages/walk_through_page/splash_screen.dart';
+import 'package:masterg/utils/check_connection.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:path_provider/path_provider.dart';
@@ -149,7 +150,7 @@ class _MyAppState extends State<MyApp> {
             const Locale('hi', ''),
             const Locale('ml', ''),
           ],
-          home: EntryAnimationPage(),
+          home: CheckInternet(body: EntryAnimationPage()),
           debugShowCheckedModeBanner: false,
         ));
   }

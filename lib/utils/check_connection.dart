@@ -19,7 +19,7 @@ class _CheckInternetState extends State<CheckInternet> {
   @override
   void initState() {
     super.initState();
-    loop();
+    // loop();
   }
 
     void loop() async {

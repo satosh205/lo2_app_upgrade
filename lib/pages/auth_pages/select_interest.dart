@@ -140,16 +140,31 @@ class _InterestPageState extends State<InterestPage> {
                                             localId +=
                                                 element.toString() + ',';
                                           });
+
+                                   
                                           parentId = parentId.substring(
                                               0, parentId.length - 1);
                                                 localId = localId.substring(
                                               0, localId.length - 1);
-                                          Preference.setString(
+                                        
+
+                                          bool? isParentLanguage =     Preference.getBool(Preference.IS_PRIMARY_LANGUAGE);
+                                          if(isParentLanguage != true ){
+                                              Preference.setString(
                                               'interestCategory',
                                               '$localId');
-                                          bool? isParentLanguage =     Preference.getBool(Preference.APP_LANGUAGE);
+                                              _mapInterest(localId);
 
-                                      isParentLanguage == true?    _mapInterest(localId) : _mapInterest(parentId);
+                                              print('mapping id is $localId');
+                                          }
+                                          else{
+                                              Preference.setString(
+                                              'interestCategory',
+                                              '$parentId');
+                                              _mapInterest(parentId);
+                                              print('mapping id is $parentId');
+                                          }
+
                                         },
                                         child: Container(
                                           margin: EdgeInsets.only(
