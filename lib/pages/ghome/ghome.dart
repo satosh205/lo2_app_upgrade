@@ -190,12 +190,12 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                             if (selectedJoyContentCategoryId != 1) {
                               joyContentListView = joyContentListView
                                   ?.where((element) =>
-                                      element.categoryId ==
+                                      element.categoryId !=
                                       selectedJoyContentCategoryId)
                                   .toList();
                             }
 
-// return Text('nice ${joyContentListView?.length} and $selectedJoyContentCategoryId');
+// return Text('nice ${joyContentListView?.first.categoryId} and $selectedJoyContentCategoryId');
                             return Padding(
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               child: Visibility(
@@ -257,62 +257,77 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                                           BorderRadius.circular(
                                                               10),
                                                       child: Container(
-                                                        height: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .height *
-                                                            0.35,
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10)),
-                                                        foregroundDecoration:
-                                                            BoxDecoration(
-                                                                gradient:
-                                                                    LinearGradient(
-                                                          end: const Alignment(
-                                                              0.0, -1),
-                                                          begin:
-                                                              const Alignment(
-                                                                  0.0, 0.8),
-                                                          colors: [
-                                                            const Color(
-                                                                    0x8A000000)
-                                                                .withOpacity(
-                                                                    0.4),
-                                                            Colors.black12
-                                                                .withOpacity(
-                                                                        0.0)
-                                                          ],
-                                                        )),
-
-                                                        child: CachedNetworkImage(
-  imageUrl: '${joyContentListView![index].thumbnailUrl}',
-  imageBuilder: (context, imageProvider) => Container(
-    decoration: BoxDecoration(
-      image: DecorationImage(
-          image: imageProvider,
-          fit: BoxFit.fill,
-      )
-    ),
-  ),
-  placeholder: (context, url) => Image.asset('assets/images/placeholder.png' ,
-  fit: BoxFit.fill, ),
-  errorWidget: (context, url, error) => Image.asset('assets/images/placeholder.png'
-  ,
-  fit: BoxFit.fill,
-  ),
-)
-                                                        // child: Image.network(
-                                                        //   '${joyContentListView![index].thumbnailUrl}',
-                                                        //   fit: BoxFit.fill,
-                                                        // ),
-                                                      ),
+                                                          height: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              0.35,
+                                                          width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width,
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10)),
+                                                          foregroundDecoration:
+                                                              BoxDecoration(
+                                                                  gradient:
+                                                                      LinearGradient(
+                                                            end:
+                                                                const Alignment(
+                                                                    0.0, -1),
+                                                            begin:
+                                                                const Alignment(
+                                                                    0.0, 0.8),
+                                                            colors: [
+                                                              const Color(
+                                                                      0x8A000000)
+                                                                  .withOpacity(
+                                                                      0.4),
+                                                              Colors.black12
+                                                                  .withOpacity(
+                                                                      0.0)
+                                                            ],
+                                                          )),
+                                                          child:
+                                                              CachedNetworkImage(
+                                                            imageUrl:
+                                                                '${joyContentListView![index].thumbnailUrl}',
+                                                            imageBuilder: (context,
+                                                                    imageProvider) =>
+                                                                Container(
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                      image:
+                                                                          DecorationImage(
+                                                                image:
+                                                                    imageProvider,
+                                                                fit:
+                                                                    BoxFit.fill,
+                                                              )),
+                                                            ),
+                                                            placeholder:
+                                                                (context,
+                                                                        url) =>
+                                                                    Image.asset(
+                                                              'assets/images/placeholder.png',
+                                                              fit: BoxFit.fill,
+                                                            ),
+                                                            errorWidget:
+                                                                (context, url,
+                                                                        error) =>
+                                                                    Image.asset(
+                                                              'assets/images/placeholder.png',
+                                                              fit: BoxFit.fill,
+                                                            ),
+                                                          )
+                                                          // child: Image.network(
+                                                          //   '${joyContentListView![index].thumbnailUrl}',
+                                                          //   fit: BoxFit.fill,
+                                                          // ),
+                                                          ),
                                                     ),
                                                     if (joyContentListView![
                                                             index]
@@ -1286,6 +1301,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                     status: 'Active',
                     sectionType: 3,
                     isSelected: 1,
+                    parentId: 1,
                     video: Preference.getString(
                         Preference.DEFAULT_VIDEO_URL_CATEGORY),
                     image:
@@ -1301,6 +1317,8 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                 }
               }
               joyCategoryList = temp;
+              bool? isParentLanguage =
+                  Preference.getBool(Preference.IS_PRIMARY_LANGUAGE);
 
               return Column(children: [
                 Row(
@@ -1318,12 +1336,26 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
+                                bool isSelected = false;
+                                if (isParentLanguage == true) {
+                                  isSelected = joyCategoryList![index].id ==
+                                      selectedJoyContentCategoryId;
+                                } else {
+                                  isSelected = joyCategoryList![index].parentId ==
+                                      selectedJoyContentCategoryId;
+                                }
                                 return GestureDetector(
                                   onTap: () {
                                     setState(() {
                                       controller.jumpToPage(index);
-                                      selectedJoyContentCategoryId =
-                                          joyCategoryList![index].id;
+                                      if (isParentLanguage == true) {
+                                        selectedJoyContentCategoryId =
+                                            joyCategoryList![index].id;
+                                      } else {
+                                        selectedJoyContentCategoryId =
+                                            joyCategoryList![index].parentId;
+                                      }
+
                                       print(
                                           'selected id is $selectedJoyContentCategoryId');
 
@@ -1333,14 +1365,29 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                         print(
                                             'the list size is ${joyContentListView?.length}');
                                       } else {
-                                        joyContentListView =
-                                            joyContentListResponse!
-                                                .where((element) =>
-                                                    element.categoryId ==
-                                                    joyCategoryList![index].id)
-                                                .toList();
+                                        if (isParentLanguage == true) {
+                                          joyContentListView =
+                                              joyContentListResponse!
+                                                  .where((element) =>
+                                                      element.categoryId ==
+                                                      joyCategoryList![index]
+                                                          .id)
+                                                  .toList();
+                                        } else {
+                                          joyContentListView =
+                                              joyContentListResponse!
+                                                  .where((element) =>
+                                                      element.categoryId ==
+                                                      joyCategoryList![index]
+                                                          .parentId)
+                                                  .toList();
+                                                  
+                                                  print('view lis len is ${joyContentListView?.length}');
                                         print(
-                                            'the list size is ${joyContentListView?.length}');
+                                            'the list id is  ${joyContentListResponse?.first.categoryId} and ${joyCategoryList![index]
+                                                          .parentId}');
+                                        }
+
                                       }
 
                                       ytController = YoutubePlayerController(
@@ -1356,8 +1403,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 5, vertical: 10),
-                                    child: joyCategoryList![index].id ==
-                                            selectedJoyContentCategoryId
+                                    child: isSelected
                                         ? Container(
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: 10),
@@ -1388,8 +1434,11 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                             ),
                                             child: Center(
                                                 child: Text(
-                                                    joyCategoryList![index].title.toString(),
-                                                    style: Styles.regular(size: 12)))),
+                                                    joyCategoryList![index]
+                                                        .title
+                                                        .toString(),
+                                                    style: Styles.regular(
+                                                        size: 12)))),
                                   ),
                                 );
                               },

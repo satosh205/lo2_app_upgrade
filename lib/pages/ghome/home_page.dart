@@ -169,7 +169,11 @@ class _homePageState extends State<homePage> {
     String appBarImagePath = 'assets/images/${APK_DETAILS['logo_url']}';
 
     return  CheckInternet(
-         
+         refresh: (){
+          setState(() {
+            
+          });
+         },
             body: MultiProvider(
               providers: [
                 ChangeNotifierProvider<VideoPlayerProvider>(

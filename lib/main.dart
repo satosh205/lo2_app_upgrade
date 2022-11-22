@@ -150,7 +150,9 @@ class _MyAppState extends State<MyApp> {
             const Locale('hi', ''),
             const Locale('ml', ''),
           ],
-          home: CheckInternet(body: EntryAnimationPage()),
+          home: CheckInternet(
+            refresh: (){},
+            body: EntryAnimationPage()),
           debugShowCheckedModeBanner: false,
         ));
   }

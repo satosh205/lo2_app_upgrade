@@ -5,47 +5,60 @@ import 'package:masterg/utils/Styles.dart';
 
 class CheckInternet extends StatefulWidget {
   final Widget body;
+  final Function refresh;
 
-  const CheckInternet(
-      {super.key, required this.body});
+  const CheckInternet({super.key, required this.body, required this.refresh});
 
   @override
   State<CheckInternet> createState() => _CheckInternetState();
 }
 
 class _CheckInternetState extends State<CheckInternet> {
-  bool isConnected= true;
+  bool isConnected = true;
 
   @override
   void initState() {
     super.initState();
-    // loop();
+    loop();
   }
 
-    void loop() async {
+  void loop() async {
     while (true) {
       await Future.delayed(const Duration(seconds: 6));
-     
-       checkConnection();
-    
+
+      checkConnection();
     }
   }
 
   void checkConnection() async {
     try {
-
       final result = await InternetAddress.lookup('example.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        widget.refresh();
         setState(() {
           isConnected = true;
         });
       }
     } on SocketException catch (_) {
+      showDialog(
+          barrierDismissible: false,
+          barrierColor: Colors.transparent,
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(
+                "Classes",
+                style: TextStyle(
+                    fontSize: 24, color: Colors.black, fontFamily: 'intel'),
+              ),
+            );
+          });
       setState(() {
         isConnected = false;
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,8 +90,8 @@ class _CheckInternetState extends State<CheckInternet> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          // Icon(
-                          //     (IconData(0xf018a, fontFamily: 'MaterialIcons'))),
+                          Icon(
+                              (IconData(0xf018a, fontFamily: 'MaterialIcons'))),
                           SizedBox(width: 10),
                           Text(
                             'No Internet Connection!',

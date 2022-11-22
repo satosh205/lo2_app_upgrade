@@ -38,6 +38,7 @@ class _InterestPageState extends State<InterestPage> {
   bool isUpdating = false;
   List<Menu>? menuList;
   Color foregroundColor = ColorConstants.BLACK;
+  bool? isParentLanguage = Preference.getBool(Preference.IS_PRIMARY_LANGUAGE);
 
   @override
   void initState() {
@@ -126,45 +127,45 @@ class _InterestPageState extends State<InterestPage> {
                                         children: techChips.toList()),
                                   ),
                                   Visibility(
-                                    visible: selectProgramId.length > 0,
+                                    visible: isParentLanguage != true
+                                        ? selectProgramParentId.length > 0
+                                        : selectProgramId.length > 0,
                                     child: InkWell(
                                         onTap: () {
                                           var parentId = '';
                                           var localId = '';
-                                          print(selectProgramParentId);
-                                          selectProgramParentId.forEach((element) {
-                                            parentId +=
-                                                element.toString() + ',';
-                                          });
-                                          selectProgramId.forEach((element) {
-                                            localId +=
-                                                element.toString() + ',';
-                                          });
+                                         print('the selecte dpr $selectProgramId and $selectProgramParentId and $isParentLanguage');
+                                         
 
-                                   
-                                          parentId = parentId.substring(
-                                              0, parentId.length - 1);
-                                                localId = localId.substring(
+                                          if (isParentLanguage != false) {
+                                            selectProgramId.forEach((element) {
+                                              localId +=
+                                                  element.toString() + ',';
+                                            });
+                                            
+                                          localId = localId.substring(
                                               0, localId.length - 1);
-                                        
+                                            Preference.setString(
+                                                'interestCategory', '$localId');
+                                                print('sendind is $localId');
+                                            _mapInterest(localId);
 
-                                          bool? isParentLanguage =     Preference.getBool(Preference.IS_PRIMARY_LANGUAGE);
-                                          if(isParentLanguage != true ){
-                                              Preference.setString(
-                                              'interestCategory',
-                                              '$localId');
-                                              _mapInterest(localId);
+                                          } 
 
-                                              print('mapping id is $localId');
+                                          else {
+                                            selectProgramParentId
+                                                .forEach((element) {
+                                              parentId +=
+                                                  element.toString() + ',';
+                                            });
+
+                                           parentId = parentId.substring(
+                                              0, parentId.length - 1);
+                                               print('sendind is parent $parentId');
+                                            Preference.setString(
+                                                'interestCategory', '$parentId');
+                                            _mapInterest(parentId);
                                           }
-                                          else{
-                                              Preference.setString(
-                                              'interestCategory',
-                                              '$parentId');
-                                              _mapInterest(parentId);
-                                              print('mapping id is $parentId');
-                                          }
-
                                         },
                                         child: Container(
                                           margin: EdgeInsets.only(
@@ -251,9 +252,6 @@ class _InterestPageState extends State<InterestPage> {
             Log.v(state.response!.data!.list.toString());
 
             programs_list = state.response!.data!.list;
-            final generated =
-                List.generate(programs_list!.length, (index) => 0);
-            selectedPrograms = generated;
 
             print('===== programs_list.length=======');
             print(programs_list!.length);
@@ -264,18 +262,31 @@ class _InterestPageState extends State<InterestPage> {
                   // selectProgramId.contains(programs_list![i].id)
                   //     ? selectProgramId.remove(programs_list![i].id)
                   //     : selectProgramId.add(programs_list![i].id);
-
-                    if(selectProgramId.contains(programs_list![i].id)){
-selectProgramId.remove(programs_list![i].id);
-selectProgramParentId.remove(programs_list![i].parentId);
-            }
-            else{
-selectProgramId.add(programs_list![i].id);
-selectProgramParentId.add(programs_list![i].parentId);
-            }
+                  if (isParentLanguage != true) {
+                    print('is parent');
+                    if (selectProgramParentId
+                        .contains(programs_list![i].parentId)) {
+                      // selectProgramId.remove(programs_list![i].id);
+                      selectProgramParentId.remove(programs_list![i].parentId);
+                    } else {
+                      // selectProgramId.add(programs_list![i].id);
+                      selectProgramParentId.add(programs_list![i].parentId);
+                    }
+                  } else {
+                     print(' parent');
+                    if (selectProgramId.contains(programs_list![i].id)) {
+                      selectProgramId.remove(programs_list![i].id);
+                      // selectProgramParentId.remove(programs_list![i].parentId);
+                    } else {
+                      selectProgramId.add(programs_list![i].id);
+                      // selectProgramParentId.add(programs_list![i].parentId);
+                    }
+                  }
                 });
               }
             }
+
+            print('select program len is ${selectProgramId.length} and ${selectProgramParentId.length}');
 
             // options
             // options = programs_list.map((e) => e.title);
@@ -316,7 +327,7 @@ selectProgramParentId.add(programs_list![i].parentId);
                   FocusScope.of(context).unfocus();
                 });
           } else {
-          menuList?.sort((a, b) => a.inAppOrder!.compareTo(b.inAppOrder!));
+            menuList?.sort((a, b) => a.inAppOrder!.compareTo(b.inAppOrder!));
 
             Navigator.pushAndRemoveUntil(
                 context,
@@ -383,13 +394,21 @@ selectProgramParentId.add(programs_list![i].parentId);
             //     ? selectProgramId.remove(programs_list![i].id)
             //     : selectProgramId.add(programs_list![i].id);
 
-            if(selectProgramId.contains(programs_list![i].id)){
-selectProgramId.remove(programs_list![i].id);
-selectProgramParentId.remove(programs_list![i].parentId);
-            }
-            else{
-selectProgramId.add(programs_list![i].id);
-selectProgramParentId.add(programs_list![i].parentId);
+            if (isParentLanguage != true) {
+              print('selecte parent id is ');
+              if (selectProgramParentId.contains(programs_list![i].parentId)) {
+                selectProgramParentId.remove(programs_list![i].parentId);
+              } else {
+                selectProgramParentId.add(programs_list![i].parentId);
+              }
+            } else {
+              print('selecte parent id is not');
+
+              if (selectProgramId.contains(programs_list![i].id)) {
+                selectProgramId.remove(programs_list![i].id);
+              } else {
+                selectProgramId.add(programs_list![i].id);
+              }
             }
           });
         },
@@ -399,17 +418,29 @@ selectProgramParentId.add(programs_list![i].parentId);
             backgroundColor: Colors.transparent,
             shape: StadiumBorder(
                 side: BorderSide(
-                    color: selectProgramId.contains(programs_list![i].id)
-                        ? ColorConstants.GREEN
-                        : ColorConstants.GREY_4,
+                    color: isParentLanguage != true
+                        ? (selectProgramParentId.contains(programs_list![i].parentId)
+                            ? ColorConstants.GREEN
+                            : ColorConstants.GREY_4)
+                        : (selectProgramId.contains(programs_list![i].id)
+                            ? ColorConstants.GREEN
+                            : ColorConstants.GREY_4),
                     width: 1)),
-            avatar: selectProgramId.contains(programs_list![i].id)
-                ? Icon(
-                    Icons.check_circle,
-                    color: ColorConstants.GREEN,
-                    size: 20,
-                  )
-                : null,
+            avatar: isParentLanguage != true
+                ? (selectProgramParentId.contains(programs_list![i].parentId)
+                    ? Icon(
+                        Icons.check_circle,
+                        color: ColorConstants.GREEN,
+                        size: 20,
+                      )
+                    : null)
+                : (selectProgramId.contains(programs_list![i].id)
+                    ? Icon(
+                        Icons.check_circle,
+                        color: ColorConstants.GREEN,
+                        size: 20,
+                      )
+                    : null),
             label: Text(
               '${programs_list![i].title}',
               style: Styles.regular(size: 14.22),
