@@ -187,14 +187,18 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                 .toList();
                             joyContentListView = joyContentListResponse;
 
+
                             if (selectedJoyContentCategoryId != 1) {
-                              joyContentListView = joyContentListView
+                           
+
+                            joyContentListView = joyContentListView
                                   ?.where((element) =>
-                                      element.categoryId !=
+                                      element.categoryId ==
                                       selectedJoyContentCategoryId)
                                   .toList();
                             }
 
+// return Text('${joyContentListView?.first.categoryId} annd $selectedJoyContentCategoryId');
 // return Text('nice ${joyContentListView?.first.categoryId} and $selectedJoyContentCategoryId');
                             return Padding(
                               padding: const EdgeInsets.symmetric(vertical: 10),
@@ -216,206 +220,200 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                           crossAxisCount: 2),
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    return Visibility(
-                                      visible: selectedJoyContentCategoryId == 1
-                                          ? true
-                                          : selectedJoyContentCategoryId ==
-                                              joyContentListView![index]
-                                                  .categoryId,
-                                      child: InkWell(
-                                        onTap: () async {
-                                          value.enableProviderControl();
-                                          value.mute();
-                                          value.pause().then((data) =>
-                                              showModalBottomSheet(
-                                                  context: context,
-                                                  backgroundColor:
-                                                      ColorConstants.WHITE,
-                                                  isScrollControlled: true,
-                                                  builder: (context) {
-                                                    return FractionallySizedBox(
-                                                        heightFactor: 1.0,
-                                                        child:
-                                                            ViewWidgetDetailsPage(
-                                                          joyContentList:
-                                                              joyContentListView,
-                                                          currentIndex: index,
-                                                        ));
-                                                  }));
-                                        },
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                                decoration: BoxDecoration(
+                                        
+                                    return InkWell(
+                                      onTap: () async {
+                                        value.enableProviderControl();
+                                        value.mute();
+                                        value.pause().then((data) =>
+                                            showModalBottomSheet(
+                                                context: context,
+                                                backgroundColor:
+                                                    ColorConstants.WHITE,
+                                                isScrollControlled: true,
+                                                builder: (context) {
+                                                  return FractionallySizedBox(
+                                                      heightFactor: 1.0,
+                                                      child:
+                                                          ViewWidgetDetailsPage(
+                                                        joyContentList:
+                                                            joyContentListView,
+                                                        currentIndex: index,
+                                                      ));
+                                                }));
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Stack(
+                                                children: [
+                                                  ClipRRect(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            10)),
-                                                child: Stack(
-                                                  children: [
-                                                    ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      child: Container(
-                                                          height: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height *
-                                                              0.35,
-                                                          width: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .width,
-                                                          decoration: BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10)),
-                                                          foregroundDecoration:
-                                                              BoxDecoration(
-                                                                  gradient:
-                                                                      LinearGradient(
-                                                            end:
-                                                                const Alignment(
-                                                                    0.0, -1),
-                                                            begin:
-                                                                const Alignment(
-                                                                    0.0, 0.8),
-                                                            colors: [
-                                                              const Color(
-                                                                      0x8A000000)
-                                                                  .withOpacity(
-                                                                      0.4),
-                                                              Colors.black12
-                                                                  .withOpacity(
-                                                                      0.0)
-                                                            ],
-                                                          )),
-                                                          child:
-                                                              CachedNetworkImage(
-                                                            imageUrl:
-                                                                '${joyContentListView![index].thumbnailUrl}',
-                                                            imageBuilder: (context,
-                                                                    imageProvider) =>
-                                                                Container(
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                      image:
-                                                                          DecorationImage(
-                                                                image:
-                                                                    imageProvider,
-                                                                fit:
-                                                                    BoxFit.fill,
-                                                              )),
-                                                            ),
-                                                            placeholder:
-                                                                (context,
-                                                                        url) =>
-                                                                    Image.asset(
-                                                              'assets/images/placeholder.png',
-                                                              fit: BoxFit.fill,
-                                                            ),
-                                                            errorWidget:
-                                                                (context, url,
-                                                                        error) =>
-                                                                    Image.asset(
-                                                              'assets/images/placeholder.png',
-                                                              fit: BoxFit.fill,
-                                                            ),
-                                                          )
-                                                          // child: Image.network(
-                                                          //   '${joyContentListView![index].thumbnailUrl}',
-                                                          //   fit: BoxFit.fill,
-                                                          // ),
+                                                            10),
+                                                    child: Container(
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.35,
+                                                        width: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width,
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10)),
+                                                        foregroundDecoration:
+                                                            BoxDecoration(
+                                                                gradient:
+                                                                    LinearGradient(
+                                                          end:
+                                                              const Alignment(
+                                                                  0.0, -1),
+                                                          begin:
+                                                              const Alignment(
+                                                                  0.0, 0.8),
+                                                          colors: [
+                                                            const Color(
+                                                                    0x8A000000)
+                                                                .withOpacity(
+                                                                    0.4),
+                                                            Colors.black12
+                                                                .withOpacity(
+                                                                    0.0)
+                                                          ],
+                                                        )),
+                                                        child:
+                                                            CachedNetworkImage(
+                                                          imageUrl:
+                                                              '${joyContentListView![index].thumbnailUrl}',
+                                                          imageBuilder: (context,
+                                                                  imageProvider) =>
+                                                              Container(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                                    image:
+                                                                        DecorationImage(
+                                                              image:
+                                                                  imageProvider,
+                                                              fit:
+                                                                  BoxFit.fill,
+                                                            )),
                                                           ),
-                                                    ),
-                                                    if (joyContentListView![
-                                                            index]
-                                                        .resourcePath!
-                                                        .contains('.mp4'))
-                                                      Positioned.fill(
-                                                        child: Align(
-                                                          alignment:
-                                                              Alignment.center,
-                                                          child:
-                                                              SvgPicture.asset(
-                                                            'assets/images/play_video_icon.svg',
-                                                            height: 30.0,
-                                                            width: 30.0,
-                                                            allowDrawingOutsideViewBox:
-                                                                true,
+                                                          placeholder:
+                                                              (context,
+                                                                      url) =>
+                                                                  Image.asset(
+                                                            'assets/images/placeholder.png',
+                                                            fit: BoxFit.fill,
                                                           ),
+                                                          errorWidget:
+                                                              (context, url,
+                                                                      error) =>
+                                                                  Image.asset(
+                                                            'assets/images/placeholder.png',
+                                                            fit: BoxFit.fill,
+                                                          ),
+                                                        )
+                                                        // child: Image.network(
+                                                        //   '${joyContentListView![index].thumbnailUrl}',
+                                                        //   fit: BoxFit.fill,
+                                                        // ),
+                                                        ),
+                                                  ),
+                                                  if (joyContentListView![
+                                                          index]
+                                                      .resourcePath!
+                                                      .contains('.mp4'))
+                                                    Positioned.fill(
+                                                      child: Align(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child:
+                                                            SvgPicture.asset(
+                                                          'assets/images/play_video_icon.svg',
+                                                          height: 30.0,
+                                                          width: 30.0,
+                                                          allowDrawingOutsideViewBox:
+                                                              true,
                                                         ),
                                                       ),
-                                                  ],
-                                                )),
-                                            Container(
-                                              height: 60,
-                                              margin: EdgeInsets.only(top: 4),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  joyContentListView![index]
-                                                              .viewCount !=
-                                                          null
-                                                      ? Row(
-                                                          children: [
+                                                    ),
+                                                ],
+                                              )),
+                                          Container(
+                                            height: 60,
+                                            margin: EdgeInsets.only(top: 4),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                joyContentListView![index]
+                                                            .viewCount !=
+                                                        null
+                                                    ? Row(
+                                                        children: [
+                                                          Text(
+                                                              '${joyContentListView![index].viewCount}  ${Strings.of(context)?.Views}',
+                                                              style: Styles.regular(
+                                                                  size: 10,
+                                                                  color: ColorConstants
+                                                                      .GREY_3)),
+                                                          if (joyContentListView![
+                                                                      index]
+                                                                  .viewCount! >
+                                                              1)
                                                             Text(
-                                                                '${joyContentListView![index].viewCount}  ${Strings.of(context)?.Views}',
+                                                                Preference.getInt(Preference
+                                                                            .APP_LANGUAGE) ==
+                                                                        1
+                                                                    ? 's'
+                                                                    : '',
                                                                 style: Styles.regular(
                                                                     size: 10,
                                                                     color: ColorConstants
                                                                         .GREY_3)),
-                                                            if (joyContentListView![
-                                                                        index]
-                                                                    .viewCount! >
-                                                                1)
-                                                              Text(
-                                                                  Preference.getInt(Preference
-                                                                              .APP_LANGUAGE) ==
-                                                                          1
-                                                                      ? 's'
-                                                                      : '',
-                                                                  style: Styles.regular(
-                                                                      size: 10,
-                                                                      color: ColorConstants
-                                                                          .GREY_3)),
-                                                          ],
-                                                        )
-                                                      : Text(
-                                                          '${0}  ${Strings.of(context)?.Views}',
-                                                          style: Styles.regular(
-                                                              size: 10,
-                                                              color:
-                                                                  ColorConstants
-                                                                      .GREY_3)),
-                                                  // SizedBox(
-                                                  //   width: 10,
-                                                  //   height: 4,
-                                                  // ),
-                                                  SizedBox(
-                                                    width: 150,
-                                                    child: Text(
-                                                        joyContentListView![
-                                                                    index]
-                                                                .title ??
-                                                            '',
-                                                        maxLines: 2,
-                                                        softWrap: true,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: Styles.semibold(
-                                                            size: 14,
+                                                        ],
+                                                      )
+                                                    : Text(
+                                                        '${0}  ${Strings.of(context)?.Views}',
+                                                        style: Styles.regular(
+                                                            size: 10,
                                                             color:
                                                                 ColorConstants
-                                                                    .GREY_1)),
-                                                  ),
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
+                                                                    .GREY_3)),
+                                                // SizedBox(
+                                                //   width: 10,
+                                                //   height: 4,
+                                                // ),
+                                                SizedBox(
+                                                  width: 150,
+                                                  child: Text(
+                                                      joyContentListView![
+                                                                  index]
+                                                              .title ??
+                                                          '',
+                                                      maxLines: 2,
+                                                      softWrap: true,
+                                                      overflow: TextOverflow
+                                                          .ellipsis,
+                                                      style: Styles.semibold(
+                                                          size: 14,
+                                                          color:
+                                                              ColorConstants
+                                                                  .GREY_1)),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
                                       ),
                                     );
                                   },
@@ -1317,8 +1315,8 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                 }
               }
               joyCategoryList = temp;
-              bool? isParentLanguage =
-                  Preference.getBool(Preference.IS_PRIMARY_LANGUAGE);
+              int? isParentLanguage =
+                  Preference.getInt(Preference.IS_PRIMARY_LANGUAGE);
 
               return Column(children: [
                 Row(
@@ -1337,10 +1335,14 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
                                 bool isSelected = false;
-                                if (isParentLanguage == true) {
+                                 
+                                if (isParentLanguage == 1) {
+                                  print('selection in if $index and id is $selectedJoyContentCategoryId');
                                   isSelected = joyCategoryList![index].id ==
                                       selectedJoyContentCategoryId;
                                 } else {
+                                  print('selection in else $index');
+
                                   isSelected = joyCategoryList![index].parentId ==
                                       selectedJoyContentCategoryId;
                                 }
@@ -1348,7 +1350,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                   onTap: () {
                                     setState(() {
                                       controller.jumpToPage(index);
-                                      if (isParentLanguage == true) {
+                                      if (isParentLanguage == 1) {
                                         selectedJoyContentCategoryId =
                                             joyCategoryList![index].id;
                                       } else {
@@ -1365,15 +1367,8 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                         print(
                                             'the list size is ${joyContentListView?.length}');
                                       } else {
-                                        if (isParentLanguage == true) {
-                                          joyContentListView =
-                                              joyContentListResponse!
-                                                  .where((element) =>
-                                                      element.categoryId ==
-                                                      joyCategoryList![index]
-                                                          .id)
-                                                  .toList();
-                                        } else {
+                                        if (isParentLanguage != 1) {
+                                           print('inside if ');
                                           joyContentListView =
                                               joyContentListResponse!
                                                   .where((element) =>
@@ -1381,13 +1376,19 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                                       joyCategoryList![index]
                                                           .parentId)
                                                   .toList();
-                                                  
-                                                  print('view lis len is ${joyContentListView?.length}');
-                                        print(
-                                            'the list id is  ${joyContentListResponse?.first.categoryId} and ${joyCategoryList![index]
-                                                          .parentId}');
+                                        } else {
+                                          print('inside else ');
+                                          joyContentListView =
+                                              joyContentListResponse!
+                                                  .where((element) =>
+                                                      element.categoryId ==
+                                                      joyCategoryList![index]
+                                                          .id)
+                                                  .toList();
                                         }
 
+                                        print(
+                                            'the list size is ${joyContentListResponse?.first.categoryId}');
                                       }
 
                                       ytController = YoutubePlayerController(
@@ -1419,7 +1420,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                                 )),
                                             child: Center(
                                                 child: Text(
-                                                    joyCategoryList![index]
+                                              joyCategoryList![index]
                                                         .title
                                                         .toString(),
                                                     style: Styles.regular(
@@ -1434,7 +1435,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                             ),
                                             child: Center(
                                                 child: Text(
-                                                    joyCategoryList![index]
+                                                 joyCategoryList![index]
                                                         .title
                                                         .toString(),
                                                     style: Styles.regular(

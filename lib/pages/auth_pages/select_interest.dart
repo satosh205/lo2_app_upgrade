@@ -38,7 +38,7 @@ class _InterestPageState extends State<InterestPage> {
   bool isUpdating = false;
   List<Menu>? menuList;
   Color foregroundColor = ColorConstants.BLACK;
-  bool? isParentLanguage = Preference.getBool(Preference.IS_PRIMARY_LANGUAGE);
+  int? isParentLanguage = Preference.getInt(Preference.IS_PRIMARY_LANGUAGE);
 
   @override
   void initState() {
@@ -127,7 +127,7 @@ class _InterestPageState extends State<InterestPage> {
                                         children: techChips.toList()),
                                   ),
                                   Visibility(
-                                    visible: isParentLanguage != true
+                                    visible: isParentLanguage != 1
                                         ? selectProgramParentId.length > 0
                                         : selectProgramId.length > 0,
                                     child: InkWell(
@@ -137,7 +137,7 @@ class _InterestPageState extends State<InterestPage> {
                                          print('the selecte dpr $selectProgramId and $selectProgramParentId and $isParentLanguage');
                                          
 
-                                          if (isParentLanguage != false) {
+                                          if (isParentLanguage == 1) {
                                             selectProgramId.forEach((element) {
                                               localId +=
                                                   element.toString() + ',';
@@ -262,7 +262,7 @@ class _InterestPageState extends State<InterestPage> {
                   // selectProgramId.contains(programs_list![i].id)
                   //     ? selectProgramId.remove(programs_list![i].id)
                   //     : selectProgramId.add(programs_list![i].id);
-                  if (isParentLanguage != true) {
+                  if (isParentLanguage != 1) {
                     print('is parent');
                     if (selectProgramParentId
                         .contains(programs_list![i].parentId)) {
@@ -394,7 +394,7 @@ class _InterestPageState extends State<InterestPage> {
             //     ? selectProgramId.remove(programs_list![i].id)
             //     : selectProgramId.add(programs_list![i].id);
 
-            if (isParentLanguage != true) {
+            if (isParentLanguage != 1) {
               print('selecte parent id is ');
               if (selectProgramParentId.contains(programs_list![i].parentId)) {
                 selectProgramParentId.remove(programs_list![i].parentId);
@@ -418,7 +418,7 @@ class _InterestPageState extends State<InterestPage> {
             backgroundColor: Colors.transparent,
             shape: StadiumBorder(
                 side: BorderSide(
-                    color: isParentLanguage != true
+                    color: isParentLanguage != 1
                         ? (selectProgramParentId.contains(programs_list![i].parentId)
                             ? ColorConstants.GREEN
                             : ColorConstants.GREY_4)
@@ -426,7 +426,7 @@ class _InterestPageState extends State<InterestPage> {
                             ? ColorConstants.GREEN
                             : ColorConstants.GREY_4),
                     width: 1)),
-            avatar: isParentLanguage != true
+            avatar: isParentLanguage != 1
                 ? (selectProgramParentId.contains(programs_list![i].parentId)
                     ? Icon(
                         Icons.check_circle,
