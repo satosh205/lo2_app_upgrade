@@ -77,8 +77,8 @@ class _CheckInternetState extends State<CheckInternet> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(
-                              (IconData(0xf018a, fontFamily: 'MaterialIcons'))),
+                          // Icon(
+                          //     (IconData(0xf018a, fontFamily: 'MaterialIcons'))),
                           SizedBox(width: 10),
                           Text(
                             'No Internet Connection!',
