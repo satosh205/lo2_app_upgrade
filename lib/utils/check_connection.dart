@@ -1,24 +1,71 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:masterg/utils/Styles.dart';
 
 class CheckInternet extends StatefulWidget {
   final Widget body;
-  final bool isConnected;
-  const CheckInternet(
-      {super.key, required this.body, required this.isConnected});
+  final Function refresh;
+
+  const CheckInternet({super.key, required this.body, required this.refresh});
 
   @override
   State<CheckInternet> createState() => _CheckInternetState();
 }
 
 class _CheckInternetState extends State<CheckInternet> {
+  bool isConnected = true;
+
+  @override
+  void initState() {
+    super.initState();
+    loop();
+  }
+
+  void loop() async {
+    while (true) {
+      await Future.delayed(const Duration(seconds: 6));
+
+      checkConnection();
+    }
+  }
+
+  void checkConnection() async {
+    try {
+      final result = await InternetAddress.lookup('example.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        widget.refresh();
+        setState(() {
+          isConnected = true;
+        });
+      }
+    } on SocketException catch (_) {
+      showDialog(
+          barrierDismissible: false,
+          barrierColor: Colors.transparent,
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(
+                "Classes",
+                style: TextStyle(
+                    fontSize: 24, color: Colors.black, fontFamily: 'intel'),
+              ),
+            );
+          });
+      setState(() {
+        isConnected = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
           widget.body,
-          if (widget.isConnected == false)
+          if (isConnected == false)
             Positioned.fill(
                 child: Align(
                     alignment: Alignment.bottomCenter,

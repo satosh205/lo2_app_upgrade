@@ -9,7 +9,6 @@ import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/onboard_sessions.dart';
 import 'package:masterg/data/models/response/home_response/popular_courses_response.dart';
-import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/card_loader.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/gschool_widget/date_picker.dart';
 import 'package:masterg/utils/Log.dart';
@@ -74,7 +73,7 @@ class _MyClassesState extends State<MyClasses> {
                 allowDrawingOutsideViewBox: true,
               ),
               SizedBox(width: 20),
-              Text('Ongoing Class')
+              Text('${Strings.of(context)?.ongoingClass}')
             ]),
             value: '1'),
         PopupMenuItem<String>(
@@ -86,7 +85,7 @@ class _MyClassesState extends State<MyClasses> {
                 allowDrawingOutsideViewBox: true,
               ),
               SizedBox(width: 20),
-              Text('Upcoming Class')
+              Text('${Strings.of(context)?.upcomingClass}')
             ]),
             value: '2'),
         PopupMenuItem<String>(
@@ -98,7 +97,7 @@ class _MyClassesState extends State<MyClasses> {
                 allowDrawingOutsideViewBox: true,
               ),
               SizedBox(width: 20),
-              Text('Class Completed')
+              Text('${Strings.of(context)?.classCompleted}')
             ]),
             value: '3'),
         // PopupMenuItem<String>(
@@ -121,7 +120,7 @@ class _MyClassesState extends State<MyClasses> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(Strings.of(context)!.MyClasses ?? "My Classes",
+        title: Text('${Strings.of(context)?.MyClasses}',
             style: Styles.bold(size: 18)),
         actions: [
           GestureDetector(
@@ -188,7 +187,7 @@ class _MyClassesState extends State<MyClasses> {
                         ? _getClasses(liveClassModel)
                         : Center(
                             child: Text(
-                              'There are no classes available.',
+                              '${Strings.of(context)?.noClassesAvailable}.',
                               style: Styles.bold(size: 16),
                             ),
                           )
@@ -282,7 +281,7 @@ class _MyClassesState extends State<MyClasses> {
               DropdownButton<String>(
                 underline: SizedBox(),
                 hint: Text('$selectedOption', style: Styles.bold(size: 14)),
-                items: <String>['${Strings.of(context)?.all}', '${Strings.of(context)?.upcoming}', '${Strings.of(context)?.Completed}', '${Strings.of(context)?.ongoing}']
+               items: <String>['All', 'Upcoming', 'Completed', 'Pending']
                     .map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
@@ -448,8 +447,8 @@ class _MyClassesState extends State<MyClasses> {
                                                                     .contentType!
                                                                     .toLowerCase() ==
                                                                 'offlineclass'
-                                                            ? 'Ongoing'
-                                                            : "Live Now",
+                                                            ? '${Strings.of(context)?.ongoing}'
+                                                            : "${Strings.of(context)?.liveNow}",
                                                         style: Styles.regular(
                                                             size: 12,
                                                             color:
@@ -483,7 +482,7 @@ class _MyClassesState extends State<MyClasses> {
                                                                       .contentType!
                                                                       .toLowerCase() ==
                                                                   'zoomclass'
-                                                          ? "Live"
+                                                          ? "${Strings.of(context)?.live}"
                                                           : 'Classroom',
                                                       style: Styles.regular(
                                                           size: 10,
@@ -655,7 +654,7 @@ class _MyClassesState extends State<MyClasses> {
                                                   .list![index].liveclassStatus!
                                                   .toLowerCase() ==
                                               'upcoming')
-                                            Text('Upcoming',
+                                            Text('${Strings.of(context)?.upcoming}',
                                                 style:
                                                     Styles.regular(size: 12)),
                                           Visibility(
@@ -703,7 +702,7 @@ class _MyClassesState extends State<MyClasses> {
                 )
               : Center(
                   child: Text(
-                    'No active programs.',
+                    '${Strings.of(context)?.noActiveProgram}',
                     style: Styles.bold(size: 16),
                     textAlign: TextAlign.center,
                   ),

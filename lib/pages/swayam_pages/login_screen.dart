@@ -392,7 +392,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.push(context, NextPageRoute(SignUpScreen()));
                       },
                       child: Text(
-                        "Create an Account",
+                        "${Strings.of(context)?.create} an Account",
                         textAlign: TextAlign.center,
                         style: Styles.textSemiBold(color: ColorConstants.TEXT_DARK_BLACK),
                       ),

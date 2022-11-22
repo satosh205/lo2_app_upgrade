@@ -10,6 +10,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/pages/walk_through_page/splash_screen.dart';
+import 'package:masterg/utils/check_connection.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:path_provider/path_provider.dart';
@@ -21,31 +22,29 @@ import 'dependency_injections.dart';
 import 'local/pref/Preference.dart';
 import 'utils/Strings.dart';
 
-
 void main() async {
   runZoned(() {
     runZonedGuarded(() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    await FlutterDownloader.initialize();
+      WidgetsFlutterBinding.ensureInitialized();
+      await FlutterDownloader.initialize();
       //  WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
-    setupDependencyInjections();
-    initHive();
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+      await Firebase.initializeApp();
+      setupDependencyInjections();
+      initHive();
+      FirebaseMessaging.onBackgroundMessage(
+          _firebaseMessagingBackgroundHandler);
 
-    Preference.getInstance();
-    runApp(MyApp()); 
-    Preference.load().then((value) {  
-      UserSession();
-    });
-  }, (error, stackTrace) {});
-  }, zoneSpecification:  ZoneSpecification(
+      Preference.getInstance();
+      runApp(MyApp());
+      Preference.load().then((value) {
+        UserSession();
+      });
+    }, (error, stackTrace) {});
+  }, zoneSpecification: ZoneSpecification(
       print: (Zone self, ZoneDelegate parent, Zone zone, String line) {
-
-        //comment to hide all print
+    //comment to hide all print
     parent.print(zone, "$line");
   }));
- 
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -56,6 +55,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("onBackgroundMessage: ${message.data}");
   UserSession.notificationData = message.data;
 }
+
 class MyApp extends StatefulWidget with PortraitModeMixin {
   @override
   _MyAppState createState() => _MyAppState();
@@ -74,6 +74,17 @@ class _MyAppState extends State<MyApp> {
   Locale? locale;
   bool isLocalLanguageLoaded = false;
 
+  var localeCodes = {
+    'english': "en",
+    'hindi': "hi",
+    'kannada': "kn",
+    'marathi': "mr",
+    'tamil': "ta",
+    'telugu': "te",
+    'bengali': "bn",
+    'malyalam': 'ml'
+  };
+
   @override
   void initState() {
     super.initState();
@@ -81,11 +92,19 @@ class _MyAppState extends State<MyApp> {
     Preference.load().then((value) {
       setState(() {
         UserSession();
-        if (UserSession.language != null)
-          this.locale = new Locale('${UserSession.language}');
-        isLocalLanguageLoaded = true;
+        updateLocale();
+        
       });
     });
+  }
+  void updateLocale(){
+    if (Preference.getString(Preference.APP_ENGLISH_NAME) != null) {
+          this.locale = Locale(
+              '${localeCodes[Preference.getString(Preference.APP_ENGLISH_NAME)]}');
+        }
+        isLocalLanguageLoaded = true;
+        setState(() {
+        });
   }
 
   @override
@@ -97,8 +116,7 @@ class _MyAppState extends State<MyApp> {
           BlocProvider<HomeBloc>(
               create: (context) =>
                   HomeBloc(AnnouncementContentState(ApiStatus.INITIAL))),
-
-                   BlocProvider<AuthBloc>(
+          BlocProvider<AuthBloc>(
               create: (context) => AuthBloc(LoginState(ApiStatus.INITIAL))),
           BlocProvider<HomeBloc>(
               create: (context) =>
@@ -110,10 +128,10 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           locale: this.locale,
           theme: ThemeData(
-              textSelectionHandleColor: Colors.transparent,
-              primaryColor: ColorConstants.ORANGE,
+              // textSelectionHandleColor: Colors.transparent,
+              // primaryColor: ColorConstants.ORANGE,
               primarySwatch: ColorConstants.PRIMARY_COLOR_LIGHT,
-              textSelectionColor: Colors.transparent,
+              // textSelectionColor: Colors.transparent,
               primaryColorDark: ColorConstants.ORANGE),
           onGenerateTitle: (BuildContext context) =>
               '${Strings.of(context)?.appName}',
@@ -132,7 +150,9 @@ class _MyAppState extends State<MyApp> {
             const Locale('hi', ''),
             const Locale('ml', ''),
           ],
-          home: EntryAnimationPage(),
+          home: CheckInternet(
+            refresh: (){},
+            body: EntryAnimationPage()),
           debugShowCheckedModeBanner: false,
         ));
   }
@@ -146,7 +166,6 @@ mixin PortraitModeMixin on StatefulWidget {
   }*/
 
   Widget? build(BuildContext context) {
-
     _portraitModeOnly();
     return null;
   }

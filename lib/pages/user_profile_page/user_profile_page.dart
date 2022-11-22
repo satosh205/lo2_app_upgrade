@@ -145,7 +145,7 @@ class _UserProfilePageState extends State<UserProfilePage>
   void createPortfolio() {
     BlocProvider.of<HomeBloc>(context).add(CreatePortfolioEvent(
       title: titleController.text.toString(),
-      description: 'Create Brand',
+      description: '${Strings.of(context)?.create} Brand',
       type: 'brand',
       filePath: selectedBrandPath!.isEmpty ? selectedBrandPath : brandImageUrl,
     ));
@@ -154,7 +154,7 @@ class _UserProfilePageState extends State<UserProfilePage>
   void masterBrandCreate() {
     BlocProvider.of<HomeBloc>(context).add(MasterBrandCreateEvent(
       title: titleController.text.toString(),
-      description: 'Create Brand',
+      description: '${Strings.of(context)?.create} Brand',
       filePath: selectedBrandPath,
     ));
   }

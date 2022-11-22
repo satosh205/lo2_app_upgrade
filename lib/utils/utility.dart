@@ -27,6 +27,34 @@ class Utility {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
   }
 
+  //  Future<bool> loop() async {
+  //   while (true) {
+  //     await Future.delayed(const Duration(seconds: 6));
+     
+  //     return checkConnection();
+    
+  //   }
+  // }
+
+  Future<bool> checkConnection() async {
+    try {
+
+      final result = await InternetAddress.lookup('example.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        // setState(() {
+        //   isConnected = true;
+        // });
+        return true;
+      }
+    } on SocketException catch (_) {
+      // setState(() {
+      //   isConnected = false;
+      // });
+      return false;
+    }
+    return false;
+  }
+
   var currentLocation;
 
   static void showSnackBar(

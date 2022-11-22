@@ -2,6 +2,8 @@
 
 import 'dart:typed_data';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:camerawesome/camerawesome_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -37,14 +39,11 @@ import 'package:visibility_detector/visibility_detector.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 late VideoPlayerController _videoController;
-                         YoutubePlayerController ytController =  YoutubePlayerController(
-                               flags: YoutubePlayerFlags(
-        autoPlay: false,
-       
+YoutubePlayerController ytController = YoutubePlayerController(
+    flags: YoutubePlayerFlags(
+      autoPlay: true,
     ),
-                                initialVideoId:
-                                    '');
-
+    initialVideoId: '');
 
 class GHome extends StatefulWidget {
   GHome({Key? key}) : super(key: key);
@@ -71,11 +70,12 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
   // FlickManager _flickManager;
   Box? box;
 
+  late VideoPlayerProvider videoPlayerProvider;
 
   @override
   void initState() {
     super.initState();
-     WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
 
     _getJoyCategory();
     _getJoyContentList();
@@ -83,16 +83,14 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
     _getFeaturedVideo();
   }
 
-  
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    print('the life cycle is $state');
-    if(state == AppLifecycleState.resumed){
+    if (state == AppLifecycleState.resumed) {
       //pause video
+      // print('video is paused');
       _videoController.pause();
     }
-     
   }
 
   @override
@@ -105,7 +103,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider<VideoPlayerProvider>(
-            create: (context) => VideoPlayerProvider(false),
+            create: (context) => VideoPlayerProvider(true),
           ),
         ],
         child: Consumer<VideoPlayerProvider>(
@@ -145,57 +143,64 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       box!.get("joy_category") != null
-                          ? __getJoyCategoryWidget(context)
+                          ? __getJoyCategoryWidget(context, value)
                           : CardLoader(),
 
                       ValueListenableBuilder(
-                                    valueListenable: box!.listenable(),
-                                    builder: (bc, Box box, child) {
-                                      if (box.get("joyContentListResponse") == null) {
-                                        return Shimmer.fromColors(
-                                          baseColor: Color(0xffe6e4e6),
-                                          highlightColor: Color(0xffeaf0f3),
-                                          child: Container(
-                                            height: MediaQuery.of(context).size.height *
-                                                0.07,
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 20),
-                                            width: MediaQuery.of(context).size.width,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.circular(6)),
-                                          ),
-                                        );
-                                      } else if (box
-                                          .get("joyContentListResponse")
-                                          .isEmpty) {
-                                        return Container(
-                                          height: 290,
-                                          width: MediaQuery.of(context).size.width,
-                                          child: Center(
-                                            child: Text(
-                                              "There are no libraries available",
-                                              style: Styles.textBold(),
-                                            ),
-                                          ),
-                                        );
-                                      }
+                          valueListenable: box!.listenable(),
+                          builder: (bc, Box box, child) {
+                            if (box.get("joyContentListResponse") == null) {
+                              return Shimmer.fromColors(
+                                baseColor: Color(0xffe6e4e6),
+                                highlightColor: Color(0xffeaf0f3),
+                                child: Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.07,
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 20),
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(6)),
+                                ),
+                              );
+                            } else if (box
+                                .get("joyContentListResponse")
+                                .isEmpty) {
+                              return Container(
+                                height: 290,
+                                width: MediaQuery.of(context).size.width,
+                                child: Center(
+                                  child: Text(
+                                    "There are no libraries available",
+                                    style: Styles.textBold(),
+                                  ),
+                                ),
+                              );
+                            }
 
-                                      joyContentListResponse = box
-                                          .get("joyContentListResponse")
-                                          .map((e) => JoyContentListElement.fromJson(
-                                              Map<String, dynamic>.from(e)))
-                                          .cast<JoyContentListElement>()
-                                          .toList();
-                                      joyContentListView = joyContentListResponse;
+                            joyContentListResponse = box
+                                .get("joyContentListResponse")
+                                .map((e) => JoyContentListElement.fromJson(
+                                    Map<String, dynamic>.from(e)))
+                                .cast<JoyContentListElement>()
+                                .toList();
+                            joyContentListView = joyContentListResponse;
 
-                                      if(selectedJoyContentCategoryId != 1)
-                                      {
-                                        joyContentListView = joyContentListView?.where((element) => element.categoryId == selectedJoyContentCategoryId).toList();
-                                      }
 
-// return Text('nice ${joyContentListView?.length} and $selectedJoyContentCategoryId');
-                                      return Padding(
+                            if (selectedJoyContentCategoryId != 1) {
+                           
+
+                            joyContentListView = joyContentListView
+                                  ?.where((element) =>
+                                      element.categoryId ==
+                                      selectedJoyContentCategoryId)
+                                  .toList();
+                            }
+
+// return Text('${joyContentListView?.first.categoryId} annd $selectedJoyContentCategoryId');
+// return Text('nice ${joyContentListView?.first.categoryId} and $selectedJoyContentCategoryId');
+                            return Padding(
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               child: Visibility(
                                 visible: joyContentListView!.length > 0,
@@ -215,46 +220,42 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                           crossAxisCount: 2),
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    return Visibility(
-                                      visible: selectedJoyContentCategoryId == 1
-                                          ? true
-                                          : selectedJoyContentCategoryId ==
-                                              joyContentListView![index]
-                                                  .categoryId,
-                                      child: InkWell(
-                                        onTap: () async {
-                                          value.enableProviderControl();
-                                          value.mute();
-                                          value.pause().then((data) =>  showModalBottomSheet(
-                                              context: context,
-                                              backgroundColor:
-                                                  ColorConstants.WHITE,
-                                              isScrollControlled: true,
-                                              builder: (context) {
-                                                return FractionallySizedBox(
-                                                    heightFactor: 1.0,
-                                                    child:
-                                                        ViewWidgetDetailsPage(
-                                                      joyContentList:
-                                                          joyContentListView,
-                                                      currentIndex: index,
-                                                    ));
-                                              }));
-                                        },
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                                decoration: BoxDecoration(
+                                        
+                                    return InkWell(
+                                      onTap: () async {
+                                        value.enableProviderControl();
+                                        value.mute();
+                                        value.pause().then((data) =>
+                                            showModalBottomSheet(
+                                                context: context,
+                                                backgroundColor:
+                                                    ColorConstants.WHITE,
+                                                isScrollControlled: true,
+                                                builder: (context) {
+                                                  return FractionallySizedBox(
+                                                      heightFactor: 1.0,
+                                                      child:
+                                                          ViewWidgetDetailsPage(
+                                                        joyContentList:
+                                                            joyContentListView,
+                                                        currentIndex: index,
+                                                      ));
+                                                }));
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Stack(
+                                                children: [
+                                                  ClipRRect(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            10)),
-                                                child: Stack(
-                                                  children: [
-                                                    ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      child: Container(
+                                                            10),
+                                                    child: Container(
                                                         height: MediaQuery.of(
                                                                     context)
                                                                 .size
@@ -273,8 +274,9 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                                             BoxDecoration(
                                                                 gradient:
                                                                     LinearGradient(
-                                                          end: const Alignment(
-                                                              0.0, -1),
+                                                          end:
+                                                              const Alignment(
+                                                                  0.0, -1),
                                                           begin:
                                                               const Alignment(
                                                                   0.0, 0.8),
@@ -289,111 +291,136 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                                           ],
                                                         )),
                                                         child:
-                                                            // joyContentListView![
-                                                            //             index]
-                                                            //         .resourcePath!
-                                                            //         .contains(
-                                                            //             '.mp4')
-                                                            //     ? ShowImage(
-                                                            //         path: joyContentListView![
-                                                            //                 index]
-                                                            //             .resourcePath)
-                                                            //     :
-                                                            Image.network(
-                                                          '${joyContentListView![index].thumbnailUrl}',
-                                                          fit: BoxFit.fill,
+                                                            CachedNetworkImage(
+                                                          imageUrl:
+                                                              '${joyContentListView![index].thumbnailUrl}',
+                                                          imageBuilder: (context,
+                                                                  imageProvider) =>
+                                                              Container(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                                    image:
+                                                                        DecorationImage(
+                                                              image:
+                                                                  imageProvider,
+                                                              fit:
+                                                                  BoxFit.fill,
+                                                            )),
+                                                          ),
+                                                          placeholder:
+                                                              (context,
+                                                                      url) =>
+                                                                  Image.asset(
+                                                            'assets/images/placeholder.png',
+                                                            fit: BoxFit.fill,
+                                                          ),
+                                                          errorWidget:
+                                                              (context, url,
+                                                                      error) =>
+                                                                  Image.asset(
+                                                            'assets/images/placeholder.png',
+                                                            fit: BoxFit.fill,
+                                                          ),
+                                                        )
+                                                        // child: Image.network(
+                                                        //   '${joyContentListView![index].thumbnailUrl}',
+                                                        //   fit: BoxFit.fill,
+                                                        // ),
+                                                        ),
+                                                  ),
+                                                  if (joyContentListView![
+                                                          index]
+                                                      .resourcePath!
+                                                      .contains('.mp4'))
+                                                    Positioned.fill(
+                                                      child: Align(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child:
+                                                            SvgPicture.asset(
+                                                          'assets/images/play_video_icon.svg',
+                                                          height: 30.0,
+                                                          width: 30.0,
+                                                          allowDrawingOutsideViewBox:
+                                                              true,
                                                         ),
                                                       ),
                                                     ),
-                                                    if (joyContentListView![
-                                                            index]
-                                                        .resourcePath!
-                                                        .contains('.mp4'))
-                                                      Positioned.fill(
-                                                        child: Align(
-                                                          alignment:
-                                                              Alignment.center,
-                                                          child:
-                                                              SvgPicture.asset(
-                                                            'assets/images/play_video_icon.svg',
-                                                            height: 30.0,
-                                                            width: 30.0,
-                                                            allowDrawingOutsideViewBox:
-                                                                true,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                  ],
-                                                )),
-                                            Container(
-                                              height: 60,
-                                              margin: EdgeInsets.only(top: 4),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  joyContentListView![index]
-                                                              .viewCount !=
-                                                          null
-                                                      ? Row(
-                                                          children: [
+                                                ],
+                                              )),
+                                          Container(
+                                            height: 60,
+                                            margin: EdgeInsets.only(top: 4),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                joyContentListView![index]
+                                                            .viewCount !=
+                                                        null
+                                                    ? Row(
+                                                        children: [
+                                                          Text(
+                                                              '${joyContentListView![index].viewCount}  ${Strings.of(context)?.Views}',
+                                                              style: Styles.regular(
+                                                                  size: 10,
+                                                                  color: ColorConstants
+                                                                      .GREY_3)),
+                                                          if (joyContentListView![
+                                                                      index]
+                                                                  .viewCount! >
+                                                              1)
                                                             Text(
-                                                                '${joyContentListView![index].viewCount}  ${Strings.of(context)?.Views}',
+                                                                Preference.getInt(Preference
+                                                                            .APP_LANGUAGE) ==
+                                                                        1
+                                                                    ? 's'
+                                                                    : '',
                                                                 style: Styles.regular(
                                                                     size: 10,
                                                                     color: ColorConstants
                                                                         .GREY_3)),
-                                                            if (joyContentListView![
-                                                                        index]
-                                                                    .viewCount! >
-                                                                1)
-                                                              Text(Preference.getInt(Preference.APP_LANGUAGE) == 1 ? 's' : '',
-                                                                  style: Styles.regular(
-                                                                      size: 10,
-                                                                      color: ColorConstants
-                                                                          .GREY_3)),
-                                                          ],
-                                                        )
-                                                      : Text(
-                                                          '${0}  ${Strings.of(context)?.Views}',
-                                                          style: Styles.regular(
-                                                              size: 10,
-                                                              color:
-                                                                  ColorConstants
-                                                                      .GREY_3)),
-                                                  // SizedBox(
-                                                  //   width: 10,
-                                                  //   height: 4,
-                                                  // ),
-                                                  SizedBox(
-                                                    width: 150,
-                                                    child: Text(
-                                                        joyContentListView![
-                                                                    index]
-                                                                .title ??
-                                                            '',
-                                                        maxLines: 2,
-                                                        softWrap: true,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: Styles.semibold(
-                                                            size: 14,
+                                                        ],
+                                                      )
+                                                    : Text(
+                                                        '${0}  ${Strings.of(context)?.Views}',
+                                                        style: Styles.regular(
+                                                            size: 10,
                                                             color:
                                                                 ColorConstants
-                                                                    .GREY_1)),
-                                                  ),
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
+                                                                    .GREY_3)),
+                                                // SizedBox(
+                                                //   width: 10,
+                                                //   height: 4,
+                                                // ),
+                                                SizedBox(
+                                                  width: 150,
+                                                  child: Text(
+                                                      joyContentListView![
+                                                                  index]
+                                                              .title ??
+                                                          '',
+                                                      maxLines: 2,
+                                                      softWrap: true,
+                                                      overflow: TextOverflow
+                                                          .ellipsis,
+                                                      style: Styles.semibold(
+                                                          size: 14,
+                                                          color:
+                                                              ColorConstants
+                                                                  .GREY_1)),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
                                       ),
                                     );
                                   },
                                 ),
                               ),
                             );
-     }   )
+                          })
 
                       //live stream card
                       // Padding(
@@ -1222,7 +1249,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
   PageController controller =
       PageController(viewportFraction: 1, keepPage: true);
 
-  Widget __getJoyCategoryWidget(context) {
+  Widget __getJoyCategoryWidget(context, VideoPlayerProvider videoController) {
     return box != null
         ? ValueListenableBuilder(
             valueListenable: box!.listenable(),
@@ -1264,7 +1291,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                   ListElement(
                     id: 1,
                     title: '${Strings.of(context)?.forYou}',
-                    description:  '${Strings.of(context)?.forYou}',
+                    description: '${Strings.of(context)?.forYou}',
                     createdAt: 1647343211,
                     updatedAt: 1647343211,
                     createdBy: 0,
@@ -1272,6 +1299,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                     status: 'Active',
                     sectionType: 3,
                     isSelected: 1,
+                    parentId: 1,
                     video: Preference.getString(
                         Preference.DEFAULT_VIDEO_URL_CATEGORY),
                     image:
@@ -1287,6 +1315,8 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                 }
               }
               joyCategoryList = temp;
+              int? isParentLanguage =
+                  Preference.getInt(Preference.IS_PRIMARY_LANGUAGE);
 
               return Column(children: [
                 Row(
@@ -1304,35 +1334,77 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
+                                bool isSelected = false;
+                                 
+                                if (isParentLanguage == 1) {
+                                  print('selection in if $index and id is $selectedJoyContentCategoryId');
+                                  isSelected = joyCategoryList![index].id ==
+                                      selectedJoyContentCategoryId;
+                                } else {
+                                  print('selection in else $index');
+
+                                  isSelected = joyCategoryList![index].parentId ==
+                                      selectedJoyContentCategoryId;
+                                }
                                 return GestureDetector(
                                   onTap: () {
                                     setState(() {
                                       controller.jumpToPage(index);
-                                      selectedJoyContentCategoryId =
-                                          joyCategoryList![index].id;
-                                          print('selected id is $selectedJoyContentCategoryId');
+                                      if (isParentLanguage == 1) {
+                                        selectedJoyContentCategoryId =
+                                            joyCategoryList![index].id;
+                                      } else {
+                                        selectedJoyContentCategoryId =
+                                            joyCategoryList![index].parentId;
+                                      }
+
+                                      print(
+                                          'selected id is $selectedJoyContentCategoryId');
 
                                       if (selectedJoyContentCategoryId == 1) {
                                         joyContentListView =
                                             joyContentListResponse;
-                                            print('the list size is ${joyContentListView?.length}');
+                                        print(
+                                            'the list size is ${joyContentListView?.length}');
                                       } else {
-                                        joyContentListView =
-                                            joyContentListResponse!
-                                                .where((element) =>
-                                                    element.categoryId ==
-                                                    joyCategoryList![index].id)
-                                                .toList();
-                                            print('the list size is ${joyContentListView?.length}');
+                                        if (isParentLanguage != 1) {
+                                           print('inside if ');
+                                          joyContentListView =
+                                              joyContentListResponse!
+                                                  .where((element) =>
+                                                      element.categoryId ==
+                                                      joyCategoryList![index]
+                                                          .parentId)
+                                                  .toList();
+                                        } else {
+                                          print('inside else ');
+                                          joyContentListView =
+                                              joyContentListResponse!
+                                                  .where((element) =>
+                                                      element.categoryId ==
+                                                      joyCategoryList![index]
+                                                          .id)
+                                                  .toList();
+                                        }
 
+                                        print(
+                                            'the list size is ${joyContentListResponse?.first.categoryId}');
                                       }
+
+                                      ytController = YoutubePlayerController(
+                                          flags: YoutubePlayerFlags(
+                                            mute: videoController.isMute,
+                                            autoPlay: true,
+                                            loop: true,
+                                          ),
+                                          initialVideoId:
+                                              '${YoutubePlayer.convertUrlToId('${joyCategoryList![index].video}')}');
                                     });
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 5, vertical: 10),
-                                    child: joyCategoryList![index].id ==
-                                            selectedJoyContentCategoryId
+                                    child: isSelected
                                         ? Container(
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: 10),
@@ -1348,7 +1420,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                                 )),
                                             child: Center(
                                                 child: Text(
-                                                    joyCategoryList![index]
+                                              joyCategoryList![index]
                                                         .title
                                                         .toString(),
                                                     style: Styles.regular(
@@ -1363,8 +1435,11 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                             ),
                                             child: Center(
                                                 child: Text(
-                                                    joyCategoryList![index].title.toString(),
-                                                    style: Styles.regular(size: 12)))),
+                                                 joyCategoryList![index]
+                                                        .title
+                                                        .toString(),
+                                                    style: Styles.regular(
+                                                        size: 12)))),
                                   ),
                                 );
                               },
@@ -1412,16 +1487,15 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                       scrollDirection: Axis.horizontal,
                       itemCount: joyCategoryList!.length,
                       itemBuilder: (BuildContext context, int index) {
-
-                        if(ytController.initialVideoId == '')
-                         ytController =
-                            YoutubePlayerController(
-                               flags: YoutubePlayerFlags(
-        autoPlay: false,
-       
-    ),
-                                initialVideoId:
-                                    '${YoutubePlayer.convertUrlToId('${joyCategoryList![index].video}')}');
+                        if (ytController.initialVideoId == '')
+                          ytController = YoutubePlayerController(
+                              flags: YoutubePlayerFlags(
+                                mute: true,
+                                autoPlay: true,
+                                loop: true,
+                              ),
+                              initialVideoId:
+                                  '${YoutubePlayer.convertUrlToId('${joyCategoryList![index].video}')}');
                         return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -1438,7 +1512,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                       ? CustomVideoPlayer(
                                           url:
                                               '${joyCategoryList![index].video}',
-                                          autoPlay: false,
+                                          autoPlay: true,
                                           showPlayButton: true,
                                         )
                                       : VisibilityDetector(
@@ -1467,15 +1541,32 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                             }
                                           },
                                           child: YoutubePlayer(
-                                            
                                             controller: ytController,
                                             showVideoProgressIndicator: false,
                                             bottomActions: [
-                                              // Icon(
-                                              //   Icons.fullscreen,
-                                              //   color: Colors.white,
-
-                                              // )
+                                              Expanded(child: SizedBox()),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  if (!videoController.isMute) {
+                                                    ytController.mute();
+                                                    videoController.mute();
+                                                  } else {
+                                                    ytController.unMute();
+                                                    videoController.unMute();
+                                                  }
+                                                  setState(() {});
+                                                },
+                                                child: videoController.isMute !=
+                                                        true
+                                                    ? Icon(Icons.volume_up,
+                                                        color: ColorConstants
+                                                            .WHITE)
+                                                    : Icon(
+                                                        Icons
+                                                            .volume_off_outlined,
+                                                        color: ColorConstants
+                                                            .WHITE),
+                                              )
                                             ],
                                           ),
                                         ),
@@ -1584,7 +1675,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                                 size: 20,
                                               ),
                                               SizedBox(width: 10),
-                                              Text('Live',
+                                              Text('${Strings.of(context)?.liveNow}',
                                                   style: Styles.textBold(
                                                       size: 12,
                                                       color: ColorConstants
@@ -1911,23 +2002,22 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
     print(widget.videoUrl!.trim());
 
     _videoController = VideoPlayerController.network(widget.videoUrl!);
-    _videoController.addListener(() {
-      // setState(() {});
-    });
+
     _videoController.setLooping(true);
     _videoController.initialize().then((_) => setState(() {
           setState(() {
             isShowPlaying = true;
+            _videoController.play();
+            _videoController.setVolume(0);
           });
           // _videoController.play();
         }));
-    print('===========>>widget.videoUrl3333');
   }
 
   @override
   void dispose() {
     super.dispose();
-    _videoController.dispose();
+    // _videoController.dispose();
   }
 
   Widget isPlaying() {
@@ -1977,162 +2067,164 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
   }
 }
 
-class VideoPlayerScreen extends StatefulWidget {
-  final int? index;
-  final context;
-  VideoPlayerScreen({Key? key, this.index, this.context}) : super(key: key);
+// class VideoPlayerScreen extends StatefulWidget {
+//   final int? index;
+//   final context;
+//   VideoPlayerScreen({Key? key, this.index, this.context}) : super(key: key);
 
-  @override
-  _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
-}
+//   @override
+//   _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
+// }
 
-class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
-  VideoPlayerController? _controller;
-  Future<void>? _initializeVideoPlayerFuture;
-  int? _playBackTime;
+// class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
+//   VideoPlayerController? _controller;
+//   Future<void>? _initializeVideoPlayerFuture;
+//   int? _playBackTime;
 
-  //The values that are passed when changing quality
-  late Duration newCurrentPosition;
+//   //The values that are passed when changing quality
+//   late Duration newCurrentPosition;
 
-  String defaultStream =
-      'https://archive.org/download/Damas_BB_28F8B535_D_406/DaMaS.mp4';
-  String stream2 = 'https://archive.org/download/cCloud_20151126/cCloud.mp4';
-  String stream3 = 'https://archive.org/download/mblbhs/mblbhs.mp4';
+//   String defaultStream =
+//       'https://archive.org/download/Damas_BB_28F8B535_D_406/DaMaS.mp4';
+//   String stream2 = 'https://archive.org/download/cCloud_20151126/cCloud.mp4';
+//   String stream3 = 'https://archive.org/download/mblbhs/mblbhs.mp4';
 
-  @override
-  void initState() {
-    print('init is called with index ${widget.index}');
-    _controller = VideoPlayerController.network(defaultStream);
-    _controller!.addListener(() {
-      setState(() {
-        _playBackTime = _controller!.value.position.inSeconds;
-      });
-    });
-    _initializeVideoPlayerFuture = _controller!.initialize();
-    super.initState();
-  }
+//   @override
+//   void initState() {
+//     print('init is called with index ${widget.index}');
+//     _controller = VideoPlayerController.network(defaultStream);
+//     _controller!.addListener(() {
+//       setState(() {
+//         _playBackTime = _controller!.value.position.inSeconds;
+//       });
+//     });
+//     _initializeVideoPlayerFuture = _controller!.initialize();
+//      _videoController.play();
+//         _videoController.setVolume(0);
+//     super.initState();
+//   }
 
-  @override
-  void dispose() {
-    _initializeVideoPlayerFuture = null;
-    _controller?.pause().then((_) {
-      _controller!.dispose();
-    });
-    super.dispose();
-  }
+//   @override
+//   void dispose() {
+//     _initializeVideoPlayerFuture = null;
+//     _controller?.pause().then((_) {
+//       _controller!.dispose();
+//     });
+//     super.dispose();
+//   }
 
-  Future<bool> _clearPrevious() async {
-    await _controller?.pause();
-    return true;
-  }
+//   Future<bool> _clearPrevious() async {
+//     await _controller?.pause();
+//     return true;
+//   }
 
-  Future<void> _initializePlay(String videoPath) async {
-    _controller = VideoPlayerController.network(videoPath);
-    _controller!.addListener(() {
-      setState(() {
-        _playBackTime = _controller!.value.position.inSeconds;
-      });
-    });
-    _initializeVideoPlayerFuture = _controller!.initialize().then((_) {
-      _controller!.seekTo(newCurrentPosition);
-      _controller!.play();
-    });
-  }
+//   Future<void> _initializePlay(String videoPath) async {
+//     _controller = VideoPlayerController.network(videoPath);
+//     _controller!.addListener(() {
+//       setState(() {
+//         _playBackTime = _controller!.value.position.inSeconds;
+//       });
+//     });
+//     _initializeVideoPlayerFuture = _controller!.initialize().then((_) {
+//       _controller!.seekTo(newCurrentPosition);
+//       _controller!.play();
+//     });
+//   }
 
-  void _getValuesAndPlay(String videoPath) {
-    newCurrentPosition = _controller!.value.position;
-    _startPlay(videoPath);
-    print(newCurrentPosition.toString());
-  }
+//   void _getValuesAndPlay(String videoPath) {
+//     newCurrentPosition = _controller!.value.position;
+//     _startPlay(videoPath);
+//     print(newCurrentPosition.toString());
+//   }
 
-  Future<void> _startPlay(String videoPath) async {
-    setState(() {
-      _initializeVideoPlayerFuture = null;
-    });
-    Future.delayed(const Duration(milliseconds: 200), () {
-      _clearPrevious().then((_) {
-        _initializePlay(videoPath);
-      });
-    });
-  }
+//   Future<void> _startPlay(String videoPath) async {
+//     setState(() {
+//       _initializeVideoPlayerFuture = null;
+//     });
+//     Future.delayed(const Duration(milliseconds: 200), () {
+//       _clearPrevious().then((_) {
+//         _initializePlay(videoPath);
+//       });
+//     });
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _initializeVideoPlayerFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return Column(children: [
-            Center(
-              child: AspectRatio(
-                aspectRatio: _controller!.value.aspectRatio,
-                // Use the VideoPlayer widget to display the video.
-                child: VideoPlayer(_controller!),
-              ),
-            ),
-            Container(
-              color: Colors.black54,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Container(
-                    child: FloatingActionButton(
-                      onPressed: () {
-                        // Wrap the play or pause in a call to `setState`. This ensures the
-                        // correct icon is shown.
-                        setState(() {
-                          // If the video is playing, pause it.
-                          if (_controller!.value.isPlaying) {
-                            _controller!.pause();
-                          } else {
-                            // If the video is paused, play it.
-                            _controller!.play();
-                          }
-                        });
-                      },
-                      // Display the correct icon depending on the state of the player.
-                      child: Icon(
-                        _controller!.value.isPlaying
-                            ? Icons.pause
-                            : Icons.play_arrow,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    child: Text(
-                      _controller!.value.position
-                          .toString()
-                          .split('.')
-                          .first
-                          .padLeft(8, "0"),
-                    ),
-                  ),
-                  Container(
-                    child: TextButton(
-                      onPressed: () {
-                        _getValuesAndPlay(defaultStream);
-                      },
-                      child: Text('Default Stream'),
-                    ),
-                  ),
-                  Container(
-                    child: TextButton(
-                      onPressed: () {
-                        _getValuesAndPlay(stream2);
-                      },
-                      child: Text('Video Stream 2'),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ]);
-        } else {
-          // If the VideoPlayerController is still initializing, show a
-          // loading spinner.
-          return Center(child: CircularProgressIndicator());
-        }
-      },
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return FutureBuilder(
+//       future: _initializeVideoPlayerFuture,
+//       builder: (context, snapshot) {
+//         if (snapshot.connectionState == ConnectionState.done) {
+//           return Column(children: [
+//             Center(
+//               child: AspectRatio(
+//                 aspectRatio: _controller!.value.aspectRatio,
+//                 // Use the VideoPlayer widget to display the video.
+//                 child: VideoPlayer(_controller!),
+//               ),
+//             ),
+//             Container(
+//               color: Colors.black54,
+//               child: Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                 children: <Widget>[
+//                   Container(
+//                     child: FloatingActionButton(
+//                       onPressed: () {
+//                         // Wrap the play or pause in a call to `setState`. This ensures the
+//                         // correct icon is shown.
+//                         setState(() {
+//                           // If the video is playing, pause it.
+//                           if (_controller!.value.isPlaying) {
+//                             _controller!.pause();
+//                           } else {
+//                             // If the video is paused, play it.
+//                             _controller!.play();
+//                           }
+//                         });
+//                       },
+//                       // Display the correct icon depending on the state of the player.
+//                       child: Icon(
+//                         _controller!.value.isPlaying
+//                             ? Icons.pause
+//                             : Icons.play_arrow,
+//                       ),
+//                     ),
+//                   ),
+//                   Container(
+//                     child: Text(
+//                       _controller!.value.position
+//                           .toString()
+//                           .split('.')
+//                           .first
+//                           .padLeft(8, "0"),
+//                     ),
+//                   ),
+//                   Container(
+//                     child: TextButton(
+//                       onPressed: () {
+//                         _getValuesAndPlay(defaultStream);
+//                       },
+//                       child: Text('Default Stream'),
+//                     ),
+//                   ),
+//                   Container(
+//                     child: TextButton(
+//                       onPressed: () {
+//                         _getValuesAndPlay(stream2);
+//                       },
+//                       child: Text('Video Stream 2'),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             )
+//           ]);
+//         } else {
+//           // If the VideoPlayerController is still initializing, show a
+//           // loading spinner.
+//           return Center(child: CircularProgressIndicator());
+//         }
+//       },
+//     );
+//   }
+// }

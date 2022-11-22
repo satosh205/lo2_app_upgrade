@@ -1,6 +1,5 @@
 // ignore_for_file: unused_field
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -117,7 +116,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
         resizeToAvoidBottomInset: false,
         backgroundColor: ColorConstants.BG_GREY,
         appBar: AppBar(
-          title: Text(traininDetailProvider.program!.name ?? "My Courses",
+          title: Text(traininDetailProvider.program!.name ?? '${Strings.of(context)?.MyCourses}',
               style: Styles.bold(size: 18)),
           centerTitle: false,
           backgroundColor: Colors.white,
@@ -207,7 +206,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
 
     if (selectedType == 'Assignment' && selectedContentId != null) {
       if (selectedData?.totalAttempts == 0)
-        title = 'Start Assignment';
+        title = '${Strings.of(context)?.startAssignment}';
       else
         title = 'Re-Submit/ Review';
 
@@ -236,7 +235,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
         } else {
           isButtonActive = false;
         }
-        title = 'Join Now';
+        title = '${Strings.of(context)?.justNow}';
       }
       if (selectedData?.contentType.toString().toLowerCase() ==
           'offlineclass') {
@@ -245,7 +244,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
       }
       if (selectedData?.liveclassAction.toString().toLowerCase() ==
           'scheduled') {
-        title = 'Join Now';
+        title = '${Strings.of(context)?.justNow}';
         isButtonActive = false;
       }
     } else if (selectedType == 'Assessments' && selectedContentId != null) {
@@ -256,7 +255,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
         isButtonActive = false;
       }
     } else if (selectedType == 'Notes' && selectedContentId != null) {
-      title = 'View Notes';
+      title = '${Strings.of(context)?.viewNote}s';
     } else if (selectedType == 'Videos' && selectedContentId != null) {
       title = 'Start Video';
     } else if (selectedType == 'Quiz' && selectedContentId != null) {
@@ -357,8 +356,6 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                               ),
                                               GestureDetector(
                                                 onTap: () async {
-                                                  // _ytController.pause();
-                                                  print('FullScreenYoutubePlayer');
 
                                                   YoutubePlayerController cntrl = _ytController;
 
@@ -525,7 +522,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                           .spaceBetween,
                                                   children: [
                                                     Text(
-                                                      'Submit before: ${Utility.convertDateFromMillis(selectedData?.endDate, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
+                                                      '${Strings.of(context)?.submitBefore}: ${Utility.convertDateFromMillis(selectedData?.endDate, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
                                                       // '${selectedType}',
                                                       style: Styles.bold(
                                                           size: 14,
@@ -570,7 +567,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                             ),
                                                           ] else
                                                             Text(
-                                                              'Non Graded • ${selectedData?.allowMultiple == 1 ? 'Multiple Attempts' : '1 Attempt'}',
+                                                              'Non Graded • ${selectedData?.allowMultiple == 1 ? '${Strings.of(context)?.multipleAttempts}' : '1 Attempt'}',
                                                               style: Styles.semibold(
                                                                   size: 14,
                                                                   color:
@@ -593,7 +590,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                                           .WHITE),
                                                             )
                                                           : Text(
-                                                              '${selectedData?.maximumMarks} Marks • ${selectedData?.attemptsRemaining} attempts available',
+                                                              '${selectedData?.maximumMarks} ${Strings.of(context)?.marks} • ${selectedData?.attemptsRemaining} attempts available',
                                                               style: Styles.regular(
                                                                   size: 14,
                                                                   color:
@@ -670,8 +667,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                                           .GREY_2
                                                                   ? ColorConstants
                                                                       .GREY_3
-                                                                  : ColorConstants
-                                                                      .BLACK),
+                                                                  : ColorConstants().primaryForgroundColor()),
                                                           textAlign:
                                                               TextAlign.center,
                                                         ),
@@ -822,7 +818,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                         ? Center(child: CircularProgressIndicator())
                         : Center(
                             child: Text(
-                            'No Content found',
+                            '${Strings.of(context)?.noContentFound}',
                             style: Styles.regular(),
                           )),
                   ),
@@ -847,7 +843,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
               children: [
                 Text(
                     (selectedType == 'Classes' || selectedType == 'Videos')
-                        ? 'Now playing'
+                        ? '${Strings.of(context)?.nowPlaying}'
                         : selectedType,
                     style: Styles.regular(
                       size: 14,
@@ -1891,7 +1887,7 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                                                       .elementAt(index)
                                                       .contentType ==
                                                   'zoomclass'
-                                          ? 'LIVE NOW'
+                                          ? '${Strings.of(context)?.liveNow}'
                                           : 'Ongoing',
                                       style: Styles.regular(
                                           size: 12, color: ColorConstants.RED),

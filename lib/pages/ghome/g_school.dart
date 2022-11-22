@@ -383,7 +383,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
           Padding(
               padding: EdgeInsets.only(left: 10, top: 10),
               child:
-                  Text('Upcoming Classes', style: Styles.semibold(size: 18))),
+                  Text('${Strings.of(context)?.upcomingClass}es', style: Styles.semibold(size: 18))),
           ListView.builder(
             itemBuilder: (BuildContext context, int index) {
               return liveclassList!.length > 0
@@ -427,7 +427,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                                       .toLowerCase() ==
                                                   'offlineclass'
                                               ? 'Ongoing'
-                                              : "Live Now",
+                                              : "${Strings.of(context)?.liveNow}",
                                           style: Styles.regular(
                                               size: 12,
                                               color: ColorConstants()
@@ -1181,8 +1181,8 @@ if(APK_DETAILS['package_name'] == 'com.learn_build')...[
       child: Row(children: [
         Padding(
             child: SizedBox(
-              width: MediaQuery.of(context).size.height * 0.08,
-              height: MediaQuery.of(context).size.height * 0.12,
+              width: MediaQuery.of(context).size.height * 0.1,
+              height: MediaQuery.of(context).size.height * 0.11,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Hero(
@@ -1220,7 +1220,7 @@ if(APK_DETAILS['package_name'] == 'com.learn_build')...[
                     style: Styles.semibold(size: 12, color: ColorConstants.YELLOW)),
                 Row(
                   children: [
-                    Text('${yourCourses.enrolmentCount} Enrollments',
+                    Text('${yourCourses.enrolmentCount} ${Strings.of(context)?.enrollments}',
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         softWrap: false,
@@ -1292,7 +1292,7 @@ if(APK_DETAILS['package_name'] == 'com.learn_build')...[
         //           Row(
         //             mainAxisAlignment: MainAxisAlignment.start,
         //             children: [
-        //               Text('${yourCourses.enrolmentCount} Enrollments',
+        //               Text('${yourCourses.enrolmentCount} ${Strings.of(context)?.enrollments}',
         //                   style: Styles.regular(size: 12)),
         //               Row(
         //                 children: [
@@ -1337,7 +1337,7 @@ if(APK_DETAILS['package_name'] == 'com.learn_build')...[
 
       AlertsWidget.showCustomDialog(
           context: context,
-          title: "Approval Request has been sent,",
+          title: "Approval ${Strings.of(context)?.request} has been sent,",
           text: "You will be assigned to this course soon!!",
           icon: 'assets/images/circle_alert_fill.svg',
           showCancel: false,

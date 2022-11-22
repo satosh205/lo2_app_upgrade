@@ -366,7 +366,7 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Submit before: ${'${Utility.convertDateFromMillis(
+            '${Strings.of(context)?.submitBefore}: ${'${Utility.convertDateFromMillis(
               assignmentDetailProvider.assignment!.endDate!,
               Strings.REQUIRED_DATE_DD_MMM_YYYY,
               isUTC: true,

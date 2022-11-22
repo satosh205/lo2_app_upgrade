@@ -130,25 +130,25 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
     String calculateTimeDifferenceBetween(DateTime startDate, DateTime endDate) {
       int seconds = endDate.difference(startDate).inSeconds;
       if (seconds < 60){
-        if(seconds.abs() < 4) return 'Just Now';
-        return '${seconds.abs()} s';
+        if(seconds.abs() < 4) return '${Strings.of(context)?.justNow}';
+        return '${seconds.abs()} ${Strings.of(context)?.s}';
       }
         
       else if (seconds >= 60 && seconds < 3600)
-        return '${startDate.difference(endDate).inMinutes.abs()} m';
+        return '${startDate.difference(endDate).inMinutes.abs()} ${Strings.of(context)?.m}';
       else if (seconds >= 3600 && seconds < 86400)
-        return '${startDate.difference(endDate).inHours.abs()} h';
+        return '${startDate.difference(endDate).inHours.abs()} ${Strings.of(context)?.h}';
       else {
         // convert day to month
         int days = startDate.difference(endDate).inDays.abs();
         if (days < 30 && days > 7) {
-          return '${(startDate.difference(endDate).inDays ~/ 7).abs()} w';
+          return '${(startDate.difference(endDate).inDays ~/ 7).abs()} ${Strings.of(context)?.w}';
         }
         if (days > 30) {
           int month = (startDate.difference(endDate).inDays ~/ 30).abs();
-          return '$month mos';
+          return '$month ${Strings.of(context)?.mos}';
         } else
-          return '${startDate.difference(endDate).inDays.abs()} d';
+          return '${startDate.difference(endDate).inDays.abs()} ${Strings.of(context)?.d}';
       }
     }
 
@@ -285,7 +285,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                       color: Colors.white,
                                     ),
                                     title: new Text(
-                                      'Report this post',
+                                      '${Strings.of(context)?.reportThisPost}',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onTap: () {
@@ -303,7 +303,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                       color: Colors.white,
                                     ),
                                     title: new Text(
-                                      'Remove/Hide post',
+                                      '${Strings.of(context)?.removeHidePost}',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onTap: () {
@@ -327,7 +327,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                       color: Colors.white,
                                     ),
                                     title: new Text(
-                                      'Delete this post',
+                                      '${Strings.of(context)?.deleteThisPost}',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onTap: ()async {
@@ -336,8 +336,8 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                       
                           AlertsWidget.showCustomDialog(
                         context: context,
-                        title: "Delete Post!",
-                     text: "Are you sure you want to Delete.",
+                        title: "${Strings.of(context)?.deletePost}!",
+                     text: "${Strings.of(context)?.areYouSureDelete}",
                         icon: 'assets/images/circle_alert_fill.svg',
                         onOkClick: () async {
                         deletePost(widget.contentId);

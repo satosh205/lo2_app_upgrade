@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
 
@@ -84,7 +85,7 @@ class _CommentBoxState extends State<CommentBox> {
                     minLines: 1,
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'Write your comment',
+                      hintText: '${Strings.of(context)?.writeYourComment}',
                       hintStyle: Styles.regular(
                           size: 14, color: ColorConstants.GREY_4),
                     ),

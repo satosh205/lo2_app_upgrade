@@ -145,6 +145,8 @@ class AlertsWidget {
     );
   }
 
+  
+
   static Future showCustomDialog(
       {required BuildContext context,
       bool? showCancel = true,
@@ -154,6 +156,7 @@ class AlertsWidget {
       String? oKText = "Yes",
       Function? onOkClick,
       Function? onCancelClick}) {
+        
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -224,7 +227,7 @@ class AlertsWidget {
                                     child: Align(
                                         alignment: Alignment.center,
                                         child: Text(
-                                          'Cancel',
+                                          '${Strings.of(context)?.cancel}',
                                         )),
                                   ),
                                 ),

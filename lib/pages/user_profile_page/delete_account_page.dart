@@ -5,8 +5,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive/hive.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
+import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:masterg/utils/widget_size.dart';
 
 import '../../blocs/bloc_manager.dart';
 import '../../data/api/api_service.dart';
@@ -110,20 +112,10 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                         'Your profile (email, name, mobile no.) will be permanently deleted.',
                         selected: selectedOption == 2)),
                 Expanded(child: SizedBox()),
-                CupertinoButton(
-                    color: selectedOption != 0
-                        ? ColorConstants().primaryColor()
-                        : ColorConstants.GREY_4,
-                    child: Text(
-                      'Continue',
-                      style: Styles.regular(
-                          size: 12,
-                          color: selectedOption != 0
-                              ? ColorConstants.WHITE
-                              : ColorConstants.GREY_3),
-                    ),
-                    onPressed: () {
-                      if (selectedOption == 2)
+
+                InkWell(
+                        onTap: () {
+                         if (selectedOption == 2)
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -222,7 +214,41 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                                   ));
                             });
                       }
-                    }),
+                        },
+                        child: Container(
+                          margin:
+                              EdgeInsets.only(left: 12.0, right: 12.0, top: 10),
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.height *
+                              WidgetSize.AUTH_BUTTON_SIZE,
+                          decoration: BoxDecoration(
+                                   color: selectedOption != 0
+                        ? ColorConstants().primaryColor()
+                        : ColorConstants.GREY_4,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Center(
+                              child: Text(
+                            '${Strings.of(context)?.continueStr}',
+                            style: Styles.regular(
+                              color: ColorConstants.WHITE,
+                            ),
+                          )),
+                        )),
+                // CupertinoButton(
+                //     color: selectedOption != 0
+                //         ? ColorConstants().primaryColor()
+                //         : ColorConstants.GREY_4,
+                //     child: Text(
+                //       'Continue',
+                //       style: Styles.regular(
+                //           size: 12,
+                //           color: selectedOption != 0
+                //               ? ColorConstants.WHITE
+                //               : ColorConstants.GREY_3),
+                //     ),
+                //     onPressed: () {
+                      
+                //     }),
                 SizedBox(
                   height: 20,
                 )

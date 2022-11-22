@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/CommonWebView.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/utils/Strings.dart';
-import 'package:masterg/utils/resource/images.dart';
 
 import '../../../blocs/home_bloc.dart';
 import '../../../data/models/request/home_request/user_program_subscribe.dart';
@@ -86,7 +84,7 @@ class _CoursesDetailsPageState extends State<CoursesDetailsPage> {
           ),
           child: Column(
             children: [
-              Text('${widget.enrolmentCount} Students already Enrolled',
+              Text('${widget.enrolmentCount} ${Strings.of(context)?.studentsAlreadyEnrolled}',
                   style: Styles.regular(size: 12)),
               SizedBox(
                 height: 10,
@@ -125,7 +123,7 @@ class _CoursesDetailsPageState extends State<CoursesDetailsPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          widget.type == 'paid' ? 'Enroll Now' : 'Request',
+                          widget.type == 'paid' ? '${Strings.of(context)?.enrollNow}' : '${Strings.of(context)?.request}',
                           style: Styles.textExtraBold(
                               size: 14, color: ColorConstants.WHITE),
                         ),
@@ -190,7 +188,7 @@ class _CoursesDetailsPageState extends State<CoursesDetailsPage> {
                       RichText(
                           text: TextSpan(children: [
                         TextSpan(
-                            text: 'Trainer Name: ',
+                            text: '${Strings.of(context)?.trainerName}: ',
                             style: Styles.regular(size: 12)),
                         TextSpan(
                             text: '${widget.trainer.toString()}',
@@ -257,7 +255,7 @@ class _CoursesDetailsPageState extends State<CoursesDetailsPage> {
 
       AlertsWidget.showCustomDialog(
           context: context,
-          title: "Approval Request has been sent,",
+          title: "Approval ${Strings.of(context)?.request} has been sent,",
           text: "You will be assigned to this course soon!!",
           icon: 'assets/images/circle_alert_fill.svg',
           showCancel: false,

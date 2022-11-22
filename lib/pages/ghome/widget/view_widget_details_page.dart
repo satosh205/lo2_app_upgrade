@@ -11,6 +11,7 @@ import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/ghome/video_player_screen.dart';
 import 'package:masterg/utils/Log.dart';
+import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:provider/provider.dart';
@@ -286,7 +287,7 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
                                             ? Row(
                                                 children: [
                                                   Text(
-                                                    '${joyContentListResponse.list![index].viewCount ?? 0} view',
+                                                    '${joyContentListResponse.list![index].viewCount ?? 0} ${Strings.of(context)?.Views}',
                                                     style: Styles.regular(
                                                         size: 12,
                                                         color: ColorConstants

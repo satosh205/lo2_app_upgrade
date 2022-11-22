@@ -16,6 +16,7 @@ import 'package:masterg/pages/reels/theme/colors.dart';
 import 'package:masterg/pages/reels/video_recording/video_recording_camera_page.dart';
 import 'package:masterg/pages/reels/widgets/left_panel.dart';
 import 'package:masterg/utils/Log.dart';
+import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
@@ -131,7 +132,7 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
                                                 SizedBox(
                                                   width: 5,
                                                 ),
-                                                Text('Create',
+                                                Text('${Strings.of(context)?.create}',
                                                     style: Styles.bold(
                                                         color: ColorConstants
                                                             .WHITE,
@@ -662,7 +663,7 @@ class _RightPanelState extends State<RightPanel>   with TickerProviderStateMixin
                                       color: Colors.white,
                                     ),
                                     title: new Text(
-                                      'Report this post',
+                                      '${Strings.of(context)?.reportThisPost}',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onTap: () {
@@ -680,7 +681,7 @@ class _RightPanelState extends State<RightPanel>   with TickerProviderStateMixin
                                       color: Colors.white,
                                     ),
                                     title: new Text(
-                                      'Remove/Hide post',
+                                      '${Strings.of(context)?.removeHidePost}',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onTap: () {
@@ -709,7 +710,7 @@ class _RightPanelState extends State<RightPanel>   with TickerProviderStateMixin
                                       color: Colors.white,
                                     ),
                                     title: new Text(
-                                      'Delete this post',
+                                      '${Strings.of(context)?.deleteThisPost}',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onTap: () {
@@ -720,8 +721,8 @@ class _RightPanelState extends State<RightPanel>   with TickerProviderStateMixin
                                       
                           AlertsWidget.showCustomDialog(
                         context: context,
-                        title: "Delete Post!",
-                     text: "Are you sure you want to Delete.",
+                        title: "${Strings.of(context)?.deletePost}!",
+                     text: "${Strings.of(context)?.areYouSureDelete}",
                         icon: 'assets/images/circle_alert_fill.svg',
                         onOkClick: () async {
                          deletePost(widget.contentId);
