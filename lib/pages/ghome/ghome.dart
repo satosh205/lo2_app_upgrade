@@ -187,19 +187,14 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                 .toList();
                             joyContentListView = joyContentListResponse;
 
-
                             if (selectedJoyContentCategoryId != 1) {
-                           
-
-                            joyContentListView = joyContentListView
+                              joyContentListView = joyContentListView
                                   ?.where((element) =>
                                       element.categoryId ==
                                       selectedJoyContentCategoryId)
                                   .toList();
                             }
 
-// return Text('${joyContentListView?.first.categoryId} annd $selectedJoyContentCategoryId');
-// return Text('nice ${joyContentListView?.first.categoryId} and $selectedJoyContentCategoryId');
                             return Padding(
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               child: Visibility(
@@ -220,7 +215,6 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                           crossAxisCount: 2),
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                        
                                     return InkWell(
                                       onTap: () async {
                                         value.enableProviderControl();
@@ -274,9 +268,8 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                                             BoxDecoration(
                                                                 gradient:
                                                                     LinearGradient(
-                                                          end:
-                                                              const Alignment(
-                                                                  0.0, -1),
+                                                          end: const Alignment(
+                                                              0.0, -1),
                                                           begin:
                                                               const Alignment(
                                                                   0.0, 0.8),
@@ -303,21 +296,18 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                                                         DecorationImage(
                                                               image:
                                                                   imageProvider,
-                                                              fit:
-                                                                  BoxFit.fill,
+                                                              fit: BoxFit.fill,
                                                             )),
                                                           ),
                                                           placeholder:
-                                                              (context,
-                                                                      url) =>
+                                                              (context, url) =>
                                                                   Image.asset(
                                                             'assets/images/placeholder.png',
                                                             fit: BoxFit.fill,
                                                           ),
-                                                          errorWidget:
-                                                              (context, url,
-                                                                      error) =>
-                                                                  Image.asset(
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              Image.asset(
                                                             'assets/images/placeholder.png',
                                                             fit: BoxFit.fill,
                                                           ),
@@ -328,16 +318,14 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                                         // ),
                                                         ),
                                                   ),
-                                                  if (joyContentListView![
-                                                          index]
+                                                  if (joyContentListView![index]
                                                       .resourcePath!
                                                       .contains('.mp4'))
                                                     Positioned.fill(
                                                       child: Align(
                                                         alignment:
                                                             Alignment.center,
-                                                        child:
-                                                            SvgPicture.asset(
+                                                        child: SvgPicture.asset(
                                                           'assets/images/play_video_icon.svg',
                                                           height: 30.0,
                                                           width: 30.0,
@@ -396,19 +384,17 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                                 SizedBox(
                                                   width: 150,
                                                   child: Text(
-                                                      joyContentListView![
-                                                                  index]
+                                                      joyContentListView![index]
                                                               .title ??
                                                           '',
                                                       maxLines: 2,
                                                       softWrap: true,
-                                                      overflow: TextOverflow
-                                                          .ellipsis,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
                                                       style: Styles.semibold(
                                                           size: 14,
-                                                          color:
-                                                              ColorConstants
-                                                                  .GREY_1)),
+                                                          color: ColorConstants
+                                                              .GREY_1)),
                                                 ),
                                               ],
                                             ),
@@ -1335,16 +1321,18 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
                                 bool isSelected = false;
-                                 
+
                                 if (isParentLanguage == 1) {
-                                  print('selection in if $index and id is $selectedJoyContentCategoryId');
+                                  print(
+                                      'selection in if $index and id is $selectedJoyContentCategoryId');
                                   isSelected = joyCategoryList![index].id ==
                                       selectedJoyContentCategoryId;
                                 } else {
                                   print('selection in else $index');
 
-                                  isSelected = joyCategoryList![index].parentId ==
-                                      selectedJoyContentCategoryId;
+                                  isSelected =
+                                      joyCategoryList![index].parentId ==
+                                          selectedJoyContentCategoryId;
                                 }
                                 return GestureDetector(
                                   onTap: () {
@@ -1368,7 +1356,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                             'the list size is ${joyContentListView?.length}');
                                       } else {
                                         if (isParentLanguage != 1) {
-                                           print('inside if ');
+                                          print('inside if ');
                                           joyContentListView =
                                               joyContentListResponse!
                                                   .where((element) =>
@@ -1420,7 +1408,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                                 )),
                                             child: Center(
                                                 child: Text(
-                                              joyCategoryList![index]
+                                                    joyCategoryList![index]
                                                         .title
                                                         .toString(),
                                                     style: Styles.regular(
@@ -1435,7 +1423,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                             ),
                                             child: Center(
                                                 child: Text(
-                                                 joyCategoryList![index]
+                                                    joyCategoryList![index]
                                                         .title
                                                         .toString(),
                                                     style: Styles.regular(

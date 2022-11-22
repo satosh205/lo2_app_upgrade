@@ -19,7 +19,7 @@ class _CheckInternetState extends State<CheckInternet> {
   @override
   void initState() {
     super.initState();
-    loop();
+    // loop();
   }
 
   void loop() async {
@@ -90,8 +90,8 @@ class _CheckInternetState extends State<CheckInternet> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(
-                              (IconData(0xf018a, fontFamily: 'MaterialIcons'))),
+                      // const     Icon(
+                      //         (IconData(0xf018a, fontFamily: 'MaterialIcons'))),
                           SizedBox(width: 10),
                           Text(
                             'No Internet Connection!',
