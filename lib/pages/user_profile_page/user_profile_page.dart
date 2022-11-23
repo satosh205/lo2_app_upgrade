@@ -298,7 +298,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                           Preference.clearPref().then((value) {
                             Navigator.pushAndRemoveUntil(
                                 context,
-                                NextPageRoute(SignUpScreen()),
+                                NextPageRoute(ChooseLanguage(showEdulystLogo: true,)),
                                 (route) => false);
                           });
                         });

@@ -48,11 +48,14 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
   }
 
   void setCurrentLanguage() async {
-    int? currentLanId = Preference.getInt(Preference.APP_LANGUAGE);
+    int? currentLanId = Preference.getInt(Preference.APP_LANGUAGE) ?? 1;  
+    print('current lan id is $currentLanId');
     if (currentLanId != null)
       for (int i = 0; i < myList!.length; i++)
         if (currentLanId == myList?[i].languageId) {
           selected = i;
+            Preference.setInt(Preference.APP_LANGUAGE, myList![i].languageId!);
+          Preference.setInt(Preference.IS_PRIMARY_LANGUAGE,  myList![i].isPrimaryLanguage!);
            Preference.setString(
               Preference.LANGUAGE, '${myList?[i].languageCode?.toLowerCase()}');
           MyApp.setLocale(context, Locale(localeCodes['${myList?[i].englishName?.toLowerCase()}']!));
@@ -162,6 +165,9 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                           height: MediaQuery.of(context).size.height * 0.2),
                     InkWell(
                         onTap: () {
+                                   
+          print('primary lang is ${Preference.getInt(Preference.IS_PRIMARY_LANGUAGE)}');
+          print('primary lang id  is  ${Preference.getInt(Preference.APP_LANGUAGE)}');
                           if (widget.showEdulystLogo)
                             Navigator.push(
                                 context,
@@ -229,10 +235,13 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
   Widget languageCard(langauge, index) {
     return InkWell(
       onTap: () {
+         Preference.setInt(Preference.APP_LANGUAGE, langauge.languageId);
+          Preference.setInt(Preference.IS_PRIMARY_LANGUAGE, langauge.isPrimaryLanguage);
         setState(() {
           selected = index;
-          Preference.setInt(Preference.APP_LANGUAGE, langauge.languageId);
-          Preference.setInt(Preference.IS_PRIMARY_LANGUAGE, langauge.isPrimaryLanguage);
+         
+          print('primary lang is ${Preference.getInt(Preference.IS_PRIMARY_LANGUAGE)}');
+          print('primary lang id  is  ${Preference.getInt(Preference.APP_LANGUAGE)}');
           Preference.setString(
               Preference.LANGUAGE, langauge.languageCode.toLowerCase());
           Preference.setString(
