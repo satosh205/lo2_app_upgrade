@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive/hive.dart';
 import 'package:masterg/blocs/home_bloc.dart';
+import 'package:masterg/pages/auth_pages/choose_language.dart';
 import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
@@ -333,7 +334,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
               await Hive.deleteFromDisk();
               Preference.clearPref().then((value) {
                 Navigator.pushAndRemoveUntil(
-                    context, NextPageRoute(SignUpScreen()), (route) => false);
+                    context, NextPageRoute(ChooseLanguage(showEdulystLogo: true,)), (route) => false);
               });
             });
 

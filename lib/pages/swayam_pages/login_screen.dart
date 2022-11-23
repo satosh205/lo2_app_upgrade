@@ -389,7 +389,7 @@ class _LoginScreenState extends State<LoginScreen> {
           _size(height: 10),
           /* InkWell(
                       onTap: () {
-                        Navigator.push(context, NextPageRoute(SignUpScreen()));
+                        Navigator.push(context, NextPageRoute(ChooseLanguage()));
                       },
                       child: Text(
                         "${Strings.of(context)?.create} an Account",

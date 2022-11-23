@@ -1328,7 +1328,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                   isSelected = joyCategoryList![index].id ==
                                       selectedJoyContentCategoryId;
                                 } else {
-                                  print('selection in else $index');
+                                  print('selection in else $isParentLanguage');
 
                                   isSelected =
                                       joyCategoryList![index].parentId ==

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
+import 'package:masterg/pages/auth_pages/choose_language.dart';
 import 'package:masterg/utils/resource/colors.dart';
 
 import '../../blocs/bloc_manager.dart';
@@ -13,7 +14,6 @@ import '../../utils/Log.dart';
 import '../../utils/Strings.dart';
 import '../../utils/Styles.dart';
 import '../../utils/widget_size.dart';
-import '../auth_pages/sign_up_screen.dart';
 import '../custom_pages/ScreenWithLoader.dart';
 import '../custom_pages/alert_widgets/alerts_widget.dart';
 import '../custom_pages/custom_widgets/NextPageRouting.dart';
@@ -85,7 +85,7 @@ class _EditSelfDetailsPageState extends State<EditSelfDetailsPage> {
                           Preference.clearPref().then((value) {
                             Navigator.pushAndRemoveUntil(
                                 context,
-                                NextPageRoute(SignUpScreen()),
+                                NextPageRoute(ChooseLanguage(showEdulystLogo: true,)),
                                     (route) => false);
                           });
                         });

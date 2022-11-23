@@ -15,6 +15,7 @@ import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/data/models/response/home_response/user_profile_response.dart';
 import 'package:masterg/local/pref/Preference.dart';
+import 'package:masterg/pages/auth_pages/choose_language.dart';
 import 'package:masterg/pages/auth_pages/sign_up_screen.dart';
 import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
@@ -92,7 +93,7 @@ class _EditUserProfilePageState extends State<EditUserProfilePage>
                           Preference.clearPref().then((value) {
                             Navigator.pushAndRemoveUntil(
                                 context,
-                                NextPageRoute(SignUpScreen()),
+                                NextPageRoute(ChooseLanguage(showEdulystLogo: true,)),
                                 (route) => false);
                           });
                         });
