@@ -1375,8 +1375,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                                   .toList();
                                         }
 
-                                        print(
-                                            'the list size is ${joyContentListResponse?.first.categoryId}');
+         
                                       }
 
                                       ytController = YoutubePlayerController(

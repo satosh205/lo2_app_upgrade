@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -13,6 +13,7 @@ import 'package:masterg/pages/walk_through_page/splash_screen.dart';
 import 'package:masterg/utils/check_connection.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:masterg/utils/utility.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'blocs/auth_bloc.dart';
@@ -25,6 +26,7 @@ import 'utils/Strings.dart';
 void main() async {
   runZoned(() {
     runZonedGuarded(() async {
+
       WidgetsFlutterBinding.ensureInitialized();
       await FlutterDownloader.initialize();
       //  WidgetsFlutterBinding.ensureInitialized();
@@ -46,6 +48,8 @@ void main() async {
     parent.print(zone, "$line");
   }));
 }
+
+
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -88,6 +92,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+
     Preference.getInstance();
     Preference.load().then((value) {
       setState(() {
@@ -109,6 +114,9 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+
+    
+
     return MultiBlocProvider(
         providers: [
           BlocProvider<AuthBloc>(

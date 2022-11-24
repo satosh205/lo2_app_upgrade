@@ -7,6 +7,7 @@ import 'package:hive/hive.dart';
 import 'package:masterg/blocs/auth_bloc.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/pages/swayam_pages/login_screen.dart';
+import 'package:masterg/utils/check_connection.dart';
 import 'package:masterg/utils/config.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
@@ -40,75 +41,82 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
   @override
   void initState() {
     super.initState();
-    actionOnOffline();
+    // actionOnOffline();
   }
 
-  void actionOnOffline() async {
-    bool isConnected = await Utility.checkNetwork();
-    if (isConnected == false) {
-      var box = Hive.box("content");
-      dynamic resp = box.get('bottomMenu');
-      await Future.delayed(Duration(seconds: 2));
+  // void actionOnOffline() async {
+  //   bool isConnected = await Utility.checkNetwork();
+  //   if (isConnected == false) {
+  //     var box = Hive.box("content");
+  //     dynamic resp = box.get('bottomMenu');
+  //     await Future.delayed(Duration(seconds: 2));
 
-      Navigator.pushAndRemoveUntil(
-          context,
-          NextPageRoute(
-              homePage(
-                bottomMenu: resp,
-              ),
-              isMaintainState: true),
-          (route) => false);
-    }
-  }
+  //     Navigator.pushAndRemoveUntil(
+  //         context,
+  //         NextPageRoute(
+  //             homePage(
+  //               bottomMenu: resp,
+  //             ),
+  //             isMaintainState: true),
+  //         (route) => false);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     String imagePath = 'assets/images/splash/${APK_DETAILS['splash_image']}';
-    return Scaffold(
-        backgroundColor: Colors.transparent,
-        body: BlocManager(
-            initState: (BuildContext context) {
-              _getAppVersion();
-            },
-            child: MultiBlocListener(
-              listeners: [
-                BlocListener<AuthBloc, AuthState>(
-                  listener: (BuildContext context, state) {
-                    if (state is AppVersionState) _handleResponse(state);
-                  },
+    return CheckInternet(
+      refresh: (){
+       setState(() {
+          _getAppVersion();
+       });
+      },
+      body: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: BlocManager(
+              initState: (BuildContext context) {
+                _getAppVersion();
+              },
+              child: MultiBlocListener(
+                listeners: [
+                  BlocListener<AuthBloc, AuthState>(
+                    listener: (BuildContext context, state) {
+                      if (state is AppVersionState) _handleResponse(state);
+                    },
+                  ),
+                  BlocListener<HomeBloc, HomeState>(
+                    listener: (BuildContext context, state) {
+                      if (state is GetBottomBarState) {
+                        _handelBottomNavigationBar(state);
+                      }
+                    },
+                  ),
+                ],
+                child: Center(
+                  child: Stack(
+                    children: [
+                      Entry.scale(
+                        delay: Duration(seconds: 1),
+                        duration: Duration(seconds: 1),
+                        scale: 0,
+                        child: CustomCard("Entry.scale()"),
+                      ),
+                      // _logo(),
+                      imagePath.split('.').last == 'svg'
+                          ? SvgPicture.asset(
+                              imagePath,
+                              allowDrawingOutsideViewBox: true,
+                            )
+                          : Image.asset(
+                              imagePath,
+                              height: 150,
+                              width: 150,
+                            ),
+                    ],
+                  ),
                 ),
-                BlocListener<HomeBloc, HomeState>(
-                  listener: (BuildContext context, state) {
-                    if (state is GetBottomBarState) {
-                      _handelBottomNavigationBar(state);
-                    }
-                  },
-                ),
-              ],
-              child: Center(
-                child: Stack(
-                  children: [
-                    Entry.scale(
-                      delay: Duration(seconds: 1),
-                      duration: Duration(seconds: 1),
-                      scale: 0,
-                      child: CustomCard("Entry.scale()"),
-                    ),
-                    // _logo(),
-                    imagePath.split('.').last == 'svg'
-                        ? SvgPicture.asset(
-                            imagePath,
-                            allowDrawingOutsideViewBox: true,
-                          )
-                        : Image.asset(
-                            imagePath,
-                            height: 150,
-                            width: 150,
-                          ),
-                  ],
-                ),
-              ),
-            )));
+              ))),
+    );
   }
 
   void _getAppVersion() {

@@ -70,10 +70,12 @@ class VideoPlayerState extends State<CustomVideoPlayer> {
         : VideoPlayerController.network(widget.url);
 
     controller.setLooping(true);
-    controller.setVolume(1.0);
+    controller.play();
+
+    controller.setVolume(0.0);
     
     flickManager = FlickManager(
-      autoPlay: false,
+      autoPlay: true,
       videoPlayerController: controller,
     );
     flickManager!.flickDisplayManager!.handleShowPlayerControls(showWithTimeout: false);

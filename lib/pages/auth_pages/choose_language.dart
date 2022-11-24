@@ -166,8 +166,6 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                     InkWell(
                         onTap: () {
                                    
-          print('primary lang is ${Preference.getInt(Preference.IS_PRIMARY_LANGUAGE)}');
-          print('primary lang id  is  ${Preference.getInt(Preference.APP_LANGUAGE)}');
                           if (widget.showEdulystLogo)
                             Navigator.push(
                                 context,

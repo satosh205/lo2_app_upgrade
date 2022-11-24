@@ -225,11 +225,12 @@ class _MyAnalyticsPageState extends State<MyAnalyticsPage> {
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(10)),
         boxShadow: [
-          BoxShadow(
-            blurRadius: 16,
-            color: Color.fromRGBO(0, 0, 0, 0.15),
-          ),
-        ],
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 100,
+                      offset: const Offset(5, 5),
+                    ),
+                  ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

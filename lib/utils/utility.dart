@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
 import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/data/models/response/home_response/category_response.dart';
@@ -10,6 +11,7 @@ import 'package:masterg/utils/resource/colors.dart';
 import 'Styles.dart';
 
 class Utility {
+  bool isConnected = true;
   static Future<bool> checkNetwork() async {
     bool isConnected = false;
     try {
@@ -30,15 +32,14 @@ class Utility {
   //  Future<bool> loop() async {
   //   while (true) {
   //     await Future.delayed(const Duration(seconds: 6));
-     
+
   //     return checkConnection();
-    
+
   //   }
   // }
 
   Future<bool> checkConnection() async {
     try {
-
       final result = await InternetAddress.lookup('example.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         // setState(() {
@@ -141,7 +142,7 @@ class Utility {
     await Future.delayed(Duration(milliseconds: mili));
   }
 
-  static  List<dynamic> getReportList() {
+  static List<dynamic> getReportList() {
     List<dynamic> reportList = [
       {"title": 'It\'s Spam', 'value': 'spam'},
       {"title": 'False information', 'value': 'False information'},
@@ -158,6 +159,75 @@ class Utility {
       {"title": 'Scam and Fraud', 'value': 'Scam and Fraud'},
     ];
     return reportList;
+  }
+
+  void checkInternet(context) {
+    InternetConnectionChecker().onStatusChange.listen((status) {
+      switch (status) {
+        case InternetConnectionStatus.connected:
+
+          print('====>Data connection is available now.');
+     if(isConnected == false)ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            elevation: 0,
+                            backgroundColor: Colors.transparent,
+                            duration: Duration(seconds: 4),
+                            content: Container(
+                                margin: EdgeInsets.only(
+                                    bottom: 100, left: 4, right: 4),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 4),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: ColorConstants.GREY_2),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.wifi, color: ColorConstants.WHITE,),
+                                    SizedBox(width: 8),
+                                    Text(
+                                      "Connected to Internet!",
+                                      style: Styles.bold(
+                                          color: ColorConstants.WHITE),
+                                    )
+                                  ],
+                                )),
+                          ));
+                          isConnected = true;
+
+          break;
+        case InternetConnectionStatus.disconnected:
+          isConnected = false;
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            elevation: 0,
+                            backgroundColor: Colors.transparent,
+                            duration: Duration(seconds: 8),
+                            content: Container(
+                                margin: EdgeInsets.only(
+                                    bottom: 100, left: 4, right: 4),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 4),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: ColorConstants.GREY_2),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.wifi_off, color: ColorConstants.WHITE,),
+                                    SizedBox(width: 8),
+                                    Text(
+                                      "No Internet Connection!",
+                                      style: Styles.bold(
+                                          color: ColorConstants.WHITE),
+                                    )
+                                  ],
+                                )),
+                          ));
+
+          break;
+      }
+    });
   }
 
   static int? getCategoryValue(String type) {
