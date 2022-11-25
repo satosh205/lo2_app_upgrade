@@ -132,7 +132,7 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
                                                 SizedBox(
                                                   width: 5,
                                                 ),
-                                                Text('${Strings.of(context)?.create}',
+                                                Text('${Strings.of(context)?.CreateReels}',
                                                     style: Styles.bold(
                                                         color: ColorConstants
                                                             .WHITE,

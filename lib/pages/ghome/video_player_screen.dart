@@ -12,7 +12,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-class CustomVideoPlayer extends StatefulWidget {
+class CustomVideoPlayer extends StatefulWidget  {
   final url;
   final isLocalVideo;
   final showPlayButton;
@@ -28,6 +28,7 @@ class CustomVideoPlayer extends StatefulWidget {
   final String? userName;
   final String? time;
   final double? height;
+  final Function? sendflickManager;
 
   CustomVideoPlayer({
     Key? key,
@@ -44,17 +45,18 @@ class CustomVideoPlayer extends StatefulWidget {
     this.profilePath,
     this.userName,
     this.time,
-    this.height
+    this.height,
+    this.sendflickManager
+
   }) : super(key: key);
 
   @override
   VideoPlayerState createState() => VideoPlayerState();
 }
 
-class VideoPlayerState extends State<CustomVideoPlayer> {
+class VideoPlayerState extends State<CustomVideoPlayer>  {
   FlickManager? flickManager;
   late VideoPlayerController controller;
-  // Download download = new Download();
 
   @override
   void initState() {
@@ -80,9 +82,14 @@ class VideoPlayerState extends State<CustomVideoPlayer> {
     );
     flickManager!.flickDisplayManager!.handleShowPlayerControls(showWithTimeout: false);
 
+    widget.sendflickManager!(flickManager);
+
   
     /*print(controller.value.size.height / (controller.value.aspectRatio * 2));*/
   }
+
+  
+  
 
   @override
   void dispose() {
@@ -105,16 +112,7 @@ class VideoPlayerState extends State<CustomVideoPlayer> {
     }
 
     return GestureDetector(
-      /*onTap: widget.showPlayButton ? () {
-              if (controller.value.isPlaying) {
-                controller.pause();
-              } else {
-                controller.play();
-              }
-              setState(() {});
 
-            }
-          : null,*/
       onTap: () {
         if (widget.showPlayButton != null) {
           if (controller.value.isPlaying) {
@@ -147,8 +145,9 @@ class VideoPlayerState extends State<CustomVideoPlayer> {
       child: VisibilityDetector(
         key: ObjectKey(flickManager),
         onVisibilityChanged: (visibility) {
-          if (!videoPlayerState.providerControlEnable) {
             var visiblePercentage = visibility.visibleFraction * 100;
+
+          if (!videoPlayerState.providerControlEnable) {
             //if (visibility.visibleFraction == 0 && this.mounted) {
             if (visiblePercentage.round() <= 70 && this.mounted) {
               setState(() {
@@ -172,7 +171,25 @@ class VideoPlayerState extends State<CustomVideoPlayer> {
                   //     : controller.setVolume(1.0);
                 });
             }
+           
           }
+           print('play video $visiblePercentage');
+                if(visiblePercentage == 100.0) {
+                                              
+                                              Future.delayed(Duration(seconds: 2)).then((value) =>   {
+                                                  setState(() {
+                                                print('play video from custom');
+
+                  flickManager?.flickControlManager?.play();
+                  flickManager?.flickControlManager?.mute();
+                
+                  videoPlayerState.play();
+                  videoPlayerState.mute();
+                })
+                                              });
+                                             
+                                              }
+      
         },
         child: Stack(children: [
           Container(

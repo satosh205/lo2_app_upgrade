@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:camerawesome/camerawesome_plugin.dart';
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -39,6 +40,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 late VideoPlayerController _videoController;
+late FlickManager customVideoController;
 YoutubePlayerController ytController = YoutubePlayerController(
     flags: YoutubePlayerFlags(
       autoPlay: true,
@@ -86,10 +88,20 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
+
     if (state == AppLifecycleState.resumed) {
       //pause video
-      // print('video is paused');
-      _videoController.pause();
+      // _videoController.play();
+      
+      ytController..mute()..play();
+      videoPlayerProvider.mute();
+
+       setState(() {
+                customVideoController.flickControlManager?.pause();
+                customVideoController.flickControlManager?.mute();
+              });
+
+      // ytController.mute();
     }
   }
 
@@ -108,7 +120,9 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
         ],
         child: Consumer<VideoPlayerProvider>(
           builder: (context, value, child) => BlocManager(
-            initState: (context) {},
+            initState: (context) {
+              videoPlayerProvider= value;
+            },
             child: BlocListener<HomeBloc, HomeState>(
               listener: (context, state) async {
                 if (state is JoyCategoryState) {
@@ -1323,13 +1337,9 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                 bool isSelected = false;
 
                                 if (isParentLanguage == 1) {
-                                  print(
-                                      'selection in if $index and id is $selectedJoyContentCategoryId');
                                   isSelected = joyCategoryList![index].id ==
                                       selectedJoyContentCategoryId;
                                 } else {
-                                  print('selection in else $isParentLanguage');
-
                                   isSelected =
                                       joyCategoryList![index].parentId ==
                                           selectedJoyContentCategoryId;
@@ -1346,17 +1356,15 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                             joyCategoryList![index].parentId;
                                       }
 
-                                      print(
-                                          'selected id is $selectedJoyContentCategoryId');
+                                   
 
                                       if (selectedJoyContentCategoryId == 1) {
                                         joyContentListView =
                                             joyContentListResponse;
-                                        print(
-                                            'the list size is ${joyContentListView?.length}');
+                                     
                                       } else {
                                         if (isParentLanguage != 1) {
-                                          print('inside if ');
+                                
                                           joyContentListView =
                                               joyContentListResponse!
                                                   .where((element) =>
@@ -1497,6 +1505,9 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                           .toString()
                                           .contains('www.youtube.com')
                                       ? CustomVideoPlayer(
+                                         sendflickManager: (FlickManager value){
+                                            customVideoController = value;
+                                          },
                                           url:
                                               '${joyCategoryList![index].video}',
                                           autoPlay: true,
@@ -1504,10 +1515,11 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                         )
                                       : VisibilityDetector(
                                           key: ObjectKey(ytController),
-                                          onVisibilityChanged: (visibility) {
+                                          onVisibilityChanged: (visibility) async {
                                             var visiblePercentage =
                                                 visibility.visibleFraction *
                                                     100;
+                                                    print('the visibilyt $visiblePercentage');
                                             if (visibility.visibleFraction ==
                                                     0 &&
                                                 this.mounted) {
@@ -1515,9 +1527,12 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                                       70 &&
                                                   this.mounted) {
                                                 //pause
+                                                print('video is paused for 70');
+
                                                 ytController.pause();
                                               } else {
                                                 //pause
+                                                print('video is paused');
                                                 ytController.pause();
 
                                                 if (this.mounted)
@@ -1525,7 +1540,15 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                                   //play
                                                   ytController.play();
                                               }
+
+                                             
                                             }
+                                             if(visiblePercentage == 100.0) {
+                                                print('the video play');
+                                          await    Future.delayed(Duration(seconds: 2)).then((value) =>   ytController.play());
+                                                videoPlayerProvider.mute();
+                                                ytController.mute();
+                                              }
                                           },
                                           child: YoutubePlayer(
                                             controller: ytController,
@@ -1625,8 +1648,12 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                           ),
                                         ),
                                         child: CustomVideoPlayer(
+                                          sendflickManager: (FlickManager value){
+                                            customVideoController = value;
+                                          },
                                             url:
-                                                '${videoList[index].resourcePath}')),
+                                                '${videoList[index].resourcePath}', autoPlay: true,
+                                          showPlayButton: true, )),
                                   ),
                                   Positioned(
                                       child: Container(
@@ -1921,138 +1948,140 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
   }
 }
 
-class ShowImage extends StatefulWidget {
-  final String? path;
-  ShowImage({Key? key, this.path}) : super(key: key);
 
-  @override
-  State<ShowImage> createState() => _ShowImageState();
-}
 
-class _ShowImageState extends State<ShowImage> {
-  Uint8List? imageFile;
-  @override
-  void initState() {
-    super.initState();
-    getFile();
-  }
+// class ShowImage extends StatefulWidget {
+//   final String? path;
+//   ShowImage({Key? key, this.path}) : super(key: key);
 
-  Future<Uint8List?> getFile() async {
-    final uint8list = await VideoThumbnail.thumbnailData(
-      video: widget.path!,
-      imageFormat: ImageFormat.PNG,
-      quality: 10,
-    );
-    setState(() {
-      imageFile = uint8list;
-    });
-    return uint8list;
-  }
+//   @override
+//   State<ShowImage> createState() => _ShowImageState();
+// }
 
-  @override
-  Widget build(BuildContext context) {
-    return imageFile != null
-        ? Image.memory(
-            imageFile!,
-            fit: BoxFit.cover,
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-          )
-        : SizedBox();
-  }
-}
+// class _ShowImageState extends State<ShowImage> {
+//   Uint8List? imageFile;
+//   @override
+//   void initState() {
+//     super.initState();
+//     getFile();
+//   }
 
-class VideoPlayerItem extends StatefulWidget {
-  final String? videoUrl;
+//   Future<Uint8List?> getFile() async {
+//     final uint8list = await VideoThumbnail.thumbnailData(
+//       video: widget.path!,
+//       imageFormat: ImageFormat.PNG,
+//       quality: 10,
+//     );
+//     setState(() {
+//       imageFile = uint8list;
+//     });
+//     return uint8list;
+//   }
 
-  VideoPlayerItem({
-    Key? key,
-    required this.size,
-    this.videoUrl,
-  }) : super(key: key);
+//   @override
+//   Widget build(BuildContext context) {
+//     return imageFile != null
+//         ? Image.memory(
+//             imageFile!,
+//             fit: BoxFit.cover,
+//             height: MediaQuery.of(context).size.height,
+//             width: MediaQuery.of(context).size.width,
+//           )
+//         : SizedBox();
+//   }
+// }
 
-  final Size size;
+// class VideoPlayerItem extends StatefulWidget {
+//   final String? videoUrl;
 
-  @override
-  _VideoPlayerItemState createState() => _VideoPlayerItemState();
-}
+//   VideoPlayerItem({
+//     Key? key,
+//     required this.size,
+//     this.videoUrl,
+//   }) : super(key: key);
 
-class _VideoPlayerItemState extends State<VideoPlayerItem> {
-  bool isShowPlaying = false;
+//   final Size size;
 
-  @override
-  void initState() {
-    super.initState();
+//   @override
+//   _VideoPlayerItemState createState() => _VideoPlayerItemState();
+// }
 
-    //assets/videos/video_1.mp4
-    print('===========>>widget.videoUrl111');
-    print(widget.videoUrl!.trim());
+// class _VideoPlayerItemState extends State<VideoPlayerItem> {
+//   bool isShowPlaying = false;
 
-    _videoController = VideoPlayerController.network(widget.videoUrl!);
+//   @override
+//   void initState() {
+//     super.initState();
 
-    _videoController.setLooping(true);
-    _videoController.initialize().then((_) => setState(() {
-          setState(() {
-            isShowPlaying = true;
-            _videoController.play();
-            _videoController.setVolume(0);
-          });
-          // _videoController.play();
-        }));
-  }
+//     //assets/videos/video_1.mp4
+//     print('===========>>widget.videoUrl111');
+//     print(widget.videoUrl!.trim());
 
-  @override
-  void dispose() {
-    super.dispose();
-    // _videoController.dispose();
-  }
+//     _videoController = VideoPlayerController.network(widget.videoUrl!);
 
-  Widget isPlaying() {
-    return _videoController.value.isPlaying
-        ? Container()
-        : Icon(
-            Icons.play_arrow,
-            size: 80,
-            color: Colors.white.withOpacity(0.5),
-          );
-  }
+//     _videoController.setLooping(true);
+//     _videoController.initialize().then((_) => setState(() {
+//           setState(() {
+//             isShowPlaying = true;
+//             _videoController.play();
+//             _videoController.setVolume(0);
+//           });
+//           // _videoController.play();
+//         }));
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      child: InkWell(
-        onTap: () {
-          setState(() {
-            _videoController.value.isPlaying
-                ? _videoController.pause()
-                : _videoController.play();
-          });
-        },
-        child: Container(
-            height: widget.size.height,
-            width: widget.size.width,
-            child: Container(
-              height: widget.size.height,
-              width: widget.size.width,
-              decoration: BoxDecoration(color: Colors.black),
-              child: Stack(
-                children: <Widget>[
-                  isShowPlaying
-                      ? VideoPlayer(_videoController)
-                      : ShowImage(path: widget.videoUrl),
-                  Center(
-                    child: Container(
-                      decoration: BoxDecoration(),
-                      child: isPlaying(),
-                    ),
-                  )
-                ],
-              ),
-            )),
-      ),
-    );
-  }
-}
+//   @override
+//   void dispose() {
+//     super.dispose();
+//     // _videoController.dispose();
+//   }
+
+//   Widget isPlaying() {
+//     return _videoController.value.isPlaying
+//         ? Container()
+//         : Icon(
+//             Icons.play_arrow,
+//             size: 80,
+//             color: Colors.white.withOpacity(0.5),
+//           );
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Material(
+//       child: InkWell(
+//         onTap: () {
+//           setState(() {
+//             _videoController.value.isPlaying
+//                 ? _videoController.pause()
+//                 : _videoController.play();
+//           });
+//         },
+//         child: Container(
+//             height: widget.size.height,
+//             width: widget.size.width,
+//             child: Container(
+//               height: widget.size.height,
+//               width: widget.size.width,
+//               decoration: BoxDecoration(color: Colors.black),
+//               child: Stack(
+//                 children: <Widget>[
+//                   isShowPlaying
+//                       ? VideoPlayer(_videoController)
+//                       : ShowImage(path: widget.videoUrl),
+//                   Center(
+//                     child: Container(
+//                       decoration: BoxDecoration(),
+//                       child: isPlaying(),
+//                     ),
+//                   )
+//                 ],
+//               ),
+//             )),
+//       ),
+//     );
+//   }
+// }
 
 // class VideoPlayerScreen extends StatefulWidget {
 //   final int? index;
