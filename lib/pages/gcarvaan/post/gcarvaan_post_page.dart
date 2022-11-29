@@ -45,8 +45,7 @@ class GCarvaanPostPage extends StatefulWidget {
 }
 
 bool visible = false;
-  bool isGCarvaanPostLoading = true;
-
+bool isGCarvaanPostLoading = true;
 
 class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
   // Download download = new Download();
@@ -63,10 +62,8 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
   void initState() {
     super.initState();
 
-
-
     gcarvaanPosts = [];
-    
+
     if (widget.formCreatePost!) {
       createPost();
     } else {
@@ -81,21 +78,22 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
 
   void _getPosts(callCount, {postId}) {
     box = Hive.box(DB.CONTENT);
-   if(widget.formCreatePost == false && callCount == 1)  {
-                      print('inside api call');
-                    try{
-                        gcarvaanPosts = box
-                    !.get("gcarvaan_post")
-                    .map((e) => GCarvaanPostElement.fromJson(
-                        Map<String, dynamic>.from(e)))
-                    .cast<GCarvaanPostElement>()
-                    .toList();
-                    }
-                    catch(e){
-                      print('Something went wrong while fetching data form hive: $e');
-                    }
-                  
-                    }
+    if (widget.formCreatePost == false && callCount == 1) {
+      try {
+        gcarvaanPosts = box!
+            .get("gcarvaan_post")
+            .map((e) =>
+                GCarvaanPostElement.fromJson(Map<String, dynamic>.from(e)))
+            .cast<GCarvaanPostElement>()
+            .toList();
+          
+          Future.delayed(Duration(milliseconds: 50)).then((value)  {
+              _refreshController.requestRefresh();
+          }  );
+      } catch (e) {
+        print('Something went wrong while fetching data form hive: $e');
+      }
+    }
     BlocProvider.of<HomeBloc>(context)
         .add(GCarvaanPostEvent(callCount: callCount, postId: postId));
   }
@@ -199,7 +197,6 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                         );
                       }
                     },
-
                     child: SingleChildScrollView(
                       child: Container(
                         child: Column(
@@ -299,7 +296,8 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                             color: ColorConstants.TEXT_FIELD_BG,
                                             borderRadius:
                                                 BorderRadius.circular(8)),
-                                        child: Text('${Strings.of(context)?.writeAPost}',
+                                        child: Text(
+                                            '${Strings.of(context)?.writeAPost}',
                                             style: Styles.regular(
                                                 color: ColorConstants.GREY_4,
                                                 size: 14)),
@@ -322,7 +320,8 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                                     true,
                                               ),
                                               SizedBox(width: 4),
-                                              Text('${Strings.of(context)?.photo}',
+                                              Text(
+                                                  '${Strings.of(context)?.photo}',
                                                   style:
                                                       Styles.regular(size: 14))
                                             ],
@@ -343,7 +342,8 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                                     true,
                                               ),
                                               SizedBox(width: 4),
-                                              Text('${Strings.of(context)?.video}',
+                                              Text(
+                                                  '${Strings.of(context)?.video}',
                                                   style:
                                                       Styles.regular(size: 14))
                                             ],
@@ -419,7 +419,6 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                         filesPath: provider.files,
                         provider: provider)))
             .then((value) => _refreshController.requestRefresh());
-        
       }
     }
   }
@@ -444,9 +443,12 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
   // }
 
   Widget _postListWidget(gcarvaanPosts, GCarvaanListModel value) {
-    if(value.list?.length == 0 && isGCarvaanPostLoading == false) return  Container(
-          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
-          child: Center(child: Text('${Strings.of(context)?.noPostAvailable}')));
+    if (value.list?.length == 0 && isGCarvaanPostLoading == false)
+      return Container(
+          margin:
+              EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
+          child:
+              Center(child: Text('${Strings.of(context)?.noPostAvailable}')));
     return gcarvaanPosts.length != 0 || value.list?.length != 0
         ? ListView.builder(
             scrollDirection: Axis.vertical,
@@ -454,7 +456,6 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
             physics: BouncingScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (context, index) {
-            
               return gcarvaanPosts != null &&
                       gcarvaanPosts[index].resourcePath != null
                   ? GCarvaanCardPost(
@@ -476,7 +477,6 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                       comment_visible: false,
                       height: gcarvaanPosts[index].dimension.height,
                       dimension: gcarvaanPosts[index].multiFileUploadsDimension,
-
                       width: gcarvaanPosts[index].dimension.width,
                       resourceType: gcarvaanPosts[index].resourceType,
                       userID: gcarvaanPosts[index].userId,
@@ -818,14 +818,14 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
       switch (loginState.apiState) {
         case ApiStatus.LOADING:
           Log.v("Loading....................");
-          
+
 //  gcarvaanPosts = box
 //                     !.get("gcarvaan_post")
 //                     .map((e) => GCarvaanPostElement.fromJson(
 //                         Map<String, dynamic>.from(e)))
 //                     .cast<GCarvaanPostElement>()
 //                     .toList();
-                  
+
           isGCarvaanPostLoading = true;
 
           break;
@@ -836,13 +836,12 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
           //gcarvaanPosts = state.response.data.list;
           //if (state.response.data.list.length == 1) {
 
-        
-
           gcarvaanPosts!.addAll(state.response!.data!.list!);
           print('current data len is ${gcarvaanPosts?.length}');
 
-           var seen = Set<GCarvaanPostElement>();
-          List<GCarvaanPostElement> uniquelist = gcarvaanPosts!.where((element) => seen.add(element)).toList();
+          var seen = Set<GCarvaanPostElement>();
+          List<GCarvaanPostElement> uniquelist =
+              gcarvaanPosts!.where((element) => seen.add(element)).toList();
           gcarvaanPosts = uniquelist;
           model.refreshList(gcarvaanPosts!);
           _refreshController.refreshCompleted();

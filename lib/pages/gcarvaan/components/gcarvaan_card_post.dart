@@ -1464,6 +1464,8 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
           ?.where((element) => element.id != widget.contentId)
           .toList();
       box?.put("gcarvaan_post", gcarvaanPosts);
+    gcarvaanPosts =   box?.get("gcarvaan_post");
+    print('the deleted len is ${gcarvaanPosts?.length}');
     }
   }
 
