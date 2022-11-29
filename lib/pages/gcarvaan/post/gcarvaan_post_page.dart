@@ -24,6 +24,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../utils/Strings.dart';
+import '../../../utils/constant.dart';
 
 class GCarvaanPostPage extends StatefulWidget {
   List<MultipartFile>? fileToUpload;
@@ -62,7 +63,10 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
   void initState() {
     super.initState();
 
+
+
     gcarvaanPosts = [];
+    
     if (widget.formCreatePost!) {
       createPost();
     } else {
@@ -76,7 +80,22 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
   }
 
   void _getPosts(callCount, {postId}) {
-    //box = Hive.box(DB.CONTENT);
+    box = Hive.box(DB.CONTENT);
+   if(widget.formCreatePost == false && callCount == 1)  {
+                      print('inside api call');
+                    try{
+                        gcarvaanPosts = box
+                    !.get("gcarvaan_post")
+                    .map((e) => GCarvaanPostElement.fromJson(
+                        Map<String, dynamic>.from(e)))
+                    .cast<GCarvaanPostElement>()
+                    .toList();
+                    }
+                    catch(e){
+                      print('Something went wrong while fetching data form hive: $e');
+                    }
+                  
+                    }
     BlocProvider.of<HomeBloc>(context)
         .add(GCarvaanPostEvent(callCount: callCount, postId: postId));
   }
@@ -123,6 +142,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
               onRefresh: () async {
                 callCount = 0;
                 gcarvaanPosts = [];
+                widget.formCreatePost = true;
                 _getPosts(++callCount);
                 Future.delayed(Duration(seconds: 2)).then((_) {
                   setState(() {
@@ -798,6 +818,14 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
       switch (loginState.apiState) {
         case ApiStatus.LOADING:
           Log.v("Loading....................");
+          
+//  gcarvaanPosts = box
+//                     !.get("gcarvaan_post")
+//                     .map((e) => GCarvaanPostElement.fromJson(
+//                         Map<String, dynamic>.from(e)))
+//                     .cast<GCarvaanPostElement>()
+//                     .toList();
+                  
           isGCarvaanPostLoading = true;
 
           break;
