@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,9 +14,7 @@ import 'package:masterg/pages/walk_through_page/splash_screen.dart';
 import 'package:masterg/utils/check_connection.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
-import 'package:masterg/utils/utility.dart';
 import 'package:path_provider/path_provider.dart';
-
 import 'blocs/auth_bloc.dart';
 import 'data/api/api_service.dart';
 import 'data/models/response/auth_response/user_session.dart';
@@ -45,6 +44,7 @@ void main() async {
   }, zoneSpecification: ZoneSpecification(
       print: (Zone self, ZoneDelegate parent, Zone zone, String line) {
     //comment to hide all print
+    if(kDebugMode)
     parent.print(zone, "$line");
   }));
 }

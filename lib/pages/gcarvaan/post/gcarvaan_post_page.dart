@@ -47,7 +47,7 @@ class GCarvaanPostPage extends StatefulWidget {
 bool visible = false;
 bool isGCarvaanPostLoading = true;
 
-class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
+class _GCarvaanPostPageState extends State<GCarvaanPostPage>  {
   // Download download = new Download();
   Box? box;
   List<GCarvaanPostElement>? gcarvaanPosts;
