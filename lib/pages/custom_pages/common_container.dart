@@ -68,7 +68,7 @@ class CommonContainer extends StatelessWidget {
         key: scafKey ?? _scaffoldKey,
         resizeToAvoidBottomInset: false,
         backgroundColor: bgColor,
-        drawer: isDrawerEnable ? drawerWidget : null,
+        drawer: isDrawerEnable ? drawerWidget : Drawer(),
         body: Builder(builder: (_context) {
           return isScrollable == true
               ? SingleChildScrollView(
@@ -170,8 +170,9 @@ class CommonContainer extends StatelessWidget {
         children: [
           InkWell(
             onTap: (){
-  if(isBackShow == true)  Navigator.pop(context);
-       else    showDialog(
+  if(isDrawerEnable != true)  Navigator.pop(context);
+       else  
+         showDialog(
   context: context,
   builder: (_) => new AlertDialog(
   shape: RoundedRectangleBorder(
@@ -210,6 +211,8 @@ class CommonContainer extends StatelessWidget {
           title: const Text('Logout'),
           onTap: () {
              Preference.clearPref().then((value) {
+              UserSession.userAppLanguageId = 0;
+          UserSession.userContentLanguageId = 0;
               Navigator.pushAndRemoveUntil(
                   context, NextPageRoute(LoginScreen()), (route) => false);
             });

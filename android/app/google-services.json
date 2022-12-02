@@ -1,34 +1,145 @@
 {
   "project_info": {
-    "project_number": "283266549880",
-    "project_id": "edulyst-6ae6e",
-    "storage_bucket": "edulyst-6ae6e.appspot.com"
+    "project_number": "779763900060",
+    "project_id": "perfetti-swayam",
+    "storage_bucket": "perfetti-swayam.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:283266549880:android:b695b3e9640f4b6dd8058d",
+        "mobilesdk_app_id": "1:779763900060:android:01dfd4861c57d47d469759",
         "android_client_info": {
-          "package_name": "com.at.edulyst"
+          "package_name": "com.at.perfetti_swayam"
         }
       },
       "oauth_client": [
         {
-          "client_id": "283266549880-u3890cipbu8dtttjr80vf1qairq7thgi.apps.googleusercontent.com",
+          "client_id": "779763900060-hoa1cm4i704isr3a70te4u1qii9115nn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.at.perfetti_swayam",
+            "certificate_hash": "5a05fdf905a38ce8b44371bdafc416071fe11d45"
+          }
+        },
+        {
+          "client_id": "779763900060-okb267bdff7hkugf4s3ffurm474afavv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.at.perfetti_swayam",
+            "certificate_hash": "349284d2cacc7a79cde6fd21359f078fc4f14065"
+          }
+        },
+        {
+          "client_id": "779763900060-oue7h65l81ap3pdad6q486kcqur5obvv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.at.perfetti_swayam",
+            "certificate_hash": "c5ae352d6174faef8b8bcbc01d19406a0013517e"
+          }
+        },
+        {
+          "client_id": "779763900060-r2b4qdatf4ias1vhv2aa775babib3baq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.at.perfetti_swayam",
+            "certificate_hash": "d18a01bb06b26c8e47dc5741c5fc26bf539bcfc0"
+          }
+        },
+        {
+          "client_id": "779763900060-ufa9imo6v0psukbnuhrlkdr7promjcng.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAkBRt20YlFU7hd3NKfz0E93v4i3LvuWWI"
+          "current_key": "AIzaSyC0s1JWN9VtFl99EtgQOj2kGeVFBnYIXrA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "283266549880-u3890cipbu8dtttjr80vf1qairq7thgi.apps.googleusercontent.com",
+              "client_id": "779763900060-ufa9imo6v0psukbnuhrlkdr7promjcng.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "779763900060-ee31logm23bj4nsi6r44s9fek73ulmu1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.at.perfettiswayam"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:779763900060:android:2d92aedb2e2a0fc7469759",
+        "android_client_info": {
+          "package_name": "com.at.perfetti_swayam2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "779763900060-ufa9imo6v0psukbnuhrlkdr7promjcng.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0s1JWN9VtFl99EtgQOj2kGeVFBnYIXrA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "779763900060-ufa9imo6v0psukbnuhrlkdr7promjcng.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "779763900060-ee31logm23bj4nsi6r44s9fek73ulmu1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.at.perfettiswayam"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:779763900060:android:b12efd2f19c92c92469759",
+        "android_client_info": {
+          "package_name": "com.at.perfetti_swayam3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "779763900060-ufa9imo6v0psukbnuhrlkdr7promjcng.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0s1JWN9VtFl99EtgQOj2kGeVFBnYIXrA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "779763900060-ufa9imo6v0psukbnuhrlkdr7promjcng.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "779763900060-ee31logm23bj4nsi6r44s9fek73ulmu1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.at.perfettiswayam"
+              }
             }
           ]
         }

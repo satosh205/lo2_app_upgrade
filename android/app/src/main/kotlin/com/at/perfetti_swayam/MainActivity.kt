@@ -1,4 +1,4 @@
-package com.at.edulyst
+package com.at.perfetti_swayam
 
 import io.flutter.embedding.android.FlutterActivity
 

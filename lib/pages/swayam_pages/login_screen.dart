@@ -254,6 +254,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (Preference.getString(Preference.USER_TOKEN) != null) {
       if (UserSession.userAppLanguageId == 0 ||
           UserSession.userContentLanguageId == 0) {
+            print('inside this 1');
         Navigator.pushAndRemoveUntil(
             context,
             NextPageRoute(LanguagePage(
@@ -262,14 +263,15 @@ class _LoginScreenState extends State<LoginScreen> {
             )),
             (Route<dynamic> route) => false);
       } else
-        // Navigator.pushAndRemoveUntil(
-        //     context,
-        //     NextPageRoute(homePage(
-        //       bottomMenu: menuList,
-        //     )),
-        //     (route) => false);
+       {
+            print('inside this 2');
         getBottomNavigationBar();
+
+
+       }
     } else {
+            print('inside this 3');
+      
       Navigator.pushAndRemoveUntil(
           context, NextPageRoute(LoginScreen()), (route) => false);
     }
