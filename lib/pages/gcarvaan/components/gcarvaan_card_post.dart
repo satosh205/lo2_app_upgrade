@@ -20,6 +20,7 @@ import 'package:masterg/pages/pdf_view_page.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
+import 'package:masterg/utils/get_widget_size.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 import 'package:masterg/utils/widget_size.dart';
@@ -29,7 +30,6 @@ import 'package:shimmer/shimmer.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:zoom_pinch_overlay/zoom_pinch_overlay.dart';
 
-import '../../../data/models/response/auth_response/user_session.dart';
 import '../../../utils/constant.dart';
 
 class GCarvaanCardPost extends StatefulWidget {
@@ -92,6 +92,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
   FlickManager? flickManager;
   double videoHeight = 0.0;
   Box? box;
+  
 
   @override
   void initState() {
@@ -133,6 +134,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
       millis * 1000,
     );
     final now = DateTime.now();
+    int? previousIndex = -1;
 
     String calculateTimeDifferenceBetween(
         DateTime startDate, DateTime endDate) {
@@ -975,6 +977,10 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                               } else {
                                 await Future.delayed(Duration(seconds: 2));
                                 updateLikeandViews(null);
+                                setState(() {
+                                
+                              });
+                                
                               }
                             },
                             child: Container(
