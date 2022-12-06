@@ -988,6 +988,9 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                           // ? CustomBetterPlayer(
                                           //     url: widget.fileList[index])
                                           ? CustomVideoPlayer(
+                                            sendflickManager: (FlickManager value){
+                                           
+                                          },
                                               url: widget.fileList![index],
                                               isLocalVideo: false,
                                               likeCount: widget.likeCount,
