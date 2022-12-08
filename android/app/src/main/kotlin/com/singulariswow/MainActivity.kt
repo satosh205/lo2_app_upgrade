@@ -1,4 +1,4 @@
-package com.at.edulyst
+package com.singulariswow
 
 import io.flutter.embedding.android.FlutterActivity
 
