@@ -133,11 +133,14 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                                   ),
                           SizedBox(height: 30),
 
-                          Center(
-                            child: Text(
-                              '${Strings.of(context)?.chooseAppLanguage}',
-                              style: Styles.bold(size: 18),
-                              textAlign: TextAlign.center,
+                          SizedBox(
+                            height: 30,
+                            child: Center(
+                              child: Text(
+                                '${Strings.of(context)?.chooseAppLanguage}',
+                                style: Styles.bold(size: 18),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ),
                           SizedBox(height: 10),
