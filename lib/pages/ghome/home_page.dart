@@ -14,6 +14,7 @@ import 'package:masterg/pages/gcarvaan/post/gcarvaan_post_page.dart';
 import 'package:masterg/pages/ghome/g_school.dart';
 import 'package:masterg/pages/ghome/ghome.dart';
 import 'package:masterg/pages/reels/reels_dashboard_page.dart';
+import 'package:masterg/pages/singularis/dashboard.dart';
 import 'package:masterg/pages/swayam_pages/announcemnt_page.dart';
 import 'package:masterg/pages/swayam_pages/library_page.dart';
 import 'package:masterg/pages/swayam_pages/profile_page.dart';
@@ -88,81 +89,84 @@ class _homePageState extends State<homePage> {
 
   @override
   Widget build(BuildContext context) {
+    _getDrawerLayout(BuildContext context) {
+      return Drawer(
+          child: SingleChildScrollView(
+        child: Container(
+          width: MediaQuery.of(context).size.width - 50,
+          padding: EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 40),
+          color: ColorConstants.WHITE,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ListTile(
+                contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                leading: CircleAvatar(
+                    backgroundImage:
+                        NetworkImage(UserSession.userImageUrl ?? ""),
+                    radius: 20.0),
+                title: Text(
+                  UserSession.userName ?? '',
+                  style: Styles.textExtraBold(
+                      color: (ColorConstants.PRIMARY_COLOR)),
+                ),
+                subtitle: Text(
+                  UserSession.email ?? '',
+                  style: Styles.textExtraBold(size: 12),
+                ),
+                trailing: Icon(
+                  Icons.navigate_next,
+                  color: ColorConstants.PRIMARY_COLOR,
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      NextPageRoute(SignUpScreen(
+                        isFromProfile: true,
+                      )));
+                },
+              ),
+              // _size(height: 10),
 
-       _getDrawerLayout(BuildContext context) {
-    return Drawer(
-        child: SingleChildScrollView(
-      child: Container(
-        width: MediaQuery.of(context).size.width - 50,
-        padding: EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 40),
-        color: ColorConstants.WHITE,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 0),
-              leading: CircleAvatar(
-                  backgroundImage: NetworkImage(UserSession.userImageUrl ?? ""),
-                  radius: 20.0),
-              title: Text(
-                UserSession.userName ?? '',
-                style:
-                    Styles.textExtraBold(color: (ColorConstants.PRIMARY_COLOR)),
-              ),
-              subtitle: Text(
-                UserSession.email ?? '',
-                style: Styles.textExtraBold(size: 12),
-              ),
-              trailing: Icon(
-                Icons.navigate_next,
-                color: ColorConstants.PRIMARY_COLOR,
-              ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    NextPageRoute(SignUpScreen(
-                      isFromProfile: true,
-                    )));
-              },
-            ),
-            // _size(height: 10),
-           
-            // _getSwayamMenu(),
-          ],
+              // _getSwayamMenu(),
+            ],
+          ),
         ),
-      ),
-    ));
-  }
+      ));
+    }
+
     var pages = {
       '/g-home': GHome(),
       '/g-school': const GSchool(),
       '/g-reels': ReelsDashboardPage(),
-      '/g-carvaan': GCarvaanPostPage(
-        fileToUpload: widget.fileToUpload,
-        desc: widget.desc,
-        filesPath: widget.filesPath,
-        formCreatePost: widget.isFromCreatePost,
-      ),
+      '/g-carvaan': Dashboard(),
+      // '/g-carvaan': GCarvaanPostPage(
+      //   fileToUpload: widget.fileToUpload,
+      //   desc: widget.desc,
+      //   filesPath: widget.filesPath,
+      //   formCreatePost: widget.isFromCreatePost,
+      // ),
       '/training': ChangeNotifierProvider<TrainingProvider>(
           create: (context) => TrainingProvider(TrainingService(ApiService())),
           child: TrainingHomePage(
-            drawerWidget:  _getDrawerLayout(context),
+            drawerWidget: _getDrawerLayout(context),
           )),
       '/announcements': ChangeNotifierProvider<AnnouncementDetailProvider>(
           create: (context) =>
               AnnouncementDetailProvider(TrainingService(ApiService())),
           child: AnnouncementPage(
             isViewAll: true,
-            drawerWidget:  _getDrawerLayout(context),
+            drawerWidget: _getDrawerLayout(context),
           )),
-      '/analytics': AnalyticPage(isViewAll: true,  drawerWidget: _getDrawerLayout(context),),
+      '/analytics': AnalyticPage(
+        isViewAll: true,
+        drawerWidget: _getDrawerLayout(context),
+      ),
       '/library': LibraryPage(
         isViewAll: true,
       ),
-      '/my-space-settings': ProfilePage(
-         drawerWidget: _getDrawerLayout(context)
-      )
+      '/my-space-settings': ProfilePage(drawerWidget: _getDrawerLayout(context))
     };
 
     var iconsUnSelected = {
@@ -215,8 +219,6 @@ class _homePageState extends State<homePage> {
       );
     }
 
-  
-
     String appBarImagePath = 'assets/images/${APK_DETAILS['logo_url']}';
 
     return CheckInternet(
@@ -258,7 +260,10 @@ class _homePageState extends State<homePage> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.wifi_off, color: ColorConstants.WHITE,),
+                                    Icon(
+                                      Icons.wifi_off,
+                                      color: ColorConstants.WHITE,
+                                    ),
                                     SizedBox(width: 8),
                                     Text(
                                       "No Internet Connection!",

@@ -56,6 +56,7 @@ class ColorConstants {
   static const ACTIVE_TAB = Color(0xFFffd500);
   static const YELLOW_ACTIVE_BUTTON = Color(0xFFffd500);
   static const YELLOW = Color(0xFFFDB515);
+  static const ORANGE_3 = Color(0xFFFF2452);
   static const START_GREY_BG = Color(0xFFE0E0E0);
   static const ACTIVE_TAB_UNDERLINE = Color(0xFF12AAEB);
   static const TEXT_DARK_BLACK = Color(0xff1c2555);
@@ -121,8 +122,7 @@ class ColorConstants {
     return HexColor.fromHex(APK_DETAILS['theme_color']!);
   }
 
-  Color primaryForgroundColor(){
+  Color primaryForgroundColor() {
     return HexColor.fromHex(APK_DETAILS['theme_forground_color']!);
-
   }
 }
