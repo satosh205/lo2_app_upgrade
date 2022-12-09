@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,16 +13,21 @@ import 'package:masterg/data/models/response/home_response/joy_contentList_respo
 import 'package:masterg/data/models/response/home_response/onboard_sessions.dart';
 import 'package:masterg/data/providers/video_player_provider.dart';
 import 'package:masterg/local/pref/Preference.dart';
+import 'package:masterg/pages/gcarvaan/post/gcarvaan_post_page.dart';
 import 'package:masterg/pages/ghome/my_courses.dart';
 import 'package:masterg/pages/ghome/widget/view_widget_details_page.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
+import 'package:masterg/utils/config.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../data/models/response/home_response/popular_courses_response.dart';
+import '../training_pages/new_screen/courses_details_page.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -38,6 +45,9 @@ class _DashboardState extends State<Dashboard> {
   bool isJoyCategoryLoading = false;
   bool isNotLiveclass = false;
   late VideoPlayerProvider videoPlayerProvider;
+  List<Recommended>? recommendedcourses = [];
+
+  bool showAllFeatured = false;
 
   List<Liveclass>? liveclassList;
 
@@ -45,6 +55,7 @@ class _DashboardState extends State<Dashboard> {
   void initState() {
     _getJoyContentList();
     _getLiveClass();
+    _getFilteredPopularCourses();
 
     super.initState();
   }
@@ -56,6 +67,11 @@ class _DashboardState extends State<Dashboard> {
 
   void _getLiveClass() {
     BlocProvider.of<HomeBloc>(context).add(getLiveClassEvent());
+  }
+
+  void _getFilteredPopularCourses() {
+    box = Hive.box(DB.CONTENT);
+    BlocProvider.of<HomeBloc>(context).add(FilteredPopularCoursesEvent());
   }
 
   @override
@@ -185,12 +201,23 @@ class _DashboardState extends State<Dashboard> {
                                             Text('Featured Updates',
                                                 style: Styles.bold()),
                                             Expanded(child: SizedBox()),
-                                            Text('View all',
-                                                style: Styles.regular(
-                                                  size: 12,
-                                                  color:
-                                                      ColorConstants.ORANGE_3,
-                                                )),
+                                            InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  showAllFeatured =
+                                                      !showAllFeatured;
+                                                });
+                                              },
+                                              child: Text(
+                                                  !showAllFeatured
+                                                      ? 'View all'
+                                                      : 'View less',
+                                                  style: Styles.regular(
+                                                    size: 12,
+                                                    color:
+                                                        ColorConstants.ORANGE_3,
+                                                  )),
+                                            ),
                                           ],
                                         ),
                                         Padding(
@@ -202,8 +229,12 @@ class _DashboardState extends State<Dashboard> {
                                             child: GridView.builder(
                                               physics:
                                                   NeverScrollableScrollPhysics(),
-                                              itemCount:
-                                                  joyContentListView!.length,
+                                              itemCount: showAllFeatured
+                                                  ? joyContentListView!.length
+                                                  : min(
+                                                      4,
+                                                      joyContentListView!
+                                                          .length),
                                               shrinkWrap: true,
                                               gridDelegate:
                                                   SliverGridDelegateWithFixedCrossAxisCount(
@@ -470,17 +501,71 @@ class _DashboardState extends State<Dashboard> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
-                                        'Latest Trends',
-                                        style: Styles.bold(),
-                                      ),
+                                      Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 8,
+                                            horizontal: 10,
+                                          ),
+                                          child: Text(
+                                            'Latest Trends',
+                                            style: Styles.bold(),
+                                          )),
                                       Expanded(child: SizedBox()),
                                       Icon(Icons.arrow_forward_ios)
                                     ],
                                   ),
 
                                   //show reels
-                                  
+                                ],
+                              ),
+                            ),
+
+                            //latest trends end
+
+                            //recent community start
+
+                            Container(
+                              margin: EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 4,
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 8,
+                                          horizontal: 10,
+                                        ),
+                                        child: Text(
+                                          'Recent Community Posts',
+                                          style: Styles.bold(),
+                                        ),
+                                      ),
+                                      Expanded(child: SizedBox()),
+                                      Icon(Icons.arrow_forward_ios)
+                                    ],
+                                  ),
+
+                                  Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.5,
+                                    child: GCarvaanPostPage(
+                                      fileToUpload: null,
+                                      desc: null,
+                                      filesPath: null,
+                                      formCreatePost: false,
+                                      fromDashboard: true,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 200,
+                                    width: double.infinity,
+                                  )
+
+                                  //show posts
                                 ],
                               ),
                             )
@@ -492,6 +577,316 @@ class _DashboardState extends State<Dashboard> {
                 ),
               )),
         ));
+  }
+
+  Widget _getRecommendedCourses(context) {
+    var title = Strings.of(context)!.recommendedCourses;
+    return ValueListenableBuilder(
+      valueListenable: box!.listenable(),
+      builder: (bc, Box box, child) {
+        if (box.get("recommended") == null) {
+          // return Container();
+          return Column(
+            children: [
+              Shimmer.fromColors(
+                baseColor: Color(0xffe6e4e6),
+                highlightColor: Color(0xffeaf0f3),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.02,
+                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(6)),
+                ),
+              ),
+              ListView.builder(
+                  itemCount: 4,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) => Shimmer.fromColors(
+                        baseColor: Color(0xffe6e4e6),
+                        highlightColor: Color(0xffeaf0f3),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.12,
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(6)),
+                        ),
+                      )),
+            ],
+          );
+        } else if (box.get("recommended").isEmpty) {
+          return Container();
+        }
+
+        recommendedcourses = box
+            .get("recommended")
+            .map((e) => Recommended.fromJson(Map<String, dynamic>.from(e)))
+            .cast<Recommended>()
+            .toList();
+
+        // recommendedcourse.sor
+        if (APK_DETAILS['package_name'] == 'com.learn_build')
+          recommendedcourses
+              ?.sort((a, b) => a.categoryName!.compareTo(b.categoryName!));
+        //var list = _getFilterList();
+        return Container(
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(color: ColorConstants.GREY),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Padding(
+                  padding: EdgeInsets.only(left: 10, top: 10),
+                  child: Text(title!, style: Styles.DMSansbold(size: 18))),
+              ListView.builder(
+                itemBuilder: (BuildContext context, int index) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (APK_DETAILS['package_name'] == 'com.learn_build') ...[
+                        if (index == 0)
+                          Container(
+                              margin: EdgeInsets.only(left: 9, top: 6),
+                              child: Text(
+                                  '${recommendedcourses![index].categoryName}',
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
+                                  style: Styles.semibold(size: 16))),
+                        if (index > 0 &&
+                            recommendedcourses![index].categoryName !=
+                                recommendedcourses![index - 1].categoryName)
+                          Container(
+                              margin: EdgeInsets.only(left: 9, top: 6),
+                              child: Text(
+                                  '${recommendedcourses![index].categoryName}',
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
+                                  style: Styles.semibold(size: 16))),
+                      ],
+                      InkWell(
+                          onTap: () {
+                            /*_subscribeRequest(
+                                recommendedcourses![index].subscriptionType,
+                                recommendedcourses![index].id);*/
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CoursesDetailsPage(
+                                      imgUrl: recommendedcourses![index].image,
+                                      indexc: index,
+                                      tagName: 'TagReco',
+                                      name: recommendedcourses![index].name,
+                                      description: recommendedcourses![index]
+                                              .description ??
+                                          '',
+                                      regularPrice: recommendedcourses![index]
+                                          .regularPrice,
+                                      salePrice:
+                                          recommendedcourses![index].salePrice,
+                                      trainer:
+                                          recommendedcourses![index].trainer,
+                                      enrolmentCount: recommendedcourses![index]
+                                          .enrolmentCount,
+                                      type: recommendedcourses![index]
+                                          .subscriptionType,
+                                      id: recommendedcourses![index].id,
+                                      shortCode: recommendedcourses![index]
+                                          .shortCode)),
+                            ).then((isSuccess) {
+                              if (isSuccess == true) {
+                                print('sucess enrolled');
+
+                                _getFilteredPopularCourses();
+
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MyCourses()));
+                              }
+                            });
+
+                            /*Navigator.push(
+                                              context,
+                                              NextPageRoute(ChangeNotifierProvider<
+                                                      RecommendedCourseProvider>(
+                                                  create: (context) =>
+                                                      RecommendedCourseProvider(
+                                                          TrainingService(
+                                                              ApiService()),
+                                                          recommendedcourses[
+                                                              index]),
+                                                  child:
+                                                      PopularCourseDetailPage())));*/
+                          },
+                          child: _getCourseTemplate(context,
+                              recommendedcourses![index], index, 'TagReco')),
+                    ],
+                  );
+                },
+                itemCount: recommendedcourses?.length ?? 0,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+              ),
+            ]));
+      },
+    );
+  }
+
+  Widget _getCourseTemplate(context, yourCourses, int index, String tag) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.14,
+      //decoration: BoxDecoration(color: ColorConstants.GREY),
+      //padding: EdgeInsets.all(10),
+      margin: EdgeInsets.all(7),
+      //borderRadius
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: ColorConstants.WHITE,
+      ),
+
+      child: Row(children: [
+        Padding(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.height * 0.1,
+              height: MediaQuery.of(context).size.height * 0.11,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(5),
+                child: Hero(
+                  tag: tag + "$index",
+                  child: Image.network(
+                    '${yourCourses.image}',
+                    errorBuilder: (context, error, stackTrace) {
+                      return SvgPicture.asset(
+                        'assets/images/gscore_postnow_bg.svg',
+                      );
+                    },
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+            padding: EdgeInsets.all(10)),
+
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('${yourCourses.name}',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
+                    style: Styles.semibold(size: 16)),
+                if (APK_DETAILS['package_name'] == 'com.learn_build')
+                  Text('${yourCourses.approvalStatus ?? ''}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: false,
+                      style: Styles.semibold(
+                          size: 12, color: ColorConstants.YELLOW)),
+                Row(
+                  children: [
+                    Text(
+                        '${yourCourses.enrolmentCount} ${Strings.of(context)?.enrollments}',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        softWrap: false,
+                        style: Styles.regular(size: 14)),
+                    Spacer(),
+                    if (yourCourses.regularPrice != yourCourses.salePrice)
+                      Text('₹${yourCourses.regularPrice}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: false,
+                          style: TextStyle(
+                            fontSize: 14,
+                            decoration: TextDecoration.lineThrough,
+                          )),
+                    if (yourCourses.salePrice != null)
+                      Text('₹${yourCourses.salePrice}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: false,
+                          style: Styles.bold(
+                              size: 18, color: ColorConstants.GREEN)),
+                  ],
+                )
+              ],
+            ),
+          ),
+        )
+
+        // Padding(
+        //     padding: const EdgeInsets.only(top: 3.0, bottom: 3.0),
+        //     child: Column(
+        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //         crossAxisAlignment: CrossAxisAlignment.start,
+        //         children: [
+        //           SizedBox(height: 1),
+        //           Row(
+        //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //               children: [
+        //                 SizedBox(
+        //                     width: 180,
+        //                     child: Text('${yourCourses.name}',
+        //                         style: Styles.bold(size: 16))),
+        //                 // Container(
+        //                 //     child: _getCoinCardWidget(
+        //                 //         '${yourCourses.totalCoins ?? 0}', 'G Score'))
+        //               ]),
+        //           SizedBox(height: 7),
+        //           // Row(
+        //           //   children: [
+        //           //     Icon(CupertinoIcons.clock,
+        //           //         size: 15, color: Color(0xFFFDB515)),
+        //           //     Text('${yourCourses.duration}',
+        //           //         style: Styles.regular(size: 10))
+        //           //   ],
+        //           // ),
+        //           SizedBox(height: 10),
+        //           // Row(
+        //           //   children: [
+        //           //     Text('4.5',
+        //           //         style: Styles.textRegular(
+        //           //             color: ColorConstants.ACTIVE_TAB, size: 20)),
+        //           //     Icon(Icons.star, color: ColorConstants.ACTIVE_TAB, size: 20),
+        //           //     Icon(Icons.star, color: ColorConstants.ACTIVE_TAB, size: 20),
+        //           //     Icon(Icons.star, color: ColorConstants.ACTIVE_TAB, size: 20),
+        //           //     Icon(Icons.star, color: ColorConstants.ACTIVE_TAB, size: 20),
+        //           //     Icon(Icons.star, color: ColorConstants.ACTIVE_TAB, size: 20),
+        //           //   ],
+        //           // ),
+        //           Row(
+        //             mainAxisAlignment: MainAxisAlignment.start,
+        //             children: [
+        //               Text('${yourCourses.enrolmentCount} ${Strings.of(context)?.enrollments}',
+        //                   style: Styles.regular(size: 12)),
+        //               Row(
+        //                 children: [
+        //                   Text('₹${yourCourses.regularPrice}',
+        //                       style: TextStyle(
+        //                         decoration: TextDecoration.lineThrough,
+        //                       )),
+        //                   Text(
+        //                     '₹${yourCourses.salePrice}',
+        //                     style: Styles.textExtraBold(
+        //                         size: 22, color: ColorConstants.GREEN),
+        //                   ),
+        //                 ],
+        //               ),
+        //             ],
+        //           ),
+        //         ]))
+      ]),
+    );
   }
 
   Widget _getTodayClass() {

@@ -242,6 +242,17 @@ class _homePageState extends State<homePage> {
                       APK_DETAILS['package_name'] != "com.at.perfetti_swayam"
                   ? AppBar(
                       automaticallyImplyLeading: false,
+                      flexibleSpace: Container(
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: <Color>[
+                                Color(0xfffc7804),
+                                Color(0xffff2252)
+                              ]),
+                        ),
+                      ),
                       leading: IconButton(
                         onPressed: () async {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
