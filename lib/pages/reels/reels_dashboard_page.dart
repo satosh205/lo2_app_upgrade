@@ -132,7 +132,8 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
                                                 SizedBox(
                                                   width: 5,
                                                 ),
-                                                Text('${Strings.of(context)?.CreateReels}',
+                                                Text(
+                                                    '${Strings.of(context)?.CreateReels}',
                                                     style: Styles.bold(
                                                         color: ColorConstants
                                                             .WHITE,
@@ -368,21 +369,20 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
   Widget build(BuildContext context) {
     return Consumer<ReelsProvider>(
       builder: (context, value, child) {
-
         //adding temporary for mute
-  
+
         if (value.isPaused)
           _videoController!.pause();
         else {
           _videoController!.play();
         }
-        
+
         return Material(
           child: InkWell(
             onTap: () {
               setState(() {
                 value.showVolumnIcon();
-                if (value.isMuted ) {
+                if (value.isMuted) {
                   _videoController?.setVolume(1.0);
                   value.unMute();
                 } else {
@@ -492,7 +492,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
                                       children: <Widget>[
                                         LeftPanel(
                                           size: widget.size,
-                                          userStatus : widget.userStatus,
+                                          userStatus: widget.userStatus,
                                           name: "${widget.name}",
                                           caption: "${widget.caption}",
                                           viewCounts: widget.viewCount,
@@ -503,19 +503,19 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
                                           padding:
                                               const EdgeInsets.only(left: 20.0),
                                           child: RightPanel(
-                                            mContext: context,
-                                            size: widget.size,
-                                            likes: widget.likes,
-                                            comments: "${widget.comments}",
-                                            shares: "${widget.shares}",
-                                            profileImg: "${widget.profileImg}",
-                                            albumImg: "${widget.albumImg}",
-                                            isLiked: widget.isLiked,
-                                            contentId: widget.contentId,
-                                            greelsModel: widget.greelsModel,
-                                            index: widget.index,
-                                            userID: widget.userID
-                                          ),
+                                              mContext: context,
+                                              size: widget.size,
+                                              likes: widget.likes,
+                                              comments: "${widget.comments}",
+                                              shares: "${widget.shares}",
+                                              profileImg:
+                                                  "${widget.profileImg}",
+                                              albumImg: "${widget.albumImg}",
+                                              isLiked: widget.isLiked,
+                                              contentId: widget.contentId,
+                                              greelsModel: widget.greelsModel,
+                                              index: widget.index,
+                                              userID: widget.userID),
                                         )
                                       ],
                                     ),
@@ -536,7 +536,6 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
   }
 }
 
-
 class RightPanel extends StatefulWidget {
   final BuildContext mContext;
   final int? likes;
@@ -551,7 +550,6 @@ class RightPanel extends StatefulWidget {
   final GReelsModel? greelsModel;
   final GReelsModel? joyContentModel;
 
-
   const RightPanel(
       {Key? key,
       required this.size,
@@ -565,7 +563,8 @@ class RightPanel extends StatefulWidget {
       this.greelsModel,
       this.index,
       this.userID,
-      required this.mContext, this.joyContentModel})
+      required this.mContext,
+      this.joyContentModel})
       : super(key: key);
 
   final Size size;
@@ -574,22 +573,17 @@ class RightPanel extends StatefulWidget {
   State<RightPanel> createState() => _RightPanelState();
 }
 
-class _RightPanelState extends State<RightPanel>   with TickerProviderStateMixin{
-
-
-  void deletePost(int? postId){
-     BlocProvider.of<HomeBloc>(context)
-        .add(DeletePostEvent(postId: postId));
+class _RightPanelState extends State<RightPanel> with TickerProviderStateMixin {
+  void deletePost(int? postId) {
+    BlocProvider.of<HomeBloc>(context).add(DeletePostEvent(postId: postId));
   }
 
-   void reportPost(
-              String? status,        int? postId, String category, String comment) {
-                    BlocProvider.of<HomeBloc>(context).add(ReportEvent(
-                    status: status,
-                        postId: postId,
-                        comment: comment,
-                        category: category));
-                  }
+  void reportPost(
+      String? status, int? postId, String category, String comment) {
+    BlocProvider.of<HomeBloc>(context).add(ReportEvent(
+        status: status, postId: postId, comment: comment, category: category));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -673,83 +667,81 @@ class _RightPanelState extends State<RightPanel>   with TickerProviderStateMixin
                                       return Navigator.pop(context);
                                     },
                                   ),
+                                  Container(
+                                    child: ListTile(
+                                      leading: new Icon(
+                                        Icons.hide_image_outlined,
+                                        color: Colors.white,
+                                      ),
+                                      title: new Text(
+                                        '${Strings.of(context)?.removeHidePost}',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      onTap: () {
+                                        reportPost(
+                                            'remove', widget.contentId, '', '');
+                                        widget.greelsModel
+                                            ?.hidePost(widget.index);
+                                        if (widget.index == 0) {
+                                          Future.delayed(
+                                                  Duration(milliseconds: 500))
+                                              .then((value) => setState(() {
+                                                    _tabController
+                                                        ?.animateTo(1);
+                                                  }));
+                                        }
 
-                                   Container(
-                                  child: ListTile(
-                                    leading: new Icon(
-                                      Icons.hide_image_outlined,
-                                      color: Colors.white,
+                                        return Navigator.pop(context);
+                                      },
                                     ),
-                                    title: new Text(
-                                      '${Strings.of(context)?.removeHidePost}',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    onTap: () {
-                                      reportPost(
-                                        
-                                                                    'remove',
-                                                                      widget
-                                                                          .contentId,
-                                                                      '',
-                                                                     '');
-                          widget.greelsModel?.hidePost(widget.index);
-                           if(widget.index == 0) {
-   Future.delayed(Duration(milliseconds: 500)).then((value) => setState((){
-  _tabController?.animateTo(1);
-}));
-                           }
-
-
-                                      return Navigator.pop(context);
-                                    },
                                   ),
-                                ),
-                              if(Preference.getInt(Preference.USER_ID) == widget.userID)     ListTile(
-                                    leading: new Icon(
-                                      Icons.delete,
-                                      color: Colors.white,
-                                    ),
-                                    title: new Text(
-                                      '${Strings.of(context)?.deleteThisPost}',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    onTap: () {
+                                  if (Preference.getInt(Preference.USER_ID) ==
+                                      widget.userID)
+                                    ListTile(
+                                      leading: new Icon(
+                                        Icons.delete,
+                                        color: Colors.white,
+                                      ),
+                                      title: new Text(
+                                        '${Strings.of(context)?.deleteThisPost}',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      onTap: () {
+                                        Navigator.pop(context);
 
-
-                                       Navigator.pop(context);
-
-                                      
-                          AlertsWidget.showCustomDialog(
-                        context: context,
-                        title: "${Strings.of(context)?.deletePost}!",
-                     text: "${Strings.of(context)?.areYouSureDelete}",
-                        icon: 'assets/images/circle_alert_fill.svg',
-                        onOkClick: () async {
-                         deletePost(widget.contentId);
-                          widget.greelsModel?.hidePost(widget.index);
- if(widget.index == 0) {
-  await Future.delayed(Duration(milliseconds: 500)).then((value) => setState((){
-  _tabController?.animateTo(1);
-}));
+                                        AlertsWidget.showCustomDialog(
+                                            context: context,
+                                            title:
+                                                "${Strings.of(context)?.deletePost}!",
+                                            text:
+                                                "${Strings.of(context)?.areYouSureDelete}",
+                                            icon:
+                                                'assets/images/circle_alert_fill.svg',
+                                            onOkClick: () async {
+                                              deletePost(widget.contentId);
+                                              widget.greelsModel
+                                                  ?.hidePost(widget.index);
+                                              if (widget.index == 0) {
+                                                await Future.delayed(Duration(
+                                                        milliseconds: 500))
+                                                    .then((value) =>
+                                                        setState(() {
+                                                          _tabController
+                                                              ?.animateTo(1);
+                                                        }));
 // Future.delayed(Duration(milliseconds: 1000)).then((value) => setState((){
 //   _tabController?.animateTo(0);
 // }));
- }
-                         
-                    
-                        });
-                                   
-
-                                    },
-                                  ),
+                                              }
+                                            });
+                                      },
+                                    ),
                                 ],
                               ),
                             ),
                           ],
                         );
                       });
-
-                 
 
                   void _handleReport(ReportState state) {
                     var reportState = state;
@@ -765,13 +757,12 @@ class _RightPanelState extends State<RightPanel>   with TickerProviderStateMixin
                           Navigator.pop(context);
                           widget.greelsModel?.hidePost(widget.index);
 
-                           if(widget.index == 0) {
-   Future.delayed(Duration(milliseconds: 500)).then((value) => setState((){
-  _tabController?.animateTo(1);
-}));
-                           }
-                          
-                          
+                          if (widget.index == 0) {
+                            Future.delayed(Duration(milliseconds: 500))
+                                .then((value) => setState(() {
+                                      _tabController?.animateTo(1);
+                                    }));
+                          }
 
                           Utility.showSnackBar(
                               scaffoldContext: context,
@@ -779,8 +770,7 @@ class _RightPanelState extends State<RightPanel>   with TickerProviderStateMixin
                           reportInprogress = false;
                           break;
                         case ApiStatus.ERROR:
-                          Log.v(
-                              "ContentReportState error....................");
+                          Log.v("ContentReportState error....................");
                           reportInprogress = false;
                           break;
                         case ApiStatus.INITIAL:
@@ -792,7 +782,7 @@ class _RightPanelState extends State<RightPanel>   with TickerProviderStateMixin
                   if (reportPostFormEnabled) {
                     bool showTextField = false;
                     TextEditingController reportController =
-                    TextEditingController();
+                        TextEditingController();
                     List<dynamic> reportList = Utility.getReportList();
                     showModalBottomSheet(
                         context: context,
@@ -812,162 +802,161 @@ class _RightPanelState extends State<RightPanel>   with TickerProviderStateMixin
                                     onClosing: () {},
                                     builder: (BuildContext context) {
                                       return StatefulBuilder(
-                                        builder: (BuildContext context,
-                                            setState) =>
-                                            SingleChildScrollView(
-                                              child: Column(
-                                                crossAxisAlignment:
+                                        builder:
+                                            (BuildContext context, setState) =>
+                                                SingleChildScrollView(
+                                          child: Column(
+                                            crossAxisAlignment:
                                                 CrossAxisAlignment.center,
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: <Widget>[
-                                                  Center(
-                                                    child: Container(
-                                                      padding: EdgeInsets.all(10),
-                                                      margin: EdgeInsets.only(
-                                                          top: 10),
-                                                      height: 4,
-                                                      width: 70,
-                                                      decoration: BoxDecoration(
-                                                          color: ColorConstants
-                                                              .GREY_4,
-                                                          borderRadius:
-                                                          BorderRadius
-                                                              .circular(8)),
-                                                    ),
-                                                  ),
-                                                  Center(
-                                                    child: Text(
-                                                      'Report',
-                                                      style: Styles.bold(),
-                                                    ),
-                                                  ),
-                                                  Divider(),
-                                                  Text(
-                                                      'Why are you reporting this post?',
-                                                      style: Styles.regular(
-                                                          color: ColorConstants
-                                                              .WHITE)),
-                                                  if (showTextField == false)
-                                                    SingleChildScrollView(
-                                                      child: Column(
-                                                        children: [
-                                                          ListView.builder(
-                                                              physics:
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              Center(
+                                                child: Container(
+                                                  padding: EdgeInsets.all(10),
+                                                  margin:
+                                                      EdgeInsets.only(top: 10),
+                                                  height: 4,
+                                                  width: 70,
+                                                  decoration: BoxDecoration(
+                                                      color:
+                                                          ColorConstants.GREY_4,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8)),
+                                                ),
+                                              ),
+                                              Center(
+                                                child: Text(
+                                                  'Report',
+                                                  style: Styles.bold(),
+                                                ),
+                                              ),
+                                              Divider(),
+                                              Text(
+                                                  'Why are you reporting this post?',
+                                                  style: Styles.regular(
+                                                      color: ColorConstants
+                                                          .WHITE)),
+                                              if (showTextField == false)
+                                                SingleChildScrollView(
+                                                  child: Column(
+                                                    children: [
+                                                      ListView.builder(
+                                                          physics:
                                                               BouncingScrollPhysics(),
-                                                              shrinkWrap: true,
-                                                              itemCount:
-                                                              reportList
-                                                                  .length,
-                                                              itemBuilder:
-                                                                  (BuildContext
-                                                              context,
+                                                          shrinkWrap: true,
+                                                          itemCount:
+                                                              reportList.length,
+                                                          itemBuilder:
+                                                              (BuildContext
+                                                                      context,
                                                                   int index) {
-                                                                return ListTile(
-                                                                    onTap: () {
-                                                                      reportPost(
-                                                                        'offensive',
-                                                                          widget
-                                                                              .contentId,
-                                                                          '${reportList[index]['value']}',
-                                                                          reportController
-                                                                              .value
-                                                                              .text);
-                                                                    },
-                                                                    title: Text(
-                                                                        '${reportList[index]['title']}'));
-                                                              }),
-                                                          ListTile(
-                                                              onTap: () {
-                                                                setState(() {
-                                                                  showTextField =
-                                                                  true;
-                                                                });
-                                                              },
-                                                              title: Text(
-                                                                  'Something else')),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  if (showTextField == true)
-                                                    Container(
-                                                      margin:
-                                                      EdgeInsets.symmetric(
-                                                          horizontal: 14,
-                                                          vertical: 8),
-                                                      child:
-                                                      SingleChildScrollView(
-                                                        child: Column(
-                                                          children: [
-                                                            TextFormField(
-                                                              controller:
-                                                              reportController,
-                                                              style: Styles.bold(
-                                                                size: 14,
-                                                              ),
-                                                              decoration:
-                                                              InputDecoration(
-                                                                hintText:
-                                                                'What are you trying to report?',
-                                                                isDense: true,
-                                                                helperStyle: Styles.regular(
-                                                                    size: 12,
-                                                                    color: ColorConstants
-                                                                        .GREY_3
-                                                                        .withOpacity(
-                                                                        0.1)),
-                                                                counterText: "",
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 20,
-                                                            ),
-                                                            InkWell(
+                                                            return ListTile(
                                                                 onTap: () {
                                                                   reportPost(
                                                                       'offensive',
                                                                       widget
                                                                           .contentId,
-                                                                      '',
+                                                                      '${reportList[index]['value']}',
                                                                       reportController
                                                                           .value
                                                                           .text);
                                                                 },
-                                                                child: Container(
-                                                                  margin: EdgeInsets
-                                                                      .symmetric(
+                                                                title: Text(
+                                                                    '${reportList[index]['title']}'));
+                                                          }),
+                                                      ListTile(
+                                                          onTap: () {
+                                                            setState(() {
+                                                              showTextField =
+                                                                  true;
+                                                            });
+                                                          },
+                                                          title: Text(
+                                                              'Something else')),
+                                                    ],
+                                                  ),
+                                                ),
+                                              if (showTextField == true)
+                                                Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      horizontal: 14,
+                                                      vertical: 8),
+                                                  child: SingleChildScrollView(
+                                                    child: Column(
+                                                      children: [
+                                                        TextFormField(
+                                                          controller:
+                                                              reportController,
+                                                          style: Styles.bold(
+                                                            size: 14,
+                                                          ),
+                                                          decoration:
+                                                              InputDecoration(
+                                                            hintText:
+                                                                'What are you trying to report?',
+                                                            isDense: true,
+                                                            helperStyle: Styles.regular(
+                                                                size: 12,
+                                                                color: ColorConstants
+                                                                    .GREY_3
+                                                                    .withOpacity(
+                                                                        0.1)),
+                                                            counterText: "",
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 20,
+                                                        ),
+                                                        InkWell(
+                                                            onTap: () {
+                                                              reportPost(
+                                                                  'offensive',
+                                                                  widget
+                                                                      .contentId,
+                                                                  '',
+                                                                  reportController
+                                                                      .value
+                                                                      .text);
+                                                            },
+                                                            child: Container(
+                                                              margin: EdgeInsets
+                                                                  .symmetric(
                                                                       vertical:
-                                                                      12),
-                                                                  width: double
-                                                                      .infinity,
-                                                                  height: MediaQuery.of(
-                                                                      context)
+                                                                          12),
+                                                              width: double
+                                                                  .infinity,
+                                                              height: MediaQuery.of(
+                                                                          context)
                                                                       .size
                                                                       .height *
-                                                                      WidgetSize
-                                                                          .AUTH_BUTTON_SIZE,
-                                                                  decoration: BoxDecoration(
-                                                                      color: ColorConstants()
-                                                                          .buttonColor(),
-                                                                      borderRadius:
-                                                                      BorderRadius.circular(
-                                                                          10)),
-                                                                  child: Center(
-                                                                      child: Text(
-                                                                        'Submit',
-                                                                        style: Styles
-                                                                            .regular(
-                                                                          color: ColorConstants
-                                                                              .WHITE,
-                                                                        ),
-                                                                      )),
-                                                                )),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    )
-                                                ],
-                                              ),
-                                            ),
+                                                                  WidgetSize
+                                                                      .AUTH_BUTTON_SIZE,
+                                                              decoration: BoxDecoration(
+                                                                  color: ColorConstants()
+                                                                      .buttonColor(),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10)),
+                                                              child: Center(
+                                                                  child: Text(
+                                                                'Submit',
+                                                                style: Styles
+                                                                    .regular(
+                                                                  color:
+                                                                      ColorConstants
+                                                                          .WHITE,
+                                                                ),
+                                                              )),
+                                                            )),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                            ],
+                                          ),
+                                        ),
                                       );
                                     }),
                               ),
@@ -996,13 +985,10 @@ class LikeWidget extends StatelessWidget {
   const LikeWidget({Key? key, required this.contentId, this.mcontext})
       : super(key: key);
 
-
-
   @override
   Widget build(BuildContext context) {
     var joyContentModel = Provider.of<GReelsModel>(mcontext!);
     updateLikeandViews(null);
-
 
     bool isLiked = joyContentModel.isUserLiked(contentId);
     return InkWell(

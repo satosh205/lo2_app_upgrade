@@ -25,7 +25,6 @@ import 'utils/Strings.dart';
 void main() async {
   runZoned(() {
     runZonedGuarded(() async {
-
       WidgetsFlutterBinding.ensureInitialized();
       await FlutterDownloader.initialize();
       //  WidgetsFlutterBinding.ensureInitialized();
@@ -44,12 +43,9 @@ void main() async {
   }, zoneSpecification: ZoneSpecification(
       print: (Zone self, ZoneDelegate parent, Zone zone, String line) {
     //comment to hide all print
-    if(kDebugMode)
-    parent.print(zone, "$line");
+    if (kDebugMode) parent.print(zone, "$line");
   }));
 }
-
-
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -98,25 +94,21 @@ class _MyAppState extends State<MyApp> {
       setState(() {
         UserSession();
         updateLocale();
-        
       });
     });
   }
-  void updateLocale(){
+
+  void updateLocale() {
     if (Preference.getString(Preference.APP_ENGLISH_NAME) != null) {
-          this.locale = Locale(
-              '${localeCodes[Preference.getString(Preference.APP_ENGLISH_NAME)]}');
-        }
-        isLocalLanguageLoaded = true;
-        setState(() {
-        });
+      this.locale = Locale(
+          '${localeCodes[Preference.getString(Preference.APP_ENGLISH_NAME)]}');
+    }
+    isLocalLanguageLoaded = true;
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-
-    
-
     return MultiBlocProvider(
         providers: [
           BlocProvider<AuthBloc>(
@@ -148,6 +140,13 @@ class _MyAppState extends State<MyApp> {
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
           ],
+          builder: (BuildContext context, Widget? widget) {
+            ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
+              return CustomError(errorDetails: errorDetails);
+            };
+
+            return widget!;
+          },
           supportedLocales: [
             const Locale('en', ''),
             const Locale('ta', ''),
@@ -158,9 +157,7 @@ class _MyAppState extends State<MyApp> {
             const Locale('hi', ''),
             const Locale('ml', ''),
           ],
-          home: CheckInternet(
-            refresh: (){},
-            body: EntryAnimationPage()),
+          home: CheckInternet(refresh: () {}, body: EntryAnimationPage()),
           debugShowCheckedModeBanner: false,
         ));
   }
@@ -205,5 +202,31 @@ class Application {
 
   static BuildContext? getContext() {
     return _context;
+  }
+}
+
+class CustomError extends StatelessWidget {
+  final FlutterErrorDetails errorDetails;
+
+  const CustomError({
+    Key? key,
+    required this.errorDetails,
+  })  : assert(errorDetails != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        child: Text(
+          "Something is not right here...  ${errorDetails.exception}",
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        padding: const EdgeInsets.all(8.0),
+      ),
+    );
   }
 }

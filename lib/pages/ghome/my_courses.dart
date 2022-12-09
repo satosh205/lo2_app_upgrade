@@ -24,7 +24,8 @@ import 'package:provider/provider.dart';
 import '../../utils/config.dart';
 
 class MyCourses extends StatefulWidget {
-  const MyCourses({Key? key}) : super(key: key);
+  final fromDashboard;
+  const MyCourses({Key? key, this.fromDashboard = false}) : super(key: key);
 
   @override
   _MyCoursesState createState() => _MyCoursesState();
@@ -35,7 +36,6 @@ class _MyCoursesState extends State<MyCourses> {
   int nocourseAssigned = 0;
   bool? _isCourseList1Loading = true;
   List<MProgram>? courseList1;
- 
 
   String? errorMessage;
 
@@ -48,24 +48,28 @@ class _MyCoursesState extends State<MyCourses> {
   }
 
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('${Strings.of(context)?.MyCourses}', style: Styles.bold(size: 18)),
-        centerTitle: false,
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
+    if (widget.fromDashboard)
+      return _mainBody();
+    else
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('${Strings.of(context)?.MyCourses}',
+              style: Styles.bold(size: 18)),
+          centerTitle: false,
+          backgroundColor: Colors.white,
+          elevation: 0.0,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
         ),
-      ),
-      body: _mainBody(),
-    );
+        body: _mainBody(),
+      );
   }
 
   _mainBody() {
@@ -125,87 +129,103 @@ class _MyCoursesState extends State<MyCourses> {
   }
 
   Widget _getCourses() {
-         if(APK_DETAILS['package_name'] == 'com.learn_build')   courseList1?.sort((a,b) => a.categoryName!.compareTo(b.categoryName!));
+    if (APK_DETAILS['package_name'] == 'com.learn_build')
+      courseList1?.sort((a, b) => a.categoryName!.compareTo(b.categoryName!));
 
     return courseList1 != null && courseList1!.length > 0
         ? Container(
             padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(color: ColorConstants.GREY),
+            decoration: BoxDecoration(
+                color: widget.fromDashboard
+                    ? ColorConstants.WHITE
+                    : ColorConstants.GREY),
             child: ListView.builder(
               itemBuilder: (BuildContext context, int index) {
                 return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
-                    if(APK_DETAILS['package_name'] == 'com.learn_build')
-
-                    if(index == 0) Container(
+                    if (APK_DETAILS['package_name'] == 'com.learn_build')
+                      if (index == 0)
+                        Container(
                             margin: EdgeInsets.only(left: 9, top: 3),
-                            child: Text('${courseList1![index].categoryName}',  maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            softWrap: false,
-                            style: Styles.semibold(size: 16))
-                    ),
-
-                      if(index > 0 && courseList1![index].categoryName != courseList1![index-1].categoryName) Container(
-                            margin: EdgeInsets.only(left: 9, top: 12),
-
-                        child: Text('${courseList1![index].categoryName}',  maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: false,
-                    style: Styles.semibold(size: 16))),
+                            child: Text('${courseList1![index].categoryName}',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: false,
+                                style: Styles.semibold(size: 16))),
+                    if (index > 0 &&
+                        courseList1![index].categoryName !=
+                            courseList1![index - 1].categoryName)
+                      Container(
+                          margin: EdgeInsets.only(left: 9, top: 12),
+                          child: Text('${courseList1![index].categoryName}',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: false,
+                              style: Styles.semibold(size: 16))),
                     InkWell(
                         onTap: () {
                           // print('button is clicked');
                           Navigator.push(
                               context,
                               NextPageRoute(
-                                  ChangeNotifierProvider<TrainingDetailProvider>(
-                                      create: (context) => TrainingDetailProvider(
-                                          TrainingService(ApiService()),
-                                          courseList1![index]),
+                                  ChangeNotifierProvider<
+                                          TrainingDetailProvider>(
+                                      create: (context) =>
+                                          TrainingDetailProvider(
+                                              TrainingService(ApiService()),
+                                              courseList1![index]),
                                       child: TrainingDetailPage()),
                                   isMaintainState: true));
                         },
                         child: Container(
                           padding: EdgeInsets.all(10),
-                          margin: EdgeInsets.only(top: 12),
-                          width: MediaQuery.of(context).size.width,
+                          margin: EdgeInsets.only(
+                              top: 12, right: widget.fromDashboard ? 10 : 0),
+                          width: widget.fromDashboard
+                              ? MediaQuery.of(context).size.width * 0.8
+                              : MediaQuery.of(context).size.width,
                           //height: MediaQuery.of(context).size.height * 0.13,
                           decoration: BoxDecoration(
-                              color: ColorConstants.WHITE,
+                              color: widget.fromDashboard
+                                  ? ColorConstants.GREY.withOpacity(0.6)
+                                  : ColorConstants.WHITE,
                               borderRadius: BorderRadius.circular(15)),
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                SizedBox(
-                                  width: 120,
-                                  height: 100,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: CachedNetworkImage(
-                                      imageUrl: '${courseList1![index].image}',
-                                      width: 100,
-                                      height: 120,
-                                      errorWidget: (context, url, error) =>
-                                          SvgPicture.asset(
-                                        'assets/images/gscore_postnow_bg.svg',
+                                if (!widget.fromDashboard)
+                                  SizedBox(
+                                    width: 120,
+                                    height: 100,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            '${courseList1![index].image}',
+                                        width: 100,
+                                        height: 120,
+                                        errorWidget: (context, url, error) =>
+                                            SvgPicture.asset(
+                                          'assets/images/gscore_postnow_bg.svg',
+                                        ),
+                                        fit: BoxFit.cover,
                                       ),
-                                      fit: BoxFit.cover,
                                     ),
                                   ),
-                                ),
                                 SizedBox(
                                   width: 10,
                                 ),
                                 Container(
-                                  width: MediaQuery.of(context).size.width * 0.55,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.55,
                                   //height: MediaQuery.of(context).size.height * 0.25,
                                   child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text('${courseList1![index].name}',
                                             maxLines: 1,
@@ -224,11 +244,13 @@ class _MyCoursesState extends State<MyCourses> {
                                             SizedBox(
                                               width: 5,
                                             ),
-                                            Text('${courseList1![index].duration}',
+                                            Text(
+                                                '${courseList1![index].duration}',
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                                 softWrap: false,
-                                                style: Styles.regular(size: 10)),
+                                                style:
+                                                    Styles.regular(size: 10)),
                                           ],
                                         ),
                                         SizedBox(height: 15),
@@ -238,7 +260,9 @@ class _MyCoursesState extends State<MyCourses> {
                                         SizedBox(height: 10),
                                         Container(
                                           height: 10,
-                                          width: MediaQuery.of(context).size.width *
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
                                               0.8,
                                           decoration: BoxDecoration(
                                               color: ColorConstants.GREY,
@@ -256,10 +280,13 @@ class _MyCoursesState extends State<MyCourses> {
                                                             .completionPer! /
                                                         100),
                                                 decoration: BoxDecoration(
-                                                    color: ColorConstants()
-                                                        .primaryColor(),
+                                                    color: !widget.fromDashboard
+                                                        ? ColorConstants()
+                                                            .primaryColor()
+                                                        : ColorConstants.YELLOW,
                                                     borderRadius:
-                                                        BorderRadius.circular(10)),
+                                                        BorderRadius.circular(
+                                                            10)),
                                               ),
                                             ],
                                           ),
@@ -269,10 +296,11 @@ class _MyCoursesState extends State<MyCourses> {
                               ]),
                         )),
                   ],
-               );
+                );
               },
               itemCount: courseList1?.length ?? 0,
-              scrollDirection: Axis.vertical,
+              scrollDirection:
+                  widget.fromDashboard ? Axis.horizontal : Axis.vertical,
             ),
           )
         : _isCourseList1Loading == true
