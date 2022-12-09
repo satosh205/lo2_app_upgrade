@@ -139,14 +139,14 @@ class _homePageState extends State<homePage> {
     var pages = {
       '/g-home': GHome(),
       '/g-school': const GSchool(),
-      '/g-reels': ReelsDashboardPage(),
-      '/g-carvaan': Dashboard(),
-      // '/g-carvaan': GCarvaanPostPage(
-      //   fileToUpload: widget.fileToUpload,
-      //   desc: widget.desc,
-      //   filesPath: widget.filesPath,
-      //   formCreatePost: widget.isFromCreatePost,
-      // ),
+      '/g-reels': Dashboard(),
+      // '/g-carvaan': Dashboard(),
+      '/g-carvaan': GCarvaanPostPage(
+        fileToUpload: widget.fileToUpload,
+        desc: widget.desc,
+        filesPath: widget.filesPath,
+        formCreatePost: widget.isFromCreatePost,
+      ),
       '/training': ChangeNotifierProvider<TrainingProvider>(
           create: (context) => TrainingProvider(TrainingService(ApiService())),
           child: TrainingHomePage(

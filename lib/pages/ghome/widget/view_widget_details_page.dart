@@ -168,44 +168,44 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
                               return Stack(children: [
                                 Container(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Stack(children: [
                                         Container(
                                           child: joyContentListResponse
-                                              .list![index]
-                                              .resourceType ==
-                                              'image'
+                                                      .list![index]
+                                                      .resourceType ==
+                                                  'image'
                                               ? Image.network(
-                                              '${joyContentListResponse.list![index].multiFileUploads![indexIn]}',
-                                fit: BoxFit.fitHeight,
-                                //height: MediaQuery.of(context).size.height * 0.87,
-                                width: double.infinity,
-                              ): joyContentListResponse
-                                              .list![index]
-                                              .resourceType ==
-                                              'video'
-                                              ? Container(
-                                            height: MediaQuery.of(
-                                                context)
-                                                .size
-                                                .height *
-                                                0.9,
-                                            child:
-                                            CustomVideoPlayer(
-                                              url: joyContentListResponse
-                                                  .list![index]
-                                                  .multiFileUploads![
-                                              indexIn],
-                                            ),
-                                          )
-                                              : Container(
-                                            height: 370,
-                                          ),
+                                                  '${joyContentListResponse.list![index].multiFileUploads![indexIn]}',
+                                                  fit: BoxFit.fitHeight,
+                                                  //height: MediaQuery.of(context).size.height * 0.87,
+                                                  width: double.infinity,
+                                                )
+                                              : joyContentListResponse
+                                                          .list?[index]
+                                                          .resourceType ==
+                                                      'video'
+                                                  ? Container(
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.9,
+                                                      child: CustomVideoPlayer(
+                                                        url: joyContentListResponse
+                                                                .list![index]
+                                                                .multiFileUploads![
+                                                            indexIn],
+                                                      ),
+                                                    )
+                                                  : Container(
+                                                      height: 370,
+                                                    ),
                                         ),
                                       ]),
-                                      
                                     ],
                                   ),
                                 ),
@@ -213,13 +213,11 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
                             },
                           ),
                         )),
-
                         Positioned(
                           left: 0,
                           bottom: 0,
                           child: Container(
                             width: MediaQuery.of(context).size.width,
-                           
                             constraints: BoxConstraints(minHeight: 120),
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
@@ -232,7 +230,6 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
                                 ],
                               ),
                             ),
-
                             child: Column(
                               children: [
                                 Container(
@@ -301,7 +298,11 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
                                                               .APP_LANGUAGE) ==
                                                           1)
                                                     Text(
-                                                      Preference.getInt(Preference.APP_LANGUAGE) == 1 ? 's' : '',
+                                                      Preference.getInt(Preference
+                                                                  .APP_LANGUAGE) ==
+                                                              1
+                                                          ? 's'
+                                                          : '',
                                                       style: Styles.regular(
                                                           size: 14,
                                                           color: ColorConstants
