@@ -30,6 +30,7 @@ import 'package:masterg/utils/utility.dart';
 import 'package:masterg/utils/widget_size.dart';
 import 'package:path_provider/path_provider.dart';
 
+@immutable
 class SignUpScreen extends StatefulWidget {
   bool isFromProfile;
 

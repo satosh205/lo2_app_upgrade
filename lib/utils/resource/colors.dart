@@ -117,6 +117,10 @@ class ColorConstants {
     return HexColor.fromHex(APK_DETAILS['theme_color']!);
   }
 
+  Color primaryColorGradient() {
+    return HexColor.fromHex(APK_DETAILS['theme_color_gradient']!);
+  }
+
   Color buttonColor() {
     return HexColor.fromHex(APK_DETAILS['theme_color']!);
   }

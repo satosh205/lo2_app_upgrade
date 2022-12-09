@@ -63,7 +63,6 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage>  {
     super.initState();
 
     gcarvaanPosts = [];
-
     if (widget.formCreatePost!) {
       createPost();
     } else {
@@ -896,6 +895,3 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage>  {
     });
   }
 }
-
-
-//GCarvaanCardBlankPost();
