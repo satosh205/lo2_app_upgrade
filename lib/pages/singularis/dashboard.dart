@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -558,7 +559,10 @@ class _DashboardState extends State<Dashboard> {
                                     width: MediaQuery.of(context).size.width,
                                     height: MediaQuery.of(context).size.height *
                                         0.34,
-                                    child: _getRecommendedCourses(context),
+                                    child: _getRecommendedCourses(
+                                        context,
+                                        MediaQuery.of(context).size.height *
+                                            0.35),
                                   )
                                 ],
                               ),
@@ -623,7 +627,7 @@ class _DashboardState extends State<Dashboard> {
         ));
   }
 
-  Widget _getRecommendedCourses(context) {
+  Widget _getRecommendedCourses(context, size) {
     var title = Strings.of(context)!.recommendedCourses;
     return ValueListenableBuilder(
       valueListenable: box!.listenable(),
@@ -679,276 +683,40 @@ class _DashboardState extends State<Dashboard> {
         //var list = _getFilterList();
         return Container(
             padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(color: ColorConstants.GREY),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Padding(
-                  padding: EdgeInsets.only(left: 10, top: 10),
-                  child: Text(title!, style: Styles.DMSansbold(size: 18))),
-              ListView.builder(
-                itemBuilder: (BuildContext context, int index) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (APK_DETAILS['package_name'] == 'com.learn_build') ...[
-                        if (index == 0)
-                          Container(
-                              margin: EdgeInsets.only(left: 9, top: 6),
-                              child: Text(
-                                  '${recommendedcourses![index].categoryName}',
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  softWrap: false,
-                                  style: Styles.semibold(size: 16))),
-                        if (index > 0 &&
-                            recommendedcourses![index].categoryName !=
-                                recommendedcourses![index - 1].categoryName)
-                          Container(
-                              margin: EdgeInsets.only(left: 9, top: 6),
-                              child: Text(
-                                  '${recommendedcourses![index].categoryName}',
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  softWrap: false,
-                                  style: Styles.semibold(size: 16))),
-                      ],
-                      InkWell(
-                          onTap: () {
-                            /*_subscribeRequest(
-                                recommendedcourses![index].subscriptionType,
-                                recommendedcourses![index].id);*/
-
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CoursesDetailsPage(
-                                      imgUrl: recommendedcourses![index].image,
-                                      indexc: index,
-                                      tagName: 'TagReco',
-                                      name: recommendedcourses![index].name,
-                                      description: recommendedcourses![index]
-                                              .description ??
-                                          '',
-                                      regularPrice: recommendedcourses![index]
-                                          .regularPrice,
-                                      salePrice:
-                                          recommendedcourses![index].salePrice,
-                                      trainer:
-                                          recommendedcourses![index].trainer,
-                                      enrolmentCount: recommendedcourses![index]
-                                          .enrolmentCount,
-                                      type: recommendedcourses![index]
-                                          .subscriptionType,
-                                      id: recommendedcourses![index].id,
-                                      shortCode: recommendedcourses![index]
-                                          .shortCode)),
-                            ).then((isSuccess) {
-                              if (isSuccess == true) {
-                                print('sucess enrolled');
-
-                                _getFilteredPopularCourses();
-
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => MyCourses()));
-                              }
-                            });
-                          },
-                          child: _getCourseTemplate(context,
-                              recommendedcourses![index], index, 'TagReco')),
-                    ],
-                  );
-                },
-                itemCount: recommendedcourses?.length ?? 0,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-              ),
-            ]));
+            height: size,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(color: ColorConstants.WHITE),
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (BuildContext context, int index) {
+                return _getCourseTemplate(context, recommendedcourses![index],
+                    index, 'TagReco', size);
+              },
+              itemCount: recommendedcourses?.length ?? 0,
+              shrinkWrap: true,
+            ));
       },
     );
   }
 
-  // Widget _getRecommendedCourses(context) {
-  //   var title = Strings.of(context)!.recommendedCourses;
-  //   return ValueListenableBuilder(
-  //     valueListenable: box!.listenable(),
-  //     builder: (bc, Box box, child) {
-  //       if (box.get("recommended") == null || _isJoyCategoryLoading == true) {
-  //         // return Container();
-  //         return Column(
-  //           children: [
-  //             Shimmer.fromColors(
-  //               baseColor: Color(0xffe6e4e6),
-  //               highlightColor: Color(0xffeaf0f3),
-  //               child: Container(
-  //                 height: MediaQuery.of(context).size.height * 0.02,
-  //                 margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-  //                 width: MediaQuery.of(context).size.width,
-  //                 decoration: BoxDecoration(
-  //                     color: Colors.white,
-  //                     borderRadius: BorderRadius.circular(6)),
-  //               ),
-  //             ),
-  //             ListView.builder(
-  //                 itemCount: 4,
-  //                 shrinkWrap: true,
-  //                 itemBuilder: (context, index) => Shimmer.fromColors(
-  //                       baseColor: Color(0xffe6e4e6),
-  //                       highlightColor: Color(0xffeaf0f3),
-  //                       child: Container(
-  //                         height: MediaQuery.of(context).size.height * 0.12,
-  //                         margin:
-  //                             EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-  //                         width: MediaQuery.of(context).size.width,
-  //                         decoration: BoxDecoration(
-  //                             color: Colors.white,
-  //                             borderRadius: BorderRadius.circular(6)),
-  //                       ),
-  //                     )),
-  //           ],
-  //         );
-  //       } else if (box.get("recommended").isEmpty) {
-  //         return Container();
-  //       }
-
-  //       recommendedcourses = box
-  //           .get("recommended")
-  //           .map((e) => Recommended.fromJson(Map<String, dynamic>.from(e)))
-  //           .cast<Recommended>()
-  //           .toList();
-
-  //       // recommendedcourse.sor
-  //       if (APK_DETAILS['package_name'] == 'com.learn_build')
-  //         recommendedcourses
-  //             ?.sort((a, b) => a.categoryName!.compareTo(b.categoryName!));
-  //       //var list = _getFilterList();
-  //       return Container(
-  //           padding: EdgeInsets.all(10),
-  //           decoration: BoxDecoration(color: ColorConstants.GREY),
-  //           child:
-  //               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-  //             Padding(
-  //                 padding: EdgeInsets.only(left: 10, top: 10),
-  //                 child: Text(title!, style: Styles.DMSansbold(size: 18))),
-  //             ListView.builder(
-  //               itemBuilder: (BuildContext context, int index) {
-  //                 return Column(
-  //                   crossAxisAlignment: CrossAxisAlignment.start,
-  //                   children: [
-  //                     if (APK_DETAILS['package_name'] == 'com.learn_build') ...[
-  //                       if (index == 0)
-  //                         Container(
-  //                             margin: EdgeInsets.only(left: 9, top: 6),
-  //                             child: Text(
-  //                                 '${recommendedcourses![index].categoryName}',
-  //                                 maxLines: 2,
-  //                                 overflow: TextOverflow.ellipsis,
-  //                                 softWrap: false,
-  //                                 style: Styles.semibold(size: 16))),
-  //                       if (index > 0 &&
-  //                           recommendedcourses![index].categoryName !=
-  //                               recommendedcourses![index - 1].categoryName)
-  //                         Container(
-  //                             margin: EdgeInsets.only(left: 9, top: 6),
-  //                             child: Text(
-  //                                 '${recommendedcourses![index].categoryName}',
-  //                                 maxLines: 2,
-  //                                 overflow: TextOverflow.ellipsis,
-  //                                 softWrap: false,
-  //                                 style: Styles.semibold(size: 16))),
-  //                     ],
-  //                     InkWell(
-  //                         onTap: () {
-  //                           /*_subscribeRequest(
-  //                               recommendedcourses![index].subscriptionType,
-  //                               recommendedcourses![index].id);*/
-
-  //                           Navigator.push(
-  //                             context,
-  //                             MaterialPageRoute(
-  //                                 builder: (context) => CoursesDetailsPage(
-  //                                     imgUrl: recommendedcourses![index].image,
-  //                                     indexc: index,
-  //                                     tagName: 'TagReco',
-  //                                     name: recommendedcourses![index].name,
-  //                                     description: recommendedcourses![index]
-  //                                             .description ??
-  //                                         '',
-  //                                     regularPrice: recommendedcourses![index]
-  //                                         .regularPrice,
-  //                                     salePrice:
-  //                                         recommendedcourses![index].salePrice,
-  //                                     trainer:
-  //                                         recommendedcourses![index].trainer,
-  //                                     enrolmentCount: recommendedcourses![index]
-  //                                         .enrolmentCount,
-  //                                     type: recommendedcourses![index]
-  //                                         .subscriptionType,
-  //                                     id: recommendedcourses![index].id,
-  //                                     shortCode: recommendedcourses![index]
-  //                                         .shortCode)),
-  //                           ).then((isSuccess) {
-  //                             if (isSuccess == true) {
-  //                               print('sucess enrolled');
-  //                               // _getPopularCourses();
-  //                               _getFilteredPopularCourses();
-
-  //                               Navigator.push(
-  //                                   context,
-  //                                   MaterialPageRoute(
-  //                                       builder: (context) => MyCourses()));
-  //                             }
-  //                           });
-
-  //                           /*Navigator.push(
-  //                                             context,
-  //                                             NextPageRoute(ChangeNotifierProvider<
-  //                                                     RecommendedCourseProvider>(
-  //                                                 create: (context) =>
-  //                                                     RecommendedCourseProvider(
-  //                                                         TrainingService(
-  //                                                             ApiService()),
-  //                                                         recommendedcourses[
-  //                                                             index]),
-  //                                                 child:
-  //                                                     PopularCourseDetailPage())));*/
-  //                         },
-  //                         child: _getCourseTemplate(context,
-  //                             recommendedcourses![index], index, 'TagReco')),
-  //                   ],
-  //                 );
-  //               },
-  //               itemCount: recommendedcourses?.length ?? 0,
-  //               shrinkWrap: true,
-  //               physics: NeverScrollableScrollPhysics(),
-  //             ),
-  //           ]));
-  //     },
-  //   );
-  // }
-
-  Widget _getCourseTemplate(context, yourCourses, int index, String tag) {
+  Widget _getCourseTemplate(context, yourCourses, int index, String tag, size) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.14,
-      //decoration: BoxDecoration(color: ColorConstants.GREY),
-      //padding: EdgeInsets.all(10),
-      margin: EdgeInsets.all(7),
-      //borderRadius
+      width: MediaQuery.of(context).size.width * 0.8,
+      margin: EdgeInsets.only(right: 8),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: ColorConstants.WHITE,
-      ),
-
-      child: Row(children: [
-        Padding(
-            child: SizedBox(
-              width: MediaQuery.of(context).size.height * 0.1,
-              height: MediaQuery.of(context).size.height * 0.11,
+          border: Border.all(color: ColorConstants.GREY_4),
+          borderRadius: BorderRadius.circular(8)),
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: size * 0.5,
+              width: MediaQuery.of(context).size.width,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Hero(
-                  tag: tag + "$index",
+                  tag: tag + "\$index",
                   child: Image.network(
                     '${yourCourses.image}',
                     errorBuilder: (context, error, stackTrace) {
@@ -961,121 +729,62 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
             ),
-            padding: EdgeInsets.all(10)),
-
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text('${yourCourses.name}', style: Styles.bold(size: 16)),
+                    Icon(CupertinoIcons.clock,
+                        size: 15, color: Color(0xFFFDB515)),
+                    Text('${yourCourses.duration}',
+                        style: Styles.regular(size: 10, color: Colors.black))
+                  ]),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Text('by ${yourCourses.trainer}',
+                  style: Styles.regular(size: 12)),
+            ),
+            Center(
+                child: Text(
+                    '${yourCourses.enrolmentCount} Students already viewed this course',
+                    style: Styles.regular(size: 12))),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('${yourCourses.name}',
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: false,
-                    style: Styles.semibold(size: 16)),
-                if (APK_DETAILS['package_name'] == 'com.learn_build')
-                  Text('${yourCourses.approvalStatus ?? ''}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      softWrap: false,
-                      style: Styles.semibold(
-                          size: 12, color: ColorConstants.YELLOW)),
+                Text(
+                  'Start now',
+                  style: Styles.semibold(),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                // Text(
+                //     '${yourCourses.enrolmentCount} ${Strings.of(context)?.enrollments}',
+                //     style: Styles.regular(size: 12)),
                 Row(
                   children: [
-                    Text(
-                        '${yourCourses.enrolmentCount} ${Strings.of(context)?.enrollments}',
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        softWrap: false,
-                        style: Styles.regular(size: 14)),
-                    Spacer(),
-                    if (yourCourses.regularPrice != yourCourses.salePrice)
+                    if (yourCourses.regularPrice != null)
                       Text('₹${yourCourses.regularPrice}',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          softWrap: false,
                           style: TextStyle(
-                            fontSize: 14,
                             decoration: TextDecoration.lineThrough,
                           )),
+                    SizedBox(
+                      width: 8,
+                    ),
                     if (yourCourses.salePrice != null)
-                      Text('₹${yourCourses.salePrice}',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          softWrap: false,
-                          style: Styles.bold(
-                              size: 18, color: ColorConstants.GREEN)),
+                      Text(
+                        '₹${yourCourses.salePrice}',
+                        style: Styles.textExtraBold(
+                            size: 22, color: ColorConstants.GREEN),
+                      ),
                   ],
-                )
+                ),
               ],
             ),
-          ),
-        )
-
-        // Padding(
-        //     padding: const EdgeInsets.only(top: 3.0, bottom: 3.0),
-        //     child: Column(
-        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //         crossAxisAlignment: CrossAxisAlignment.start,
-        //         children: [
-        //           SizedBox(height: 1),
-        //           Row(
-        //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //               children: [
-        //                 SizedBox(
-        //                     width: 180,
-        //                     child: Text('${yourCourses.name}',
-        //                         style: Styles.bold(size: 16))),
-        //                 // Container(
-        //                 //     child: _getCoinCardWidget(
-        //                 //         '${yourCourses.totalCoins ?? 0}', 'G Score'))
-        //               ]),
-        //           SizedBox(height: 7),
-        //           // Row(
-        //           //   children: [
-        //           //     Icon(CupertinoIcons.clock,
-        //           //         size: 15, color: Color(0xFFFDB515)),
-        //           //     Text('${yourCourses.duration}',
-        //           //         style: Styles.regular(size: 10))
-        //           //   ],
-        //           // ),
-        //           SizedBox(height: 10),
-        //           // Row(
-        //           //   children: [
-        //           //     Text('4.5',
-        //           //         style: Styles.textRegular(
-        //           //             color: ColorConstants.ACTIVE_TAB, size: 20)),
-        //           //     Icon(Icons.star, color: ColorConstants.ACTIVE_TAB, size: 20),
-        //           //     Icon(Icons.star, color: ColorConstants.ACTIVE_TAB, size: 20),
-        //           //     Icon(Icons.star, color: ColorConstants.ACTIVE_TAB, size: 20),
-        //           //     Icon(Icons.star, color: ColorConstants.ACTIVE_TAB, size: 20),
-        //           //     Icon(Icons.star, color: ColorConstants.ACTIVE_TAB, size: 20),
-        //           //   ],
-        //           // ),
-        //           Row(
-        //             mainAxisAlignment: MainAxisAlignment.start,
-        //             children: [
-        //               Text('${yourCourses.enrolmentCount} ${Strings.of(context)?.enrollments}',
-        //                   style: Styles.regular(size: 12)),
-        //               Row(
-        //                 children: [
-        //                   Text('₹${yourCourses.regularPrice}',
-        //                       style: TextStyle(
-        //                         decoration: TextDecoration.lineThrough,
-        //                       )),
-        //                   Text(
-        //                     '₹${yourCourses.salePrice}',
-        //                     style: Styles.textExtraBold(
-        //                         size: 22, color: ColorConstants.GREEN),
-        //                   ),
-        //                 ],
-        //               ),
-        //             ],
-        //           ),
-        //         ]))
-      ]),
+          ]),
     );
   }
 

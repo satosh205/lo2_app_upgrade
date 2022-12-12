@@ -52,7 +52,7 @@ class _ReelHorizontalState extends State<ReelHorizontal>
   @override
   void dispose() {
     super.dispose();
-    _tabController!.dispose();
+    _tabController?.dispose();
   }
 
   @override
