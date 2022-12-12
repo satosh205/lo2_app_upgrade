@@ -327,9 +327,9 @@ class _CustomCardState extends State<CustomCard> {
           width: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.topLeft,
-              colors: [ColorConstants().primaryColor(), ColorConstants().primaryColorGradient()],
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [ColorConstants().primaryColorGradient(), ColorConstants().primaryColor()],
             ),
               shape: BoxShape.circle, color: ColorConstants().primaryColor()),
         ),
