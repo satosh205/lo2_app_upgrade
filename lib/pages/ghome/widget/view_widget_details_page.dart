@@ -1,4 +1,5 @@
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -196,9 +197,12 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
                                                               0.9,
                                                       child: CustomVideoPlayer(
                                                         url: joyContentListResponse
-                                                                .list![index]
+                                                                .list?[index]
                                                                 .multiFileUploads![
                                                             indexIn],
+                                                        sendflickManager:
+                                                            (FlickManager
+                                                                value) {},
                                                       ),
                                                     )
                                                   : Container(

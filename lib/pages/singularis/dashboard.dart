@@ -15,6 +15,8 @@ import 'package:masterg/data/models/response/home_response/onboard_sessions.dart
 import 'package:masterg/data/providers/video_player_provider.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/gcarvaan/post/gcarvaan_post_page.dart';
+import 'package:masterg/pages/ghome/my_assessments.dart';
+import 'package:masterg/pages/ghome/my_assignments.dart';
 import 'package:masterg/pages/ghome/my_courses.dart';
 import 'package:masterg/pages/ghome/widget/view_widget_details_page.dart';
 import 'package:masterg/pages/reels/reels_dashboard_page.dart';
@@ -480,6 +482,36 @@ class _DashboardState extends State<Dashboard> {
 
                             //live class ended
 
+                            //recent activites
+                            Container(
+                              color: ColorConstants.GREY,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 12, top: 16, right: 12),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      'Recent activites',
+                                      style: Styles.bold(),
+                                    ),
+                                    Expanded(child: SizedBox()),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.13,
+                                child: MyAssignmentPage(fromDashboard: true)),
+
+                            Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.14,
+                                child: MyAssessmentPage(fromDashboard: true)),
+
+                            //recemnt activites end
+
                             //mycourses starrted
                             Padding(
                               padding: const EdgeInsets.only(
@@ -491,11 +523,6 @@ class _DashboardState extends State<Dashboard> {
                                     style: Styles.bold(),
                                   ),
                                   Expanded(child: SizedBox()),
-                                  // Text(
-                                  //   'View all',
-                                  //   style: Styles.regular(
-                                  //       color: ColorConstants.ORANGE_3),
-                                  // ),
                                 ],
                               ),
                             ),
@@ -508,7 +535,7 @@ class _DashboardState extends State<Dashboard> {
                             Container(
                               height: MediaQuery.of(context).size.height * 0.04,
                               width: double.infinity,
-                              color: ColorConstants.GREY_5,
+                              color: ColorConstants.GREY,
                             ),
 
                             //Latest Trends start

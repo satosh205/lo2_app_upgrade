@@ -28,10 +28,12 @@ import 'package:provider/provider.dart';
 
 class MyAssignmentPage extends StatefulWidget {
   bool? isViewAll;
+  bool? fromDashboard;
 
   Drawer? drawerWidget;
 
-  MyAssignmentPage({this.isViewAll, this.drawerWidget});
+  MyAssignmentPage(
+      {this.isViewAll, this.drawerWidget, this.fromDashboard = false});
 
   @override
   _MyAssignmentPageState createState() => _MyAssignmentPageState();
@@ -116,38 +118,44 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorConstants.GREY,
-      appBar: AppBar(
-        title: Text(Strings.of(context)!.MyAssignments ?? "My Assignments",
-            style: Styles.bold(size: 18)),
-        centerTitle: false,
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-        actions: [
-          GestureDetector(
-            onTapDown: (TapDownDetails detail) {
-              _showPopUpMenu(detail.globalPosition);
-            },
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 15),
-              child: SvgPicture.asset(
-                'assets/images/info_icon.svg',
-                height: 22,
-                width: 22,
-                allowDrawingOutsideViewBox: true,
+      appBar: widget.fromDashboard == true
+          ? PreferredSize(
+              preferredSize: const Size.fromHeight(0.0),
+              child: SizedBox(),
+            )
+          : AppBar(
+              title: Text(
+                  Strings.of(context)!.MyAssignments ?? "My Assignments",
+                  style: Styles.bold(size: 18)),
+              centerTitle: false,
+              backgroundColor: Colors.white,
+              elevation: 0.0,
+              actions: [
+                GestureDetector(
+                  onTapDown: (TapDownDetails detail) {
+                    _showPopUpMenu(detail.globalPosition);
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 15),
+                    child: SvgPicture.asset(
+                      'assets/images/info_icon.svg',
+                      height: 22,
+                      width: 22,
+                      allowDrawingOutsideViewBox: true,
+                    ),
+                  ),
+                )
+              ],
+              leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
             ),
-          )
-        ],
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
       body: _mainBody(),
     );
   }
@@ -243,101 +251,114 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                   .cast<AssignmentList>()
                   .toList();
               //var list = _getFilterList();
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Text('${Strings.of(context)?.sortBy}: ', style: Styles.regular(size: 14)),
-                        DropdownButton<String>(
-                          underline: SizedBox(),
-                          hint: Text('$selectedOption',
-                              style: Styles.bold(size: 14)),
-                          items: <String>['All', 'Upcoming', 'Completed', 'Pending'].map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (_) {
-                            setState(() {
-                              selectedOption = _!;
-                            });
-                          },
-                        ),
-                        Expanded(child: SizedBox()),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              //selectedCalanderView = !selectedCalanderView;
-                              selectedCalanderView = false;
-                            });
-                          },
-                          child: !selectedCalanderView
-                              ? SvgPicture.asset(
-                                  'assets/images/selected_listview.svg',
-                                  height: 16,
-                                  width: 16,
-                                  allowDrawingOutsideViewBox: true,
-                                )
-                              : SvgPicture.asset(
-                                  'assets/images/unselected_listview.svg',
-                                  height: 16,
-                                  width: 16,
-                                  allowDrawingOutsideViewBox: true,
+
+              return widget.fromDashboard == true
+                  ? Center(
+                      child: _rowItem(assignmentList![0]),
+                    )
+                  : Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      child: Column(
+                        children: [
+                          if (widget.fromDashboard == false)
+                            Row(
+                              children: [
+                                Text('${Strings.of(context)?.sortBy}: ',
+                                    style: Styles.regular(size: 14)),
+                                DropdownButton<String>(
+                                  underline: SizedBox(),
+                                  hint: Text('$selectedOption',
+                                      style: Styles.bold(size: 14)),
+                                  items: <String>[
+                                    'All',
+                                    'Upcoming',
+                                    'Completed',
+                                    'Pending'
+                                  ].map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                  onChanged: (_) {
+                                    setState(() {
+                                      selectedOption = _!;
+                                    });
+                                  },
                                 ),
-                        ),
-                        SizedBox(width: 10),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              //selectedCalanderView = !selectedCalanderView;
-                              selectedCalanderView = true;
-                            });
-                          },
-                          child: selectedCalanderView
-                              ? SvgPicture.asset(
-                                  'assets/images/selected_calender.svg',
-                                  height: 20,
-                                  width: 20,
-                                  allowDrawingOutsideViewBox: true,
-                                )
-                              : SvgPicture.asset(
-                                  'assets/images/unselected_calender.svg',
-                                  height: 20,
-                                  width: 20,
-                                  allowDrawingOutsideViewBox: true,
+                                Expanded(child: SizedBox()),
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      //selectedCalanderView = !selectedCalanderView;
+                                      selectedCalanderView = false;
+                                    });
+                                  },
+                                  child: !selectedCalanderView
+                                      ? SvgPicture.asset(
+                                          'assets/images/selected_listview.svg',
+                                          height: 16,
+                                          width: 16,
+                                          allowDrawingOutsideViewBox: true,
+                                        )
+                                      : SvgPicture.asset(
+                                          'assets/images/unselected_listview.svg',
+                                          height: 16,
+                                          width: 16,
+                                          allowDrawingOutsideViewBox: true,
+                                        ),
                                 ),
-                        )
-                      ],
-                    ),
-                    if (selectedCalanderView)
-                      Calendar(
-                        sendValue: (DateTime date) {
-                          setState(() {
-                            selectedDate = date;
-                          });
-                        },
+                                SizedBox(width: 10),
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      //selectedCalanderView = !selectedCalanderView;
+                                      selectedCalanderView = true;
+                                    });
+                                  },
+                                  child: selectedCalanderView
+                                      ? SvgPicture.asset(
+                                          'assets/images/selected_calender.svg',
+                                          height: 20,
+                                          width: 20,
+                                          allowDrawingOutsideViewBox: true,
+                                        )
+                                      : SvgPicture.asset(
+                                          'assets/images/unselected_calender.svg',
+                                          height: 20,
+                                          width: 20,
+                                          allowDrawingOutsideViewBox: true,
+                                        ),
+                                )
+                              ],
+                            ),
+                          if (selectedCalanderView)
+                            Calendar(
+                              sendValue: (DateTime date) {
+                                setState(() {
+                                  selectedDate = date;
+                                });
+                              },
+                            ),
+                          SingleChildScrollView(
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * 0.8,
+                              child: ListView.builder(
+                                  // scrollDirection:
+                                  //     widget.isViewAll! ? Axis.vertical : Axis.horizontal,
+                                  shrinkWrap: true,
+                                  itemCount: assignmentList == null
+                                      ? 0
+                                      : assignmentList!.length,
+                                  itemBuilder: (context, index) {
+                                    return _rowItem(assignmentList![index]);
+                                  }),
+                            ),
+                          ),
+                        ],
                       ),
-                    SingleChildScrollView(
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.8,
-                        child: ListView.builder(
-                            // scrollDirection:
-                            //     widget.isViewAll! ? Axis.vertical : Axis.horizontal,
-                            shrinkWrap: true,
-                            itemCount: assignmentList == null
-                                ? 0
-                                : assignmentList!.length,
-                            itemBuilder: (context, index) {
-                              return _rowItem(assignmentList![index]);
-                            }),
-                      ),
-                    ),
-                  ],
-                ),
-              );
+                    );
             },
           )
         : CardLoader();
@@ -395,7 +416,9 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
               );
           },
           child: Container(
-              padding: EdgeInsets.all(10),
+              padding: widget.fromDashboard == true
+                  ? EdgeInsets.only(left: 10, right: 10, top: 17, bottom: 17)
+                  : EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width * 0.9,
               margin: EdgeInsets.symmetric(vertical: 10, horizontal: 6),
               decoration: BoxDecoration(

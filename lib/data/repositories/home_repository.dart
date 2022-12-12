@@ -677,9 +677,8 @@ class HomeRepository {
     if (response!.success) {
       Log.v("Bttom Menu DATA : ${response.body}");
       BottomBarResponse resp = BottomBarResponse.fromJson(response.body);
-       var box = Hive.box("content");
-      box.put("bottomMenu",
-          resp.data?.menu?.map((e) => e.toJson()).toList());
+      var box = Hive.box("content");
+      box.put("bottomMenu", resp.data?.menu?.map((e) => e.toJson()).toList());
 
       return resp;
     } else {
@@ -1091,7 +1090,8 @@ class HomeRepository {
     final response = await homeProvider.removeAccount(type: type);
     if (response!.success) {
       Log.v("DATA : ${json.encode(response.body)}");
-      RemoveAccountResponse resp = RemoveAccountResponse.fromJson(response.body);
+      RemoveAccountResponse resp =
+          RemoveAccountResponse.fromJson(response.body);
       return resp;
     } else {
       Log.v("====> ${response.body}");
