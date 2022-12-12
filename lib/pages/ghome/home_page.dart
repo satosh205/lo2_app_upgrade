@@ -169,7 +169,7 @@ class _homePageState extends State<homePage> {
       '/my-space-settings': ProfilePage(drawerWidget: _getDrawerLayout(context))
     };
 
-    var iconsUnSelected = {
+    /*var iconsUnSelected = {
       '/g-home': 'assets/images/unselected_ghome.svg',
       '/g-school': 'assets/images/unselected_gschool.svg',
       '/g-reels': 'assets/images/unselected_greels.svg',
@@ -180,9 +180,10 @@ class _homePageState extends State<homePage> {
       '/analytics': 'assets/images/analytics.svg',
       '/library': 'assets/images/library.svg',
       '/my-space-settings': 'assets/images/mySpaceSettings.svg'
-    };
+    };*/
 
-    var iconSeleted = {
+
+    /*var iconSeleted = {
       '/g-home': 'assets/images/selected_ghome.svg',
       '/g-school': 'assets/images/selected_gschool.svg',
       '/g-reels': 'assets/images/selected_greels.svg',
@@ -193,7 +194,38 @@ class _homePageState extends State<homePage> {
       '/analytics': 'assets/images/selectedAnalytics.svg',
       '/library': 'assets/images/selectedLibrary.svg',
       '/my-space-settings': 'assets/images/selectedMySpaceSettings.svg'
+    };*/
+
+
+    var iconsUnSelected = {
+      '/g-dashboard': 'assets/images/un_dashboard.svg',
+      '/g-home': 'assets/images/un_community.svg',
+      '/g-school': 'assets/images/un_learn.svg',
+      '/g-reels': 'assets/images/un_trends.svg',
+      '/g-carvaan': 'assets/images/un_careers.svg',
+      '/sic-council': 'assets/images/my_council.svg',
+      '/training': 'assets/images/trainings.svg',
+      '/announcements': 'assets/images/announcements.svg',
+      '/analytics': 'assets/images/analytics.svg',
+      '/library': 'assets/images/library.svg',
+      '/my-space-settings': 'assets/images/mySpaceSettings.svg'
     };
+
+
+    var iconSeleted = {
+      '/g-dashboard': 'assets/images/s_dashboards.svg',
+      '/g-home': 'assets/images/s_community.svg',
+      '/g-school': 'assets/images/s_learn.svg',
+      '/g-reels': 'assets/images/s_trends.svg',
+      '/g-carvaan': 'assets/images/s_careers.svg',
+      '/sic-council': 'assets/images/my_council.svg',
+      '/training': 'assets/images/selectedTrainings.svg',
+      '/announcements': 'assets/images/selectedAnnouncements.svg',
+      '/analytics': 'assets/images/selectedAnalytics.svg',
+      '/library': 'assets/images/selectedLibrary.svg',
+      '/my-space-settings': 'assets/images/selectedMySpaceSettings.svg'
+    };
+
 
     if (widget.isFromCreatePost) {
       pages['/g-carvaan'] = GCarvaanPostPage(
