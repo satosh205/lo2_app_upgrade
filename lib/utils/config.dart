@@ -53,7 +53,6 @@ const APK_DETAILS = {
   "policy_url": "https://qa.learningoxygen.com/policy"
 };
 
-
 // const APK_DETAILS = {
 //   "app_name": "learn_build",
 //   "package_name": "com.learn_build",
