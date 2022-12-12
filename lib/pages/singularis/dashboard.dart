@@ -1140,7 +1140,7 @@ class _DashboardState extends State<Dashboard> {
         case ApiStatus.ERROR:
           isJoyContentListLoading = false;
           Log.v("Error..........................");
-          Log.v("ErrorHome..........................${loginState.error}");
+          Log.v("ErrorHome......................${loginState.error}");
           break;
         case ApiStatus.INITIAL:
           break;
