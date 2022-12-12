@@ -12,6 +12,7 @@ import 'package:masterg/data/providers/reels_proivder.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/gcarvaan/createpost/create_post_provider.dart';
+import 'package:masterg/pages/reels/reels_dashboard_page.dart';
 import 'package:masterg/pages/reels/theme/colors.dart';
 import 'package:masterg/pages/reels/video_recording/video_recording_camera_page.dart';
 import 'package:masterg/pages/reels/widgets/left_panel.dart';
@@ -29,17 +30,12 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 TabController? _tabController;
 
-class ReelsDashboardPage extends StatefulWidget {
-  final bool fromDashboard;
-  final int scrollTo;
-
-  const ReelsDashboardPage(
-      {super.key, this.fromDashboard = false, this.scrollTo = 0});
+class ReelHorizontal extends StatefulWidget {
   @override
-  _ReelsDashboardPageState createState() => _ReelsDashboardPageState();
+  _ReelHorizontalState createState() => _ReelHorizontalState();
 }
 
-class _ReelsDashboardPageState extends State<ReelsDashboardPage>
+class _ReelHorizontalState extends State<ReelHorizontal>
     with TickerProviderStateMixin {
   bool isGReelsLoading = true;
   List<GReelsElement>? greelsList;
@@ -79,137 +75,113 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
               child: Consumer<GReelsModel>(
                 builder: (context, greelsModel, child) =>
                     BlocListener<HomeBloc, HomeState>(
-                        listener: (context, state) async {
-                          if (state is GReelsPostState) {
-                            _handleGReelsResponse(state, greelsModel);
-                          }
-                        },
-                        child: Stack(children: [
-                          getBody(greelsModel),
-                          Consumer2<CreatePostProvider, ReelsProvider>(
-                              builder: (context, createPostProvider,
-                                      reelsProvider, child) =>
-                                  Positioned(
-                                      right: 10,
-                                      top: 50,
-                                      child: Container(
-                                          padding: const EdgeInsets.only(
-                                              top: 7,
-                                              bottom: 7,
-                                              left: 11,
-                                              right: 11),
-                                          decoration: BoxDecoration(
-                                            color: ColorConstants.BLACK
-                                                .withOpacity(0.4),
-                                            borderRadius:
-                                                BorderRadius.circular(22),
-                                          ),
-                                          child: GestureDetector(
-                                            onTap: () async {
-                                              createPostProvider.files!.clear();
-                                              reelsProvider.pause();
+                  listener: (context, state) async {
+                    if (state is GReelsPostState) {
+                      _handleGReelsResponse(state, greelsModel);
+                    }
+                  },
 
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          VideoRecordingCameraPage(
-                                                            provider:
-                                                                createPostProvider,
-                                                          ))).then((value) {
-                                                setState(() {
-                                                  isGReelsLoading = true;
-                                                });
-                                                greelsList?.clear();
+                  child: getBody(greelsModel),
+                  // child: Stack(children: [
+                  //   getBody(greelsModel),
+                  //   Consumer2<CreatePostProvider, ReelsProvider>(
+                  //       builder: (context, createPostProvider,
+                  //               reelsProvider, child) =>
+                  //           Positioned(
+                  //               right: 10,
+                  //               top: 50,
+                  //               child: Container(
+                  //                   padding: const EdgeInsets.only(
+                  //                       top: 7,
+                  //                       bottom: 7,
+                  //                       left: 11,
+                  //                       right: 11),
+                  //                   decoration: BoxDecoration(
+                  //                     color: ColorConstants.BLACK
+                  //                         .withOpacity(0.4),
+                  //                     borderRadius:
+                  //                         BorderRadius.circular(22),
+                  //                   ),
+                  //                   child: GestureDetector(
+                  //                     onTap: () async {
+                  //                       createPostProvider.files!.clear();
+                  //                       reelsProvider.pause();
 
-                                                _getGReels();
-                                                reelsProvider.play();
-                                              });
-                                            },
-                                            child: Row(
-                                              children: [
-                                                SvgPicture.asset(
-                                                  'assets/images/camera_y.svg',
-                                                  height: 20,
-                                                  width: 20,
-                                                  color: white,
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Text(
-                                                    '${Strings.of(context)?.CreateReels}',
-                                                    style: Styles.bold(
-                                                        color: ColorConstants
-                                                            .WHITE,
-                                                        size: 14)),
-                                              ],
-                                            ),
-                                          )))),
-                        ])),
+                  //                       Navigator.push(
+                  //                           context,
+                  //                           MaterialPageRoute(
+                  //                               builder: (context) =>
+                  //                                   VideoRecordingCameraPage(
+                  //                                     provider:
+                  //                                         createPostProvider,
+                  //                                   ))).then((value) {
+                  //                         setState(() {
+                  //                           isGReelsLoading = true;
+                  //                         });
+                  //                         greelsList?.clear();
+
+                  //                         _getGReels();
+                  //                         reelsProvider.play();
+                  //                       });
+                  //                     },
+                  //                     child: Row(
+                  //                       children: [
+                  //                         SvgPicture.asset(
+                  //                           'assets/images/camera_y.svg',
+                  //                           height: 20,
+                  //                           width: 20,
+                  //                           color: white,
+                  //                         ),
+                  //                         SizedBox(
+                  //                           width: 5,
+                  //                         ),
+                  //                         Text(
+                  //                             '${Strings.of(context)?.CreateReels}',
+                  //                             style: Styles.bold(
+                  //                                 color: ColorConstants
+                  //                                     .WHITE,
+                  //                                 size: 14)),
+                  //                       ],
+                  //                     ),
+                  //                   )))),
+                  // ])
+                ),
               ))),
     );
   }
 
   Widget getBody(GReelsModel greelsList) {
-    if (widget.fromDashboard)
-      Future.delayed(Duration(milliseconds: 5), () {
-        // print('sccrolling to ');
-      })
-          .then((value) => _tabController?.animateTo(
-                widget.scrollTo,
-              ));
-
     if (greelsList.list == null || isGReelsLoading) {
-      return Container(
-        height: double.infinity,
-        margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-            color: Colors.black, borderRadius: BorderRadius.circular(0)),
-        child: Column(
-          children: [
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    'Reels',
-                    style: TextStyle(color: Colors.white),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Container(
-                  height: MediaQuery.of(context).size.height - 180,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 40),
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            ColorConstants.WHITE,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
+      return Text('Loading');
     }
 
-    _tabController = TabController(
-        length: greelsList.list!.length,
-        initialIndex: greelsList.getCurrentIndex(),
-        vsync: this);
     var size = MediaQuery.of(context).size;
+    return Container(
+      child: ListView.builder(
+          itemCount: greelsList.list!.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (BuildContext context, int index) {
+            return Container(
+              height: size.height * 0.2,
+              margin: EdgeInsets.only(right: 10, left: 10, top: 4, bottom: 4),
+              child: SizedBox(
+                  height: 280,
+                  width: 180,
+                  child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ReelsDashboardPage(
+                                      fromDashboard: true,
+                                      scrollTo: index,
+                                    )));
+                      },
+                      child: ShowImage(
+                          path: greelsList.list![index].resourcePath))),
+            );
+          }),
+    );
 
     return RotatedBox(
       quarterTurns: 1,
@@ -218,6 +190,7 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
 
         // chi
         children: List.generate(greelsList.list!.length, (index) {
+          return Container(child: Text('Reell item'));
           return VideoPlayerItem(
             videoUrl: greelsList.list![index].resourcePath,
             size: size,
@@ -261,7 +234,6 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
           greelsList = state.response!.data!.list;
           greelsModel.refreshList(greelsList!);
           Log.v("ReelsUsersState.................... ${greelsList?.length}");
-
           isGReelsLoading = false;
           break;
         case ApiStatus.ERROR:
@@ -1080,12 +1052,29 @@ class _ShowImageState extends State<ShowImage> {
   @override
   Widget build(BuildContext context) {
     return imageFile != null
-        ? Image.memory(
-            imageFile!,
-            fit: BoxFit.cover,
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
+        ? Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.memory(
+                  imageFile!,
+                  fit: BoxFit.cover,
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                ),
+              ),
+              Center(
+                child: SvgPicture.asset(
+                  'assets/images/play.svg',
+                  height: 40.0,
+                  width: 40.0,
+                  allowDrawingOutsideViewBox: true,
+                ),
+              ),
+            ],
           )
-        : Text('loading image');
+        : Center(
+            child: Text('loading image'),
+          );
   }
 }

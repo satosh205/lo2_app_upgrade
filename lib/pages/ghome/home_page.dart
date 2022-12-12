@@ -138,9 +138,9 @@ class _homePageState extends State<homePage> {
 
     var pages = {
       '/g-home': GHome(),
+      '/g-dashboard': const Dashboard(),
       '/g-school': const GSchool(),
-      '/g-reels': Dashboard(),
-      // '/g-carvaan': Dashboard(),
+      '/g-reels': ReelsDashboardPage(),
       '/g-carvaan': GCarvaanPostPage(
         fileToUpload: widget.fileToUpload,
         desc: widget.desc,

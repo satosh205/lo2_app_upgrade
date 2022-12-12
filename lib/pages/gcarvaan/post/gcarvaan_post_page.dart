@@ -458,7 +458,11 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
     return gcarvaanPosts.length != 0 || value.list?.length != 0
         ? ListView.builder(
             scrollDirection: Axis.vertical,
-            itemCount: gcarvaanPosts == null ? 0 : gcarvaanPosts.length,
+            itemCount: gcarvaanPosts == null
+                ? 0
+                : widget.fromDashboard
+                    ? 1
+                    : gcarvaanPosts.length,
             physics: BouncingScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (context, index) {
