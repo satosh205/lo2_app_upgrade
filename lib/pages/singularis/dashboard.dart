@@ -45,8 +45,7 @@ class _DashboardState extends State<Dashboard> {
   List<JoyContentListElement>? joyContentListView;
   int? selectedJoyContentCategoryId = 1;
   bool isJoyContentListLoading = false;
-  bool _isJoyCategoryLoading = true;
-  bool isJoyCategoryLoading = false;
+  bool isJoyCategoryLoading = true;
   bool isNotLiveclass = false;
   late VideoPlayerProvider videoPlayerProvider;
   List<Recommended>? recommendedcourses = [];
@@ -60,6 +59,7 @@ class _DashboardState extends State<Dashboard> {
     _getJoyContentList();
     _getLiveClass();
     _getFilteredPopularCourses();
+    _getPopularCourses();
 
     super.initState();
   }
@@ -67,6 +67,11 @@ class _DashboardState extends State<Dashboard> {
   void _getJoyContentList() {
     box = Hive.box(DB.CONTENT);
     BlocProvider.of<HomeBloc>(context).add(JoyContentListEvent());
+  }
+
+  void _getPopularCourses() {
+    box = Hive.box(DB.CONTENT);
+    BlocProvider.of<HomeBloc>(context).add(PopularCoursesEvent());
   }
 
   void _getLiveClass() {
@@ -700,91 +705,121 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget _getCourseTemplate(context, yourCourses, int index, String tag, size) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.8,
-      margin: EdgeInsets.only(right: 8),
-      decoration: BoxDecoration(
-          border: Border.all(color: ColorConstants.GREY_4),
-          borderRadius: BorderRadius.circular(8)),
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: size * 0.5,
-              width: MediaQuery.of(context).size.width,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(5),
-                child: Hero(
-                  tag: tag + "\$index",
-                  child: Image.network(
-                    '${yourCourses.image}',
-                    errorBuilder: (context, error, stackTrace) {
-                      return SvgPicture.asset(
-                        'assets/images/gscore_postnow_bg.svg',
-                      );
-                    },
-                    fit: BoxFit.cover,
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => CoursesDetailsPage(
+                  imgUrl: recommendedcourses![index].image,
+                  indexc: index,
+                  tagName: 'TagReco',
+                  name: recommendedcourses![index].name,
+                  description: recommendedcourses![index].description ?? '',
+                  regularPrice: recommendedcourses![index].regularPrice,
+                  salePrice: recommendedcourses![index].salePrice,
+                  trainer: recommendedcourses![index].trainer,
+                  enrolmentCount: recommendedcourses![index].enrolmentCount,
+                  type: recommendedcourses![index].subscriptionType,
+                  id: recommendedcourses![index].id,
+                  shortCode: recommendedcourses![index].shortCode)),
+        ).then((isSuccess) {
+          if (isSuccess == true) {
+            print('sucess enrolled');
+            _getPopularCourses();
+            _getFilteredPopularCourses();
+
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => MyCourses()));
+          }
+        });
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.8,
+        margin: EdgeInsets.only(right: 8),
+        decoration: BoxDecoration(
+            border: Border.all(color: ColorConstants.GREY_4),
+            borderRadius: BorderRadius.circular(8)),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: size * 0.5,
+                width: MediaQuery.of(context).size.width,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Hero(
+                    tag: tag + "\$index",
+                    child: Image.network(
+                      '${yourCourses.image}',
+                      errorBuilder: (context, error, stackTrace) {
+                        return SvgPicture.asset(
+                          'assets/images/gscore_postnow_bg.svg',
+                        );
+                      },
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text('${yourCourses.name}', style: Styles.bold(size: 16)),
-                    Icon(CupertinoIcons.clock,
-                        size: 15, color: Color(0xFFFDB515)),
-                    Text('${yourCourses.duration}',
-                        style: Styles.regular(size: 10, color: Colors.black))
-                  ]),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: Text('by ${yourCourses.trainer}',
-                  style: Styles.regular(size: 12)),
-            ),
-            Center(
-                child: Text(
-                    '${yourCourses.enrolmentCount} Students already viewed this course',
-                    style: Styles.regular(size: 12))),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Start now',
-                  style: Styles.semibold(),
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                // Text(
-                //     '${yourCourses.enrolmentCount} ${Strings.of(context)?.enrollments}',
-                //     style: Styles.regular(size: 12)),
-                Row(
-                  children: [
-                    if (yourCourses.regularPrice != null)
-                      Text('₹${yourCourses.regularPrice}',
-                          style: TextStyle(
-                            decoration: TextDecoration.lineThrough,
-                          )),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    if (yourCourses.salePrice != null)
-                      Text(
-                        '₹${yourCourses.salePrice}',
-                        style: Styles.textExtraBold(
-                            size: 22, color: ColorConstants.GREEN),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('${yourCourses.name}', style: Styles.bold(size: 16)),
+                      Icon(CupertinoIcons.clock,
+                          size: 15, color: Color(0xFFFDB515)),
+                      Text('${yourCourses.duration}',
+                          style: Styles.regular(size: 10, color: Colors.black))
+                    ]),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: Text('by ${yourCourses.trainer}',
+                    style: Styles.regular(size: 12)),
+              ),
+              Center(
+                  child: Text(
+                      '${yourCourses.enrolmentCount} Students already viewed this course',
+                      style: Styles.regular(size: 12))),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Start now',
+                    style: Styles.semibold(),
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  // Text(
+                  //     '${yourCourses.enrolmentCount} ${Strings.of(context)?.enrollments}',
+                  //     style: Styles.regular(size: 12)),
+                  Row(
+                    children: [
+                      if (yourCourses.regularPrice != null)
+                        Text('₹${yourCourses.regularPrice}',
+                            style: TextStyle(
+                              decoration: TextDecoration.lineThrough,
+                            )),
+                      SizedBox(
+                        width: 8,
                       ),
-                  ],
-                ),
-              ],
-            ),
-          ]),
+                      if (yourCourses.salePrice != null)
+                        Text(
+                          '₹${yourCourses.salePrice}',
+                          style: Styles.textExtraBold(
+                              size: 22, color: ColorConstants.GREEN),
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+            ]),
+      ),
     );
   }
 
@@ -1053,7 +1088,7 @@ class _DashboardState extends State<Dashboard> {
       switch (loginState.apiState) {
         case ApiStatus.LOADING:
           Log.v("Loading....................");
-          _isJoyCategoryLoading = true;
+          isJoyCategoryLoading = true;
           break;
         case ApiStatus.SUCCESS:
           Log.v("JoyCategoryState....................");
@@ -1061,10 +1096,10 @@ class _DashboardState extends State<Dashboard> {
 
           Log.v("LiveClassState Done ....................${liveclassList}");
 
-          _isJoyCategoryLoading = false;
+          isJoyCategoryLoading = false;
           break;
         case ApiStatus.ERROR:
-          _isJoyCategoryLoading = false;
+          isJoyCategoryLoading = false;
           Log.v("Error..........................");
           Log.v("ErrorHome..........................${loginState.error}");
           break;

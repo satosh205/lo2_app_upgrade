@@ -169,7 +169,7 @@ class _homePageState extends State<homePage> {
       '/my-space-settings': ProfilePage(drawerWidget: _getDrawerLayout(context))
     };
 
-    /*var iconsUnSelected = {
+    /*var iconUnSelected = {
       '/g-home': 'assets/images/unselected_ghome.svg',
       '/g-school': 'assets/images/unselected_gschool.svg',
       '/g-reels': 'assets/images/unselected_greels.svg',
@@ -182,8 +182,7 @@ class _homePageState extends State<homePage> {
       '/my-space-settings': 'assets/images/mySpaceSettings.svg'
     };*/
 
-
-    /*var iconSeleted = {
+    /*var iconSelected = {
       '/g-home': 'assets/images/selected_ghome.svg',
       '/g-school': 'assets/images/selected_gschool.svg',
       '/g-reels': 'assets/images/selected_greels.svg',
@@ -196,9 +195,8 @@ class _homePageState extends State<homePage> {
       '/my-space-settings': 'assets/images/selectedMySpaceSettings.svg'
     };*/
 
-
-    var iconsUnSelected = {
-      '/g-dashboard': 'assets/images/unselected_ghome.svg',
+    var iconUnSelected = {
+      '/g-dashboard': 'assets/images/un_dashboard.svg',
       '/g-home': 'assets/images/un_community.svg',
       '/g-school': 'assets/images/un_learn.svg',
       '/g-reels': 'assets/images/un_trends.svg',
@@ -211,9 +209,8 @@ class _homePageState extends State<homePage> {
       '/my-space-settings': 'assets/images/mySpaceSettings.svg'
     };
 
-
-    var iconSeleted = {
-      '/g-dashboard': 'assets/images/selected_ghome.svg',
+    var iconSelected = {
+      '/g-dashboard': 'assets/images/s_dashboards.svg',
       '/g-home': 'assets/images/s_community.svg',
       '/g-school': 'assets/images/s_learn.svg',
       '/g-reels': 'assets/images/s_trends.svg',
@@ -225,7 +222,6 @@ class _homePageState extends State<homePage> {
       '/library': 'assets/images/selectedLibrary.svg',
       '/my-space-settings': 'assets/images/selectedMySpaceSettings.svg'
     };
-
 
     if (widget.isFromCreatePost) {
       pages['/g-carvaan'] = GCarvaanPostPage(
@@ -388,15 +384,15 @@ class _homePageState extends State<homePage> {
                                     widget.bottomMenu!
                                         .indexOf(widget.bottomMenu![i])
                                 ? SvgPicture.asset(
-                                    '${iconSeleted['${widget.bottomMenu![i].url}']}',
-                                    color: APK_DETAILS['package_name'] !=
-                                            'com.at.masterg'
-                                        ? ColorConstants().primaryColor()
-                                        : null,
-                                    allowDrawingOutsideViewBox: false,
+                                    '${iconSelected['${widget.bottomMenu![i].url}']}',
+                                    // color: APK_DETAILS['package_name'] !=
+                                    //         'com.at.masterg'
+                                    //     ? ColorConstants().primaryColor()
+                                    //     : null,
+                                    allowDrawingOutsideViewBox: true,
                                   )
                                 : SvgPicture.asset(
-                                    '${iconsUnSelected['${widget.bottomMenu![i].url}']}',
+                                    '${iconUnSelected['${widget.bottomMenu![i].url}']}',
                                     allowDrawingOutsideViewBox: true,
                                   ),
                             const SizedBox(

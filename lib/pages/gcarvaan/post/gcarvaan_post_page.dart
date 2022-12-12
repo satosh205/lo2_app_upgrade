@@ -135,8 +135,8 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
             backgroundColor: ColorConstants.SECTION_DIVIDER,
             body: SmartRefresher(
               // physics: BouncingScrollPhysics(),
-              enablePullDown: true,
-              enablePullUp: true,
+              enablePullDown: !widget.fromDashboard,
+              enablePullUp: !widget.fromDashboard,
               controller: _refreshController,
               onRefresh: () async {
                 callCount = 0;

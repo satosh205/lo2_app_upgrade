@@ -134,36 +134,35 @@ class _InterestPageState extends State<InterestPage> {
                                         onTap: () {
                                           var parentId = '';
                                           var localId = '';
-                                         print('the selecte dpr $selectProgramId and $selectProgramParentId and $isParentLanguage');
-                                         
+                                          print(
+                                              'the selecte dpr $selectProgramId and $selectProgramParentId and $isParentLanguage');
 
                                           if (isParentLanguage == 1) {
                                             selectProgramId.forEach((element) {
                                               localId +=
                                                   element.toString() + ',';
                                             });
-                                            
-                                          localId = localId.substring(
-                                              0, localId.length - 1);
+
+                                            localId = localId.substring(
+                                                0, localId.length - 1);
                                             Preference.setString(
                                                 'interestCategory', '$localId');
-                                                print('sendind is $localId');
+                                            print('sendind is $localId');
                                             _mapInterest(localId);
-
-                                          } 
-
-                                          else {
+                                          } else {
                                             selectProgramParentId
                                                 .forEach((element) {
                                               parentId +=
                                                   element.toString() + ',';
                                             });
 
-                                           parentId = parentId.substring(
-                                              0, parentId.length - 1);
-                                               print('sendind is parent $parentId');
+                                            parentId = parentId.substring(
+                                                0, parentId.length - 1);
+                                            print(
+                                                'sendind is parent $parentId');
                                             Preference.setString(
-                                                'interestCategory', '$parentId');
+                                                'interestCategory',
+                                                '$parentId');
                                             _mapInterest(parentId);
                                           }
                                         },
@@ -273,7 +272,7 @@ class _InterestPageState extends State<InterestPage> {
                       selectProgramParentId.add(programs_list![i].parentId);
                     }
                   } else {
-                     print(' parent');
+                    print(' parent');
                     if (selectProgramId.contains(programs_list![i].id)) {
                       selectProgramId.remove(programs_list![i].id);
                       // selectProgramParentId.remove(programs_list![i].parentId);
@@ -286,7 +285,8 @@ class _InterestPageState extends State<InterestPage> {
               }
             }
 
-            print('select program len is ${selectProgramId.length} and ${selectProgramParentId.length}');
+            print(
+                'select program len is ${selectProgramId.length} and ${selectProgramParentId.length}');
 
             // options
             // options = programs_list.map((e) => e.title);
@@ -328,12 +328,20 @@ class _InterestPageState extends State<InterestPage> {
                 });
           } else {
             menuList?.sort((a, b) => a.inAppOrder!.compareTo(b.inAppOrder!));
+            int index = 0;
+            for (var item in menuList!) {
+              if (item.url == '/g-home') {
+                index = menuList!.indexOf(item);
+                break;
+              }
+            }
 
             Navigator.pushAndRemoveUntil(
                 context,
                 NextPageRoute(
                     homePage(
                       bottomMenu: menuList,
+                      index: index,
                     ),
                     isMaintainState: true),
                 (route) => false);
@@ -419,7 +427,8 @@ class _InterestPageState extends State<InterestPage> {
             shape: StadiumBorder(
                 side: BorderSide(
                     color: isParentLanguage != 1
-                        ? (selectProgramParentId.contains(programs_list![i].parentId)
+                        ? (selectProgramParentId
+                                .contains(programs_list![i].parentId)
                             ? ColorConstants.GREEN
                             : ColorConstants.GREY_4)
                         : (selectProgramId.contains(programs_list![i].id)

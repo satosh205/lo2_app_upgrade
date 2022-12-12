@@ -92,14 +92,16 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
     if (state == AppLifecycleState.resumed) {
       //pause video
       // _videoController.play();
-      
-      ytController..mute()..play();
+
+      ytController
+        ..mute()
+        ..play();
       videoPlayerProvider.mute();
 
-       setState(() {
-                customVideoController.flickControlManager?.pause();
-                customVideoController.flickControlManager?.mute();
-              });
+      setState(() {
+        customVideoController.flickControlManager?.pause();
+        customVideoController.flickControlManager?.mute();
+      });
 
       // ytController.mute();
     }
@@ -121,7 +123,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
         child: Consumer<VideoPlayerProvider>(
           builder: (context, value, child) => BlocManager(
             initState: (context) {
-              videoPlayerProvider= value;
+              videoPlayerProvider = value;
             },
             child: BlocListener<HomeBloc, HomeState>(
               listener: (context, state) async {
@@ -1356,15 +1358,11 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                             joyCategoryList![index].parentId;
                                       }
 
-                                   
-
                                       if (selectedJoyContentCategoryId == 1) {
                                         joyContentListView =
                                             joyContentListResponse;
-                                     
                                       } else {
                                         if (isParentLanguage != 1) {
-                                
                                           joyContentListView =
                                               joyContentListResponse!
                                                   .where((element) =>
@@ -1382,8 +1380,6 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                                           .id)
                                                   .toList();
                                         }
-
-         
                                       }
 
                                       ytController = YoutubePlayerController(
@@ -1505,7 +1501,8 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                           .toString()
                                           .contains('www.youtube.com')
                                       ? CustomVideoPlayer(
-                                         sendflickManager: (FlickManager value){
+                                          sendflickManager:
+                                              (FlickManager value) {
                                             customVideoController = value;
                                           },
                                           url:
@@ -1515,11 +1512,13 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                         )
                                       : VisibilityDetector(
                                           key: ObjectKey(ytController),
-                                          onVisibilityChanged: (visibility) async {
+                                          onVisibilityChanged:
+                                              (visibility) async {
                                             var visiblePercentage =
                                                 visibility.visibleFraction *
                                                     100;
-                                                    print('the visibilyt $visiblePercentage');
+                                            print(
+                                                'the visibilyt $visiblePercentage');
                                             if (visibility.visibleFraction ==
                                                     0 &&
                                                 this.mounted) {
@@ -1540,15 +1539,16 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                                   //play
                                                   ytController.play();
                                               }
-
-                                             
                                             }
-                                             if(visiblePercentage == 100.0) {
-                                                print('the video play');
-                                          await    Future.delayed(Duration(seconds: 2)).then((value) =>   ytController.play());
-                                                videoPlayerProvider.mute();
-                                                ytController.mute();
-                                              }
+                                            if (visiblePercentage == 100.0) {
+                                              print('the video play');
+                                              await Future.delayed(
+                                                      Duration(seconds: 2))
+                                                  .then((value) =>
+                                                      ytController.play());
+                                              videoPlayerProvider.mute();
+                                              ytController.mute();
+                                            }
                                           },
                                           child: YoutubePlayer(
                                             controller: ytController,
@@ -1648,12 +1648,15 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                           ),
                                         ),
                                         child: CustomVideoPlayer(
-                                          sendflickManager: (FlickManager value){
+                                          sendflickManager:
+                                              (FlickManager value) {
                                             customVideoController = value;
                                           },
-                                            url:
-                                                '${videoList[index].resourcePath}', autoPlay: true,
-                                          showPlayButton: true, )),
+                                          url:
+                                              '${videoList[index].resourcePath}',
+                                          autoPlay: true,
+                                          showPlayButton: true,
+                                        )),
                                   ),
                                   Positioned(
                                       child: Container(

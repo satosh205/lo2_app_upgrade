@@ -153,7 +153,6 @@ class HomeProvider {
     return null;
   }
 
-  
   Future<ApiResponse?> getSwayamUserProfile() async {
     //  Utility.hideKeyboard();
     try {
@@ -210,15 +209,17 @@ class HomeProvider {
     return null;
   }
 
-  Future<ApiResponse?> updateUserProfileImage(String? filePath, String? name, String? email) async {
+  Future<ApiResponse?> updateUserProfileImage(
+      String? filePath, String? name, String? email) async {
     //  Utility.hideKeyboard();
 
     try {
       Map<String, dynamic> data = Map();
       if (filePath != null && filePath.isNotEmpty) {
         String fileName = filePath.split('/').last;
-        data['profile_pic'] = await MultipartFile.fromFile(filePath, filename: fileName);
-      }else{
+        data['profile_pic'] =
+            await MultipartFile.fromFile(filePath, filename: fileName);
+      } else {
         data['first_name'] = name;
         data['email_address'] = email;
       }
@@ -392,7 +393,7 @@ class HomeProvider {
     }
   }
 
-   Future<ApiResponse?> getTopicsList() async {
+  Future<ApiResponse?> getTopicsList() async {
     //  Utility.hideKeyboard();
     try {
       final response = await api.dio.get(ApiConstants.TOPIC_API,
@@ -444,8 +445,7 @@ class HomeProvider {
     }
   }
 
-
-    Future<ApiResponse?> getContentTagsList({int? categoryType}) async {
+  Future<ApiResponse?> getContentTagsList({int? categoryType}) async {
     //  Utility.hideKeyboard();
     try {
       final response =
@@ -471,6 +471,7 @@ class HomeProvider {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
   }
+
   Future<ApiResponse?> getCourseLeaderboardList(String courseId,
       {int type = 0}) async {
     // Utility.hideKeyboard();
@@ -591,8 +592,7 @@ class HomeProvider {
   }
 
   Future<ApiResponse?> reportContent(
-    String? status,
-      int? contentId, String? category, String? comment) async {
+      String? status, int? contentId, String? category, String? comment) async {
     try {
       Map<String, dynamic> data = Map();
       data['status'] = status;
@@ -693,19 +693,20 @@ class HomeProvider {
     return null;
   }
 
-   Future<ApiResponse?> deletePost(int? postId) async {
+  Future<ApiResponse?> deletePost(int? postId) async {
     //  Utility.hideKeyboard();
     try {
-      final response = await api.dio.get(ApiConstants.DELETE_POST + postId.toString(),
-          options: Options(
-              method: 'GET',
-              headers: {
-                "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
-              },
-              contentType: "application/json",
-              responseType: ResponseType.json // or ResponseType.JSON
-              ));
+      final response =
+          await api.dio.get(ApiConstants.DELETE_POST + postId.toString(),
+              options: Options(
+                  method: 'GET',
+                  headers: {
+                    "Authorization": "Bearer ${UserSession.userToken}",
+                    ApiConstants.API_KEY: ApiConstants().APIKeyValue()
+                  },
+                  contentType: "application/json",
+                  responseType: ResponseType.json // or ResponseType.JSON
+                  ));
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data.containsKey('error') &&
             (response.data["error"] as List).length != 0) {
@@ -1774,7 +1775,7 @@ class HomeProvider {
     }
   }
 
-   Future<ApiResponse?> getSurveyDataList({int? contentId, int? type}) async {
+  Future<ApiResponse?> getSurveyDataList({int? contentId, int? type}) async {
     //  Utility.hideKeyboard();
     print("############  $type");
     try {
@@ -1803,7 +1804,7 @@ class HomeProvider {
     }
   }
 
-   Future<ApiResponse?> submitSurvey({SubmitSurveyReq? req}) async {
+  Future<ApiResponse?> submitSurvey({SubmitSurveyReq? req}) async {
     //  Utility.hideKeyboard();
     try {
       final response = await api.dio.post(ApiConstants.SURVEY_API,
@@ -1832,15 +1833,12 @@ class HomeProvider {
     }
   }
 
-
-   Future<ApiResponse?> removeAccount({String? type}) async {
+  Future<ApiResponse?> removeAccount({String? type}) async {
     try {
-
-       Map<String, dynamic> data = Map();
+      Map<String, dynamic> data = Map();
       data['type'] = type;
       final response = await api.dio.post(ApiConstants.REMOVE_ACCOUNT,
-               data: FormData.fromMap(data),
-
+          data: FormData.fromMap(data),
           options: Options(
               method: 'POST',
               headers: {
@@ -1866,7 +1864,7 @@ class HomeProvider {
     return null;
   }
 
-    Future<ApiResponse?> getNotifications() async {
+  Future<ApiResponse?> getNotifications() async {
     //  Utility.hideKeyboard();
     try {
       final response = await api.dio.get(ApiConstants.NOTIFICATION_API,
@@ -1892,8 +1890,7 @@ class HomeProvider {
     }
   }
 
-
- Future<ApiResponse?> submitPoll({PollSubmitRequest? req}) async {
+  Future<ApiResponse?> submitPoll({PollSubmitRequest? req}) async {
     //  Utility.hideKeyboard();
     try {
       final response = await api.dio.post(ApiConstants.POLL_API,
@@ -1919,7 +1916,6 @@ class HomeProvider {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
   }
-
 
   Future<ApiResponse?> updateVideoCompletion(
       int bookmark, int contentId) async {
@@ -1951,6 +1947,4 @@ class HomeProvider {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
   }
-
-  
 }

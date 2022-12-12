@@ -107,7 +107,6 @@ class ApiConstants {
   static const settings = "/api/settings";
   static const NOTIFICATION_API = "api/joy/notifications";
 
-
   static const SWAYAM = 3;
 
   static const REPORT_PROGRAMS_LIST = "api/learner/programs-user";
@@ -129,9 +128,7 @@ class ApiConstants {
 
   static const LIBRARY_TYPE = "Library";
   static const SURVEY_API = "api/joy/survey";
-  static const POLL_API = 'api/poll'; 
-  static const SWAYAM_LOGIN = 'api/login';  
-  static const REMOVE_ACCOUNT = '/api/user/delete';  
-
-
+  static const POLL_API = 'api/poll';
+  static const SWAYAM_LOGIN = 'api/login';
+  static const REMOVE_ACCOUNT = '/api/user/delete';
 }
