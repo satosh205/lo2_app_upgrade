@@ -201,7 +201,9 @@ class _DashboardState extends State<Dashboard> {
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 14),
-                                          child: Divider(),
+                                          child: Divider(
+                                            color: ColorConstants.GREY_3,
+                                          ),
                                         ),
                                         Row(
                                           mainAxisAlignment:
@@ -489,19 +491,25 @@ class _DashboardState extends State<Dashboard> {
                                     style: Styles.bold(),
                                   ),
                                   Expanded(child: SizedBox()),
-                                  Text(
-                                    'View all',
-                                    style: Styles.regular(
-                                        color: ColorConstants.ORANGE_3),
-                                  ),
+                                  // Text(
+                                  //   'View all',
+                                  //   style: Styles.regular(
+                                  //       color: ColorConstants.ORANGE_3),
+                                  // ),
                                 ],
                               ),
                             ),
 
                             Container(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.23,
+                                    MediaQuery.of(context).size.height * 0.2,
                                 child: MyCourses(fromDashboard: true)),
+
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.04,
+                              width: double.infinity,
+                              color: ColorConstants.GREY_5,
+                            ),
 
                             //Latest Trends start
 
@@ -523,8 +531,14 @@ class _DashboardState extends State<Dashboard> {
                                             style: Styles.bold(),
                                           )),
                                       Expanded(child: SizedBox()),
-                                      Icon(Icons.arrow_forward_ios)
+                                      // Icon(Icons.arrow_forward_ios)
                                     ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 14),
+                                    child: Divider(
+                                      color: ColorConstants.GREY_3,
+                                    ),
                                   ),
                                   Container(
                                     width: MediaQuery.of(context).size.width,
@@ -557,7 +571,7 @@ class _DashboardState extends State<Dashboard> {
                                             style: Styles.bold(),
                                           )),
                                       Expanded(child: SizedBox()),
-                                      Icon(Icons.arrow_forward_ios)
+                                      // Icon(Icons.arrow_forward_ios)
                                     ],
                                   ),
                                   Container(
@@ -598,7 +612,7 @@ class _DashboardState extends State<Dashboard> {
                                         ),
                                       ),
                                       Expanded(child: SizedBox()),
-                                      Icon(Icons.arrow_forward_ios)
+                                      // Icon(Icons.arrow_forward_ios)
                                     ],
                                   ),
 
@@ -613,10 +627,6 @@ class _DashboardState extends State<Dashboard> {
                                       fromDashboard: true,
                                     ),
                                   ),
-                                  Container(
-                                    height: 200,
-                                    width: double.infinity,
-                                  )
 
                                   //show posts
                                 ],

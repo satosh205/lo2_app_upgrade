@@ -20,6 +20,7 @@ import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../utils/config.dart';
 
@@ -304,7 +305,42 @@ class _MyCoursesState extends State<MyCourses> {
             ),
           )
         : _isCourseList1Loading == true
-            ? CardLoader()
+            ? widget.fromDashboard
+                ? ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      Shimmer.fromColors(
+                        baseColor: Color(0xffe6e4e6),
+                        highlightColor: Color(0xffeaf0f3),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.15,
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 20),
+                          width: MediaQuery.of(context).size.width * 0.7,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(6)),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Shimmer.fromColors(
+                        baseColor: Color(0xffe6e4e6),
+                        highlightColor: Color(0xffeaf0f3),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.15,
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 20),
+                          width: MediaQuery.of(context).size.width * 0.7,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(6)),
+                        ),
+                      )
+                    ],
+                  )
+                : CardLoader()
             : courseList1 != null && courseList1!.length == 0
                 ? Container(
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),

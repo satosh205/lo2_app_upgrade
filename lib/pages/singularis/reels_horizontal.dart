@@ -24,6 +24,7 @@ import 'package:masterg/utils/utility.dart';
 import 'package:masterg/utils/widget_size.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -151,11 +152,21 @@ class _ReelHorizontalState extends State<ReelHorizontal>
   }
 
   Widget getBody(GReelsModel greelsList) {
+    var size = MediaQuery.of(context).size;
+
     if (greelsList.list == null || isGReelsLoading) {
-      return Text('Loading');
+      return ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          reelsShimmer(size),
+          SizedBox(
+            width: 10,
+          ),
+          reelsShimmer(size),
+        ],
+      );
     }
 
-    var size = MediaQuery.of(context).size;
     return Container(
       child: ListView.builder(
           itemCount: greelsList.list!.length,
@@ -246,6 +257,20 @@ class _ReelHorizontalState extends State<ReelHorizontal>
           break;
       }
     });
+  }
+
+  Widget reelsShimmer(size) {
+    return Shimmer.fromColors(
+      baseColor: Color(0xffe6e4e6),
+      highlightColor: Color(0xffeaf0f3),
+      child: Container(
+        height: size.height * 0.2,
+        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        width: MediaQuery.of(context).size.width * 0.4,
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(6)),
+      ),
+    );
   }
 }
 
@@ -1073,8 +1098,16 @@ class _ShowImageState extends State<ShowImage> {
               ),
             ],
           )
-        : Center(
-            child: Text('loading image'),
+        : Shimmer.fromColors(
+            baseColor: Color(0xffe6e4e6),
+            highlightColor: Color(0xffeaf0f3),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.2,
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              width: MediaQuery.of(context).size.width * 0.4,
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(6)),
+            ),
           );
   }
 }

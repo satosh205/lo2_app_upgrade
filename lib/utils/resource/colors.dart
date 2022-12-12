@@ -68,6 +68,7 @@ class ColorConstants {
   static const GREY_2 = Color(0xff4F4F4F);
   static const GREY_3 = Color(0xff828282);
   static const GREY_4 = Color(0xffBDBDBD);
+  static const GREY_5 = Color(0xffc7c7c7);
   static const COURSE_BG = Color(0xff333333);
   static const SECTION_DIVIDER = Color(0xffF5F5F5);
   static const DIVIDER = Color(0xffEFEFEF);
