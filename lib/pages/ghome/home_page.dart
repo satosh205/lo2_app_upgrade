@@ -198,7 +198,7 @@ class _homePageState extends State<homePage> {
 
 
     var iconsUnSelected = {
-      '/g-dashboard': 'assets/images/un_dashboard.svg',
+      '/g-dashboard': 'assets/images/unselected_ghome.svg',
       '/g-home': 'assets/images/un_community.svg',
       '/g-school': 'assets/images/un_learn.svg',
       '/g-reels': 'assets/images/un_trends.svg',
@@ -213,7 +213,7 @@ class _homePageState extends State<homePage> {
 
 
     var iconSeleted = {
-      '/g-dashboard': 'assets/images/s_dashboards.svg',
+      '/g-dashboard': 'assets/images/selected_ghome.svg',
       '/g-home': 'assets/images/s_community.svg',
       '/g-school': 'assets/images/s_learn.svg',
       '/g-reels': 'assets/images/s_trends.svg',

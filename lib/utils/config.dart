@@ -35,7 +35,7 @@
 // };
 
 const APK_DETAILS = {
-  "app_name": "Singularis WOW",
+  "app_name": "Singularis",
   "package_name": "com.singulariswow",
   "logo_url": "edulyst_logo_appbar.png",
   "theme_image_url": "edulyst_banner1.png",
