@@ -48,17 +48,19 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
   }
 
   void setCurrentLanguage() async {
-    int? currentLanId = Preference.getInt(Preference.APP_LANGUAGE) ?? 1;  
+    int? currentLanId = Preference.getInt(Preference.APP_LANGUAGE) ?? 1;
     print('current lan id is $currentLanId');
     if (currentLanId != null)
       for (int i = 0; i < myList!.length; i++)
         if (currentLanId == myList?[i].languageId) {
           selected = i;
-            Preference.setInt(Preference.APP_LANGUAGE, myList![i].languageId!);
-          Preference.setInt(Preference.IS_PRIMARY_LANGUAGE,  myList![i].isPrimaryLanguage!);
-           Preference.setString(
+          Preference.setInt(Preference.APP_LANGUAGE, myList![i].languageId!);
+          Preference.setInt(
+              Preference.IS_PRIMARY_LANGUAGE, myList![i].isPrimaryLanguage!);
+          Preference.setString(
               Preference.LANGUAGE, '${myList?[i].languageCode?.toLowerCase()}');
-          MyApp.setLocale(context, Locale(localeCodes['${myList?[i].englishName?.toLowerCase()}']!));
+          MyApp.setLocale(context,
+              Locale(localeCodes['${myList?[i].englishName?.toLowerCase()}']!));
 
           break;
         } else {
@@ -132,7 +134,6 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                                     // width: 150,
                                   ),
                           SizedBox(height: 30),
-
                           SizedBox(
                             height: 30,
                             child: Center(
@@ -168,7 +169,6 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                           height: MediaQuery.of(context).size.height * 0.2),
                     InkWell(
                         onTap: () {
-                                   
                           if (widget.showEdulystLogo)
                             Navigator.push(
                                 context,
@@ -236,13 +236,16 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
   Widget languageCard(langauge, index) {
     return InkWell(
       onTap: () {
-         Preference.setInt(Preference.APP_LANGUAGE, langauge.languageId);
-          Preference.setInt(Preference.IS_PRIMARY_LANGUAGE, langauge.isPrimaryLanguage);
+        Preference.setInt(Preference.APP_LANGUAGE, langauge.languageId);
+        Preference.setInt(
+            Preference.IS_PRIMARY_LANGUAGE, langauge.isPrimaryLanguage);
         setState(() {
           selected = index;
-         
-          print('primary lang is ${Preference.getInt(Preference.IS_PRIMARY_LANGUAGE)}');
-          print('primary lang id  is  ${Preference.getInt(Preference.APP_LANGUAGE)}');
+
+          print(
+              'primary lang is ${Preference.getInt(Preference.IS_PRIMARY_LANGUAGE)}');
+          print(
+              'primary lang id  is  ${Preference.getInt(Preference.APP_LANGUAGE)}');
           Preference.setString(
               Preference.LANGUAGE, langauge.languageCode.toLowerCase());
           Preference.setString(
@@ -282,7 +285,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    '${langauge.title}',
+                    '${langauge.title ?? ''}',
                     style: Styles.bold(
                         size: 18,
                         color: index == selected
@@ -292,7 +295,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                   SizedBox(height: 2),
                   Text(langauge.name ?? '',
                       style: Styles.regular(
-                      size: 14,
+                        size: 14,
                         color: ColorConstants.BLACK,
                       )),
                 ],
