@@ -754,19 +754,6 @@ class _DashboardState extends State<Dashboard> {
                                         builder: (context) => MyCourses()));
                               }
                             });
-
-                            /*Navigator.push(
-                                              context,
-                                              NextPageRoute(ChangeNotifierProvider<
-                                                      RecommendedCourseProvider>(
-                                                  create: (context) =>
-                                                      RecommendedCourseProvider(
-                                                          TrainingService(
-                                                              ApiService()),
-                                                          recommendedcourses[
-                                                              index]),
-                                                  child:
-                                                      PopularCourseDetailPage())));*/
                           },
                           child: _getCourseTemplate(context,
                               recommendedcourses![index], index, 'TagReco')),
