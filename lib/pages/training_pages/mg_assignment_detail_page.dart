@@ -251,7 +251,7 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                                           InkWell(
                                             onTap: () async {
                                               print('List View Click');
-                                            
+
                                               _downloadSubmission(
                                                   _attempts![currentIndex]
                                                       .file);
@@ -616,7 +616,8 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                                             'Attach File',
                                             style: Styles.textExtraBold(
                                                 size: 14,
-                                                color: ColorConstants.BLACK),
+                                                color: ColorConstants()
+                                                    .primaryForgroundColor()),
                                           ),
                                           _size(width: 10),
                                           Icon(
@@ -682,7 +683,8 @@ class _MgAssignmentDetailPageState extends State<MgAssignmentDetailPage> {
                                       'Upload assignment',
                                       style: Styles.textExtraBold(
                                           size: 14,
-                                          color: ColorConstants.BLACK),
+                                          color: ColorConstants()
+                                              .primaryForgroundColor()),
                                     ),
                                     _size(width: 10),
                                     Icon(Icons.file_upload_outlined,

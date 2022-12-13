@@ -382,8 +382,8 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                                           InkWell(
                                             onTap: () async {
                                               print('List View Click');
-                                              download( _attempts![currentIndex]
-                                                      .file);
+                                              download(_attempts![currentIndex]
+                                                  .file);
                                               // _downloadSubmission(
                                               //    );
                                             },
@@ -764,7 +764,8 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                                             'Attach File',
                                             style: Styles.textExtraBold(
                                                 size: 14,
-                                                color: ColorConstants.BLACK),
+                                                color: ColorConstants()
+                                                    .primaryForgroundColor()),
                                           ),
                                           _size(width: 10),
                                           Icon(

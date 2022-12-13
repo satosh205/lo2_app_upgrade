@@ -116,7 +116,9 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
         resizeToAvoidBottomInset: false,
         backgroundColor: ColorConstants.BG_GREY,
         appBar: AppBar(
-          title: Text(traininDetailProvider.program!.name ?? '${Strings.of(context)?.MyCourses}',
+          title: Text(
+              traininDetailProvider.program!.name ??
+                  '${Strings.of(context)?.MyCourses}',
               style: Styles.bold(size: 18)),
           centerTitle: false,
           backgroundColor: Colors.white,
@@ -222,7 +224,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
               'concluded' ||
           selectedData?.liveclassStatus.toString().toLowerCase() ==
               'recorded') {
-        title = 'View Recording';
+        title = 'Concluded';
         isButtonActive = false;
       }
 
@@ -356,8 +358,8 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                               ),
                                               GestureDetector(
                                                 onTap: () async {
-
-                                                  YoutubePlayerController cntrl = _ytController;
+                                                  YoutubePlayerController
+                                                      cntrl = _ytController;
 
                                                   _ytController.pause();
 
@@ -667,7 +669,8 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                                           .GREY_2
                                                                   ? ColorConstants
                                                                       .GREY_3
-                                                                  : ColorConstants().primaryForgroundColor()),
+                                                                  : ColorConstants()
+                                                                      .primaryForgroundColor()),
                                                           textAlign:
                                                               TextAlign.center,
                                                         ),
@@ -1085,7 +1088,9 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                         theme: ExpandableThemeData(
                           hasIcon: true,
                         ),
-                        controller:_expandableController.length > index ? _expandableController[index]:_expandableController[0],
+                        controller: _expandableController.length > index
+                            ? _expandableController[index]
+                            : _expandableController[0],
                         header: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1108,7 +1113,8 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                         collapsed: SizedBox(
                           height: 0,
                         ),
-                        expanded: ChangeNotifierProvider<TrainingContentProvier>(
+                        expanded:
+                            ChangeNotifierProvider<TrainingContentProvier>(
                                 create: (context) => TrainingContentProvier(
                                     TrainingService(ApiService()),
                                     trainingDetailProvider.modules!
@@ -1199,7 +1205,8 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                     )
                                   : VisibilityDetector(
                                       key: Key("popUpUrlVideoPlayer"),
-                                      onVisibilityChanged: (VisibilityInfo info) {
+                                      onVisibilityChanged:
+                                          (VisibilityInfo info) {
                                         if (info.visibleFraction == 1.0) {
                                           currentMin = 0;
                                           prevMin = 0;
@@ -1208,7 +1215,6 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                       },
                                       child: VideoPlayer(_controller)),
                             ),
-
                             if (!isNoteView)
                               Positioned.fill(
                                 child: ValueListenableBuilder(
@@ -1274,20 +1280,21 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                   },
                                 ),
                               ),
-
                             if (!isNoteView)
                               Positioned(
                                 bottom: 0,
                                 child: Container(
                                     color: Colors.red,
                                     height: 4,
-                                    width: MediaQuery.of(context).size.width+400,
+                                    width:
+                                        MediaQuery.of(context).size.width + 400,
                                     child: VideoProgressIndicator(
                                       _controller,
                                       allowScrubbing: true,
                                       padding: EdgeInsets.all(0),
                                       colors: VideoProgressColors(
-                                          backgroundColor: ColorConstants.GREY_3,
+                                          backgroundColor:
+                                              ColorConstants.GREY_3,
                                           bufferedColor: ColorConstants.GREY_3,
                                           playedColor:
                                               ColorConstants().primaryColor()),
@@ -1708,7 +1715,6 @@ class _ModuleCourseCardState extends State<ModuleCourseCard> {
                     String videoUrl = data.learningShots.elementAt(index).url;
                     selectedType = 'Videos';
                     debugPrint('videoUrl ======$videoUrl');
-
 
                     // if (data!.learningShots!
                     //         .elementAt(index)

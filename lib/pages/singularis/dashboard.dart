@@ -665,6 +665,7 @@ class _DashboardState extends State<Dashboard> {
                                   Container(
                                     height: MediaQuery.of(context).size.height *
                                         0.6,
+                                    color: ColorConstants.WHITE,
                                     child: GCarvaanPostPage(
                                       fileToUpload: null,
                                       desc: null,
@@ -1054,8 +1055,10 @@ class _DashboardState extends State<Dashboard> {
                                                             "zoomclass"
                                                     ? "Join Now"
                                                     : "Mark your attendance",
-                                                style:
-                                                    Styles.regular(size: 12)),
+                                                style: Styles.regular(
+                                                    size: 12,
+                                                    color: ColorConstants()
+                                                        .primaryForgroundColor())),
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: 18, vertical: 8)),
                                       )),
@@ -1086,7 +1089,7 @@ class _DashboardState extends State<Dashboard> {
                                         },
                                         child: Padding(
                                             child: Text(
-                                              "View Recording",
+                                              "Concluded",
                                               style: Styles.regular(
                                                   size: 12,
                                                   color: ColorConstants()

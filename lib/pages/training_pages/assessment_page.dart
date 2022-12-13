@@ -268,7 +268,9 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                                     ? 'Re-Attempt'
                                     : 'Start Test',
                                 style: Styles.textExtraBold(
-                                    size: 14, color: ColorConstants.BLACK),
+                                    size: 14,
+                                    color: ColorConstants()
+                                        .primaryForgroundColor()),
                               ),
                             ],
                           ),

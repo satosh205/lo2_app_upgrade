@@ -290,7 +290,6 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
           Log.v("JoyCategoryState....................");
           Log.v(state.response!.data);
 
-
           Log.v("LiveClassState Done ....................${liveclassList}");
 
           _isJoyCategoryLoading = false;
@@ -382,8 +381,8 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
               padding: EdgeInsets.only(left: 10, top: 10),
-              child:
-                  Text('${Strings.of(context)?.upcomingClass}es', style: Styles.semibold(size: 18))),
+              child: Text('${Strings.of(context)?.upcomingClass}es',
+                  style: Styles.semibold(size: 18))),
           ListView.builder(
             itemBuilder: (BuildContext context, int index) {
               return liveclassList!.length > 0
@@ -568,7 +567,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                         },
                                         child: Padding(
                                             child: Text(
-                                              "View Recording",
+                                              "Concluded",
                                               style: Styles.regular(size: 12),
                                             ),
                                             padding: EdgeInsets.all(10))),
@@ -844,44 +843,51 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
   }
 
   Widget _getOtherLearnerTopics(context) {
-    var title = APK_DETAILS['package_name'] == 'com.at.masterg' ?  Strings.of(context)!.otherLearnerCoursesMasterG :Strings.of(context)!.otherLearnerCourses;
+    var title = APK_DETAILS['package_name'] == 'com.at.masterg'
+        ? Strings.of(context)!.otherLearnerCoursesMasterG
+        : Strings.of(context)!.otherLearnerCourses;
 
     print('the title is $title');
     return box != null
         ? ValueListenableBuilder(
             valueListenable: box!.listenable(),
             builder: (bc, Box box, child) {
-              if (box.get("other_learners") == null || _isJoyCategoryLoading == true) {
-               return Column(children: [
-          Shimmer.fromColors(
-            baseColor: Color(0xffe6e4e6),
-            highlightColor: Color(0xffeaf0f3),
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.02,
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(6)),
-            ),
-          
-          ),
-
-            ListView.builder(
-              itemCount: 4,
-              shrinkWrap: true,
-              itemBuilder: (context, index)=>  Shimmer.fromColors(
-            baseColor: Color(0xffe6e4e6),
-            highlightColor: Color(0xffeaf0f3),
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.12,
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(6)),
-            ),
-          
-          )),
-         ],);
+              if (box.get("other_learners") == null ||
+                  _isJoyCategoryLoading == true) {
+                return Column(
+                  children: [
+                    Shimmer.fromColors(
+                      baseColor: Color(0xffe6e4e6),
+                      highlightColor: Color(0xffeaf0f3),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(6)),
+                      ),
+                    ),
+                    ListView.builder(
+                        itemCount: 4,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) => Shimmer.fromColors(
+                              baseColor: Color(0xffe6e4e6),
+                              highlightColor: Color(0xffeaf0f3),
+                              child: Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.12,
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 6),
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(6)),
+                              ),
+                            )),
+                  ],
+                );
               } else if (box.get("other_learners").isEmpty) {
                 return Container(
                     /*height: 290,
@@ -911,8 +917,8 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                       children: [
                         Padding(
                             padding: EdgeInsets.only(left: 10),
-                            child:
-                                Text(title!, style: Styles.DMSansbold(size: 18))),
+                            child: Text(title!,
+                                style: Styles.DMSansbold(size: 18))),
                         ListView.builder(
                           itemBuilder: (BuildContext context, int index) {
                             return otherLearners!.length > 0
@@ -952,12 +958,14 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                                 )),
                                       ).then((isSuccess) {
                                         if (isSuccess == true) {
-
-                            print('sucess enrolled');
+                                          print('sucess enrolled');
                                           _getPopularCourses();
                                           _getFilteredPopularCourses();
-                                             Navigator.push(
-              context, MaterialPageRoute(builder: (context) => MyCourses()));
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MyCourses()));
                                         }
                                       });
                                       /*_subscribeRequest(
@@ -1024,37 +1032,38 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
       builder: (bc, Box box, child) {
         if (box.get("recommended") == null || _isJoyCategoryLoading == true) {
           // return Container();
-         return Column(children: [
-          Shimmer.fromColors(
-            baseColor: Color(0xffe6e4e6),
-            highlightColor: Color(0xffeaf0f3),
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.02,
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(6)),
-            ),
-          
-          ),
-
-            ListView.builder(
-              itemCount: 4,
-              shrinkWrap: true,
-              itemBuilder: (context, index)=>  Shimmer.fromColors(
-            baseColor: Color(0xffe6e4e6),
-            highlightColor: Color(0xffeaf0f3),
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.12,
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(6)),
-            ),
-          
-          )),
-         ],);
-       
+          return Column(
+            children: [
+              Shimmer.fromColors(
+                baseColor: Color(0xffe6e4e6),
+                highlightColor: Color(0xffeaf0f3),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.02,
+                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(6)),
+                ),
+              ),
+              ListView.builder(
+                  itemCount: 4,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) => Shimmer.fromColors(
+                        baseColor: Color(0xffe6e4e6),
+                        highlightColor: Color(0xffeaf0f3),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.12,
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(6)),
+                        ),
+                      )),
+            ],
+          );
         } else if (box.get("recommended").isEmpty) {
           return Container();
         }
@@ -1065,16 +1074,16 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
             .cast<Recommended>()
             .toList();
 
-            // recommendedcourse.sor 
-         if(APK_DETAILS['package_name'] == 'com.learn_build')   recommendedcourses?.sort((a,b) => a.categoryName!.compareTo(b.categoryName!));
+        // recommendedcourse.sor
+        if (APK_DETAILS['package_name'] == 'com.learn_build')
+          recommendedcourses
+              ?.sort((a, b) => a.categoryName!.compareTo(b.categoryName!));
         //var list = _getFilterList();
         return Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(color: ColorConstants.GREY),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-
-
               Padding(
                   padding: EdgeInsets.only(left: 10, top: 10),
                   child: Text(title!, style: Styles.DMSansbold(size: 18))),
@@ -1083,22 +1092,28 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-if(APK_DETAILS['package_name'] == 'com.learn_build')...[
-
-   if(index == 0) Container(
-    margin: EdgeInsets.only(left: 9, top: 6),
-    child: Text('${recommendedcourses![index].categoryName}',  maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: false,
-                    style: Styles.semibold(size: 16))),
-                      if(index > 0 && recommendedcourses![index].categoryName != recommendedcourses![index-1].categoryName) Container(
-                            margin: EdgeInsets.only(left: 9, top: 6),
-
-                        child: Text('${recommendedcourses![index].categoryName}',  maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: false,
-                    style: Styles.semibold(size: 16))),
-],
+                      if (APK_DETAILS['package_name'] == 'com.learn_build') ...[
+                        if (index == 0)
+                          Container(
+                              margin: EdgeInsets.only(left: 9, top: 6),
+                              child: Text(
+                                  '${recommendedcourses![index].categoryName}',
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
+                                  style: Styles.semibold(size: 16))),
+                        if (index > 0 &&
+                            recommendedcourses![index].categoryName !=
+                                recommendedcourses![index - 1].categoryName)
+                          Container(
+                              margin: EdgeInsets.only(left: 9, top: 6),
+                              child: Text(
+                                  '${recommendedcourses![index].categoryName}',
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
+                                  style: Styles.semibold(size: 16))),
+                      ],
                       InkWell(
                           onTap: () {
                             /*_subscribeRequest(
@@ -1113,29 +1128,32 @@ if(APK_DETAILS['package_name'] == 'com.learn_build')...[
                                       indexc: index,
                                       tagName: 'TagReco',
                                       name: recommendedcourses![index].name,
-                                      description:
-                                          recommendedcourses![index].description ??
-                                              '',
-                                      regularPrice:
-                                          recommendedcourses![index].regularPrice,
+                                      description: recommendedcourses![index]
+                                              .description ??
+                                          '',
+                                      regularPrice: recommendedcourses![index]
+                                          .regularPrice,
                                       salePrice:
                                           recommendedcourses![index].salePrice,
-                                      trainer: recommendedcourses![index].trainer,
-                                      enrolmentCount:
-                                          recommendedcourses![index].enrolmentCount,
+                                      trainer:
+                                          recommendedcourses![index].trainer,
+                                      enrolmentCount: recommendedcourses![index]
+                                          .enrolmentCount,
                                       type: recommendedcourses![index]
                                           .subscriptionType,
                                       id: recommendedcourses![index].id,
-                                      shortCode:
-                                          recommendedcourses![index].shortCode)),
+                                      shortCode: recommendedcourses![index]
+                                          .shortCode)),
                             ).then((isSuccess) {
                               if (isSuccess == true) {
                                 print('sucess enrolled');
                                 _getPopularCourses();
                                 _getFilteredPopularCourses();
 
-                               Navigator.push(
-              context, MaterialPageRoute(builder: (context) => MyCourses()));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MyCourses()));
                               }
                             });
 
@@ -1213,14 +1231,17 @@ if(APK_DETAILS['package_name'] == 'com.learn_build')...[
                     overflow: TextOverflow.ellipsis,
                     softWrap: false,
                     style: Styles.semibold(size: 16)),
-            if( APK_DETAILS['package_name'] == 'com.learn_build') Text('${yourCourses.approvalStatus ?? ''}',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: false,
-                    style: Styles.semibold(size: 12, color: ColorConstants.YELLOW)),
+                if (APK_DETAILS['package_name'] == 'com.learn_build')
+                  Text('${yourCourses.approvalStatus ?? ''}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: false,
+                      style: Styles.semibold(
+                          size: 12, color: ColorConstants.YELLOW)),
                 Row(
                   children: [
-                    Text('${yourCourses.enrolmentCount} ${Strings.of(context)?.enrollments}',
+                    Text(
+                        '${yourCourses.enrolmentCount} ${Strings.of(context)?.enrollments}',
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         softWrap: false,
