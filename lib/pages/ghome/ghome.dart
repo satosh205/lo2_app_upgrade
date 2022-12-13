@@ -1501,10 +1501,10 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                           .toString()
                                           .contains('www.youtube.com')
                                       ? CustomVideoPlayer(
-                                          sendflickManager:
-                                              (FlickManager value) {
-                                            customVideoController = value;
-                                          },
+                                          // sendflickManager:
+                                          //     (FlickManager value) {
+                                          //   customVideoController = value;
+                                          // },
                                           url:
                                               '${joyCategoryList![index].video}',
                                           autoPlay: true,
@@ -1648,10 +1648,10 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                           ),
                                         ),
                                         child: CustomVideoPlayer(
-                                          sendflickManager:
-                                              (FlickManager value) {
-                                            customVideoController = value;
-                                          },
+                                          // sendflickManager:
+                                          //     (FlickManager value) {
+                                          //   customVideoController = value;
+                                          // },
                                           url:
                                               '${videoList[index].resourcePath}',
                                           autoPlay: true,

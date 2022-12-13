@@ -510,7 +510,7 @@ class _DashboardState extends State<Dashboard> {
                                     MediaQuery.of(context).size.height * 0.14,
                                 child: MyAssessmentPage(fromDashboard: true)),
 
-                            //recemnt activites end
+                            //recent activites end
 
                             //mycourses starrted
                             Padding(
@@ -580,43 +580,39 @@ class _DashboardState extends State<Dashboard> {
 
                             //recommended course start
 
-                            if (recommendedcourses != null &&
-                                recommendedcourses?.length != 0)
-                              Container(
-                                margin: EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 4),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 8,
-                                              horizontal: 10,
-                                            ),
-                                            child: Text(
-                                              'Recommended Courses',
-                                              style: Styles.bold(),
-                                            )),
-                                        Expanded(child: SizedBox()),
-                                        // Icon(Icons.arrow_forward_ios)
-                                      ],
-                                    ),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.34,
-                                      child: _getRecommendedCourses(
-                                          context,
-                                          MediaQuery.of(context).size.height *
-                                              0.35),
-                                    )
-                                  ],
-                                ),
+                            Container(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 4),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 8,
+                                            horizontal: 10,
+                                          ),
+                                          child: Text(
+                                            'Recommended Courses',
+                                            style: Styles.bold(),
+                                          )),
+                                      Expanded(child: SizedBox()),
+                                      // Icon(Icons.arrow_forward_ios)
+                                    ],
+                                  ),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.34,
+                                    child: _getRecommendedCourses(
+                                        context,
+                                        MediaQuery.of(context).size.height *
+                                            0.35),
+                                  )
+                                ],
                               ),
+                            ),
 
                             //recommended course end
 

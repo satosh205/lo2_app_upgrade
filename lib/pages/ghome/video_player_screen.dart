@@ -12,7 +12,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-class CustomVideoPlayer extends StatefulWidget  {
+class CustomVideoPlayer extends StatefulWidget {
   final url;
   final isLocalVideo;
   final showPlayButton;
@@ -28,35 +28,33 @@ class CustomVideoPlayer extends StatefulWidget  {
   final String? userName;
   final String? time;
   final double? height;
-  final Function? sendflickManager;
 
-  CustomVideoPlayer({
-    Key? key,
-    this.url,
-    this.isLocalVideo = false,
-    this.showPlayButton = false,
-    this.maintainAspectRatio = false,
-    this.autoPlay = true,
-    this.likeCount,
-    this.viewCount,
-    this.commentCount,
-    this.index,
-    this.desc,
-    this.profilePath,
-    this.userName,
-    this.time,
-    this.height,
-    this.sendflickManager
-
-  }) : super(key: key);
+  CustomVideoPlayer(
+      {Key? key,
+      this.url,
+      this.isLocalVideo = false,
+      this.showPlayButton = false,
+      this.maintainAspectRatio = false,
+      this.autoPlay = true,
+      this.likeCount,
+      this.viewCount,
+      this.commentCount,
+      this.index,
+      this.desc,
+      this.profilePath,
+      this.userName,
+      this.time,
+      this.height})
+      : super(key: key);
 
   @override
   VideoPlayerState createState() => VideoPlayerState();
 }
 
-class VideoPlayerState extends State<CustomVideoPlayer>  {
+class VideoPlayerState extends State<CustomVideoPlayer> {
   FlickManager? flickManager;
   late VideoPlayerController controller;
+  // Download download = new Download();
 
   @override
   void initState() {
@@ -72,24 +70,17 @@ class VideoPlayerState extends State<CustomVideoPlayer>  {
         : VideoPlayerController.network(widget.url);
 
     controller.setLooping(true);
-    controller.play();
+    controller.setVolume(1.0);
 
-    controller.setVolume(0.0);
-    
     flickManager = FlickManager(
-      autoPlay: true,
+      autoPlay: false,
       videoPlayerController: controller,
     );
-    flickManager!.flickDisplayManager!.handleShowPlayerControls(showWithTimeout: false);
+    flickManager!.flickDisplayManager!
+        .handleShowPlayerControls(showWithTimeout: false);
 
-    widget.sendflickManager!(flickManager);
-
-  
     /*print(controller.value.size.height / (controller.value.aspectRatio * 2));*/
   }
-
-  
-  
 
   @override
   void dispose() {
@@ -112,7 +103,16 @@ class VideoPlayerState extends State<CustomVideoPlayer>  {
     }
 
     return GestureDetector(
+      /*onTap: widget.showPlayButton ? () {
+              if (controller.value.isPlaying) {
+                controller.pause();
+              } else {
+                controller.play();
+              }
+              setState(() {});
 
+            }
+          : null,*/
       onTap: () {
         if (widget.showPlayButton != null) {
           if (controller.value.isPlaying) {
@@ -145,9 +145,8 @@ class VideoPlayerState extends State<CustomVideoPlayer>  {
       child: VisibilityDetector(
         key: ObjectKey(flickManager),
         onVisibilityChanged: (visibility) {
-            var visiblePercentage = visibility.visibleFraction * 100;
-
           if (!videoPlayerState.providerControlEnable) {
+            var visiblePercentage = visibility.visibleFraction * 100;
             //if (visibility.visibleFraction == 0 && this.mounted) {
             if (visiblePercentage.round() <= 70 && this.mounted) {
               setState(() {
@@ -163,41 +162,25 @@ class VideoPlayerState extends State<CustomVideoPlayer>  {
               }
               if (this.mounted)
                 setState(() {
-                  // flickManager?.flickControlManager?.play();
-                  // videoPlayerState.play();
+                  if (widget.autoPlay == true) {
+                    flickManager?.flickControlManager?.play();
+                    videoPlayerState.play();
 
-                  // videoPlayerState.isMute
-                  //     ? controller.setVolume(0.0)
-                  //     : controller.setVolume(1.0);
+                    videoPlayerState.isMute
+                        ? controller.setVolume(0.0)
+                        : controller.setVolume(1.0);
+                  }
                 });
             }
-           
           }
-           print('play video $visiblePercentage');
-                if(visiblePercentage == 100.0) {
-                                              
-                                              Future.delayed(Duration(seconds: 2)).then((value) =>   {
-                                                  setState(() {
-                                                print('play video from custom');
-
-                  flickManager?.flickControlManager?.play();
-                  flickManager?.flickControlManager?.mute();
-                
-                  videoPlayerState.play();
-                  videoPlayerState.mute();
-                })
-                                              });
-                                             
-                                              }
-      
         },
         child: Stack(children: [
           Container(
-            height:  widget.height,
+            height: widget.height,
             child: FlickVideoPlayer(
               flickVideoWithControls: FlickVideoWithControls(
-                   videoFit: BoxFit.cover,
-                  ),
+                videoFit: BoxFit.cover,
+              ),
               flickManager: flickManager!,
               flickVideoWithControlsFullscreen: FlickToggleSoundAction(),
             ),
@@ -439,7 +422,7 @@ class VideoPlayerState extends State<CustomVideoPlayer>  {
                                                       ?.seekBackward(value);
                                                 },
                                               ),
-                                                  videoFit: BoxFit.contain,
+                                              videoFit: BoxFit.contain,
                                             )),
                                       )
                                     : Container()
@@ -456,11 +439,12 @@ class VideoPlayerState extends State<CustomVideoPlayer>  {
                     children: [
                       Container(
                         child: Padding(
-                          padding: const EdgeInsets.only(bottom: 10, left: 10, top: 10),
-                            child: Align(
-                              alignment: Alignment.bottomLeft,
-                                child: ReadMoreText(text: desc ?? ''),
-                            ),
+                          padding: const EdgeInsets.only(
+                              bottom: 10, left: 10, top: 10),
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: ReadMoreText(text: desc ?? ''),
+                          ),
                         ),
                       ),
                     ],

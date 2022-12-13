@@ -22,7 +22,7 @@ class _CheckInternetState extends State<CheckInternet> {
   @override
   void initState() {
     super.initState();
-    loop();
+    // loop();
   }
 
   void loop() async {
@@ -30,48 +30,42 @@ class _CheckInternetState extends State<CheckInternet> {
       print('checking internet $isConnected');
       await Future.delayed(const Duration(seconds: 6));
 
- 
-     isConnected =   await InternetConnectionChecker().hasConnection;
-     
-     if(isConnected) {
-      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      widget.refresh();
-    
-     } 
-     else if(isSnackBarShowing == false) {
-      isSnackBarShowing = true;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            elevation: 0,
-                            backgroundColor: Colors.transparent,
-                            duration: Duration(seconds: 50),
-                            content: Container(
-                                margin: EdgeInsets.only(
-                                    bottom: 100, left: 4, right: 4),
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 4),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: ColorConstants.GREY_2),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.wifi_off, color: ColorConstants.WHITE,),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      "No Internet Connection!",
-                                      style: Styles.bold(
-                                          color: ColorConstants.WHITE),
-                                    )
-                                  ],
-                                )),
-                          ));
-     }
-    
+      isConnected = await InternetConnectionChecker().hasConnection;
+
+      if (isConnected) {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        widget.refresh();
+      } else if (isSnackBarShowing == false) {
+        isSnackBarShowing = true;
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          duration: Duration(seconds: 50),
+          content: Container(
+              margin: EdgeInsets.only(bottom: 100, left: 4, right: 4),
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: ColorConstants.GREY_2),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.wifi_off,
+                    color: ColorConstants.WHITE,
+                  ),
+                  SizedBox(width: 8),
+                  Text(
+                    "No Internet Connection!",
+                    style: Styles.bold(color: ColorConstants.WHITE),
+                  )
+                ],
+              )),
+        ));
+      }
     }
   }
-
-  
 
   @override
   Widget build(BuildContext context) {

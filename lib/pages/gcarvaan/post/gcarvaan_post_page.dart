@@ -853,7 +853,10 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
           List<GCarvaanPostElement> uniquelist =
               gcarvaanPosts!.where((element) => seen.add(element)).toList();
           gcarvaanPosts = uniquelist;
-          model.refreshList(gcarvaanPosts!);
+          if (model.list?.length == 0 ||
+              model.list!.isEmpty ||
+              model.list?.first.id != gcarvaanPosts?.first.id)
+            model.refreshList(gcarvaanPosts!);
           _refreshController.refreshCompleted();
           _refreshController.loadComplete();
           break;

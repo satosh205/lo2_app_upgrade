@@ -92,7 +92,6 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
   FlickManager? flickManager;
   double videoHeight = 0.0;
   Box? box;
-  
 
   @override
   void initState() {
@@ -977,10 +976,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                               } else {
                                 await Future.delayed(Duration(seconds: 2));
                                 updateLikeandViews(null);
-                                setState(() {
-                                
-                              });
-                                
+                                // setState(() {});
                               }
                             },
                             child: Container(
@@ -994,9 +990,8 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                           // ? CustomBetterPlayer(
                                           //     url: widget.fileList[index])
                                           ? CustomVideoPlayer(
-                                            sendflickManager: (FlickManager value){
-                                           
-                                          },
+                                              // sendflickManager:
+                                              //     (FlickManager value) {},
                                               url: widget.fileList![index],
                                               isLocalVideo: false,
                                               likeCount: widget.likeCount,
@@ -1473,8 +1468,8 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
           ?.where((element) => element.id != widget.contentId)
           .toList();
       box?.put("gcarvaan_post", gcarvaanPosts);
-    gcarvaanPosts =   box?.get("gcarvaan_post");
-    print('the deleted len is ${gcarvaanPosts?.length}');
+      gcarvaanPosts = box?.get("gcarvaan_post");
+      print('the deleted len is ${gcarvaanPosts?.length}');
     }
   }
 

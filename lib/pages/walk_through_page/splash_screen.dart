@@ -65,57 +65,51 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
   @override
   Widget build(BuildContext context) {
     String imagePath = 'assets/images/splash/${APK_DETAILS['splash_image']}';
-    return CheckInternet(
-      refresh: (){
-       setState(() {
-          _getAppVersion();
-       });
-      },
-      body: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: BlocManager(
-              initState: (BuildContext context) {
-                _getAppVersion();
-              },
-              child: MultiBlocListener(
-                listeners: [
-                  BlocListener<AuthBloc, AuthState>(
-                    listener: (BuildContext context, state) {
-                      if (state is AppVersionState) _handleResponse(state);
-                    },
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: BlocManager(
+          initState: (BuildContext context) {
+            _getAppVersion();
+          },
+          child: MultiBlocListener(
+            listeners: [
+              BlocListener<AuthBloc, AuthState>(
+                listener: (BuildContext context, state) {
+                  if (state is AppVersionState) _handleResponse(state);
+                },
+              ),
+              BlocListener<HomeBloc, HomeState>(
+                listener: (BuildContext context, state) {
+                  if (state is GetBottomBarState) {
+                    _handelBottomNavigationBar(state);
+                  }
+                },
+              ),
+            ],
+            child: Center(
+              child: Stack(
+                children: [
+                  Entry.scale(
+                    delay: Duration(seconds: 1),
+                    duration: Duration(seconds: 1),
+                    scale: 0,
+                    child: CustomCard("Entry.scale()"),
                   ),
-                  BlocListener<HomeBloc, HomeState>(
-                    listener: (BuildContext context, state) {
-                      if (state is GetBottomBarState) {
-                        _handelBottomNavigationBar(state);
-                      }
-                    },
-                  ),
+                  // _logo(),
+                  imagePath.split('.').last == 'svg'
+                      ? SvgPicture.asset(
+                          imagePath,
+                          allowDrawingOutsideViewBox: true,
+                        )
+                      : Image.asset(
+                          imagePath,
+                          height: 150,
+                          width: 150,
+                        ),
                 ],
-                child: Center(
-                  child: Stack(
-                    children: [
-                      Entry.scale(
-                        delay: Duration(seconds: 1),
-                        duration: Duration(seconds: 1),
-                        scale: 0,
-                        child: CustomCard("Entry.scale()"),
-                      ),
-                      // _logo(),
-                      imagePath.split('.').last == 'svg'
-                          ? SvgPicture.asset(
-                              imagePath,
-                              allowDrawingOutsideViewBox: true,
-                            )
-                          : Image.asset(
-                              imagePath,
-                              height: 150,
-                              width: 150,
-                            ),
-                    ],
-                  ),
-                ),
-              ))),
+              ),
+            ),
+          )),
     );
   }
 
@@ -326,12 +320,16 @@ class _CustomCardState extends State<CustomCard> {
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-              colors: [ColorConstants().primaryColorGradient(), ColorConstants().primaryColor()],
-            ),
-              shape: BoxShape.circle, color: ColorConstants().primaryColor()),
+              gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [
+                  ColorConstants().primaryColorGradient(),
+                  ColorConstants().primaryColor()
+                ],
+              ),
+              shape: BoxShape.circle,
+              color: ColorConstants().primaryColor()),
         ),
       ),
     );
