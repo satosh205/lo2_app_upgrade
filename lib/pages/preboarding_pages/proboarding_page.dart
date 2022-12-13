@@ -181,7 +181,7 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
           children: [
             Text(
               PreBoardingData.getDat()[index]['text1'],
-              style: Styles.textRegular(size: 30)
+              style: Styles.textRegular(size: 28)
                   .copyWith(fontWeight: FontWeight.bold),
             ),
             Text(
@@ -200,28 +200,21 @@ class PreBoardingData {
     return {
       0: {
         'image': Images.PRE_BOARDING_1,
-        'text1': 'Boost your career with Learn and Build',
-        'text2': '''Leading company in providing the future and job skills in
-the technical education space and giving out the best talent
-that the industry needs.
-
-Enabled through hands-on practical training approach and
-live industry projects.
-'''
+        'text1': 'Innovative Ecosystem for Upskilling & Employability',
+        'text2': '''Explore opportunities, Prove skills and Get hired'''
       },
       1: {
         'image': Images.PRE_BOARDING_2,
-        'text1':
-            'Learning is a continuous process but the real\noutcome is Building carrer form that.',
-        'text2':
-            "Learn Job ready skill from Industry experts.\n\nProvide technology enthusiasts with the core and future skills that the current industry needs."
+        'text1': 'Get access to 100+ opportunities in Future Skill Domains.',
+        'text2': "Get Access to personalized opportunities, Participate in Live projects, Build portfolio, prepare for interviews and get hired."
       },
       2: {
         'image': Images.PRE_BOARDING_3,
-        'text1': 'USP of Our Programs',
-        'text2':
-            "Knowledge Booster- To learn the skills in different tech\n\nSjill-ful Impactful Internships- To get hands-n with Real-Life/Real-time projects\n\nJob Oriented- After evalution, students get hired in this program with out hiring parterns."
+        'text1': 'Assess yourself and Identify your skill gap',
+        'text2': "Take Assessments on multiple skills, Up-skill through personalised recommendations, and Callibrate your skill-score for better opportunities."
       },
     };
   }
 }
+
+//"different tech\n\nSjill-ful projects\n\nJob Oriented-"
