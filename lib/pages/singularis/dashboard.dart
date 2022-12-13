@@ -1069,34 +1069,18 @@ class _DashboardState extends State<Dashboard> {
                                   Text('Upcoming',
                                       style: Styles.regular(size: 12)),
                                 Visibility(
-                                    child: ElevatedButton(
-                                        style: ButtonStyle(
-                                            foregroundColor:
-                                                MaterialStateProperty.all<
-                                                    Color>(Colors.white),
-                                            backgroundColor:
-                                                MaterialStateProperty.all<Color>(
-                                                    ColorConstants()
-                                                        .primaryColor()),
-                                            shape: MaterialStateProperty.all<
-                                                    RoundedRectangleBorder>(
-                                                RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(10),
-                                                    side: BorderSide(color: ColorConstants().primaryColor())))),
-                                        onPressed: () {
-                                          //launch(liveclassList[index].url);
-                                        },
-                                        child: Padding(
-                                            child: Text(
-                                              "Concluded",
-                                              style: Styles.regular(
-                                                  size: 12,
-                                                  color: ColorConstants()
-                                                      .primaryForgroundColor()),
-                                            ),
-                                            padding: EdgeInsets.all(10))),
-                                    visible: liveclassList![index].liveclassStatus!.toLowerCase() == 'completed')
+                                    child: Padding(
+                                        child: Text(
+                                          "Concluded",
+                                          style: Styles.regular(
+                                              size: 12,
+                                              color: ColorConstants.BLACK),
+                                        ),
+                                        padding: EdgeInsets.all(10)),
+                                    visible: liveclassList![index]
+                                            .liveclassStatus!
+                                            .toLowerCase() ==
+                                        'completed')
                               ],
                             )
                           ]))
