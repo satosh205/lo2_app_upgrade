@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
+import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
 import 'package:masterg/data/models/response/home_response/greels_response.dart';
 import 'package:masterg/data/providers/reels_proivder.dart';
 import 'package:masterg/local/pref/Preference.dart';
@@ -73,8 +74,8 @@ class _ReelHorizontalState extends State<ReelHorizontal>
           ],
           child: BlocManager(
               initState: (context) {},
-              child: Consumer<GReelsModel>(
-                builder: (context, greelsModel, child) =>
+              child: Consumer2<GReelsModel, MenuListProvider>(
+                builder: (context, greelsModel,menuProvider, child) =>
                     BlocListener<HomeBloc, HomeState>(
                   listener: (context, state) async {
                     if (state is GReelsPostState) {
@@ -82,7 +83,7 @@ class _ReelHorizontalState extends State<ReelHorizontal>
                     }
                   },
 
-                  child: getBody(greelsModel),
+                  child: getBody(greelsModel, menuProvider),
                   // child: Stack(children: [
                   //   getBody(greelsModel),
                   //   Consumer2<CreatePostProvider, ReelsProvider>(
@@ -151,7 +152,7 @@ class _ReelHorizontalState extends State<ReelHorizontal>
     );
   }
 
-  Widget getBody(GReelsModel greelsList) {
+  Widget getBody(GReelsModel greelsList, MenuListProvider menuProvider) {
     var size = MediaQuery.of(context).size;
 
     if (greelsList.list == null || isGReelsLoading) {
@@ -180,6 +181,8 @@ class _ReelHorizontalState extends State<ReelHorizontal>
                   width: 180,
                   child: InkWell(
                       onTap: () {
+                        // menuProvider.updateCurrentIndex(3);
+                        // menuProvider.updateItemIndex(index);
                         Navigator.push(
                             context,
                             MaterialPageRoute(

@@ -85,7 +85,19 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
                           }
                         },
                         child: Stack(children: [
-                          getBody(greelsModel),
+                          GestureDetector(
+                           onPanUpdate: (details) {
+    // Swiping in right direction.
+    if (details.delta.dx > 0) {
+   if(widget.fromDashboard)   Navigator.pop(context);
+    }
+  
+    // Swiping in left direction.
+    if (details.delta.dx < 0) {
+
+    }
+  },
+                            child: getBody(greelsModel)),
                           Consumer2<CreatePostProvider, ReelsProvider>(
                               builder: (context, createPostProvider,
                                       reelsProvider, child) =>
@@ -998,6 +1010,9 @@ class LikeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var joyContentModel = Provider.of<GReelsModel>(mcontext!);
     updateLikeandViews(null);
+    //reels refresh issue fix
+     joyContentModel
+            .updateCurrentIndex(joyContentModel.getCurrentPostIndex(contentId));
 
     bool isLiked = joyContentModel.isUserLiked(contentId);
     return InkWell(
@@ -1010,8 +1025,7 @@ class LikeWidget extends StatelessWidget {
 
           joyContentModel.increaseLikeCount(contentId);
         }
-        joyContentModel
-            .updateCurrentIndex(joyContentModel.getCurrentPostIndex(contentId));
+       
       },
       child: Container(
         child: Column(

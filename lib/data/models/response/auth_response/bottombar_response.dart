@@ -102,13 +102,35 @@ class Menu {
 class MenuListProvider extends ChangeNotifier {
   List<Menu>? _list = [];
   List<Menu>? get list => _list;
+  int? currentIndex;
+  int? itemIndexForMenu = 0;
   MenuListProvider(List<Menu> list) {
+    currentIndex = 0;
+   itemIndexForMenu = 0;
+
     if (list.length > 0) this._list = list;
     notifyListeners();
   }
 
   void updateList(List<Menu> newData) {
     this._list!.addAll(newData);
+    notifyListeners();
+  }
+
+  int getCurrentIndex(){
+    return this.currentIndex!;
+  }
+
+   int getItemIndex(){
+    return this.itemIndexForMenu!;
+  }
+
+  void updateItemIndex(int index){
+    this.itemIndexForMenu = index;
+    notifyListeners();
+  }
+  void updateCurrentIndex(int index){
+    this.currentIndex = index;
     notifyListeners();
   }
 
