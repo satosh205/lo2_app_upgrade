@@ -1084,7 +1084,7 @@ class _DashboardState extends State<Dashboard> {
                               ],
                             )
                           ]))
-                  : Container(child: Text("No Acive LiveClass Now!!"));
+                  : Container(child: Text(""));
             },
             itemCount: liveclassList?.length != 0
                 ? liveclassList!.length >= 2
@@ -1167,10 +1167,10 @@ class _DashboardState extends State<Dashboard> {
 
           liveclassList = state.response!.data!.modules!.liveclass;
 
-          // liveclassList = liveclassList
-          //     ?.where((element) =>
-          //         element.liveclassStatus?.toLowerCase() == 'upcoming')
-          //     .toList();
+          liveclassList = liveclassList
+              ?.where((element) =>
+                  element.liveclassStatus?.toLowerCase() != 'completed')
+              .toList();
 
           isJoyCategoryLoading = false;
           break;
