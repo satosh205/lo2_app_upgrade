@@ -161,74 +161,74 @@ class Utility {
     return reportList;
   }
 
-  void checkInternet(context) {
-    InternetConnectionChecker().onStatusChange.listen((status) {
-      switch (status) {
-        case InternetConnectionStatus.connected:
+  // void checkInternet(context) {
+  //   InternetConnectionChecker().onStatusChange.listen((status) {
+  //     switch (status) {
+  //       case InternetConnectionStatus.connected:
 
-          print('====>Data connection is available now.');
-     if(isConnected == false)ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            elevation: 0,
-                            backgroundColor: Colors.transparent,
-                            duration: Duration(seconds: 4),
-                            content: Container(
-                                margin: EdgeInsets.only(
-                                    bottom: 100, left: 4, right: 4),
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 4),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: ColorConstants.GREY_2),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.wifi, color: ColorConstants.WHITE,),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      "Connected to Internet!",
-                                      style: Styles.bold(
-                                          color: ColorConstants.WHITE),
-                                    )
-                                  ],
-                                )),
-                          ));
-                          isConnected = true;
+  //         print('====>Data connection is available now.');
+  //    if(isConnected == false)ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //                           elevation: 0,
+  //                           backgroundColor: Colors.transparent,
+  //                           duration: Duration(seconds: 4),
+  //                           content: Container(
+  //                               margin: EdgeInsets.only(
+  //                                   bottom: 100, left: 4, right: 4),
+  //                               padding: EdgeInsets.symmetric(
+  //                                   vertical: 10, horizontal: 4),
+  //                               decoration: BoxDecoration(
+  //                                   borderRadius: BorderRadius.circular(8),
+  //                                   color: ColorConstants.GREY_2),
+  //                               child: Row(
+  //                                 crossAxisAlignment: CrossAxisAlignment.center,
+  //                                 mainAxisAlignment: MainAxisAlignment.center,
+  //                                 children: [
+  //                                   Icon(Icons.wifi, color: ColorConstants.WHITE,),
+  //                                   SizedBox(width: 8),
+  //                                   Text(
+  //                                     "Connected to Internet!",
+  //                                     style: Styles.bold(
+  //                                         color: ColorConstants.WHITE),
+  //                                   )
+  //                                 ],
+  //                               )),
+  //                         ));
+  //                         isConnected = true;
 
-          break;
-        case InternetConnectionStatus.disconnected:
-          isConnected = false;
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            elevation: 0,
-                            backgroundColor: Colors.transparent,
-                            duration: Duration(seconds: 8),
-                            content: Container(
-                                margin: EdgeInsets.only(
-                                    bottom: 100, left: 4, right: 4),
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 4),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: ColorConstants.GREY_2),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.wifi_off, color: ColorConstants.WHITE,),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      "No Internet Connection!",
-                                      style: Styles.bold(
-                                          color: ColorConstants.WHITE),
-                                    )
-                                  ],
-                                )),
-                          ));
+  //         break;
+  //       case InternetConnectionStatus.disconnected:
+  //         isConnected = false;
+  //         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //                           elevation: 0,
+  //                           backgroundColor: Colors.transparent,
+  //                           duration: Duration(seconds: 8),
+  //                           content: Container(
+  //                               margin: EdgeInsets.only(
+  //                                   bottom: 100, left: 4, right: 4),
+  //                               padding: EdgeInsets.symmetric(
+  //                                   vertical: 10, horizontal: 4),
+  //                               decoration: BoxDecoration(
+  //                                   borderRadius: BorderRadius.circular(8),
+  //                                   color: ColorConstants.GREY_2),
+  //                               child: Row(
+  //                                 crossAxisAlignment: CrossAxisAlignment.center,
+  //                                 mainAxisAlignment: MainAxisAlignment.center,
+  //                                 children: [
+  //                                   Icon(Icons.wifi_off, color: ColorConstants.WHITE,),
+  //                                   SizedBox(width: 8),
+  //                                   Text(
+  //                                     "No Internet Connection!",
+  //                                     style: Styles.bold(
+  //                                         color: ColorConstants.WHITE),
+  //                                   )
+  //                                 ],
+  //                               )),
+  //                         ));
 
-          break;
-      }
-    });
-  }
+  //         break;
+  //     }
+  // });
+  // }
 
   static int? getCategoryValue(String type) {
     if (UserSession.categoryData == null) return 0;

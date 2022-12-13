@@ -69,7 +69,7 @@ class _homePageState extends State<homePage> {
   @override
   initState() {
     super.initState();
-    Utility().checkInternet(context);
+    // Utility().checkInternet(context);
 
     currentIndex = widget.index;
 
@@ -284,40 +284,7 @@ class _homePageState extends State<homePage> {
                             ),
                           ),
                           leading: IconButton(
-                            onPressed: () async {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
-                                elevation: 0,
-                                backgroundColor: Colors.transparent,
-                                duration: Duration(seconds: 8),
-                                content: Container(
-                                    margin: EdgeInsets.only(
-                                        bottom: 100, left: 4, right: 4),
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 10, horizontal: 4),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        color: ColorConstants.GREY_2),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.wifi_off,
-                                          color: ColorConstants.WHITE,
-                                        ),
-                                        SizedBox(width: 8),
-                                        Text(
-                                          "No Internet Connection!",
-                                          style: Styles.bold(
-                                              color: ColorConstants.WHITE),
-                                        )
-                                      ],
-                                    )),
-                              ));
-                            },
+                            onPressed: () async {},
                             icon: appBarImagePath.split('.').last == 'svg'
                                 ? SvgPicture.asset(
                                     appBarImagePath,

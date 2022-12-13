@@ -878,12 +878,20 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
           //gcarvaanPosts = state.response.data.list;
           //if (state.response.data.list.length == 1) {
 
+          //adding for removing duplicate post
+          // if (gcarvaanPosts?.first.id != state.response!.data!.list?.first.id) {
+          //   gcarvaanPosts!.addAll(state.response!.data!.list!);
+          // } else {
+          //   gcarvaanPosts = [];
+          //   gcarvaanPosts!.addAll(state.response!.data!.list!);
+          // }
+
           gcarvaanPosts!.addAll(state.response!.data!.list!);
-          print('current data len is ${gcarvaanPosts?.length}');
 
           var seen = Set<GCarvaanPostElement>();
           List<GCarvaanPostElement> uniquelist =
               gcarvaanPosts!.where((element) => seen.add(element)).toList();
+
           gcarvaanPosts = uniquelist;
           if (model.list?.length == 0 ||
               model.list!.isEmpty ||
