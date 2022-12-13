@@ -28,6 +28,7 @@ void main() async {
       WidgetsFlutterBinding.ensureInitialized();
       await FlutterDownloader.initialize();
       //  WidgetsFlutterBinding.ensureInitialized();
+
       await Firebase.initializeApp();
       setupDependencyInjections();
       initHive();
