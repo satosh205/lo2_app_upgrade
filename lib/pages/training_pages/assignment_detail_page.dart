@@ -832,7 +832,8 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                                       'Upload assignment',
                                       style: Styles.textExtraBold(
                                           size: 14,
-                                          color: ColorConstants.BLACK),
+                                          color: ColorConstants()
+                                              .primaryForgroundColor()),
                                     ),
                                     _size(width: 10),
                                     Icon(Icons.file_upload_outlined,

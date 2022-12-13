@@ -134,7 +134,9 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
           ),
         ],
         child: Scaffold(
-            backgroundColor: ColorConstants.SECTION_DIVIDER,
+            backgroundColor: widget.fromDashboard
+                ? ColorConstants.WHITE
+                : ColorConstants.SECTION_DIVIDER,
             body: SmartRefresher(
               // physics: BouncingScrollPhysics(),
               enablePullDown: !widget.fromDashboard,
