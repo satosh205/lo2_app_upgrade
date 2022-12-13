@@ -1013,8 +1013,8 @@ class LikeWidget extends StatelessWidget {
     var joyContentModel = Provider.of<GReelsModel>(mcontext!);
     updateLikeandViews(null);
     //reels refresh issue fix
-    joyContentModel
-        .updateCurrentIndex(joyContentModel.getCurrentPostIndex(contentId));
+    // joyContentModel
+    //     .updateCurrentIndex(joyContentModel.getCurrentPostIndex(contentId));
 
     bool isLiked = joyContentModel.isUserLiked(contentId);
     return InkWell(

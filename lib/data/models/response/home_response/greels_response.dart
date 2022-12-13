@@ -69,45 +69,44 @@ class Data {
 }
 
 class GReelsElement extends ChangeNotifier {
-  GReelsElement({
-    this.id,
-    this.title,
-    this.description,
-    this.createdAt,
-    this.createdBy,
-    this.updatedAt,
-    this.updatedBy,
-    this.status,
-    this.parentId,
-    this.categoryId,
-    this.contentType,
-    this.resourcePath,
-    this.language,
-    this.tag,
-    this.likeCount,
-    this.programContentId,
-    this.startDate,
-    this.endDate,
-    this.isMultilingual,
-    this.visibilityValue,
-    this.visibility,
-    this.multiFileUploads,
-    this.viewCount,
-    this.multipleFileUpload,
-    this.userId,
-    this.name,
-    this.email,
-    this.profileImage,
-    this.userLikeTrackingsId,
-    this.userLiked,
-    this.resourceType,
-    this.multiFileUploadsCount,
-    this.isAttempt,
-    this.userSubmittedFile,
-    this.userSubmittedMultipleFile,
-    this.thumbnailUrl,
-    this.userStatus
-  });
+  GReelsElement(
+      {this.id,
+      this.title,
+      this.description,
+      this.createdAt,
+      this.createdBy,
+      this.updatedAt,
+      this.updatedBy,
+      this.status,
+      this.parentId,
+      this.categoryId,
+      this.contentType,
+      this.resourcePath,
+      this.language,
+      this.tag,
+      this.likeCount,
+      this.programContentId,
+      this.startDate,
+      this.endDate,
+      this.isMultilingual,
+      this.visibilityValue,
+      this.visibility,
+      this.multiFileUploads,
+      this.viewCount,
+      this.multipleFileUpload,
+      this.userId,
+      this.name,
+      this.email,
+      this.profileImage,
+      this.userLikeTrackingsId,
+      this.userLiked,
+      this.resourceType,
+      this.multiFileUploadsCount,
+      this.isAttempt,
+      this.userSubmittedFile,
+      this.userSubmittedMultipleFile,
+      this.thumbnailUrl,
+      this.userStatus});
 
   int? id;
   String? title;
@@ -156,7 +155,7 @@ class GReelsElement extends ChangeNotifier {
         updatedAt: json["updated_at"],
         updatedBy: json["updated_by"],
         status: json["status"],
-        userStatus : json['user_status'],
+        userStatus: json['user_status'],
         parentId: json["parent_id"],
         categoryId: json["category_id"],
         contentType: json["content_type"],
@@ -204,7 +203,7 @@ class GReelsElement extends ChangeNotifier {
         "updated_at": updatedAt,
         "updated_by": updatedBy,
         "status": status,
-        "user_status" : userStatus,
+        "user_status": userStatus,
         "parent_id": parentId,
         "category_id": categoryId,
         "content_type": contentType,
@@ -255,7 +254,6 @@ class GReelsModel extends ChangeNotifier {
     notifyListeners();
   }
 
-
   void updateList(List<GReelsElement> newData) {
     this._list!.addAll(newData);
     notifyListeners();
@@ -271,13 +269,12 @@ class GReelsModel extends ChangeNotifier {
     notifyListeners();
   }
 
-   void hidePost(index) {
+  void hidePost(index) {
     _list?.removeAt(index);
     this._list = _list;
     notifyListeners();
   }
 
-  
   void increaseLikeCount(int postId) {
     for (var i = 0; i < _list!.length; i++) {
       if (_list![i].id == postId) {
@@ -299,8 +296,7 @@ class GReelsModel extends ChangeNotifier {
     return 0;
   }
 
-
-  int getCurrentIndex(){
+  int getCurrentIndex() {
     return currentIndex!;
   }
 
@@ -328,6 +324,7 @@ class GReelsModel extends ChangeNotifier {
       }
     }
   }
+
 //get current post index
   int getCurrentPostIndex(int postId) {
     for (var i = 0; i < _list!.length; i++) {
@@ -337,6 +334,7 @@ class GReelsModel extends ChangeNotifier {
     }
     return 0;
   }
+
   String? getResourcePath(int contentId) {
     for (var i = 0; i < _list!.length; i++) {
       if (_list![i].id == contentId) {

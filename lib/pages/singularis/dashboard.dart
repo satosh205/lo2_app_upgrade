@@ -806,17 +806,14 @@ class _DashboardState extends State<Dashboard> {
                 width: MediaQuery.of(context).size.width,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(5),
-                  child: Hero(
-                    tag: tag + "\$index",
-                    child: Image.network(
-                      '${yourCourses.image}',
-                      errorBuilder: (context, error, stackTrace) {
-                        return SvgPicture.asset(
-                          'assets/images/gscore_postnow_bg.svg',
-                        );
-                      },
-                      fit: BoxFit.cover,
-                    ),
+                  child: Image.network(
+                    '${yourCourses.image}',
+                    errorBuilder: (context, error, stackTrace) {
+                      return SvgPicture.asset(
+                        'assets/images/gscore_postnow_bg.svg',
+                      );
+                    },
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
