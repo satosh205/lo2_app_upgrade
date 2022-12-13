@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
+import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
 import 'package:masterg/data/models/response/home_response/joy_contentList_response.dart';
 import 'package:masterg/data/models/response/home_response/onboard_sessions.dart';
 import 'package:masterg/data/providers/video_player_provider.dart';
@@ -93,8 +94,8 @@ class _DashboardState extends State<Dashboard> {
         body: SafeArea(
           child: BlocManager(
               initState: (context) {},
-              child: Consumer<VideoPlayerProvider>(
-                builder: (context, value, child) => BlocManager(
+              child: Consumer2<VideoPlayerProvider, MenuListProvider>(
+                builder: (context, value, menuProvider, child) => BlocManager(
                   initState: (context) {
                     videoPlayerProvider = value;
                   },
@@ -219,15 +220,10 @@ class _DashboardState extends State<Dashboard> {
                                             Expanded(child: SizedBox()),
                                             InkWell(
                                               onTap: () {
-                                                setState(() {
-                                                  showAllFeatured =
-                                                      !showAllFeatured;
-                                                });
+                                                menuProvider
+                                                    .updateCurrentIndex(1);
                                               },
-                                              child: Text(
-                                                  !showAllFeatured
-                                                      ? 'View all'
-                                                      : 'View less',
+                                              child: Text('View all',
                                                   style: Styles.regular(
                                                     size: 12,
                                                     color:
@@ -248,7 +244,7 @@ class _DashboardState extends State<Dashboard> {
                                               itemCount: showAllFeatured
                                                   ? joyContentListView!.length
                                                   : min(
-                                                      4,
+                                                      2,
                                                       joyContentListView!
                                                           .length),
                                               shrinkWrap: true,
@@ -523,6 +519,16 @@ class _DashboardState extends State<Dashboard> {
                                     style: Styles.bold(),
                                   ),
                                   Expanded(child: SizedBox()),
+                                  InkWell(
+                                    onTap: () {
+                                      menuProvider.updateCurrentIndex(2);
+                                    },
+                                    child: Text('View all',
+                                        style: Styles.regular(
+                                          size: 12,
+                                          color: ColorConstants.ORANGE_3,
+                                        )),
+                                  ),
                                 ],
                               ),
                             ),
@@ -558,7 +564,11 @@ class _DashboardState extends State<Dashboard> {
                                             style: Styles.bold(),
                                           )),
                                       Expanded(child: SizedBox()),
-                                      // Icon(Icons.arrow_forward_ios)
+                                      IconButton(
+                                          onPressed: () {
+                                            menuProvider.updateCurrentIndex(3);
+                                          },
+                                          icon: Icon(Icons.arrow_forward_ios))
                                     ],
                                   ),
                                   Padding(
@@ -598,7 +608,11 @@ class _DashboardState extends State<Dashboard> {
                                             style: Styles.bold(),
                                           )),
                                       Expanded(child: SizedBox()),
-                                      // Icon(Icons.arrow_forward_ios)
+                                      IconButton(
+                                          onPressed: () {
+                                            menuProvider.updateCurrentIndex(2);
+                                          },
+                                          icon: Icon(Icons.arrow_forward_ios))
                                     ],
                                   ),
                                   Container(
@@ -640,6 +654,11 @@ class _DashboardState extends State<Dashboard> {
                                       ),
                                       Expanded(child: SizedBox()),
                                       // Icon(Icons.arrow_forward_ios)
+                                      IconButton(
+                                          onPressed: () {
+                                            menuProvider.updateCurrentIndex(4);
+                                          },
+                                          icon: Icon(Icons.arrow_forward_ios))
                                     ],
                                   ),
 

@@ -72,6 +72,7 @@ class _homePageState extends State<homePage> {
     Utility().checkInternet(context);
 
     currentIndex = widget.index;
+
     profileImage = Preference.getString(Preference.PROFILE_IMAGE);
   }
 
@@ -258,188 +259,200 @@ class _homePageState extends State<homePage> {
             create: (context) => MenuListProvider(widget.bottomMenu!),
           ),
         ],
-        child: Scaffold(
-          key: _scaffoldKey,
-          backgroundColor: ColorConstants.GREY,
+        child: Consumer<MenuListProvider>(
+            builder: (context, menuProvider, child) => Scaffold(
+                  key: _scaffoldKey,
+                  backgroundColor: ColorConstants.GREY,
 
-          appBar: widget.bottomMenu![currentIndex].url != '/g-reels' &&
-                  APK_DETAILS['package_name'] != "com.at.perfetti_swayam"
-              ? AppBar(
-                  automaticallyImplyLeading: false,
-                  flexibleSpace: Container(
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: <Color>[
-                            Color(0xfffc7804),
-                            Color(0xffff2252)
-                          ]),
-                    ),
-                  ),
-                  leading: IconButton(
-                    onPressed: () async {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        elevation: 0,
-                        backgroundColor: Colors.transparent,
-                        duration: Duration(seconds: 8),
-                        content: Container(
-                            margin:
-                                EdgeInsets.only(bottom: 100, left: 4, right: 4),
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 4),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: ColorConstants.GREY_2),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.wifi_off,
-                                  color: ColorConstants.WHITE,
-                                ),
-                                SizedBox(width: 8),
-                                Text(
-                                  "No Internet Connection!",
-                                  style:
-                                      Styles.bold(color: ColorConstants.WHITE),
-                                )
-                              ],
-                            )),
-                      ));
-                    },
-                    icon: appBarImagePath.split('.').last == 'svg'
-                        ? SvgPicture.asset(
-                            appBarImagePath,
-                            fit: BoxFit.contain,
-                          )
-                        : Image.asset(
-                            appBarImagePath,
-                            fit: BoxFit.contain,
+                  appBar: widget.bottomMenu![menuProvider.getCurrentIndex()]
+                                  .url !=
+                              '/g-reels' &&
+                          APK_DETAILS['package_name'] !=
+                              "com.at.perfetti_swayam"
+                      ? AppBar(
+                          automaticallyImplyLeading: false,
+                          flexibleSpace: Container(
+                            decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  colors: <Color>[
+                                    Color(0xfffc7804),
+                                    Color(0xffff2252)
+                                  ]),
+                            ),
                           ),
-                  ),
-                  title: Row(
-                    children: [
-                      const Expanded(child: SizedBox()),
-                      InkWell(
-                        onTap: () {
-                          // print('the path is $appBarImagePath');
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return UserProfilePage();
-                          })).then(onGoBack);
-                        },
-                        child: Transform.scale(
-                          scale: 1,
-                          child: profileImage != null && profileImage != ''
-                              ? CircleAvatar(
-                                  onBackgroundImageError: (_, __) {
-                                    setState(() {
-                                      profileImage = '';
-                                    });
-                                  },
-                                  backgroundImage: NetworkImage(
-                                    profileImage!,
-                                  ))
-                              : SvgPicture.asset(
-                                  'assets/images/default_user.svg',
-                                  height: 40.0,
-                                  width: 40.0,
-                                  allowDrawingOutsideViewBox: true,
-                                ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  backgroundColor: ColorConstants().primaryColor(),
-                  elevation: 0.0,
-                  centerTitle: true,
-                )
-              : PreferredSize(child: SizedBox(), preferredSize: Size.zero),
-
-          body: pages[widget.bottomMenu![currentIndex].url],
-          //bottom Navigator bar
-          bottomNavigationBar: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.10,
-            child: BottomNavigationBar(
-              // backgroundColor: Colors.red,
-
-              type: BottomNavigationBarType.fixed,
-              currentIndex: currentIndex,
-              selectedItemColor: ColorConstants().primaryColor(),
-              unselectedItemColor: Colors.blue,
-              items: [
-                for (int i = 0; i < widget.bottomMenu!.length; i++)
-                  BottomNavigationBarItem(
-                    icon: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(height: 3),
-                        currentIndex ==
-                                widget.bottomMenu!
-                                    .indexOf(widget.bottomMenu![i])
-                            ? SvgPicture.asset(
-                                '${iconSelected['${widget.bottomMenu![i].url}']}',
-                                // color: APK_DETAILS['package_name'] !=
-                                //         'com.at.masterg'
-                                //     ? ColorConstants().primaryColor()
-                                //     : null,
-                                allowDrawingOutsideViewBox: true,
-                              )
-                            : SvgPicture.asset(
-                                '${iconUnSelected['${widget.bottomMenu![i].url}']}',
-                                allowDrawingOutsideViewBox: true,
-                              ),
-                        const SizedBox(
-                          height: 2,
-                        ),
-                        Text(
-                          '${widget.bottomMenu![i].label}',
-                          style: Styles.regular(
-                              size: 12,
-                              color: currentIndex ==
-                                      widget.bottomMenu!
-                                          .indexOf(widget.bottomMenu![i])
-                                  ? ColorConstants().primaryColor()
-                                  : Colors.black.withOpacity(0.8)),
-                        ),
-                      ],
-                    ),
-                    label: '',
-                  ),
-              ],
-              onTap: (index) {
-                if (widget.bottomMenu![index].linkType != 0) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Scaffold(
-                                appBar: AppBar(
-                                  backgroundColor:
-                                      ColorConstants().primaryColor(),
-                                  elevation: 0.0,
-                                  leading: IconButton(
-                                    icon: const Icon(Icons.arrow_back),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
+                          leading: IconButton(
+                            onPressed: () async {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                elevation: 0,
+                                backgroundColor: Colors.transparent,
+                                duration: Duration(seconds: 8),
+                                content: Container(
+                                    margin: EdgeInsets.only(
+                                        bottom: 100, left: 4, right: 4),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 4),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: ColorConstants.GREY_2),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.wifi_off,
+                                          color: ColorConstants.WHITE,
+                                        ),
+                                        SizedBox(width: 8),
+                                        Text(
+                                          "No Internet Connection!",
+                                          style: Styles.bold(
+                                              color: ColorConstants.WHITE),
+                                        )
+                                      ],
+                                    )),
+                              ));
+                            },
+                            icon: appBarImagePath.split('.').last == 'svg'
+                                ? SvgPicture.asset(
+                                    appBarImagePath,
+                                    fit: BoxFit.contain,
+                                  )
+                                : Image.asset(
+                                    appBarImagePath,
+                                    fit: BoxFit.contain,
                                   ),
+                          ),
+                          title: Row(
+                            children: [
+                              const Expanded(child: SizedBox()),
+                              InkWell(
+                                onTap: () {
+                                  // print('the path is $appBarImagePath');
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return UserProfilePage();
+                                  })).then(onGoBack);
+                                },
+                                child: Transform.scale(
+                                  scale: 1,
+                                  child:
+                                      profileImage != null && profileImage != ''
+                                          ? CircleAvatar(
+                                              onBackgroundImageError: (_, __) {
+                                                setState(() {
+                                                  profileImage = '';
+                                                });
+                                              },
+                                              backgroundImage: NetworkImage(
+                                                profileImage!,
+                                              ))
+                                          : SvgPicture.asset(
+                                              'assets/images/default_user.svg',
+                                              height: 40.0,
+                                              width: 40.0,
+                                              allowDrawingOutsideViewBox: true,
+                                            ),
                                 ),
-                                body: WebView(
-                                  javascriptMode: JavascriptMode.unrestricted,
-                                  initialUrl:
-                                      '${ApiConstants().PRODUCTION_BASE_URL()}${widget.bottomMenu![index].url}?cred=${UserSession.userToken}',
+                              ),
+                            ],
+                          ),
+                          backgroundColor: ColorConstants().primaryColor(),
+                          elevation: 0.0,
+                          centerTitle: true,
+                        )
+                      : PreferredSize(
+                          child: SizedBox(), preferredSize: Size.zero),
+
+                  body: pages[
+                      widget.bottomMenu![menuProvider.getCurrentIndex()].url],
+                  //bottom Navigator bar
+                  bottomNavigationBar: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.10,
+                    child: BottomNavigationBar(
+                      // backgroundColor: Colors.red,
+
+                      type: BottomNavigationBarType.fixed,
+                      currentIndex: menuProvider.getCurrentIndex(),
+                      selectedItemColor: ColorConstants().primaryColor(),
+                      unselectedItemColor: Colors.blue,
+                      items: [
+                        for (int i = 0; i < widget.bottomMenu!.length; i++)
+                          BottomNavigationBarItem(
+                            icon: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(height: 3),
+                                menuProvider.getCurrentIndex() ==
+                                        widget.bottomMenu!
+                                            .indexOf(widget.bottomMenu![i])
+                                    ? SvgPicture.asset(
+                                        '${iconSelected['${widget.bottomMenu![i].url}']}',
+                                        // color: APK_DETAILS['package_name'] !=
+                                        //         'com.at.masterg'
+                                        //     ? ColorConstants().primaryColor()
+                                        //     : null,
+                                        allowDrawingOutsideViewBox: true,
+                                      )
+                                    : SvgPicture.asset(
+                                        '${iconUnSelected['${widget.bottomMenu![i].url}']}',
+                                        allowDrawingOutsideViewBox: true,
+                                      ),
+                                const SizedBox(
+                                  height: 2,
                                 ),
-                              )));
-                } else {
-                  setState(() {
-                    currentIndex = index;
-                  });
-                }
-              },
-            ),
-          ),
-        ));
+                                Text(
+                                  '${widget.bottomMenu![i].label}',
+                                  style: Styles.regular(
+                                      size: 12,
+                                      color: menuProvider.getCurrentIndex() ==
+                                              widget.bottomMenu!.indexOf(
+                                                  widget.bottomMenu![i])
+                                          ? ColorConstants().primaryColor()
+                                          : Colors.black.withOpacity(0.8)),
+                                ),
+                              ],
+                            ),
+                            label: '',
+                          ),
+                      ],
+                      onTap: (index) {
+                        if (widget.bottomMenu![index].linkType != 0) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Scaffold(
+                                        appBar: AppBar(
+                                          backgroundColor:
+                                              ColorConstants().primaryColor(),
+                                          elevation: 0.0,
+                                          leading: IconButton(
+                                            icon: const Icon(Icons.arrow_back),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        ),
+                                        body: WebView(
+                                          javascriptMode:
+                                              JavascriptMode.unrestricted,
+                                          initialUrl:
+                                              '${ApiConstants().PRODUCTION_BASE_URL()}${widget.bottomMenu![index].url}?cred=${UserSession.userToken}',
+                                        ),
+                                      )));
+                        } else {
+                          setState(() {
+                            currentIndex = index;
+                            menuProvider.updateCurrentIndex(index);
+                          });
+                        }
+                      },
+                    ),
+                  ),
+                )));
   }
 }
