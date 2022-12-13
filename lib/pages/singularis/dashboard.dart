@@ -498,7 +498,7 @@ class _DashboardState extends State<Dashboard> {
 
                             Container(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.13,
+                                    MediaQuery.of(context).size.height * 0.12,
                                 child: MyAssignmentPage(fromDashboard: true)),
 
                             Container(
