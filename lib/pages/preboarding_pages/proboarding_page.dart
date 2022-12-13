@@ -67,7 +67,11 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
             _dots(index),
             TapWidget(
               onTap: () {
-                Navigator.push(context, NextPageRoute(ChooseLanguage(showEdulystLogo: true,)));
+                Navigator.push(
+                    context,
+                    NextPageRoute(ChooseLanguage(
+                      showEdulystLogo: true,
+                    )));
               },
               child: Image.asset(
                 "assets/images/next.png",
@@ -114,10 +118,13 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          SizedBox(
+            height: 110,
+          ),
           Container(
             height: 300,
             width: double.infinity,
-            color: Color(0xffF7F7F7),
+            color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.all(30.0),
               child: Center(
@@ -184,6 +191,7 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
               style: Styles.textRegular(size: 28)
                   .copyWith(fontWeight: FontWeight.bold),
             ),
+            SizedBox(height: 18),
             Text(
               PreBoardingData.getDat()[index]['text2'],
               style: Styles.textRegular(size: 16),
@@ -206,12 +214,14 @@ class PreBoardingData {
       1: {
         'image': Images.PRE_BOARDING_2,
         'text1': 'Get access to 100+ opportunities in Future Skill Domains.',
-        'text2': "Get Access to personalized opportunities, Participate in Live projects, Build portfolio, prepare for interviews and get hired."
+        'text2':
+            "Get Access to personalized opportunities, Participate in Live projects, Build portfolio, prepare for interviews and get hired."
       },
       2: {
         'image': Images.PRE_BOARDING_3,
         'text1': 'Assess yourself and Identify your skill gap',
-        'text2': "Take Assessments on multiple skills, Up-skill through personalised recommendations, and Callibrate your skill-score for better opportunities."
+        'text2':
+            "Take Assessments on multiple skills, Up-skill through personalised recommendations, and Callibrate your skill-score for better opportunities."
       },
     };
   }
