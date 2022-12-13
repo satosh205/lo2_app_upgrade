@@ -75,7 +75,7 @@ class _ReelHorizontalState extends State<ReelHorizontal>
           child: BlocManager(
               initState: (context) {},
               child: Consumer2<GReelsModel, MenuListProvider>(
-                builder: (context, greelsModel,menuProvider, child) =>
+                builder: (context, greelsModel, menuProvider, child) =>
                     BlocListener<HomeBloc, HomeState>(
                   listener: (context, state) async {
                     if (state is GReelsPostState) {
