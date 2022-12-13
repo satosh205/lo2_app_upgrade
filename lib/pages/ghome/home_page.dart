@@ -143,6 +143,7 @@ class _homePageState extends State<homePage> {
       '/g-school': const GSchool(),
       '/g-reels': ReelsDashboardPage(),
       '/g-carvaan': GCarvaanPostPage(
+        fromDashboard: false,
         fileToUpload: widget.fileToUpload,
         desc: widget.desc,
         filesPath: widget.filesPath,

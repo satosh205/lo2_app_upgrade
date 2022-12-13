@@ -77,98 +77,90 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
           child: BlocManager(
               initState: (context) {},
               child: Consumer<GReelsModel>(
-                builder: (context, greelsModel, child) => BlocListener<HomeBloc,
-                        HomeState>(
-                    listener: (context, state) async {
-                      if (state is GReelsPostState) {
-                        _handleGReelsResponse(state, greelsModel);
-                      }
-                    },
-                    child: Stack(children: [
-                      GestureDetector(
-                          onPanUpdate: (details) {
-                            // Swiping in right direction.
-                            if (details.delta.dx > 0) {
-                              if (widget.fromDashboard) Navigator.pop(context);
-                            }
+                builder: (context, greelsModel, child) =>
+                    BlocListener<HomeBloc, HomeState>(
+                        listener: (context, state) async {
+                          if (state is GReelsPostState) {
+                            _handleGReelsResponse(state, greelsModel);
+                          }
+                        },
+                        child: Stack(children: [
+                          getBody(greelsModel),
+                          if (widget.fromDashboard)
+                            Positioned(
+                                left: 10,
+                                top: 40,
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.arrow_back_ios,
+                                    color: ColorConstants.WHITE,
+                                    // size: 200,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                )),
+                          Consumer2<CreatePostProvider, ReelsProvider>(
+                              builder: (context, createPostProvider,
+                                      reelsProvider, child) =>
+                                  Positioned(
+                                      right: 10,
+                                      top: 50,
+                                      child: Container(
+                                          padding: const EdgeInsets.only(
+                                              top: 7,
+                                              bottom: 7,
+                                              left: 11,
+                                              right: 11),
+                                          decoration: BoxDecoration(
+                                            color: ColorConstants.BLACK
+                                                .withOpacity(0.4),
+                                            borderRadius:
+                                                BorderRadius.circular(22),
+                                          ),
+                                          child: GestureDetector(
+                                            onTap: () async {
+                                              createPostProvider.files!.clear();
+                                              reelsProvider.pause();
 
-                            // Swiping in left direction.
-                            if (details.delta.dx < 0) {}
-                          },
-                          child: getBody(greelsModel)),
-                      if (widget.fromDashboard)
-                        Positioned(
-                            left: 10,
-                            top: 40,
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.arrow_back_ios,
-                                color: ColorConstants.WHITE,
-                                // size: 200,
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            )),
-                      Consumer2<CreatePostProvider, ReelsProvider>(
-                          builder: (context, createPostProvider, reelsProvider,
-                                  child) =>
-                              Positioned(
-                                  right: 10,
-                                  top: 50,
-                                  child: Container(
-                                      padding: const EdgeInsets.only(
-                                          top: 7,
-                                          bottom: 7,
-                                          left: 11,
-                                          right: 11),
-                                      decoration: BoxDecoration(
-                                        color: ColorConstants.BLACK
-                                            .withOpacity(0.4),
-                                        borderRadius: BorderRadius.circular(22),
-                                      ),
-                                      child: GestureDetector(
-                                        onTap: () async {
-                                          createPostProvider.files!.clear();
-                                          reelsProvider.pause();
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          VideoRecordingCameraPage(
+                                                            provider:
+                                                                createPostProvider,
+                                                          ))).then((value) {
+                                                setState(() {
+                                                  isGReelsLoading = true;
+                                                });
+                                                greelsList?.clear();
 
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      VideoRecordingCameraPage(
-                                                        provider:
-                                                            createPostProvider,
-                                                      ))).then((value) {
-                                            setState(() {
-                                              isGReelsLoading = true;
-                                            });
-                                            greelsList?.clear();
-
-                                            _getGReels();
-                                            reelsProvider.play();
-                                          });
-                                        },
-                                        child: Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                              'assets/images/camera_y.svg',
-                                              height: 20,
-                                              width: 20,
-                                              color: white,
+                                                _getGReels();
+                                                reelsProvider.play();
+                                              });
+                                            },
+                                            child: Row(
+                                              children: [
+                                                SvgPicture.asset(
+                                                  'assets/images/camera_y.svg',
+                                                  height: 20,
+                                                  width: 20,
+                                                  color: white,
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                    '${Strings.of(context)?.CreateReels}',
+                                                    style: Styles.bold(
+                                                        color: ColorConstants
+                                                            .WHITE,
+                                                        size: 14)),
+                                              ],
                                             ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(
-                                                '${Strings.of(context)?.CreateReels}',
-                                                style: Styles.bold(
-                                                    color: ColorConstants.WHITE,
-                                                    size: 14)),
-                                          ],
-                                        ),
-                                      )))),
-                    ])),
+                                          )))),
+                        ])),
               ))),
     );
   }
