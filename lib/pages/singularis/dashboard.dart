@@ -257,7 +257,7 @@ class _DashboardState extends State<Dashboard> {
                                                           MediaQuery.of(context)
                                                                   .size
                                                                   .height *
-                                                              0.40,
+                                                              0.35,
                                                       crossAxisCount: 2),
                                               itemBuilder:
                                                   (BuildContext context,
@@ -304,7 +304,7 @@ class _DashboardState extends State<Dashboard> {
                                                                         .circular(
                                                                             10),
                                                                 child: Container(
-                                                                    height: MediaQuery.of(context).size.height * 0.30,
+                                                                    height: MediaQuery.of(context).size.height * 0.25,
                                                                     width: MediaQuery.of(context).size.width,
                                                                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
                                                                     foregroundDecoration: BoxDecoration(

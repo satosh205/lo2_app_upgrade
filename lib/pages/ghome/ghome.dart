@@ -227,7 +227,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                           mainAxisExtent: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.45,
+                                              0.35,
                                           crossAxisCount: 2),
                                   itemBuilder:
                                       (BuildContext context, int index) {
@@ -270,7 +270,7 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                                                                     context)
                                                                 .size
                                                                 .height *
-                                                            0.35,
+                                                            0.25,
                                                         width: MediaQuery.of(
                                                                 context)
                                                             .size
