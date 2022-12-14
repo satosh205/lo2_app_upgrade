@@ -18,7 +18,7 @@
         <intent>
             <action android:name="android.intent.action.PICK"/>
             <data android:mimeType="vnd.android.cursor.dir/image"/>
-        </intent>c
+        </intent>
     </queries>
 
     <application android:name="${applicationName}" android:icon="@mipmap/ic_launcher_wow" android:label="Singularis WOW" android:requestLegacyExternalStorage="true" android:allowBackup="false" android:usesCleartextTraffic="true" android:largeHeap="true" android:supportsRtl="true" android:roundIcon="@mipmap/ic_launcher_wow">
