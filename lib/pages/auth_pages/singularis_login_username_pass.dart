@@ -3,18 +3,26 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:masterg/blocs/auth_bloc.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
+import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/request/auth_request/swayam_login_request.dart';
+import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
 import 'package:masterg/data/models/response/auth_response/user_session.dart';
+import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/main.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/custom_pages/TapWidget.dart';
+import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
+import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
+import 'package:masterg/pages/ghome/home_page.dart';
 import 'package:masterg/pages/swayam_pages/notification_helper.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/config.dart';
+import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 import 'package:masterg/utils/validation.dart';
@@ -35,6 +43,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
   var _formKey = GlobalKey<FormState>();
   bool _autoValidation = false;
   var _isObscure = true;
+  List<Menu>? menuList;
 
   @override
   void initState() {
@@ -42,71 +51,159 @@ class _SingularisLoginState extends State<SingularisLogin> {
     super.initState();
   }
 
-  void _handleLoginResponse(LoginState state) {
-    try {
-      Log.v("State is ${state.apiState}");
-      setState(() {
-        switch (state.apiState) {
-          case ApiStatus.LOADING:
-            _isLoading = true;
-            break;
-          case ApiStatus.SUCCESS:
-            _isLoading = false;
-            // print(Preference.getBool(Preference.IS_ON_BOARDING_COMPLETE));
-            // if (Preference.getBool(Preference.IS_ON_BOARDING_COMPLETE)) {
-            //   Navigator.pushAndRemoveUntil(_scaffoldContext,
-            //       NextPageRoute(DashboardPage()), (route) => false);
-            // } else {
-            //   Navigator.pushAndRemoveUntil(_scaffoldContext,
-            //       NextPageRoute(OnBoardingPage()), (route) => false);
+  void getBottomNavigationBar() {
+    BlocProvider.of<HomeBloc>(context).add((GetBottomNavigationBarEvent()));
+  }
 
-            // }
-            break;
-          case ApiStatus.ERROR:
-            _isLoading = false;
-            Log.v("data ${state.error}");
-            Utility.showSnackBar(
-                scaffoldContext: _scaffoldContext, message: state.error);
-            break;
-          case ApiStatus.INITIAL:
-            break;
-        }
-      });
-    } catch (e) {}
+  void _swayamLoginResponse(SwayamLoginState state) async {
+    var loginState = state;
+    setState(() async {
+      switch (loginState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          _isLoading = true;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v(
+              "Success.................... -- ${state.response?.data?.token}");
+          UserSession.userToken = state.response?.data?.token;
+          UserSession.email = state.response?.data?.user?.email;
+          UserSession.userName = state.response?.data?.user?.name;
+          UserSession.userImageUrl = state.response?.data?.user?.profileImage;
+          UserSession.socialEmail = state.response?.data?.user?.email;
+          UserSession.userType = state.response?.data?.user?.isTrainer;
+          // UserSession.userDAta = state.response?.data?.user?.isTrainer;
+          /*UserSession.userContentLanguageId = 1;
+          UserSession.userAppLanguageId = 1;*/
+          Preference.setString(
+              Preference.USER_TOKEN, '${state.response?.data?.token}');
+          Preference.setString(
+              Preference.USERNAME, '${state.response?.data?.user?.name}');
+          Preference.setString(
+              Preference.USER_EMAIL, '${state.response?.data?.user?.email}');
+          Preference.setString(Preference.PROFILE_IMAGE,
+              '${state.response?.data?.user?.profileImage}');
+          Preference.setInt(Preference.USER_TYPE,
+              int.parse('${state.response?.data?.user?.isTrainer}'));
+          /*Preference.setInt(Preference.APP_LANGUAGE, 1);
+          Preference.setInt(Preference.CONTENT_LANGUAGE, 1);*/
+          // _userTrack();
+
+          await Hive.openBox(DB.CONTENT);
+          await Hive.openBox(DB.ANALYTICS);
+          await Hive.openBox(DB.TRAININGS);
+          _isLoading = false;
+          // _moveToNext();
+          getBottomNavigationBar();
+          // FirebaseAnalytics().logEvent(
+          //     name: "login_successful",
+          //     parameters: {"user_id": state.response.data.user.id});
+          break;
+        case ApiStatus.ERROR:
+          _isLoading = false;
+          Log.v("Error..........................");
+          Log.v("Error..........................${loginState.error}");
+
+          AlertsWidget.alertWithOkBtn(
+              context: context,
+              text: loginState.error,
+              onOkClick: () {
+                // FocusScope.of(context).autofocus(phoneFocus);
+              });
+          break;
+        case ApiStatus.INITIAL:
+          // TODO: Handle this case.
+          break;
+      }
+    });
+  }
+
+  void _handelBottomNavigationBar(GetBottomBarState state) {
+    var getBottomBarState = state;
+    setState(() {
+      switch (getBottomBarState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          _isLoading = true;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("Success....................");
+          menuList = state.response!.data!.menu;
+
+          if (menuList?.length == 0) {
+            AlertsWidget.alertWithOkBtn(
+                context: context,
+                text: 'App Under Maintenance!',
+                onOkClick: () {
+                  FocusScope.of(context).unfocus();
+                });
+          } else {
+            menuList?.sort((a, b) => a.inAppOrder!.compareTo(b.inAppOrder!));
+            Navigator.pushAndRemoveUntil(
+                context,
+                NextPageRoute(
+                    homePage(
+                      bottomMenu: menuList,
+                    ),
+                    isMaintainState: true),
+                (route) => false);
+          }
+          _isLoading = false;
+          break;
+
+        case ApiStatus.ERROR:
+          _isLoading = false;
+          Log.v("Error..........................");
+          Log.v("Error..........................${getBottomBarState.error}");
+
+          break;
+        case ApiStatus.INITIAL:
+          // TODO: Handle this case.
+          break;
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     Application(context);
     _authBloc = BlocProvider.of<AuthBloc>(context);
-    return BlocManager(
-      initState: (context) {},
-      child: BlocListener<AuthBloc, AuthState>(
-        listener: (context, state) {
-          if (state is LoginState) _handleLoginResponse(state);
-        },
-        child: Scaffold(
-          backgroundColor: ColorConstants.WHITE,
-          resizeToAvoidBottomInset: true,
-          key: _scaffoldKey,
-          body: Builder(builder: (_context) {
-            _scaffoldContext = _context;
-            return ScreenWithLoader(
-              body: ScrollConfiguration(
-                behavior: ScrollBehavior(),
-                child: SingleChildScrollView(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    child: _content(),
-                  ),
+    return MultiBlocListener(
+      // initState: (context) {},
+      listeners: [
+        BlocListener<AuthBloc, AuthState>(
+          listener: (context, state) {
+            // if (state is LoginState) _handleLoginResponse(state);
+            if (state is SwayamLoginState) _swayamLoginResponse(state);
+          },
+        ),
+        BlocListener<HomeBloc, HomeState>(
+          listener: (BuildContext context, state) {
+            if (state is GetBottomBarState) _handelBottomNavigationBar(state);
+          },
+        ),
+      ],
+      child: Scaffold(
+        backgroundColor: ColorConstants.WHITE,
+        resizeToAvoidBottomInset: true,
+        key: _scaffoldKey,
+        body: Builder(builder: (_context) {
+          _scaffoldContext = _context;
+          return ScreenWithLoader(
+            body: ScrollConfiguration(
+              behavior: ScrollBehavior(),
+              child: SingleChildScrollView(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  child: _content(),
                 ),
               ),
-              isLoading: _isLoading,
-            );
-          }),
-        ),
+            ),
+            isLoading: _isLoading,
+          );
+        }),
       ),
     );
   }
@@ -176,14 +273,14 @@ class _SingularisLoginState extends State<SingularisLogin> {
               _textField(
                 controller: _emailController,
                 hintText: 'Enter your email',
-                // prefixImage: Icon(Icons.email),
+                prefixImage: 'assets/images/email_icon.png',
                 // validation: validateUserName,
               ),
               _size(height: 10),
               _textField(
                   controller: _passController,
                   hintText: 'Password',
-                  // prefixImage: Images.LOCK,
+                  prefixImage: 'assets/images/lock_icon.png',
                   obscureText: _isObscure,
                   validation: validatePassword1,
                   onEyePress: () {
@@ -271,7 +368,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
   Widget _textField({
     TextEditingController? controller,
     String? hintText,
-    String? prefixImage,
+    required String prefixImage,
     bool obscureText = false,
     Function(String)? validation,
     Function()? onEyePress,
@@ -285,30 +382,32 @@ class _SingularisLoginState extends State<SingularisLogin> {
         obscureText: obscureText,
         decoration: InputDecoration(
           hintText: hintText,
-          // prefixIcon: Padding(
-          //   padding: const EdgeInsets.all(5),
-          //   child: Image.asset(
-          //     prefixImage,
-          //     height: 32,
-          //     width: 32,
-          //   ),
-          // ),
-          // suffixIcon: Visibility(
-          //   visible: onEyePress != null,
-          //   child: TapWidget(
-          //     onTap: onEyePress,
-          //     child: Padding(
-          //       padding: const EdgeInsets.only(right: 5),
-          //       child: !obscureText
-          //           ? Icon(
-          //               Icons.remove_red_eye_outlined,
-          //               size: 30,
-          //               color: ColorConstants.GREY,
-          //             )
-          //           : Image.asset(Images.EYE_HIDE),
-          //     ),
-          //   ),
-          // ),
+          prefixIcon: Padding(
+            padding: const EdgeInsets.all(5),
+            child: Image.asset(
+              prefixImage,
+              height: 32,
+              width: 32,
+            ),
+          ),
+          suffixIcon: Visibility(
+            visible: onEyePress != null,
+            child: TapWidget(
+              onTap: () {
+                // onTap: onEyePress,
+                onEyePress!();
+              },
+              child: Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: !obscureText
+                      ? Icon(
+                          Icons.remove_red_eye_outlined,
+                          // size: 30,
+                          // color: ColorConstants.GREY,
+                        )
+                      : Icon(Icons.visibility_off)),
+            ),
+          ),
           hintStyle: Styles.regular(size: 18, color: ColorConstants.GREY_3),
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
