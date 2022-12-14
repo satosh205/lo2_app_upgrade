@@ -138,6 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _getUserProfile() {
     BlocProvider.of<AuthBloc>(context).add(UserProfileEvent());
   }
+
   void _handelBottomNavigationBar(GetBottomBarState state) {
     var getBottomBarState = state;
     setState(() {
@@ -151,7 +152,6 @@ class _LoginScreenState extends State<LoginScreen> {
           _getUserProfile();
 
           menuList = state.response!.data!.menu;
-          
 
           if (menuList?.length == 0) {
             AlertsWidget.alertWithOkBtn(
@@ -238,7 +238,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
           AlertsWidget.alertWithOkBtn(
               context: context,
-              text: loginState.error,
+              text: loginState.error?.first,
               onOkClick: () {
                 FocusScope.of(context).autofocus(phoneFocus);
               });
@@ -254,7 +254,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (Preference.getString(Preference.USER_TOKEN) != null) {
       if (UserSession.userAppLanguageId == 0 ||
           UserSession.userContentLanguageId == 0) {
-            print('inside this 1');
+        print('inside this 1');
         Navigator.pushAndRemoveUntil(
             context,
             NextPageRoute(LanguagePage(
@@ -262,16 +262,13 @@ class _LoginScreenState extends State<LoginScreen> {
               isFromLogin: true,
             )),
             (Route<dynamic> route) => false);
-      } else
-       {
-            print('inside this 2');
+      } else {
+        print('inside this 2');
         getBottomNavigationBar();
-
-
-       }
+      }
     } else {
-            print('inside this 3');
-      
+      print('inside this 3');
+
       Navigator.pushAndRemoveUntil(
           context, NextPageRoute(LoginScreen()), (route) => false);
     }

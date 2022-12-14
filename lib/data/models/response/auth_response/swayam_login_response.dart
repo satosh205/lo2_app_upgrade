@@ -1,16 +1,15 @@
 class SwayamLoginResponse {
   int? status;
   Data? data;
-  List<String>? error;
-  String? message;
+  List<dynamic>? error;
+  // String? message;
 
-  SwayamLoginResponse({this.status, this.data, this.error, this.message});
+  SwayamLoginResponse({this.status, this.data, this.error});
 
   SwayamLoginResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
     error = json['error'].cast<String>();
-    message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
@@ -55,6 +54,8 @@ class User {
   String? mobileNo;
   String? profileImage;
   int? isTrainer;
+  String? categoryIds;
+  String? defaultVideoUrlOnCategory;
 
   User(
       {this.id,
@@ -64,7 +65,9 @@ class User {
       this.department,
       this.designation,
       this.mobileNo,
-      this.profileImage});
+      this.profileImage,
+      this.categoryIds,
+      this.defaultVideoUrlOnCategory});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -76,7 +79,10 @@ class User {
         ? json['mobile_no']
         : json['mobile_no'].toString();
     profileImage = json['profile_image'];
+
     isTrainer = json['is_trainer'];
+    categoryIds = json['category_ids'];
+    defaultVideoUrlOnCategory = json['default_video_url_on_category'];
   }
 
   Map<String, dynamic> toJson() {
@@ -89,6 +95,8 @@ class User {
     data['mobile_no'] = this.mobileNo;
     data['profile_image'] = this.profileImage;
     data['is_trainer'] = this.isTrainer;
+    data['category_ids'] = this.categoryIds;
+    data['default_video_url_on_category'] = this.defaultVideoUrlOnCategory;
     return data;
   }
 }

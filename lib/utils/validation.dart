@@ -17,8 +17,6 @@ String? validatePassword(String value) {
     return "Password required";
   } else if (value.contains(" ")) {
     return "Space not allowed";
-  } else if (!regExp.hasMatch(value)) {
-    return "Password must like this ab1234";
   } else
     return null;
 }

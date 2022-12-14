@@ -136,8 +136,6 @@ class UpdateUserState extends AuthState {
   UpdateUserState(this.state, {this.response, this.error});
 }
 
-
-
 class StateState extends AuthState {
   ApiStatus state;
 
@@ -165,8 +163,6 @@ class UpdateUserEvent extends AuthEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
-
-
 class CityState extends AuthState {
   ApiStatus state;
 
@@ -176,7 +172,6 @@ class CityState extends AuthState {
 
   CityState(this.state, {this.response, this.error});
 }
-
 
 class CityEvent extends AuthEvent {
   int stateId;
@@ -192,11 +187,10 @@ class SwayamLoginState extends AuthState {
 
   ApiStatus get apiState => state;
   SwayamLoginResponse? response;
-  String? error;
+  List<dynamic>? error;
 
   SwayamLoginState(this.state, {this.response, this.error});
 }
-
 
 class SignUp extends AuthEvent {
   final SignUpRequest? request;
@@ -227,9 +221,6 @@ class UserProfileState extends AuthState {
   UserProfileState(this.state, {this.response, this.error});
 }
 
-
-
-
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final authRepository = Injector.appInstance.get<AuthRepository>();
   final homeRepository = Injector.appInstance.get<HomeRepository>();
@@ -245,14 +236,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           yield LoginState(ApiStatus.SUCCESS, response: response);
         } else {
           Log.v("ERROR DATA ::: $response");
-          yield LoginState(ApiStatus.ERROR,response: response);
+          yield LoginState(ApiStatus.ERROR, response: response);
         }
       } catch (e) {
         Log.v("Expection DATA : $e");
         yield LoginState(ApiStatus.ERROR, error: Strings.somethingWentWrong);
       }
-    } 
-else if (event is UserProfileEvent) {
+    } else if (event is UserProfileEvent) {
       try {
         yield UserProfileState(ApiStatus.LOADING);
         final response = await homeRepository.getSwayamUserProfile();
@@ -269,24 +259,23 @@ else if (event is UserProfileEvent) {
         yield UserProfileState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }
-    }
-    else if (event is PvmSwayamLogin) {
+    } else if (event is PvmSwayamLogin) {
       try {
         yield SwayamLoginState(ApiStatus.LOADING);
         final response =
             await authRepository.swayamLoginCall(request: event.request);
-        if (response?.status == 1) {
-          yield SwayamLoginState(ApiStatus.SUCCESS, response: response);
-        } else {
-          Log.v("ERROR DATA ::: $response");
-          yield LoginState(ApiStatus.ERROR, error: response?.message);
-        }
+        yield SwayamLoginState(ApiStatus.SUCCESS, response: response);
+        // if (response?.status == 1) {
+        //   yield SwayamLoginState(ApiStatus.SUCCESS, response: response);
+        // } else {
+        //   Log.v("ERROR DATA ::: $response");
+        //   yield LoginState(ApiStatus.SUCCESS, error: response);
+        // }
       } catch (e) {
         Log.v("ERROR DATA : $e");
         yield LoginState(ApiStatus.ERROR, error: Strings.somethingWentWrong);
       }
-    }
-    else if (event is StateEvent) {
+    } else if (event is StateEvent) {
       try {
         yield StateState(ApiStatus.LOADING);
         final response = await authRepository.getStateList();
@@ -300,10 +289,7 @@ else if (event is UserProfileEvent) {
         Log.v("ERROR DATA : $e");
         yield StateState(ApiStatus.ERROR, error: Strings.somethingWentWrong);
       }
-    }
-
-
-    else if (event is CityEvent) {
+    } else if (event is CityEvent) {
       try {
         yield CityState(ApiStatus.LOADING);
         final response = await authRepository.getCityList(event.stateId);
@@ -317,9 +303,7 @@ else if (event is UserProfileEvent) {
         Log.v("ERROR DATA : $e");
         yield CityState(ApiStatus.ERROR, error: Strings.somethingWentWrong);
       }
-    }
-    
-    else if (event is UpdateUserEvent) {
+    } else if (event is UpdateUserEvent) {
       try {
         yield UpdateUserState(ApiStatus.LOADING);
         final response =

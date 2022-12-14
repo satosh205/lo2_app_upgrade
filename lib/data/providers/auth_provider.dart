@@ -34,13 +34,12 @@ class AuthProvider {
               responseType: ResponseType.json // or ResponseType.JSON
               ));
       if (response.statusCode == 200 || response.statusCode == 201) {
-
-         return ApiResponse.success(response);
+        return ApiResponse.success(response);
         // if (response.data.containsKey('error') &&
         //     (response.data["error"] as List).length != 0) {
         //   return ApiResponse.error(response.data);
         // } else {
-          // return ApiResponse.success(response);
+        // return ApiResponse.success(response);
         // }
       }
     } catch (e) {
@@ -104,7 +103,7 @@ class AuthProvider {
               ApiConstants.API_KEY: ApiConstants().APIKeyValue(),
             },
             // responseType: ResponseType.json // or ResponseType.JSON
-          )); 
+          ));
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         return ApiResponse.success(response);
@@ -168,7 +167,7 @@ class AuthProvider {
     return null;
   }
 
-    Future<ApiResponse?> getCityList(int stateId) async {
+  Future<ApiResponse?> getCityList(int stateId) async {
     //  Utility.hideKeyboard();
     try {
       final response = await api.dio.get(ApiConstants.CITY_API + "/$stateId",
@@ -194,7 +193,7 @@ class AuthProvider {
     }
   }
 
-    Future<ApiResponse?> swayamLoginCall({SwayamLoginRequest? request}) async {
+  Future<ApiResponse?> swayamLoginCall({SwayamLoginRequest? request}) async {
     //  Utility.hideKeyboard();
     try {
       final response = await api.dio.post(ApiConstants.SWAYAM_LOGIN,
@@ -208,16 +207,16 @@ class AuthProvider {
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data.containsKey('error') &&
             (response.data["error"] as List).length != 0) {
-          return ApiResponse.error(response.data);
+          return ApiResponse.success(response);
         } else {
           return ApiResponse.success(response);
         }
       }
     } catch (e) {
+      print('the exeptionis');
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
   }
-
 
   Future<ApiResponse?> verifyOTP(EmailRequest request) async {
     try {

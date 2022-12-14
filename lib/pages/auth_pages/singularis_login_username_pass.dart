@@ -18,13 +18,10 @@ import 'package:masterg/pages/custom_pages/TapWidget.dart';
 import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/ghome/home_page.dart';
-import 'package:masterg/pages/swayam_pages/notification_helper.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/config.dart';
-import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
-import 'package:masterg/utils/utility.dart';
 import 'package:masterg/utils/validation.dart';
 
 class SingularisLogin extends StatefulWidget {
@@ -41,7 +38,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
   AuthBloc? _authBloc;
   // NotificationHelper _notificationHelper = NotificationHelper.getInstance();
   var _formKey = GlobalKey<FormState>();
-  bool _autoValidation = false;
+  bool _autoValidation = true;
   var _isObscure = true;
   List<Menu>? menuList;
 
@@ -66,15 +63,35 @@ class _SingularisLoginState extends State<SingularisLogin> {
         case ApiStatus.SUCCESS:
           Log.v(
               "Success.................... -- ${state.response?.data?.token}");
-          UserSession.userToken = state.response?.data?.token;
-          UserSession.email = state.response?.data?.user?.email;
-          UserSession.userName = state.response?.data?.user?.name;
-          UserSession.userImageUrl = state.response?.data?.user?.profileImage;
-          UserSession.socialEmail = state.response?.data?.user?.email;
-          UserSession.userType = state.response?.data?.user?.isTrainer;
+          if (state.response?.error != null) {
+            AlertsWidget.alertWithOkBtn(
+                context: context,
+                text: loginState.response?.error?.first,
+                onOkClick: () {
+                  // FocusScope.of(context).autofocus(phoneFocus);
+                  setState(() {
+                    _isLoading = false;
+                  });
+                });
+            break;
+          }
+          _isLoading = false;
+
+          // UserSession.userToken = state.response?.data?.token;
+          // UserSession.email = state.response?.data?.user?.email;
+          // UserSession.userName = state.response?.data?.user?.name;
+          // UserSession.userImageUrl = state.response?.data?.user?.profileImage;
+          // UserSession.socialEmail = state.response?.data?.user?.email;
+          // UserSession.userType = state.response?.data?.user?.isTrainer;
           // UserSession.userDAta = state.response?.data?.user?.isTrainer;
           /*UserSession.userContentLanguageId = 1;
           UserSession.userAppLanguageId = 1;*/
+          Preference.setString(
+              Preference.FIRST_NAME, '${state.response?.data?.user?.name}');
+          Preference.setString(
+              Preference.PHONE, '${state.response?.data?.user?.mobileNo}');
+          // Preference.setInt(
+          //     Preference.USER_ID, state.response!.data!.user!.id);
           Preference.setString(
               Preference.USER_TOKEN, '${state.response?.data?.token}');
           Preference.setString(
@@ -83,32 +100,42 @@ class _SingularisLoginState extends State<SingularisLogin> {
               Preference.USER_EMAIL, '${state.response?.data?.user?.email}');
           Preference.setString(Preference.PROFILE_IMAGE,
               '${state.response?.data?.user?.profileImage}');
-          Preference.setInt(Preference.USER_TYPE,
-              int.parse('${state.response?.data?.user?.isTrainer}'));
+          // Preference.setInt(Preference.USER_TYPE,
+          //     int.parse('${state.response?.data?.user?.isTrainer}'));
+          Preference.setString(
+              'interestCategory', '${state.response!.data!.user!.categoryIds}');
+          Preference.setString(Preference.DEFAULT_VIDEO_URL_CATEGORY,
+              '${state.response!.data!.user!.defaultVideoUrlOnCategory}');
+          print('called api');
+          getBottomNavigationBar();
+
           /*Preference.setInt(Preference.APP_LANGUAGE, 1);
           Preference.setInt(Preference.CONTENT_LANGUAGE, 1);*/
           // _userTrack();
 
-          await Hive.openBox(DB.CONTENT);
-          await Hive.openBox(DB.ANALYTICS);
-          await Hive.openBox(DB.TRAININGS);
+          // await Hive.openBox(DB.CONTENT);
+          // await Hive.openBox(DB.ANALYTICS);
+          // await Hive.openBox(DB.TRAININGS);
           _isLoading = false;
           // _moveToNext();
-          getBottomNavigationBar();
           // FirebaseAnalytics().logEvent(
           //     name: "login_successful",
           //     parameters: {"user_id": state.response.data.user.id});
           break;
         case ApiStatus.ERROR:
           _isLoading = false;
+
           Log.v("Error..........................");
           Log.v("Error..........................${loginState.error}");
 
           AlertsWidget.alertWithOkBtn(
               context: context,
-              text: loginState.error,
+              text: loginState.response?.error?.first,
               onOkClick: () {
                 // FocusScope.of(context).autofocus(phoneFocus);
+                setState(() {
+                  _isLoading = false;
+                });
               });
           break;
         case ApiStatus.INITIAL:
@@ -232,11 +259,9 @@ class _SingularisLoginState extends State<SingularisLogin> {
         child: SafeArea(
           child: Column(
             children: [
-              // Image.asset(
-              //   Images.LOGIN_IMAGE,
-              //   height: 150,
-              //   width: 150,
-              // ),
+              SizedBox(
+                height: 40,
+              ),
               Transform.scale(
                 scale: 1.2,
                 child: appBarImagePath.split('.').last == 'svg'
@@ -255,26 +280,29 @@ class _SingularisLoginState extends State<SingularisLogin> {
               if (APK_DETAILS['theme_image_url2'] != "")
                 APK_DETAILS['theme_image_url2']?.split('.').last == 'svg'
                     ? SvgPicture.asset(
-                        height: MediaQuery.of(context).size.height * 0.25,
+                        height: MediaQuery.of(context).size.height * 0.2,
                         'assets/images/${APK_DETAILS['theme_image_url2']}',
                         fit: BoxFit.cover,
                       )
                     : Image.asset(
                         'assets/images/${APK_DETAILS['theme_image_url2']}',
-                        height: MediaQuery.of(context).size.height * 0.25,
+                        height: MediaQuery.of(context).size.height * 0.2,
                         // width: 150,
                       ),
               _size(height: 25),
-              Text('Welcome Back!', style: Styles.bold(size: 22)),
+              Text('Welcome Back!',
+                  style: Styles.bold(
+                      size: 22, color: ColorConstants().primaryColor())),
               _size(),
               Text('Enter your login credentails to continue',
                   style: Styles.regular(size: 16)),
               _size(height: 25),
               _textField(
+                isEmail: true,
                 controller: _emailController,
-                hintText: 'Enter your email',
+                hintText: 'Username',
                 prefixImage: 'assets/images/email_icon.png',
-                // validation: validateUserName,
+                validation: validateEmail,
               ),
               _size(height: 10),
               _textField(
@@ -329,8 +357,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
                     child: Text(
                       'Login using OTP',
                       style: Styles.textExtraBoldUnderline(
-                        size: 16,
-                      ),
+                          size: 16, color: ColorConstants().primaryColor()),
                     ),
                   ),
                 ],
@@ -366,11 +393,12 @@ class _SingularisLoginState extends State<SingularisLogin> {
   }
 
   Widget _textField({
+    bool isEmail = false,
     TextEditingController? controller,
     String? hintText,
     required String prefixImage,
     bool obscureText = false,
-    Function(String)? validation,
+    required Function(String) validation,
     Function()? onEyePress,
   }) {
     return SizedBox(
@@ -378,17 +406,24 @@ class _SingularisLoginState extends State<SingularisLogin> {
       child: TextFormField(
         style: TextStyle(fontSize: 18),
         controller: controller,
-        // validator: validation,
+        validator: (String? vla) {
+          validation(vla!);
+        },
         obscureText: obscureText,
         decoration: InputDecoration(
           hintText: hintText,
           prefixIcon: Padding(
             padding: const EdgeInsets.all(5),
-            child: Image.asset(
-              prefixImage,
-              height: 32,
-              width: 32,
-            ),
+            child: isEmail == true
+                ? Icon(Icons.person
+                    // size: 30,
+                    // color: ColorConstants.GREY,
+                    )
+                : Image.asset(
+                    prefixImage,
+                    height: 32,
+                    width: 32,
+                  ),
           ),
           suffixIcon: Visibility(
             visible: onEyePress != null,
@@ -435,13 +470,38 @@ class _SingularisLoginState extends State<SingularisLogin> {
   _loginButton() {
     return TapWidget(
       onTap: () {
-        BlocProvider.of<AuthBloc>(context).add(PvmSwayamLogin(
-            request: SwayamLoginRequest(
-                deviceToken: UserSession.firebaseToken,
-                device_id: "31232131231231",
-                deviceType: Platform.isAndroid ? "1" : "2",
-                userName: _emailController.text.toString().trim(),
-                password: _passController.text.toString().trim())));
+        String? value = validateEmail(_emailController.text.toString().trim());
+        String? pass = validatePassword(_passController.text.toString().trim());
+        if (value != null) {
+          AlertsWidget.showCustomDialog(
+              context: context,
+              title: value,
+              text: "",
+              icon: 'assets/images/circle_alert_fill.svg',
+              showCancel: false,
+              oKText: "Ok",
+              onOkClick: () async {
+                // Navigator.pop(context);
+              });
+        } else if (pass != null) {
+          AlertsWidget.showCustomDialog(
+              context: context,
+              title: pass,
+              text: "",
+              icon: 'assets/images/circle_alert_fill.svg',
+              showCancel: false,
+              oKText: "Ok",
+              onOkClick: () async {
+                // Navigator.pop(context);
+              });
+        } else
+          BlocProvider.of<AuthBloc>(context).add(PvmSwayamLogin(
+              request: SwayamLoginRequest(
+                  deviceToken: UserSession.firebaseToken,
+                  device_id: "31232131231231",
+                  deviceType: Platform.isAndroid ? "1" : "2",
+                  userName: _emailController.text.toString().trim(),
+                  password: _passController.text.toString().trim())));
         // if (_formKey.currentState.validate()) {
         //   Utility.deviceId().then((token) {
         //     print('deviceId ====************* ' + token);
@@ -475,7 +535,9 @@ class _SingularisLoginState extends State<SingularisLogin> {
         alignment: Alignment.center,
         child: Text(
           'Login',
-          style: Styles.regularWhite(size: 18),
+          style: Styles.regular(
+            color: ColorConstants.WHITE,
+          ),
         ),
       ),
     );

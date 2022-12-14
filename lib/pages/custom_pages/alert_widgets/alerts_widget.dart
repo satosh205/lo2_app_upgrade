@@ -127,7 +127,7 @@ class AlertsWidget {
               Strings.of(context)!.alert!,
               style: Styles.textBold(size: 20),
             ),
-            content: Text(text!, style: Styles.textBold(size: 16)),
+            content: Text(text ?? '', style: Styles.textBold(size: 16)),
             actions: <Widget>[
               // usually buttons at the bottom of the dialog
               TextButton(
@@ -145,8 +145,6 @@ class AlertsWidget {
     );
   }
 
-  
-
   static Future showCustomDialog(
       {required BuildContext context,
       bool? showCancel = true,
@@ -156,7 +154,6 @@ class AlertsWidget {
       String? oKText = "Yes",
       Function? onOkClick,
       Function? onCancelClick}) {
-        
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -248,6 +245,9 @@ class AlertsWidget {
                                       alignment: Alignment.center,
                                       child: Text(
                                         '$oKText',
+                                        style: Styles.regular(
+                                            color: ColorConstants()
+                                                .primaryForgroundColor()),
                                       )),
                                 ),
                               ),

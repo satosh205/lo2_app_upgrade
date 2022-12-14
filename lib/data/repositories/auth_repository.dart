@@ -42,8 +42,7 @@ class AuthRepository {
     }
   }
 
-
-    Future<SignUpResponse?> updateUser({UpdateUserRequest? request}) async {
+  Future<SignUpResponse?> updateUser({UpdateUserRequest? request}) async {
     final response = await userProvider.updateUser(request!);
     if (response!.success) {
       Log.v("response.success : ${response.body}");
@@ -67,7 +66,7 @@ class AuthRepository {
     }
   }
 
-   Future<CityStateResp> getCityList(int stateId) async {
+  Future<CityStateResp> getCityList(int stateId) async {
     final response = await userProvider.getCityList(stateId);
     if (response!.success) {
       Log.v("response.success : ${response.body}");
@@ -79,18 +78,16 @@ class AuthRepository {
     }
   }
 
-    Future<SwayamLoginResponse?> swayamLoginCall(
+  Future<SwayamLoginResponse?> swayamLoginCall(
       {SwayamLoginRequest? request}) async {
     final response = await userProvider.swayamLoginCall(request: request);
     if (response!.success) {
-      Log.v("ERROR DATA : ${response.body}");
+      Log.v("Success DATA : ${response.body}");
       SwayamLoginResponse user = SwayamLoginResponse.fromJson(response.body);
       return user;
     } else {
-      Log.v("====> ${response.body}");
-      return SwayamLoginResponse(
-          message:
-              response.body == null ? "Something went wrong:" : response.body);
+      Log.v("Not succcess ====> ${response.body}");
+      return SwayamLoginResponse.fromJson(response.body);
     }
   }
 
