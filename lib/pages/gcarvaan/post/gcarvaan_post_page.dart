@@ -252,19 +252,19 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                             //   child: GCarvaanUserViewPage(),
                             // ),
 
-                            Consumer<CreatePostProvider>(
-                              builder: (context, value, child) => Container(
-                                color: ColorConstants.WHITE,
-                                width: MediaQuery.of(context).size.width,
-                                padding: EdgeInsets.only(
-                                    left: 10.0,
-                                    top: 10.0,
-                                    right: 10.0,
-                                    bottom: 10.0),
-                                // height: 80,
-                                child: Column(
-                                  children: [
-                                    if (!widget.fromDashboard)
+                            if (!widget.fromDashboard)
+                              Consumer<CreatePostProvider>(
+                                builder: (context, value, child) => Container(
+                                  color: ColorConstants.WHITE,
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: EdgeInsets.only(
+                                      left: 10.0,
+                                      top: 10.0,
+                                      right: 10.0,
+                                      bottom: 10.0),
+                                  // height: 80,
+                                  child: Column(
+                                    children: [
                                       InkWell(
                                         onTap: () {
                                           Navigator.push(
@@ -310,8 +310,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                                   size: 14)),
                                         ),
                                       ),
-                                    //SizedBox(height: 10),
-                                    if (!widget.fromDashboard)
+                                      //SizedBox(height: 10),
                                       Row(
                                         children: [
                                           InkWell(
@@ -359,17 +358,18 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                           )
                                         ],
                                       )
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
                             Container(
                               margin: widget.fromDashboard == true
                                   ? null
                                   : const EdgeInsets.only(
                                       top: 3,
                                     ),
-                              padding: const EdgeInsets.all(8),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
                               width: double.infinity,
                               color: widget.fromDashboard
                                   ? ColorConstants.WHITE
@@ -457,9 +457,8 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
   Widget _postListWidget(gcarvaanPosts, GCarvaanListModel value) {
     if (value.list?.length == 0 && isGCarvaanPostLoading == false)
       return Container(
-          margin: widget.fromDashboard == true
-              ? null
-              : EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
+          margin:
+              EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
           child:
               Center(child: Text('${Strings.of(context)?.noPostAvailable}')));
 
@@ -523,7 +522,6 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                       width: gcarvaanPosts[index].dimension.width,
                       resourceType: gcarvaanPosts[index].resourceType,
                       userID: gcarvaanPosts[index].userId,
-                      fromDasboard: widget.fromDashboard,
                     )
                   : Container();
             })
