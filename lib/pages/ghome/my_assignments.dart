@@ -456,7 +456,14 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('${item.title}', style: Styles.bold(size: 16)),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        child: Text('${item.title}',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            softWrap: false,
+                            style: Styles.bold(size: 16)),
+                      ),
                       SizedBox(height: 5),
                       if (item.status == 'Completed') ...[
                         Text('Submitted', style: Styles.regular(size: 12)),

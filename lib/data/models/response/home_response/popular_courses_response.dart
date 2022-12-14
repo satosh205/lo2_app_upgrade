@@ -264,7 +264,8 @@ class Recommended {
       this.isSubscribed,
       this.enrolmentCount,
       this.categoryName,
-      this.completionPer, this.approvalStatus});
+      this.completionPer,
+      this.approvalStatus});
 
   Recommended.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -479,7 +480,8 @@ class OtherLearners {
       this.subscriptionType,
       this.isSubscribed,
       this.enrolmentCount,
-      this.completionPer, this.approvalStatus});
+      this.completionPer,
+      this.approvalStatus});
 
   OtherLearners.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -692,7 +694,8 @@ class PopularCourses {
       this.subscriptionType,
       this.isSubscribed,
       this.enrolmentCount,
-      this.completionPer, this.approvalStatus});
+      this.completionPer,
+      this.approvalStatus});
 
   PopularCourses.fromJson(Map<String, dynamic> json) {
     id = json['id'];

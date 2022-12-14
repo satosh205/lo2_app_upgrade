@@ -53,6 +53,7 @@ class GCarvaanCardPost extends StatefulWidget {
   final String? resourceType;
   final List<Dimension>? dimension;
   final int? userID;
+  final bool? fromDasboard;
 
   // final Widget child;
 
@@ -76,7 +77,8 @@ class GCarvaanCardPost extends StatefulWidget {
       this.dimension,
       this.value,
       this.resourceType,
-      this.userID});
+      this.userID,
+      this.fromDasboard = false});
 
   @override
   _GCarvaanCardPostState createState() => _GCarvaanCardPostState();
@@ -174,7 +176,9 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 4.0),
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 6),
+        margin: widget.fromDasboard == true
+            ? null
+            : const EdgeInsets.symmetric(vertical: 6),
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(8),

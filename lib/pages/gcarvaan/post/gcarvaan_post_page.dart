@@ -457,8 +457,9 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
   Widget _postListWidget(gcarvaanPosts, GCarvaanListModel value) {
     if (value.list?.length == 0 && isGCarvaanPostLoading == false)
       return Container(
-          margin:
-              EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
+          margin: widget.fromDashboard == true
+              ? null
+              : EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
           child:
               Center(child: Text('${Strings.of(context)?.noPostAvailable}')));
 
@@ -522,6 +523,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                       width: gcarvaanPosts[index].dimension.width,
                       resourceType: gcarvaanPosts[index].resourceType,
                       userID: gcarvaanPosts[index].userId,
+                      fromDasboard: widget.fromDashboard,
                     )
                   : Container();
             })

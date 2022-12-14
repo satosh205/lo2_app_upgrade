@@ -521,7 +521,12 @@ class _DashboardState extends State<Dashboard> {
                                   Expanded(child: SizedBox()),
                                   InkWell(
                                     onTap: () {
-                                      menuProvider.updateCurrentIndex(2);
+                                      // menuProvider.updateCurrentIndex(2);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MyCourses()));
                                     },
                                     child: Text('View all',
                                         style: Styles.regular(
@@ -630,7 +635,7 @@ class _DashboardState extends State<Dashboard> {
 
                             //recommended course end
 
-                            //recent community start
+                            //recent Careers start
 
                             Container(
                               margin: EdgeInsets.symmetric(
@@ -648,7 +653,7 @@ class _DashboardState extends State<Dashboard> {
                                           horizontal: 10,
                                         ),
                                         child: Text(
-                                          'Recent Community Posts',
+                                          'Recent Careers Posts',
                                           style: Styles.bold(),
                                         ),
                                       ),
@@ -664,7 +669,7 @@ class _DashboardState extends State<Dashboard> {
 
                                   Container(
                                     height: MediaQuery.of(context).size.height *
-                                        0.6,
+                                        0.5,
                                     color: ColorConstants.WHITE,
                                     child: GCarvaanPostPage(
                                       fileToUpload: null,
@@ -820,13 +825,18 @@ class _DashboardState extends State<Dashboard> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text('${yourCourses.name}', style: Styles.bold(size: 16)),
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.53,
+                          child: Text('${yourCourses.name}',
+                              overflow: TextOverflow.ellipsis,
+                              style: Styles.bold(size: 16))),
+                      SizedBox(width: 4),
                       Icon(CupertinoIcons.clock,
                           size: 15, color: Color(0xFFFDB515)),
-                      Text('${yourCourses.duration}',
+                      Text('${yourCourses.startDate}',
                           style: Styles.regular(size: 10, color: Colors.black))
                     ]),
               ),
