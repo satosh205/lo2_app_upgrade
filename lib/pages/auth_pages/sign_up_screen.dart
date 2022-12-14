@@ -15,6 +15,7 @@ import 'package:masterg/data/models/request/auth_request/login_request.dart';
 import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/data/models/response/home_response/user_info_response.dart';
 import 'package:masterg/pages/auth_pages/choose_language.dart';
+import 'package:masterg/pages/auth_pages/singularis_login_username_pass.dart';
 import 'package:masterg/pages/auth_pages/terms_and_condition_page.dart';
 import 'package:masterg/pages/auth_pages/verify_otp.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
@@ -137,22 +138,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
             // mainAxisSize: MainAxisSize.min,
             children: [
               Column(
-
                 children: [
-                Transform.scale(
-                  scale: 1.2,
-                  child:   appBarImagePath.split('.').last == 'svg'
-                      ? SvgPicture.asset(
-                          appBarImagePath,
-                          fit: BoxFit.cover,
-                        )
-                      : Image.asset(
-                          appBarImagePath,
-                          // 'assets/images/${APK_DETAILS' ,
-                          height: 150,
-                          width: 150,
-                        ),
-                ),
+                  Transform.scale(
+                    scale: 1.2,
+                    child: appBarImagePath.split('.').last == 'svg'
+                        ? SvgPicture.asset(
+                            appBarImagePath,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.asset(
+                            appBarImagePath,
+                            // 'assets/images/${APK_DETAILS' ,
+                            height: 150,
+                            width: 150,
+                          ),
+                  ),
                   SizedBox(height: 10),
                   /*Text(
                       '${Strings.of(context)?.GiveYourCreativityNewPath}',
@@ -268,6 +268,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     )),
                   )),
+              Center(
+                  child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SingularisLogin()));
+                },
+                child: Text('Login using username and password',
+                    style: Styles.textExtraBoldUnderline(
+                      color: ColorConstants().primaryColor(),
+                    )),
+              )),
+              SizedBox(
+                height: 10,
+              ),
               InkWell(
                 onTap: () {
                   Navigator.push(

@@ -29,7 +29,7 @@ class Styles {
       {double size = 14, Color color = ColorConstants.DARK_BLUE}) {
     return TextStyle(
         fontSize: size,
-        fontFamily: _NunitoExtraBold,
+        fontFamily: _OpenSansBold,
         color: color,
         decoration: TextDecoration.underline);
   }
@@ -57,7 +57,7 @@ class Styles {
       {double size = 14, Color color = ColorConstants.DARK_BLUE}) {
     return TextStyle(
         fontSize: size,
-        fontFamily: _NunitoSemiBold,
+        fontFamily: _OpenSansBold,
         color: color,
         decoration: TextDecoration.underline);
   }
