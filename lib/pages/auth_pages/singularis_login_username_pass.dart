@@ -272,7 +272,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
           child: Column(
             children: [
               SizedBox(
-                height: 40,
+                height: 30,
               ),
               Transform.scale(
                 scale: 1.2,
@@ -301,14 +301,14 @@ class _SingularisLoginState extends State<SingularisLogin> {
                         height: MediaQuery.of(context).size.height * 0.2,
                         // width: 150,
                       ),
-              _size(height: 25),
+              _size(height: 20),
               Text('Welcome Back!',
                   style: Styles.bold(
                       size: 22, color: ColorConstants().primaryColor())),
               _size(),
               Text('Enter your login credentails to continue',
                   style: Styles.regular(size: 16)),
-              _size(height: 25),
+              _size(height: 20),
               _textField(
                 isEmail: true,
                 controller: _emailController,
@@ -361,7 +361,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
                   //     style: Styles.regularBlack(size: 18),
                   //   ),
                   // ),
-                  _size(height: 7),
+                  _size(height: 5),
                   TapWidget(
                     onTap: () {
                       Navigator.pop(context);
