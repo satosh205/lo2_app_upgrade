@@ -63,25 +63,37 @@ class _SingularisLoginState extends State<SingularisLogin> {
         case ApiStatus.SUCCESS:
           Log.v(
               "Success.................... -- ${state.response?.data?.token}");
-          if (state.response?.error != null) {
-            AlertsWidget.alertWithOkBtn(
+          if (state.response?.error?.length != 0) {
+            AlertsWidget.showCustomDialog(
                 context: context,
-                text: loginState.response?.error?.first,
-                onOkClick: () {
-                  // FocusScope.of(context).autofocus(phoneFocus);
+                title: loginState.response?.error?.first,
+                text: "",
+                icon: 'assets/images/circle_alert_fill.svg',
+                showCancel: false,
+                oKText: "Ok",
+                onOkClick: () async {
+                  // Navigator.pop(context);
                   setState(() {
                     _isLoading = false;
                   });
                 });
+            // AlertsWidget.alertWithOkBtn(
+            //     context: context,
+            //     text: loginState.response?.error?.first,
+            //     onOkClick: () {
+            //       // FocusScope.of(context).autofocus(phoneFocus);
+            //       setState(() {
+            //         _isLoading = false;
+            //       });
+            //     });
             break;
           }
-          _isLoading = false;
 
-          // UserSession.userToken = state.response?.data?.token;
-          // UserSession.email = state.response?.data?.user?.email;
-          // UserSession.userName = state.response?.data?.user?.name;
-          // UserSession.userImageUrl = state.response?.data?.user?.profileImage;
-          // UserSession.socialEmail = state.response?.data?.user?.email;
+          UserSession.userToken = state.response?.data?.token;
+          UserSession.email = state.response?.data?.user?.email;
+          UserSession.userName = state.response?.data?.user?.name;
+          UserSession.userImageUrl = state.response?.data?.user?.profileImage;
+          UserSession.socialEmail = state.response?.data?.user?.email;
           // UserSession.userType = state.response?.data?.user?.isTrainer;
           // UserSession.userDAta = state.response?.data?.user?.isTrainer;
           /*UserSession.userContentLanguageId = 1;

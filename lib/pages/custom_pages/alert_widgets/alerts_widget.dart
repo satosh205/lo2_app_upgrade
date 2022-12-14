@@ -170,6 +170,7 @@ class AlertsWidget {
                   children: [
                     SvgPicture.asset(
                       icon!,
+                      color: ColorConstants().primaryColor(),
                       allowDrawingOutsideViewBox: true,
                     ),
                     SizedBox(
