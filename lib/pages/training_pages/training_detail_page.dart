@@ -237,7 +237,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
         } else {
           isButtonActive = false;
         }
-        title = '${Strings.of(context)?.justNow}';
+        title = '${Strings.of(context)?.joinNow}';
       }
       if (selectedData?.contentType.toString().toLowerCase() ==
           'offlineclass') {
@@ -246,7 +246,7 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
       }
       if (selectedData?.liveclassAction.toString().toLowerCase() ==
           'scheduled') {
-        title = '${Strings.of(context)?.justNow}';
+        title = 'Scheduled';
         isButtonActive = false;
       }
     } else if (selectedType == 'Assessments' && selectedContentId != null) {
@@ -479,15 +479,25 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                     ],
                                                   ),
                                                   SizedBox(height: 10),
-                                                  CircleAvatar(
-                                                      onBackgroundImageError:
-                                                          (_, __) {},
-                                                      backgroundImage:
-                                                          NetworkImage(
-                                                        selectedData
-                                                                .trainerProfilePic ??
-                                                            '',
-                                                      )),
+
+                                                  // selectedData.trainerProfilePic !=
+                                                  //         null
+                                                  //     ? CircleAvatar(
+                                                  //         onBackgroundImageError:
+                                                  //             (_, __) {},
+                                                  //         backgroundImage:
+                                                  //             NetworkImage(
+                                                  //           selectedData
+                                                  //                   .trainerProfilePic ??
+                                                  //               '',
+                                                  //         ))
+                                                  //     : SvgPicture.asset(
+                                                  //         'assets/images/default_user.svg',
+                                                  //         height: 40.0,
+                                                  //         width: 40.0,
+                                                  //         allowDrawingOutsideViewBox:
+                                                  //             true,
+                                                  //       ),
                                                   SizedBox(height: 5),
                                                   Text(
                                                     '$trainerName',
@@ -497,6 +507,15 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
                                                           ColorConstants.WHITE,
                                                     ),
                                                   ),
+
+                                                  // Text(
+                                                  //   'Class duration is ${selectedData?.durationInMinutes} minutes',
+                                                  //   textAlign: TextAlign.left,
+                                                  //   style: Styles.semibold(
+                                                  //       color: ColorConstants
+                                                  //           .WHITE,
+                                                  //       size: 12),
+                                                  // ),
                                                   SizedBox(height: 10),
                                                   Text(
                                                     '${selectedData?.title}',
