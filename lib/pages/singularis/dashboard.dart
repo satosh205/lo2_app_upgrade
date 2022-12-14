@@ -653,7 +653,7 @@ class _DashboardState extends State<Dashboard> {
                                           horizontal: 10,
                                         ),
                                         child: Text(
-                                          'Recent Careers Posts',
+                                          'Recent Career Posts',
                                           style: Styles.bold(),
                                         ),
                                       ),
@@ -767,6 +767,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget _getCourseTemplate(context, yourCourses, int index, String tag, size) {
+    List<String> duration = yourCourses.duration.toString().split(' ');
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -823,21 +824,26 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
                 child: Row(
                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.53,
+                      Container(
+                          width: MediaQuery.of(context).size.width * 0.55,
                           child: Text('${yourCourses.name}',
                               overflow: TextOverflow.ellipsis,
                               style: Styles.bold(size: 16))),
-                      SizedBox(width: 4),
                       Icon(CupertinoIcons.clock,
                           size: 15, color: Color(0xFFFDB515)),
-                      Text('${yourCourses.startDate}',
-                          style: Styles.regular(size: 10, color: Colors.black))
+                      SizedBox(width: 2),
+                      Container(
+                          width: MediaQuery.of(context).size.width * 0.15,
+                          child: Text('${duration[0]} ${duration[1]}',
+                              overflow: TextOverflow.clip,
+                              maxLines: 1,
+                              style: Styles.regular(
+                                  size: 10, color: Colors.black)))
                     ]),
               ),
               Padding(
@@ -845,9 +851,12 @@ class _DashboardState extends State<Dashboard> {
                 child: Text('by ${yourCourses.trainer}',
                     style: Styles.regular(size: 12)),
               ),
+              SizedBox(
+                height: 2,
+              ),
               Center(
                   child: Text(
-                      '${yourCourses.enrolmentCount} Students already viewed this course',
+                      '${yourCourses.enrolmentCount} Students already enrolled in this course',
                       style: Styles.regular(size: 12))),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -875,7 +884,7 @@ class _DashboardState extends State<Dashboard> {
                       if (yourCourses.salePrice != null)
                         Text(
                           '₹${yourCourses.salePrice}',
-                          style: Styles.textExtraBold(
+                          style: Styles.semibold(
                               size: 22, color: ColorConstants.GREEN),
                         ),
                     ],

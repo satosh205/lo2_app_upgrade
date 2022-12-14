@@ -62,7 +62,8 @@ class Styles {
         decoration: TextDecoration.underline);
   }
 
-  static textLight({double? size = 14, Color color = ColorConstants.DARK_BLUE}) {
+  static textLight(
+      {double? size = 14, Color color = ColorConstants.DARK_BLUE}) {
     return TextStyle(
       fontSize: size,
       fontFamily: _NunitoLight,
@@ -104,6 +105,14 @@ class Styles {
         fontFamily: _OpenSansSemiBold,
         color: color,
         fontWeight: FontWeight.w600);
+  }
+
+  static lineThrough({double size = 18, Color color = ColorConstants.BLACK}) {
+    return TextStyle(
+      fontSize: size * 1.0,
+      fontFamily: _OpenSansSemiBold,
+      decoration: TextDecoration.lineThrough,
+    );
   }
 
   static regular({double size = 16, Color color = ColorConstants.GREY_2}) {
