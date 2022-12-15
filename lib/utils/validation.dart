@@ -4,10 +4,11 @@ String? validateEmail(String value) {
   RegExp regExp = new RegExp(pattern);
   if (value == null || value.trim().isEmpty) {
     return "Email is required";
-  } else if (!regExp.hasMatch(value)) {
-    return "Email address you have entered is invalid";
-  } else
-    return null;
+  }
+  // else if (!regExp.hasMatch(value)) {
+  //   return "Email address you have entered is invalid";
+  // } else
+  return null;
 }
 
 String? validatePassword(String value) {
