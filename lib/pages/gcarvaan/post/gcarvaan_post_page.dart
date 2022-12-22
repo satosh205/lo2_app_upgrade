@@ -147,11 +147,11 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                 gcarvaanPosts = [];
                 widget.formCreatePost = true;
                 _getPosts(++callCount);
-                Future.delayed(Duration(seconds: 2)).then((_) {
-                  setState(() {
-                    isPostedLoading = false;
-                  });
-                });
+                // Future.delayed(Duration(seconds: 2)).then((_) {
+                //   setState(() {
+                //     isPostedLoading = false;
+                //   });
+                // });
               },
               onLoading: () async {
                 _getPosts(++callCount);
@@ -856,10 +856,10 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
   void _handleGCarvaanPostResponse(
       GCarvaanPostState state, GCarvaanListModel model) {
     var loginState = state;
-    setState(() {
-      switch (loginState.apiState) {
-        case ApiStatus.LOADING:
-          Log.v("Loading....................");
+    // setState(() {
+    switch (loginState.apiState) {
+      case ApiStatus.LOADING:
+        Log.v("Loading....................");
 
 //  gcarvaanPosts = box
 //                     !.get("gcarvaan_post")
@@ -868,53 +868,53 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
 //                     .cast<GCarvaanPostElement>()
 //                     .toList();
 
-          isGCarvaanPostLoading = true;
+        isGCarvaanPostLoading = true;
 
-          break;
-        case ApiStatus.SUCCESS:
-          isPostedLoading = false;
-          isGCarvaanPostLoading = false;
+        break;
+      case ApiStatus.SUCCESS:
+        isPostedLoading = false;
+        isGCarvaanPostLoading = false;
 
-          //gcarvaanPosts = state.response.data.list;
-          //if (state.response.data.list.length == 1) {
+        //gcarvaanPosts = state.response.data.list;
+        //if (state.response.data.list.length == 1) {
 
-          //adding for removing duplicate post
-          // if (gcarvaanPosts?.first.id != state.response!.data!.list?.first.id) {
-          //   gcarvaanPosts!.addAll(state.response!.data!.list!);
-          // } else {
-          //   gcarvaanPosts = [];
-          //   gcarvaanPosts!.addAll(state.response!.data!.list!);
-          // }
+        //adding for removing duplicate post
+        // if (gcarvaanPosts?.first.id != state.response!.data!.list?.first.id) {
+        //   gcarvaanPosts!.addAll(state.response!.data!.list!);
+        // } else {
+        //   gcarvaanPosts = [];
+        //   gcarvaanPosts!.addAll(state.response!.data!.list!);
+        // }
 
-          gcarvaanPosts!.addAll(state.response!.data!.list!);
+        gcarvaanPosts!.addAll(state.response!.data!.list!);
 
-          var seen = Set<GCarvaanPostElement>();
-          List<GCarvaanPostElement> uniquelist =
-              gcarvaanPosts!.where((element) => seen.add(element)).toList();
+        var seen = Set<GCarvaanPostElement>();
+        List<GCarvaanPostElement> uniquelist =
+            gcarvaanPosts!.where((element) => seen.add(element)).toList();
 
-          gcarvaanPosts = uniquelist;
-          if (model.list?.length == 0 ||
-              model.list!.isEmpty ||
-              model.list?.first.id != gcarvaanPosts?.first.id)
-            model.refreshList(gcarvaanPosts!);
-          _refreshController.refreshCompleted();
-          _refreshController.loadComplete();
-          break;
-        case ApiStatus.ERROR:
-          isGCarvaanPostLoading = false;
+        gcarvaanPosts = uniquelist;
+        if (model.list?.length == 0 ||
+            model.list!.isEmpty ||
+            model.list?.first.id != gcarvaanPosts?.first.id)
+          model.refreshList(gcarvaanPosts!);
+        _refreshController.refreshCompleted();
+        _refreshController.loadComplete();
+        break;
+      case ApiStatus.ERROR:
+        isGCarvaanPostLoading = false;
 
-          Log.v(
-            "Error..........................",
-          );
-          Log.v("ErrorHome..........................${loginState.error}");
-          _refreshController.refreshFailed();
-          _refreshController.loadFailed();
+        Log.v(
+          "Error..........................",
+        );
+        Log.v("ErrorHome..........................${loginState.error}");
+        _refreshController.refreshFailed();
+        _refreshController.loadFailed();
 
-          break;
-        case ApiStatus.INITIAL:
-          break;
-      }
-    });
+        break;
+      case ApiStatus.INITIAL:
+        break;
+    }
+    // });
   }
 
   void _handleCreatePostResponse(CreatePostState state) {
@@ -947,47 +947,5 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
           break;
       }
     });
-  }
-}
-
-class ShowImage extends StatefulWidget {
-  final String? path;
-  ShowImage({Key? key, this.path}) : super(key: key);
-
-  @override
-  State<ShowImage> createState() => _ShowImageState();
-}
-
-class _ShowImageState extends State<ShowImage> {
-  Uint8List? imageFile;
-  @override
-  void initState() {
-    super.initState();
-    getFile();
-  }
-
-  Future<Uint8List?> getFile() async {
-    final uint8list = await VideoThumbnail.thumbnailData(
-      video: widget.path!,
-      imageFormat: ImageFormat.PNG,
-      timeMs: Duration(seconds: 1).inMilliseconds,
-    );
-    if (this.mounted)
-      setState(() {
-        imageFile = uint8list;
-      });
-    return uint8list;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return imageFile != null
-        ? Image.memory(
-            imageFile!,
-            fit: BoxFit.cover,
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-          )
-        : Text('loading image');
   }
 }
