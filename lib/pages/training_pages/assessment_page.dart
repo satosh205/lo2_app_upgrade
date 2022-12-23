@@ -197,7 +197,9 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                               Text(
                                 'Review',
                                 style: Styles.textExtraBold(
-                                    size: 14, color: ColorConstants.BLACK),
+                                    size: 14,
+                                    color: ColorConstants()
+                                        .primaryForgroundColor()),
                               ),
                             ],
                           ),
