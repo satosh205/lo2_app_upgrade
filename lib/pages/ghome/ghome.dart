@@ -1446,7 +1446,12 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
                             context,
                             NextPageRoute(InterestPage(
                               backEnable: true,
-                            )));
+                            ))).then((value) {
+                          _getJoyCategory();
+                          _getJoyContentList();
+                          _getCategoryList();
+                          _getFeaturedVideo();
+                        });
                       },
                       child: Container(
                         //color: Colors.red,
