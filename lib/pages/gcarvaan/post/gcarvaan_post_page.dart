@@ -407,13 +407,14 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
       if (result != null) {
         for (int i = 0; i < result.paths.length; i++) {
           if (i == 4) break;
-          if (File(result.paths[i]!).lengthSync() / 1000000 > 8.0) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('${Strings.of(context)?.imageVideoSizeLarge}'),
-            ));
-          } else {
-            provider.addToList(result.paths[i]);
-          }
+          provider.addToList(result.paths[i]);
+          // if (File(result.paths[i]!).lengthSync() / 1000000 > 8.0) {
+          //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          //     content: Text('${Strings.of(context)?.imageVideoSizeLarge}'),
+          //   ));
+          // } else {
+          //   provider.addToList(result.paths[i]);
+          // }
         }
 
         if (provider.files!.length > 4) {

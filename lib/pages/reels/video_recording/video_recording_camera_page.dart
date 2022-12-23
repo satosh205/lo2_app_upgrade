@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterg/pages/gcarvaan/createpost/create_gcarvaan_page.dart';
 import 'package:masterg/pages/gcarvaan/createpost/create_post_provider.dart';
 import 'package:masterg/pages/reels/trim_video/trimmer_view.dart';
+import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -337,9 +338,11 @@ class _VideoRecordingCameraPageState extends State<VideoRecordingCameraPage> {
       }
 
       if (result != null) {
-        if (File(result.paths.first!).lengthSync() / 1000000 > 8.0) {
+        if (File(result.paths.first!).lengthSync() / 1000000 > 100.0) {
+          print(
+              'THE SIZE is ${File(result.paths.first!).lengthSync() / 1000000}');
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text("Video/image size can't be large than 5MB"),
+            content: Text("${Strings.of(context)?.imageVideoSizeLarge}  100MB"),
           ));
         } else if (result.paths.first!.contains('.mp4') ||
             result.paths.first!.contains('.mov')) {
