@@ -168,13 +168,39 @@ class _DashboardState extends State<Dashboard> {
                                       .get("joyContentListResponse")
                                       .isEmpty) {
                                     return Container(
-                                      height: 290,
+                                      // height: 290,
+                                      margin: EdgeInsets.only(
+                                          left: 17, right: 17, top: 17),
                                       width: MediaQuery.of(context).size.width,
-                                      child: Center(
-                                        child: Text(
-                                          "There are no libraries available",
-                                          style: Styles.textBold(),
-                                        ),
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 14),
+                                            child: Divider(
+                                              color: ColorConstants.GREY_3,
+                                            ),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Icon(Icons.star,
+                                                  color: ColorConstants.YELLOW),
+                                              SizedBox(width: 8),
+                                              Text('Featured Updates',
+                                                  style: Styles.bold()),
+                                            ],
+                                          ),
+                                          SizedBox(height: 20),
+                                          Center(
+                                            child: Text(
+                                              "No Data available",
+                                              style: Styles.textBold(),
+                                            ),
+                                          ),
+                                          SizedBox(height: 20)
+                                        ],
                                       ),
                                     );
                                   }
