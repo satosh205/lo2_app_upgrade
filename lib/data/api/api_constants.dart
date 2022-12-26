@@ -105,6 +105,7 @@ class ApiConstants {
   static const ANNOUNCEMENT_TYPE = "Announcement";
   static const TRAININGS = "Trainings";
   static const settings = "/api/settings";
+  static const DASHBOARD_CONTENT = "/api/g-dashboard";
   static const NOTIFICATION_API = "api/joy/notifications";
 
   static const SWAYAM = 3;

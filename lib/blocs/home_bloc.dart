@@ -12,6 +12,8 @@ import 'package:masterg/data/models/request/home_request/user_program_subscribe.
 import 'package:masterg/data/models/request/home_request/user_tracking_activity.dart';
 import 'package:masterg/data/models/request/save_answer_request.dart';
 import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
+import 'package:masterg/data/models/response/auth_response/dashboard_content_resp.dart';
+import 'package:masterg/data/models/response/auth_response/dashboard_view_resp.dart';
 import 'package:masterg/data/models/response/general_resp.dart';
 import 'package:masterg/data/models/response/home_response/assignment_submissions_response.dart';
 import 'package:masterg/data/models/response/home_response/content_tags_resp.dart';
@@ -337,7 +339,8 @@ class UpdateUserProfileImageEvent extends HomeEvent {
   String? filePath;
   String? name;
   String? email;
-  UpdateUserProfileImageEvent({this.filePath, this.name, this.email}) : super([filePath, name, email]);
+  UpdateUserProfileImageEvent({this.filePath, this.name, this.email})
+      : super([filePath, name, email]);
 
   List<Object> get props => throw UnimplementedError();
 }
@@ -446,6 +449,38 @@ class JoyContentListState extends HomeState {
   String? error;
 
   JoyContentListState(this.state, {this.response, this.error});
+}
+
+class DashboardIsVisibleEvent extends HomeEvent {
+  DashboardIsVisibleEvent() : super([]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+class DashboardIsVisibleState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  DashboardViewResponse? response;
+  String? error;
+
+  DashboardIsVisibleState(this.state, {this.response, this.error});
+}
+
+class DashboardContentEvent extends HomeEvent {
+  DashboardContentEvent() : super([]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+class DashboardContentState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  DashboardContentResponse? response;
+  String? error;
+
+  DashboardContentState(this.state, {this.response, this.error});
 }
 
 class ProgramListEvent extends HomeEvent {
@@ -861,13 +896,13 @@ class ReportEvent extends HomeEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
-
 class DeletePostEvent extends HomeEvent {
   int? postId;
-  
 
   DeletePostEvent({this.postId})
-      : super([postId, ]);
+      : super([
+          postId,
+        ]);
 
   List<Object> get props => throw UnimplementedError();
 }
@@ -891,6 +926,7 @@ class ReportState extends HomeState {
 
   ReportState(this.state, {this.response, this.error});
 }
+
 class DeletePostState extends HomeState {
   ApiStatus state;
 
@@ -1166,11 +1202,10 @@ class SurveyDataEvent extends HomeEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
-
 class RemoveAccountEvent extends HomeEvent {
   String? type;
 
-  RemoveAccountEvent({ this.type}) : super([type]);
+  RemoveAccountEvent({this.type}) : super([type]);
 
   List<Object> get props => throw UnimplementedError();
 }
@@ -1274,13 +1309,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield SurveySubmitState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }
-    } 
-    
-    else if (event is RemoveAccountEvent) {
+    } else if (event is RemoveAccountEvent) {
       try {
         yield RemoveAccountState(ApiStatus.LOADING);
-        final response = await homeRepository.removeAccount(
-            type: event.type);
+        final response = await homeRepository.removeAccount(type: event.type);
         if (response != null) {
           yield RemoveAccountState(ApiStatus.SUCCESS, response: response);
         } else {
@@ -1289,11 +1321,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         }
       } catch (e, s) {
         Log.v("ERROR DATA : $s");
-        yield RemoveAccountState(ApiStatus.ERROR,
-           );
+        yield RemoveAccountState(
+          ApiStatus.ERROR,
+        );
       }
-    }
-    else if (event is SurveyDataEvent) {
+    } else if (event is SurveyDataEvent) {
       try {
         yield SurveyDataState(ApiStatus.LOADING);
         print("BLOCC");
@@ -1313,8 +1345,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield SurveyDataState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }
-    }
-    else if (event is NotificationListEvent) {
+    } else if (event is NotificationListEvent) {
       try {
         yield NotificationState(ApiStatus.LOADING);
         final response = await homeRepository.getNotifications();
@@ -1330,9 +1361,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield NotificationState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }
-    } 
-    
-     else if (event is ActivityAttemptEvent) {
+    } else if (event is ActivityAttemptEvent) {
       try {
         yield ActivityAttemptState(ApiStatus.LOADING);
         final response = await homeRepository.activityAttempt(
@@ -1766,6 +1795,38 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield getLiveClassState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }
+    } else if (event is DashboardIsVisibleEvent) {
+      try {
+        yield DashboardIsVisibleState(ApiStatus.LOADING);
+        final response = await homeRepository.getDashboardIsVisible();
+        if (response.data != null) {
+          yield DashboardIsVisibleState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield DashboardIsVisibleState(ApiStatus.ERROR,
+              error: Strings.somethingWentWrong);
+        }
+      } catch (e) {
+        Log.v("ERROR DATA : $e");
+        yield DashboardIsVisibleState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
+      }
+    } else if (event is DashboardContentEvent) {
+      try {
+        yield DashboardContentState(ApiStatus.LOADING);
+        final response = await homeRepository.getDasboardList();
+        if (response.data != null) {
+          yield DashboardContentState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield DashboardContentState(ApiStatus.ERROR,
+              error: Strings.somethingWentWrong);
+        }
+      } catch (e) {
+        Log.v("ERROR DATA : $e");
+        yield DashboardContentState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
+      }
     } else if (event is JoyContentListEvent) {
       try {
         yield JoyContentListState(ApiStatus.LOADING);
@@ -2024,8 +2085,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       try {
         yield UpdateUserProfileImageState(ApiStatus.LOADING);
 
-        final response =
-            await homeRepository.updateUserProfileImage(event.filePath, event.name, event.email);
+        final response = await homeRepository.updateUserProfileImage(
+            event.filePath, event.name, event.email);
 
         if (response != null) {
           yield UpdateUserProfileImageState(ApiStatus.SUCCESS,
@@ -2069,9 +2130,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield ReportState(ApiStatus.LOADING);
 
         final response = await homeRepository.reportContent(
-          event.status,
-        
-            event.postId, event.category, event.comment);
+            event.status, event.postId, event.category, event.comment);
 
         if (response != null) {
           yield ReportState(ApiStatus.SUCCESS, response: response);
@@ -2086,14 +2145,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           ApiStatus.ERROR,
         );
       }
-    }
-    
-    else if (event is DeletePostEvent) {
+    } else if (event is DeletePostEvent) {
       try {
         yield DeletePostState(ApiStatus.LOADING);
 
-        final response = await homeRepository.deletePost(
-            event.postId);
+        final response = await homeRepository.deletePost(event.postId);
 
         if (response != null) {
           yield DeletePostState(ApiStatus.SUCCESS, response: response);
@@ -2108,9 +2164,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           ApiStatus.ERROR,
         );
       }
-    }
-    
-     else if (event is UserAnalyticsEvent) {
+    } else if (event is UserAnalyticsEvent) {
       try {
         yield UserAnalyticsState(ApiStatus.LOADING);
         final response = await homeRepository.UserAnalytics();

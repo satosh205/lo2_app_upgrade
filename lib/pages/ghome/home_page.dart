@@ -15,6 +15,7 @@ import 'package:masterg/pages/ghome/g_school.dart';
 import 'package:masterg/pages/ghome/ghome.dart';
 import 'package:masterg/pages/reels/reels_dashboard_page.dart';
 import 'package:masterg/pages/singularis/dashboard.dart';
+import 'package:masterg/pages/singularis/dashboard_temp.dart';
 import 'package:masterg/pages/swayam_pages/announcemnt_page.dart';
 import 'package:masterg/pages/swayam_pages/library_page.dart';
 import 'package:masterg/pages/swayam_pages/profile_page.dart';
@@ -139,7 +140,8 @@ class _homePageState extends State<homePage> {
 
     var pages = {
       '/g-home': GHome(),
-      '/g-dashboard': const Dashboard(),
+      '/g-dashboard': const DashboardPage(),
+      // '/g-dashboard': const Dashboard(),
       '/g-school': const GSchool(),
       '/g-reels': ReelsDashboardPage(),
       '/g-carvaan': GCarvaanPostPage(
