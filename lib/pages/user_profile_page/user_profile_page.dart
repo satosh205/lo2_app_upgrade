@@ -197,8 +197,26 @@ class _UserProfilePageState extends State<UserProfilePage>
           ? DateTime.parse(toDateController.text.toString())
           : DateTime.parse(formattedDate);
     }
-
-    if (titleController.text.toString().isEmpty) {
+    if (fromDateController.text.toString().isEmpty) {
+      AlertsWidget.showCustomDialog(
+          context: context,
+          title: "Error",
+          text: "Please Select From date",
+          icon: 'assets/images/circle_alert_fill.svg',
+          oKText: '${Strings.of(context)?.ok}',
+          showCancel: false,
+          onOkClick: () async {});
+    } else if (checkBoxValue == false &&
+        toDateController.text.toString().isEmpty) {
+      AlertsWidget.showCustomDialog(
+          context: context,
+          title: "Error",
+          text: "Please Select To date",
+          icon: 'assets/images/circle_alert_fill.svg',
+          oKText: '${Strings.of(context)?.ok}',
+          showCancel: false,
+          onOkClick: () async {});
+    } else if (titleController.text.toString().isEmpty) {
       AlertsWidget.showCustomDialog(
           context: context,
           title: "Error",
@@ -221,15 +239,6 @@ class _UserProfilePageState extends State<UserProfilePage>
           context: context,
           title: "Error",
           text: "Please select joining letter",
-          icon: 'assets/images/circle_alert_fill.svg',
-          oKText: '${Strings.of(context)?.ok}',
-          showCancel: false,
-          onOkClick: () async {});
-    } else if (fromDateController.text.toString().isEmpty) {
-      AlertsWidget.showCustomDialog(
-          context: context,
-          title: "Error",
-          text: "Please select joining date.",
           icon: 'assets/images/circle_alert_fill.svg',
           oKText: '${Strings.of(context)?.ok}',
           showCancel: false,
@@ -282,14 +291,15 @@ class _UserProfilePageState extends State<UserProfilePage>
           backgroundColor: Colors.white,
           appBar: AppBar(
             elevation: 0,
-            leading: BackButton(color: ColorConstants().primaryForgroundColor()),
+            leading:
+                BackButton(color: ColorConstants().primaryForgroundColor()),
             backgroundColor: ColorConstants().primaryColor(),
             actions: [
               IconButton(
                   onPressed: () {
                     AlertsWidget.showCustomDialog(
                         context: context,
-                      title:'${Strings.of(context)?.leavingSoSoon}',
+                        title: '${Strings.of(context)?.leavingSoSoon}',
                         text: '${Strings.of(context)?.areYouSureYouWantToExit}',
                         icon: 'assets/images/circle_alert_fill.svg',
                         onOkClick: () async {
@@ -298,7 +308,9 @@ class _UserProfilePageState extends State<UserProfilePage>
                           Preference.clearPref().then((value) {
                             Navigator.pushAndRemoveUntil(
                                 context,
-                                NextPageRoute(ChooseLanguage(showEdulystLogo: true,)),
+                                NextPageRoute(ChooseLanguage(
+                                  showEdulystLogo: true,
+                                )),
                                 (route) => false);
                           });
                         });
@@ -600,7 +612,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                                         size: 20,
                                       )),
                                   SizedBox(width: 10),
-                                  Text('${Strings.of(context)?.faq}', style: Styles.regular()),
+                                  Text('${Strings.of(context)?.faq}',
+                                      style: Styles.regular()),
                                   Expanded(child: SizedBox()),
                                   Icon(Icons.arrow_forward_ios, size: 15),
                                 ],
@@ -614,7 +627,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                         ],
                       ),
                     ),
-                    SizedBox(height:20),
+                  SizedBox(height: 20),
                   Align(
                       alignment: Alignment.topLeft,
                       child: InkWell(
@@ -686,7 +699,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                                   ),
                                   child: Icon(
                                     Icons.settings,
-                                    color: ColorConstants().primaryForgroundColor(),
+                                    color: ColorConstants()
+                                        .primaryForgroundColor(),
                                     size: 20,
                                   )),
                               SizedBox(width: 10),
@@ -698,40 +712,40 @@ class _UserProfilePageState extends State<UserProfilePage>
                           ),
                         ),
                       )),
-                    // SizedBox(height:30),
+                  // SizedBox(height:30),
 
-                      // Align(
-                      // alignment: Alignment.topLeft,
-                      // child: InkWell(
-                      //   onTap: () {
-                      //     Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseLanguage(showEdulystLogo: false,)));
-                       
-                      //   },
-                      //   child: Padding(
-                      //     padding: EdgeInsets.symmetric(horizontal: 20),
-                      //     child: Row(
-                      //       children: [
-                      //         Container(
-                      //             width: 30,
-                      //             height: 30,
-                      //             decoration: BoxDecoration(
-                      //               borderRadius: BorderRadius.circular(10),
-                      //               color: ColorConstants().primaryColor(),
-                      //             ),
-                      //             child: Icon(
-                      //               Icons.language,
-                      //               color: ColorConstants().primaryForgroundColor(),
-                      //               size: 20,
-                      //             )),
-                      //         SizedBox(width: 10),
-                      //         Text('${Strings.of(context)?.changeLanguage}',
-                      //             style: Styles.regular()),
-                      //         Expanded(child: SizedBox()),
-                      //         Icon(Icons.arrow_forward_ios, size: 15),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // )),
+                  // Align(
+                  // alignment: Alignment.topLeft,
+                  // child: InkWell(
+                  //   onTap: () {
+                  //     Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseLanguage(showEdulystLogo: false,)));
+
+                  //   },
+                  //   child: Padding(
+                  //     padding: EdgeInsets.symmetric(horizontal: 20),
+                  //     child: Row(
+                  //       children: [
+                  //         Container(
+                  //             width: 30,
+                  //             height: 30,
+                  //             decoration: BoxDecoration(
+                  //               borderRadius: BorderRadius.circular(10),
+                  //               color: ColorConstants().primaryColor(),
+                  //             ),
+                  //             child: Icon(
+                  //               Icons.language,
+                  //               color: ColorConstants().primaryForgroundColor(),
+                  //               size: 20,
+                  //             )),
+                  //         SizedBox(width: 10),
+                  //         Text('${Strings.of(context)?.changeLanguage}',
+                  //             style: Styles.regular()),
+                  //         Expanded(child: SizedBox()),
+                  //         Icon(Icons.arrow_forward_ios, size: 15),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // )),
                   Expanded(child: SizedBox()),
                 ],
               ),
@@ -1369,8 +1383,7 @@ class _UserProfilePageState extends State<UserProfilePage>
   }
 
   void showBottomSheetBrandShow() {
-    void updateValue(value) {
-    }
+    void updateValue(value) {}
 
     bool nextFlag = false;
 
@@ -1505,7 +1518,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                           Padding(
                               padding: const EdgeInsets.only(
                                   left: 20.0, right: 20.0, top: 10.0),
-                              child: Text('${Strings.of(context)?.suggestedBrand}',
+                              child: Text(
+                                  '${Strings.of(context)?.suggestedBrand}',
                                   style: Styles.regular(
                                       size: 12, color: ColorConstants.GREY_4))),
 
@@ -1561,10 +1575,9 @@ class _UserProfilePageState extends State<UserProfilePage>
                                                         loadingProgress) {
                                                       if (loadingProgress ==
                                                           null) {
-                                                        
                                                         return child;
                                                       }
-                                                     
+
                                                       return const Center(
                                                           child: SizedBox(
                                                               width: 20,
@@ -1728,7 +1741,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                                   AlertsWidget.showCustomDialog(
                                       context: context,
                                       title: "${Strings.of(context)?.error}",
-                                      text: "${Strings.of(context)?.pleaseSelectBrand}",
+                                      text:
+                                          "${Strings.of(context)?.pleaseSelectBrand}",
                                       icon:
                                           'assets/images/circle_alert_fill.svg',
                                       oKText: '${Strings.of(context)?.ok}',
@@ -1985,7 +1999,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                                   child: Padding(
                                       padding: const EdgeInsets.only(
                                           left: 20.0, right: 20.0, top: 20.0),
-                                      child: Text('${Strings.of(context)?.selectTenure}')),
+                                      child: Text(
+                                          '${Strings.of(context)?.selectTenure}')),
                                 ),
                                 SizedBox(
                                   height: 20,
@@ -2683,7 +2698,7 @@ class _UserProfilePageState extends State<UserProfilePage>
     addressListData.clear();
     String url =
         '${ApiConstants().PRODUCTION_BASE_URL()}/${ApiConstants.BRAND_SEARCH}?key= &all_data=1';
-        print('====> Calling api $url');
+    print('====> Calling api $url');
     final response = await http.post(
       Uri.parse(url),
       headers: {
