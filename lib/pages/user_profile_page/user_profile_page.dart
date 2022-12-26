@@ -2576,7 +2576,9 @@ class _UserProfilePageState extends State<UserProfilePage>
                             'You have succcessfully added brand to your portfolio.',
                             maxLines: 2,
                             textAlign: TextAlign.center,
-                            style: Styles.regular(size: 14)),
+                            style: Styles.regular(
+                              size: 14,
+                            )),
                       ),
                     ),
                     Expanded(child: SizedBox()),
@@ -2595,7 +2597,10 @@ class _UserProfilePageState extends State<UserProfilePage>
                             child: Center(
                               child: Text(
                                 'Done',
-                                style: Styles.regular(size: 16),
+                                style: Styles.regular(
+                                    size: 16,
+                                    color: ColorConstants()
+                                        .primaryForgroundColor()),
                               ),
                             )),
                       ),
