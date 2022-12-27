@@ -103,20 +103,42 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
   }
 
   void setValues() {
-    setState(() {
-      if (widget.height == null) {
-        widget.height = widget.dimension?.first.height;
-        videoHeight = double.parse('${widget.height}');
-      } else {
-        if (double.parse('${widget.height}') < 1200) {
-          videoHeight = double.parse('${widget.height}') / 5.4;
+    if (widget.resourceType == 'image') {
+      setState(() {
+        if (widget.height == null) {
+          widget.height = widget.dimension?.first.height;
+          videoHeight = double.parse('${widget.height}');
+        } else if (double.parse('${widget.width}') > 1500) {
+          videoHeight = double.parse('${widget.height}') / 4.7;
+        } else if (double.parse('${widget.height}') < 1200) {
+          if (double.parse('${widget.height}') < 800) {
+            videoHeight = double.parse('${widget.height}') / 1.5;
+          } else {
+            videoHeight = double.parse('${widget.height}') / 2.5;
+          }
+        } else if (double.parse('${widget.height}') > 1200) {
+          videoHeight = double.parse('${widget.height}') / 1.9;
         } else {
-          print(widget.height);
-          videoHeight = double.parse('${widget.height}') / 2.8;
+          videoHeight = double.parse('${widget.height}') / 2.7;
+          likeCount = widget.likeCount;
         }
-        likeCount = widget.likeCount;
-      }
-    });
+      });
+    } else {
+      setState(() {
+        if (widget.height == null) {
+          widget.height = widget.dimension?.first.height;
+          videoHeight = double.parse('${widget.height}');
+        } else {
+          if (double.parse('${widget.height}') < 1200) {
+            videoHeight = double.parse('${widget.height}') / 5.4;
+          } else {
+            print(widget.height);
+            videoHeight = double.parse('${widget.height}') / 2.8;
+          }
+          likeCount = widget.likeCount;
+        }
+      });
+    }
   }
 
   @override
@@ -945,7 +967,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                           videoHeight,
                           MediaQuery.of(context).size.height -
                               MediaQuery.of(context).size.height * 0.25)
-                      : 410),
+                      : videoHeight),
               //maxHeight: 240),
               child: PageView.builder(
                   scrollDirection: Axis.horizontal,
@@ -964,11 +986,11 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                               ? BoxConstraints(
                                   minHeight: 200,
                                   //maxHeight: 420,
-                                  //maxHeight: videoHeight,
+                                  maxHeight: videoHeight,
                                 )
                               : BoxConstraints(
-                                  minHeight: 200,
-                                  maxHeight: 410,
+                                  minHeight: 100,
+                                  // maxHeight: 410,
                                 ),
                           child: VisibilityDetector(
                             key: ObjectKey('${widget.contentId}'),
@@ -1118,8 +1140,8 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                                                         0xffeaf0f3),
                                                                 child:
                                                                     Container(
-                                                                  height: double
-                                                                      .infinity,
+                                                                  // height: double
+                                                                  //     .infinity,
                                                                   margin: EdgeInsets.symmetric(
                                                                       horizontal:
                                                                           10,

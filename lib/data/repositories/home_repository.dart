@@ -550,7 +550,7 @@ class HomeRepository {
           DashboardViewResponse.fromJson(response.body);
       var box = Hive.box("content");
       try {
-        box.put("getDashboardIsVisible", dashboardViewResponse.data);
+        box.put("getDashboardIsVisible", dashboardViewResponse.toJson());
         print('something went w inserted');
       } catch (e) {
         print('something went wrong while inserting data');
