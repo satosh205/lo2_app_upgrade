@@ -23,6 +23,7 @@ import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:masterg/utils/utility.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -216,7 +217,8 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 5.0),
-                                  child: Text('${Strings.of(context)?.photo}/${Strings.of(context)?.video}',
+                                  child: Text(
+                                      '${Strings.of(context)?.photo}/${Strings.of(context)?.video}',
                                       style: Styles.regular(
                                           size: 14,
                                           color: ColorConstants.BLACK)),
@@ -248,12 +250,11 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                                       builder: (context) => TakePictureScreen(
                                           camera: firstCamera))).then(
                                   (files) async {
-
                                 if (files != null) {
                                   value.addToList(files);
                                   croppedList = value.files?.toList();
                                 }
-                              });                       
+                              });
                             },
                             child: Row(
                               children: [
@@ -337,6 +338,17 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                             if (firstExtension == 'mp4' ||
                                 firstExtension == 'mov') isVideo = true;
                             createPost(menuProvider, isVideo);
+                          } else {
+                            AlertsWidget.showCustomDialog(
+                                context: context,
+                                title: '',
+                                text: "Please upload file",
+                                icon: 'assets/images/circle_alert_fill.svg',
+                                showCancel: false,
+                                oKText: "Ok",
+                                onOkClick: () async {
+                                  // Navigator.pop(context);
+                                });
                           }
                         },
                         child: Container(
@@ -350,7 +362,9 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                           child: Center(
                             child: Text('${Strings.of(context)?.Share} ',
                                 style: Styles.regular(
-                                    size: 16, color: ColorConstants().primaryForgroundColor())),
+                                    size: 16,
+                                    color: ColorConstants()
+                                        .primaryForgroundColor())),
                           ),
                         ),
                       ),
@@ -522,9 +536,12 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
       if (result != null) {
         for (int i = 0; i < result.paths.length; i++) {
           if (i == 4) break;
-          if (File(result.paths[i]!).lengthSync() / 1000000 > 18.0) {
+          if (File(result.paths[i]!).lengthSync() / 1000000 > 100.0) {
+            print(
+                'THE SIZE IS ${File(result.paths[i]!).lengthSync() / 1000000}');
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("Video/image size can't be large than 5MB test"),
+              content:
+                  Text('${Strings.of(context)?.imageVideoSizeLarge} 100 MB'),
             ));
           } else
             provider.addToList(result.paths[i]);

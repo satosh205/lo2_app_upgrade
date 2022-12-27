@@ -44,18 +44,18 @@ const APK_DETAILS = {
   "theme_color_gradient": "ff2252",
   "theme_forground_color": "FFFFFF",
   "element_color": "FFFFFF",
-  //"nlms_api_key": "0612b32b39f4b29f48c5c5363028ee916bb99Demo",
-  //"domain_url": "https://demo.learningoxygen.com/",
   "nlms_api_key": "0612b32b39f4b29f48c5c5363028ee916bb99Singularis",
   "domain_url": "https://singularis.learningoxygen.com/",
-  //"nlms_api_key": "0612b32b39f4b29f48c5c5363028ee916bb99MasterG",
-  //"domain_url": "https://qa.learningoxygen.com/",
+  // "nlms_api_key": "0612b32b39f4b29f48c5c5363028ee916bb99Demo",
+  // "domain_url": "https://demo.learningoxygen.com/",
   "enable_boarding_screen": "1",
   "splash_image": "splash_wow.png",
   "isBrandEnabled": "1",
   "faqEnabled": "0",
   "policy_url": "https://singularis.learningoxygen.com/policy"
 };
+
+
 
 
 // const APK_DETAILS = {

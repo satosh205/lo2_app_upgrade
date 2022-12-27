@@ -506,9 +506,10 @@ class _CreatePostPageState extends State<CreatePostPage> {
               //insert showing wrong image
               // pickedList.insert(0, File(result.paths[i]));
               //if (File(result.paths[i]!).lengthSync() / 1000000 > 5.0) {
-              if (File(result.paths[i]!).lengthSync() / 1000000 > 11.0) {
+              if (File(result.paths[i]!).lengthSync() / 1000000 > 50.0) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('${Strings.of(context)?.imageVideoSizeLarge}'),
+                  content:
+                      Text('${Strings.of(context)?.imageVideoSizeLarge} 50MB'),
                 ));
               } else
                 pickedList.add(File(result.paths[i]!));

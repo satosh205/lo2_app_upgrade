@@ -244,7 +244,10 @@ class _InterestPageState extends State<InterestPage> {
           break;
         case ApiStatus.SUCCESS:
           if (isUpdating) {
-            getBottomNavigationBar();
+            if (widget.backEnable == true)
+              Navigator.pop(context);
+            else
+              getBottomNavigationBar();
           } else {
             Log.v("JoyCategoryState....................");
 

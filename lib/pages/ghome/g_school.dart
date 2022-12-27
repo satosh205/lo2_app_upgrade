@@ -852,8 +852,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
         ? ValueListenableBuilder(
             valueListenable: box!.listenable(),
             builder: (bc, Box box, child) {
-              if (box.get("other_learners") == null ||
-                  _isJoyCategoryLoading == true) {
+              if (box.get("other_learners") == null) {
                 return Column(
                   children: [
                     Shimmer.fromColors(
@@ -1030,7 +1029,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
     return ValueListenableBuilder(
       valueListenable: box!.listenable(),
       builder: (bc, Box box, child) {
-        if (box.get("recommended") == null || _isJoyCategoryLoading == true) {
+        if (box.get("recommended") == null) {
           // return Container();
           return Column(
             children: [

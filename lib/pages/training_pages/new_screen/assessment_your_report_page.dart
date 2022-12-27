@@ -86,18 +86,18 @@ class _AssessmentYourReportPageState extends State<AssessmentYourReportPage> {
                 // if (state.response!.data!.assessmentReview!.questions![i]
                 //         .questionOptions![j].userAnswer ==
                 //     1) {
-                  int value = j;
-                  if (value == 0) {
-                    selectedOption = 'a';
-                  } else if (value == 1) {
-                    selectedOption = 'b';
-                  } else if (value == 2) {
-                    selectedOption = 'c';
-                  } else if (value == 3) {
-                    selectedOption = 'd';
-                  }
-                  selectedOptionList.add(selectedOption);
-                  break;
+                int value = j;
+                if (value == 0) {
+                  selectedOption = 'a';
+                } else if (value == 1) {
+                  selectedOption = 'b';
+                } else if (value == 2) {
+                  selectedOption = 'c';
+                } else if (value == 3) {
+                  selectedOption = 'd';
+                }
+                selectedOptionList.add(selectedOption);
+                break;
                 // }
               }
             }
@@ -183,7 +183,11 @@ class _AssessmentYourReportPageState extends State<AssessmentYourReportPage> {
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                  child: Text('Go to Review'),
+                  child: Text(
+                    'Go to Review',
+                    style: Styles.regular(
+                        color: ColorConstants().primaryForgroundColor()),
+                  ),
                 ),
                 backgroundColor: ColorConstants().primaryColor(),
               ),
@@ -346,7 +350,8 @@ class _AssessmentYourReportPageState extends State<AssessmentYourReportPage> {
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 5),
-                          itemCount:min(_list.length, selectedOptionList.length),
+                          itemCount:
+                              min(_list.length, selectedOptionList.length),
                           itemBuilder: (BuildContext context, int index) {
                             return _list[index].question!.isCorrect != 0
                                 ? Container(
@@ -365,10 +370,9 @@ class _AssessmentYourReportPageState extends State<AssessmentYourReportPage> {
                                       ),
                                     ),
                                   )
-                                :Container(
+                                : Container(
                                     child: Card(
-                                      color:
-                                         ColorConstants.GREY_4,
+                                      color: ColorConstants.GREY_4,
                                       child: Center(
                                         //child: Text('${index + 1}' , style: Styles.textRegular(size: 16, color: Colors.white),),
                                         child: Text(

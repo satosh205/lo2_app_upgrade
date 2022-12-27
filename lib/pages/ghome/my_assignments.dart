@@ -243,7 +243,6 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                   ),
                 );
               }
-              print("#8Amit");
               assignmentList = box
                   .get("myassignment")
                   .map((e) =>

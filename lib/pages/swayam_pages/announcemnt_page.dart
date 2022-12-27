@@ -131,7 +131,6 @@ class _AnnouncementPageState extends _AutoReloadState with AutoReloadMixin {
                   ),
                 );
               }
-              print("#8Amit");
               announcementList = box
                   .get("announcements")
                   .map((e) => ListData.fromJson(Map<String, dynamic>.from(e)))
@@ -338,32 +337,32 @@ class _AnnouncementPageState extends _AutoReloadState with AutoReloadMixin {
   void _handleAnnouncmentData(AnnouncementContentState state) {
     var loginState = state;
     setState(() {
-    switch (loginState.apiState) {
-      case ApiStatus.LOADING:
-        Log.v("Loading....................");
-        break;
-      case ApiStatus.SUCCESS:
-        Log.v(
-            "Su22222222ccess.............${state.contentType}.......");
-        _isLoading = false;
-        _userTrack();
-        announcementList?.clear();
-        if (state.contentType == categoryId) {
-          
-          announcementList?.addAll(state.response!.data!.list!.where((element) {
-            return element.categoryId == categoryId;
-          }).toList());
-        }
-        break;
-      case ApiStatus.ERROR:
-        _isLoading = false;
-        Log.v("Error..........................");
-        Log.v("ErrorAnnoucement..........................${loginState.error}");
-        break;
-      case ApiStatus.INITIAL:
-        // TODO: Handle this case.
-        break;
-    }
+      switch (loginState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("Su22222222ccess.............${state.contentType}.......");
+          _isLoading = false;
+          _userTrack();
+          announcementList?.clear();
+          if (state.contentType == categoryId) {
+            announcementList
+                ?.addAll(state.response!.data!.list!.where((element) {
+              return element.categoryId == categoryId;
+            }).toList());
+          }
+          break;
+        case ApiStatus.ERROR:
+          _isLoading = false;
+          Log.v("Error..........................");
+          Log.v(
+              "ErrorAnnoucement..........................${loginState.error}");
+          break;
+        case ApiStatus.INITIAL:
+          // TODO: Handle this case.
+          break;
+      }
     });
   }
 

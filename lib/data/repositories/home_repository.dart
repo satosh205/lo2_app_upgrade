@@ -63,6 +63,8 @@ import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/response/auth_response/dashboard_content_resp.dart';
+import '../models/response/auth_response/dashboard_view_resp.dart';
 import '../models/response/home_response/create_portfolio_response.dart';
 import '../models/response/home_response/delete_portfolio_response.dart';
 import '../models/response/home_response/list_portfolio_responsed.dart';
@@ -537,6 +539,44 @@ class HomeRepository {
     } else {
       Log.v("====> ${response.body}");
       return JoyConentListResponse();
+    }
+  }
+
+  Future<DashboardViewResponse> getDashboardIsVisible() async {
+    final response = await homeProvider.getDashboardIsVisible();
+    if (response!.success) {
+      Log.v("RESPONSE DATA : ${response.body}");
+      DashboardViewResponse dashboardViewResponse =
+          DashboardViewResponse.fromJson(response.body);
+      var box = Hive.box("content");
+      try {
+        box.put("getDashboardIsVisible", dashboardViewResponse.toJson());
+        print('something went w inserted');
+      } catch (e) {
+        print('something went wrong while inserting data');
+      }
+      return dashboardViewResponse;
+    } else {
+      Log.v("====> ${response.body}");
+      return DashboardViewResponse();
+    }
+  }
+
+  Future<DashboardContentResponse> getDasboardList() async {
+    final response = await homeProvider.getDasboardList();
+    if (response!.success) {
+      Log.v("RESPONSE DATA : ${response.body}");
+      DashboardContentResponse dashboardViewResponse =
+          DashboardContentResponse.fromJson(response.body);
+      var box = Hive.box("content");
+      box.put("getDasboardList", dashboardViewResponse.data);
+      // box.put("getDasboardList",
+      //     dashboardViewResponse.data?.map((e) => e.toJson()).toList());
+
+      return dashboardViewResponse;
+    } else {
+      Log.v("====> ${response.body}");
+      return DashboardContentResponse();
     }
   }
 
