@@ -550,7 +550,9 @@ class HomeRepository {
           DashboardViewResponse.fromJson(response.body);
       var box = Hive.box(DB.CONTENT);
       try {
-        box.put("getDashboardIsVisible", dashboardViewResponse.toJson());
+        // box.put("getDashboardIsVisible", dashboardViewResponse.toJson());
+
+        box.put("getDashboardIsVisible", dashboardViewResponse.data?.toJson());
         print('something went w inserted');
       } catch (e) {
         print('something went wrong while inserting data');
@@ -569,8 +571,6 @@ class HomeRepository {
       DashboardContentResponse dashboardViewResponse =
           DashboardContentResponse.fromJson(response.body);
       var box = Hive.box(DB.CONTENT);
-      // box.put("getDasboardList", dashboardViewResponse.data);
-
       box.put(
           "dashboard_recommended_courses_limit",
           dashboardViewResponse.data?.dashboardRecommendedCoursesLimit
