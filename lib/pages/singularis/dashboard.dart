@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
@@ -10,6 +11,7 @@ import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
+import 'package:masterg/utils/custom_progress_indicator.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -55,9 +57,36 @@ class _DashboardPageState extends State<DashboardPage> {
                 'Begin your learning journey',
                 style: Styles.regular(),
               ),
+              getBody()
             ],
           )),
         ));
+  }
+
+  getBody() {
+    return ValueListenableBuilder(
+      valueListenable: Hive.box("content").listenable(),
+      builder: (bc, Box box, child) {
+        if (box.get("getDashboardIsVisible") == null) {
+          // return CustomProgressIndicator(true, Colors.white);
+          return Text('lading');
+        } else if (box.get("getDashboardIsVisible").isEmpty) {
+          return Container(
+            height: 290,
+            width: MediaQuery.of(context).size.width,
+            child: Center(
+              child: Text(
+                "There are no getDashboardIsVisible available",
+                style: Styles.textBold(),
+              ),
+            ),
+          );
+        }
+
+        dashboardViewResponse = box.get("getDashboardIsVisible");
+        return Text('${dashboardViewResponse}');
+      },
+    );
   }
 
   void getDashboardIsVisible() {
