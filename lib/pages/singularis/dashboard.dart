@@ -14,6 +14,7 @@ import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/auth_response/dashboard_content_resp.dart';
 import 'package:masterg/data/models/response/auth_response/dashboard_view_resp.dart';
+import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
 import 'package:masterg/data/models/response/home_response/joy_contentList_response.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
@@ -88,19 +89,27 @@ class _DashboardPageState extends State<DashboardPage> {
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Welcome',
-                style: Styles.semibold(size: 14),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Welcome',
+                      style: Styles.semibold(size: 14),
+                    ),
+                    Text(
+                      '${Preference.getString(Preference.FIRST_NAME)}',
+                      style: Styles.bold(size: 28),
+                    ),
+                    Text(
+                      'Begin your learning journey',
+                      style: Styles.regular(),
+                    ),
+                  ],
+                ),
               ),
-              Text(
-                '${Preference.getString(Preference.FIRST_NAME)}',
-                style: Styles.bold(size: 28),
-              ),
-              Text(
-                'Begin your learning journey',
-                style: Styles.regular(),
-              ),
-              renderWidgets(pages)
+              renderWidgets(pages),
             ],
           )),
         ));
@@ -447,31 +456,32 @@ class _DashboardPageState extends State<DashboardPage> {
             decoration: BoxDecoration(color: ColorConstants.WHITE),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 8,
-                          horizontal: 10,
-                        ),
-                        child: Text(
-                          'My Courses',
-                          style: Styles.bold(),
-                        )),
-                    Expanded(child: SizedBox()),
-                    InkWell(
-                      onTap: () {
-                        // menuProvider
-                        //     .updateCurrentIndex(1);
-                      },
-                      child: Text('View all',
-                          style: Styles.regular(
-                            size: 12,
-                            color: ColorConstants.ORANGE_3,
-                          )),
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 10,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'My Courses',
+                        style: Styles.bold(),
+                      ),
+                      Expanded(child: SizedBox()),
+                      InkWell(
+                        onTap: () {
+                          // menuProvider
+                          //     .updateCurrentIndex(1);
+                        },
+                        child: Text('View all',
+                            style: Styles.regular(
+                              size: 12,
+                              color: ColorConstants.ORANGE_3,
+                            )),
+                      ),
+                    ],
+                  ),
                 ),
 
                 //show courses list
@@ -486,18 +496,22 @@ class _DashboardPageState extends State<DashboardPage> {
                         children: [
                           InkWell(
                               onTap: () {
-                                // print('button is clicked');
-                                // Navigator.push(
-                                //     context,
-                                //     NextPageRoute(
-                                //         ChangeNotifierProvider<
-                                //                 TrainingDetailProvider>(
-                                //             create: (context) =>
-                                //                 TrainingDetailProvider(
-                                //                     TrainingService(ApiService()),
-                                //                     courseList1![index]),
-                                //             child: TrainingDetailPage()),
-                                //         isMaintainState: true));
+                                print('button is clicked');
+                                Navigator.push(
+                                    context,
+                                    NextPageRoute(
+                                        ChangeNotifierProvider<
+                                                TrainingDetailProvider>(
+                                            create: (context) =>
+                                                TrainingDetailProvider(
+                                                    TrainingService(
+                                                        ApiService()),
+                                                    MProgram(
+                                                        id: myCoursesList![
+                                                                index]
+                                                            .id)),
+                                            child: TrainingDetailPage()),
+                                        isMaintainState: true));
                               },
                               child: Container(
                                 padding: EdgeInsets.all(10),
@@ -886,7 +900,7 @@ class _DashboardPageState extends State<DashboardPage> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 14),
+                padding: const EdgeInsets.symmetric(vertical: 4),
                 child: Divider(
                   color: ColorConstants.GREY_3,
                 ),
@@ -1001,12 +1015,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                               'assets/images/placeholder.png',
                                               fit: BoxFit.fill,
                                             ),
-                                          )
-                                          // child: Image.network(
-                                          //   '${featuredContentList![index].thumbnailUrl}',
-                                          //   fit: BoxFit.fill,
-                                          // ),
-                                          ),
+                                          )),
                                     ),
                                     if (featuredContentList![index]
                                         .resourcePath!
