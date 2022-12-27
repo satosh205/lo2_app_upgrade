@@ -548,7 +548,7 @@ class HomeRepository {
       Log.v("RESPONSE DATA : ${response.body}");
       DashboardViewResponse dashboardViewResponse =
           DashboardViewResponse.fromJson(response.body);
-      var box = Hive.box("content");
+      var box = Hive.box(DB.CONTENT);
       try {
         box.put("getDashboardIsVisible", dashboardViewResponse.toJson());
         print('something went w inserted');
@@ -568,8 +568,41 @@ class HomeRepository {
       Log.v("RESPONSE DATA : ${response.body}");
       DashboardContentResponse dashboardViewResponse =
           DashboardContentResponse.fromJson(response.body);
-      var box = Hive.box("content");
-      box.put("getDasboardList", dashboardViewResponse.data);
+      var box = Hive.box(DB.CONTENT);
+      // box.put("getDasboardList", dashboardViewResponse.data);
+
+      box.put(
+          "dashboard_recommended_courses_limit",
+          dashboardViewResponse.data?.dashboardRecommendedCoursesLimit
+              ?.map((e) => e.toJson())
+              .toList());
+
+      box.put(
+          'dashboard_reels_limit',
+          dashboardViewResponse.data?.dashboardReelsLimit
+              ?.map((e) => e.toJson())
+              .toList());
+      box.put(
+          'dashboard_carvan_limit',
+          dashboardViewResponse.data?.dashboardCarvanLimit
+              ?.map((e) => e.toJson())
+              .toList());
+      box.put(
+          'dashboard_featured_content_limit',
+          dashboardViewResponse.data?.dashboardFeaturedContentLimit
+              ?.map((e) => e.toJson())
+              .toList());
+      box.put(
+          'dashboard_my_courses_limit',
+          dashboardViewResponse.data?.dashboardMyCoursesLimit
+              ?.map((e) => e.toJson())
+              .toList());
+      box.put(
+          'dashboard_sessions_limit',
+          dashboardViewResponse.data?.dashboardSessionsLimit
+              ?.map((e) => e.toJson())
+              .toList());
+
       // box.put("getDasboardList",
       //     dashboardViewResponse.data?.map((e) => e.toJson()).toList());
 
