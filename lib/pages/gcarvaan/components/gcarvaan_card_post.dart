@@ -53,32 +53,30 @@ class GCarvaanCardPost extends StatefulWidget {
   final String? resourceType;
   final List<Dimension>? dimension;
   final int? userID;
-  final bool? fromDasboard;
 
   // final Widget child;
 
   GCarvaanCardPost(
       {required this.image_path,
-      required this.date,
-      required this.description,
-      required this.commentCount,
-      required this.user_name,
-      required this.profile_path,
-      required this.index,
-      required this.userStatus,
-      required this.comment_visible,
-      this.likeCount,
-      this.viewCount,
-      this.islikedPost,
-      this.contentId,
-      this.fileList,
-      this.height,
-      this.width,
-      this.dimension,
-      this.value,
-      this.resourceType,
-      this.userID,
-      this.fromDasboard = false});
+        required this.date,
+        required this.description,
+        required this.commentCount,
+        required this.user_name,
+        required this.profile_path,
+        required this.index,
+        required this.userStatus,
+        required this.comment_visible,
+        this.likeCount,
+        this.viewCount,
+        this.islikedPost,
+        this.contentId,
+        this.fileList,
+        this.height,
+        this.width,
+        this.dimension,
+        this.value,
+        this.resourceType,
+        this.userID});
 
   @override
   _GCarvaanCardPostState createState() => _GCarvaanCardPostState();
@@ -103,20 +101,45 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
   }
 
   void setValues() {
-    setState(() {
-      if (widget.height == null) {
-        widget.height = widget.dimension?.first.height;
-        videoHeight = double.parse('${widget.height}');
-      } else {
-        if (double.parse('${widget.height}') < 1200) {
-          videoHeight = double.parse('${widget.height}') / 5.4;
-        } else {
-          print(widget.height);
-          videoHeight = double.parse('${widget.height}') / 2.8;
+    if(widget.resourceType == 'image'){
+      setState(() {
+        if (widget.height == null) {
+          widget.height = widget.dimension?.first.height;
+          videoHeight = double.parse('${widget.height}');
+
+        }else if (double.parse('${widget.width}') > 1500) {
+          videoHeight = double.parse('${widget.height}') / 4.7;
+
+        }else if (double.parse('${widget.height}') < 1200) {
+          if(double.parse('${widget.height}') < 800){
+            videoHeight = double.parse('${widget.height}') / 1.5;
+          }else{
+            videoHeight = double.parse('${widget.height}') / 2.5;
+          }
+        }else if (double.parse('${widget.height}') > 1200) {
+          videoHeight = double.parse('${widget.height}') / 1.9;
+        }else {
+          videoHeight = double.parse('${widget.height}') / 2.7;
+          likeCount = widget.likeCount;
         }
-        likeCount = widget.likeCount;
-      }
-    });
+      });
+
+    }else{
+      setState(() {
+        if (widget.height == null) {
+          widget.height = widget.dimension?.first.height;
+          videoHeight = double.parse('${widget.height}');
+        } else {
+          if (double.parse('${widget.height}') < 1200) {
+            videoHeight = double.parse('${widget.height}') / 5.4;
+          } else {
+            print(widget.height);
+            videoHeight = double.parse('${widget.height}') / 2.8;
+          }
+          likeCount = widget.likeCount;
+        }
+      });
+    }
   }
 
   @override
@@ -176,9 +199,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 4.0),
       child: Container(
-        margin: widget.fromDasboard == true
-            ? null
-            : const EdgeInsets.symmetric(vertical: 6),
+        margin: const EdgeInsets.symmetric(vertical: 6),
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(8),
@@ -196,50 +217,50 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                 children: <Widget>[
                   Container(
                       child: Center(
-                    child: ClipOval(
-                      child: widget.userStatus.toLowerCase() != "active"
-                          ? SvgPicture.asset(
-                              'assets/images/default_user.svg',
-                              height: 50,
-                              width: 50,
-                              allowDrawingOutsideViewBox: true,
-                            )
-                          : widget.profile_path != null
+                        child: ClipOval(
+                          child: widget.userStatus.toLowerCase() != "active"
+                              ? SvgPicture.asset(
+                            'assets/images/default_user.svg',
+                            height: 50,
+                            width: 50,
+                            allowDrawingOutsideViewBox: true,
+                          )
+                              : widget.profile_path != null
                               ? Image.network(
-                                  widget.profile_path ?? '',
-                                  height: 45,
-                                  width: 45,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, url, error) {
-                                    return SvgPicture.asset(
-                                      'assets/images/default_user.svg',
-                                      height: 50,
-                                      width: 50,
-                                      allowDrawingOutsideViewBox: true,
-                                    );
-                                  },
-                                  loadingBuilder: (BuildContext context,
-                                      Widget child,
-                                      ImageChunkEvent? loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return Shimmer.fromColors(
-                                      baseColor: Color(0xffe6e4e6),
-                                      highlightColor: Color(0xffeaf0f3),
-                                      child: Container(
-                                          height: 45,
-                                          margin: EdgeInsets.only(left: 2),
-                                          width: 45,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            shape: BoxShape.circle,
-                                          )),
-                                    );
-                                  },
-                                )
+                            widget.profile_path ?? '',
+                            height: 45,
+                            width: 45,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, url, error) {
+                              return SvgPicture.asset(
+                                'assets/images/default_user.svg',
+                                height: 50,
+                                width: 50,
+                                allowDrawingOutsideViewBox: true,
+                              );
+                            },
+                            loadingBuilder: (BuildContext context,
+                                Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Shimmer.fromColors(
+                                baseColor: Color(0xffe6e4e6),
+                                highlightColor: Color(0xffeaf0f3),
+                                child: Container(
+                                    height: 45,
+                                    margin: EdgeInsets.only(left: 2),
+                                    width: 45,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                    )),
+                              );
+                            },
+                          )
                               : Icon(Icons.account_circle_rounded,
-                                  size: 50, color: Colors.grey),
-                    ),
-                  )),
+                              size: 50, color: Colors.grey),
+                        ),
+                      )),
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -255,9 +276,9 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                             style: Styles.semibold(
                                 size: 14,
                                 color:
-                                    widget.userStatus.toLowerCase() != "active"
-                                        ? ColorConstants.GREY_3.withOpacity(0.3)
-                                        : ColorConstants.BLACK),
+                                widget.userStatus.toLowerCase() != "active"
+                                    ? ColorConstants.GREY_3.withOpacity(0.3)
+                                    : ColorConstants.BLACK),
                           ),
                         ),
                         Padding(
@@ -336,58 +357,58 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                   ),
                                 ),
                                 Preference.getInt(Preference.USER_ID) ==
-                                        widget.userID
+                                    widget.userID
                                     ? Container(
-                                        child: ListTile(
-                                          leading: new Icon(
-                                            Icons.delete,
-                                            color: Colors.white,
-                                          ),
-                                          title: new Text(
-                                            '${Strings.of(context)?.deleteThisPost}',
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
-                                          onTap: () async {
-                                            Navigator.pop(context);
+                                  child: ListTile(
+                                    leading: new Icon(
+                                      Icons.delete,
+                                      color: Colors.white,
+                                    ),
+                                    title: new Text(
+                                      '${Strings.of(context)?.deleteThisPost}',
+                                      style:
+                                      TextStyle(color: Colors.white),
+                                    ),
+                                    onTap: () async {
+                                      Navigator.pop(context);
 
-                                            AlertsWidget.showCustomDialog(
-                                                context: context,
-                                                title:
-                                                    "${Strings.of(context)?.deletePost}!",
-                                                text:
-                                                    "${Strings.of(context)?.areYouSureDelete}",
-                                                icon:
-                                                    'assets/images/circle_alert_fill.svg',
-                                                onOkClick: () async {
-                                                  deletePost(widget.contentId);
-                                                  widget.value
-                                                      ?.hidePost(widget.index);
+                                      AlertsWidget.showCustomDialog(
+                                          context: context,
+                                          title:
+                                          "${Strings.of(context)?.deletePost}!",
+                                          text:
+                                          "${Strings.of(context)?.areYouSureDelete}",
+                                          icon:
+                                          'assets/images/circle_alert_fill.svg',
+                                          onOkClick: () async {
+                                            deletePost(widget.contentId);
+                                            widget.value
+                                                ?.hidePost(widget.index);
 
-                                                  if (widget.index < 10) {
-                                                    List<GCarvaanPostElement>?
-                                                        gcarvaanPosts = box
-                                                            ?.get(
-                                                                "gcarvaan_post")
-                                                            .map((e) =>
-                                                                GCarvaanPostElement
-                                                                    .fromJson(Map<
-                                                                        String,
-                                                                        dynamic>.from(e)))
-                                                            .cast<GCarvaanPostElement>()
-                                                            .toList();
-                                                    print(
-                                                        'delete lenght is ${gcarvaanPosts?.length}');
+                                            if (widget.index < 10) {
+                                              List<GCarvaanPostElement>?
+                                              gcarvaanPosts = box
+                                                  ?.get(
+                                                  "gcarvaan_post")
+                                                  .map((e) =>
+                                                  GCarvaanPostElement
+                                                      .fromJson(Map<
+                                                      String,
+                                                      dynamic>.from(e)))
+                                                  .cast<GCarvaanPostElement>()
+                                                  .toList();
+                                              print(
+                                                  'delete lenght is ${gcarvaanPosts?.length}');
 
-                                                    box?.put(
-                                                        "gcarvaan_post",
-                                                        gcarvaanPosts?.removeAt(
-                                                            widget.index));
-                                                  }
-                                                });
-                                          },
-                                        ),
-                                      )
+                                              box?.put(
+                                                  "gcarvaan_post",
+                                                  gcarvaanPosts?.removeAt(
+                                                      widget.index));
+                                            }
+                                          });
+                                    },
+                                  ),
+                                )
                                     : SizedBox(),
                               ],
                             );
@@ -428,7 +449,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                       if (reportPostFormEnabled) {
                         bool showTextField = false;
                         TextEditingController reportController =
-                            TextEditingController();
+                        TextEditingController();
 
                         List<dynamic> reportList = Utility.getReportList();
 
@@ -451,163 +472,163 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                         builder: (BuildContext context) {
                                           return StatefulBuilder(
                                             builder: (BuildContext context,
-                                                    setState) =>
+                                                setState) =>
                                                 SingleChildScrollView(
-                                              child: Column(
-                                                crossAxisAlignment:
+                                                  child: Column(
+                                                    crossAxisAlignment:
                                                     CrossAxisAlignment.center,
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: <Widget>[
-                                                  Center(
-                                                    child: Container(
-                                                      padding:
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    children: <Widget>[
+                                                      Center(
+                                                        child: Container(
+                                                          padding:
                                                           EdgeInsets.all(10),
-                                                      margin: EdgeInsets.only(
-                                                          top: 10),
-                                                      height: 4,
-                                                      width: 70,
-                                                      decoration: BoxDecoration(
-                                                          color: ColorConstants
-                                                              .GREY_4,
-                                                          borderRadius:
+                                                          margin: EdgeInsets.only(
+                                                              top: 10),
+                                                          height: 4,
+                                                          width: 70,
+                                                          decoration: BoxDecoration(
+                                                              color: ColorConstants
+                                                                  .GREY_4,
+                                                              borderRadius:
                                                               BorderRadius
                                                                   .circular(8)),
-                                                    ),
-                                                  ),
-                                                  Center(
-                                                    child: Text(
-                                                      'Report',
-                                                      style: Styles.bold(),
-                                                    ),
-                                                  ),
-                                                  Divider(),
-                                                  Text(
-                                                      'Why are you reporting this post?',
-                                                      style: Styles.regular(
-                                                          color: ColorConstants
-                                                              .WHITE)),
-                                                  if (showTextField == false)
-                                                    Column(
-                                                      children: [
-                                                        ListView.builder(
-                                                            physics:
+                                                        ),
+                                                      ),
+                                                      Center(
+                                                        child: Text(
+                                                          'Report',
+                                                          style: Styles.bold(),
+                                                        ),
+                                                      ),
+                                                      Divider(),
+                                                      Text(
+                                                          'Why are you reporting this post?',
+                                                          style: Styles.regular(
+                                                              color: ColorConstants
+                                                                  .WHITE)),
+                                                      if (showTextField == false)
+                                                        Column(
+                                                          children: [
+                                                            ListView.builder(
+                                                                physics:
                                                                 BouncingScrollPhysics(),
-                                                            shrinkWrap: true,
-                                                            itemCount:
+                                                                shrinkWrap: true,
+                                                                itemCount:
                                                                 reportList
                                                                     .length,
-                                                            itemBuilder:
-                                                                (BuildContext
-                                                                        context,
+                                                                itemBuilder:
+                                                                    (BuildContext
+                                                                context,
                                                                     int index) {
-                                                              return ListTile(
-                                                                  onTap: () {
-                                                                    reportPost(
-                                                                        'offensive',
-                                                                        widget
-                                                                            .contentId,
-                                                                        '${reportList[index]['value']}',
-                                                                        reportController
-                                                                            .value
-                                                                            .text);
-                                                                  },
-                                                                  title: Text(
-                                                                      '${reportList[index]['title']}'));
-                                                            }),
-                                                        ListTile(
-                                                            onTap: () {
-                                                              setState(() {
-                                                                showTextField =
+                                                                  return ListTile(
+                                                                      onTap: () {
+                                                                        reportPost(
+                                                                            'offensive',
+                                                                            widget
+                                                                                .contentId,
+                                                                            '${reportList[index]['value']}',
+                                                                            reportController
+                                                                                .value
+                                                                                .text);
+                                                                      },
+                                                                      title: Text(
+                                                                          '${reportList[index]['title']}'));
+                                                                }),
+                                                            ListTile(
+                                                                onTap: () {
+                                                                  setState(() {
+                                                                    showTextField =
                                                                     true;
-                                                              });
-                                                            },
-                                                            title: Text(
-                                                                'Something else')),
-                                                      ],
-                                                    ),
-                                                  if (showTextField == true)
-                                                    Container(
-                                                      margin:
+                                                                  });
+                                                                },
+                                                                title: Text(
+                                                                    'Something else')),
+                                                          ],
+                                                        ),
+                                                      if (showTextField == true)
+                                                        Container(
+                                                          margin:
                                                           EdgeInsets.symmetric(
                                                               horizontal: 14,
                                                               vertical: 8),
-                                                      child:
+                                                          child:
                                                           SingleChildScrollView(
-                                                        child: Column(
-                                                          children: [
-                                                            TextFormField(
-                                                              controller:
+                                                            child: Column(
+                                                              children: [
+                                                                TextFormField(
+                                                                  controller:
                                                                   reportController,
-                                                              style:
+                                                                  style:
                                                                   Styles.bold(
-                                                                size: 14,
-                                                              ),
-                                                              decoration:
+                                                                    size: 14,
+                                                                  ),
+                                                                  decoration:
                                                                   InputDecoration(
-                                                                hintText:
+                                                                    hintText:
                                                                     'What are you trying to report?',
-                                                                isDense: true,
-                                                                helperStyle: Styles.regular(
-                                                                    size: 12,
-                                                                    color: ColorConstants
-                                                                        .GREY_3
-                                                                        .withOpacity(
+                                                                    isDense: true,
+                                                                    helperStyle: Styles.regular(
+                                                                        size: 12,
+                                                                        color: ColorConstants
+                                                                            .GREY_3
+                                                                            .withOpacity(
                                                                             0.1)),
-                                                                counterText: "",
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 20,
-                                                            ),
-                                                            InkWell(
-                                                                onTap: () {
-                                                                  reportPost(
-                                                                      'offensive',
-                                                                      widget
-                                                                          .contentId,
-                                                                      '',
-                                                                      reportController
-                                                                          .value
-                                                                          .text);
-                                                                },
-                                                                child:
+                                                                    counterText: "",
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 20,
+                                                                ),
+                                                                InkWell(
+                                                                    onTap: () {
+                                                                      reportPost(
+                                                                          'offensive',
+                                                                          widget
+                                                                              .contentId,
+                                                                          '',
+                                                                          reportController
+                                                                              .value
+                                                                              .text);
+                                                                    },
+                                                                    child:
                                                                     Container(
-                                                                  margin: EdgeInsets
-                                                                      .symmetric(
+                                                                      margin: EdgeInsets
+                                                                          .symmetric(
                                                                           vertical:
-                                                                              12),
-                                                                  width: double
-                                                                      .infinity,
-                                                                  height: MediaQuery.of(
-                                                                              context)
+                                                                          12),
+                                                                      width: double
+                                                                          .infinity,
+                                                                      height: MediaQuery.of(
+                                                                          context)
                                                                           .size
                                                                           .height *
-                                                                      WidgetSize
-                                                                          .AUTH_BUTTON_SIZE,
-                                                                  decoration: BoxDecoration(
-                                                                      color: ColorConstants()
-                                                                          .buttonColor(),
-                                                                      borderRadius:
+                                                                          WidgetSize
+                                                                              .AUTH_BUTTON_SIZE,
+                                                                      decoration: BoxDecoration(
+                                                                          color: ColorConstants()
+                                                                              .buttonColor(),
+                                                                          borderRadius:
                                                                           BorderRadius.circular(
                                                                               10)),
-                                                                  child: Center(
-                                                                      child:
+                                                                      child: Center(
+                                                                          child:
                                                                           Text(
-                                                                    'Submit',
-                                                                    style: Styles
-                                                                        .regular(
-                                                                      color: ColorConstants
-                                                                          .WHITE,
-                                                                    ),
-                                                                  )),
-                                                                )),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    )
-                                                ],
-                                              ),
-                                            ),
+                                                                            'Submit',
+                                                                            style: Styles
+                                                                                .regular(
+                                                                              color: ColorConstants
+                                                                                  .WHITE,
+                                                                            ),
+                                                                          )),
+                                                                    )),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        )
+                                                    ],
+                                                  ),
+                                                ),
                                           );
                                         }),
                                   ),
@@ -625,316 +646,6 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
               ),
             ),
 
-            /*ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: 360,
-                maxHeight :double.parse('${widget.height}'),
-              ),
-              // color: Colors.red,
-              child: PageView.builder(
-                  scrollDirection: Axis.horizontal,
-                  controller:
-                      PageController(initialPage: 0, viewportFraction: 1),
-                  itemCount: itemCount,
-                  itemBuilder: (BuildContext context, int index) {
-                    // var filePath =
-                    //     download.getFilePath('${widget.fileList[index]}');
-                    return Column(children: [
-                      ConstrainedBox(
-                          constraints: widget.fileList![index]
-                                      .contains('.mp4') ||
-                                  widget.fileList![index].contains('.mov') ==
-                                      true
-                              ? BoxConstraints(
-                                  minHeight: 360,
-                                  maxHeight: double.parse('${widget.height}'),
-                                )
-                              : BoxConstraints(
-                                  minHeight: 360,
-                                  maxHeight: 410,
-                                ),
-                          child: VisibilityDetector(
-                            key: ObjectKey('${widget.contentId}'),
-                            onVisibilityChanged: (visibility) async {
-                              var visiblePercentage =
-                                  visibility.visibleFraction * 100;
-                              if (visiblePercentage.round() <= 70 &&
-                                  this.mounted) {
-                              } else {
-                                await Future.delayed(Duration(seconds: 2));
-                                updateLikeandViews(null);
-                              }
-                            },
-                            child: AspectRatio(
-                              aspectRatio: widget.height!  / widget.width!,
-                              child: Container(
-                                child: Stack(
-                                  children: [
-                                    Center(
-                                        child: widget.fileList![index]
-                                                    .contains('.mp4') ||
-                                                widget.fileList![index]
-                                                    .contains('.mov')
-                                            // ? CustomBetterPlayer(
-                                            //     url: widget.fileList[index])
-                            
-                                            ? CustomVideoPlayer(
-                                                url: widget.fileList![index],
-                                                isLocalVideo: false,
-                                                likeCount: widget.likeCount,
-                                                viewCount: widget.viewCount,
-                                                commentCount:
-                                                    widget.commentCount != null
-                                                        ? widget.commentCount
-                                                        : 0,
-                                                index: index,
-                                                desc: widget.description,
-                                                userName: widget.user_name,
-                                                profilePath: widget.profile_path,
-                                                time:
-                                                    calculateTimeDifferenceBetween(
-                                                        DateTime.parse(date
-                                                            .toString()
-                                                            .substring(0, 19)),
-                                                        now),
-                                              )
-                                            : widget.fileList![index]
-                                                    .contains('.docx')
-                                                ? InkWell(
-                                                    onTap: () {
-                                                      OpenFile.open(
-                                                          '${widget.fileList![index]}');
-                                                    },
-                                                    child: Container(
-                                                      child: Image.asset(
-                                                        'assets/images/docx.png',
-                                                        height: 120,
-                                                        fit: BoxFit.contain,
-                                                      ),
-                                                    ))
-                                                : widget.fileList![index]
-                                                        .contains('.pdf')
-                                                    ? InkWell(
-                                                        onTap: () {
-                                                          Navigator.push(
-                                                              context,
-                                                              NextPageRoute(
-                                                                ViewPdfPage(
-                                                                  path: widget
-                                                                          .fileList![
-                                                                      index],
-                                                                ),
-                                                                isMaintainState:
-                                                                    true,
-                                                              ));
-                                                        },
-                                                        child: Container(
-                                                          child: Image.asset(
-                                                            'assets/images/pdf.png',
-                                                            height: 120,
-                                                            fit: BoxFit.contain,
-                                                          ),
-                                                        ),
-                                                      )
-                                                    : widget.fileList![index] != null
-                                                        ? InkWell(
-                                                            onTap: () {
-                                                              _displayDialog(
-                                                                context: context,
-                                                                imgUrl: widget
-                                                                        .fileList![
-                                                                    index],
-                                                                fileList: widget
-                                                                    .fileList,
-                                                                likeCount: widget
-                                                                    .likeCount,
-                                                                viewCount: widget
-                                                                    .viewCount,
-                                                                commentCount: widget
-                                                                    .commentCount,
-                                                                index: index,
-                                                                desc: widget
-                                                                    .description,
-                                                                userName: widget
-                                                                    .user_name,
-                                                                profilePath: widget
-                                                                    .profile_path,
-                                                                time: calculateTimeDifferenceBetween(
-                                                                    DateTime.parse(date
-                                                                        .toString()
-                                                                        .substring(
-                                                                            0,
-                                                                            19)),
-                                                                    now),
-                                                              );
-                                                            },
-                                                            child:
-                                                                CachedNetworkImage(
-                                                              imageUrl:
-                                                                  "${widget.fileList![index]}",
-                                                              progressIndicatorBuilder:
-                                                                  (context, url,
-                                                                          downloadProgress) =>
-                                                                      Shimmer
-                                                                          .fromColors(
-                                                                baseColor: Color(
-                                                                    0xffe6e4e6),
-                                                                highlightColor:
-                                                                    Color(
-                                                                        0xffeaf0f3),
-                                                                child: Container(
-                                                                  height: double
-                                                                      .infinity,
-                                                                  margin: EdgeInsets
-                                                                      .symmetric(
-                                                                          horizontal:
-                                                                              10,
-                                                                          vertical:
-                                                                              10),
-                                                                  width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width,
-                                                                  decoration: BoxDecoration(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              6)),
-                                                                ),
-                                                              ),
-                                                              errorWidget:
-                                                                  (context, url,
-                                                                          error) =>
-                                                                      Icon(Icons
-                                                                          .error),
-                                                            ), // child: Image.network(
-                                                            // widget.fileList![
-                                                            //     index],
-                                                            //   filterQuality:
-                                                            //       FilterQuality
-                                                            //           .low,
-                                                            //   fit: BoxFit.fill,
-                                                            //   width:
-                                                            //       MediaQuery.of(
-                                                            //               context)
-                                                            //           .size
-                                                            //           .width,
-                                                            // ),
-                                                          )
-                                                        : InkWell(
-                                                            onTap: () {
-                                                              _displayDialog(
-                                                                context: context,
-                                                                imgUrl: widget
-                                                                        .fileList![
-                                                                    index],
-                                                                fileList: widget
-                                                                    .fileList,
-                                                                likeCount: widget
-                                                                    .likeCount,
-                                                                viewCount: widget
-                                                                    .viewCount,
-                                                                commentCount: widget
-                                                                    .commentCount,
-                                                                index: index,
-                                                                desc: widget
-                                                                    .description,
-                                                                userName: widget
-                                                                    .user_name,
-                                                                profilePath: widget
-                                                                    .profile_path,
-                                                                time: calculateTimeDifferenceBetween(
-                                                                    DateTime.parse(date
-                                                                        .toString()
-                                                                        .substring(
-                                                                            0,
-                                                                            19)),
-                                                                    now),
-                                                              );
-                                                            },
-                                                            child: Image.network(
-                                                              widget.fileList![
-                                                                  index],
-                                                              filterQuality:
-                                                                  FilterQuality
-                                                                      .low,
-                                                              fit: BoxFit.contain,
-                                                              width:
-                                                                  MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width,
-                                                              loadingBuilder: (BuildContext
-                                                                      context,
-                                                                  Widget child,
-                                                                  ImageChunkEvent
-                                                                      loadingProgress) {
-                                                                if (loadingProgress ==
-                                                                    null)
-                                                                  return child;
-                                                                return Shimmer
-                                                                    .fromColors(
-                                                                  baseColor: Color(
-                                                                      0xffe6e4e6),
-                                                                  highlightColor:
-                                                                      Color(
-                                                                          0xffeaf0f3),
-                                                                  child:
-                                                                      Container(
-                                                                    height: double
-                                                                        .infinity,
-                                                                    margin: EdgeInsets.symmetric(
-                                                                        horizontal:
-                                                                            10,
-                                                                        vertical:
-                                                                            10),
-                                                                    width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width,
-                                                                    decoration: BoxDecoration(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(
-                                                                                6)),
-                                                                  ),
-                                                                );
-                                                              } as Widget Function(
-                                                                  BuildContext,
-                                                                  Widget,
-                                                                  ImageChunkEvent?)?,
-                                                            ))),
-                                    if (itemCount > 1)
-                                      Positioned(
-                                        child: Container(
-                                          height: 22,
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 8, vertical: 2),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              color: Colors.black),
-                                          child: Center(
-                                            child: Text(
-                                              '${index + 1}/${itemCount}',
-                                              style: Styles.semiBoldWhite(),
-                                            ),
-                                          ),
-                                        ),
-                                        top: 8,
-                                        right: 8,
-                                      ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          )),
-                    ]);
-                  }),
-            ),*/
-
             ///Add New and changed on post card and fun pending on Api side---
             ConstrainedBox(
               constraints: BoxConstraints(
@@ -942,15 +653,15 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                   //maxHeight: widget.resourceType!.endsWith('video') ? min(videoHeight, MediaQuery.of(context).size.height) : 410),
                   maxHeight: widget.resourceType!.endsWith('video')
                       ? min(
-                          videoHeight,
-                          MediaQuery.of(context).size.height -
-                              MediaQuery.of(context).size.height * 0.25)
-                      : 410),
+                      videoHeight,
+                      MediaQuery.of(context).size.height -
+                          MediaQuery.of(context).size.height * 0.25) : videoHeight),
+
               //maxHeight: 240),
               child: PageView.builder(
                   scrollDirection: Axis.horizontal,
                   controller:
-                      PageController(initialPage: 0, viewportFraction: 1),
+                  PageController(initialPage: 0, viewportFraction: 1),
                   itemCount: itemCount,
                   itemBuilder: (BuildContext context, int index) {
                     //var filePath = download.getFilePath('${widget.fileList![index]}');
@@ -958,18 +669,17 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                     return Column(children: [
                       ConstrainedBox(
                           constraints: widget.fileList![index]
-                                      .contains('.mp4') ||
-                                  widget.fileList![index].contains('.mov') ==
-                                      true
+                              .contains('.mp4') ||
+                              widget.fileList![index].contains('.mov') ==
+                                  true
                               ? BoxConstraints(
-                                  minHeight: 200,
-                                  //maxHeight: 420,
-                                  //maxHeight: videoHeight,
-                                )
-                              : BoxConstraints(
-                                  minHeight: 200,
-                                  maxHeight: 410,
-                                ),
+                            minHeight: 200,
+                            //maxHeight: 420,
+                            maxHeight: videoHeight,
+                          ): BoxConstraints(
+                            minHeight: 100,
+
+                          ),
                           child: VisibilityDetector(
                             key: ObjectKey('${widget.contentId}'),
                             onVisibilityChanged: (visibility) async {
@@ -988,259 +698,257 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                 children: [
                                   Center(
                                       child: widget.fileList![index]
-                                                  .contains('.mp4') ||
-                                              widget.fileList![index]
-                                                  .contains('.mov')
-                                          // ? CustomBetterPlayer(
-                                          //     url: widget.fileList[index])
+                                          .contains('.mp4') ||
+                                          widget.fileList![index]
+                                              .contains('.mov')
+                                      // ? CustomBetterPlayer(
+                                      //     url: widget.fileList[index])
                                           ? CustomVideoPlayer(
-                                              // sendflickManager:
-                                              //     (FlickManager value) {},
-                                              url: widget.fileList![index],
-                                              isLocalVideo: false,
-                                              likeCount: widget.likeCount,
-                                              viewCount: widget.viewCount,
-                                              commentCount:
-                                                  widget.commentCount != null
-                                                      ? widget.commentCount
-                                                      : 0,
-                                              //height:  videoHeight,
-                                              height: min(
-                                                  videoHeight,
-                                                  MediaQuery.of(context)
-                                                          .size
-                                                          .height -
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .height *
-                                                          0.25),
-                                              index: index,
-                                              desc: widget.description,
-                                              userName: widget.user_name,
-                                              profilePath: widget.profile_path,
-                                              time:
-                                                  calculateTimeDifferenceBetween(
-                                                      DateTime.parse(date
-                                                          .toString()
-                                                          .substring(0, 19)),
-                                                      now),
-                                            )
+                                        // sendflickManager:
+                                        //     (FlickManager value) {},
+                                        url: widget.fileList![index],
+                                        isLocalVideo: false,
+                                        likeCount: widget.likeCount,
+                                        viewCount: widget.viewCount,
+                                        commentCount:
+                                        widget.commentCount != null
+                                            ? widget.commentCount
+                                            : 0,
+                                        //height:  videoHeight,
+                                        height: min(
+                                            videoHeight,
+                                            MediaQuery.of(context)
+                                                .size
+                                                .height -
+                                                MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                    0.25),
+                                        index: index,
+                                        desc: widget.description,
+                                        userName: widget.user_name,
+                                        profilePath: widget.profile_path,
+                                        time:
+                                        calculateTimeDifferenceBetween(
+                                            DateTime.parse(date
+                                                .toString()
+                                                .substring(0, 19)),
+                                            now),
+                                      )
                                           : widget.fileList![index]
-                                                  .contains('.docx')
-                                              ? InkWell(
-                                                  onTap: () {
-                                                    OpenFile.open(
-                                                        '${widget.fileList![index]}');
-                                                  },
-                                                  child: Container(
-                                                    child: Image.asset(
-                                                      'assets/images/docx.png',
-                                                      height: 120,
-                                                      fit: BoxFit.contain,
-                                                    ),
-                                                  ))
-                                              : widget.fileList![index]
-                                                      .contains('.pdf')
-                                                  ? InkWell(
-                                                      onTap: () {
-                                                        Navigator.push(
-                                                            context,
-                                                            NextPageRoute(
-                                                              ViewPdfPage(
-                                                                path: widget
-                                                                        .fileList![
-                                                                    index],
-                                                              ),
-                                                              isMaintainState:
-                                                                  true,
-                                                            ));
-                                                      },
-                                                      child: Container(
-                                                        child: Image.asset(
-                                                          'assets/images/pdf.png',
-                                                          height: 120,
-                                                          fit: BoxFit.contain,
-                                                        ),
-                                                      ),
-                                                    )
-                                                  : widget.fileList![index] !=
-                                                          null
-                                                      ? InkWell(
-                                                          onTap: () {
-                                                            _displayDialog(
-                                                              context: context,
-                                                              imgUrl: widget
-                                                                      .fileList![
-                                                                  index],
-                                                              fileList: widget
-                                                                  .fileList,
-                                                              likeCount: widget
-                                                                  .likeCount,
-                                                              viewCount: widget
-                                                                  .viewCount,
-                                                              commentCount: widget
-                                                                  .commentCount,
-                                                              index: index,
-                                                              desc: widget
-                                                                  .description,
-                                                              userName: widget
-                                                                  .user_name,
-                                                              profilePath: widget
-                                                                  .profile_path,
-                                                              time: calculateTimeDifferenceBetween(
-                                                                  DateTime.parse(date
-                                                                      .toString()
-                                                                      .substring(
-                                                                          0,
-                                                                          19)),
-                                                                  now),
-                                                            );
-                                                          },
-                                                          child: ZoomOverlay(
-                                                            minScale:
-                                                                0.5, // Optional
-                                                            maxScale:
-                                                                3.0, // Optional
-                                                            twoTouchOnly: true,
-                                                            child:
-                                                                CachedNetworkImage(
-                                                              imageUrl:
-                                                                  "${widget.fileList![index]}",
-                                                              progressIndicatorBuilder:
-                                                                  (context, url,
-                                                                          downloadProgress) =>
-                                                                      Shimmer
-                                                                          .fromColors(
-                                                                baseColor: Color(
-                                                                    0xffe6e4e6),
-                                                                highlightColor:
-                                                                    Color(
-                                                                        0xffeaf0f3),
-                                                                child:
-                                                                    Container(
-                                                                  height: double
-                                                                      .infinity,
-                                                                  margin: EdgeInsets.symmetric(
-                                                                      horizontal:
-                                                                          10,
-                                                                      vertical:
-                                                                          10),
-                                                                  width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width,
-                                                                  decoration: BoxDecoration(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              6)),
-                                                                ),
-                                                              ),
-                                                              errorWidget: (context,
-                                                                      url,
-                                                                      error) =>
-                                                                  Icon(Icons
-                                                                      .error),
-                                                            ),
-                                                          ), // child: Image.network(
-                                                          // widget.fileList![
-                                                          //     index],
-                                                          //   filterQuality:
-                                                          //       FilterQuality
-                                                          //           .low,
-                                                          //   fit: BoxFit.fill,
-                                                          //   width:
-                                                          //       MediaQuery.of(
-                                                          //               context)
-                                                          //           .size
-                                                          //           .width,
-                                                          // ),
-                                                        )
-                                                      : InkWell(
-                                                          onTap: () {
-                                                            _displayDialog(
-                                                              context: context,
-                                                              imgUrl: widget
-                                                                      .fileList![
-                                                                  index],
-                                                              fileList: widget
-                                                                  .fileList,
-                                                              likeCount: widget
-                                                                  .likeCount,
-                                                              viewCount: widget
-                                                                  .viewCount,
-                                                              commentCount: widget
-                                                                  .commentCount,
-                                                              index: index,
-                                                              desc: widget
-                                                                  .description,
-                                                              userName: widget
-                                                                  .user_name,
-                                                              profilePath: widget
-                                                                  .profile_path,
-                                                              time: calculateTimeDifferenceBetween(
-                                                                  DateTime.parse(date
-                                                                      .toString()
-                                                                      .substring(
-                                                                          0,
-                                                                          19)),
-                                                                  now),
-                                                            );
-                                                          },
-                                                          child: Image.network(
-                                                            widget.fileList![
-                                                                index],
-                                                            filterQuality:
-                                                                FilterQuality
-                                                                    .low,
-                                                            fit: BoxFit.contain,
-                                                            width:
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width,
-                                                            loadingBuilder: (BuildContext
-                                                                    context,
-                                                                Widget child,
-                                                                ImageChunkEvent
-                                                                    loadingProgress) {
-                                                              if (loadingProgress ==
-                                                                  null)
-                                                                return child;
-                                                              return Shimmer
-                                                                  .fromColors(
-                                                                baseColor: Color(
-                                                                    0xffe6e4e6),
-                                                                highlightColor:
-                                                                    Color(
-                                                                        0xffeaf0f3),
-                                                                child:
-                                                                    Container(
-                                                                  height: double
-                                                                      .infinity,
-                                                                  margin: EdgeInsets.symmetric(
-                                                                      horizontal:
-                                                                          10,
-                                                                      vertical:
-                                                                          10),
-                                                                  width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width,
-                                                                  decoration: BoxDecoration(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              6)),
-                                                                ),
-                                                              );
-                                                            } as Widget Function(
-                                                                BuildContext,
-                                                                Widget,
-                                                                ImageChunkEvent?)?,
-                                                          ))),
+                                          .contains('.docx')
+                                          ? InkWell(
+                                          onTap: () {
+                                            OpenFile.open(
+                                                '${widget.fileList![index]}');
+                                          },
+                                          child: Container(
+                                            child: Image.asset(
+                                              'assets/images/docx.png',
+                                              height: 120,
+                                              fit: BoxFit.contain,
+                                            ),
+                                          ))
+                                          : widget.fileList![index]
+                                          .contains('.pdf')
+                                          ? InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              NextPageRoute(
+                                                ViewPdfPage(
+                                                  path: widget
+                                                      .fileList![
+                                                  index],
+                                                ),
+                                                isMaintainState:
+                                                true,
+                                              ));
+                                        },
+                                        child: Container(
+                                          child: Image.asset(
+                                            'assets/images/pdf.png',
+                                            height: 120,
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                      )
+                                          : widget.fileList![index] !=
+                                          null
+                                          ? InkWell(
+                                        onTap: () {
+                                          _displayDialog(
+                                            context: context,
+                                            imgUrl: widget
+                                                .fileList![
+                                            index],
+                                            fileList: widget
+                                                .fileList,
+                                            likeCount: widget
+                                                .likeCount,
+                                            viewCount: widget
+                                                .viewCount,
+                                            commentCount: widget
+                                                .commentCount,
+                                            index: index,
+                                            desc: widget
+                                                .description,
+                                            userName: widget
+                                                .user_name,
+                                            profilePath: widget
+                                                .profile_path,
+                                            time: calculateTimeDifferenceBetween(
+                                                DateTime.parse(date
+                                                    .toString()
+                                                    .substring(
+                                                    0,
+                                                    19)),
+                                                now),
+                                          );
+                                        },
+                                        child: ZoomOverlay(
+                                          minScale:
+                                          0.5, // Optional
+                                          maxScale:
+                                          3.0, // Optional
+                                          twoTouchOnly: true,
+                                          child:
+                                          CachedNetworkImage(
+                                            imageUrl:
+                                            "${widget.fileList![index]}",
+                                            progressIndicatorBuilder:
+                                                (context, url,
+                                                downloadProgress) =>
+                                                Shimmer.fromColors(
+                                                  baseColor: Color(
+                                                      0xffe6e4e6),
+                                                  highlightColor:
+                                                  Color(
+                                                      0xffeaf0f3),
+                                                  child:
+                                                  Container(
+                                                    //height: double.infinity,
+                                                    margin: EdgeInsets.symmetric(
+                                                        horizontal:
+                                                        10,
+                                                        vertical:
+                                                        10),
+                                                    width: MediaQuery.of(
+                                                        context)
+                                                        .size
+                                                        .width,
+                                                    decoration: BoxDecoration(
+                                                        color: Colors
+                                                            .white,
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            6)),
+                                                  ),
+                                                ),
+                                            errorWidget: (context,
+                                                url,
+                                                error) =>
+                                                Icon(Icons
+                                                    .error),
+                                          ),
+                                        ), // child: Image.network(
+                                        // widget.fileList![
+                                        //     index],
+                                        //   filterQuality:
+                                        //       FilterQuality
+                                        //           .low,
+                                        //   fit: BoxFit.fill,
+                                        //   width:
+                                        //       MediaQuery.of(
+                                        //               context)
+                                        //           .size
+                                        //           .width,
+                                        // ),
+                                      )
+                                          : InkWell(
+                                          onTap: () {
+                                            _displayDialog(
+                                              context: context,
+                                              imgUrl: widget
+                                                  .fileList![
+                                              index],
+                                              fileList: widget
+                                                  .fileList,
+                                              likeCount: widget
+                                                  .likeCount,
+                                              viewCount: widget
+                                                  .viewCount,
+                                              commentCount: widget
+                                                  .commentCount,
+                                              index: index,
+                                              desc: widget
+                                                  .description,
+                                              userName: widget
+                                                  .user_name,
+                                              profilePath: widget
+                                                  .profile_path,
+                                              time: calculateTimeDifferenceBetween(
+                                                  DateTime.parse(date
+                                                      .toString()
+                                                      .substring(
+                                                      0,
+                                                      19)),
+                                                  now),
+                                            );
+                                          },
+                                          child: Image.network(
+                                            widget.fileList![
+                                            index],
+                                            filterQuality:
+                                            FilterQuality
+                                                .low,
+                                            fit: BoxFit.contain,
+                                            width:
+                                            MediaQuery.of(
+                                                context)
+                                                .size
+                                                .width,
+                                            loadingBuilder: (BuildContext
+                                            context,
+                                                Widget child,
+                                                ImageChunkEvent
+                                                loadingProgress) {
+                                              if (loadingProgress ==
+                                                  null)
+                                                return child;
+                                              return Shimmer
+                                                  .fromColors(
+                                                baseColor: Color(
+                                                    0xffe6e4e6),
+                                                highlightColor:
+                                                Color(
+                                                    0xffeaf0f3),
+                                                child:
+                                                Container(
+                                                  height: double
+                                                      .infinity,
+                                                  margin: EdgeInsets.symmetric(
+                                                      horizontal:
+                                                      10,
+                                                      vertical:
+                                                      10),
+                                                  width: MediaQuery.of(
+                                                      context)
+                                                      .size
+                                                      .width,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors
+                                                          .white,
+                                                      borderRadius:
+                                                      BorderRadius.circular(
+                                                          6)),
+                                                ),
+                                              );
+                                            } as Widget Function(
+                                                BuildContext,
+                                                Widget,
+                                                ImageChunkEvent?)?,
+                                          ))),
                                   if (itemCount > 1)
                                     Positioned(
                                       child: Container(
@@ -1249,7 +957,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                             horizontal: 8, vertical: 2),
                                         decoration: BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                            BorderRadius.circular(10),
                                             color: Colors.black),
                                         child: Center(
                                           child: Text(
@@ -1277,10 +985,10 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
 
             Padding(
                 padding:
-                    const EdgeInsets.only(left: 10.0, bottom: 8.0, top: 8.0),
+                const EdgeInsets.only(left: 10.0, bottom: 8.0, top: 8.0),
                 child: Text(
                   '${widget.viewCount != 0 ? widget.viewCount.toString() + ' ${Strings.of(context)?.Views}' : ''}'
-                  '${widget.viewCount! > 1 && Preference.getInt(Preference.APP_LANGUAGE) == 1 ? 's' : ''}',
+                      '${widget.viewCount! > 1 && Preference.getInt(Preference.APP_LANGUAGE) == 1 ? 's' : ''}',
                   style: Styles.regular(size: 12, color: ColorConstants.BLACK),
                 )),
             Padding(
@@ -1331,9 +1039,9 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                               height: 18.8,
                               width: 17.86,
                               color:
-                                  widget.value?.isLiked(widget.index) == false
-                                      ? ColorConstants.BLACK
-                                      : ColorConstants().primaryColor(),
+                              widget.value?.isLiked(widget.index) == false
+                                  ? ColorConstants.BLACK
+                                  : ColorConstants().primaryColor(),
                               allowDrawingOutsideViewBox: true,
                             ),
                           ),
@@ -1479,16 +1187,16 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
 
   _displayDialog(
       {required BuildContext context,
-      final String? imgUrl,
-      final List<String>? fileList,
-      final int? likeCount,
-      final int? viewCount,
-      final int? commentCount,
-      final int? index,
-      final String? desc,
-      final String? profilePath,
-      final String? userName,
-      final String? time}) {
+        final String? imgUrl,
+        final List<String>? fileList,
+        final int? likeCount,
+        final int? viewCount,
+        final int? commentCount,
+        final int? index,
+        final String? desc,
+        final String? profilePath,
+        final String? userName,
+        final String? time}) {
     showGeneralDialog(
       context: context,
       //barrierDismissible: false,
@@ -1539,35 +1247,35 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                         Center(
                           child: ClipOval(
                               child: Image.network(
-                            widget.profile_path ?? '',
-                            height: 50,
-                            width: 50,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, url, error) {
-                              return SvgPicture.asset(
-                                'assets/images/default_user.svg',
+                                widget.profile_path ?? '',
                                 height: 50,
                                 width: 50,
-                                allowDrawingOutsideViewBox: true,
-                              );
-                            },
-                            loadingBuilder: (BuildContext context, Widget child,
-                                ImageChunkEvent? loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return Shimmer.fromColors(
-                                baseColor: Color(0xffe6e4e6),
-                                highlightColor: Color(0xffeaf0f3),
-                                child: Container(
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, url, error) {
+                                  return SvgPicture.asset(
+                                    'assets/images/default_user.svg',
                                     height: 50,
-                                    margin: EdgeInsets.only(left: 2),
                                     width: 50,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
-                                    )),
-                              );
-                            },
-                          )),
+                                    allowDrawingOutsideViewBox: true,
+                                  );
+                                },
+                                loadingBuilder: (BuildContext context, Widget child,
+                                    ImageChunkEvent? loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return Shimmer.fromColors(
+                                    baseColor: Color(0xffe6e4e6),
+                                    highlightColor: Color(0xffeaf0f3),
+                                    child: Container(
+                                        height: 50,
+                                        margin: EdgeInsets.only(left: 2),
+                                        width: 50,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.circle,
+                                        )),
+                                  );
+                                },
+                              )),
                         ),
                         Expanded(
                           child: Column(
@@ -1614,52 +1322,52 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(0),
                         child: Container(
-                            //height: MediaQuery.of(context).size.height * 0.65,
+                          //height: MediaQuery.of(context).size.height * 0.65,
                             width: MediaQuery.of(context).size.width,
                             child: fileList![index!] != null &&
-                                    fileList[index].isNotEmpty
+                                fileList[index].isNotEmpty
                                 ? fileList[index].contains('.mp4')
-                                    ? VisibilityDetector(
-                                        key: ObjectKey(flickManager),
-                                        onVisibilityChanged: (visibility) {
-                                          if (visibility.visibleFraction == 0 &&
-                                              this.mounted) {
-                                            flickManager?.flickControlManager
-                                                ?.pause(); //pausing  functionality
-                                          } else {
-                                            flickManager?.flickControlManager
-                                                ?.play(); //playing functionality
-                                          }
-                                        },
-                                        child: FlickVideoPlayer(
-                                          flickManager: flickManager!,
-                                        ),
-                                      )
-                                    : Image.network(
-                                        imgUrl!,
-                                        fit: BoxFit.fitWidth,
-                                        loadingBuilder:
-                                            (context, child, loadingProgress) {
-                                          if (loadingProgress == null) {
-                                            return child;
-                                          }
-                                          return Shimmer.fromColors(
-                                            baseColor: Colors.grey[300]!,
-                                            highlightColor: Colors.grey[100]!,
-                                            enabled: true,
-                                            child: Container(
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              height: 300,
-                                              color: Colors.white,
-                                            ),
-                                          );
-                                        },
-                                      )
+                                ? VisibilityDetector(
+                              key: ObjectKey(flickManager),
+                              onVisibilityChanged: (visibility) {
+                                if (visibility.visibleFraction == 0 &&
+                                    this.mounted) {
+                                  flickManager?.flickControlManager
+                                      ?.pause(); //pausing  functionality
+                                } else {
+                                  flickManager?.flickControlManager
+                                      ?.play(); //playing functionality
+                                }
+                              },
+                              child: FlickVideoPlayer(
+                                flickManager: flickManager!,
+                              ),
+                            )
+                                : Image.network(
+                              imgUrl!,
+                              fit: BoxFit.fitWidth,
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child;
+                                }
+                                return Shimmer.fromColors(
+                                  baseColor: Colors.grey[300]!,
+                                  highlightColor: Colors.grey[100]!,
+                                  enabled: true,
+                                  child: Container(
+                                    width: MediaQuery.of(context)
+                                        .size
+                                        .width,
+                                    height: 300,
+                                    color: Colors.white,
+                                  ),
+                                );
+                              },
+                            )
                                 : SizedBox(
-                                    child: Text('no data'),
-                                  )),
+                              child: Text('no data'),
+                            )),
                       ),
                     ]),
                   ),
