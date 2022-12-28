@@ -125,7 +125,7 @@ class ShortTerm {
   String? contents;
   int? totalCoins;
   String? trainer;
-  String? totalView;
+  int? totalView;
   String? subscriptionType;
   bool? isSubscribed;
   int? completionPer;
@@ -233,7 +233,7 @@ class Recommended {
   String? contents;
   int? totalCoins;
   String? trainer;
-  String? totalView;
+  int? totalView;
   String? subscriptionType;
   bool? isSubscribed;
   int? completionPer;
@@ -345,7 +345,7 @@ class HighlyRated {
   String? contents;
   int? totalCoins;
   String? trainer;
-  String? totalView;
+  int? totalView;
   String? subscriptionType;
   bool? isSubscribed;
   int? completionPer;
@@ -450,7 +450,7 @@ class OtherLearners {
   String? contents;
   int? totalCoins;
   String? trainer;
-  String? totalView;
+  int? totalView;
   String? subscriptionType;
   bool? isSubscribed;
   int? completionPer;
@@ -559,7 +559,7 @@ class MostViewed {
   String? contents;
   int? totalCoins;
   String? trainer;
-  String? totalView;
+  int? totalView;
   String? subscriptionType;
   bool? isSubscribed;
   int? completionPer;
@@ -664,7 +664,7 @@ class PopularCourses {
   String? contents;
   int? totalCoins;
   String? trainer;
-  String? totalView;
+  int? totalView;
   String? subscriptionType;
   bool? isSubscribed;
   int? enrolmentCount;

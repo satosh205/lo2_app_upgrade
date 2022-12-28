@@ -736,7 +736,7 @@ class HomeRepository {
       box.put("popularCoursess",
           mapInterestResponse.data!.list!.map((e) => e.toJson()).toList());
 
-      Log.v("ERROR DATA : ${response.body}");
+      Log.v("ERROR DATA popularCoursess: ${response.body}");
 
       return mapInterestResponse;
     } else {

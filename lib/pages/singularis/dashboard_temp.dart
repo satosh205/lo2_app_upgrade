@@ -246,8 +246,8 @@ class _DashboardState extends State<Dashboard> {
                                             Expanded(child: SizedBox()),
                                             InkWell(
                                               onTap: () {
-                                                menuProvider
-                                                    .updateCurrentIndex(1);
+                                                // menuProvider
+                                                //     .updateCurrentIndex(1);
                                               },
                                               child: Text('View all',
                                                   style: Styles.regular(
@@ -597,7 +597,7 @@ class _DashboardState extends State<Dashboard> {
                                       Expanded(child: SizedBox()),
                                       IconButton(
                                           onPressed: () {
-                                            menuProvider.updateCurrentIndex(3);
+                                            // menuProvider.updateCurrentIndex(3);
                                           },
                                           icon: Icon(Icons.arrow_forward_ios))
                                     ],
@@ -641,7 +641,7 @@ class _DashboardState extends State<Dashboard> {
                                       Expanded(child: SizedBox()),
                                       IconButton(
                                           onPressed: () {
-                                            menuProvider.updateCurrentIndex(2);
+                                            // menuProvider.updateCurrentIndex(2);
                                           },
                                           icon: Icon(Icons.arrow_forward_ios))
                                     ],
@@ -687,7 +687,7 @@ class _DashboardState extends State<Dashboard> {
                                       // Icon(Icons.arrow_forward_ios)
                                       IconButton(
                                           onPressed: () {
-                                            menuProvider.updateCurrentIndex(4);
+                                            // menuProvider.updateCurrentIndex(4);
                                           },
                                           icon: Icon(Icons.arrow_forward_ios))
                                     ],

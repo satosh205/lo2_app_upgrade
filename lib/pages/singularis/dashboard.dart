@@ -34,7 +34,9 @@ import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
+import '../../data/models/response/auth_response/bottombar_response.dart';
 import '../../data/providers/training_detail_provider.dart';
+import '../../data/providers/video_player_provider.dart';
 import '../reels/reels_dashboard_page.dart';
 import '../training_pages/training_detail_page.dart';
 import '../training_pages/training_service.dart';
@@ -63,6 +65,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
   bool showAllFeatured = false;
 
+  MenuListProvider? menuProvider;
+
   @override
   void initState() {
     getDashboardIsVisible();
@@ -81,38 +85,44 @@ class _DashboardPageState extends State<DashboardPage> {
       "dashboard_recommended_courses_limit": renderRecommandedCourses(),
       "dashboard_carvan_limit": renderCarvaan()
     };
-    return BlocManager(
-        initState: (context) {},
-        child: BlocListener<HomeBloc, HomeState>(
-          listener: (context, state) async {},
-          child: SingleChildScrollView(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Welcome',
-                      style: Styles.semibold(size: 14),
+    return Consumer2<VideoPlayerProvider, MenuListProvider>(
+        builder: (context, value, mp, child) => BlocManager(
+            initState: (context) {},
+            child: BlocListener<HomeBloc, HomeState>(
+              listener: (context, state) async {
+                setState(() {
+                  menuProvider = mp;
+                });
+              },
+              child: SingleChildScrollView(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Welcome',
+                          style: Styles.semibold(size: 14),
+                        ),
+                        Text(
+                          '${Preference.getString(Preference.FIRST_NAME)}',
+                          style: Styles.bold(size: 28),
+                        ),
+                        Text(
+                          'Begin your learning journey',
+                          style: Styles.regular(),
+                        ),
+                      ],
                     ),
-                    Text(
-                      '${Preference.getString(Preference.FIRST_NAME)}',
-                      style: Styles.bold(size: 28),
-                    ),
-                    Text(
-                      'Begin your learning journey',
-                      style: Styles.regular(),
-                    ),
-                  ],
-                ),
-              ),
-              renderWidgets(pages),
-            ],
-          )),
-        ));
+                  ),
+                  renderWidgets(pages),
+                ],
+              )),
+            )));
   }
 
   renderWidgets(pages) {
@@ -471,8 +481,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       Expanded(child: SizedBox()),
                       InkWell(
                         onTap: () {
-                          // menuProvider
-                          //     .updateCurrentIndex(1);
+                          menuProvider?.updateCurrentIndex('/g-school');
                         },
                         child: Text('View all',
                             style: Styles.regular(
@@ -496,7 +505,6 @@ class _DashboardPageState extends State<DashboardPage> {
                         children: [
                           InkWell(
                               onTap: () {
-                                print('button is clicked');
                                 Navigator.push(
                                     context,
                                     NextPageRoute(
@@ -521,96 +529,60 @@ class _DashboardPageState extends State<DashboardPage> {
                                 decoration: BoxDecoration(
                                     color: ColorConstants.GREY.withOpacity(0.6),
                                     borderRadius: BorderRadius.circular(15)),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                                child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      SizedBox(
-                                        width: 10,
+                                      Text('${myCoursesList![index].name}',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: false,
+                                          style: Styles.bold(size: 16)),
+                                      // SizedBox(height: 4),
+                                      Row(
+                                        children: [
+                                          Expanded(child: SizedBox()),
+                                          Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: ColorConstants.GREY_2,
+                                            size: 20,
+                                          )
+                                        ],
                                       ),
+                                      // SizedBox(height: 15),
+                                      Text(
+                                          '${myCoursesList![index].completion.toString().split('.').first}% ${Strings.of(context)?.Completed}',
+                                          style: Styles.regular(size: 12)),
+                                      SizedBox(height: 10),
                                       Container(
+                                        height: 10,
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.55,
-                                        //height: MediaQuery.of(context).size.height * 0.25,
-                                        child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                  '${myCoursesList![index].name}',
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  softWrap: false,
-                                                  style: Styles.bold(size: 16)),
-                                              SizedBox(height: 4),
-                                              Row(
-                                                children: [
-                                                  SvgPicture.asset(
-                                                    'assets/images/clock_icon.svg',
-                                                    width: 15,
-                                                    height: 15,
-                                                    allowDrawingOutsideViewBox:
-                                                        true,
-                                                  ),
-                                                  SizedBox(
-                                                    width: 5,
-                                                  ),
-                                                  Text(
-                                                      '${myCoursesList![index].hours}',
-                                                      maxLines: 1,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      softWrap: false,
-                                                      style: Styles.regular(
-                                                          size: 10)),
-                                                ],
-                                              ),
-                                              SizedBox(height: 15),
-                                              Text(
-                                                  '${myCoursesList![index].completion}% ${Strings.of(context)?.Completed}',
-                                                  style:
-                                                      Styles.regular(size: 12)),
-                                              SizedBox(height: 10),
-                                              Container(
-                                                height: 10,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.8,
-                                                decoration: BoxDecoration(
-                                                    color: ColorConstants.GREY,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                                child: Stack(
-                                                  children: [
-                                                    Container(
-                                                      height: 10,
-                                                      width: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .width *
-                                                          0.6 *
-                                                          (myCoursesList![index]
-                                                                  .completion! /
-                                                              100),
-                                                      decoration: BoxDecoration(
-                                                          color: ColorConstants
-                                                              .YELLOW,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      10)),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ]),
+                                                0.9,
+                                        decoration: BoxDecoration(
+                                            color: ColorConstants.GREY,
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Stack(
+                                          children: [
+                                            Container(
+                                              height: 10,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.8 *
+                                                  (myCoursesList![index]
+                                                          .completion! /
+                                                      100),
+                                              decoration: BoxDecoration(
+                                                  color: ColorConstants.YELLOW,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ]),
                               )),
@@ -669,7 +641,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   Expanded(child: SizedBox()),
                   IconButton(
                       onPressed: () {
-                        // menuProvider.updateCurrentIndex(2);
+                        menuProvider?.updateCurrentIndex('/g-reels');
                       },
                       icon: Icon(Icons.arrow_forward_ios))
                 ],
@@ -692,8 +664,9 @@ class _DashboardPageState extends State<DashboardPage> {
                               width: 180,
                               child: InkWell(
                                   onTap: () {
-                                    // menuProvider.updateCurrentIndex(3);
-                                    // menuProvider.updateItemIndex(index);
+                                    menuProvider
+                                        ?.updateCurrentIndex('/g-reels');
+                                    menuProvider?.updateItemIndex(index);
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -756,7 +729,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   Expanded(child: SizedBox()),
                   IconButton(
                       onPressed: () {
-                        // menuProvider.updateCurrentIndex(2);
+                        menuProvider?.updateCurrentIndex('/g-school');
                       },
                       icon: Icon(Icons.arrow_forward_ios))
                 ],
@@ -832,34 +805,58 @@ class _DashboardPageState extends State<DashboardPage> {
                     Expanded(child: SizedBox()),
                     IconButton(
                         onPressed: () {
-                          // menuProvider.updateCurrentIndex(2);
+                          menuProvider?.updateCurrentIndex('/g-carvaan');
                         },
                         icon: Icon(Icons.arrow_forward_ios))
                   ],
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: GCarvaanCardPost(
-                    index: 0,
-                    value: null,
-                    userStatus: carvaanList![0].userStatus!,
-                    image_path: carvaanList?[0].resourcePath,
-                    date: carvaanList![0].createdAt.toString(),
-                    description: carvaanList?[0].description,
-                    commentCount: carvaanList?[0].commentCount ?? 0,
-                    user_name: carvaanList?[0].name,
-                    profile_path: carvaanList?[0].profileImage,
-                    likeCount: carvaanList?[0].likeCount ?? 0,
-                    viewCount: carvaanList?[0].viewCount ?? 0,
-                    islikedPost: carvaanList?[0].userLiked == 1 ? true : false,
-                    contentId: carvaanList?[0].id,
-                    fileList: carvaanList?[0].multiFileUploads,
-                    comment_visible: false,
-                    height: carvaanList?[0].dimension?.height,
-                    dimension: null,
-                    width: carvaanList?[0].dimension?.width,
-                    resourceType: carvaanList?[0].resourceType,
-                    userID: carvaanList?[0].userId,
+                  child: Container(
+                    height: 200,
+                    child: ListView.builder(
+                        // shrinkWrap: true,
+                        itemCount: carvaanList?.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            // width: 500,
+                            height: 200,
+                            margin: EdgeInsets.all(8),
+                            // color: Colors.red,
+                            child: Image.network(
+                                '${carvaanList?[index].resourcePath}'),
+                          );
+                          return Container(
+                            height: 500,
+                            color: Colors.red,
+                            child: GCarvaanCardPost(
+                              index: 0,
+                              value: null,
+                              userStatus: carvaanList![index].userStatus!,
+                              image_path: carvaanList?[index].resourcePath,
+                              date: carvaanList![index].createdAt.toString(),
+                              description: carvaanList?[index].description,
+                              commentCount:
+                                  carvaanList?[index].commentCount ?? 0,
+                              user_name: carvaanList?[index].name,
+                              profile_path: carvaanList?[index].profileImage,
+                              likeCount: carvaanList?[index].likeCount ?? 0,
+                              viewCount: carvaanList?[index].viewCount ?? 0,
+                              islikedPost: carvaanList?[index].userLiked == 1
+                                  ? true
+                                  : false,
+                              contentId: carvaanList?[index].id,
+                              fileList: carvaanList?[index].multiFileUploads,
+                              comment_visible: false,
+                              height: carvaanList?[index].dimension?.height,
+                              dimension: null,
+                              width: carvaanList?[index].dimension?.width,
+                              resourceType: carvaanList?[index].resourceType,
+                              userID: carvaanList?[index].userId,
+                            ),
+                          );
+                        }),
                   ),
                 )
               ],

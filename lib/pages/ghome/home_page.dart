@@ -417,7 +417,8 @@ class _homePageState extends State<homePage> {
                         } else {
                           setState(() {
                             currentIndex = index;
-                            menuProvider.updateCurrentIndex(index);
+                            menuProvider.updateCurrentIndex(
+                                widget.bottomMenu![index].url!);
                           });
                         }
                       },
