@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Competetion extends StatefulWidget {
   const Competetion({Key? key}) : super(key: key);
@@ -18,6 +22,48 @@ class _CompetetionState extends State<Competetion> {
     double barThickness = MediaQuery.of(context).size.height * 0.012;
     double mobileWidth = MediaQuery.of(context).size.width - 50;
     double mobileHeight = MediaQuery.of(context).size.height;
+    startServer() async {
+      // setState(() {
+      //   // statusText = "Starting server on Port : 8080";
+      // });
+      final picker = ImagePicker();
+      PickedFile? file;
+      PickedFile? pickedFile =
+          // ignore: deprecated_member_use
+          await picker.getImage(source: ImageSource.gallery);
+      if (pickedFile != null)
+        // return pickedFile.path;
+        file = pickedFile;
+      else if (Platform.isAndroid) {
+        final LostData response = await picker.getLostData();
+        if (response.file != null) {
+          // return response.file!.path;
+          file = response.file!;
+        }
+      }
+      // return "";
+      var server = await HttpServer.bind(InternetAddress.loopbackIPv4, 8080);
+      print("Server running on IP : " +
+          server.address.toString() +
+          " On Port : " +
+          server.port.toString());
+      await for (var request in server) {
+        // request.response
+        //   ..headers.contentType =
+        //       new ContentType("text", "plain", charset: "utf-8")
+        //   ..write(file)
+        //   ..close();
+
+        request.response..headers.contentType = ContentType.text;
+        request.response.write('nice');
+      }
+      setState(() {
+        print("Server running on IP : " +
+            server.address.toString() +
+            " On Port : " +
+            server.port.toString());
+      });
+    }
 
     return Container(
       color: ColorConstants.WHITE,
@@ -136,16 +182,17 @@ class _CompetetionState extends State<Competetion> {
                           )),
                       InkWell(
                           onTap: () {
-                            showModalBottomSheet(
-                                context: context,
-                                backgroundColor: Colors.transparent,
-                                isScrollControlled: true,
-                                builder: (context) {
-                                  return FractionallySizedBox(
-                                    heightFactor: 0.49,
-                                    child: renderFilter(),
-                                  );
-                                });
+                            // showModalBottomSheet(
+                            //     context: context,
+                            //     backgroundColor: Colors.transparent,
+                            //     isScrollControlled: true,
+                            //     builder: (context) {
+                            //       return FractionallySizedBox(
+                            //         heightFactor: 0.49,
+                            //         child: renderFilter(),
+                            //       );
+                            //     });
+                            startServer();
                           },
                           child: Icon(Icons.filter_list))
                     ]),
@@ -164,10 +211,10 @@ class _CompetetionState extends State<Competetion> {
 
                 //
                 Container(
-                  height: 250,
+                  height: 233,
                   // color: Colors.green,
                   // padding: EdgeInsets.symmetric(vertical: 20),
-                  margin: EdgeInsets.symmetric(vertical: 20),
+                  margin: EdgeInsets.only(top: 8, bottom: 20),
                   child: ListView.builder(
                       itemCount: 3,
                       shrinkWrap: true,
@@ -187,10 +234,10 @@ class _CompetetionState extends State<Competetion> {
   renderActivityCard() {
     return Container(
       width: MediaQuery.of(context).size.width * 0.7,
-      margin: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+      margin: EdgeInsets.only(bottom: 20, left: 0, right: 16),
       decoration: BoxDecoration(
         color: ColorConstants.WHITE,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
             color: Colors.black12,
@@ -207,7 +254,9 @@ class _CompetetionState extends State<Competetion> {
               width: MediaQuery.of(context).size.width * 0.7,
               height: 150,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16)),
                 child: CachedNetworkImage(
                   imageUrl:
                       'https://s3-ap-south-1.amazonaws.com/blogmindler/bloglive/wp-content/uploads/2022/04/06192628/10-Unusual-Courses-that-You-have-Never-Heard-Before_blog.png',
@@ -464,37 +513,73 @@ class _CompetetionState extends State<Competetion> {
           color: ColorConstants.WHITE,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(12), topRight: Radius.circular(8))),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: ColorConstants.GREY_4,
-                  borderRadius: BorderRadius.circular(8)),
-              width: 48,
-              height: 5,
-              margin: EdgeInsets.only(top: 8),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                decoration: BoxDecoration(
+                    color: ColorConstants.GREY_4,
+                    borderRadius: BorderRadius.circular(8)),
+                width: 48,
+                height: 5,
+                margin: EdgeInsets.only(top: 8),
+              ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            child: Text(
-              'Filter by',
-              style: Styles.semibold(size: 16),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: Text(
+                'Filter by',
+                style: Styles.semibold(size: 16),
+              ),
             ),
-          ),
-          Divider(
-            color: ColorConstants.GREY_4,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            child: Column(
-              children: [],
+            Divider(
+              color: ColorConstants.GREY_4,
             ),
-          )
-        ],
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: Column(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.6,
+                    child: Wrap(
+                        direction: Axis.horizontal,
+                        children: shimmerChips.toList()),
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.6,
+                    child: Wrap(
+                        direction: Axis.horizontal,
+                        children: shimmerChips.toList()),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
+  }
+
+  Iterable<Widget> get shimmerChips sync* {
+    for (int i = 0; i < 4; i++) {
+      yield Padding(
+        padding: const EdgeInsets.only(top: 20),
+        child: Shimmer.fromColors(
+          baseColor: Color(0xffe6e4e6),
+          highlightColor: Color(0xffeaf0f3),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10, right: 5),
+            child: Chip(
+              // backgroundColor: Colors.transparent,
+              label:
+                  Container(width: 10, height: 10, color: ColorConstants.WHITE),
+              avatar: Container(),
+            ),
+          ),
+        ),
+      );
+    }
   }
 }
