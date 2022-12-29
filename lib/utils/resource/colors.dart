@@ -58,6 +58,7 @@ class ColorConstants {
   static const YELLOW_ACTIVE_BUTTON = Color(0xFFffd500);
   static const YELLOW = Color(0xFFFDB515);
   static const ORANGE_3 = Color(0xFFFF2452);
+  static const ORANGE_4 = Color(0xFFFF9100);
   static const START_GREY_BG = Color(0xFFE0E0E0);
   static const ACTIVE_TAB_UNDERLINE = Color(0xFF12AAEB);
   static const TEXT_DARK_BLACK = Color(0xff1c2555);
@@ -70,6 +71,7 @@ class ColorConstants {
   static const GREY_3 = Color(0xff828282);
   static const GREY_4 = Color(0xffBDBDBD);
   static const GREY_5 = Color(0xffc7c7c7);
+  static const GREY_6 = Color(0xff929BA3);
   static const COURSE_BG = Color(0xff333333);
   static const SECTION_DIVIDER = Color(0xffF5F5F5);
   static const DIVIDER = Color(0xffEFEFEF);
