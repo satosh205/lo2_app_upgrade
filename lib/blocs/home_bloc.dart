@@ -2019,7 +2019,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               error: Strings.somethingWentWrong);
         }
       } catch (e) {
-        Log.v("ERROR DATA : $e");
+        Log.v("ERROR DATA getFilteredPopularCourses : $e");
         yield FilteredPopularCoursesState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }
@@ -2229,7 +2229,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               error: Strings.somethingWentWrong);
         }
       } catch (e) {
-        Log.v("ERROR DATA : $e");
+        Log.v("ERROR DATA this : $e");
         yield LearningSpaceState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }

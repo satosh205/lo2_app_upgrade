@@ -106,7 +106,7 @@ class MenuListProvider extends ChangeNotifier {
   int? itemIndexForMenu = 0;
   MenuListProvider(List<Menu> list) {
     currentIndex = 0;
-   itemIndexForMenu = 0;
+    itemIndexForMenu = 0;
 
     if (list.length > 0) this._list = list;
     notifyListeners();
@@ -117,19 +117,25 @@ class MenuListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  int getCurrentIndex(){
+  int getCurrentIndex() {
     return this.currentIndex!;
   }
 
-   int getItemIndex(){
+  int getItemIndex() {
     return this.itemIndexForMenu!;
   }
 
-  void updateItemIndex(int index){
+  void updateItemIndex(int index) {
     this.itemIndexForMenu = index;
     notifyListeners();
   }
-  void updateCurrentIndex(int index){
+
+  void updateCurrentIndex(String route) {
+    int index = -1;
+    for (var item in this._list!) {
+      index++;
+      if (item.url == route) break;
+    }
     this.currentIndex = index;
     notifyListeners();
   }

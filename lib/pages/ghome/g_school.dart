@@ -180,7 +180,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
           //_isLoading = false;
           Log.v("Error..........................");
           Log.v(
-              "ErrorAnnoucement..........................${loginState.error}");
+              "UserAnalyticsData..........................${loginState.error}");
           break;
         case ApiStatus.INITIAL:
           break;
@@ -202,7 +202,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
           //_isLoading = false;
           Log.v("Error..........................");
           Log.v(
-              "ErrorAnnoucement..........................${loginState.error}");
+              "LearningSpaceData..........................${loginState.error}");
           break;
         case ApiStatus.INITIAL:
           break;

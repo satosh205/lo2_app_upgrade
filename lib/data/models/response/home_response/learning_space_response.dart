@@ -2,7 +2,7 @@ class LearningSpaceResponse {
   int? status;
   Data? data;
   String? datetime;
-  List<String>? error;
+  List<String?>? error;
 
   LearningSpaceResponse({this.status, this.data, this.datetime, this.error});
 
