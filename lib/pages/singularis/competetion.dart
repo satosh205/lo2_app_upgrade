@@ -22,48 +22,7 @@ class _CompetetionState extends State<Competetion> {
     double barThickness = MediaQuery.of(context).size.height * 0.012;
     double mobileWidth = MediaQuery.of(context).size.width - 50;
     double mobileHeight = MediaQuery.of(context).size.height;
-    startServer() async {
-      // setState(() {
-      //   // statusText = "Starting server on Port : 8080";
-      // });
-      final picker = ImagePicker();
-      PickedFile? file;
-      PickedFile? pickedFile =
-          // ignore: deprecated_member_use
-          await picker.getImage(source: ImageSource.gallery);
-      if (pickedFile != null)
-        // return pickedFile.path;
-        file = pickedFile;
-      else if (Platform.isAndroid) {
-        final LostData response = await picker.getLostData();
-        if (response.file != null) {
-          // return response.file!.path;
-          file = response.file!;
-        }
-      }
-      // return "";
-      var server = await HttpServer.bind(InternetAddress.loopbackIPv4, 8080);
-      print("Server running on IP : " +
-          server.address.toString() +
-          " On Port : " +
-          server.port.toString());
-      await for (var request in server) {
-        // request.response
-        //   ..headers.contentType =
-        //       new ContentType("text", "plain", charset: "utf-8")
-        //   ..write(file)
-        //   ..close();
-
-        request.response..headers.contentType = ContentType.text;
-        request.response.write('nice');
-      }
-      setState(() {
-        print("Server running on IP : " +
-            server.address.toString() +
-            " On Port : " +
-            server.port.toString());
-      });
-    }
+  
 
     return Container(
       color: ColorConstants.WHITE,
@@ -182,17 +141,17 @@ class _CompetetionState extends State<Competetion> {
                           )),
                       InkWell(
                           onTap: () {
-                            // showModalBottomSheet(
-                            //     context: context,
-                            //     backgroundColor: Colors.transparent,
-                            //     isScrollControlled: true,
-                            //     builder: (context) {
-                            //       return FractionallySizedBox(
-                            //         heightFactor: 0.49,
-                            //         child: renderFilter(),
-                            //       );
-                            //     });
-                            startServer();
+                            showModalBottomSheet(
+                                context: context,
+                                backgroundColor: Colors.transparent,
+                                isScrollControlled: true,
+                                builder: (context) {
+                                  return FractionallySizedBox(
+                                    heightFactor: 0.49,
+                                    child: renderFilter(),
+                                  );
+                                });
+                          
                           },
                           child: Icon(Icons.filter_list))
                     ]),
