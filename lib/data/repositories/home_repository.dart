@@ -54,6 +54,7 @@ import 'package:masterg/data/models/response/home_response/topics_resp.dart';
 import 'package:masterg/data/models/response/home_response/update_user_profile_response.dart';
 import 'package:masterg/data/models/response/home_response/user_analytics_response.dart';
 import 'package:masterg/data/models/response/home_response/user_info_response.dart';
+import 'package:masterg/data/models/response/home_response/user_jobs_list_response.dart';
 import 'package:masterg/data/models/response/home_response/user_profile_response.dart';
 import 'package:masterg/data/models/response/home_response/user_program_subscribe_reponse.dart';
 import 'package:masterg/data/providers/home_provider.dart';
@@ -493,6 +494,24 @@ class HomeRepository {
     } else {
       Log.v("====> ${response.body}");
       return JoyCategoryResponse();
+    }
+  }
+
+  //job
+  Future<UserJobsListResponse> getUserJobList() async {
+    final response = await homeProvider.getJobList();
+    if (response!.success) {
+      Log.v("Job List DATA : ${response.body}");
+      UserJobsListResponse userJobsListResponse =
+      UserJobsListResponse.fromJson(response.body);
+      Log.v('=======at job list call ');
+      var box = Hive.box("content");
+      box.put("userJobList",
+          userJobsListResponse!.list!.map((e) => e.toJson()).toList());
+      return userJobsListResponse;
+    } else {
+      Log.v("====> ${response.body}");
+      return UserJobsListResponse();
     }
   }
 

@@ -132,4 +132,5 @@ class ApiConstants {
   static const POLL_API = 'api/poll';
   static const SWAYAM_LOGIN = 'api/login';
   static const REMOVE_ACCOUNT = '/api/user/delete';
+  static const USER_JOBS_LIST = '/api/user_jobs/list';
 }

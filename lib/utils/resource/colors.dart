@@ -104,6 +104,13 @@ class ColorConstants {
 
   static const Color_5f6687 = Color(0xff5f6687);
 
+  ///For Job
+  static const JOB_BG_COLOR = Color(0xffF2F2F2);
+  static const HIGH_LIGHTS_CARD_COLOR1 = Color(0xff3EBDA0);
+  static const HIGH_LIGHTS_CARD_COLOR2 = Color(0xffF4900C);
+
+
+
   //ASSESSMENT COLORS
   static const ANSWERED = Color.fromRGBO(255, 157, 92, 1);
   static const NOT_ANSWERED = Color.fromRGBO(255, 235, 59, 1);
