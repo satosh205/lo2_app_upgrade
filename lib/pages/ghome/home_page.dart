@@ -33,7 +33,6 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../utils/check_connection.dart';
 import '../custom_pages/custom_widgets/NextPageRouting.dart';
-import '../singularis/job/job_dashboard_page.dart';
 
 class homePage extends StatefulWidget {
   final index;
@@ -144,8 +143,7 @@ class _homePageState extends State<homePage> {
       // '/g-dashboard': const DashboardPage(),
       '/g-dashboard': const Dashboard(),
       '/g-school': const GSchool(),
-      //'/g-reels': ReelsDashboardPage(),
-      '/g-reels': JobDashboardPage(),
+      '/g-reels': ReelsDashboardPage(),
       '/g-carvaan': GCarvaanPostPage(
         fromDashboard: false,
         fileToUpload: widget.fileToUpload,
