@@ -1023,7 +1023,8 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
               ),
             ),
           ),
-        ));
+        )
+    );
   }
 
   void _getJoyCategory() async {

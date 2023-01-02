@@ -57,6 +57,9 @@ class _DashboardState extends State<Dashboard> {
 
   List<Liveclass>? liveclassList;
 
+  int selectedStep = 3;
+  int nbSteps = 4;
+
   @override
   void initState() {
     _getJoyContentList();
@@ -115,9 +118,9 @@ class _DashboardState extends State<Dashboard> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            //user detail start
+                            //TODO: User Detail Start
                             Container(
-                              // margin: EdgeInsets.only(top: 16),
+                              //margin: EdgeInsets.only(top: 16),
                               margin:
                                   EdgeInsets.only(left: 17, right: 17, top: 17),
 

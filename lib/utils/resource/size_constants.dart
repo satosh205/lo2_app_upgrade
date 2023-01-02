@@ -40,4 +40,11 @@ class SizeConstants {
   static const double ICON_20 = 20;
 
   static const double BRAND_IMG_HEIGHT = 50;
+
+  ///job
+  static const double JOB_LEFT_SCREEN_MGN = 17;
+  static const double JOB_RIGHT_SCREEN_MGN = 17;
+  static const double JOB_TOP_SCREEN_MGN = 100;
+  static const double JOB_BOTTOM_SCREEN_MGN = 20;
+
 }

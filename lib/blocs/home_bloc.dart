@@ -55,6 +55,7 @@ import 'package:masterg/data/models/response/home_response/test_review_response.
 import 'package:masterg/data/models/response/home_response/topics_resp.dart';
 import 'package:masterg/data/models/response/home_response/update_user_profile_response.dart';
 import 'package:masterg/data/models/response/home_response/user_analytics_response.dart';
+import 'package:masterg/data/models/response/home_response/user_jobs_list_response.dart';
 import 'package:masterg/data/models/response/home_response/user_profile_response.dart';
 import 'package:masterg/data/models/response/home_response/user_program_subscribe_reponse.dart';
 import 'package:masterg/data/repositories/home_repository.dart';
@@ -252,6 +253,26 @@ class ReviewTestState extends HomeState {
   String? error;
 
   ReviewTestState(this.state, {this.response, this.error});
+}
+
+class UserJobListState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  UserJobsListResponse? response;
+  String? error;
+
+  UserJobListState(this.state, {this.response, this.error});
+}
+
+
+
+///TODO: EVENT BLOCK
+
+class UserJobsListEvent extends HomeEvent {
+  UserJobsListEvent() : super([]);
+
+  List<Object> get props => throw UnimplementedError();
 }
 
 class ReviewTestEvent extends HomeEvent {
@@ -1746,7 +1767,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield JoyCategoryState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }
-    } else if (event is GetCommentEvent) {
+    } else if (event is UserJobsListEvent) {
+      try {
+        yield UserJobListState(ApiStatus.LOADING);
+        final response = await homeRepository.getUserJobList();
+        if (response.list != null) {
+          yield UserJobListState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield UserJobListState(ApiStatus.ERROR,
+              error: Strings.somethingWentWrong);
+        }
+      } catch (e) {
+        Log.v("ERROR DATA : $e");
+        yield UserJobListState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
+      }
+    }else if (event is GetCommentEvent) {
       try {
         yield GetCommentState(ApiStatus.LOADING);
         final response = await homeRepository.getComment(event.postId);

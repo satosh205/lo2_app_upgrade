@@ -4,6 +4,7 @@ class VideoPlayerProvider extends ChangeNotifier {
   late bool isMute;
   late bool isPlaying = true;
   late bool providerControlEnable = false;
+
   VideoPlayerProvider(bool isMute) {
     this.isMute = isMute;
     notifyListeners();
@@ -15,7 +16,6 @@ class VideoPlayerProvider extends ChangeNotifier {
     return true;
 
   }
-
  
   void enableProviderControl() {
     providerControlEnable = true;
