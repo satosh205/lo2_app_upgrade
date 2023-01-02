@@ -326,8 +326,20 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                           child: InkWell(
                             onTap: (){
                               Navigator.push(context, NextPageRoute(JobDetailsPage(
-                                title: jobList[index].title,)
+                                title: jobList[index].title,
+                                description: jobList[index].description,
+                                location: jobList[index].location,
+                                skillNames: jobList[index].skillNames,
+                                companyName: jobList[index].companyName,
+                                domain: jobList[index].domain,
+                                companyThumbnail: jobList[index].companyThumbnail,
+                                experience: jobList[index].experience,
+                                jobListDetails: jobList,
+                                id: jobList[index].id,
+                              )
                               ));
+
+                              print('jobList == ${jobList[index].title}');
                             },
                             child: Container(
                               padding: EdgeInsets.only(left: 5.0, ),
