@@ -176,10 +176,10 @@ class _DashboardPageState extends State<DashboardPage> {
         valueListenable: Hive.box(DB.CONTENT).listenable(),
         builder: (bc, Box box, child) {
           if (box.get("dashboard_sessions_limit") == null) {
-            return Text('lading');
+            return Text('Loading');
           } else if (box.get("dashboard_sessions_limit").isEmpty) {
             return Container(
-              height: 290,
+              // height: 290,
               width: MediaQuery.of(context).size.width,
               child: Center(
                 child: Text(

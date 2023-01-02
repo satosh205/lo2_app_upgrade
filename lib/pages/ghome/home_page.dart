@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,6 +16,7 @@ import 'package:masterg/pages/gcarvaan/post/gcarvaan_post_page.dart';
 import 'package:masterg/pages/ghome/g_school.dart';
 import 'package:masterg/pages/ghome/ghome.dart';
 import 'package:masterg/pages/reels/reels_dashboard_page.dart';
+import 'package:masterg/pages/singularis/competetion.dart';
 import 'package:masterg/pages/singularis/dashboard.dart';
 import 'package:masterg/pages/singularis/dashboard_temp.dart';
 import 'package:masterg/pages/swayam_pages/announcemnt_page.dart';
@@ -141,7 +144,8 @@ class _homePageState extends State<homePage> {
     var pages = {
       '/g-home': GHome(),
       // '/g-dashboard': const DashboardPage(),
-      '/g-dashboard': const Dashboard(),
+      '/g-dashboard': const  Competetion(),
+      // '/g-school': const Competetion(),
       '/g-school': const GSchool(),
       '/g-reels': ReelsDashboardPage(),
       '/g-carvaan': GCarvaanPostPage(
@@ -417,7 +421,8 @@ class _homePageState extends State<homePage> {
                         } else {
                           setState(() {
                             currentIndex = index;
-                            menuProvider.updateCurrentIndex(index);
+                            menuProvider.updateCurrentIndex(
+                                widget.bottomMenu![index].url!);
                           });
                         }
                       },
