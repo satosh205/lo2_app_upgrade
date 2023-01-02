@@ -19,6 +19,7 @@ import 'package:masterg/pages/reels/reels_dashboard_page.dart';
 import 'package:masterg/pages/singularis/competetion.dart';
 import 'package:masterg/pages/singularis/dashboard.dart';
 import 'package:masterg/pages/singularis/dashboard_temp.dart';
+import 'package:masterg/pages/singularis/job/job_dashboard_page.dart';
 import 'package:masterg/pages/swayam_pages/announcemnt_page.dart';
 import 'package:masterg/pages/swayam_pages/library_page.dart';
 import 'package:masterg/pages/swayam_pages/profile_page.dart';
@@ -147,7 +148,8 @@ class _homePageState extends State<homePage> {
       '/g-dashboard': const  Competetion(),
       // '/g-school': const Competetion(),
       '/g-school': const GSchool(),
-      '/g-reels': ReelsDashboardPage(),
+      //'/g-reels': ReelsDashboardPage(),
+      '/g-reels': JobDashboardPage(),
       '/g-carvaan': GCarvaanPostPage(
         fromDashboard: false,
         fileToUpload: widget.fileToUpload,
