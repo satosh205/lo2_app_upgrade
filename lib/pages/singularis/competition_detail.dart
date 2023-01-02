@@ -17,21 +17,15 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
        leading: Icon(Icons.arrow_back_ios_new),
         title: Text('Design Competition')),
         body: SingleChildScrollView(child: Column(children: [
-        Container(
-                  height: 233,
-                  // color: Colors.green,
-                  // padding: EdgeInsets.symmetric(vertical: 20),
-                  margin: EdgeInsets.only(top: 8, bottom: 20),
-                  child: ListView.builder(
-                      itemCount: 3,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        return InkWell(onTap: (){
-                          // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> CompetitionDetail() ));
-                        },
-                        child:competitionCard());
-                      }),
-                )
+        ListView.builder(
+            itemCount: 3,
+            shrinkWrap: true,
+            itemBuilder: (BuildContext context, int index) {
+              return InkWell(onTap: (){
+                // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> CompetitionDetail() ));
+              },
+              child:competitionCard());
+            })
         ],)),
 
     );
@@ -39,24 +33,31 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
 
   Widget competitionCard(){
     return Container(
+      margin: EdgeInsets.symmetric(vertical: 8),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
+      // mainAxisAlignment: MainAxisAlignment.start,
       children: [
       SizedBox(
-        width: MediaQuery.of(context).size.width * 0.3,
+        width: MediaQuery.of(context).size.width * 0.15,
         child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
 
           children: [
           SvgPicture.asset(
                                           'assets/images/circular_border.svg',
                                         width: 20,
                                         height: 20,
-                                        ),Container(height: 30, width: 10, color: Color(0xffCECECE))
+                                        
+                                        ),Container(
+                                          margin: EdgeInsets.only(top: 4),
+                                          height: 30, width: 8, decoration: BoxDecoration( color: Color(0xffCECECE), borderRadius: BorderRadius.circular(14)),)
         ],),
       ),
       Container(
+        width: MediaQuery.of(context).size.width * 0.75,
+        // height: 100,
         decoration: BoxDecoration(color: ColorConstants.WHITE, borderRadius: BorderRadius.circular(8)),
         child: Text('nice'),)
     ]),
