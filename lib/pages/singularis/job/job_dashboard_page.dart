@@ -117,7 +117,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
             flex: 9,
               child: InkWell(
                 onTap: (){
-                  //Navigator.push(context, NextPageRoute(JobSearchViewPage(appBarTitle: 'Search',)));
+                  Navigator.push(context, NextPageRoute(JobSearchViewPage(appBarTitle: 'Search', isSearchMode: true,)));
                 },
                 child: Container(
                   height: 40,
@@ -249,7 +249,9 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
           jobList != null ? InkWell(
             onTap: (){
               print('View all Job');
-              //Navigator.push(context, NextPageRoute(JobSearchViewPage(appBarTitle: '50 Job Portfolio',)));
+              Navigator.push(context, NextPageRoute(JobSearchViewPage(
+                appBarTitle: 'Job Portfolio',
+                isSearchMode: false,),isMaintainState: true));
             },
             child: Container(
               height: 70,
@@ -281,7 +283,9 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
 
           jobList != null ? InkWell(
             onTap: (){
-              print('Recommended Job');
+              Navigator.push(context, NextPageRoute(JobSearchViewPage(
+                appBarTitle: 'Job Portfolio',
+                isSearchMode: false,), isMaintainState: true));
             },
             child: Container(
               height: 70,

@@ -126,7 +126,9 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                           flex: 2,
                           child: Container(
                             padding: EdgeInsets.only(right: 10.0, ),
-                            child: Image.asset('assets/images/google.png'),
+                            child: widget.companyThumbnail != null ?
+                            Image.network(widget.companyThumbnail!):
+                            Image.asset('assets/images/pb_2.png'),
                           ),
                         ),
 
@@ -291,21 +293,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
           ),
           Divider(height: 1,color: ColorConstants.GREY_3,),
 
-          //renderJobList(widget.jobList?.where((element) => element.isRecommended == 1).toList()) ,
           renderJobList(widget.jobListDetails) ,
-
-          widget.jobListDetails != null ? InkWell(
-            onTap: (){
-              print('Similar Jobs');
-            },
-            child: Container(
-              height: 70,
-              child: Center(
-                child: Text('View all Job',
-                    style: Styles.bold(size:14,color: ColorConstants.RED)),
-              ),
-            ),
-          ):SizedBox(),
         ],
       ),
     );
