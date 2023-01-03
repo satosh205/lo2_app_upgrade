@@ -144,8 +144,8 @@ class _homePageState extends State<homePage> {
 
     var pages = {
       '/g-home': GHome(),
-      // '/g-dashboard': const DashboardPage(),
-      '/g-dashboard': const  Competetion(),
+      '/g-dashboard': const DashboardPage(),
+      // '/g-dashboard': const  Competetion(),
       // '/g-school': const Competetion(),
       '/g-school': const GSchool(),
       //'/g-reels': ReelsDashboardPage(),

@@ -180,10 +180,11 @@ class _DashboardPageState extends State<DashboardPage> {
           } else if (box.get("dashboard_sessions_limit").isEmpty) {
             return Container(
               // height: 290,
+              padding: EdgeInsets.only(bottom : 12),
               width: MediaQuery.of(context).size.width,
               child: Center(
                 child: Text(
-                  "There are no dashboard_sessions_limit available",
+                  "Today\'s classes not found",
                   style: Styles.textBold(),
                 ),
               ),
@@ -476,7 +477,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     children: [
                       Text(
                         'My Courses',
-                        style: Styles.bold(),
+                        style: Styles.bold(color: Color(0xff0E1638)),
                       ),
                       Expanded(child: SizedBox()),
                       InkWell(
@@ -820,7 +821,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (BuildContext context, int index) {
                           return Container(
-                            // width: 500,
+                            width: MediaQuery.of(context).size.width * 0.8,
                             height: 200,
                             margin: EdgeInsets.all(8),
                             // color: Colors.red,
@@ -893,21 +894,19 @@ class _DashboardPageState extends State<DashboardPage> {
             .toList();
 
         return Container(
-          margin: EdgeInsets.only(left: 17, right: 17, top: 17),
+          margin: EdgeInsets.only(left: 17, right: 17, top: 4),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                child: Divider(
-                  color: ColorConstants.GREY_3,
-                ),
+              Divider(
+              
+                
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Icon(Icons.star, color: ColorConstants.YELLOW),
+                  Icon(CupertinoIcons.star_fill, color: ColorConstants.YELLOW),
                   SizedBox(width: 8),
-                  Text('Featured Updates', style: Styles.bold()),
+                  Text('Featured Updates', style: Styles.bold(color: Color(0xff0E1638))),
                   Expanded(child: SizedBox()),
                   InkWell(
                     onTap: () {
@@ -937,7 +936,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         crossAxisSpacing: 20,
                         childAspectRatio: 2 / 3,
                         mainAxisExtent:
-                            MediaQuery.of(context).size.height * 0.35,
+                            MediaQuery.of(context).size.height * 0.34,
                         crossAxisCount: 2),
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
