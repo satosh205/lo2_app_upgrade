@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,8 @@ import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/gcarvaan/components/gcarvaan_card_post.dart';
 import 'package:masterg/pages/ghome/my_courses.dart';
+import 'package:masterg/pages/ghome/video_player_screen.dart';
+import 'package:masterg/pages/ghome/widget/read_more.dart';
 import 'package:masterg/pages/ghome/widget/view_widget_details_page.dart';
 
 import 'package:masterg/pages/training_pages/new_screen/courses_details_page.dart';
@@ -29,10 +32,12 @@ import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/custom_progress_indicator.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:masterg/utils/utility.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../data/models/response/auth_response/bottombar_response.dart';
 import '../../data/providers/training_detail_provider.dart';
@@ -210,7 +215,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       ),
                       child: Text(
                         'Today\'s classes',
-                        style: Styles.bold(),
+                        style: Styles.bold(color: Color(0xff0E1638)),
                       )),
                   Expanded(child: SizedBox()),
                 ],
@@ -637,7 +642,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       ),
                       child: Text(
                         'Latest Trends',
-                        style: Styles.bold(),
+                        style: Styles.bold(color: Color(0xff0E1638)),
                       )),
                   Expanded(child: SizedBox()),
                   IconButton(
@@ -725,7 +730,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       ),
                       child: Text(
                         'Recommended Courses',
-                        style: Styles.bold(),
+                        style: Styles.bold(color: Color(0xff0E1638)),
                       )),
                   Expanded(child: SizedBox()),
                   IconButton(
@@ -800,8 +805,8 @@ class _DashboardPageState extends State<DashboardPage> {
                           horizontal: 10,
                         ),
                         child: Text(
-                          '',
-                          style: Styles.bold(),
+                          'Recent Community Posts',
+                          style: Styles.bold(color: Color(0xff0E1638)),
                         )),
                     Expanded(child: SizedBox()),
                     IconButton(
@@ -814,49 +819,155 @@ class _DashboardPageState extends State<DashboardPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Container(
-                    height: 200,
+                    height: 400,
                     child: ListView.builder(
-                        // shrinkWrap: true,
+                       
                         itemCount: carvaanList?.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (BuildContext context, int index) {
+    final now = DateTime.now();
+
+
+                          var millis = int.parse(carvaanList![index].createdAt.toString());
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(
+      millis * 1000,
+    );
+  
                           return Container(
                             width: MediaQuery.of(context).size.width * 0.8,
-                            height: 200,
+                          
+                            decoration: BoxDecoration(  color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: ColorConstants.GREY_4)),
                             margin: EdgeInsets.all(8),
                             // color: Colors.red,
-                            child: Image.network(
-                                '${carvaanList?[index].resourcePath}'),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              // mainAxisAlignment: MainAxisAlignment,
+                              children: [
+                            Padding(
+                    padding: const EdgeInsets.only(
+                        left: 8.0, right: 8.0, top: 15.0, bottom: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Center(
+                          child: ClipOval(
+                              child: Image.network(
+                           '${carvaanList?[index].profileImage}',
+                            height: 30,
+                            width: 30,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, url, error) {
+                              return SvgPicture.asset(
+                                'assets/images/default_user.svg',
+                                height: 30,
+                                width: 30,
+                                allowDrawingOutsideViewBox: true,
+                              );
+                            },
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Shimmer.fromColors(
+                                baseColor: Color(0xffe6e4e6),
+                                highlightColor: Color(0xffeaf0f3),
+                                child: Container(
+                                    height: 50,
+                                    margin: EdgeInsets.only(left: 2),
+                                    width: 50,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                    )),
+                              );
+                            },
+                          )),
+                        ),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0, right: 8.0, top: 2.0),
+                                child: Text(
+                                  carvaanList?[index].name ?? '',
+                                  style: Styles.textRegular(size: 14),
+                                ),
+                              ),
+                             Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Text(
+                            Utility().calculateTimeDifferenceBetween(
+                                DateTime.parse(
+                                    date.toString().substring(0, 19)),
+                                now, context),
+                            style: Styles.regular(size: 12),
+                          ),
+                        )
+                            ],
+                          ),
+                        ),
+                       
+                      ],
+                    ),
+                  ),
+
+                   Padding(
+                padding: carvaanList?[index].description != null
+                    ? const EdgeInsets.only(bottom: 7, left: 10, top: 13)
+                    : const EdgeInsets.only(bottom: 0, left: 10, top: 0),
+                child: ReadMoreText(text: '${carvaanList?[index].description ?? ''}')),
+
+                         
+                                 
+                                       carvaanList?[index].resourcePath
+                                                  ?.contains('.mp4')  == true||
+                                                carvaanList?[index].resourcePath
+                                                  ?.contains('.mov') == true
+                                          // ? CustomBetterPlayer(
+                                          //     url: widget.fileList[index])
+                                          ? Container(
+                                           width: MediaQuery.of(context).size.width * 0.6,
+                                            child: Center(
+                                              child: CustomVideoPlayer(
+                                                  // sendflickManager:
+                                                  //     (FlickManager value) {},
+                                                  url:   carvaanList?[index].resourcePath,
+                                                  isLocalVideo: false,
+                                                  likeCount:carvaanList?[index].likeCount,
+                                                  viewCount: carvaanList?[index].viewCount,
+                                                  commentCount:
+                                                     carvaanList?[index].commentCount ??  0,
+                                                  //height:  videoHeight,
+                                                  height: min(
+                                                      double.infinity,
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .height -
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.25),
+                                                  index: index,
+                                                  desc: carvaanList?[index].description,
+                                                  userName: carvaanList?[index].name,
+                                                  profilePath: carvaanList?[index].profileImage,
+                                                  time:
+                                                      Utility().calculateTimeDifferenceBetween(
+                                                          DateTime.parse(date
+                                                              .toString()
+                                                              .substring(0, 19)),
+                                                          now, context),
+                                                ),
+                                            ),
+                                          ):    Image.network(
+                                '${carvaanList?[index].resourcePath}')]),
                           );
-                          return Container(
-                            height: 500,
-                            color: Colors.red,
-                            child: GCarvaanCardPost(
-                              index: 0,
-                              value: null,
-                              userStatus: carvaanList![index].userStatus!,
-                              image_path: carvaanList?[index].resourcePath,
-                              date: carvaanList![index].createdAt.toString(),
-                              description: carvaanList?[index].description,
-                              commentCount:
-                                  carvaanList?[index].commentCount ?? 0,
-                              user_name: carvaanList?[index].name,
-                              profile_path: carvaanList?[index].profileImage,
-                              likeCount: carvaanList?[index].likeCount ?? 0,
-                              viewCount: carvaanList?[index].viewCount ?? 0,
-                              islikedPost: carvaanList?[index].userLiked == 1
-                                  ? true
-                                  : false,
-                              contentId: carvaanList?[index].id,
-                              fileList: carvaanList?[index].multiFileUploads,
-                              comment_visible: false,
-                              height: carvaanList?[index].dimension?.height,
-                              dimension: null,
-                              width: carvaanList?[index].dimension?.width,
-                              resourceType: carvaanList?[index].resourceType,
-                              userID: carvaanList?[index].userId,
-                            ),
-                          );
+                          
                         }),
                   ),
                 )
