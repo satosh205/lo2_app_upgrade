@@ -147,7 +147,7 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
                   }) {
                 return InkWell(
                   onTap: (){
-                    print('item.title=== ${item?.title}');
+                    print('item.title=== ${item.title}');
                     pager.nextBatch();
                   },
                     child: Text(item.title));
