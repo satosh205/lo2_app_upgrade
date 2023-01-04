@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -36,6 +37,7 @@ import 'package:masterg/utils/utility.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -832,7 +834,20 @@ class _DashboardPageState extends State<DashboardPage> {
     DateTime date = DateTime.fromMillisecondsSinceEpoch(
       millis * 1000,
     );
-  
+  //  VideoPlayerController? _controller;
+  //   if(   carvaanList?[index].resourcePath
+  //                                                 ?.contains('.mp4')  == true||
+  //                                               carvaanList?[index].resourcePath
+  //                                                 ?.contains('.mov') == true) {
+  //                                                    _controller = VideoPlayerController.network(carvaanList![index].resourcePath!);
+  //                                                     _controller.addListener(() {
+  //      if(kDebugMode) setState(() {});
+  //     });
+  //     _controller.setLooping(true);
+  //     // _controller.initialize().then((_) => setState(() {}));
+  //     _controller.play();
+  //                                                 }
+
                           return Container(
                             width: MediaQuery.of(context).size.width * 0.8,
                           
@@ -930,41 +945,18 @@ class _DashboardPageState extends State<DashboardPage> {
                                                   ?.contains('.mov') == true
                                           // ? CustomBetterPlayer(
                                           //     url: widget.fileList[index])
-                                          ? Container(
-                                           width: MediaQuery.of(context).size.width * 0.6,
-                                            child: Center(
-                                              child: CustomVideoPlayer(
-                                                  // sendflickManager:
-                                                  //     (FlickManager value) {},
-                                                  url:   carvaanList?[index].resourcePath,
-                                                  isLocalVideo: false,
-                                                  likeCount:carvaanList?[index].likeCount,
-                                                  viewCount: carvaanList?[index].viewCount,
-                                                  commentCount:
-                                                     carvaanList?[index].commentCount ??  0,
-                                                  //height:  videoHeight,
-                                                  height: min(
-                                                      double.infinity,
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .height -
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.25),
-                                                  index: index,
-                                                  desc: carvaanList?[index].description,
-                                                  userName: carvaanList?[index].name,
-                                                  profilePath: carvaanList?[index].profileImage,
-                                                  time:
-                                                      Utility().calculateTimeDifferenceBetween(
-                                                          DateTime.parse(date
-                                                              .toString()
-                                                              .substring(0, 19)),
-                                                          now, context),
-                                                ),
-                                            ),
-                                          ):    Image.network(
+                                          ? Container
+
+                                          (
+                                            height: 30,
+                                            child: FlickVideoPlayer(
+        flickManager: FlickManager(
+      videoPlayerController:
+          VideoPlayerController.network('${carvaanList?[index].resourcePath}'),
+    )
+      )
+                                            
+                                            ):    Image.network(
                                 '${carvaanList?[index].resourcePath}')]),
                           );
                           

@@ -507,7 +507,7 @@ class HomeRepository {
       Log.v('=======at job list call ');
       var box = Hive.box("content");
       box.put("userJobList",
-          userJobsListResponse!.list!.map((e) => e.toJson()).toList());
+          userJobsListResponse.list!.map((e) => e.toJson()).toList());
       return userJobsListResponse;
     } else {
       Log.v("====> ${response.body}");
