@@ -2,11 +2,18 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:masterg/blocs/bloc_manager.dart';
+import 'package:masterg/blocs/home_bloc.dart';
+import 'package:masterg/data/api/api_service.dart';
+import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
 import 'package:masterg/pages/singularis/competition_detail.dart';
+import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:masterg/utils/utility.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Competetion extends StatefulWidget {
@@ -17,181 +24,231 @@ class Competetion extends StatefulWidget {
 }
 
 class _CompetetionState extends State<Competetion> {
+  List<MProgram>? competitionList;
+  bool? competitionLoading;
+  @override
+  void initState() {
+    getCompetationList();
+    super.initState();
+  }
+
+  void getCompetationList() {
+    BlocProvider.of<HomeBloc>(context)
+        .add(CourseCategoryListIDEvent(categoryId: 0));
+  }
+
   @override
   Widget build(BuildContext context) {
     int percent = 30;
     double barThickness = MediaQuery.of(context).size.height * 0.012;
     double mobileWidth = MediaQuery.of(context).size.width - 50;
     double mobileHeight = MediaQuery.of(context).size.height;
-  
 
-    return Container(
-      color: ColorConstants.WHITE,
-      child: SingleChildScrollView(
-        child: Column(children: [
-          Container(
-            width: double.infinity,
-            height: mobileHeight * 0.25,
-            padding: EdgeInsets.only(top: 8),
-            decoration: BoxDecoration(
+    return BlocManager(
+        initState: (BuildContext context) {},
+        child: BlocListener<HomeBloc, HomeState>(
+            listener: (context, state) {
+              if (state is CourseCategoryListIDState) {
+                _handlecompetitionListResponse(state);
+              }
+            },
+            child: Container(
               color: ColorConstants.WHITE,
-              gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: <Color>[Color(0xfffc7804), Color(0xffff2252)]),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                    left: mobileWidth * 0.08,
-                    top: 8,
-                    child:
-                        renderProgressBar(percent, barThickness, mobileWidth)),
-                Positioned(
-                    left: mobileWidth * 0.01,
-                    top: 30,
-                    child: Text(
-                      '50 Points',
-                      style: Styles.regular(
-                          color: ColorConstants.WHITE, size: 12.5),
-                    )),
-                Positioned(
-                  left: mobileWidth * 0.02,
-                  child: Container(
-                    width: 25,
-                    height: 25,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                            color: ColorConstants.WHITE, width: 2.5)),
-                    child: Image.asset('assets/images/check.png'),
-                  ),
-                ),
-                Positioned(
-                    left: mobileWidth * 0.59,
-                    top: 8,
-                    child: renderBar(barThickness, mobileWidth)),
-                Positioned(
-                    left: mobileWidth * 0.72,
-                    top: 8,
-                    child: renderBar(barThickness, mobileWidth)),
-                Positioned(
-                    left: mobileWidth * 0.85,
-                    top: 8,
-                    child: renderBar(barThickness, mobileWidth)),
-                Positioned(
-                    left: mobileWidth * 0.97,
-                    top: 8,
-                    child:
-                        renderBar(barThickness, mobileWidth, fullWidth: true)),
-                Positioned(
-                    left: mobileWidth * 0.53,
-                    top: 4,
-                    child: renderEllipse('100')),
-                Positioned(
-                    left: mobileWidth * 0.66,
-                    top: 3.8,
-                    child: renderEllipse('150')),
-                Positioned(
-                    left: mobileWidth * 0.79,
-                    top: 4,
-                    child: renderEllipse('200')),
-                Positioned(
-                    left: mobileWidth * 0.92,
-                    top: 4,
-                    child: renderEllipse('250')),
-                Positioned(
-                    left: 10,
-                    bottom: 40,
-                    child: renderTopButton(
-                        'assets/images/leaderboard.png', 'Your rank: ', '120')),
-                Positioned(
-                    right: 10,
-                    bottom: 40,
-                    child: renderTopButton(
-                        'assets/images/coin.png', 'Points: ', '50')),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    height: 30,
+              child: SingleChildScrollView(
+                child: Column(children: [
+                  Container(
                     width: double.infinity,
+                    height: mobileHeight * 0.25,
+                    padding: EdgeInsets.only(top: 8),
                     decoration: BoxDecoration(
-                        color: ColorConstants.WHITE,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(16),
-                            topRight: Radius.circular(16))),
+                      color: ColorConstants.WHITE,
+                      gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: <Color>[
+                            Color(0xfffc7804),
+                            Color(0xffff2252)
+                          ]),
+                    ),
+                    child: Stack(
+                      children: [
+                        Positioned(
+                            left: mobileWidth * 0.08,
+                            top: 8,
+                            child: renderProgressBar(
+                                percent, barThickness, mobileWidth)),
+                        Positioned(
+                            left: mobileWidth * 0.01,
+                            top: 30,
+                            child: Text(
+                              '50 Points',
+                              style: Styles.regular(
+                                  color: ColorConstants.WHITE, size: 12.5),
+                            )),
+                        Positioned(
+                          left: mobileWidth * 0.02,
+                          child: Container(
+                            width: 25,
+                            height: 25,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                    color: ColorConstants.WHITE, width: 2.5)),
+                            child: Image.asset('assets/images/check.png'),
+                          ),
+                        ),
+                        Positioned(
+                            left: mobileWidth * 0.59,
+                            top: 8,
+                            child: renderBar(barThickness, mobileWidth)),
+                        Positioned(
+                            left: mobileWidth * 0.72,
+                            top: 8,
+                            child: renderBar(barThickness, mobileWidth)),
+                        Positioned(
+                            left: mobileWidth * 0.85,
+                            top: 8,
+                            child: renderBar(barThickness, mobileWidth)),
+                        Positioned(
+                            left: mobileWidth * 0.97,
+                            top: 8,
+                            child: renderBar(barThickness, mobileWidth,
+                                fullWidth: true)),
+                        Positioned(
+                            left: mobileWidth * 0.53,
+                            top: 4,
+                            child: renderEllipse('100')),
+                        Positioned(
+                            left: mobileWidth * 0.66,
+                            top: 3.8,
+                            child: renderEllipse('150')),
+                        Positioned(
+                            left: mobileWidth * 0.79,
+                            top: 4,
+                            child: renderEllipse('200')),
+                        Positioned(
+                            left: mobileWidth * 0.92,
+                            top: 4,
+                            child: renderEllipse('250')),
+                        Positioned(
+                            left: 10,
+                            bottom: 40,
+                            child: renderTopButton(
+                                'assets/images/leaderboard.png',
+                                'Your rank: ',
+                                '120')),
+                        Positioned(
+                            right: 10,
+                            bottom: 40,
+                            child: renderTopButton(
+                                'assets/images/coin.png', 'Points: ', '50')),
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: Container(
+                            height: 30,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                color: ColorConstants.WHITE,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(16),
+                                    topRight: Radius.circular(16))),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                )
-              ],
-            ),
-          ),
 
-          //show other content
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            child: Column(
-              children: [
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Participate & Add to Your Portfolio',
-                          style: Styles.regular(
-                            color: ColorConstants.GREY_6,
-                          )),
-                      InkWell(
-                          onTap: () {
-                            showModalBottomSheet(
-                                context: context,
-                                backgroundColor: Colors.transparent,
-                                isScrollControlled: true,
-                                builder: (context) {
-                                  return FractionallySizedBox(
-                                    heightFactor: 0.49,
-                                    child: renderFilter(),
-                                  );
-                                });
-                          
-                          },
-                          child: Icon(Icons.filter_list))
-                    ]),
-                renderCompetitionCard(),
-                renderCompetitionCard(),
-                renderCompetitionCard(),
-                SizedBox(height: 10),
-                Row(
-                  children: [
-                    Text('Most popular activities',
-                        style: Styles.regular(
-                          color: ColorConstants.GREY_6,
-                        ))
-                  ],
-                ),
+                  //show other content
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    child: Column(
+                      children: [
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Participate & Add to Your Portfolio',
+                                  style: Styles.regular(
+                                    color: ColorConstants.GREY_6,
+                                  )),
+                              InkWell(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                        context: context,
+                                        backgroundColor: Colors.transparent,
+                                        isScrollControlled: true,
+                                        builder: (context) {
+                                          return FractionallySizedBox(
+                                            heightFactor: 0.49,
+                                            child: renderFilter(),
+                                          );
+                                        });
+                                  },
+                                  child: Icon(Icons.filter_list))
+                            ]),
+                        if (competitionLoading == false)
+                          ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: competitionList?.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CompetitionDetail(
+                                                      competition:
+                                                          competitionList?[
+                                                              index])));
+                                    },
+                                    child: renderCompetitionCard(
+                                        '${competitionList?[index].image}',
+                                        '${competitionList?[index].name}',
+                                        '',
+                                        '',
+                                        '${competitionList?[index].gScore}',
+                                        '${Utility.convertDateFromMillis(int.parse('${competitionList?[index].endDate}'), "dd MMM yyyy")}'));
+                              }),
+                        SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Text('Most popular activities',
+                                style: Styles.regular(
+                                  color: ColorConstants.GREY_6,
+                                ))
+                          ],
+                        ),
 
-                //
-                Container(
-                  height: 233,
-                  // color: Colors.green,
-                  // padding: EdgeInsets.symmetric(vertical: 20),
-                  margin: EdgeInsets.only(top: 8, bottom: 20),
-                  child: ListView.builder(
-                      itemCount: 3,
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (BuildContext context, int index) {
-                        return InkWell(onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> CompetitionDetail() ));
-                        },
-                        child: renderActivityCard());
-                      }),
-                )
-              ],
-            ),
-          )
-        ]),
-      ),
-    );
+                        //
+                        Container(
+                          height: 233,
+                          // color: Colors.green,
+                          // padding: EdgeInsets.symmetric(vertical: 20),
+                          margin: EdgeInsets.only(top: 8, bottom: 20),
+                          child: ListView.builder(
+                              itemCount: 3,
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (BuildContext context, int index) {
+                                return InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  CompetitionDetail()));
+                                    },
+                                    child: renderActivityCard());
+                              }),
+                        )
+                      ],
+                    ),
+                  )
+                ]),
+              ),
+            )));
   }
 
   renderActivityCard() {
@@ -272,7 +329,8 @@ class _CompetetionState extends State<Competetion> {
     );
   }
 
-  renderCompetitionCard() {
+  renderCompetitionCard(String competitionImg, String name, String companyName,
+      String difficulty, String gScore, String date) {
     return Container(
       height: 90,
       width: double.infinity,
@@ -296,8 +354,7 @@ class _CompetetionState extends State<Competetion> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: CachedNetworkImage(
-              imageUrl:
-                  'https://s3-ap-south-1.amazonaws.com/blogmindler/bloglive/wp-content/uploads/2022/04/06192628/10-Unusual-Courses-that-You-have-Never-Heard-Before_blog.png',
+              imageUrl: competitionImg,
               width: 100,
               height: 120,
               errorWidget: (context, url, error) => SvgPicture.asset(
@@ -312,7 +369,7 @@ class _CompetetionState extends State<Competetion> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Coding Competition',
+              name,
               style: Styles.bold(size: 14),
             ),
             SizedBox(
@@ -352,7 +409,7 @@ class _CompetetionState extends State<Competetion> {
                 SizedBox(
                   width: 4,
                 ),
-                Text('30 Points',
+                Text('$gScore Points',
                     style: Styles.regular(
                         color: ColorConstants.ORANGE_4, size: 12)),
                 SizedBox(
@@ -372,7 +429,7 @@ class _CompetetionState extends State<Competetion> {
                   width: 4,
                 ),
                 Text(
-                  '31st December',
+                  date,
                   style: Styles.regular(size: 12, color: Color(0xff5A5F73)),
                 )
               ],
@@ -544,5 +601,48 @@ class _CompetetionState extends State<Competetion> {
         ),
       );
     }
+  }
+
+  void _handlecompetitionListResponse(CourseCategoryListIDState state) {
+    var competitionState = state;
+    setState(() {
+      switch (competitionState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          competitionLoading = true;
+
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("CompetitionState....................");
+          competitionList = state.response!.data!.programs;
+          competitionList = competitionList
+              ?.where((element) => element.isCompetition == 1)
+              .toList();
+
+          // if (competitionList!.length <= 0) nocourseAssigned = 1;
+          competitionLoading = false;
+
+          break;
+        case ApiStatus.ERROR:
+          Log.v(
+              "Error CompetitionListIDState ..........................${competitionState.error}");
+          setState(() {
+            // errorMessage = state.response?.error![0];
+            competitionLoading = false;
+          });
+          competitionList = state.response!.data!.programs;
+          competitionList = competitionList
+              ?.where((element) => element.isCompetition == 1)
+              .toList();
+//
+
+          // if (competitionList == null || competitionList!.length <= 0)
+          //   nocourseAssigned = 1;
+
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
   }
 }

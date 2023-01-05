@@ -939,24 +939,24 @@ class _DashboardPageState extends State<DashboardPage> {
 
                          
                                  
-                                       carvaanList?[index].resourcePath
-                                                  ?.contains('.mp4')  == true||
-                                                carvaanList?[index].resourcePath
-                                                  ?.contains('.mov') == true
-                                          // ? CustomBetterPlayer(
-                                          //     url: widget.fileList[index])
-                                          ? Container
-
-                                          (
-                                            height: 30,
-                                            child: FlickVideoPlayer(
-        flickManager: FlickManager(
-      videoPlayerController:
-          VideoPlayerController.network('${carvaanList?[index].resourcePath}'),
-    )
-      )
+    //                                    carvaanList?[index].resourcePath
+    //                                               ?.contains('.mp4')  == true||
+    //                                             carvaanList?[index].resourcePath
+    //                                               ?.contains('.mov') == true
+    //                                       // ? CustomBetterPlayer(
+    //                                       //     url: widget.fileList[index])
+    //                                       ? Container
+    //                                       (
+    //                                         height: 30,
+    //                                         child: FlickVideoPlayer(
+    //     flickManager: FlickManager(
+    //   videoPlayerController:
+    //       VideoPlayerController.network('${carvaanList?[index].resourcePath}'),
+    // )
+    //   )
                                             
-                                            ):    Image.network(
+    //                                         ):   
+    Image.network(
                                 '${carvaanList?[index].resourcePath}')]),
                           );
                           

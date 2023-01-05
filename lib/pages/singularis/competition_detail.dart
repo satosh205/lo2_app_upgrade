@@ -1,9 +1,15 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
+import 'package:masterg/pages/ghome/widget/read_more.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:masterg/utils/utility.dart';
+
 class CompetitionDetail extends StatefulWidget {
-  const CompetitionDetail({super.key});
+  final MProgram? competition;
+  const CompetitionDetail({super.key, this.competition});
 
   @override
   State<CompetitionDetail> createState() => _CompetitionDetailState();
@@ -12,107 +18,271 @@ class CompetitionDetail extends StatefulWidget {
 class _CompetitionDetailState extends State<CompetitionDetail> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Color(0xffF2F2F2),
       appBar: AppBar(
-       leading: Icon(Icons.arrow_back_ios_new),
-        title: Text('Design Competition')),
-        body: SingleChildScrollView(child: Column(children: [
-        ListView.builder(
-            itemCount: 3,
-            shrinkWrap: true,
-            itemBuilder: (BuildContext context, int index) {
-              return InkWell(onTap: (){
-                // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> CompetitionDetail() ));
-              },
-              child:competitionCard());
-            })
-        ],)),
+          backgroundColor: Color(0xffF2F2F2),
+          elevation: 0,
+          leading: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: Icon(
+                Icons.arrow_back_ios_new,
+                color: Color(0xff0E1638),
+              )),
+          title: Text(
+            '${widget.competition?.name}',
+            style: Styles.semibold(),
+          )),
+      body: SingleChildScrollView(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: double.infinity,
+            height: size.height * 0.15,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: CachedNetworkImage(
+                imageUrl: '${widget.competition?.image}',
+                width: double.infinity,
+                // height: 120,
+                errorWidget: (context, url, error) => SvgPicture.asset(
+                  'assets/images/gscore_postnow_bg.svg',
+                ),
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${widget.competition?.name}',
+                  style: Styles.bold(color: Color(0xff0E1638)),
+                ),
+                Row(
+                  children: [
+                    Text(
+                      'Conducted by ',
+                      style: Styles.regular(size: 12, color: Color(0xff929BA3)),
+                    ),
+                    Text(
+                      'Google',
+                      style: Styles.semibold(size: 12),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 2, horizontal: 6),
+                      margin: EdgeInsets.symmetric(vertical: 8),
+                      decoration: BoxDecoration(
+                          color: ColorConstants.WHITE,
+                          borderRadius: BorderRadius.circular(4)),
+                      child: Text('Easy',
+                          style: Styles.semibold(
+                            size: 12,
+                            color: ColorConstants.GREEN_1,
+                          )),
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 2, horizontal: 6),
+                        margin: EdgeInsets.symmetric(
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                            color: ColorConstants.WHITE,
+                            borderRadius: BorderRadius.circular(4)),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                                height: 15,
+                                child: Image.asset('assets/images/coin.png')),
+                            SizedBox(
+                              width: 4,
+                            ),
+                            Text('${widget.competition?.gScore} Points',
+                                style: Styles.semibold(
+                                  size: 12,
+                                  color: ColorConstants.ORANGE_4,
+                                )),
+                          ],
+                        )),
+                    Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 3, horizontal: 6),
+                        margin: EdgeInsets.only(left: 8, top: 8, bottom: 8),
+                        decoration: BoxDecoration(
+                            color: ColorConstants.WHITE,
+                            borderRadius: BorderRadius.circular(4)),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.calendar_month,
+                              size: 14,
+                            ),
+                            SizedBox(
+                              width: 4,
+                            ),
+                            Text(
+                              '${Utility.convertDateFromMillis(int.parse('${widget.competition?.endDate}'), "dd MMM yyyy")}',
+                              style: Styles.semibold(
+                                  size: 12, color: Color(0xff5A5F73)),
+                            )
+                          ],
+                        )),
+                  ],
+                ),
+                ReadMoreText(
+                  text:
+                      '${widget.competition?.description}',
+                  color: Color(0xff5A5F73),
+                ),
+                Center(
+                  child: Container(                  
+                    width: size.width * 0.6,
+                    padding: EdgeInsets.symmetric(vertical:8, horizontal: 12),
+                    margin: EdgeInsets.symmetric(vertical:10),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Color(0xffFF2452)),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Center(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset('assets/images/leaderboard.png'),
+                          SizedBox(width: 8),
+                          Text('View Leaderboard', style:Styles.bold(
+                            
+                            color: Color(0xff5A5F73))),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                  Text('Activities', style: Styles.bold(size: 14,color: Color(0xff0E1638)))
 
+              ],
+            ),
+          ),
+          ListView.builder(
+              itemCount: 3,
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, int index) {
+                return InkWell(
+                    onTap: () {
+                      // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> CompetitionDetail() ));
+                    },
+                    child: competitionCard());
+              })
+        ],
+      )),
     );
   }
 
-  Widget competitionCard(){
+  Widget competitionCard() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      // mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-      SizedBox(
-        width: MediaQuery.of(context).size.width * 0.15,
-        child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-
+      child: Row(crossAxisAlignment: CrossAxisAlignment.start,
+          // mainAxisAlignment: MainAxisAlignment.start,
           children: [
-          SvgPicture.asset(
-                                          'assets/images/circular_border.svg',
-                                        width: 20,
-                                        height: 20,
-                                        
-                                        ),Container(
-                                          margin: EdgeInsets.only(top: 4),
-                                          height: 75, width:6, decoration: BoxDecoration( color: Color(0xffCECECE), borderRadius: BorderRadius.circular(14)),)
-        ],),
-      ),
-      Container(
-        width: MediaQuery.of(context).size.width * 0.8,
-        // height: 100,
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(color: ColorConstants.WHITE, borderRadius: BorderRadius.circular(4)),
-        child: renderAssignmentCard(),)
-    ]),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    'assets/images/circular_border.svg',
+                    width: 18,
+                    height: 18,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 4),
+                    height: 75,
+                    width: 4,
+                    decoration: BoxDecoration(
+                        color: Color(0xffCECECE),
+                        borderRadius: BorderRadius.circular(14)),
+                  )
+                ],
+              ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.86,
+              // height: 100,
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  color: ColorConstants.WHITE,
+                  borderRadius: BorderRadius.circular(10)),
+              child: renderAssignmentCard(),
+            )
+          ]),
     );
   }
 
-  Widget renderAssignmentCard(){
+  Widget renderAssignmentCard() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children:[
-      Text('Assignment', style: Styles.regular(size: 12, color: ColorConstants.GREY_3)),
-      SizedBox(height: 8),
-      Text('Redesign home page of a Travel App', style: Styles.bold( size: 12)),
-      SizedBox(height: 8),
-      Row(
-                children: [
-                  Text('Easy',
-                      style: Styles.regular(
-                          color: ColorConstants.GREEN_1, size: 12)),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  Text('•',
-                      style: Styles.regular(
-                          color: ColorConstants.GREY_2, size: 12)),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  SizedBox(
-                      height: 15, child: Image.asset('assets/images/coin.png')),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  Text('30 Points',
-                      style: Styles.regular(
-                          color: ColorConstants.ORANGE_4, size: 12)),
-                           SizedBox(
-                  width: 4,
-                ),
-                Icon(
-                  Icons.calendar_month,
-                  size: 20,
-                ),
-                SizedBox(
-                  width: 4,
-                ),
-                Text(
-                  '31st December',
-                  style: Styles.regular(size: 12, color: Color(0xff5A5F73)),
-                )
-                ],
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Assignment',
+              style: Styles.regular(size: 12, color: ColorConstants.GREY_3)),
+          SizedBox(height: 8),
+          Text('Redesign home page of a Travel App',
+              style: Styles.bold(size: 12)),
+          SizedBox(height: 8),
+          Row(
+            children: [
+              Text('Easy',
+                  style:
+                      Styles.regular(color: ColorConstants.GREEN_1, size: 12)),
+              SizedBox(
+                width: 4,
+              ),
+              Text('•',
+                  style:
+                      Styles.regular(color: ColorConstants.GREY_2, size: 12)),
+              SizedBox(
+                width: 4,
+              ),
+              SizedBox(
+                  height: 15, child: Image.asset('assets/images/coin.png')),
+              SizedBox(
+                width: 4,
+              ),
+              Text('${widget.competition?.gScore} Points',
+                  style:
+                      Styles.regular(color: ColorConstants.ORANGE_4, size: 12)),
+              SizedBox(
+                width: 4,
+              ),
+              Icon(
+                Icons.calendar_month,
+                size: 20,
+              ),
+              SizedBox(
+                width: 4,
+              ),
+              Text(
+                '31st December',
+                style: Styles.regular(size: 12, color: Color(0xff5A5F73)),
               )
-    ]);
+            ],
+          )
+        ]);
   }
 }

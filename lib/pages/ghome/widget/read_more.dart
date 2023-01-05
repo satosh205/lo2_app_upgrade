@@ -6,8 +6,9 @@ import '../../../utils/Styles.dart';
 
 class ReadMoreText extends StatefulWidget {
   final String text;
+  final Color? color;
 
-  ReadMoreText({Key? key, required this.text}) : super(key: key);
+  ReadMoreText({Key? key, required this.text, this.color}) : super(key: key);
 
   @override
   State<ReadMoreText> createState() => _ReadMoreTextState();
@@ -30,7 +31,7 @@ class _ReadMoreTextState extends State<ReadMoreText> {
       children: [
         Text(
           widget.text,
-          style: Styles.regular(size: 14, color: ColorConstants.BLACK),
+          style: Styles.regular(size: 14, color:widget.color??  ColorConstants.BLACK),
           maxLines: isExpanded != true ? 2 : null,
           // overflow: isExpanded != true ? TextOverflow.fade : null,
         ),

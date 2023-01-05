@@ -97,9 +97,8 @@ class _MyCoursesState extends State<MyCourses> {
           break;
         case ApiStatus.SUCCESS:
           Log.v("CourseCategoryState....................");
-          // courseCategoryList.add(state.response.data.);
-
           courseList1 = state.response!.data!.programs;
+          courseList1 = courseList1?.where((element) => element.isCompetition != 1).toList();
 
           if (courseList1!.length <= 0) nocourseAssigned = 1;
           _isCourseList1Loading = false;
@@ -113,6 +112,8 @@ class _MyCoursesState extends State<MyCourses> {
             _isCourseList1Loading = false;
           });
           courseList1 = state.response!.data!.programs;
+          courseList1 = courseList1?.where((element) => element.isCompetition != 1).toList();
+// 
 
           if (courseList1 == null || courseList1!.length <= 0)
             nocourseAssigned = 1;

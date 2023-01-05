@@ -80,8 +80,10 @@ class MProgram {
       this.trainer,
       this.totalView,
       this.completionPer,
+      this.isStructured,this.isCompetition,
+      this.terminationDays,
       this.subscriptionType,
-      this.isSubscribed});
+      this.isSubscribed, this.gScore});
 
   int? id;
   int? organizationId;
@@ -100,11 +102,15 @@ class MProgram {
   String? duration;
   String? contents;
   int? totalCoins;
+  int? isStructured;
+  int? isCompetition;
+  int? terminationDays;
   String? trainer;
   dynamic totalView;
   int? completionPer;
   String? subscriptionType;
   bool? isSubscribed;
+  int? gScore;
 
   factory MProgram.fromJson(Map<String, dynamic> json) => MProgram(
       id: json["id"],
@@ -128,6 +134,10 @@ class MProgram {
       totalView: json["total_view"],
       completionPer: json["completion_per"],
       subscriptionType: json['subscription_type'],
+      isCompetition: json['is_competition'],
+      isStructured: json['is_structured'],
+      terminationDays: json['termination_days'],
+      gScore: json['g_score'],
       isSubscribed: json['is_subscribed']);
 
   Map<String, dynamic> toJson() => {
@@ -152,6 +162,10 @@ class MProgram {
         "total_view": totalView,
         "completion_per": completionPer,
         "subscription_type": subscriptionType,
+        "is_competition" : isCompetition,
+"is_structured":isStructured,
+"termination_days":terminationDays, 
+"g_score": gScore,
         "is_subscribed": isSubscribed
       };
 }
