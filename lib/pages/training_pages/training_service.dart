@@ -23,12 +23,12 @@ class TrainingService {
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
                 ApiConstants.API_KEY: ApiConstants().APIKeyValue()
-              },
+              }, 
               contentType: "application/json",
-              responseType: ResponseType.json // or ResponseType.JSON
+              responseType: ResponseType.json 
               ));
       if (response.statusCode == 200 || response.statusCode == 201) {
-        debugPrint('api call response -- ${response}');
+        debugPrint('api call response -- $response');
 
         if (response.data.containsKey('error') &&
             (response.data["error"] as List).length != 0) {

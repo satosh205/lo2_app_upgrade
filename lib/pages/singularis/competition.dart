@@ -619,7 +619,6 @@ class _CompetetionState extends State<Competetion> {
               ?.where((element) => element.isCompetition == 1)
               .toList();
 
-          // if (competitionList!.length <= 0) nocourseAssigned = 1;
           competitionLoading = false;
 
           break;
@@ -627,17 +626,13 @@ class _CompetetionState extends State<Competetion> {
           Log.v(
               "Error CompetitionListIDState ..........................${competitionState.error}");
           setState(() {
-            // errorMessage = state.response?.error![0];
             competitionLoading = false;
           });
           competitionList = state.response!.data!.programs;
           competitionList = competitionList
               ?.where((element) => element.isCompetition == 1)
               .toList();
-//
 
-          // if (competitionList == null || competitionList!.length <= 0)
-          //   nocourseAssigned = 1;
 
           break;
         case ApiStatus.INITIAL:

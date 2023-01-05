@@ -53,6 +53,8 @@ import 'package:masterg/data/models/response/home_response/survey_data_resp.dart
 import 'package:masterg/data/models/response/home_response/test_attempt_response.dart';
 import 'package:masterg/data/models/response/home_response/test_review_response.dart';
 import 'package:masterg/data/models/response/home_response/topics_resp.dart';
+import 'package:masterg/data/models/response/home_response/training_detail_response.dart';
+import 'package:masterg/data/models/response/home_response/training_module_response.dart';
 import 'package:masterg/data/models/response/home_response/update_user_profile_response.dart';
 import 'package:masterg/data/models/response/home_response/user_analytics_response.dart';
 import 'package:masterg/data/models/response/home_response/user_jobs_list_response.dart';
@@ -265,12 +267,44 @@ class UserJobListState extends HomeState {
   UserJobListState(this.state, {this.response, this.error});
 }
 
+class CompetitionDetailState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  TrainingModuleResponse? response;
+  String? error;
+
+  CompetitionDetailState(this.state, {this.response, this.error});
+}
+class TrainingDetailState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  TrainingDetailResponse? response;
+  String? error;
+
+  TrainingDetailState(this.state, {this.response, this.error});
+}
+
+
 
 
 ///TODO: EVENT BLOCK
 
 class UserJobsListEvent extends HomeEvent {
   UserJobsListEvent() : super([]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+class CompetitionDetailEvent extends HomeEvent {
+  int? moduleId;
+  CompetitionDetailEvent({this.moduleId}) : super([moduleId]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+class TrainingDetailEvent extends HomeEvent {
+  int? programId;
+  TrainingDetailEvent({this.programId}) : super([programId]);
 
   List<Object> get props => throw UnimplementedError();
 }
@@ -1783,7 +1817,44 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield UserJobListState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }
-    }else if (event is GetCommentEvent) {
+    }
+     else if (event is CompetitionDetailEvent) {
+      try {
+        yield CompetitionDetailState(ApiStatus.LOADING);
+        final response = await homeRepository.getCompetitionDetail(event.moduleId);
+        if (response.status == 1) {
+          yield CompetitionDetailState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA ::: $response");
+          yield CompetitionDetailState(ApiStatus.ERROR,
+              error: Strings.somethingWentWrong);
+        }
+      } catch (e) {
+        Log.v("ERROR DATA : $e");
+        yield CompetitionDetailState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
+      }
+    }
+
+     else if (event is TrainingDetailEvent) {
+      try {
+        yield TrainingDetailState(ApiStatus.LOADING);
+        final response = await homeRepository.getTrainingDetail(event.programId);
+        if (response.status == 1) {
+          yield TrainingDetailState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA ::: $response");
+          yield TrainingDetailState(ApiStatus.ERROR,
+              error: Strings.somethingWentWrong);
+        }
+      } catch (e) {
+        Log.v("ERROR DATA : $e");
+        yield TrainingDetailState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
+      }
+    }
+    
+    else if (event is GetCommentEvent) {
       try {
         yield GetCommentState(ApiStatus.LOADING);
         final response = await homeRepository.getComment(event.postId);

@@ -1,25 +1,66 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:masterg/blocs/bloc_manager.dart';
+import 'package:masterg/blocs/home_bloc.dart';
+import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
+import 'package:masterg/data/models/response/home_response/training_detail_response.dart';
+import 'package:masterg/data/models/response/home_response/training_module_response.dart';
 import 'package:masterg/pages/ghome/widget/read_more.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 
+import '../../utils/Log.dart';
+
 class CompetitionDetail extends StatefulWidget {
   final MProgram? competition;
   const CompetitionDetail({super.key, this.competition});
+
 
   @override
   State<CompetitionDetail> createState() => _CompetitionDetailState();
 }
 
 class _CompetitionDetailState extends State<CompetitionDetail> {
+  TrainingModuleResponse? competitionDetail;
+  TrainingDetailResponse? programDetail;
+  bool? competitionDetailLoading ;
+
+  @override
+  void initState() {
+    getProgramDetail();
+    super.initState();
+
+  }
+
+  void getCompetitionDetail(int moduleId){
+    print('get data');
+     BlocProvider.of<HomeBloc>(context)
+        .add(CompetitionDetailEvent(moduleId: moduleId));
+  }
+  void getProgramDetail(){
+  
+     BlocProvider.of<HomeBloc>(context)
+        .add(TrainingDetailEvent(programId: widget.competition?.id));
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
+    return 
+    
+   BlocManager(
+        initState: (BuildContext context) {},
+        child: BlocListener<HomeBloc, HomeState>(
+            listener: (context, state) {
+              if (state is CompetitionDetailState) {
+              handlecompetitionDetailResponse(state);
+              }
+              if(state is TrainingDetailState) handleTrainingDetailState(state);
+            },
+            child: Scaffold(
       backgroundColor: Color(0xffF2F2F2),
       appBar: AppBar(
           backgroundColor: Color(0xffF2F2F2),
@@ -190,7 +231,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
               })
         ],
       )),
-    );
+        )));
   }
 
   Widget competitionCard() {
@@ -284,5 +325,53 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
             ],
           )
         ]);
+  }
+
+
+   void handlecompetitionDetailResponse(CompetitionDetailState state) {
+    var competitionState = state;
+    setState(() {
+      switch (competitionState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          competitionDetailLoading = true;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("CompetitionState....................");
+          competitionDetail = state.response;
+          competitionDetailLoading = false;
+          break;
+        case ApiStatus.ERROR:
+          Log.v(
+              "Error CompetitionListIDState ..........................${competitionState.error}");
+          competitionDetailLoading = false;
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
+   }
+   void handleTrainingDetailState(TrainingDetailState state) {
+    var competitionState = state;
+    setState(() {
+      switch (competitionState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          competitionDetailLoading = true;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("Training Competition State....................");
+          programDetail = state.response;
+          getCompetitionDetail(int.parse('${programDetail?.data?.list?.first.modules?.first.id}'));
+          break;
+        case ApiStatus.ERROR:
+          Log.v(
+              "Error Training Competition  ..........................${competitionState.error}");
+          competitionDetailLoading = false;
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
   }
 }

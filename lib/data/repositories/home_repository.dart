@@ -51,6 +51,8 @@ import 'package:masterg/data/models/response/home_response/survey_data_resp.dart
 import 'package:masterg/data/models/response/home_response/test_attempt_response.dart';
 import 'package:masterg/data/models/response/home_response/test_review_response.dart';
 import 'package:masterg/data/models/response/home_response/topics_resp.dart';
+import 'package:masterg/data/models/response/home_response/training_detail_response.dart';
+import 'package:masterg/data/models/response/home_response/training_module_response.dart';
 import 'package:masterg/data/models/response/home_response/update_user_profile_response.dart';
 import 'package:masterg/data/models/response/home_response/user_analytics_response.dart';
 import 'package:masterg/data/models/response/home_response/user_info_response.dart';
@@ -504,7 +506,6 @@ class HomeRepository {
       Log.v("Job List DATA : ${response.body}");
       UserJobsListResponse userJobsListResponse =
       UserJobsListResponse.fromJson(response.body);
-      Log.v('=======at job list call ');
       var box = Hive.box("content");
       box.put("userJobList",
           userJobsListResponse.list!.map((e) => e.toJson()).toList());
@@ -512,6 +513,41 @@ class HomeRepository {
     } else {
       Log.v("====> ${response.body}");
       return UserJobsListResponse();
+    }
+  }
+
+  Future<TrainingModuleResponse> getCompetitionDetail(int? moduleId) async {
+    final response = await homeProvider.getCompetitionDetail(moduleId: moduleId);
+    if (response!.success) {
+      Log.v("Competition  DATA : ${response.body}");
+      TrainingModuleResponse competitionData =
+      TrainingModuleResponse.fromJson(response.body);
+   
+      var box = Hive.box("content");
+      box.put("competitionDetail",
+          competitionData.data?.module?.map((e) => e.toJson()).toList());
+      return competitionData;
+    } else {
+      Log.v("====> ${response.body}");
+      return TrainingModuleResponse();
+    }
+  }
+
+
+   Future<TrainingDetailResponse> getTrainingDetail(int? programId) async {
+    final response = await homeProvider.getTrainingDetail(programId);
+    if (response!.success) {
+      Log.v("Training Detail  DATA : ${response.body}");
+      TrainingDetailResponse competitionData =
+      TrainingDetailResponse.fromJson(response.body);
+   
+      var box = Hive.box("content");
+      // box.put("competitionDetail",
+      //     competitionData.data?.module?.map((e) => e.toJson()).toList());
+      return competitionData;
+    } else {
+      Log.v("====> ${response.body}");
+      return TrainingDetailResponse();
     }
   }
 

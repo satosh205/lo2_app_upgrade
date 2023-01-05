@@ -178,6 +178,7 @@ class HomeProvider {
     } catch (e) {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
+    return null;
   }
 
   Future<ApiResponse?> getUserProfile() async {
@@ -314,6 +315,7 @@ class HomeProvider {
     } catch (e) {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
+    return null;
   }
 
   Future<ApiResponse?> getModuleLeaderboardList(String moduleId,
@@ -346,6 +348,7 @@ class HomeProvider {
     } catch (e) {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
+    return null;
   }
 
   Future<ApiResponse?> submitFeedback({FeedbackReq? req}) async {
@@ -391,6 +394,7 @@ class HomeProvider {
     } catch (e) {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
+    return null;
   }
 
   Future<ApiResponse?> getTopicsList() async {
@@ -417,6 +421,7 @@ class HomeProvider {
     } catch (e) {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
+    return null;
   }
 
   Future<ApiResponse?> getFeedbackList() async {
@@ -443,6 +448,7 @@ class HomeProvider {
     } catch (e) {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
+    return null;
   }
 
   Future<ApiResponse?> getContentTagsList({int? categoryType}) async {
@@ -470,6 +476,7 @@ class HomeProvider {
     } catch (e) {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
+    return null;
   }
 
   Future<ApiResponse?> getCourseLeaderboardList(String courseId,
@@ -502,6 +509,7 @@ class HomeProvider {
     } catch (e) {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
+    return null;
   }
 
   Future<ApiResponse?> getCourseModulesList(String courseId,
@@ -533,6 +541,7 @@ class HomeProvider {
       //print(stacktrace);
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
+    return null;
   }
 
   Future<ApiResponse?> getKPIAnalysisList() async {
@@ -559,6 +568,7 @@ class HomeProvider {
     } catch (e) {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
+    return null;
   }
 
   Future<ApiResponse?> getCoursesList({required int type}) async {
@@ -589,6 +599,7 @@ class HomeProvider {
     } catch (e) {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
+    return null;
   }
 
   Future<ApiResponse?> reportContent(
@@ -1731,6 +1742,7 @@ class HomeProvider {
       }
       //return ApiResponse.failure(e, message: e.response.data["message"]);
     }
+    return null;
   }
 
   Future<ApiResponse?> masterBrandCreate(Map<String, dynamic> data) async {
@@ -1765,6 +1777,7 @@ class HomeProvider {
       }
       //return ApiResponse.failure(e, message: e.response.data["message"]);
     }
+    return null;
   }
 
   Future<ApiResponse?> userBrandCreate(Map<String, dynamic> data) async {
@@ -1796,6 +1809,7 @@ class HomeProvider {
       }
       //return ApiResponse.failure(e, message: e.response.data["message"]);
     }
+    return null;
   }
 
   Future<ApiResponse?> deletePortfolio(int id) async {
@@ -1826,6 +1840,7 @@ class HomeProvider {
       }
       //return ApiResponse.failure(e, message: e.response.data["message"]);
     }
+    return null;
   }
 
   Future<ApiResponse?> listPortfolio(String type, int userId) async {
@@ -1857,6 +1872,7 @@ class HomeProvider {
       }
       //return ApiResponse.failure(e, message: e.response.data["message"]);
     }
+    return null;
   }
 
   Future<ApiResponse?> getSurveyDataList({int? contentId, int? type}) async {
@@ -1886,6 +1902,7 @@ class HomeProvider {
     } catch (e) {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
+    return null;
   }
 
   Future<ApiResponse?> submitSurvey({SubmitSurveyReq? req}) async {
@@ -1915,6 +1932,7 @@ class HomeProvider {
     } catch (e) {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
+    return null;
   }
 
   Future<ApiResponse?> removeAccount({String? type}) async {
@@ -1972,6 +1990,7 @@ class HomeProvider {
     } catch (e) {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
+    return null;
   }
 
   Future<ApiResponse?> submitPoll({PollSubmitRequest? req}) async {
@@ -1999,7 +2018,67 @@ class HomeProvider {
     } catch (e) {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
+    return null;
   }
+
+
+  Future<ApiResponse?> getCompetitionDetail({int? moduleId}) async {
+    try {
+      final response = await api.dio.get(ApiConstants.COMPETITION_MODULE_DATA + '$moduleId',
+       
+          options: Options(
+              method: 'GET',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+    }
+    return null;
+  }
+
+
+
+   Future<dynamic> getTrainingDetail(int? programId) async {
+    try {
+      final response = await api.dio.get(ApiConstants.PROGRAMS_LIST + '/$programId',
+          options: Options(
+              method: 'GET',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+     
+
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+      
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+  }
+
+  
 
   Future<ApiResponse?> updateVideoCompletion(
       int bookmark, int contentId) async {
@@ -2030,5 +2109,6 @@ class HomeProvider {
     } catch (e) {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
+    return null;
   }
 }

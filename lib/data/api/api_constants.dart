@@ -133,4 +133,5 @@ class ApiConstants {
   static const SWAYAM_LOGIN = 'api/login';
   static const REMOVE_ACCOUNT = '/api/user/delete';
   static const USER_JOBS_LIST = '/api/user_jobs/list';
+  static const COMPETITION_MODULE_DATA = '/api/learner/programs/modules/';
 }
