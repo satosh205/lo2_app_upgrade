@@ -225,7 +225,8 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
               ],
             ),
           ),
-     competitionDetailLoading == false ?   ListView.builder(
+           if (competitionDetailLoading == false) ...[
+            ListView.builder(
               itemCount: competitionDetail?.data?.module?.first.content?.assignments?.length,
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
@@ -234,73 +235,39 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                       // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> CompetitionDetail() ));
                     },
                     child: competitionCard(competitionDetail?.data?.module?.first.content?.assignments?[index]));
-              }) : Shimmer.fromColors(
-        baseColor: ColorConstants.GREY_3,
-        highlightColor: ColorConstants.GREY_4,
-        enabled: true,
-        child: ListView.separated(
-          shrinkWrap: true,
-          separatorBuilder: (ctx, index) {
-            return Divider(
-              thickness: 1,
-              color: Color.fromRGBO(127, 137, 197, 0.16),
-              height: 1,
-            );
-          },
-          // scrollDirection: ,
-          itemBuilder: (_, __) => Container(
-            height: 40,
-            width: MediaQuery.of(context).size.width,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Expanded(
-                  child: Container(
-                    height: 25,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Expanded(
-                  flex: 5,
-                  child: Container(
-                    height: 25,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Expanded(
-                  child: Container(
-                    height: 25,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: Container(
-                    height: 25,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          itemCount: 6,
-        ),
-      )
+              }),
+              ListView.builder(
+              itemCount: competitionDetail?.data?.module?.first.content?.assessments?.length,
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, int index) {
+                return InkWell(
+                    onTap: () {
+                      // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> CompetitionDetail() ));
+                    },
+                    child: competitionCard(competitionDetail?.data?.module?.first.content?.assessments?[index]));
+              })
+           ]
+else   ListView.builder(
+                shrinkWrap: true,
+                itemCount: 3,
+                itemBuilder: (BuildContext context, int index)=>Shimmer.fromColors(
+      baseColor: Color(0xffe6e4e6),
+      highlightColor: Color(0xffeaf0f3),
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.07,
+        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(6)),
+      ),
+    )),
+  
         ],
       )),
         )));
   }
 
-  Widget competitionCard(dynamic assignment) {
+  Widget competitionCard(dynamic data) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8),
       child: Row(crossAxisAlignment: CrossAxisAlignment.start,
@@ -335,13 +302,13 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
               decoration: BoxDecoration(
                   color: ColorConstants.WHITE,
                   borderRadius: BorderRadius.circular(10)),
-              child: renderAssignmentCard(assignment),
+              child: card(data),
             )
           ]),
     );
   }
 
-  Widget renderAssignmentCard(dynamic assignment) {
+  Widget card(dynamic assignment) {
     return InkWell(
       onTap: (){
          Navigator.push(
