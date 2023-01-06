@@ -8,9 +8,11 @@ import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
 import 'package:masterg/data/models/response/home_response/training_detail_response.dart';
 import 'package:masterg/data/models/response/home_response/training_module_response.dart';
+import 'package:masterg/data/providers/assessment_detail_provider.dart';
 import 'package:masterg/data/providers/assignment_detail_provider.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/ghome/widget/read_more.dart';
+import 'package:masterg/pages/training_pages/assessment_page.dart';
 import 'package:masterg/pages/training_pages/assignment_detail_page.dart';
 import 'package:masterg/pages/training_pages/training_service.dart';
 import 'package:masterg/utils/Styles.dart';
@@ -20,6 +22,13 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../utils/Log.dart';
+
+enum CardType { 
+   assignment, 
+  assessment,
+  session,
+  note,
+} 
 
 class CompetitionDetail extends StatefulWidget {
   final MProgram? competition;
@@ -34,6 +43,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
   TrainingModuleResponse? competitionDetail;
   TrainingDetailResponse? programDetail;
   bool? competitionDetailLoading ;
+  
 
   @override
   void initState() {
@@ -234,7 +244,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                     onTap: () {
                       // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> CompetitionDetail() ));
                     },
-                    child: competitionCard(competitionDetail?.data?.module?.first.content?.assignments?[index]));
+                    child: competitionCard(competitionDetail?.data?.module?.first.content?.assignments?[index], CardType.assignment ));
               }),
               ListView.builder(
               itemCount: competitionDetail?.data?.module?.first.content?.assessments?.length,
@@ -244,7 +254,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                     onTap: () {
                       // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> CompetitionDetail() ));
                     },
-                    child: competitionCard(competitionDetail?.data?.module?.first.content?.assessments?[index]));
+                    child: competitionCard(competitionDetail?.data?.module?.first.content?.assessments?[index], CardType.assessment));
               })
            ]
 else   ListView.builder(
@@ -267,7 +277,7 @@ else   ListView.builder(
         )));
   }
 
-  Widget competitionCard(dynamic data) {
+  Widget competitionCard(dynamic data, CardType cardType) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8),
       child: Row(crossAxisAlignment: CrossAxisAlignment.start,
@@ -302,35 +312,51 @@ else   ListView.builder(
               decoration: BoxDecoration(
                   color: ColorConstants.WHITE,
                   borderRadius: BorderRadius.circular(10)),
-              child: card(data),
+              child: card(data,   cardType),
             )
           ]),
     );
   }
 
-  Widget card(dynamic assignment) {
+  Widget card(dynamic data,  CardType cardType) {
     return InkWell(
       onTap: (){
+
+        if( cardType == CardType.assignment)
          Navigator.push(
       context,
       NextPageRoute(
           ChangeNotifierProvider<AssignmentDetailProvider>(
               create: (c) =>
-                  AssignmentDetailProvider(TrainingService(ApiService()), assignment),
+                  AssignmentDetailProvider(TrainingService(ApiService()), data),
               child: AssignmentDetailPage(
-                id: assignment.programContentId,
+                id: data.programContentId,
               )),
           isMaintainState: true),
+
+         
     );
+
+    else if(cardType == CardType.assessment){
+      Navigator.push(
+        context,
+        NextPageRoute(
+            ChangeNotifierProvider<AssessmentDetailProvider>(
+                create: (context) => AssessmentDetailProvider(
+                    TrainingService(ApiService()), data),
+                child: AssessmentDetailPage()),
+            isMaintainState: true));
+    }
+
       },
       child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Assignment',
+            Text( 'Assignment',
                 style: Styles.regular(size: 12, color: ColorConstants.GREY_3)),
             SizedBox(height: 8),
-            Text('${assignment.title}',
+            Text('${data.title}',
                 style: Styles.bold(size: 12)),
             SizedBox(height: 8),
             Row(

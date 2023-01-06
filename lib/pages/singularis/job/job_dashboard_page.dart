@@ -71,7 +71,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
       child: Container(
         margin: EdgeInsets.only(
             left: SizeConstants.JOB_LEFT_SCREEN_MGN,
-            top: SizeConstants.JOB_TOP_SCREEN_MGN,
+            // top: SizeConstants.JOB_TOP_SCREEN_MGN,
             right: SizeConstants.JOB_RIGHT_SCREEN_MGN,
             bottom: SizeConstants.JOB_BOTTOM_SCREEN_MGN),
         width: MediaQuery.of(context).size.width,
@@ -186,7 +186,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
            }
          },
          child: Padding(
-           padding: const EdgeInsets.all(13.0),
+           padding: const EdgeInsets.all(8),
            child: Row(
              mainAxisAlignment: MainAxisAlignment.start,
              children: [
@@ -199,7 +199,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                        Text('$strTitle',
                            style: Styles.bold(size: 16, color: ColorConstants.WHITE)),
                        Padding(
-                         padding: const EdgeInsets.only(top: 12.0),
+                         padding: const EdgeInsets.only(top: 4.0),
                          child: Text('$strDes',
                              style: Styles.regularWhite()),
                        ),
@@ -352,12 +352,12 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                 children: [
                                   Text('${jobList?[index].title}',
                                       style: Styles.bold(
-                                          size: 16, color: ColorConstants.BLACK)),
+                                          size: 14, color: ColorConstants.BLACK)),
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 10.0),
+                                    padding: const EdgeInsets.only(top: 6.0),
                                     child: Text(
                                         '${jobList?[index].companyName}',
-                                        style: Styles.regular(size:12,color: ColorConstants.GREY_3)),
+                                        style: Styles.regular(size:12,color: Color(0xff3E4245))),
                                   ),
 
                                   Padding(
@@ -368,10 +368,10 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                         Padding(
                                           padding: const EdgeInsets.only(left: 5.0),
                                           child: Text('Exp: ',
-                                              style: Styles.regular(size:12,color: ColorConstants.GREY_3)),
+                                              style: Styles.regular(size:12,color: ColorConstants.GREY_6)),
                                         ),
                                         Text('${jobList?[index].experience} Yrs',
-                                            style: Styles.regular(size:12,color: ColorConstants.GREY_3)),
+                                            style: Styles.regular(size:12,color: ColorConstants.GREY_6)),
 
                                         Padding(
                                           padding: const EdgeInsets.only(left: 20.0),
@@ -397,7 +397,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                           child: Container(
                             padding: EdgeInsets.only(left: 5.0),
                             child: Text('Apply',style: Styles.bold(
-                                size: 15, color: ColorConstants.ORANGE)),),
+                                size: 12, color: ColorConstants.ORANGE)),),
                         ),
                       ],
                     ),

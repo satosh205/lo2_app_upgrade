@@ -187,7 +187,7 @@ class _CompetetionState extends State<Competetion> {
                                   },
                                   child: Icon(Icons.filter_list))
                             ]),
-                        if (competitionLoading == false)
+                        competitionLoading == false ? 
                           ListView.builder(
                               shrinkWrap: true,
                               itemCount: competitionList?.length,
@@ -210,7 +210,27 @@ class _CompetetionState extends State<Competetion> {
                                         '',
                                         '${competitionList?[index].gScore}',
                                         '${Utility.convertDateFromMillis(int.parse('${competitionList?[index].endDate}'), "dd MMM yyyy")}'));
-                              }),
+                              }) : Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              enabled: true,
+              child: ListView.builder(
+                // scrollDirection: direction,
+                shrinkWrap: true,
+                itemBuilder: (_, __) => Container(
+                  padding:  EdgeInsets.symmetric(vertical: 8),
+                  width: MediaQuery.of(context).size.width,
+                  child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8)),
+                        width: double.infinity,
+                        height: 80,
+                      ),
+                ),
+                itemCount: 2,
+              ),
+            ),
                         SizedBox(height: 10),
                         Row(
                           children: [
@@ -228,17 +248,17 @@ class _CompetetionState extends State<Competetion> {
                           // padding: EdgeInsets.symmetric(vertical: 20),
                           margin: EdgeInsets.only(top: 8, bottom: 20),
                           child: ListView.builder(
-                              itemCount: 3,
+                              itemCount: 2,
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (BuildContext context, int index) {
                                 return InkWell(
                                     onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  CompetitionDetail()));
+                                      // Navigator.push(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //         builder: (BuildContext context) =>
+                                      //             CompetitionDetail()));
                                     },
                                     child: renderActivityCard());
                               }),
