@@ -144,12 +144,12 @@ class _homePageState extends State<homePage> {
 
     var pages = {
       '/g-home': GHome(),
-      // '/g-dashboard': const DashboardPage(),
-      '/g-dashboard':   Competetion(),
+      '/g-dashboard': const DashboardPage(),
+      // '/g-dashboard':   Competetion(),
       // '/g-school': const Competetion(),
       '/g-school': const GSchool(),
-      //'/g-reels': ReelsDashboardPage(),
-      '/g-reels': JobDashboardPage(),
+      '/g-reels': ReelsDashboardPage(),
+      // '/g-reels': JobDashboardPage(),
       '/g-carvaan': GCarvaanPostPage(
         fromDashboard: false,
         fileToUpload: widget.fileToUpload,

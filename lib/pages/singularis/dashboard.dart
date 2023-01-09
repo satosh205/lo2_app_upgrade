@@ -675,14 +675,14 @@ class _DashboardPageState extends State<DashboardPage> {
                                     menuProvider
                                         ?.updateCurrentIndex('/g-reels');
                                     menuProvider?.updateItemIndex(index);
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ReelsDashboardPage(
-                                                  fromDashboard: true,
-                                                  scrollTo: index,
-                                                )));
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) =>
+                                    //             ReelsDashboardPage(
+                                    //               fromDashboard: true,
+                                    //               scrollTo: index,
+                                    //             )));
                                   },
                                   child: ShowImage(
                                       path: reelsList?[index].resourcePath))),
