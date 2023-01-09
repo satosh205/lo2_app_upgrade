@@ -862,12 +862,12 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
       case ApiStatus.LOADING:
         Log.v("Loading....................");
 
- gcarvaanPosts = box
-                    !.get("gcarvaan_post")
-                    .map((e) => GCarvaanPostElement.fromJson(
-                        Map<String, dynamic>.from(e)))
-                    .cast<GCarvaanPostElement>()
-                    .toList();
+//  gcarvaanPosts = box
+//                     !.get("gcarvaan_post")
+//                     .map((e) => GCarvaanPostElement.fromJson(
+//                         Map<String, dynamic>.from(e)))
+//                     .cast<GCarvaanPostElement>()
+//                     .toList();
 
         isGCarvaanPostLoading = true;
 
@@ -876,17 +876,17 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
         isPostedLoading = false;
         isGCarvaanPostLoading = false;
 
-        // gcarvaanPosts = state.response.data.list;
-        // if (state.response.data.list.length == 1) {
+        //gcarvaanPosts = state.response.data.list;
+        //if (state.response.data.list.length == 1) {
 
-        // adding for removing duplicate post
-        if (gcarvaanPosts?.first.id != state.response!.data!.list?.first.id) {
-          gcarvaanPosts!.addAll(state.response!.data!.list!);
-        } else {
-          gcarvaanPosts = [];
-          gcarvaanPosts!.addAll(state.response!.data!.list!);
-        }
-
+        //adding for removing duplicate post
+        // if (gcarvaanPosts?.first.id != state.response!.data!.list?.first.id) {
+        //   gcarvaanPosts!.addAll(state.response!.data!.list!);
+        // } else {
+        //   gcarvaanPosts = [];
+        //   gcarvaanPosts!.addAll(state.response!.data!.list!);
+        // }
+if(state.response!.data!.list!.length == 0) callCount--;
         gcarvaanPosts!.addAll(state.response!.data!.list!);
 
         var seen = Set<GCarvaanPostElement>();
