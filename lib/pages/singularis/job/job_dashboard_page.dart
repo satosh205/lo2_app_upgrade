@@ -70,15 +70,20 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
       physics: ScrollPhysics(),
       child: Container(
         margin: EdgeInsets.only(
-            left: SizeConstants.JOB_LEFT_SCREEN_MGN,
-            // top: SizeConstants.JOB_TOP_SCREEN_MGN,
-            right: SizeConstants.JOB_RIGHT_SCREEN_MGN,
+            // left: SizeConstants.JOB_LEFT_SCREEN_MGN,
+            top: SizeConstants.JOB_TOP_SCREEN_MGN,
+            // right: SizeConstants.JOB_RIGHT_SCREEN_MGN,
             bottom: SizeConstants.JOB_BOTTOM_SCREEN_MGN),
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
             ///Search Job
-            _searchFilter(),
+            Padding(
+              padding: const  EdgeInsets.only(
+                  left: SizeConstants.JOB_LEFT_SCREEN_MGN,
+                       right: SizeConstants.JOB_RIGHT_SCREEN_MGN),
+              child: _searchFilter(),
+            ),
 
             ///Complete Profile
             SizedBox(height: 30,),
@@ -163,6 +168,9 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
   Widget _highLightsCard(Color colorBg, String strTitle, String strDes, String clickType){
    return Container(
        height: 120,
+        margin: const EdgeInsets.only(
+                  left: SizeConstants.JOB_LEFT_SCREEN_MGN,
+                       right: SizeConstants.JOB_RIGHT_SCREEN_MGN),
        width: double.infinity,
        child: InkWell(
          onTap: (){
@@ -224,7 +232,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
          borderRadius: BorderRadius.circular(10),
          color: colorBg,
          boxShadow: [
-           BoxShadow(color: Colors.white, spreadRadius: 3),
+          //  BoxShadow(color: Colors.white, spreadRadius: 3),
          ],
        ),
      );
@@ -257,7 +265,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
               height: 70,
               child: Center(
                 child: Text('View all Job',
-                    style: Styles.bold(size:14,color: ColorConstants.RED)),
+                    style: Styles.semibold(size:14,color: ColorConstants.RED)),
               ),
             ),
           ) : SizedBox(),

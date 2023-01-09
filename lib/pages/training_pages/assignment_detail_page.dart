@@ -30,7 +30,8 @@ import 'package:provider/provider.dart';
 
 class AssignmentDetailPage extends StatefulWidget {
   final int? id;
-  AssignmentDetailPage({required this.id});
+  final bool fromCompetition;
+  AssignmentDetailPage({required this.id, this.fromCompetition = false});
   @override
   _AssignmentDetailPageState createState() => _AssignmentDetailPageState();
 }
@@ -38,9 +39,9 @@ class AssignmentDetailPage extends StatefulWidget {
 class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
   File? file;
   final _userNotes = TextEditingController(text: "");
-  late AssignmentDetailProvider assignmentDetailProvider;
+  AssignmentDetailProvider? assignmentDetailProvider;
   bool _isLoading = false;
-  late AssessmentDetails data;
+  AssessmentDetails? data;
   List<SubmissionDetails>? _attempts = [];
 
   @override
@@ -163,24 +164,26 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
     return Scaffold(
         backgroundColor: ColorConstants.WHITE,
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          iconTheme: IconThemeData(
-            color: ColorConstants.GREY_1, //change your color here
-          ),
-          title: Text(
-            'Assignment',
-            style: TextStyle(color: Colors.black),
-          ),
-          backgroundColor: Colors.white,
-          elevation: 0,
-        ),
+        appBar: !widget.fromCompetition
+            ? AppBar(
+                iconTheme: IconThemeData(
+                  color: ColorConstants.GREY_1, //change your color here
+                ),
+                title: Text(
+                  'Assignment',
+                  style: TextStyle(color: Colors.black),
+                ),
+                backgroundColor: Colors.white,
+                elevation: 0,
+              )
+            : null,
         body: BlocManager(
             initState: (c) {},
             child: BlocListener<HomeBloc, HomeState>(
               listener: (context, state) {
                 if (state is AssignmentSubmissionsState) _handleResponse(state);
               },
-              child: assignmentDetailProvider.assignment != null
+              child: assignmentDetailProvider?.assignment != null
                   ? _buildBody()
                   : CustomProgressIndicator(true, ColorConstants.WHITE),
             )));
@@ -191,144 +194,200 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: SingleChildScrollView(
-            child: Column(children: [
-          _belowTitle(assignmentDetailProvider),
-          _body(assignmentDetailProvider.assignment!),
-          _buildListBody(),
-        ])));
-  }
+            child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (widget.fromCompetition) ...[
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 6),
+                      decoration: BoxDecoration(
+                          color: ColorConstants.GREY_4,
+                          borderRadius: BorderRadius.circular(6)),
+                      width: MediaQuery.of(context).size.width * 0.15,
+                      height: 6,
+                    ),
+                  ),
+                  Divider(),
+                  Text(
+                    '${assignmentDetailProvider?.assignments.title}',
+                    style: Styles.bold(size: 14),
+                  ),
+                  SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Submit Before: ',
+                        style:
+                            Styles.regular(size: 12, color: Color(0xff5A5F73)),
+                      ),
+                      Text(
+                        '${Utility.convertDateFromMillis(assignmentDetailProvider!.assignment!.endDate!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
+                        style:
+                            Styles.semibold(size: 12, color: Color(0xff0E1638)),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('100 marks '),
+                      Text('• ',
+                          style: Styles.regular(
+                              color: ColorConstants.GREY_2, size: 12)),
+                      Text('Level: '),
+                      Text('Easy'),
+                    ],
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                      '${assignmentDetailProvider?.assignments.description}', style: Styles.regular( 
+                       size: 14,  color: Color(0xff5A5F73)),),
+                  Divider(),
+                  SizedBox(height: 8),
 
-  // _buildListBody() {
-  //   return Container(
-  //       width: MediaQuery.of(context).size.width,
-  //       height: MediaQuery.of(context).size.height * 0.3,
-  //       child: _isLoading
-  //           ? Center(
-  //               child: CustomProgressIndicator(true, ColorConstants.WHITE),
-  //             )
-  //           : _attempts!.isNotEmpty
-  //               ? SingleChildScrollView(
-  //                   child: Container(
-  //                   width: MediaQuery.of(context).size.width,
-  //                   height: MediaQuery.of(context).size.height * 0.3,
-  //                   child: ListView.builder(
-  //                       itemCount: _attempts?.length,
-  //                       itemBuilder: (BuildContext context, int currentIndex) =>
-  //                           Padding(
-  //                             padding: const EdgeInsets.all(8.0),
-  //                             child: Row(
-  //                               mainAxisAlignment:
-  //                                   MainAxisAlignment.spaceBetween,
-  //                               children: [
-  //                                 Container(
-  //                                   width:
-  //                                       MediaQuery.of(context).size.width * 0.5,
-  //                                   child: Column(
-  //                                     crossAxisAlignment:
-  //                                         CrossAxisAlignment.start,
-  //                                     children: [
-  //                                       Text('${data.title}',
-  //                                           overflow: TextOverflow.fade,
-  //                                           maxLines: 1,
-  //                                           softWrap: false,
-  //                                           style: Styles.regular(size: 14)),
-  //                                       Text('${data.description}',
-  //                                           overflow: TextOverflow.fade,
-  //                                           maxLines: 1,
-  //                                           softWrap: false,
-  //                                           style: Styles.regular(size: 14)),
-  //                                       Text(
-  //                                           '${Utility.convertDateFromMillis(_attempts![currentIndex].updatedAt!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
-  //                                           overflow: TextOverflow.fade,
-  //                                           maxLines: 1,
-  //                                           softWrap: false,
-  //                                           style: Styles.regular(
-  //                                               size: 10,
-  //                                               color: ColorConstants.GREY_3))
-  //                                     ],
-  //                                   ),
-  //                                 ),
-  //                                 Column(
-  //                                   children: [
-  //                                     Row(
-  //                                       children: [
-  //                                         InkWell(
-  //                                           onTap: () async {
-  //                                             _downloadSubmission(
-  //                                                 _attempts![currentIndex]
-  //                                                     .file);
-  //                                           },
-  //                                           child: SvgPicture.asset(
-  //                                             'assets/images/download_icon.svg',
-  //                                             height: 25,
-  //                                             width: 25,
-  //                                             color: ColorConstants()
-  //                                                 .primaryColor(),
-  //                                             allowDrawingOutsideViewBox: true,
-  //                                           ),
-  //                                         ),
-  //                                         SizedBox(width: 20),
-  //                                         InkWell(
-  //                                           onTap: () {
-  //                                             Navigator.push(
-  //                                                 context,
-  //                                                 NextPageRoute(FullContentPage(
-  //                                                   contentType: "1",
-  //                                                   resourcePath:
-  //                                                       _attempts![currentIndex]
-  //                                                           .file,
-  //                                                 )));
-  //                                           },
-  //                                           child: SvgPicture.asset(
-  //                                             'assets/images/view_icon.svg',
-  //                                             color: ColorConstants()
-  //                                                 .primaryColor(),
-  //                                             height: 25,
-  //                                             width: 25,
-  //                                             allowDrawingOutsideViewBox: true,
-  //                                           ),
-  //                                         ),
-  //                                       ],
-  //                                     ),
-  //                                     Row(
-  //                                       children: [
-  //                                         Text(
-  //                                           data.isGraded == 0
-  //                                               ? "Non Graded"
-  //                                               : _attempts![currentIndex]
-  //                                                               .reviewStatus ==
-  //                                                           1 &&
-  //                                                       _attempts![currentIndex]
-  //                                                               .isPassed ==
-  //                                                           1
-  //                                                   ? "Congratulations you passed!"
-  //                                                   : _attempts![currentIndex]
-  //                                                                   .reviewStatus ==
-  //                                                               1 &&
-  //                                                           _attempts![currentIndex]
-  //                                                                   .isPassed ==
-  //                                                               0
-  //                                                       ? "Sorry, you failed."
-  //                                                       : "Under Review",
-  //                                           style: Styles.regular(size: 12),
-  //                                         ),
-  //                                         SizedBox(width: 10),
-  //                                         Icon(Icons.info, size: 20)
-  //                                       ],
-  //                                     ),
-  //                                   ],
-  //                                 ),
-  //                               ],
-  //                             ),
-  //                           )),
-  //                 ))
-  //               : Center(
-  //                   child: Text(
-  //                     "No assignments submitted",
-  //                     style: Styles.textBold(),
-  //                   ),
-  //                 ));
-  // }
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Assignment file',
+                            style: Styles.bold(
+                                color: Color(0xffFF2452), size: 16)),
+                        Row(
+                          children: [
+                            InkWell(
+                              onTap: () async {
+                                print('download_icon');
+                                if (await Permission.storage
+                                    .request()
+                                    .isGranted) {
+                                  var tempDir =
+                                      await getApplicationDocumentsDirectory();
+
+                                  String localPath = (tempDir.path) +
+                                      Platform.pathSeparator +
+                                      'Swayam';
+
+                                  var savedDir = Directory(localPath);
+                                  bool hasExisted = await savedDir.exists();
+                                  print(hasExisted);
+                                  if (!hasExisted) {
+                                    try {
+                                      savedDir = await savedDir.create();
+                                    } on Exception catch (e) {
+                                      print(e);
+                                    }
+                                  }
+
+                                  download(assignmentDetailProvider
+                                      ?.assignment!.file!);
+                                } else {
+                                  Utility.showSnackBar(
+                                      scaffoldContext: context,
+                                      message:
+                                          "Please enable storage permission");
+                                }
+                              },
+                              child: SvgPicture.asset(
+                                'assets/images/download_icon.svg',
+                                color: Color(0xffFF2452),
+                                height: 22,
+                                width: 22,
+                                allowDrawingOutsideViewBox: true,
+                              ),
+                            ),
+                            _size(width: 20),
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    NextPageRoute(FullContentPage(
+                                      contentType: "1",
+                                      resourcePath: assignmentDetailProvider
+                                          ?.assignment!.file!,
+                                    )));
+                              },
+                              child: SvgPicture.asset(
+                                'assets/images/view_icon.svg',
+                                color: Color(0xffFF2452),
+                                height: 22,
+                                width: 22,
+                                allowDrawingOutsideViewBox: true,
+                              ),
+                            ),
+                          ],
+                        ),
+                        
+                      ]),
+                  SizedBox(height: 8),
+
+
+                      Divider(),
+                      InkWell(
+                        onTap: () {
+                          _attachFile();
+                          bool disbaleUpload =
+                              assignmentDetailProvider?.assignment?.score ==
+                                      null
+                                  ? false
+                                  : true;
+
+                          if (!disbaleUpload) 
+                          
+                           AlertsWidget.showCustomDialog(
+              context: context,
+              title: "Upload Assignment!",
+              text: "",
+              icon: 'assets/images/circle_alert_fill.svg',
+              showCancel: true,
+              oKText: "Upload",
+              onOkClick: () async {
+                // Navigator.pop(context);
+                 _submitAssignment();
+
+              });
+              
+              
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 8),
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 8),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(22),
+                              color: Color(0xff0E1638)),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Upload Assignment',
+                                style: Styles.boldWhite(size: 14),
+                              ),
+                              SizedBox(width: 8),
+                              Icon(Icons.file_upload_outlined,
+                                  color: ColorConstants.WHITE)
+                            ],
+                          ),
+                        ),
+                      )
+                ] else...[
+                  _belowTitle(assignmentDetailProvider!),
+
+                  _body(assignmentDetailProvider!.assignment!),
+                   _buildListBody(),
+                ]
+               
+              ]),
+        )));
+  }
 
   _buildListBody() {
     return Container(
@@ -426,7 +485,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                                         children: [
                                           Container(
                                             child: data
-                                                        .submissionDetails![
+                                                        ?.submissionDetails![
                                                             currentIndex]
                                                         .reviewStatus ==
                                                     0
@@ -434,9 +493,9 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                                                     "Under Review",
                                                   )
                                                 : Text(
-                                                    data.isGraded == 0
+                                                    data?.isGraded == 0
                                                         ? "Non Graded "
-                                                        : "${data.submissionDetails![currentIndex].marksObtained ?? 0}/${assignmentDetailProvider.assignments.maximumMarks}",
+                                                        : "${data?.submissionDetails![currentIndex].marksObtained ?? 0}/${assignmentDetailProvider?.assignments.maximumMarks}",
 
                                                     // : _attempts![currentIndex]
                                                     //                 .reviewStatus ==
@@ -460,7 +519,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                                                     style: Styles.bold(
                                                         size: 12,
                                                         color:
-                                                            data.isGraded == 0
+                                                            data?.isGraded == 0
                                                                 ? ColorConstants
                                                                     .BLACK
                                                                 : ColorConstants
@@ -534,7 +593,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
             children: [
               Row(
                 children: [
-                  data.isGraded == 0
+                  data?.isGraded == 0
                       ? Text(
                           "Non Graded ",
                           style: Styles.bold(
@@ -560,8 +619,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
               Divider(),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Text('Assignment file',
-                    style: Styles.bold(
-                        color: ColorConstants().primaryColor(), size: 16)),
+                    style: Styles.bold(color: Color(0xffFF2452), size: 16)),
                 Row(
                   children: [
                     InkWell(
@@ -595,7 +653,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                       },
                       child: SvgPicture.asset(
                         'assets/images/download_icon.svg',
-                        color: ColorConstants().primaryColor(),
+                        color: Color(0xffFF2452),
                         height: 22,
                         width: 22,
                         allowDrawingOutsideViewBox: true,
@@ -614,7 +672,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                       },
                       child: SvgPicture.asset(
                         'assets/images/view_icon.svg',
-                        color: ColorConstants().primaryColor(),
+                        color: Color(0xffFF2452),
                         height: 22,
                         width: 22,
                         allowDrawingOutsideViewBox: true,
@@ -640,7 +698,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
 
   _body(Assignment assignment) {
     bool disbaleUpload =
-        assignmentDetailProvider.assignment?.score == null ? false : true;
+        assignmentDetailProvider?.assignment?.score == null ? false : true;
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,
@@ -723,10 +781,10 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                             onTap: () {
                               if (!disbaleUpload) {
                                 if (assignmentDetailProvider
-                                            .assignments.allowMultiple ==
+                                            ?.assignments.allowMultiple ==
                                         0 &&
                                     assignmentDetailProvider
-                                            .assignments.totalAttempts ==
+                                            ?.assignments.totalAttempts ==
                                         1)
                                   AlertsWidget.showCustomDialog(
                                       context: context,
@@ -754,7 +812,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                               child: Padding(
                                 padding: const EdgeInsets.only(
                                     left: 8, right: 8, top: 4, bottom: 4),
-                                child: assignmentDetailProvider.isLoading
+                                child: assignmentDetailProvider!.isLoading
                                     ? Center(child: CircularProgressIndicator())
                                     : Row(
                                         mainAxisAlignment:
@@ -823,7 +881,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                         child: Padding(
                           padding: const EdgeInsets.only(
                               left: 8, right: 8, top: 4, bottom: 4),
-                          child: assignmentDetailProvider.isLoading
+                          child: assignmentDetailProvider!.isLoading
                               ? Center(child: CircularProgressIndicator())
                               : Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -844,18 +902,19 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                       ),
                     ),
                     _size(height: 15),
-                    if (assignmentDetailProvider.assignment?.totalAttempts != 0)
+                    if (assignmentDetailProvider?.assignment?.totalAttempts !=
+                        0)
                       Row(
                         children: [
                           Text(
-                            '${assignmentDetailProvider.assignment?.totalAttempts} ',
+                            '${assignmentDetailProvider?.assignment?.totalAttempts} ',
                             style: Styles.regular(
                                 size: 14, color: ColorConstants.RED),
                           ),
-                          assignmentDetailProvider.assignment?.totalAttempts ==
+                          assignmentDetailProvider?.assignment?.totalAttempts ==
                                       0 ||
                                   assignmentDetailProvider
-                                          .assignment?.totalAttempts ==
+                                          ?.assignment?.totalAttempts ==
                                       1
                               ? Text(
                                   'Attempt',
@@ -868,7 +927,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                                       size: 14, color: ColorConstants.RED),
                                 ),
                           if (assignmentDetailProvider
-                                  .assignment?.totalAttempts !=
+                                  ?.assignment?.totalAttempts !=
                               0)
                             Text(
                               ' Taken',
@@ -892,7 +951,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                         NextPageRoute(
                             ReviewSubmissions(
                               maxMarks: assignmentDetailProvider
-                                  .assignments.maximumMarks,
+                                  ?.assignments.maximumMarks,
                               contentId: widget.id,
                             ),
                             isMaintainState: true));
@@ -972,7 +1031,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
 
   void _submitAssignment() async {
     if (file != null) {
-      bool res = await assignmentDetailProvider.uploadAssignment(
+      bool res = await assignmentDetailProvider!.uploadAssignment(
           notes: _userNotes.text, path: file!.path, id: widget.id);
       if (res) {
         _getData();

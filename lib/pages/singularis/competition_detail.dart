@@ -323,19 +323,41 @@ else   ListView.builder(
       onTap: (){
 
         if( cardType == CardType.assignment)
-         Navigator.push(
-      context,
-      NextPageRoute(
-          ChangeNotifierProvider<AssignmentDetailProvider>(
+
+        showModalBottomSheet(
+                              context: context,
+                              backgroundColor: Colors.transparent,
+                              shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+        ),
+      ),
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+                              isScrollControlled: true,
+                              builder: (context) {
+                                return FractionallySizedBox(
+                                    heightFactor: 0.5,
+                                    child: ChangeNotifierProvider<AssignmentDetailProvider>(
               create: (c) =>
                   AssignmentDetailProvider(TrainingService(ApiService()), data),
               child: AssignmentDetailPage(
                 id: data.programContentId,
-              )),
-          isMaintainState: true),
+                fromCompetition: true,
+              )));
+                              });
+    //      Navigator.push(
+    //   context,
+    //   NextPageRoute(
+    //       ChangeNotifierProvider<AssignmentDetailProvider>(
+    //           create: (c) =>
+    //               AssignmentDetailProvider(TrainingService(ApiService()), data),
+    //           child: AssignmentDetailPage(
+    //             id: data.programContentId,
+    //           )),
+    //       isMaintainState: true),
 
          
-    );
+    // );
 
     else if(cardType == CardType.assessment){
       Navigator.push(
