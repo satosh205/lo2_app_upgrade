@@ -261,10 +261,13 @@ else   ListView.builder(
                 shrinkWrap: true,
                 itemCount: 3,
                 itemBuilder: (BuildContext context, int index)=>Shimmer.fromColors(
+
+      //              baseColor: Color(0xffFF2252).withOpacity(0.3),
+      // highlightColor: Color(0xffFC7B04).withOpacity(0.3),
       baseColor: Color(0xffe6e4e6),
       highlightColor: Color(0xffeaf0f3),
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.07,
+        height: MediaQuery.of(context).size.height * 0.1,
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
