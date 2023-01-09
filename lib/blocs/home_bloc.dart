@@ -2120,7 +2120,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         if (response.data != null) {
           yield GCarvaanPostState(ApiStatus.SUCCESS, response: response);
         } else {
-          Log.v("ERROR DATA ::: ${response}");
+          Log.v("ERROR DATA ::: $response");
           yield GCarvaanPostState(ApiStatus.ERROR,
               error: Strings.somethingWentWrong);
         }

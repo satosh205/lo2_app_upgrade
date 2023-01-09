@@ -862,7 +862,7 @@ class HomeRepository {
       box.put("gcarvaan_post",
           gcarvaanPost.data!.list!.map((e) => e.toJson()).toList());
 
-      Log.v("ERROR DATA : ${response.body}");
+      Log.v("CARVAAN DATA : ${response.body}");
 
       return gcarvaanPost;
     } else {

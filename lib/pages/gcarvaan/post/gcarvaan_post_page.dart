@@ -525,8 +525,9 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                       userID: gcarvaanPosts[index].userId,
                     )
                   : Container();
-            })
-        : _emptyPostListWidget();
+            }) 
+        : _emptyPostListWidget()
+        ;
 
     //TODO: OLd Code
     /*return box != null ? ValueListenableBuilder(
@@ -886,8 +887,10 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
         //   gcarvaanPosts = [];
         //   gcarvaanPosts!.addAll(state.response!.data!.list!);
         // }
+        
 if(state.response!.data!.list!.length == 0) callCount--;
         gcarvaanPosts!.addAll(state.response!.data!.list!);
+         model.refreshList(gcarvaanPosts!);
 
         var seen = Set<GCarvaanPostElement>();
         List<GCarvaanPostElement> uniquelist =

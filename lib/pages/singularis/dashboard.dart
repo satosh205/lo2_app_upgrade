@@ -90,7 +90,9 @@ class _DashboardPageState extends State<DashboardPage> {
       "dashboard_my_courses_limit": renderMyCourses(),
       "dashboard_reels_limit": renderReels(),
       "dashboard_recommended_courses_limit": renderRecommandedCourses(),
-      "dashboard_carvan_limit": renderCarvaan()
+
+      "dashboard_carvan_limit": renderReels()
+      // "dashboard_carvan_limit": renderCarvaan()
     };
     return Consumer2<VideoPlayerProvider, MenuListProvider>(
         builder: (context, value, mp, child) => BlocManager(
@@ -101,34 +103,38 @@ class _DashboardPageState extends State<DashboardPage> {
                   menuProvider = mp;
                 });
               },
-              child: SingleChildScrollView(
-                  child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              child: FutureBuilder(
+                future:  Future.delayed(Duration(seconds: 2)),
+      builder: (context, snapshot)=>
+        SingleChildScrollView(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Welcome',
-                          style: Styles.semibold(size: 14),
-                        ),
-                        Text(
-                          '${Preference.getString(Preference.FIRST_NAME)}',
-                          style: Styles.bold(size: 28),
-                        ),
-                        Text(
-                          'Begin your learning journey',
-                          style: Styles.regular(),
-                        ),
-                      ],
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Welcome',
+                            style: Styles.semibold(size: 14),
+                          ),
+                          Text(
+                            '${Preference.getString(Preference.FIRST_NAME)}',
+                            style: Styles.bold(size: 28),
+                          ),
+                          Text(
+                            'Begin your learning journey',
+                            style: Styles.regular(),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  renderWidgets(pages),
-                ],
-              )),
+                    renderWidgets(pages),
+                  ],
+                )),
+              ),
             )));
   }
 
@@ -684,7 +690,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                     //               scrollTo: index,
                                     //             )));
                                   },
-                                  child: ShowImage(
+                                  child: CreateThumnail(
                                       path: reelsList?[index].resourcePath))),
                         );
                       }))
@@ -1395,6 +1401,59 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 }
 
+class CreateThumnail extends StatelessWidget {
+  final String? path;
+
+  const CreateThumnail({super.key, this.path});
+
+  @override
+  Widget build(BuildContext context) {
+
+    
+    return FutureBuilder<Uint8List?>(
+      
+      future: getFile(),
+      builder: (context, snapshot){
+      if(snapshot.hasData) return Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.memory(
+                  snapshot.data!,
+                  fit: BoxFit.cover,
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                ),
+              ),
+              Center(
+                child: SvgPicture.asset(
+                  'assets/images/play.svg',
+                  height: 40.0,
+                  width: 40.0,
+                  allowDrawingOutsideViewBox: true,
+                ),
+              ),
+            ],
+          );
+      return Text('loadin data');
+    });
+  }
+
+   Future<Uint8List?> getFile() async {
+    final uint8list = await VideoThumbnail.thumbnailData(
+      video: path!,
+      imageFormat: ImageFormat.PNG,
+      timeMs: Duration(seconds: 1).inMilliseconds,
+    );
+    // if (this.mounted)
+    //   setState(() {
+    //     imageFile = uint8list;
+    //   });
+    return uint8list;
+  }
+}
+
+
 class ShowImage extends StatefulWidget {
   final String? path;
   ShowImage({Key? key, this.path}) : super(key: key);
@@ -1407,6 +1466,7 @@ class _ShowImageState extends State<ShowImage> {
   Uint8List? imageFile;
   @override
   void initState() {
+    print('creating file ${widget.path}');
     super.initState();
     getFile();
   }
