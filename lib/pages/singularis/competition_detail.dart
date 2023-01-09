@@ -345,29 +345,30 @@ else   ListView.builder(
                 fromCompetition: true,
               )));
                               });
-    //      Navigator.push(
-    //   context,
-    //   NextPageRoute(
-    //       ChangeNotifierProvider<AssignmentDetailProvider>(
-    //           create: (c) =>
-    //               AssignmentDetailProvider(TrainingService(ApiService()), data),
-    //           child: AssignmentDetailPage(
-    //             id: data.programContentId,
-    //           )),
-    //       isMaintainState: true),
+    
 
          
-    // );
-
+ 
     else if(cardType == CardType.assessment){
-      Navigator.push(
-        context,
-        NextPageRoute(
+         showModalBottomSheet(
+                              context: context,
+                              backgroundColor: Colors.transparent,
+                              shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+        ),
+      ),
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+                              isScrollControlled: true,
+                              builder: (context) {
+                                return FractionallySizedBox(
+                                    heightFactor: 0.5,
+                                    child:
             ChangeNotifierProvider<AssessmentDetailProvider>(
                 create: (context) => AssessmentDetailProvider(
                     TrainingService(ApiService()), data),
-                child: AssessmentDetailPage()),
-            isMaintainState: true));
+                child: AssessmentDetailPage(fromCompetition: true)));
+                              });
     }
 
       },

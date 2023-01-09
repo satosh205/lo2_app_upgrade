@@ -6,17 +6,17 @@ import 'package:masterg/pages/training_pages/training_service.dart';
 
 class AssessmentDetailProvider extends BaseState {
   TrainingService trainingService;
-  late Assessments assignments;
+  late Assessments assessments;
   AssessmentInstructionResponse? assessmentResponse;
 
-  AssessmentDetailProvider(this.trainingService, assignments) {
-    this.assignments = assignments as Assessments;
+  AssessmentDetailProvider(this.trainingService, assessments) {
+    this.assessments = assessments as Assessments;
     getDetails();
   }
 
   void getDetails() {
     trainingService
-        .getAssessmentInstructions(assignments.programContentId)
+        .getAssessmentInstructions(assessments.programContentId)
         .then((value) {
       ApiResponse apiResponse = value;
       if (apiResponse.success) {
