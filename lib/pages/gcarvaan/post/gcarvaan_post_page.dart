@@ -130,7 +130,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
             create: (context) => GCarvaanListModel(gcarvaanPosts),
           ),
           ChangeNotifierProvider<CreatePostProvider>(
-            create: (context) => CreatePostProvider([]),
+            create: (context) => CreatePostProvider([],null),
           ),
         ],
         child: Scaffold(
@@ -188,8 +188,11 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                   );
                 },
               ),
-              child: Consumer<GCarvaanListModel>(
-                builder: (context, carvaanListModel, child) => BlocManager(
+
+
+
+              child: Consumer2<GCarvaanListModel, CreatePostProvider>(
+                builder: (context, carvaanListModel,createPostProvider, child) => BlocManager(
                   initState: (context) {},
                   child: BlocListener<HomeBloc, HomeState>(
                     listener: (context, state) async {
@@ -207,6 +210,8 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
+
+if(createPostProvider.getPostStatus() == true) Text('Uploading Post'),
                             if (isPostedLoading ||
                                 isGCarvaanPostLoading &&
                                     widget.fileToUpload != null)
@@ -431,7 +436,10 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                         fileToUpload: [],
                         filesPath: provider.files,
                         provider: provider)))
-            .then((value) => _refreshController.requestRefresh());
+            .then((value) {
+              provider.postStatus(true);
+_refreshController.requestRefresh();
+            } );
       }
     }
   }

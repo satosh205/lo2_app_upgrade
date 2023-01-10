@@ -53,9 +53,6 @@ class _SharePostState extends State<SharePost> {
     flickManager = FlickManager(
       videoPlayerController: VideoPlayerController.file(widget.postDocPath!),
     );
-
-    print('=====widget.isReelsPost======');
-    print(widget.isReelsPost);
   }
 
   @override
@@ -221,7 +218,7 @@ class _SharePostState extends State<SharePost> {
                     bottom: 0,
                     child: Container(
                       width: size.width,
-                      height: size.height * 0.09,
+                    height: size.height * 0.09,
                       decoration: BoxDecoration(
                         color: ColorConstants.WHITE,
                       ),

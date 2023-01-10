@@ -65,7 +65,7 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
       body: MultiProvider(
           providers: [
             ChangeNotifierProvider<CreatePostProvider>(
-              create: (context) => CreatePostProvider([]),
+              create: (context) => CreatePostProvider([], false),
             ),
             ChangeNotifierProvider<ReelsProvider>(
               create: (context) => ReelsProvider(false, false),

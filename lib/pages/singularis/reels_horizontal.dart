@@ -63,7 +63,7 @@ class _ReelHorizontalState extends State<ReelHorizontal>
       body: MultiProvider(
           providers: [
             ChangeNotifierProvider<CreatePostProvider>(
-              create: (context) => CreatePostProvider([]),
+              create: (context) => CreatePostProvider([],false),
             ),
             ChangeNotifierProvider<ReelsProvider>(
               create: (context) => ReelsProvider(false, false),

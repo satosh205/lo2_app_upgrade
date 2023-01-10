@@ -681,14 +681,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                     menuProvider
                                         ?.updateCurrentIndex('/g-reels');
                                     menuProvider?.updateItemIndex(index);
-                                    // Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //             ReelsDashboardPage(
-                                    //               fromDashboard: true,
-                                    //               scrollTo: index,
-                                    //             )));
+                                   
                                   },
                                   child: CreateThumnail(
                                       path: reelsList?[index].resourcePath))),
@@ -1401,13 +1394,13 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 }
 
-class CreateThumnail extends StatelessWidget {
+class  CreateThumnail extends StatelessWidget {
   final String? path;
 
   const CreateThumnail({super.key, this.path});
 
   @override
-  Widget build(BuildContext context) {
+  Widget  build(BuildContext context) {
 
     
     return FutureBuilder<Uint8List?>(
@@ -1435,7 +1428,17 @@ class CreateThumnail extends StatelessWidget {
               ),
             ],
           );
-      return Text('loadin data');
+      return Shimmer.fromColors(
+            baseColor: Color(0xffe6e4e6),
+            highlightColor: Color(0xffeaf0f3),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.2,
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              width: MediaQuery.of(context).size.width * 0.4,
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(6)),
+            ),
+          );
     });
   }
 

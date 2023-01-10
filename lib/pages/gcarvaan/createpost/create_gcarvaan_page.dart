@@ -63,9 +63,6 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
   @override
   void initState() {
     super.initState();
-
-    print('=====widget.isReelsPost======');
-    print(widget.isReelsPost);
   }
 
   @override
@@ -79,7 +76,7 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider<CreatePostProvider>(
-            create: (context) => CreatePostProvider(widget.filesPath),
+            create: (context) => CreatePostProvider(widget.filesPath,false),
           ),
           ChangeNotifierProvider<MenuListProvider>(
             create: (context) => MenuListProvider([]),
@@ -127,7 +124,7 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                         child: BlocListener<HomeBloc, HomeState>(
                           listener: (context, state) {
                             if (state is CreatePostState)
-                              _handleCreatePostResponse(state);
+                              _handleCreatePostResponse(state, value);
 
                             // if (state is GCarvaanPostState) {
                             //   _handleGCarvaanPostResponse(
@@ -135,7 +132,7 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                             // }
                           },
                           child: ScreenWithLoader(
-                              isLoading: isPostedLoading,
+                              isLoading: false,
                               body: _content(value)),
                         )),
               ),
@@ -338,6 +335,8 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                             if (firstExtension == 'mp4' ||
                                 firstExtension == 'mov') isVideo = true;
                             createPost(menuProvider, isVideo);
+                            value.postStatus(true);
+                            Navigator.pop(context);
                           } else {
                             AlertsWidget.showCustomDialog(
                                 context: context,
@@ -401,84 +400,12 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
           filePath: widget.filesPath));
     }
 
-    // setState(() {
-    //   isPostedLoading = false;
-    //   widget.filesPath = widget.provider?.getFiles();
-    // });
+
   }
 
-  // void _getPosts(callCount, {postId}) {
-  //   //box = Hive.box(DB.CONTENT);
-  //   BlocProvider.of<HomeBloc>(context)
-  //       .add(GCarvaanPostEvent(callCount: callCount, postId: postId));
-  // }
+ 
 
-  // void _handleGCarvaanPostResponse(
-  //     GCarvaanPostState state, GCarvaanListModel model) {
-  //   print('creating reels');
-  //   var loginState = state;
-  //   setState(() {
-  //     switch (loginState.apiState) {
-  //       case ApiStatus.LOADING:
-  //         Log.v("Loading....................");
-  //         isPostedLoading = true;
-
-  //         break;
-  //       case ApiStatus.SUCCESS:
-  //         isPostedLoading = false;
-
-  //         // gcarvaanPosts!.addAll(state.response!.data!.list!);
-  //         // model.updateList(state.response!.data!.list!);
-  //         Navigator.pop(context);
-
-  //         break;
-  //       case ApiStatus.ERROR:
-  //         isPostedLoading = false;
-
-  //         Log.v(
-  //           "Error..........................",
-  //         );
-  //         Log.v("ErrorHome..........................${loginState.error}");
-
-  //         break;
-  //       case ApiStatus.INITIAL:
-  //         break;
-  //     }
-  //   });
-  // }
-
-  // void _handleGCarvaanCreatePostResponse(CreatePostState state) {
-  //   print('creating post');
-  //   var loginState = state;
-  //   setState(() async {
-  //     switch (loginState.apiState) {
-  //       case ApiStatus.LOADING:
-  //         Log.v("Loading....................");
-  //         isPostedLoading = true;
-  //         break;
-  //       case ApiStatus.SUCCESS:
-  //         Log.v("Success.................... create g carvaan");
-  //         isPostedLoading = false;
-  //         responseData = state.response;
-  //         if (responseData!.status == 1) {
-  //           isPostedLoading = false;
-
-  //           Navigator.pop(context);
-  //         }
-
-  //         break;
-  //       case ApiStatus.ERROR:
-  //         isPostedLoading = false;
-  //         Log.v("Error..........................");
-  //         Log.v("Error..........................${loginState.error}");
-  //         break;
-  //       case ApiStatus.INITIAL:
-  //         break;
-  //     }
-  //   });
-  // }
-
-  void _handleCreatePostResponse(CreatePostState state) {
+  void _handleCreatePostResponse(CreatePostState state, CreatePostProvider provider) {
     var loginState = state;
     setState(() async {
       switch (loginState.apiState) {
@@ -491,15 +418,18 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
           isPostedLoading = false;
           responseData = state.response;
           widget.provider?.clearList();
+          
           if (responseData!.status == 1) {
             if (widget.isReelsPost == true) Navigator.pop(context);
             Navigator.pop(context);
           }
+          //  provider.postStatus(false);
           break;
         case ApiStatus.ERROR:
           isPostedLoading = false;
           Log.v("Error..........................");
           Log.v("Error..........................${loginState.error}");
+          //  provider.postStatus(false);
           break;
         case ApiStatus.INITIAL:
           break;
@@ -640,9 +570,7 @@ class _ShowReadyToPostState extends State<ShowReadyToPost> {
                                     pickedFile.path.contains('.hevc') ||
                                     pickedFile.path.contains('.h.265')
                                 ? ShowImage(path: pickedFile.path)
-                                /*PlayVideo(
-                                    videoPath: pickedFile.path,
-                                   )*/
+                              
                                 : Image.file(
                                     pickedFile,
                                     height: 240,
@@ -672,7 +600,6 @@ class _ShowReadyToPostState extends State<ShowReadyToPost> {
                           color: ColorConstants.BLACK, shape: BoxShape.circle),
                       child: IconButton(
                         onPressed: () {
-                          //provider.removeFromList(index);
 
                           AlertsWidget.showCustomDialog(
                               context: context,
@@ -686,16 +613,6 @@ class _ShowReadyToPostState extends State<ShowReadyToPost> {
                                   croppedList = widget.provider?.files;
                                 });
                               });
-                          // AlertsWidget.alertWithOkCancelBtn(
-                          //   context: context,
-                          //   text: "${Strings.of(context)?.areYouSureDelete}",
-                          //   title: "Alert!",
-                          //   okText: "Yes",
-                          //   cancelText: "No",
-                          //   onOkClick: () async {
-                          //     widget.provider!.removeFromList(index);
-                          //   },
-                          // );
                         },
                         padding: EdgeInsets.zero,
                         constraints: BoxConstraints(),
@@ -718,8 +635,6 @@ class _ShowReadyToPostState extends State<ShowReadyToPost> {
                             shape: BoxShape.circle),
                         child: IconButton(
                           onPressed: () {
-                            //provider.removeFromList(index);
-
                             AlertsWidget.showCustomDialog(
                                 context: context,
                                 title: "",
@@ -733,22 +648,8 @@ class _ShowReadyToPostState extends State<ShowReadyToPost> {
                                     setState(() {
                                       croppedList![index] = croppedPath;
                                     });
-                                  // widget.provider?.updateAtIndex(croppedPath, index);
                                 });
-                            // AlertsWidget.alertWithOkCancelBtn(
-                            //   context: context,
-                            //   text: "Are you sure you want to Crop.",
-                            //   title: "Alert!",
-                            //   okText: "Yes",
-                            //   cancelText: "No",
-                            //   onOkClick: () async {
-
-                            //    String  croppedPath = await _cropImage(pickedFile.path);
-
-                            //      widget.provider?.updateAtIndex(croppedPath, index);
-
-                            //   },
-                            // );
+                            
                           },
                           padding: EdgeInsets.zero,
                           constraints: BoxConstraints(),
@@ -792,7 +693,6 @@ class ShowImage extends StatelessWidget {
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
           );
-          // return Text('${snapshot.data}');
         }
 
         return Shimmer.fromColors(
