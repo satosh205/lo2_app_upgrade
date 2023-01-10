@@ -112,7 +112,7 @@ class GCarvaanPostElement extends ChangeNotifier {
     this.isAttempt,
     this.userSubmittedFile,
     this.userSubmittedMultipleFile,
-    this.dimension,this.multiFileUploadsDimension
+    this.dimension,this.multiFileUploadsDimension,this.size
   });
 
   int? id;
@@ -154,6 +154,7 @@ class GCarvaanPostElement extends ChangeNotifier {
   List<dynamic>? userSubmittedMultipleFile;
   Dimension? dimension;
   List<Dimension>? multiFileUploadsDimension;
+  Size? size;
 
   factory GCarvaanPostElement.fromJson(Map<String, dynamic> json) =>
       GCarvaanPostElement(
@@ -200,6 +201,9 @@ class GCarvaanPostElement extends ChangeNotifier {
        
         userSubmittedMultipleFile: List<dynamic>.from(
             json["user_submitted_multiple_file"].map((x) => x)),
+        size: json["size"],
+
+            
       );
 
   Map<String, dynamic> toJson() => {
@@ -245,6 +249,8 @@ class GCarvaanPostElement extends ChangeNotifier {
 
              "dimension": dimension == null ? null : dimension?.toJson(),
              "multi_file_uploads_dimension": List<dynamic>.from(multiFileUploadsDimension!.map((x) => x.toJson())),
+        "size": size,
+
       };
 }
 
@@ -316,7 +322,19 @@ List<GCarvaanPostElement> uniquelist = _list!.where((element) => seen.add(elemen
     _list![index].likeCount++;
     notifyListeners();
   }
-
+  
+  void updateSize(Size size, int index){
+    _list![index].size = size;
+    notifyListeners();
+  }
+  double? getHeight(postId) {
+   return  _list!.where((element) => element.id == postId).first.size?.height;
+    
+    // return _list![index].size?.height;
+  }
+  double? getWidth(index) {
+    return _list![index].size?.width;
+  }
   void decrementLike(index) {
     _list![index].likeCount--;
     notifyListeners();
