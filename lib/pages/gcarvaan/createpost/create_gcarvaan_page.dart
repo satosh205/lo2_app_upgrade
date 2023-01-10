@@ -36,7 +36,7 @@ List<String?>? croppedList;
 
 class CreateGCarvaanPage extends StatefulWidget {
   // final File postDocPath;
-  final List<MultipartFile>? fileToUpload;
+  final List<MultipartFile>? fileToUpload; 
   List<String?>? filesPath;
   final bool isReelsPost;
   final CreatePostProvider? provider;
@@ -126,10 +126,7 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                             if (state is CreatePostState)
                               _handleCreatePostResponse(state, value);
 
-                            // if (state is GCarvaanPostState) {
-                            //   _handleGCarvaanPostResponse(
-                            //       state, gcarvaanListModel);
-                            // }
+                        
                           },
                           child: ScreenWithLoader(
                               isLoading: false,
@@ -204,6 +201,7 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                           InkWell(
                             onTap: () async {
                               _initFilePiker(value);
+                              
                               setState(() {});
                             },
                             child: Row(
@@ -532,6 +530,7 @@ class _ShowReadyToPostState extends State<ShowReadyToPost> {
         compressFormat: ImageCompressFormat.jpg,
         compressQuality: 100,
         uiSettings: buildUiSettings(context),
+        aspectRatioPresets: [CropAspectRatioPreset.ratio4x3,CropAspectRatioPreset.ratio16x9 ],
         // aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
       );
       if (croppedFile != null) {
