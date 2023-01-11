@@ -461,7 +461,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         InkWell(
                           onTap: () {
@@ -473,14 +473,15 @@ class _VerifyOtpState extends State<VerifyOtp> {
                                 size: 12, color: ColorConstants.BLACK),
                           ),
                         ),
+                        Expanded(child: SizedBox(),),
                         CountdownTimer(
                           endTime: endTime,
                           widgetBuilder: (_, CurrentRemainingTime? time) {
                             return RichText(
                               text: TextSpan(
-                                  text: '',
+                                  text: 'nice',
                                   style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 3,
                                   ),
                                   children: <TextSpan>[
                                     time == null
@@ -494,7 +495,9 @@ class _VerifyOtpState extends State<VerifyOtp> {
                                             style: Styles.regular(
                                                 size: 12,
                                                 color: ColorConstants.BLACK))
-                                        : TextSpan(text: ''),
+                                        : TextSpan(text: 'Resend in ${time.sec} secs', style:Styles.regular(
+                                                size: 12,
+                                                color: ColorConstants.BLACK) ),
                                   ]),
                             );
                           },

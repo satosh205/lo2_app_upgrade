@@ -97,6 +97,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Scaffold(
             backgroundColor: ColorConstants.WHITE,
             appBar: AppBar(
+              toolbarHeight: 22,
               backgroundColor: ColorConstants.WHITE,
               elevation: 0,
               leading: IconButton(
@@ -129,6 +130,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         key: _formKey,
         child: Padding(
           padding: EdgeInsets.only(bottom: 10, left: 6, right: 6),
+          
           child: ListView(
             // crossAxisAlignment: CrossAxisAlignment.start,
             physics: isFocused
@@ -320,6 +322,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
               ),
+
+             
             ],
           ),
         ),
