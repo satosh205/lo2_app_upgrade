@@ -186,6 +186,7 @@ class _EditSelfDetailsPageState extends State<EditSelfDetailsPage> {
             SizedBox(height: 50),
             InkWell(
                 onTap: () {
+                  Preference.setString(Preference.FIRST_NAME, fullNameController.text.toString());
                   _updateUserProfileImage(fullNameController.text.toString(), emailController.text.toString());
                 },
                 child: Container(
