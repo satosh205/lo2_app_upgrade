@@ -49,6 +49,7 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
   String selectedOption = 'All';
   bool selectedCalanderView = false;
   DateTime selectedDate = DateTime.now();
+                  bool showExpAs = true;
 
   @override
   void initState() {
@@ -190,7 +191,6 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
           //_isLoading = false;
           //_userTrack();
           assignmentList!.clear();
-          print("45678456784567845678456789");
           // assignmentList = box
           //     .get("myassignment")
           //     .map((e) => AssignmentList.fromJson(Map<String, dynamic>.from(e)))
@@ -249,6 +249,14 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                       AssignmentList.fromJson(Map<String, dynamic>.from(e)))
                   .cast<AssignmentList>()
                   .toList();
+
+                  for(var assignment in assignmentList!){
+                    if(
+                      !checkViewDate(assignment.endDate)){
+                      showExpAs = false;
+                      break;
+                    }
+                  }
               //var list = _getFilterList();
 
               return widget.fromDashboard == true
@@ -282,7 +290,9 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                                   }).toList(),
                                   onChanged: (_) {
                                     setState(() {
+
                                       selectedOption = _!;
+
                                     });
                                   },
                                 ),
@@ -373,10 +383,11 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
       show = !Utility.isExpired(item.endDate!);
     }
     return Visibility(
-      visible: show
+      visible: showExpAs  ? showExpAs :  show
           ? (selectedOption == item.status || selectedOption == 'All') &&
               (selectedCalanderView ? checkViewDate(item.endDate) : true)
           : false,
+      // visible: true,
       child: InkWell(
           onTap: () {
             if (item.status == 'Upcoming')
@@ -428,6 +439,15 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
               ),
               child:
                   Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+               if(Utility.isExpired(item.endDate!))...[
+                 SvgPicture.asset(
+                    'assets/images/missed_icon.svg',
+                    width: 20,
+                    height: 20,
+                    allowDrawingOutsideViewBox: true,
+                  ),
+               ] else
+               
                 if (item.status == 'Completed') ...[
                   SvgPicture.asset(
                     'assets/images/completed_icon.svg',
@@ -484,6 +504,11 @@ class _MyAssignmentPageState extends State<MyAssignmentPage> {
                             style: Styles.regular(
                                 size: 12,
                                 color: ColorConstants().primaryColor())),
+                        Text('Deadline: ${DateFormat('MM/dd/yyyy, hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(item.endDate! * 1000))}',
+                            style: Styles.regular(
+                                size: 12,
+                        )),
+                                
                         SizedBox(height: 5),
                       ],
                       if (item.isGraded == 1 &&
