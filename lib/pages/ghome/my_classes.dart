@@ -103,13 +103,13 @@ class _MyClassesState extends State<MyClasses> {
         // PopupMenuItem<String>(
         //     child: Row(children: [
         //       SvgPicture.asset(
-        //         'assets/images/pending_icon.svg',
+        //         'assets/images/Ongoing_icon.svg',
         //         width: 20,
         //         height: 20,
         //         allowDrawingOutsideViewBox: true,
         //       ),
         //       SizedBox(width: 20),
-        //       Text('Class Pending')
+        //       Text('Class Ongoing')
         //     ]),
         //     value: '4'),
       ],
@@ -183,14 +183,7 @@ class _MyClassesState extends State<MyClasses> {
                   }
                 },
                 child: !_isJoyCategoryLoading
-                    ? haveData == true
-                        ? _getClasses(liveClassModel)
-                        : Center(
-                            child: Text(
-                              '${Strings.of(context)?.noClassesAvailable}.',
-                              style: Styles.bold(size: 16),
-                            ),
-                          )
+                    ? _getClasses(liveClassModel)
                     : CardLoader()),
           ),
         ));
@@ -218,7 +211,6 @@ class _MyClassesState extends State<MyClasses> {
       DateTime date;
 
       liveClassTempList = liveClassTempList?.where((element) {
-        print('');
         date = DateTime.fromMillisecondsSinceEpoch(element.fromDate! * 1000);
         if (date.year >= selectedDate.year) {
           if (date.month >= selectedDate.month) {
@@ -250,38 +242,40 @@ class _MyClassesState extends State<MyClasses> {
       listClassModel.refreshList(list!);
     });
 
-    // List<int> dateList = List.filled(listClassModel.list!.length, 0);
-    // List<bool> showDates = List.filled(listClassModel.list!.length, false);
 
-    // for (int i = 0; i < listClassModel.list!.length; i++) {
-    //   dateList[i] = int.parse(DateFormat('d').format(
-    //       DateTime.fromMillisecondsSinceEpoch(
-    //           listClassModel.list![i].fromDate! * 1000)));
-    // }
-    int currentDate = 0;
+    //check for expire classes
 
-    // if (dateList.length > 0) {
-    //   showDates[0] = true;
-    //   currentDate = dateList[0];
-    // }
+    bool showExpiredClass = true;
+      for (var currClass in listClassModel.list!) {
+         if( !Utility.isExpired(
+                                    currClass.endDate!)){
+                                      showExpiredClass = false;
+                                      break;
+                                    }
 
-    // for (int i = 1; i < dateList.length - 1; i++) {
-    //   if (currentDate != dateList[i]) showDates[i] = true;
-    //   currentDate = dateList[i];
-    // }
+      }
+
+
+
+    
+  
+  
+   
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(color: ColorConstants.GREY),
       child: Column(
+       
         children: [
+         
           Row(
             children: [
               Text('${Strings.of(context)?.sortBy}: ', style: Styles.regular(size: 14)),
               DropdownButton<String>(
                 underline: SizedBox(),
                 hint: Text('$selectedOption', style: Styles.bold(size: 14)),
-               items: <String>['All', 'Upcoming', 'Completed', 'Pending']
+               items: <String>['All', 'Upcoming', 'Completed', 'Ongoing']
                     .map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
@@ -381,7 +375,7 @@ class _MyClassesState extends State<MyClasses> {
                       // return Text('view  is $show');
 
                       return Visibility(
-                        visible: show
+                        visible:showExpiredClass? showExpiredClass : show
                             ? !selectedCalanderView
                                 ? !Utility.isExpired(
                                     listClassModel.list![index].endDate!)
@@ -700,13 +694,15 @@ class _MyClassesState extends State<MyClasses> {
                     scrollDirection: Axis.vertical,
                   ),
                 )
-              : Center(
+              : Expanded(child: Container(
+                height: double.infinity,
+                child: Center(
                   child: Text(
-                    '${Strings.of(context)?.noActiveProgram}',
-                    style: Styles.bold(size: 16),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
+                      '${Strings.of(context)?.noActiveProgram}',
+                      style: Styles.bold(size: 16),
+                      textAlign: TextAlign.center,
+                    ),
+                ),)),
         ],
       ),
     );
@@ -718,7 +714,7 @@ class _MyClassesState extends State<MyClasses> {
 
   void _handleLiveClassResponse(getLiveClassState state, LiveclassModel model) {
     var loginState = state;
-    setState(() {
+    // setState(() {
     switch (loginState.apiState) {
       case ApiStatus.LOADING:
         _isJoyCategoryLoading = true;
@@ -757,6 +753,6 @@ class _MyClassesState extends State<MyClasses> {
       case ApiStatus.INITIAL:
         break;
     }
-    });
+    // });
   }
 }
