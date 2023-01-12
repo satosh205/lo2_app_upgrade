@@ -14,6 +14,7 @@ import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/data/models/response/general_resp.dart';
 import 'package:masterg/data/models/response/home_response/assignment_submissions_response.dart';
 import 'package:masterg/data/models/response/home_response/category_response.dart';
+import 'package:masterg/data/models/response/home_response/competition_response.dart';
 import 'package:masterg/data/models/response/home_response/content_tags_resp.dart';
 import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
 import 'package:masterg/data/models/response/home_response/create_post_response.dart';
@@ -533,6 +534,24 @@ class HomeRepository {
     }
   }
 
+
+
+  Future<CompetitionResponse> getCompetitionList(bool? isPopular) async {
+    final response = await homeProvider.getCompetitionList(isPopular: isPopular);
+    if (response!.success) {
+      Log.v("Competition List  DATA : ${response.body}");
+      CompetitionResponse competitionData =
+      CompetitionResponse.fromJson(response.body);
+   
+      // var box = Hive.box("content");
+      // box.put("competitionList",
+      //     competitionData.data?.map((e) => e?.toJson()).toList());
+      return competitionData;
+    } else {
+      Log.v("====> ${response.body}");
+      return CompetitionResponse();
+    }
+  }
 
    Future<TrainingDetailResponse> getTrainingDetail(int? programId) async {
     final response = await homeProvider.getTrainingDetail(programId);

@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
+import 'package:masterg/data/models/response/home_response/competition_response.dart';
 import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
 import 'package:masterg/pages/singularis/competition_detail.dart';
 import 'package:masterg/utils/Log.dart';
@@ -24,17 +25,32 @@ class Competetion extends StatefulWidget {
 }
 
 class _CompetetionState extends State<Competetion> {
-  List<MProgram>? competitionList;
+  // List<MProgram>? competitionList;
+  CompetitionResponse? competitionResponse, popularCompetitionResponse;
   bool? competitionLoading;
+  bool? popularCompetitionLoading;
   @override
   void initState() {
-    getCompetationList();
+    // getCompetationList();
+    getCompetitionList();
+    getPopularCompetitionList();
+
     super.initState();
   }
 
-  void getCompetationList() {
-    BlocProvider.of<HomeBloc>(context)
-        .add(CourseCategoryListIDEvent(categoryId: 0));
+  // void getCompetationList() {
+  //   BlocProvider.of<HomeBloc>(context)
+  //       .add(CourseCategoryListIDEvent(categoryId: 0));
+  // }
+
+  void getCompetitionList(){
+        BlocProvider.of<HomeBloc>(context)
+        .add(CompetitionListEvent(isPopular: false));
+  }
+
+   void getPopularCompetitionList(){
+        BlocProvider.of<HomeBloc>(context)
+        .add(CompetitionListEvent(isPopular: true));
   }
 
   @override
@@ -48,14 +64,19 @@ class _CompetetionState extends State<Competetion> {
         initState: (BuildContext context) {},
         child: BlocListener<HomeBloc, HomeState>(
             listener: (context, state) {
-              if (state is CourseCategoryListIDState) {
+              if (state is CompetitionListState) {
                 _handlecompetitionListResponse(state);
+              }
+              if(state is PopularCompetitionListState) {
+                _handlePopularCompetitionListResponse(state);
+
               }
             },
             child: Container(
               color: ColorConstants.WHITE,
               child: SingleChildScrollView(
-                child: Column(children: [
+                child: Column(
+                  children: [
                   Container(
                     width: double.infinity,
                     height: mobileHeight * 0.25,
@@ -190,7 +211,7 @@ class _CompetetionState extends State<Competetion> {
                         competitionLoading == false ? 
                           ListView.builder(
                               shrinkWrap: true,
-                              itemCount: competitionList?.length,
+                              itemCount: competitionResponse?.data?.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return InkWell(
                                     onTap: () {
@@ -200,16 +221,17 @@ class _CompetetionState extends State<Competetion> {
                                               builder: (context) =>
                                                   CompetitionDetail(
                                                       competition:
-                                                          competitionList?[
-                                                              index])));
+                                                          competitionResponse?.data?[index])));
                                     },
                                     child: renderCompetitionCard(
-                                        '${competitionList?[index].image}',
-                                        '${competitionList?[index].name}',
+                                        '${competitionResponse?.data![index]?.image}',
+                                        '${competitionResponse?.data![index]?.name}',
                                         '',
                                         '',
-                                        '${competitionList?[index].gScore}',
-                                        '${Utility.convertDateFromMillis(int.parse('${competitionList?[index].endDate}'), "dd MMM yyyy")}'));
+                                        '${competitionResponse?.data![index]?.gScore}',
+                                        '${competitionResponse?.data![index]?.endDate}'
+                                        // '${Utility.convertDateFromMillis(int.parse('${competitionResponse?.data![index]?.endDate}'), "dd MMM yyyy")}'
+                                        ));
                               }) : Shimmer.fromColors(
               baseColor: Colors.grey[300]!,
               highlightColor: Colors.grey[100]!,
@@ -242,27 +264,34 @@ class _CompetetionState extends State<Competetion> {
                         ),
 
                         //
-                        Container(
+                   Container(
                           height: 233,
                           // color: Colors.green,
                           // padding: EdgeInsets.symmetric(vertical: 20),
                           margin: EdgeInsets.only(top: 8, bottom: 20),
-                          child: ListView.builder(
-                              itemCount: 2,
+                          child:    popularCompetitionResponse?.data?.length != 0 ?    ListView.builder(
+                              itemCount: popularCompetitionResponse?.data?.length,
                               shrinkWrap: true,
+                              
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (BuildContext context, int index) {
                                 return InkWell(
                                     onTap: () {
-                                      // Navigator.push(
-                                      //     context,
-                                      //     MaterialPageRoute(
-                                      //         builder: (BuildContext context) =>
-                                      //             CompetitionDetail()));
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  CompetitionDetail( competition:
+                                                          popularCompetitionResponse?.data?[index])));
                                     },
-                                    child: renderActivityCard());
-                              }),
-                        )
+                                    child: renderActivityCard('${popularCompetitionResponse?.data![index]?.image}',
+                                        '${popularCompetitionResponse?.data![index]?.name}',
+                                        '',
+                                        '',
+                                        '${popularCompetitionResponse?.data![index]?.gScore}',
+                                        '${popularCompetitionResponse?.data![index]?.endDate}'));
+                              }):  Center(child: Text('No Popular Activites Found')),
+                        ),
                       ],
                     ),
                   )
@@ -271,7 +300,8 @@ class _CompetetionState extends State<Competetion> {
             )));
   }
 
-  renderActivityCard() {
+  renderActivityCard(String competitionImg, String name, String companyName,
+      String difficulty, String gScore, String date) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.7,
       margin: EdgeInsets.only(bottom: 20, left: 0, right: 16),
@@ -299,7 +329,7 @@ class _CompetetionState extends State<Competetion> {
                     topRight: Radius.circular(16)),
                 child: CachedNetworkImage(
                   imageUrl:
-                      'https://s3-ap-south-1.amazonaws.com/blogmindler/bloglive/wp-content/uploads/2022/04/06192628/10-Unusual-Courses-that-You-have-Never-Heard-Before_blog.png',
+                      competitionImg,
                   width: 100,
                   height: 120,
                   errorWidget: (context, url, error) => SvgPicture.asset(
@@ -313,7 +343,7 @@ class _CompetetionState extends State<Competetion> {
             Padding(
               padding: const EdgeInsets.only(left: 8),
               child: Text(
-                'Ui Design Test Series',
+                name,
                 style: Styles.bold(),
               ),
             ),
@@ -322,7 +352,7 @@ class _CompetetionState extends State<Competetion> {
               padding: const EdgeInsets.only(left: 8),
               child: Row(
                 children: [
-                  Text('Easy',
+                  Text(difficulty,
                       style: Styles.regular(
                           color: ColorConstants.GREEN_1, size: 12)),
                   SizedBox(
@@ -339,7 +369,7 @@ class _CompetetionState extends State<Competetion> {
                   SizedBox(
                     width: 4,
                   ),
-                  Text('30 Points',
+                  Text('$gScore Points',
                       style: Styles.regular(
                           color: ColorConstants.ORANGE_4, size: 12)),
                 ],
@@ -623,37 +653,50 @@ class _CompetetionState extends State<Competetion> {
     }
   }
 
-  void _handlecompetitionListResponse(CourseCategoryListIDState state) {
+  void _handlecompetitionListResponse(CompetitionListState state ) {
     var competitionState = state;
     setState(() {
       switch (competitionState.apiState) {
         case ApiStatus.LOADING:
           Log.v("Loading....................");
           competitionLoading = true;
-
           break;
         case ApiStatus.SUCCESS:
           Log.v("CompetitionState....................");
-          competitionList = state.response!.data!.programs;
-          competitionList = competitionList
-              ?.where((element) => element.isCompetition == 1)
-              .toList();
-
+          competitionResponse = state.response;
           competitionLoading = false;
 
           break;
         case ApiStatus.ERROR:
           Log.v(
               "Error CompetitionListIDState ..........................${competitionState.error}");
-          setState(() {
             competitionLoading = false;
-          });
-          competitionList = state.response!.data!.programs;
-          competitionList = competitionList
-              ?.where((element) => element.isCompetition == 1)
-              .toList();
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
+  }
 
 
+   void _handlePopularCompetitionListResponse(PopularCompetitionListState state ) {
+    var popularCompetitionState = state;
+    setState(() {
+      switch (popularCompetitionState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          popularCompetitionLoading = true;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("popularCompetitionState....................");
+          popularCompetitionResponse = state.response;
+          popularCompetitionLoading = false;
+
+          break;
+        case ApiStatus.ERROR:
+          Log.v(
+              "Error Popular CompetitionListIDState ..........................${popularCompetitionState.error}");
+            popularCompetitionLoading = false;
           break;
         case ApiStatus.INITIAL:
           break;

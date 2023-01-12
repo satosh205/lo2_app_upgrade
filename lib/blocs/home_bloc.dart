@@ -16,6 +16,7 @@ import 'package:masterg/data/models/response/auth_response/dashboard_content_res
 import 'package:masterg/data/models/response/auth_response/dashboard_view_resp.dart';
 import 'package:masterg/data/models/response/general_resp.dart';
 import 'package:masterg/data/models/response/home_response/assignment_submissions_response.dart';
+import 'package:masterg/data/models/response/home_response/competition_response.dart';
 import 'package:masterg/data/models/response/home_response/content_tags_resp.dart';
 import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
 import 'package:masterg/data/models/response/home_response/create_post_response.dart';
@@ -562,6 +563,16 @@ class CourseCategoryListIDEvent extends HomeEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
+
+class CompetitionListEvent extends HomeEvent {
+  bool? isPopular;
+
+  CompetitionListEvent({this.isPopular}) : super([isPopular]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+
 class CourseCategoryListIDState extends HomeState {
   ApiStatus state;
 
@@ -570,6 +581,27 @@ class CourseCategoryListIDState extends HomeState {
   CourseCategoryListIdResponse? error;
 
   CourseCategoryListIDState(this.state, {this.response, this.error});
+}
+
+
+class CompetitionListState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  CompetitionResponse? response;
+  String? error;
+
+  CompetitionListState(this.state, {this.response, this.error});
+}
+
+class PopularCompetitionListState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  CompetitionResponse? response;
+  String? error;
+
+  PopularCompetitionListState(this.state, {this.response, this.error});
 }
 
 class CourseCategoryList2IDEvent extends HomeEvent {
@@ -1985,7 +2017,47 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield CourseCategoryListIDState(ApiStatus.ERROR,
             error: CourseCategoryListIdResponse());
       }
-    } else if (event is CourseCategoryList2IDEvent) {
+    }
+    
+    else if (event is CompetitionListEvent) {
+
+      if(event.isPopular ==  false)
+      {
+        try {
+        yield CompetitionListState(ApiStatus.LOADING);
+
+        final response = await homeRepository.getCompetitionList(false);
+
+       
+          yield CompetitionListState(ApiStatus.SUCCESS,
+              response: response);
+      
+      } catch (e) {
+        Log.v("Exception : $e");
+        yield CompetitionListState(ApiStatus.ERROR,
+            error: 'Something went wrong');
+      }
+      }
+      else{
+try {
+        yield PopularCompetitionListState(ApiStatus.LOADING);
+
+        final response = await homeRepository.getCompetitionList(true);
+
+       
+          yield PopularCompetitionListState(ApiStatus.SUCCESS,
+              response: response);
+      
+      } catch (e) {
+        Log.v("Exception : $e");
+        yield PopularCompetitionListState(ApiStatus.ERROR,
+            error: 'Something went wrong');
+      }
+      }
+    }
+    
+    
+     else if (event is CourseCategoryList2IDEvent) {
       try {
         yield CourseCategoryList2IDState(ApiStatus.LOADING);
 

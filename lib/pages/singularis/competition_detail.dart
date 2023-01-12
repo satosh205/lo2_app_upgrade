@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
+import 'package:masterg/data/models/response/home_response/competition_response.dart';
 import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
 import 'package:masterg/data/models/response/home_response/training_detail_response.dart';
 import 'package:masterg/data/models/response/home_response/training_module_response.dart';
@@ -31,7 +32,7 @@ enum CardType {
 } 
 
 class CompetitionDetail extends StatefulWidget {
-  final MProgram? competition;
+  final Competition? competition;
   const CompetitionDetail({super.key, this.competition});
 
 
@@ -193,11 +194,11 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                             SizedBox(
                               width: 4,
                             ),
-                            Text(
-                              '${Utility.convertDateFromMillis(int.parse('${widget.competition?.endDate}'), "dd MMM yyyy")}',
-                              style: Styles.semibold(
-                                  size: 12, color: Color(0xff5A5F73)),
-                            )
+                            // Text(
+                            //   '${Utility.convertDateFromMillis(int.parse('${widget.competition?.endDate}'), "dd MMM yyyy")}',
+                            //   style: Styles.semibold(
+                            //       size: 12, color: Color(0xff5A5F73)),
+                            // )
                           ],
                         )),
                   ],
@@ -437,13 +438,13 @@ else   ListView.builder(
           competitionDetailLoading = true;
           break;
         case ApiStatus.SUCCESS:
-          Log.v("CompetitionState....................");
+          Log.v("Competition Detail State....................");
           competitionDetail = state.response;
           competitionDetailLoading = false;
           break;
         case ApiStatus.ERROR:
           Log.v(
-              "Error CompetitionListIDState ..........................${competitionState.error}");
+              "Error Competition Detail IDState ..........................${competitionState.error}");
           competitionDetailLoading = false;
           break;
         case ApiStatus.INITIAL:

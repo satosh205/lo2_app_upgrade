@@ -2050,6 +2050,36 @@ class HomeProvider {
 
 
 
+
+ Future<ApiResponse?> getCompetitionList({bool? isPopular}) async {
+    try {
+      String url = ApiConstants.COMPETITION_MODULE_DATA;
+      if(isPopular == true) url += '?is_popular=1';
+      final response = await api.dio.get(url,
+       
+          options: Options(
+              method: 'GET',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+    }
+    return null;
+  }
+
+
    Future<dynamic> getTrainingDetail(int? programId) async {
     try {
       final response = await api.dio.get(ApiConstants.PROGRAMS_LIST + '/$programId',
