@@ -27,6 +27,7 @@ import 'package:masterg/pages/swayam_pages/sign_up_screen.dart';
 import 'package:masterg/pages/swayam_pages/training_home_page.dart';
 import 'package:masterg/pages/swayam_pages/training_provider.dart';
 import 'package:masterg/pages/training_pages/training_service.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_page.dart';
 import 'package:masterg/pages/user_profile_page/user_profile_page.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/config.dart';
@@ -309,10 +310,16 @@ class _homePageState extends State<homePage> {
                               InkWell(
                                 onTap: () {
                                   // print('the path is $appBarImagePath');
-                                  Navigator.push(context,
+                                  // Navigator.push(context,
+                                  //     MaterialPageRoute(builder: (context) {
+                                  //   return UserProfilePage();
+                                  // })).then(onGoBack);
+
+
+                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
-                                    return UserProfilePage();
-                                  })).then(onGoBack);
+                                    return Portfolio();
+                                  }));
                                 },
                                 child: Transform.scale(
                                   scale: 1,

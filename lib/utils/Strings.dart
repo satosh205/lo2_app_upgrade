@@ -118,6 +118,7 @@ class Strings {
   String? get w => _localizedValues[locale.languageCode]!['w'];
   String? get h => _localizedValues[locale.languageCode]!['h'];
   String? get m => _localizedValues[locale.languageCode]!['m'];
+  String? get min => _localizedValues[locale.languageCode]!['min'];
   String? get commentCantBlank =>
       _localizedValues[locale.languageCode]!['commentCantBlank'];
   String? get justNow => _localizedValues[locale.languageCode]!['justNow'];

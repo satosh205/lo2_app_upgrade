@@ -319,11 +319,15 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
 
   _rowItem(AssessmentList item) {
     return Visibility(
-      visible: (selectedOption == item.status || selectedOption == 'All') &&
-          (selectedCalanderView ? checkViewDate(item.endDate) : true),
+      visible: (selectedOption == item.status || selectedOption == 'All')
+      //  &&
+      //     (selectedCalanderView ? checkViewDate(item.endDate) : true
+      //     )
+          ,
       child: InkWell(
         onTap: () {
-          if (item.status?.toLowerCase() == 'upcoming')
+         
+       if (item.status?.toLowerCase() == 'upcoming')
             AlertsWidget.showCustomDialog(
                 context: context,
                 title: "${Strings.of(context)?.assessmentSubmissionNotReady}",
@@ -367,7 +371,15 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
             child: Stack(alignment: Alignment.center, children: [
               Container(
                 child: Row(children: [
-                  if (item.status == 'Completed') ...[
+                    if(Utility.isExpired(item.endDate!))...[
+                 SvgPicture.asset(
+                    'assets/images/missed_icon.svg',
+                    width: 20,
+                    height: 20,
+                    allowDrawingOutsideViewBox: true,
+                  ),
+               ] else
+                if (item.status == 'Completed') ...[
                     SvgPicture.asset(
                       'assets/images/completed_icon.svg',
                       width: 20,
@@ -415,7 +427,7 @@ class _MyAssessmentPageState extends State<MyAssessmentPage> {
                           ] else ...[
                             SizedBox(height: 5),
                             Text(
-                                '${item.durationInMinutes} ${Strings.of(context)?.m} • ${item.maximumMarks} ${Strings.of(context)?.marks}',
+                                '${item.durationInMinutes} ${Strings.of(context)?.min} • ${item.maximumMarks} ${Strings.of(context)?.marks}',
                                 style: Styles.regular(
                                     size: 12, color: Colors.black)),
                             SizedBox(height: 5),
