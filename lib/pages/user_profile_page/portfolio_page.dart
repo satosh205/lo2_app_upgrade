@@ -26,7 +26,7 @@ class _PortfolioState extends State<Portfolio> {
                   children: [
                     Container(
                       width: double.infinity,
-                      height: MediaQuery.of(context).size.height * 0.25,
+                      height: MediaQuery.of(context).size.height * 0.3,
                       padding: EdgeInsets.only(top: 8),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(
@@ -42,30 +42,107 @@ class _PortfolioState extends State<Portfolio> {
                             ]),
                       ),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          SizedBox(
+                            height: 16,
+                          ),
                           IconButton(
                               onPressed: () {},
                               icon: Icon(
-                                Icons.arrow_back_ios,
+                                Icons.arrow_back,
                                 color: ColorConstants.WHITE,
                               )),
-                          Row(children: [
-                            Column(
-                              children: [
-                                Text('LoremIpsum Dolor Sitamet',
-                                    style: Styles.bold(
-                                        size: 18, color: ColorConstants.WHITE)),
-                                Text('Product Designer',
-                                    style: Styles.regular(
-                                        size: 12, color: ColorConstants.WHITE))
-                              ],
-                            )
-                          ]),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Stack(
+                                    children: [
+                                      ClipOval(
+                                        child: Image.network(
+                                          'https://cdn.pixabay.com/photo/2020/05/09/13/29/photographer-5149664_1280.jpg',
+                                          filterQuality: FilterQuality.low,
+                                          width: 70,
+                                          height: 70,
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                      Positioned(
+                                        left: 40,
+                                        top: 40,
+                                        child: InkWell(
+                                          onTap: () {
+                                            // showBottomSheet(context);
+                                            /*Navigator.push(
+                                context,
+                                NextPageRoute(ChangeImage()));*/
+                                          },
+                                          child: Container(
+                                            height: 30.0,
+                                            width: 30.0,
+                                            padding: EdgeInsets.all(2),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              border: Border.all(
+                                                  width: 0,
+                                                  color: Colors.transparent),
+                                              color: Color(0xfffc7804),
+                                            ),
+                                            child: SvgPicture.asset(
+                                                'assets/images/profile_play.svg'),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.6,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text('Prince Vishwakarma',
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: false,
+                                            style: Styles.bold(
+                                                size: 18,
+                                                color: ColorConstants.WHITE)),
+                                        Text('Flutter Developer',
+                                            style: Styles.regular(
+                                                size: 12,
+                                                color: ColorConstants.WHITE)),
+                                                SizedBox(height: 4),
+                                        Row(
+                                          children: [
+                                            SvgPicture.asset(
+                                                'assets/images/person_location.svg'),
+                                            Text(' New Delhi, India',
+                                                style: Styles.regular(
+                                                    size: 12,
+                                                    color:
+                                                        ColorConstants.WHITE))
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ]),
+                          ),
                         ],
                       ),
                     ),
                     SizedBox(
-                      height: 80,
+                      height: 50,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -77,18 +154,27 @@ class _PortfolioState extends State<Portfolio> {
                     ),
                     Center(
                       child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.85,
+                        width: MediaQuery.of(context).size.width * 0.95,
                         height: 60,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            SvgPicture.asset('assets/images/twitter.svg'),
-                            SvgPicture.asset('assets/images/facebook.svg'),
+                            SvgPicture.asset('assets/images/call.svg'),
+                            SizedBox(width: 1),
+                            SvgPicture.asset('assets/images/email.svg'),
+                            VerticalDivider(
+                              color: Color(0xffECECEC),
+                              width: 10,
+                              thickness: 2,
+                              indent: 10,
+                              endIndent: 10,
+                            ),
                             SvgPicture.asset('assets/images/linkedin.svg'),
                             SvgPicture.asset('assets/images/behance.svg'),
+                            SvgPicture.asset('assets/images/insta.svg'),
                             SvgPicture.asset('assets/images/dribble.svg'),
-                            SvgPicture.asset('assets/images/linkedin.svg'),
                             SvgPicture.asset('assets/images/pintrest.svg'),
+                            SvgPicture.asset('assets/images/vertical_menu.svg'),
                           ],
                         ),
                       ),
@@ -96,11 +182,10 @@ class _PortfolioState extends State<Portfolio> {
                   ],
                 ),
                 Positioned(
-                    left: 10,
-                    right: 10,
-                    top: 150,
+                    left: 25,
+                    right: 25,
+                    top: 170,
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
                       height: 100,
                       padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                       decoration: BoxDecoration(
@@ -132,9 +217,21 @@ class _PortfolioState extends State<Portfolio> {
                                         child: SvgPicture.asset(
                                             'assets/images/leaderboard.svg')),
                                     SizedBox(width: 4),
-                                    Text(
-                                      '52',
-                                      style: Styles.regular(size: 24),
+                                    ShaderMask(
+                                      blendMode: BlendMode.srcIn,
+                                      shaderCallback: (Rect bounds) {
+                                        return LinearGradient(
+                                            begin: Alignment.centerLeft,
+                                            end: Alignment.centerRight,
+                                            colors: <Color>[
+                                              Color(0xfffc7804),
+                                              Color(0xffff2252)
+                                            ]).createShader(bounds);
+                                      },
+                                      child: Text(
+                                        '52',
+                                        style: Styles.bold(size: 24),
+                                      ),
                                     )
                                   ],
                                 ),
@@ -164,15 +261,26 @@ class _PortfolioState extends State<Portfolio> {
                                 ),
                                 Row(
                                   children: [
-                                    SizedBox(
-                                      height: 20,
-                                      child: SvgPicture.asset(
-                                          'assets/images/coin.svg'),
-                                    ),
+                                  SizedBox(
+                                        height: 30,
+                                        child: SvgPicture.asset(
+                                            'assets/images/coin.svg')),
                                     SizedBox(width: 4),
-                                    Text(
-                                      '52',
-                                      style: Styles.regular(size: 24),
+                                    ShaderMask(
+                                      blendMode: BlendMode.srcIn,
+                                      shaderCallback: (Rect bounds) {
+                                        return LinearGradient(
+                                            begin: Alignment.centerLeft,
+                                            end: Alignment.centerRight,
+                                            colors: <Color>[
+                                              Color(0xfffc7804),
+                                              Color(0xffff2252)
+                                            ]).createShader(bounds);
+                                      },
+                                      child: Text(
+                                        '120',
+                                        style: Styles.bold(size: 24),
+                                      ),
                                     )
                                   ],
                                 ),
@@ -189,6 +297,35 @@ class _PortfolioState extends State<Portfolio> {
                     ))
               ],
             ),
+            Center(
+              child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.94,
+                  child: Divider()),
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset('assets/images/resume.svg'),
+                SizedBox(width: 6),
+                ShaderMask(
+                  blendMode: BlendMode.srcIn,
+                  shaderCallback: (Rect bounds) {
+                    return LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: <Color>[
+                          Color(0xfffc7804),
+                          Color(0xffff2252)
+                        ]).createShader(bounds);
+                  },
+                  child: Text(
+                    'View Resume',
+                    style: Styles.bold(size: 14),
+                  ),
+                )
+              ],
+            ),
             dividerLine(),
             Container(
               padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
@@ -196,137 +333,27 @@ class _PortfolioState extends State<Portfolio> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Skills',
-                    style: Styles.semibold(size: 16),
-                  ),
-                  Transform.scale(
-                    scale: 0.7,
-                    child: CircularPercentIndicator(
-                      radius: 50.0,
-                      lineWidth: 5.0,
-                      percent: 0.8,
-                      center: Container(
-                        width: 80,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                                color: Color(0xff000000).withOpacity(0.25),
-                                blurRadius: 4.36274)
-                          ],
-                          color: ColorConstants.WHITE,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            SizedBox(height: 2),
-                            SvgPicture.asset(
-                              'assets/images/leader.svg',
-                              width: 30,
-                              height: 30,
-                              fit: BoxFit.cover,
-                            ),
-                  
-                            ShaderMask(
-                              blendMode: BlendMode.srcIn,
-                              shaderCallback: (Rect bounds) {
-                                return LinearGradient(
-                                    begin: Alignment.centerLeft,
-                                    end: Alignment.centerRight,
-                                    colors: <Color>[
-                                      Color(0xfffc7804),
-                                      Color(0xffff2252)
-                                    ]).createShader(bounds);
-                              },
-                              child: Text(
-                                "LEADER",
-                                style: Styles.bold(size: 9.19),
-                              ),
-                            ),
-                  
-                            Stack(
-                              children: [
-                                Transform.translate(
-                                  offset: Offset(-1, 9),
-                                  child: SvgPicture.asset(
-                                    'assets/images/half_circle.svg',
-                                    width: 78,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Positioned.fill(
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: SizedBox(
-                                      width: 60,
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                            'assets/images/star_portfolio.svg',
-                                            width: 10,
-                                            fit: BoxFit.cover,
-                                          ),
-                                          SvgPicture.asset(
-                                            'assets/images/star_portfolio.svg',
-                                            width: 10,
-                                            fit: BoxFit.cover,
-                                          ),
-                                          SvgPicture.asset(
-                                            'assets/images/star_portfolio.svg',
-                                            width: 10,
-                                            fit: BoxFit.cover,
-                                          ),
-                  
-                                          SvgPicture.asset(
-                                            'assets/images/star_portfolio_unselected.svg',
-                                            width: 10,
-                                            fit: BoxFit.cover,
-                                          ),
-                                          SvgPicture.asset(
-                                            'assets/images/star_portfolio_unselected.svg',
-                                            width: 10,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                  
-                            // Center(
-                            //   child: Container(
-                            //     width: 40,
-                            //     height: 20,
-                            //     decoration: BoxDecoration(
-                            //       borderRadius: BorderRadius.only(
-                            //           bottomLeft: Radius.circular(40),
-                            //           bottomRight: Radius.circular(40)),
-                            //       color: ColorConstants.WHITE,
-                            //       gradient: LinearGradient(
-                            //           begin: Alignment.centerLeft,
-                            //           end: Alignment.centerRight,
-                            //           colors: <Color>[
-                            //             Color(0xfffc7804),
-                            //             Color(0xffff2252)
-                            //           ]),
-                            //     ),
-                            //   ),
-                            // )
-                          ],
-                        ),
+                  Row(
+                    children: [
+                      Text(
+                        'Skills Level & Badges',
+                        style: Styles.semibold(size: 16),
                       ),
-                      backgroundColor: Color(0xffEFEFEF),
-                      linearGradient: LinearGradient(
-                          begin: Alignment.centerRight,
-                          end: Alignment.centerLeft,
-                          colors: <Color>[Color(0xfffc7804), Color(0xffff2252)]),
+                      Spacer(),
+                      Icon(Icons.arrow_forward_ios_rounded)
+                    ],
+                  ),
+                  Divider(),
+                  SizedBox(
+                    height: 120,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        skillProgess("3D Animation", 1),
+                        skillProgess("3D Animation", 1),
+                        skillProgess("3D Animation", 1),
+                        skillProgess("3D Animation", 1),
+                      ],
                     ),
                   )
                 ],
@@ -342,6 +369,154 @@ class _PortfolioState extends State<Portfolio> {
     return const Divider(
       thickness: 8,
       color: Color(0xffF2F2F2),
+    );
+  }
+
+  Widget skillProgess(String title, int rating) {
+    String position;
+    switch (rating) {
+      case 5:
+        position = 'LEADER';
+        break;
+
+      case 4:
+        position = 'LEADER';
+        break;
+
+      case 3:
+        position = 'LEADER';
+        break;
+
+      case 2:
+        position = 'LEADER';
+        break;
+
+      case 1:
+        position = 'LEADER';
+        break;
+    }
+    return Column(
+      children: [
+        ShaderMask(
+          blendMode: BlendMode.srcIn,
+          shaderCallback: (Rect bounds) {
+            return LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: <Color>[Color(0xfffc7804), Color(0xffff2252)])
+                .createShader(bounds);
+          },
+          child: Text(
+            title,
+            style: Styles.bold(size: 12),
+          ),
+        ),
+        Transform.scale(
+          scale: 0.75,
+          child: CircularPercentIndicator(
+            radius: 50.0,
+            lineWidth: 5.0,
+            percent: 0.8,
+            center: Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                      color: Color(0xff000000).withOpacity(0.25),
+                      blurRadius: 4.36274)
+                ],
+                color: ColorConstants.WHITE,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SizedBox(height: 2),
+                  SvgPicture.asset(
+                    'assets/images/leader.svg',
+                    width: 30,
+                    height: 30,
+                    fit: BoxFit.cover,
+                  ),
+                  ShaderMask(
+                    blendMode: BlendMode.srcIn,
+                    shaderCallback: (Rect bounds) {
+                      return LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: <Color>[
+                            Color(0xfffc7804),
+                            Color(0xffff2252)
+                          ]).createShader(bounds);
+                    },
+                    child: Text(
+                      title,
+                      style: Styles.bold(size: 9.19),
+                    ),
+                  ),
+                  Stack(
+                    children: [
+                      Transform.translate(
+                        offset: Offset(-1, 9),
+                        child: SvgPicture.asset(
+                          'assets/images/half_circle.svg',
+                          width: 78,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Positioned.fill(
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                            width: 60,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/images/star_portfolio.svg',
+                                  width: 10,
+                                  fit: BoxFit.cover,
+                                ),
+                                SvgPicture.asset(
+                                  'assets/images/star_portfolio.svg',
+                                  width: 10,
+                                  fit: BoxFit.cover,
+                                ),
+                                SvgPicture.asset(
+                                  'assets/images/star_portfolio.svg',
+                                  width: 10,
+                                  fit: BoxFit.cover,
+                                ),
+                                SvgPicture.asset(
+                                  'assets/images/star_portfolio_unselected.svg',
+                                  width: 10,
+                                  fit: BoxFit.cover,
+                                ),
+                                SvgPicture.asset(
+                                  'assets/images/star_portfolio_unselected.svg',
+                                  width: 10,
+                                  fit: BoxFit.cover,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            backgroundColor: Color(0xffEFEFEF),
+            linearGradient: LinearGradient(
+                begin: Alignment.centerRight,
+                end: Alignment.centerLeft,
+                colors: <Color>[Color(0xfffc7804), Color(0xffff2252)]),
+          ),
+        ),
+      ],
     );
   }
 
