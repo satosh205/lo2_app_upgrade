@@ -12,6 +12,7 @@ class Portfolio extends StatefulWidget {
 }
 
 class _PortfolioState extends State<Portfolio> {
+  bool editModeEnabled = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,12 +49,41 @@ class _PortfolioState extends State<Portfolio> {
                           SizedBox(
                             height: 16,
                           ),
-                          IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.arrow_back,
-                                color: ColorConstants.WHITE,
-                              )),
+                          Row(
+                            children: [
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.arrow_back,
+                                    color: ColorConstants.WHITE,
+                                  )),
+                              Spacer(),
+                              InkWell(
+
+onTap: (){
+  setState(() {
+  editModeEnabled = !editModeEnabled;
+  
+});  
+},                                child: Row(
+                                  children: [
+                                    SvgPicture.asset(  editModeEnabled ? 'assets/images/check.svg': 'assets/images/edit.svg'),
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                    Text(
+                            editModeEnabled ? 'Save' :     'Edit Portfolio',
+                                      style: Styles.regular(
+                                          size: 12, color: ColorConstants.WHITE),
+                                    ),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
@@ -121,7 +151,7 @@ class _PortfolioState extends State<Portfolio> {
                                             style: Styles.regular(
                                                 size: 12,
                                                 color: ColorConstants.WHITE)),
-                                                SizedBox(height: 4),
+                                        SizedBox(height: 4),
                                         Row(
                                           children: [
                                             SvgPicture.asset(
@@ -135,7 +165,8 @@ class _PortfolioState extends State<Portfolio> {
                                         )
                                       ],
                                     ),
-                                  )
+                                  ),
+                              editModeEnabled ?   SizedBox(width: 18  , child:  Transform.scale(scale:1.4 , child: SvgPicture.asset(   'assets/images/edit.svg'))) : SizedBox(width: 18),
                                 ]),
                           ),
                         ],
@@ -245,7 +276,7 @@ class _PortfolioState extends State<Portfolio> {
                             SizedBox(width: 20),
                             VerticalDivider(
                               color: Color(0xffECECEC),
-                              width: 10,  
+                              width: 10,
                               thickness: 2,
                               indent: 10,
                               endIndent: 10,
@@ -261,7 +292,7 @@ class _PortfolioState extends State<Portfolio> {
                                 ),
                                 Row(
                                   children: [
-                                  SizedBox(
+                                    SizedBox(
                                         height: 30,
                                         child: SvgPicture.asset(
                                             'assets/images/coin.svg')),
@@ -372,7 +403,7 @@ class _PortfolioState extends State<Portfolio> {
   }
 
   Widget skillProgess(String title, int rating, double percent) {
-    String? position ;
+    String? position;
     String? image = 'assets/images/';
     switch (rating) {
       case 5:
@@ -443,7 +474,7 @@ class _PortfolioState extends State<Portfolio> {
                 children: [
                   SizedBox(height: 2),
                   SvgPicture.asset(
-                   image,
+                    image,
                     width: 30,
                     height: 30,
                     fit: BoxFit.cover,
@@ -483,15 +514,15 @@ class _PortfolioState extends State<Portfolio> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                         
-                               for(int i = 0; i < 5 ; i++)Opacity(
-                                opacity: i< rating ? 1:  0.5,
-                                 child: SvgPicture.asset(
-                                    'assets/images/star_portfolio_unselected.svg',
-                                    width: 10,
-                                    fit: BoxFit.cover,
-                                  ),
-                               )
+                                for (int i = 0; i < 5; i++)
+                                  Opacity(
+                                    opacity: i < rating ? 1 : 0.5,
+                                    child: SvgPicture.asset(
+                                      'assets/images/star_portfolio_unselected.svg',
+                                      width: 10,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
                               ],
                             ),
                           ),
@@ -512,6 +543,4 @@ class _PortfolioState extends State<Portfolio> {
       ],
     );
   }
-
-  
 }
