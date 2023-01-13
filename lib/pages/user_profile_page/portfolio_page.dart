@@ -245,7 +245,7 @@ class _PortfolioState extends State<Portfolio> {
                             SizedBox(width: 20),
                             VerticalDivider(
                               color: Color(0xffECECEC),
-                              width: 10,
+                              width: 10,  
                               thickness: 2,
                               indent: 10,
                               endIndent: 10,
@@ -265,7 +265,6 @@ class _PortfolioState extends State<Portfolio> {
                                         height: 30,
                                         child: SvgPicture.asset(
                                             'assets/images/coin.svg')),
-                                    SizedBox(width: 4),
                                     ShaderMask(
                                       blendMode: BlendMode.srcIn,
                                       shaderCallback: (Rect bounds) {
@@ -349,10 +348,10 @@ class _PortfolioState extends State<Portfolio> {
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: [
-                        skillProgess("3D Animation", 1),
-                        skillProgess("3D Animation", 1),
-                        skillProgess("3D Animation", 1),
-                        skillProgess("3D Animation", 1),
+                        skillProgess("3D Animation", 1, 20),
+                        skillProgess("3D Animation", 2, 30),
+                        skillProgess("3D Animation", 3, 80),
+                        skillProgess("3D Animation", 4, 90),
                       ],
                     ),
                   )
@@ -372,27 +371,36 @@ class _PortfolioState extends State<Portfolio> {
     );
   }
 
-  Widget skillProgess(String title, int rating) {
-    String position;
+  Widget skillProgess(String title, int rating, double percent) {
+    String? position ;
+    String? image = 'assets/images/';
     switch (rating) {
       case 5:
         position = 'LEADER';
+        image += 'leader.svg';
         break;
 
       case 4:
-        position = 'LEADER';
+        position = 'EXPERT';
+        image += 'expert.svg';
         break;
 
       case 3:
-        position = 'LEADER';
+        position = 'MASTER';
+        image += 'master.svg';
+
         break;
 
       case 2:
-        position = 'LEADER';
+        position = 'Learner';
+        image += 'learner.svg';
+
         break;
 
       case 1:
-        position = 'LEADER';
+        position = 'NOVICE';
+        image += 'novice.svg';
+
         break;
     }
     return Column(
@@ -415,8 +423,9 @@ class _PortfolioState extends State<Portfolio> {
           scale: 0.75,
           child: CircularPercentIndicator(
             radius: 50.0,
+            circularStrokeCap: CircularStrokeCap.round,
             lineWidth: 5.0,
-            percent: 0.8,
+            percent: percent / 100,
             center: Container(
               width: 80,
               height: 80,
@@ -434,7 +443,7 @@ class _PortfolioState extends State<Portfolio> {
                 children: [
                   SizedBox(height: 2),
                   SvgPicture.asset(
-                    'assets/images/leader.svg',
+                   image,
                     width: 30,
                     height: 30,
                     fit: BoxFit.cover,
@@ -451,7 +460,7 @@ class _PortfolioState extends State<Portfolio> {
                           ]).createShader(bounds);
                     },
                     child: Text(
-                      title,
+                      '$position',
                       style: Styles.bold(size: 9.19),
                     ),
                   ),
@@ -474,31 +483,15 @@ class _PortfolioState extends State<Portfolio> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SvgPicture.asset(
-                                  'assets/images/star_portfolio.svg',
-                                  width: 10,
-                                  fit: BoxFit.cover,
-                                ),
-                                SvgPicture.asset(
-                                  'assets/images/star_portfolio.svg',
-                                  width: 10,
-                                  fit: BoxFit.cover,
-                                ),
-                                SvgPicture.asset(
-                                  'assets/images/star_portfolio.svg',
-                                  width: 10,
-                                  fit: BoxFit.cover,
-                                ),
-                                SvgPicture.asset(
-                                  'assets/images/star_portfolio_unselected.svg',
-                                  width: 10,
-                                  fit: BoxFit.cover,
-                                ),
-                                SvgPicture.asset(
-                                  'assets/images/star_portfolio_unselected.svg',
-                                  width: 10,
-                                  fit: BoxFit.cover,
-                                ),
+                         
+                               for(int i = 0; i < 5 ; i++)Opacity(
+                                opacity: i< rating ? 1:  0.5,
+                                 child: SvgPicture.asset(
+                                    'assets/images/star_portfolio_unselected.svg',
+                                    width: 10,
+                                    fit: BoxFit.cover,
+                                  ),
+                               )
                               ],
                             ),
                           ),
@@ -520,38 +513,5 @@ class _PortfolioState extends State<Portfolio> {
     );
   }
 
-  Widget ratingBar(String title, int ratingCount) {
-    List<Widget> ratingWidget = List.generate(
-        ratingCount,
-        (index) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
-              child: SvgPicture.asset('assets/images/portfolio_rating.svg'),
-            )).toList();
-
-    ratingWidget.addAll(List.generate(
-        5 - ratingCount,
-        (index) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
-              child: SvgPicture.asset(
-                  'assets/images/portfolio_rating_unselected.svg'),
-            )).toList());
-    return Container(
-      width: double.infinity,
-      height: 47,
-      padding: EdgeInsets.all(8),
-      margin: EdgeInsets.symmetric(vertical: 4),
-      decoration: BoxDecoration(
-          color: Color(0xfffffafa), borderRadius: BorderRadius.circular(10)),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(
-          '$title',
-          style: Styles.bold(size: 16, color: Color(0xff5A5F73)),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: ratingWidget,
-        )
-      ]),
-    );
-  }
+  
 }
