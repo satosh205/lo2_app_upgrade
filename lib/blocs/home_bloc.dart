@@ -1361,7 +1361,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield CompetitionContentListState(ApiStatus.LOADING);
         final response =
             await homeRepository.getCompetitionContentList(event.competitionId);
-        yield CompetitionContentListState(ApiStatus.ERROR, response: response);
+
+        if (response.data != null) {
+          yield CompetitionContentListState(ApiStatus.SUCCESS,
+              response: response);
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield CompetitionContentListState(ApiStatus.ERROR,
+              response: response);
+        }
       } catch (e) {
         Log.v("ERROR DATA : $e");
         yield CompetitionContentListState(

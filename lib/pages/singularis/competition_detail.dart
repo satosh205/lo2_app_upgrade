@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
+import 'package:masterg/data/models/response/home_response/competition_content_list_resp.dart';
 import 'package:masterg/data/models/response/home_response/competition_response.dart';
 import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
 import 'package:masterg/data/models/response/home_response/training_detail_response.dart';
@@ -42,6 +43,7 @@ class CompetitionDetail extends StatefulWidget {
 class _CompetitionDetailState extends State<CompetitionDetail> {
   TrainingModuleResponse? competitionDetail;
   TrainingDetailResponse? programDetail;
+  CompetitionContentListResponse? contentList;
   bool? competitionDetailLoading;
 
   @override
@@ -77,6 +79,9 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
               }
               if (state is TrainingDetailState)
                 handleTrainingDetailState(state);
+
+              if (state is CompetitionContentListState)
+                handleCompetitionListState(state);
             },
             child: Scaffold(
               backgroundColor: Color(0xffF2F2F2),
@@ -243,34 +248,35 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                     ),
                   ),
                   if (competitionDetailLoading == false) ...[
-                    ListView.builder(
-                        itemCount: competitionDetail
-                            ?.data?.module?.first.content?.assignments?.length,
-                        shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int index) {
-                          return InkWell(
-                              onTap: () {
-                                // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> CompetitionDetail() ));
-                              },
-                              child: competitionCard(
-                                  competitionDetail?.data?.module?.first.content
-                                      ?.assignments?[index],
-                                  CardType.assignment));
-                        }),
-                    ListView.builder(
-                        itemCount: competitionDetail
-                            ?.data?.module?.first.content?.assessments?.length,
-                        shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int index) {
-                          return InkWell(
-                              onTap: () {
-                                // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> CompetitionDetail() ));
-                              },
-                              child: competitionCard(
-                                  competitionDetail?.data?.module?.first.content
-                                      ?.assessments?[index],
-                                  CardType.assessment));
-                        })
+                    Text('we got the data from contentList')
+                    // ListView.builder(
+                    //     itemCount: competitionDetail
+                    //         ?.data?.module?.first.content?.assignments?.length,
+                    //     shrinkWrap: true,
+                    //     itemBuilder: (BuildContext context, int index) {
+                    //       return InkWell(
+                    //           onTap: () {
+                    //             // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> CompetitionDetail() ));
+                    //           },
+                    //           child: competitionCard(
+                    //               competitionDetail?.data?.module?.first.content
+                    //                   ?.assignments?[index],
+                    //               CardType.assignment));
+                    //     }),
+                    // ListView.builder(
+                    //     itemCount: competitionDetail
+                    //         ?.data?.module?.first.content?.assessments?.length,
+                    //     shrinkWrap: true,
+                    //     itemBuilder: (BuildContext context, int index) {
+                    //       return InkWell(
+                    //           onTap: () {
+                    //             // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> CompetitionDetail() ));
+                    //           },
+                    //           child: competitionCard(
+                    //               competitionDetail?.data?.module?.first.content
+                    //                   ?.assessments?[index],
+                    //               CardType.assessment));
+                    //     })
                   ] else
                     ListView.builder(
                         shrinkWrap: true,
@@ -476,6 +482,31 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
         case ApiStatus.ERROR:
           Log.v(
               "Error Training Competition  ..........................${competitionState.error}");
+          competitionDetailLoading = false;
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
+  }
+
+  void handleCompetitionListState(CompetitionContentListState state) {
+    var competitionState = state;
+    setState(() {
+      switch (competitionState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          competitionDetailLoading = true;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("Competition Content List State....................");
+          contentList = competitionState.response;
+          competitionDetailLoading = false;
+
+          break;
+        case ApiStatus.ERROR:
+          Log.v(
+              "Error Competition Content ..........................${competitionState.response?.error}");
           competitionDetailLoading = false;
           break;
         case ApiStatus.INITIAL:
