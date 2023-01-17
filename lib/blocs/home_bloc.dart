@@ -16,6 +16,7 @@ import 'package:masterg/data/models/response/auth_response/dashboard_content_res
 import 'package:masterg/data/models/response/auth_response/dashboard_view_resp.dart';
 import 'package:masterg/data/models/response/general_resp.dart';
 import 'package:masterg/data/models/response/home_response/assignment_submissions_response.dart';
+import 'package:masterg/data/models/response/home_response/competition_content_list_resp.dart';
 import 'package:masterg/data/models/response/home_response/competition_response.dart';
 import 'package:masterg/data/models/response/home_response/content_tags_resp.dart';
 import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
@@ -277,6 +278,7 @@ class CompetitionDetailState extends HomeState {
 
   CompetitionDetailState(this.state, {this.response, this.error});
 }
+
 class TrainingDetailState extends HomeState {
   ApiStatus state;
 
@@ -287,9 +289,6 @@ class TrainingDetailState extends HomeState {
   TrainingDetailState(this.state, {this.response, this.error});
 }
 
-
-
-
 ///TODO: EVENT BLOCK
 
 class UserJobsListEvent extends HomeEvent {
@@ -297,12 +296,14 @@ class UserJobsListEvent extends HomeEvent {
 
   List<Object> get props => throw UnimplementedError();
 }
+
 class CompetitionDetailEvent extends HomeEvent {
   int? moduleId;
   CompetitionDetailEvent({this.moduleId}) : super([moduleId]);
 
   List<Object> get props => throw UnimplementedError();
 }
+
 class TrainingDetailEvent extends HomeEvent {
   int? programId;
   TrainingDetailEvent({this.programId}) : super([programId]);
@@ -563,7 +564,6 @@ class CourseCategoryListIDEvent extends HomeEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
-
 class CompetitionListEvent extends HomeEvent {
   bool? isPopular;
 
@@ -571,7 +571,6 @@ class CompetitionListEvent extends HomeEvent {
 
   List<Object> get props => throw UnimplementedError();
 }
-
 
 class CourseCategoryListIDState extends HomeState {
   ApiStatus state;
@@ -583,10 +582,8 @@ class CourseCategoryListIDState extends HomeState {
   CourseCategoryListIDState(this.state, {this.response, this.error});
 }
 
-
 class CompetitionListState extends HomeState {
   ApiStatus state;
-
   ApiStatus get apiState => state;
   CompetitionResponse? response;
   String? error;
@@ -612,6 +609,14 @@ class CourseCategoryList2IDEvent extends HomeEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
+class CompetitionContentListEvent extends HomeEvent {
+  int? competitionId;
+
+  CompetitionContentListEvent({this.competitionId}) : super([competitionId]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
 class CourseCategoryList2IDState extends HomeState {
   ApiStatus state;
 
@@ -620,6 +625,13 @@ class CourseCategoryList2IDState extends HomeState {
   String? error;
 
   CourseCategoryList2IDState(this.state, {this.response, this.error});
+}
+
+class CompetitionContentListState extends HomeState {
+  ApiStatus state;
+  ApiStatus get apiState => state;
+  CompetitionContentListResponse? response;
+  CompetitionContentListState(this.state, {this.response});
 }
 
 class FeaturedVideoEvent extends HomeEvent {
@@ -1344,7 +1356,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc(HomeState initialState) : super(initialState);
 
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
-    if (event is AnnouncementContentEvent) {
+    if (event is CompetitionContentListEvent) {
+      try {
+        yield CompetitionContentListState(ApiStatus.LOADING);
+        final response =
+            await homeRepository.getCompetitionContentList(event.competitionId);
+        yield CompetitionContentListState(ApiStatus.ERROR, response: response);
+      } catch (e) {
+        Log.v("ERROR DATA : $e");
+        yield CompetitionContentListState(
+          ApiStatus.ERROR,
+        );
+      }
+    } else if (event is AnnouncementContentEvent) {
       try {
         print('call api for getting data');
         yield AnnouncementContentState(ApiStatus.LOADING);
@@ -1849,11 +1873,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield UserJobListState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }
-    }
-     else if (event is CompetitionDetailEvent) {
+    } else if (event is CompetitionDetailEvent) {
       try {
         yield CompetitionDetailState(ApiStatus.LOADING);
-        final response = await homeRepository.getCompetitionDetail(event.moduleId);
+        final response =
+            await homeRepository.getCompetitionDetail(event.moduleId);
         if (response.status == 1) {
           yield CompetitionDetailState(ApiStatus.SUCCESS, response: response);
         } else {
@@ -1866,12 +1890,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield CompetitionDetailState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }
-    }
-
-     else if (event is TrainingDetailEvent) {
+    } else if (event is TrainingDetailEvent) {
       try {
         yield TrainingDetailState(ApiStatus.LOADING);
-        final response = await homeRepository.getTrainingDetail(event.programId);
+        final response =
+            await homeRepository.getTrainingDetail(event.programId);
         if (response.status == 1) {
           yield TrainingDetailState(ApiStatus.SUCCESS, response: response);
         } else {
@@ -1884,9 +1907,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield TrainingDetailState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }
-    }
-    
-    else if (event is GetCommentEvent) {
+    } else if (event is GetCommentEvent) {
       try {
         yield GetCommentState(ApiStatus.LOADING);
         final response = await homeRepository.getComment(event.postId);
@@ -2017,47 +2038,34 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield CourseCategoryListIDState(ApiStatus.ERROR,
             error: CourseCategoryListIdResponse());
       }
-    }
-    
-    else if (event is CompetitionListEvent) {
-
-      if(event.isPopular ==  false)
-      {
+    } else if (event is CompetitionListEvent) {
+      if (event.isPopular == false) {
         try {
-        yield CompetitionListState(ApiStatus.LOADING);
+          yield CompetitionListState(ApiStatus.LOADING);
 
-        final response = await homeRepository.getCompetitionList(false);
+          final response = await homeRepository.getCompetitionList(false);
 
-       
-          yield CompetitionListState(ApiStatus.SUCCESS,
-              response: response);
-      
-      } catch (e) {
-        Log.v("Exception : $e");
-        yield CompetitionListState(ApiStatus.ERROR,
-            error: 'Something went wrong');
-      }
-      }
-      else{
-try {
-        yield PopularCompetitionListState(ApiStatus.LOADING);
+          yield CompetitionListState(ApiStatus.SUCCESS, response: response);
+        } catch (e) {
+          Log.v("Exception : $e");
+          yield CompetitionListState(ApiStatus.ERROR,
+              error: 'Something went wrong');
+        }
+      } else {
+        try {
+          yield PopularCompetitionListState(ApiStatus.LOADING);
 
-        final response = await homeRepository.getCompetitionList(true);
+          final response = await homeRepository.getCompetitionList(true);
 
-       
           yield PopularCompetitionListState(ApiStatus.SUCCESS,
               response: response);
-      
-      } catch (e) {
-        Log.v("Exception : $e");
-        yield PopularCompetitionListState(ApiStatus.ERROR,
-            error: 'Something went wrong');
+        } catch (e) {
+          Log.v("Exception : $e");
+          yield PopularCompetitionListState(ApiStatus.ERROR,
+              error: 'Something went wrong');
+        }
       }
-      }
-    }
-    
-    
-     else if (event is CourseCategoryList2IDEvent) {
+    } else if (event is CourseCategoryList2IDEvent) {
       try {
         yield CourseCategoryList2IDState(ApiStatus.LOADING);
 
