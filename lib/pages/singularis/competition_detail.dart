@@ -375,14 +375,13 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                     heightFactor: 0.5,
                     child: ChangeNotifierProvider<AssignmentDetailProvider>(
                         create: (c) => AssignmentDetailProvider(
-                            TrainingService(ApiService()), data as Assignments),
+                            TrainingService(ApiService()), data, fromCompletiton: true, id: data.programContentId  ),
                         child: AssignmentDetailPage(
                           id: data.id,
                           fromCompetition: true,
                         )));
               });
         else if (cardType == CardType.assessment) {
-          print('button clicked');
           showModalBottomSheet(
               context: context,
               backgroundColor: Colors.transparent,
@@ -404,6 +403,40 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                         child: AssessmentDetailPage(fromCompetition: true)));
               });
         }
+          else if (cardType == CardType.session){
+ showModalBottomSheet(
+              context: context,
+              backgroundColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(20),
+                ),
+              ),
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              isScrollControlled: true,
+              enableDrag: true,
+              builder: (context) {
+                return FractionallySizedBox(
+                    heightFactor: 0.7,
+                  
+                    child: Container(
+                      color: ColorConstants.WHITE,
+                      child: Column(children: [
+                        Text('Schedule an Interview with'),
+                        Container(child: Column(children: [
+                          Row(children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              child: ListTile(
+                                title: Text('Rahul Gautam'),
+                                subtitle: Text('Visual Design Expert'),
+                                leading: ClipRRect(borderRadius: BorderRadius.circular(200), child: Image.network('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=327&q=80')),))
+                          ],),
+                          Text('Due Date: 31st December')
+                        ],))
+                      ],),));
+              });
+          }
       },
       child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

@@ -212,8 +212,9 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                     ),
                   ),
                   Divider(),
+                  
                   Text(
-                    '${assignmentDetailProvider?.assignments.title}',
+                    '${assignmentDetailProvider?.assignment?.title}',
                     style: Styles.bold(size: 14),
                   ),
                   SizedBox(height: 8),
@@ -248,7 +249,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                   ),
                   SizedBox(height: 8),
                   Text(
-                      '${assignmentDetailProvider?.assignments.description}', style: Styles.regular( 
+                      '${assignmentDetailProvider?.assignment?.description}', style: Styles.regular( 
                        size: 14,  color: Color(0xff5A5F73)),),
                   Divider(),
                   SizedBox(height: 8),

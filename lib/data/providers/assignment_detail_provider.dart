@@ -9,12 +9,18 @@ import 'package:masterg/utils/Log.dart';
 class AssignmentDetailProvider extends BaseState {
   ApiStatus? apiStatus;
   TrainingService trainingService;
-  Assignments assignments;
+  dynamic assignments;
   Assignment? assignment;
   bool isLoading = false;
+   bool? fromCompletiton;
+  int? id;
 
-  AssignmentDetailProvider(this.trainingService, this.assignments) {
-    Log.v("GETT");
+  AssignmentDetailProvider(this.trainingService, this.assignments, {fromCompletiton = false, id = 0}) {
+   
+  if(fromCompletiton)this.assignments = Assignments(programContentId: id) ;
+   
+   
+    else this.assignments = assignments as Assessments;
     _getDetails();
   }
 
