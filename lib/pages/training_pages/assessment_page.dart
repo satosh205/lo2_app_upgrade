@@ -78,12 +78,10 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                     ),
                     Divider(),
 
-                     Center(
-                       child: Text(
-                        '${assessmentDetailProvider.assessments.title}',
-                        style: Styles.bold(size: 14),
+                     Text(
+                      '${assessmentDetailProvider.assessmentResponse?.data?.instruction?.details?.title}',
+                      style: Styles.bold(size: 14),
                     ),
-                     ),
                     SizedBox(height: 8),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -96,10 +94,11 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                               Styles.regular(size: 12, color: Color(0xff5A5F73)),
                         ),
                         Text(
-                          '${Utility.convertDateFromMillis(assessmentDetailProvider.assessments.endDate!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
+                          '${Utility.convertDateFromMillis(int.parse('${assessmentDetailProvider.assessmentResponse?.data?.instruction?.details?.endDate}'),Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
                           style:
                               Styles.semibold(size: 12, color: Color(0xff0E1638)),
                         ),
+                       
                       ],
                     ),
                     SizedBox(height: 8),
@@ -107,7 +106,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('100 marks '),
+                        Text('${assessmentDetailProvider.assessmentResponse?.data?.instruction?.details?.maximumMarks} marks '),
                         Text('• ',
                             style: Styles.regular(
                                 color: ColorConstants.GREY_2, size: 12)),
@@ -117,10 +116,28 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                     ),
                     SizedBox(height: 8),
                     Text(
-                        '${assessmentDetailProvider.assessments.description}', style: Styles.regular( 
+                        '${assessmentDetailProvider.assessmentResponse?.data?.instruction?.details?.description}', style: Styles.regular( 
                          size: 14,  color: Color(0xff5A5F73)),),
-                    Divider(),
+                   
+                     Padding(
+                  padding: const EdgeInsets.only(right: 60),  
+                  child: Wrap(
+                    children: List.generate(
+                        assessmentDetailProvider.assessmentResponse!.data!
+                            .instruction!.statement!.length,
+                        (index) => Html(
+                              data: assessmentDetailProvider.assessmentResponse!
+                                  .data!.instruction!.statement![index],
+                              style: {
+                                "p": Style(
+                                  fontFamily: 'Nunito_Regular',
+                                )
+                              },
+                            )),
+                  ),
+                ),
                     SizedBox(height: 8),
+
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TapWidget(

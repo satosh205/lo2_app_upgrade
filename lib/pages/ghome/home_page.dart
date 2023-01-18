@@ -16,7 +16,6 @@ import 'package:masterg/pages/gcarvaan/post/gcarvaan_post_page.dart';
 import 'package:masterg/pages/ghome/g_school.dart';
 import 'package:masterg/pages/ghome/ghome.dart';
 import 'package:masterg/pages/reels/reels_dashboard_page.dart';
-import 'package:masterg/pages/render_graph.dart';
 import 'package:masterg/pages/singularis/competition.dart';
 import 'package:masterg/pages/singularis/dashboard.dart';
 import 'package:masterg/pages/singularis/dashboard_temp.dart';
@@ -310,17 +309,14 @@ class _homePageState extends State<homePage> {
                               const Expanded(child: SizedBox()),
                               InkWell(
                                 onTap: () {
-                                  // print('the path is $appBarImagePath');
-                                  // Navigator.push(context,
-                                  //     MaterialPageRoute(builder: (context) {
-                                  //   return UserProfilePage();
-                                  // })).then(onGoBack);
-
-
-                                   Navigator.push(context,
+                                  print('the path is $appBarImagePath');
+                                  Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
-                                    return TreeViewPage();
-                                  }));
+                                    return UserProfilePage();
+                                  })).then(onGoBack);
+
+
+                                  
                                 },
                                 child: Transform.scale(
                                   scale: 1,

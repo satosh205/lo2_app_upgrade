@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
+import 'package:masterg/data/models/response/home_response/assignment_detail_response.dart';
 import 'package:masterg/data/models/response/home_response/competition_content_list_resp.dart';
 import 'package:masterg/data/models/response/home_response/competition_response.dart';
 import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
@@ -29,6 +30,7 @@ enum CardType {
   assignment,
   assessment,
   session,
+  video,
   note,
 }
 
@@ -248,35 +250,18 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                     ),
                   ),
                   if (competitionDetailLoading == false) ...[
-                    Text('we got the data from contentList')
-                    // ListView.builder(
-                    //     itemCount: competitionDetail
-                    //         ?.data?.module?.first.content?.assignments?.length,
-                    //     shrinkWrap: true,
-                    //     itemBuilder: (BuildContext context, int index) {
-                    //       return InkWell(
-                    //           onTap: () {
-                    //             // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> CompetitionDetail() ));
-                    //           },
-                    //           child: competitionCard(
-                    //               competitionDetail?.data?.module?.first.content
-                    //                   ?.assignments?[index],
-                    //               CardType.assignment));
-                    //     }),
-                    // ListView.builder(
-                    //     itemCount: competitionDetail
-                    //         ?.data?.module?.first.content?.assessments?.length,
-                    //     shrinkWrap: true,
-                    //     itemBuilder: (BuildContext context, int index) {
-                    //       return InkWell(
-                    //           onTap: () {
-                    //             // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> CompetitionDetail() ));
-                    //           },
-                    //           child: competitionCard(
-                    //               competitionDetail?.data?.module?.first.content
-                    //                   ?.assessments?[index],
-                    //               CardType.assessment));
-                    //     })
+                    // Text('we got the data from contentList')
+
+                    ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: contentList?.data?.list?.length,
+                        itemBuilder: (context, index) {
+                          return competitionCard(
+                            contentList?.data?.list![index],
+                            index == (contentList!.data!.list!.length  - 1)
+                          );
+                        })
+      
                   ] else
                     ListView.builder(
                         shrinkWrap: true,
@@ -303,7 +288,34 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
             )));
   }
 
-  Widget competitionCard(dynamic data, CardType cardType) {
+  Widget competitionCard(CompetitionContent? data, bool isLast) {
+    CardType? cardType;
+    bool? isLocked = true;
+
+    if( cardType != CardType.session && data?.completionPercentage == 100) isLocked = false;
+
+
+    switch (data?.contentType) {
+      case "video":
+        cardType = CardType.video;
+        break;
+      case "notes":
+        cardType = CardType.note;
+
+        break;
+      case "assessment":
+        cardType = CardType.assessment;
+
+        break;
+      case "assignment":
+        cardType = CardType.assignment;
+
+        break;
+      case "zoomclass":
+        cardType = CardType.session;
+        isLocked = false;
+        break;
+    }
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8),
       child: Row(crossAxisAlignment: CrossAxisAlignment.start,
@@ -315,12 +327,12 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SvgPicture.asset(
-                    'assets/images/circular_border.svg',
+                 SvgPicture.asset(
+              isLocked ? 'assets/images/lock_content.svg'  :     'assets/images/circular_border.svg',
                     width: 18,
                     height: 18,
                   ),
-                  Container(
+               if(!isLast)   Container(
                     margin: EdgeInsets.only(top: 4),
                     height: 75,
                     width: 4,
@@ -338,13 +350,13 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
               decoration: BoxDecoration(
                   color: ColorConstants.WHITE,
                   borderRadius: BorderRadius.circular(10)),
-              child: card(data, cardType),
+              child: card(data!, cardType),
             )
           ]),
     );
   }
 
-  Widget card(dynamic data, CardType cardType) {
+  Widget card(CompetitionContent data, CardType? cardType) {
     return InkWell(
       onTap: () {
         if (cardType == CardType.assignment)
@@ -363,13 +375,14 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                     heightFactor: 0.5,
                     child: ChangeNotifierProvider<AssignmentDetailProvider>(
                         create: (c) => AssignmentDetailProvider(
-                            TrainingService(ApiService()), data),
+                            TrainingService(ApiService()), data as Assignments),
                         child: AssignmentDetailPage(
-                          id: data.programContentId,
+                          id: data.id,
                           fromCompetition: true,
                         )));
               });
         else if (cardType == CardType.assessment) {
+          print('button clicked');
           showModalBottomSheet(
               context: context,
               backgroundColor: Colors.transparent,
@@ -380,12 +393,14 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
               ),
               clipBehavior: Clip.antiAliasWithSaveLayer,
               isScrollControlled: true,
+              enableDrag: true,
               builder: (context) {
                 return FractionallySizedBox(
-                    heightFactor: 0.5,
+                    heightFactor: 0.7,
+                  
                     child: ChangeNotifierProvider<AssessmentDetailProvider>(
                         create: (context) => AssessmentDetailProvider(
-                            TrainingService(ApiService()), data),
+                            TrainingService(ApiService()), data, fromCompletiton: true, id: data.programContentId ),
                         child: AssessmentDetailPage(fromCompetition: true)));
               });
         }
@@ -394,10 +409,10 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Assignment',
+            Text('${data.title}',
                 style: Styles.regular(size: 12, color: ColorConstants.GREY_3)),
             SizedBox(height: 8),
-            Text('tiutie', style: Styles.bold(size: 12)),
+            Text('${data.description}', style: Styles.bold(size: 12)),
             SizedBox(height: 8),
             Row(
               children: [
@@ -418,7 +433,8 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                 SizedBox(
                   width: 4,
                 ),
-                Text('${widget.competition?.gScore} Points',
+             
+                Text('${data.gScore ?? 0} Points',
                     style: Styles.regular(
                         color: ColorConstants.ORANGE_4, size: 12)),
                 SizedBox(

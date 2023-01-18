@@ -2093,27 +2093,56 @@ class HomeProvider {
     }
   }
 
-  Future<dynamic> getCompetitionContentList({int? competitionId}) async {
+  // Future<ApiResponse?> getCompetitionContentList({int? competitionId}) async {
+  //   try {
+  //     final response = await api.dio
+  //         .get(ApiConstants.COMPETITION_CONTENT_LIST + '$competitionId',
+  //             options: Options(
+  //                 method: 'GET',
+  //                 headers: {
+  //                   "Authorization": "Bearer ${UserSession.userToken}",
+  //                   ApiConstants.API_KEY: ApiConstants().APIKeyValue()
+  //                 },
+  //                 contentType: "application/json",
+  //                 responseType: ResponseType.json // or ResponseType.JSON
+  //                 ));
+  //     if (response.statusCode == 200 || response.statusCode == 201) {
+  //       return ApiResponse.success(response.data);
+  //     }
+  //   } catch (e) {
+  //     // return ApiResponse.failure(e, message: e.response.data["message"]);
+  //   }
+  // }
+
+
+
+
+Future<ApiResponse?> getCompetitionContentList({int? competitionId}) async {
+
     try {
-      final response = await api.dio
-          .get(ApiConstants.COMPETITION_CONTENT_LIST + '$competitionId',
-              options: Options(
-                  method: 'GET',
-                  headers: {
-                    "Authorization": "Bearer ${UserSession.userToken}",
-                    ApiConstants.API_KEY: ApiConstants().APIKeyValue()
-                  },
-                  contentType: "application/json",
-                  responseType: ResponseType.json // or ResponseType.JSON
-                  ));
+      final response = await api.dio.get(ApiConstants.COMPETITION_CONTENT_LIST + '$competitionId',
+          options: Options(
+              method: 'GET',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return ApiResponse.success(response);
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
       }
     } catch (e) {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
+    return null;
   }
-
   Future<ApiResponse?> updateVideoCompletion(
       int bookmark, int contentId) async {
     try {

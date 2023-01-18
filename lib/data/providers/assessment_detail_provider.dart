@@ -8,9 +8,13 @@ class AssessmentDetailProvider extends BaseState {
   TrainingService trainingService;
   late Assessments assessments;
   AssessmentInstructionResponse? assessmentResponse;
+  bool? fromCompletiton;
+  int? id;
 
-  AssessmentDetailProvider(this.trainingService, assessments) {
-    this.assessments = assessments as Assessments;
+  AssessmentDetailProvider(this.trainingService, assessments, {fromCompletiton = false, id = 0}) {
+  if(fromCompletiton)this.assessments = Assessments(programContentId: id) ;
+  
+  else  this.assessments = assessments as Assessments;
     getDetails();
   }
 
@@ -21,6 +25,8 @@ class AssessmentDetailProvider extends BaseState {
       ApiResponse apiResponse = value;
       if (apiResponse.success) {
         assessmentResponse = AssessmentInstructionResponse.fromJson(value.body);
+        print('we got the data ${assessmentResponse?.data?.instruction?.details?.contentId}');
+
       } else {
         updateErrorWidget(apiResponse.body
             .toString()
