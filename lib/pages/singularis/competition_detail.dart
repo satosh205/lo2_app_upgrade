@@ -257,11 +257,9 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                         itemCount: contentList?.data?.list?.length,
                         itemBuilder: (context, index) {
                           return competitionCard(
-                            contentList?.data?.list![index],
-                            index == (contentList!.data!.list!.length  - 1)
-                          );
+                              contentList?.data?.list![index],
+                              index == (contentList!.data!.list!.length - 1));
                         })
-      
                   ] else
                     ListView.builder(
                         shrinkWrap: true,
@@ -292,8 +290,8 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
     CardType? cardType;
     bool? isLocked = true;
 
-    if( cardType != CardType.session && data?.completionPercentage == 100) isLocked = false;
-
+    if (cardType != CardType.session && data?.completionPercentage == 100)
+      isLocked = false;
 
     switch (data?.contentType) {
       case "video":
@@ -327,19 +325,22 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                 SvgPicture.asset(
-              isLocked ? 'assets/images/lock_content.svg'  :     'assets/images/circular_border.svg',
+                  SvgPicture.asset(
+                    isLocked
+                        ? 'assets/images/lock_content.svg'
+                        : 'assets/images/circular_border.svg',
                     width: 18,
                     height: 18,
                   ),
-               if(!isLast)   Container(
-                    margin: EdgeInsets.only(top: 4),
-                    height: 75,
-                    width: 4,
-                    decoration: BoxDecoration(
-                        color: Color(0xffCECECE),
-                        borderRadius: BorderRadius.circular(14)),
-                  )
+                  if (!isLast)
+                    Container(
+                      margin: EdgeInsets.only(top: 4),
+                      height: 75,
+                      width: 4,
+                      decoration: BoxDecoration(
+                          color: Color(0xffCECECE),
+                          borderRadius: BorderRadius.circular(14)),
+                    )
                 ],
               ),
             ),
@@ -375,7 +376,8 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                     heightFactor: 0.5,
                     child: ChangeNotifierProvider<AssignmentDetailProvider>(
                         create: (c) => AssignmentDetailProvider(
-                            TrainingService(ApiService()), data, fromCompletiton: true, id: data.programContentId  ),
+                            TrainingService(ApiService()), data,
+                            fromCompletiton: true, id: data.programContentId),
                         child: AssignmentDetailPage(
                           id: data.id,
                           fromCompetition: true,
@@ -396,15 +398,14 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
               builder: (context) {
                 return FractionallySizedBox(
                     heightFactor: 0.7,
-                  
                     child: ChangeNotifierProvider<AssessmentDetailProvider>(
                         create: (context) => AssessmentDetailProvider(
-                            TrainingService(ApiService()), data, fromCompletiton: true, id: data.programContentId ),
+                            TrainingService(ApiService()), data,
+                            fromCompletiton: true, id: data.programContentId),
                         child: AssessmentDetailPage(fromCompetition: true)));
               });
-        }
-          else if (cardType == CardType.session){
- showModalBottomSheet(
+        } else if (cardType == CardType.session) {
+          showModalBottomSheet(
               context: context,
               backgroundColor: Colors.transparent,
               shape: RoundedRectangleBorder(
@@ -418,25 +419,62 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
               builder: (context) {
                 return FractionallySizedBox(
                     heightFactor: 0.7,
-                  
                     child: Container(
                       color: ColorConstants.WHITE,
-                      child: Column(children: [
-                        Text('Schedule an Interview with'),
-                        Container(child: Column(children: [
-                          Row(children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.8,
-                              child: ListTile(
-                                title: Text('Rahul Gautam'),
-                                subtitle: Text('Visual Design Expert'),
-                                leading: ClipRRect(borderRadius: BorderRadius.circular(200), child: Image.network('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=327&q=80')),))
-                          ],),
-                          Text('Due Date: 31st December')
-                        ],))
-                      ],),));
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Schedule an Interview with',
+                            style: Styles.bold(size: 14),
+                          ),
+                          Container(
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                  color: Color(0xffFFF1F1),
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.8,
+                                          child: ListTile(
+                                            title: Text('Rahul Gautam'),
+                                            subtitle:
+                                                Text('Visual Design Expert'),
+                                            leading: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(200),
+                                                child: Image.network(
+                                                    'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=327&q=80')),
+                                          ))
+                                    ],
+                                  ),
+                                  Text('Due Date: 31st December')
+                                ],
+                              )),
+                          Text(
+                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam consequat in id auctor lectus semper non hendrerit. Urna, semper nulla lectus etiam egestas donec in. Ullamcorper metus, et diam mattis quis.'),
+                          GestureDetector(
+                              onTap: () {
+                                    //open session
+                              },
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Color(0xff0E1638),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  child: Text('Join',
+                                      style: Styles.regular(
+                                          color: ColorConstants.WHITE))))
+                        ],
+                      ),
+                    ));
               });
-          }
+        }
       },
       child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -466,7 +504,6 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                 SizedBox(
                   width: 4,
                 ),
-             
                 Text('${data.gScore ?? 0} Points',
                     style: Styles.regular(
                         color: ColorConstants.ORANGE_4, size: 12)),
