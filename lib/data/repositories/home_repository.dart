@@ -14,6 +14,7 @@ import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/data/models/response/general_resp.dart';
 import 'package:masterg/data/models/response/home_response/assignment_submissions_response.dart';
 import 'package:masterg/data/models/response/home_response/category_response.dart';
+import 'package:masterg/data/models/response/home_response/competition_content_list_resp.dart';
 import 'package:masterg/data/models/response/home_response/competition_response.dart';
 import 'package:masterg/data/models/response/home_response/content_tags_resp.dart';
 import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
@@ -506,7 +507,7 @@ class HomeRepository {
     if (response!.success) {
       Log.v("Job List DATA : ${response.body}");
       UserJobsListResponse userJobsListResponse =
-      UserJobsListResponse.fromJson(response.body);
+          UserJobsListResponse.fromJson(response.body);
       var box = Hive.box("content");
       box.put("userJobList",
           userJobsListResponse.list!.map((e) => e.toJson()).toList());
@@ -518,12 +519,13 @@ class HomeRepository {
   }
 
   Future<TrainingModuleResponse> getCompetitionDetail(int? moduleId) async {
-    final response = await homeProvider.getCompetitionDetail(moduleId: moduleId);
+    final response =
+        await homeProvider.getCompetitionDetail(moduleId: moduleId);
     if (response!.success) {
       Log.v("Competition  DATA : ${response.body}");
       TrainingModuleResponse competitionData =
-      TrainingModuleResponse.fromJson(response.body);
-   
+          TrainingModuleResponse.fromJson(response.body);
+
       var box = Hive.box("content");
       box.put("competitionDetail",
           competitionData.data?.module?.map((e) => e.toJson()).toList());
@@ -534,18 +536,13 @@ class HomeRepository {
     }
   }
 
-
-
   Future<CompetitionResponse> getCompetitionList(bool? isPopular) async {
-    final response = await homeProvider.getCompetitionList(isPopular: isPopular);
+    final response =
+        await homeProvider.getCompetitionList(isPopular: isPopular);
     if (response!.success) {
       Log.v("Competition List  DATA : ${response.body}");
       CompetitionResponse competitionData =
-      CompetitionResponse.fromJson(response.body);
-   
-      // var box = Hive.box("content");
-      // box.put("competitionList",
-      //     competitionData.data?.map((e) => e?.toJson()).toList());
+          CompetitionResponse.fromJson(response.body);
       return competitionData;
     } else {
       Log.v("====> ${response.body}");
@@ -553,13 +550,28 @@ class HomeRepository {
     }
   }
 
-   Future<TrainingDetailResponse> getTrainingDetail(int? programId) async {
+  Future<CompetitionContentListResponse> getCompetitionContentList(
+      int? competitionId) async {
+    final response = await homeProvider.getCompetitionContentList(
+        competitionId: competitionId);
+    if (response!.success) {
+      Log.v("Competition Content List  DATA : ${response.body}");
+      CompetitionContentListResponse competitionData =
+          CompetitionContentListResponse.fromJson(response.body);
+      return competitionData;
+    } else {
+      Log.v("====> ${response.body}");
+      return CompetitionContentListResponse.fromJson(response.body);
+    }
+  }
+
+  Future<TrainingDetailResponse> getTrainingDetail(int? programId) async {
     final response = await homeProvider.getTrainingDetail(programId);
     if (response!.success) {
       Log.v("Training Detail  DATA : ${response.body}");
       TrainingDetailResponse competitionData =
-      TrainingDetailResponse.fromJson(response.body);
-   
+          TrainingDetailResponse.fromJson(response.body);
+
       var box = Hive.box("content");
       // box.put("competitionDetail",
       //     competitionData.data?.module?.map((e) => e.toJson()).toList());

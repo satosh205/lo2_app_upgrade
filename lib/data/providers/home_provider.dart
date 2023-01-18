@@ -764,14 +764,10 @@ class HomeProvider {
     return null;
   }
 
-
-
-
   Future<ApiResponse?> getJobList() async {
     //  Utility.hideKeyboard();
     try {
-      final response = await api.dio.get(
-          ApiConstants.USER_JOBS_LIST,
+      final response = await api.dio.get(ApiConstants.USER_JOBS_LIST,
           options: Options(
               method: 'GET',
               headers: {
@@ -780,7 +776,7 @@ class HomeProvider {
               },
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
-          ));
+              ));
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data.containsKey('error') &&
             (response.data["error"] as List).length != 0) {
@@ -794,7 +790,6 @@ class HomeProvider {
     }
     return null;
   }
-
 
   Future<ApiResponse?> getComment(int? postId) async {
     //  Utility.hideKeyboard();
@@ -2021,20 +2016,19 @@ class HomeProvider {
     return null;
   }
 
-
   Future<ApiResponse?> getCompetitionDetail({int? moduleId}) async {
     try {
-      final response = await api.dio.get(ApiConstants.COMPETITION_MODULE_DATA + '$moduleId',
-       
-          options: Options(
-              method: 'GET',
-              headers: {
-                "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
-              },
-              contentType: "application/json",
-              responseType: ResponseType.json // or ResponseType.JSON
-              ));
+      final response =
+          await api.dio.get(ApiConstants.COMPETITION_MODULE_DATA + '$moduleId',
+              options: Options(
+                  method: 'GET',
+                  headers: {
+                    "Authorization": "Bearer ${UserSession.userToken}",
+                    ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                  },
+                  contentType: "application/json",
+                  responseType: ResponseType.json // or ResponseType.JSON
+                  ));
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data.containsKey('error') &&
             (response.data["error"] as List).length != 0) {
@@ -2043,20 +2037,15 @@ class HomeProvider {
           return ApiResponse.success(response);
         }
       }
-    } catch (e) {
-    }
+    } catch (e) {}
     return null;
   }
 
-
-
-
- Future<ApiResponse?> getCompetitionList({bool? isPopular}) async {
+  Future<ApiResponse?> getCompetitionList({bool? isPopular}) async {
     try {
       String url = ApiConstants.COMPETITION_MODULE_DATA;
-      if(isPopular == true) url += '?is_popular=1';
+      if (isPopular == true) url += '?is_popular=1';
       final response = await api.dio.get(url,
-       
           options: Options(
               method: 'GET',
               headers: {
@@ -2074,32 +2063,28 @@ class HomeProvider {
           return ApiResponse.success(response);
         }
       }
-    } catch (e) {
-    }
+    } catch (e) {}
     return null;
   }
 
-
-   Future<dynamic> getTrainingDetail(int? programId) async {
+  Future<dynamic> getTrainingDetail(int? programId) async {
     try {
-      final response = await api.dio.get(ApiConstants.PROGRAMS_LIST + '/$programId',
-          options: Options(
-              method: 'GET',
-              headers: {
-                "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
-              },
-              contentType: "application/json",
-              responseType: ResponseType.json // or ResponseType.JSON
-              ));
+      final response =
+          await api.dio.get(ApiConstants.PROGRAMS_LIST + '/$programId',
+              options: Options(
+                  method: 'GET',
+                  headers: {
+                    "Authorization": "Bearer ${UserSession.userToken}",
+                    ApiConstants.API_KEY: ApiConstants().APIKeyValue()
+                  },
+                  contentType: "application/json",
+                  responseType: ResponseType.json // or ResponseType.JSON
+                  ));
       if (response.statusCode == 200 || response.statusCode == 201) {
-     
-
         if (response.data.containsKey('error') &&
             (response.data["error"] as List).length != 0) {
           return ApiResponse.error(response.data);
         } else {
-      
           return ApiResponse.success(response);
         }
       }
@@ -2108,7 +2093,26 @@ class HomeProvider {
     }
   }
 
-  
+  Future<dynamic> getCompetitionContentList({int? competitionId}) async {
+    try {
+      final response = await api.dio
+          .get(ApiConstants.COMPETITION_CONTENT_LIST + '$competitionId',
+              options: Options(
+                  method: 'GET',
+                  headers: {
+                    "Authorization": "Bearer ${UserSession.userToken}",
+                    ApiConstants.API_KEY: ApiConstants().APIKeyValue()
+                  },
+                  contentType: "application/json",
+                  responseType: ResponseType.json // or ResponseType.JSON
+                  ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return ApiResponse.success(response);
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+  }
 
   Future<ApiResponse?> updateVideoCompletion(
       int bookmark, int contentId) async {
