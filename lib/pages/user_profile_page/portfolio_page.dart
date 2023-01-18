@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:masterg/pages/user_profile_page/singularis_profile_edit.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -59,22 +60,26 @@ class _PortfolioState extends State<Portfolio> {
                                   )),
                               Spacer(),
                               InkWell(
-
-onTap: (){
-  setState(() {
-  editModeEnabled = !editModeEnabled;
-  
-});  
-},                                child: Row(
+                                onTap: () {
+                                  setState(() {
+                                    editModeEnabled = !editModeEnabled;
+                                  });
+                                },
+                                child: Row(
                                   children: [
-                                    SvgPicture.asset(  editModeEnabled ? 'assets/images/check.svg': 'assets/images/edit.svg'),
+                                    SvgPicture.asset(editModeEnabled
+                                        ? 'assets/images/check.svg'
+                                        : 'assets/images/edit.svg'),
                                     SizedBox(
                                       width: 4,
                                     ),
                                     Text(
-                            editModeEnabled ? 'Save' :     'Edit Portfolio',
+                                      editModeEnabled
+                                          ? 'Save'
+                                          : 'Edit Portfolio',
                                       style: Styles.regular(
-                                          size: 12, color: ColorConstants.WHITE),
+                                          size: 12,
+                                          color: ColorConstants.WHITE),
                                     ),
                                     SizedBox(
                                       width: 8,
@@ -166,7 +171,23 @@ onTap: (){
                                       ],
                                     ),
                                   ),
-                              editModeEnabled ?   SizedBox(width: 18  , child:  Transform.scale(scale:1.4 , child: SvgPicture.asset(   'assets/images/edit.svg'))) : SizedBox(width: 18),
+                                  editModeEnabled
+                                      ? SizedBox(
+                                          width: 18,
+                                          child: Transform.scale(
+                                              scale: 1.4,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              EditProfilePage()));
+                                                },
+                                                child: SvgPicture.asset(
+                                                    'assets/images/edit.svg'),
+                                              )))
+                                      : SizedBox(width: 18),
                                 ]),
                           ),
                         ],
@@ -175,6 +196,22 @@ onTap: (){
                     SizedBox(
                       height: 50,
                     ),
+                    if (editModeEnabled)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Text('About'),
+                            Spacer(),
+                            Transform.scale(
+                                scale: 1.4,
+                                child: SvgPicture.asset(
+                                  'assets/images/edit.svg',
+                                  color: ColorConstants.BLACK,
+                                )),
+                          ],
+                        ),
+                      ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
@@ -183,6 +220,22 @@ onTap: (){
                             Styles.regular(size: 12, color: Color(0xff5A5F73)),
                       ),
                     ),
+                    if (editModeEnabled)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Text('Contact and social'),
+                            Spacer(),
+                            Transform.scale(
+                                scale: 1.4,
+                                child: SvgPicture.asset(
+                                  'assets/images/edit.svg',
+                                  color: ColorConstants.BLACK,
+                                )),
+                          ],
+                        ),
+                      ),
                     Center(
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.95,
@@ -332,6 +385,22 @@ onTap: (){
                   width: MediaQuery.of(context).size.width * 0.94,
                   child: Divider()),
             ),
+            if (editModeEnabled)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text('Resume'),
+                    Spacer(),
+                    Transform.scale(
+                        scale: 1.4,
+                        child: SvgPicture.asset(
+                          'assets/images/edit.svg',
+                          color: ColorConstants.BLACK,
+                        )),
+                  ],
+                ),
+              ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -385,6 +454,52 @@ onTap: (){
                         skillProgess("3D Animation", 4, 90),
                       ],
                     ),
+                  ),
+                  dividerLine(),
+                  Row(
+                    children: [
+                      Text(
+                        'Portfolio',
+                        style: Styles.semibold(size: 16),
+                      ),
+                      Spacer(),
+                      Icon(Icons.arrow_forward_ios_rounded)
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Divider(),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    child: ListView.builder(
+                      itemCount: 3,
+                      
+
+scrollDirection: Axis.horizontal,                    itemBuilder: (context, int)=> Container(
+  margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.network(
+                                'https://picsum.photos/seed/picsum/300/300',
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                height: MediaQuery.of(context).size.height * 0.3,
+                                fit: BoxFit.fill),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            'Title of the project',
+                            style: Styles.bold(),
+                          ),
+                          Text('for Company Name',
+                              style: Styles.semibold(
+                                  size: 12, color: Color(0xff929BA3))),
+                        ],
+                      ),
+                    )),
                   )
                 ],
               ),

@@ -32,17 +32,12 @@ class _CompetetionState extends State<Competetion> {
   bool? popularCompetitionLoading;
   @override
   void initState() {
-    // getCompetationList();
     getCompetitionList();
     getPopularCompetitionList();
 
     super.initState();
   }
 
-  // void getCompetationList() {
-  //   BlocProvider.of<HomeBloc>(context)
-  //       .add(CourseCategoryListIDEvent(categoryId: 0));
-  // }
 
   void getCompetitionList(){
         BlocProvider.of<HomeBloc>(context)

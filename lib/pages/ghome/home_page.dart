@@ -16,6 +16,7 @@ import 'package:masterg/pages/gcarvaan/post/gcarvaan_post_page.dart';
 import 'package:masterg/pages/ghome/g_school.dart';
 import 'package:masterg/pages/ghome/ghome.dart';
 import 'package:masterg/pages/reels/reels_dashboard_page.dart';
+import 'package:masterg/pages/render_graph.dart';
 import 'package:masterg/pages/singularis/competition.dart';
 import 'package:masterg/pages/singularis/dashboard.dart';
 import 'package:masterg/pages/singularis/dashboard_temp.dart';
@@ -318,7 +319,7 @@ class _homePageState extends State<homePage> {
 
                                    Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
-                                    return Portfolio();
+                                    return TreeViewPage();
                                   }));
                                 },
                                 child: Transform.scale(
