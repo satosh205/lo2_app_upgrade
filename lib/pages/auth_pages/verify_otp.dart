@@ -116,7 +116,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
   ///Add New code for OTP AutoFill
   @override
   Future<void> dispose() async {
-    await otpController.stopListen();
+    // await otpController.stopListen();
     super.dispose();
   }
 
