@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:masterg/utils/resource/colors.dart';
+double height(BuildContext context) {
+  return MediaQuery.of(context).size.height;
+}
+
+double width(BuildContext context) {
+  return MediaQuery.of(context).size.width;
+}
 
 const forbiddenRolesList = [
   "",
