@@ -292,31 +292,27 @@ class _homePageState extends State<homePage> {
                                   ]),
                             ),
                           ),
-                          leading: IconButton(
-                            onPressed: () async {},
-                            icon: appBarImagePath.split('.').last == 'svg'
-                                ? SvgPicture.asset(
-                                    appBarImagePath,
-                                    fit: BoxFit.contain,
-                                  )
-                                : Image.asset(
-                                    appBarImagePath,
-                                    fit: BoxFit.contain,
-                                  ),
-                          ),
+                          // leading: IconButton(
+                          //   onPressed: () async {},
+                          //   icon: appBarImagePath.split('.').last == 'svg'
+                          //       ? SvgPicture.asset(
+                          //           appBarImagePath,
+                          //           fit: BoxFit.contain,
+                          //         )
+                          //       : Image.asset(
+                          //           appBarImagePath,
+                          //           fit: BoxFit.contain,
+                          //         ),
+                          // ),
                           title: Row(
                             children: [
-                              const Expanded(child: SizedBox()),
+                           
                               InkWell(
                                 onTap: () {
-                                  print('the path is $appBarImagePath');
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
                                     return UserProfilePage();
                                   })).then(onGoBack);
-
-
-                                  
                                 },
                                 child: Transform.scale(
                                   scale: 1,
@@ -339,6 +335,8 @@ class _homePageState extends State<homePage> {
                                             ),
                                 ),
                               ),
+                         
+                        //  Text('')
                             ],
                           ),
                           backgroundColor: ColorConstants().primaryColor(),
@@ -359,7 +357,6 @@ class _homePageState extends State<homePage> {
                       type: BottomNavigationBarType.fixed,
                       currentIndex: menuProvider.getCurrentIndex(),
                       selectedItemColor: ColorConstants().primaryColor(),
-                      unselectedItemColor: Colors.blue,
                       items: [
                         for (int i = 0; i < widget.bottomMenu!.length; i++)
                           BottomNavigationBarItem(
