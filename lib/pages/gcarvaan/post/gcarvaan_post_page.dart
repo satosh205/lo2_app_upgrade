@@ -243,19 +243,7 @@ if(createPostProvider.getPostStatus() == true) Text('Uploading Post'),
                                       ),
                                     ],
                                   )),
-                            // Padding(
-                            //   padding: const EdgeInsets.only(left: 16, top: 8),
-                            //   child: Text(
-                            //     'Top MasterG',
-                            //     style: Styles.regular(
-                            //         size: 14, color: ColorConstants.GREY_2),
-                            //   ),
-                            // ),
-                            // Container(
-                            //   width: MediaQuery.of(context).size.width,
-                            //   height: 80,
-                            //   child: GCarvaanUserViewPage(),
-                            // ),
+                           
 
                             if (!widget.fromDashboard)
                               Consumer<CreatePostProvider>(
@@ -263,13 +251,16 @@ if(createPostProvider.getPostStatus() == true) Text('Uploading Post'),
                                   color: ColorConstants.WHITE,
                                   width: MediaQuery.of(context).size.width,
                                   padding: EdgeInsets.only(
-                                      left: 10.0,
-                                      top: 10.0,
-                                      right: 10.0,
+                                      // left: 10.0,
+                                      // top: 10.0,
+                                      // right: 10.0,
                                       bottom: 10.0),
                                   // height: 80,
                                   child: Column(
                                     children: [
+
+
+                                      
                                       InkWell(
                                         onTap: () {
                                           Navigator.push(
@@ -316,53 +307,55 @@ if(createPostProvider.getPostStatus() == true) Text('Uploading Post'),
                                         ),
                                       ),
                                       //SizedBox(height: 10),
-                                      Row(
-                                        children: [
-                                          InkWell(
-                                            onTap: () async {
-                                              _initFilePiker(value, false);
-                                            },
-                                            child: Row(
-                                              children: [
-                                                SvgPicture.asset(
-                                                  'assets/images/image.svg',
-                                                  color: ColorConstants()
-                                                      .primaryColor(),
-                                                  allowDrawingOutsideViewBox:
-                                                      true,
-                                                ),
-                                                SizedBox(width: 4),
-                                                Text(
-                                                    '${Strings.of(context)?.photo}',
-                                                    style: Styles.regular(
-                                                        size: 14))
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(width: 20.0),
-                                          InkWell(
-                                            onTap: () async {
-                                              _initFilePiker(value, true);
-                                            },
-                                            child: Row(
-                                              children: [
-                                                SvgPicture.asset(
-                                                  'assets/images/video.svg',
-                                                  color: ColorConstants()
-                                                      .primaryColor(),
-                                                  allowDrawingOutsideViewBox:
-                                                      true,
-                                                ),
-                                                SizedBox(width: 4),
-                                                Text(
-                                                    '${Strings.of(context)?.video}',
-                                                    style: Styles.regular(
-                                                        size: 14))
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      )
+                                      // Row(
+                                      //   children: [
+                                      //     InkWell(
+                                      //       onTap: () async {
+                                      //         _initFilePiker(value, false);
+                                      //       },
+                                      //       child: Row(
+                                      //         children: [
+                                      //           SvgPicture.asset(
+                                      //             'assets/images/image.svg',
+                                      //             color: ColorConstants()
+                                      //                 .primaryColor(),
+                                      //             allowDrawingOutsideViewBox:
+                                      //                 true,
+                                      //           ),
+                                      //           SizedBox(width: 4),
+                                      //           Text(
+                                      //               '${Strings.of(context)?.photo}',
+                                      //               style: Styles.regular(
+                                      //                   size: 14))
+                                      //         ],
+                                      //       ),
+                                      //     ),
+                                      //     SizedBox(width: 20.0),
+                                      //     InkWell(
+                                      //       onTap: () async {
+                                      //         _initFilePiker(value, true);
+                                      //       },
+                                      //       child: Row(
+                                      //         children: [
+                                      //           SvgPicture.asset(
+                                      //             'assets/images/video.svg',
+                                      //             color: ColorConstants()
+                                      //                 .primaryColor(),
+                                      //             allowDrawingOutsideViewBox:
+                                      //                 true,
+                                      //           ),
+                                      //           SizedBox(width: 4),
+                                      //           Text(
+                                      //               '${Strings.of(context)?.video}',
+                                      //               style: Styles.regular(
+                                      //                   size: 14))
+                                      //         ],
+                                      //       ),
+                                      //     )
+                                      //   ],
+                                      // )
+                               
+                               
                                     ],
                                   ),
                                 ),

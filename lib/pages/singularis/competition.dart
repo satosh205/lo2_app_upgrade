@@ -260,7 +260,7 @@ class _CompetetionState extends State<Competetion> {
                         ),
 
                         //
-                   Container(
+             if( competitionLoading == false)      Container(
                           height: 233,
                           // color: Colors.green,
                           // padding: EdgeInsets.symmetric(vertical: 20),
