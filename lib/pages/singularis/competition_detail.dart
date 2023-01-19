@@ -418,61 +418,129 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
               enableDrag: true,
               builder: (context) {
                 return FractionallySizedBox(
-                    heightFactor: 0.7,
+                    heightFactor: 0.6,
                     child: Container(
-                      color: ColorConstants.WHITE,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Schedule an Interview with',
-                            style: Styles.bold(size: 14),
+                        color: ColorConstants.WHITE,
+                        child: Column(children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                  color: Color(0xffBDBDBD),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
+
+                              // color: Color(0xffBDBDBD),
+                              width: 60,
+                              height: 5,
+                            ),
                           ),
-                          Container(
-                              padding: EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                  color: Color(0xffFFF1F1),
-                                  borderRadius: BorderRadius.circular(8)),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.8,
-                                          child: ListTile(
-                                            title: Text('Rahul Gautam'),
-                                            subtitle:
-                                                Text('Visual Design Expert'),
-                                            leading: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(200),
-                                                child: Image.network(
-                                                    'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=327&q=80')),
-                                          ))
-                                    ],
-                                  ),
-                                  Text('Due Date: 31st December')
-                                ],
-                              )),
-                          Text(
-                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam consequat in id auctor lectus semper non hendrerit. Urna, semper nulla lectus etiam egestas donec in. Ullamcorper metus, et diam mattis quis.'),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Schedule an Interview with',
+                              style: Styles.bold(
+                                size: 14,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Container(
+                                padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                    color: Color(0xffFFF1F1),
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 40,
+                                          backgroundImage: NetworkImage(
+                                            "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=327&q=80",
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text('Rahul Gautam',
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black)),
+                                            Text('Visual Design Expert',
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Color(0xff929BA3)))
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Due Date:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              color: Color(0xFF5A5F73)),
+                                        ),
+                                        Text(" 31st December")
+                                      ],
+                                    )
+                                  ],
+                                )),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20.0, top: 35),
+                            child: Text(
+                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam consequat in id auctor lectus semper non hendrerit. Urna, semper nulla lectus etiam egestas donec in. Ullamcorper metus, et diam mattis quis.',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xff5A5F73)),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
                           GestureDetector(
                               onTap: () {
-                                    //open session
+                                //open session
                               },
                               child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Color(0xff0E1638),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  child: Text('Join',
-                                      style: Styles.regular(
-                                          color: ColorConstants.WHITE))))
-                        ],
-                      ),
-                    ));
+                                height:
+                                    MediaQuery.of(context).size.height * 0.06,
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                padding: const EdgeInsets.all(10.0),
+                                margin: const EdgeInsets.all(20.0),
+                                decoration: const BoxDecoration(
+                                    color: Color(0xff0E1638),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(21))),
+                                child: const Center(
+                                  child: Text(
+                                    'Join',
+                                    style: TextStyle(
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ))
+                        ])));
               });
         }
       },
