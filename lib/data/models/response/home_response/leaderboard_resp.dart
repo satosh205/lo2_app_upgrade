@@ -1,16 +1,17 @@
 // To parse this JSON data, do
 //
-//     final leaderboard = leaderboardFromJson(jsonString);
+//     final leaderboardResponse = leaderboardResponseFromJson(jsonString);
 
 import 'dart:convert';
 
-Leaderboard leaderboardFromJson(String str) =>
-    Leaderboard.fromJson(json.decode(str));
+LeaderboardResponse leaderboardResponseFromJson(String str) =>
+    LeaderboardResponse.fromJson(json.decode(str));
 
-String leaderboardToJson(Leaderboard data) => json.encode(data.toJson());
+String leaderboardResponseToJson(LeaderboardResponse data) =>
+    json.encode(data.toJson());
 
-class Leaderboard {
-  Leaderboard({
+class LeaderboardResponse {
+  LeaderboardResponse({
     required this.status,
     required this.data,
     required this.error,
@@ -20,7 +21,8 @@ class Leaderboard {
   List<Datum> data;
   List<dynamic> error;
 
-  factory Leaderboard.fromJson(Map<String, dynamic> json) => Leaderboard(
+  factory LeaderboardResponse.fromJson(Map<String, dynamic> json) =>
+      LeaderboardResponse(
         status: json["status"],
         data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
         error: List<dynamic>.from(json["error"].map((x) => x)),

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:masterg/data/models/response/home_response/competition_response.dart';
+import 'package:masterg/data/models/response/home_response/training_module_response.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
+
+import '../../blocs/home_bloc.dart';
 
 class LeaderboardPage extends StatefulWidget {
   const LeaderboardPage({Key? key}) : super(key: key);
@@ -13,11 +18,23 @@ class LeaderboardPage extends StatefulWidget {
 
 class _LeaderboardPageState extends State<LeaderboardPage> {
   @override
+  void initState() {
+    getLeaderboard();
+
+    // TODO: implement initState
+    super.initState();
+  }
+
+  void getLeaderboard() {
+    BlocProvider.of<HomeBloc>(context).add(LeaderboardEvent(
+        id: 2166, type: 'competition', skipotherUser: 0, skipcurrentUser: 0));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-                          backgroundColor: ColorConstants.WHITE,
-
+        backgroundColor: ColorConstants.WHITE,
         elevation: 0.0,
                                   flexibleSpace: Container(
                             decoration:  BoxDecoration(
@@ -31,13 +48,11 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                             ),
                           ),
         centerTitle: true,
-
-        
         leading: const Icon(
           Icons.arrow_back_ios,
           color: Colors.black,
         ),
-        title:  Text(
+        title: Text(
           "Leaderboard",
           style: Styles.bold(),
         ),
@@ -46,7 +61,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
         child: Column(
           children: [
             Container(
-              decoration:  BoxDecoration(
+              decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(20),
                     bottomRight: Radius.circular(20)),
@@ -64,10 +79,9 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                 leadercard('Lorem Ipsum', 2 , 2 , 2),
-               leadercard('Lorem Ipsumdolor', 2 , 2 , 1),
-               leadercard('Lorem Ipsum', 2 , 2 , 3),
-               
+                  leadercard('Lorem Ipsum', 2, 2, 2),
+                  leadercard('Lorem Ipsumdolor', 2, 2, 1),
+                  leadercard('Lorem Ipsum', 2, 2, 3),
                 ],
               ),
             ),
@@ -92,11 +106,9 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                   border: Border.all(color: ColorConstants.GRADIENT_RED),
                   boxShadow: [
                     BoxShadow(
-                                      blurRadius: 13,
-                                      offset: Offset(0, 4),
-                      
-                      color: ColorConstants.BLACK.withOpacity(0.2)),
-                    
+                        blurRadius: 13,
+                        offset: Offset(0, 4),
+                        color: ColorConstants.BLACK.withOpacity(0.2)),
                   ],
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
@@ -177,45 +189,45 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
         break;
     }
     return Column(
-
-mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-      SvgPicture.asset('$url', width: rank==1 ? 50:30),
+        SvgPicture.asset('$url', width: rank == 1 ? 50 : 30),
         const SizedBox(
           height: 10,
         ),
         ClipRRect(
             borderRadius: BorderRadius.circular(200),
             child: SizedBox(
-              width:rank==1 ? 100:  50,
-              height:rank==1 ? 100: 50,
+              width: rank == 1 ? 100 : 50,
+              height: rank == 1 ? 100 : 50,
               child: Image.network(
                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa69_HGc_i3MXKCPZzCfAjBZC4bXJsn0rS0Ufe6H-ctZz5FbIVaPkd1jCPTpKwPruIT3Q&usqp=CAU"),
             )),
         const SizedBox(
           height: 10,
         ),
-         Text(
+        Text(
           '$title',
           style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black),
         ),
-        
-         Text(
+        Text(
           "Rank $rank",
           style: TextStyle(
               fontWeight: FontWeight.w500, color: Colors.red, fontSize: 20),
         ),
-         Text("$activityCount Activities"),
+        Text("$activityCount Activities"),
         Row(
           children: [
-             SvgPicture.asset('assets/images/coin.svg', width: width(context) * 0.05,),
-        const SizedBox(
-          height: 10,
-        ),
-             Text("$activityCount"),
+            SvgPicture.asset(
+              'assets/images/coin.svg',
+              width: width(context) * 0.05,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text("$activityCount"),
           ],
         ),
-
         const SizedBox(height: 20),
       ],
     );

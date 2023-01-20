@@ -69,6 +69,7 @@ import 'package:masterg/utils/Strings.dart';
 
 import '../data/models/response/home_response/create_portfolio_response.dart';
 import '../data/models/response/home_response/delete_portfolio_response.dart';
+import '../data/models/response/home_response/leaderboard_resp.dart';
 import '../data/models/response/home_response/list_portfolio_responsed.dart';
 import '../data/models/response/home_response/remove_account_resp.dart';
 import '../data/models/response/home_response/top_scroing_user_response.dart';
@@ -570,6 +571,31 @@ class CompetitionListEvent extends HomeEvent {
   CompetitionListEvent({this.isPopular}) : super([isPopular]);
 
   List<Object> get props => throw UnimplementedError();
+}
+
+class LeaderboardEvent extends HomeEvent {
+  String? type;
+  int? id;
+  int? skipotherUser;
+  int? skipcurrentUser;
+
+  LeaderboardEvent(
+      {this.id, this.type, this.skipcurrentUser, this.skipotherUser})
+      : super([id, type, skipotherUser, skipcurrentUser]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+class LeaderboardState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  LeaderboardResponse? response;
+
+  LeaderboardState(
+    this.state, {
+    this.response,
+  });
 }
 
 class CourseCategoryListIDState extends HomeState {
@@ -1361,7 +1387,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield CompetitionContentListState(ApiStatus.LOADING);
         final response =
             await homeRepository.getCompetitionContentList(event.competitionId);
-          Log.v("MY DA DATA ::: ${response.data}");
+        Log.v("MY DA DATA ::: ${response.data}");
 
         if (response.data != null) {
           yield CompetitionContentListState(ApiStatus.SUCCESS,
@@ -1373,9 +1399,27 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         }
       } catch (e) {
         Log.v("Expection DATA  : $e");
-        yield CompetitionContentListState(
-          ApiStatus.ERROR
-        );
+        yield CompetitionContentListState(ApiStatus.ERROR);
+      }
+    }
+
+    //leaderboard
+    else if (event is LeaderboardEvent) {
+      try {
+        yield LeaderboardState(ApiStatus.LOADING);
+        final response = await homeRepository.getLeaderboard(
+            event.id, event.type, event.skipotherUser, event.skipotherUser);
+        Log.v("MY DA DATA ::: ${response.data}");
+
+        if (response.data != null) {
+          yield LeaderboardState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield LeaderboardState(ApiStatus.ERROR, response: response);
+        }
+      } catch (e) {
+        Log.v("Expection DATA  : $e");
+        yield CompetitionContentListState(ApiStatus.ERROR);
       }
     } else if (event is AnnouncementContentEvent) {
       try {

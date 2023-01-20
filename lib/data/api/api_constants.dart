@@ -135,4 +135,5 @@ class ApiConstants {
   static const USER_JOBS_LIST = '/api/user_jobs/list';
   static const COMPETITION_MODULE_DATA = '/api/competition-list';
   static const COMPETITION_CONTENT_LIST = '/api/learner-competition-detail/';
+  static const LEADERBOARD = '/api/competition-leaderboard';
 }
