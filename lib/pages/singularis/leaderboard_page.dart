@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
+import 'package:masterg/utils/resource/colors.dart';
 
 class LeaderboardPage extends StatefulWidget {
   const LeaderboardPage({Key? key}) : super(key: key);
@@ -12,39 +15,59 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffd4d4d4),
       appBar: AppBar(
+                          backgroundColor: ColorConstants.WHITE,
+
         elevation: 0.0,
-        backgroundColor: const Color.fromARGB(255, 210, 164, 132),
+                                  flexibleSpace: Container(
+                            decoration:  BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  colors: <Color>[
+                                    Color(0xffFF2252).withOpacity(0.4),
+                                    Color(0xffFC7B04).withOpacity(0.4)
+                                  ]),
+                            ),
+                          ),
+        centerTitle: true,
+
+        
         leading: const Icon(
           Icons.arrow_back_ios,
           color: Colors.black,
         ),
-        title: const Text(
+        title:  Text(
           "Leaderboard",
-          style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black),
-          textAlign: TextAlign.center,
+          style: Styles.bold(),
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
-              decoration: const BoxDecoration(
+              decoration:  BoxDecoration(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(20),
                     bottomRight: Radius.circular(20)),
-                color: Color.fromARGB(255, 210, 164, 132),
+                 gradient: LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  colors: <Color>[
+                                    Color(0xffFF2252).withOpacity(0.4),
+                                    Color(0xffFC7B04).withOpacity(0.4)
+                                  ]),
               ),
-              height: height(context) * 0.3,
+              height: height(context) * 0.35,
               width: width(context),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  leadercard(),
-                  leadercard(),
-                  leadercard(),
+                 leadercard('Lorem Ipsum', 2 , 2 , 2),
+               leadercard('Lorem Ipsumdolor', 2 , 2 , 1),
+               leadercard('Lorem Ipsum', 2 , 2 , 3),
+               
                 ],
               ),
             ),
@@ -67,6 +90,14 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: Color(0xffFF2252)),
+                  boxShadow: [
+                    BoxShadow(
+                                      blurRadius: 13,
+                                      offset: Offset(0, 4),
+                      
+                      color: ColorConstants.BLACK.withOpacity(0.2)),
+                    
+                  ],
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 child: Container(
@@ -132,38 +163,60 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
     );
   }
 
-  Widget leadercard() {
+  Widget leadercard(String title, int activityCount, int coinCount, int rank) {
+    String? url;
+    switch (rank) {
+      case 1:
+        url = 'assets/images/leader_first.svg';
+        break;
+      case 2:
+        url = 'assets/images/leader_second.svg';
+        break;
+      case 3:
+        url = 'assets/images/leader_third.svg';
+        break;
+    }
     return Column(
+
+mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        const Icon(Icons.headphones),
+      SvgPicture.asset('$url', width: rank==1 ? 50:30),
         const SizedBox(
           height: 10,
         ),
         ClipRRect(
             borderRadius: BorderRadius.circular(200),
             child: SizedBox(
-              width: 50,
-              height: 50,
+              width:rank==1 ? 100:  50,
+              height:rank==1 ? 100: 50,
               child: Image.network(
                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa69_HGc_i3MXKCPZzCfAjBZC4bXJsn0rS0Ufe6H-ctZz5FbIVaPkd1jCPTpKwPruIT3Q&usqp=CAU"),
             )),
         const SizedBox(
           height: 10,
         ),
-        const Text(
-          'Loream',
+         Text(
+          '$title',
           style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black),
         ),
-        const SizedBox(
-          height: 10,
-        ),
-        const Text(
-          "Rank 2",
+        
+         Text(
+          "Rank $rank",
           style: TextStyle(
               fontWeight: FontWeight.w500, color: Colors.red, fontSize: 20),
         ),
-        const Text("125 Activities"),
-        const Text("1300"),
+         Text("$activityCount Activities"),
+        Row(
+          children: [
+             SvgPicture.asset('assets/images/coin.svg', width: width(context) * 0.05,),
+        const SizedBox(
+          height: 10,
+        ),
+             Text("$activityCount"),
+          ],
+        ),
+
+        const SizedBox(height: 20),
       ],
     );
   }
