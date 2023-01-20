@@ -108,7 +108,24 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                 //_getRecentActivities(),
                 //_getResumeLerarning(),
                 //_getCourses(),
-                _getDashboard(context),
+                // _getDashboard(context),
+
+                Container(
+
+
+                        padding: EdgeInsets.all( 10),
+                  height: height(context) * 0.22,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    children: [
+                      topRoundedCard(),
+                      topRoundedCard(),
+                      topRoundedCard(),
+                    ],
+                  ),
+                ),
+
                 //_getCategories(context),
                 //_getLearnNewEveryday(context),
                 _getRecommendedCourses(context),
@@ -121,6 +138,45 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
             ),
           )),
     );
+  }
+
+
+  Widget topRoundedCard(){
+    return Container(
+                        height: 50,
+                        width: width(context) * 0.3,
+                        margin: EdgeInsets.only(right: 6),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            gradient: LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                                colors: <Color>[
+                                  Color(0xffFC7B04),
+                                   Color(0xffFF2252)
+                                ]),
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(50),
+                                bottomRight: Radius.circular(12),
+                                topLeft: Radius.circular(12),
+                                bottomLeft: Radius.circular(12))),
+                                child: Stack(children: [
+                                  Positioned(
+                                    left: -8,
+                                    top: -8,
+                                    child: Container(
+                                      width: width(context) * 0.16,
+                                      height: width(context) * 0.16,
+                                      decoration: BoxDecoration(
+                                        color: ColorConstants.WHITE.withOpacity(0.3),
+                                        shape: BoxShape.circle),
+                                        child: Center(child: SvgPicture.asset('assets/images/my_classes.svg',  width: width(context) * 0.07,)),
+                                        
+                                        )
+                                        
+                                        )
+                                ],),
+                      );
   }
 
   void _handleAnnouncmentData(MyAssignmentState state) {
