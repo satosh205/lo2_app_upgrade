@@ -100,7 +100,7 @@ dependencies:
   zoom_pinch_overlay: ^1.2.0
   internet_connection_checker: any
   paginated_search_bar: ^1.1.2
-dependency_overrides: null
+# dependency_overrides: null
 
 dev_dependencies:
   dart_code_metrics: ^4.16.0
