@@ -25,8 +25,8 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                                   begin: Alignment.centerLeft,
                                   end: Alignment.centerRight,
                                   colors: <Color>[
-                                    Color(0xffFF2252).withOpacity(0.4),
-                                    Color(0xffFC7B04).withOpacity(0.4)
+                                    ColorConstants.GRADIENT_RED.withOpacity(0.4),
+                                    ColorConstants.GRADIENT_ORANGE.withOpacity(0.4)
                                   ]),
                             ),
                           ),
@@ -54,8 +54,8 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                                   begin: Alignment.centerLeft,
                                   end: Alignment.centerRight,
                                   colors: <Color>[
-                                    Color(0xffFF2252).withOpacity(0.4),
-                                    Color(0xffFC7B04).withOpacity(0.4)
+                                    ColorConstants.GRADIENT_RED.withOpacity(0.4),
+                                    ColorConstants.GRADIENT_ORANGE.withOpacity(0.4)
                                   ]),
               ),
               height: height(context) * 0.35,
@@ -89,7 +89,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                 margin: EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: Color(0xffFF2252)),
+                  border: Border.all(color: ColorConstants.GRADIENT_RED),
                   boxShadow: [
                     BoxShadow(
                                       blurRadius: 13,

@@ -152,8 +152,8 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                 begin: Alignment.centerLeft,
                                 end: Alignment.centerRight,
                                 colors: <Color>[
-                                  Color(0xffFC7B04),
-                                   Color(0xffFF2252)
+                                  ColorConstants.GRADIENT_ORANGE,
+                                   ColorConstants.GRADIENT_RED
                                 ]),
                             borderRadius: BorderRadius.only(
                                 topRight: Radius.circular(50),

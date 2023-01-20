@@ -275,8 +275,8 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                         itemCount: 3,
                         itemBuilder: (BuildContext context, int index) =>
                             Shimmer.fromColors(
-                              //              baseColor: Color(0xffFF2252).withOpacity(0.3),
-                              // highlightColor: Color(0xffFC7B04).withOpacity(0.3),
+                              //              baseColor: ColorConstants.GRADIENT_RED.withOpacity(0.3),
+                              // highlightColor: ColorConstants.GRADIENT_ORANGE.withOpacity(0.3),
                               baseColor: Color(0xffe6e4e6),
                               highlightColor: Color(0xffeaf0f3),
                               child: Container(
