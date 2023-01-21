@@ -147,7 +147,7 @@ class _homePageState extends State<homePage> {
       '/g-home': GHome(),
       '/g-dashboard': const DashboardPage(),
       '/g-competitions': Competetion(),
-      '/g-careers': Container(child: Text('show carrier')),
+      '/g-careers': JobDashboardPage(),
       '/g-school': const GSchool(),
       '/g-reels': ReelsDashboardPage(),
       '/g-carvaan': GCarvaanPostPage(
@@ -277,7 +277,24 @@ class _homePageState extends State<homePage> {
                   key: _scaffoldKey,
                   backgroundColor: ColorConstants.GREY,
 
-                  appBar:
+                  appBar:PreferredSize(
+                    preferredSize: Size.fromHeight(0),
+                    child: AppBar(
+                            automaticallyImplyLeading: false,
+                            elevation: 0,
+                            flexibleSpace: Container(
+                            
+                              decoration: const BoxDecoration(  color: ColorConstants.WHITE,
+                                gradient: LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                    colors: <Color>[
+                                    ColorConstants.GRADIENT_ORANGE,
+                                      ColorConstants.GRADIENT_RED
+                                    ]),
+                              ),
+                            )),
+                  ),
                   // widget.bottomMenu![menuProvider.getCurrentIndex()]
                   //                 .url !=
                   //             '/g-reels' &&
@@ -348,8 +365,8 @@ class _homePageState extends State<homePage> {
                   //       )
                   //     : 
                       
-                      PreferredSize(
-                          child: SizedBox(), preferredSize: Size.zero),
+                      // PreferredSize(
+                      //     child: SizedBox(), preferredSize: Size.zero),
 
                   body: pages[
                       widget.bottomMenu![menuProvider.getCurrentIndex()].url],

@@ -20,6 +20,7 @@ import 'package:masterg/data/models/response/home_response/course_category_list_
 import 'package:masterg/data/models/response/home_response/joy_contentList_response.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
+import 'package:masterg/pages/custom_pages/custom_widgets/rounded_appbar.dart';
 import 'package:masterg/pages/gcarvaan/components/gcarvaan_card_post.dart';
 import 'package:masterg/pages/ghome/my_courses.dart';
 import 'package:masterg/pages/ghome/video_player_screen.dart';
@@ -104,33 +105,100 @@ class _DashboardPageState extends State<DashboardPage> {
                 });
               },
               child: FutureBuilder(
-                future:  Future.delayed(Duration(seconds: 2)),
-      builder: (context, snapshot)=>
-        SingleChildScrollView(
+                future: Future.delayed(Duration(seconds: 2)),
+                builder: (context, snapshot) => SingleChildScrollView(
                     child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Welcome',
-                            style: Styles.semibold(size: 14),
+                    RoundedAppBar(
+                        appBarHeight: height(context) * 0.16,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(200),
+                                    child: SizedBox(
+                                      width: 40,
+                                      child: Image.network(
+                                          '${Preference.getString(Preference.PROFILE_IMAGE)}'),
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Welcome',
+                                          style: Styles.regular(
+                                              color: ColorConstants.WHITE)),
+                                      Text('Prince Vishwkarma', style: Styles.bold(color: ColorConstants.WHITE),),
+                                    ],
+                                  ),
+                                ],
+                              ),
+SizedBox(height: 10),
+                              Container(
+                                          height: 8,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                          decoration: BoxDecoration(
+                                              color: ColorConstants.WHITE.withOpacity(0.2),
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                height: 10,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.6 *
+                                                    (30/
+                                                        100),
+                                                decoration: BoxDecoration(
+                                                    color: Color(0xffFFB72F),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+SizedBox(height: 10),
+
+                              Text('Profile completed: 30% ',
+                                  style: Styles.semiBoldWhite())
+                            ],
                           ),
-                          Text(
-                            '${Preference.getString(Preference.FIRST_NAME)}',
-                            style: Styles.bold(size: 28),
-                          ),
-                          Text(
-                            'Begin your learning journey',
-                            style: Styles.regular(),
-                          ),
-                        ],
-                      ),
-                    ),
+                        )),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(
+                    //       horizontal: 8, vertical: 8),
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       Text(
+                    //         'Welcome',
+                    //         style: Styles.semibold(size: 14),
+                    //       ),
+                    //       Text(
+                    //         '${Preference.getString(Preference.FIRST_NAME)}',
+                    //         style: Styles.bold(size: 28),
+                    //       ),
+                    //       Text(
+                    //         'Begin your learning journey',
+                    //         style: Styles.regular(),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     renderWidgets(pages),
                   ],
                 )),
@@ -193,7 +261,7 @@ class _DashboardPageState extends State<DashboardPage> {
           } else if (box.get("dashboard_sessions_limit").isEmpty) {
             return Container(
               // height: 290,
-              padding: EdgeInsets.only(bottom : 12),
+              padding: EdgeInsets.only(bottom: 12),
               width: MediaQuery.of(context).size.width,
               child: Center(
                 child: Text(
@@ -681,7 +749,6 @@ class _DashboardPageState extends State<DashboardPage> {
                                     menuProvider
                                         ?.updateCurrentIndex('/g-reels');
                                     menuProvider?.updateItemIndex(index);
-                                   
                                   },
                                   child: CreateThumnail(
                                       path: reelsList?[index].resourcePath))),
@@ -822,143 +889,172 @@ class _DashboardPageState extends State<DashboardPage> {
                   child: Container(
                     height: 400,
                     child: ListView.builder(
-                       
                         itemCount: carvaanList?.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (BuildContext context, int index) {
-    final now = DateTime.now();
+                          final now = DateTime.now();
 
-
-                          var millis = int.parse(carvaanList![index].createdAt.toString());
-    DateTime date = DateTime.fromMillisecondsSinceEpoch(
-      millis * 1000,
-    );
-  //  VideoPlayerController? _controller;
-  //   if(   carvaanList?[index].resourcePath
-  //                                                 ?.contains('.mp4')  == true||
-  //                                               carvaanList?[index].resourcePath
-  //                                                 ?.contains('.mov') == true) {
-  //                                                    _controller = VideoPlayerController.network(carvaanList![index].resourcePath!);
-  //                                                     _controller.addListener(() {
-  //      if(kDebugMode) setState(() {});
-  //     });
-  //     _controller.setLooping(true);
-  //     // _controller.initialize().then((_) => setState(() {}));
-  //     _controller.play();
-  //                                                 }
+                          var millis = int.parse(
+                              carvaanList![index].createdAt.toString());
+                          DateTime date = DateTime.fromMillisecondsSinceEpoch(
+                            millis * 1000,
+                          );
+                          //  VideoPlayerController? _controller;
+                          //   if(   carvaanList?[index].resourcePath
+                          //                                                 ?.contains('.mp4')  == true||
+                          //                                               carvaanList?[index].resourcePath
+                          //                                                 ?.contains('.mov') == true) {
+                          //                                                    _controller = VideoPlayerController.network(carvaanList![index].resourcePath!);
+                          //                                                     _controller.addListener(() {
+                          //      if(kDebugMode) setState(() {});
+                          //     });
+                          //     _controller.setLooping(true);
+                          //     // _controller.initialize().then((_) => setState(() {}));
+                          //     _controller.play();
+                          //                                                 }
 
                           return Container(
                             width: MediaQuery.of(context).size.width * 0.8,
-                          
-                            decoration: BoxDecoration(  color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: ColorConstants.GREY_4)),
+
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                                border:
+                                    Border.all(color: ColorConstants.GREY_4)),
                             margin: EdgeInsets.all(8),
                             // color: Colors.red,
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              // mainAxisAlignment: MainAxisAlignment,
-                              children: [
-                            Padding(
-                    padding: const EdgeInsets.only(
-                        left: 8.0, right: 8.0, top: 15.0, bottom: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Center(
-                          child: ClipOval(
-                              child: Image.network(
-                           '${carvaanList?[index].profileImage}',
-                            height: 30,
-                            width: 30,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, url, error) {
-                              return SvgPicture.asset(
-                                'assets/images/default_user.svg',
-                                height: 30,
-                                width: 30,
-                                allowDrawingOutsideViewBox: true,
-                              );
-                            },
-                            loadingBuilder: (BuildContext context, Widget child,
-                                ImageChunkEvent? loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return Shimmer.fromColors(
-                                baseColor: Color(0xffe6e4e6),
-                                highlightColor: Color(0xffeaf0f3),
-                                child: Container(
-                                    height: 50,
-                                    margin: EdgeInsets.only(left: 2),
-                                    width: 50,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
-                                    )),
-                              );
-                            },
-                          )),
-                        ),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0, right: 8.0, top: 2.0),
-                                child: Text(
-                                  carvaanList?[index].name ?? '',
-                                  style: Styles.textRegular(size: 14),
-                                ),
-                              ),
-                             Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Text(
-                            Utility().calculateTimeDifferenceBetween(
-                                DateTime.parse(
-                                    date.toString().substring(0, 19)),
-                                now, context),
-                            style: Styles.regular(size: 12),
-                          ),
-                        )
-                            ],
-                          ),
-                        ),
-                       
-                      ],
-                    ),
-                  ),
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                // mainAxisAlignment: MainAxisAlignment,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0,
+                                        right: 8.0,
+                                        top: 15.0,
+                                        bottom: 8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Center(
+                                          child: ClipOval(
+                                              child: Image.network(
+                                            '${carvaanList?[index].profileImage}',
+                                            height: 30,
+                                            width: 30,
+                                            fit: BoxFit.cover,
+                                            errorBuilder:
+                                                (context, url, error) {
+                                              return SvgPicture.asset(
+                                                'assets/images/default_user.svg',
+                                                height: 30,
+                                                width: 30,
+                                                allowDrawingOutsideViewBox:
+                                                    true,
+                                              );
+                                            },
+                                            loadingBuilder:
+                                                (BuildContext context,
+                                                    Widget child,
+                                                    ImageChunkEvent?
+                                                        loadingProgress) {
+                                              if (loadingProgress == null)
+                                                return child;
+                                              return Shimmer.fromColors(
+                                                baseColor: Color(0xffe6e4e6),
+                                                highlightColor:
+                                                    Color(0xffeaf0f3),
+                                                child: Container(
+                                                    height: 50,
+                                                    margin: EdgeInsets.only(
+                                                        left: 2),
+                                                    width: 50,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      shape: BoxShape.circle,
+                                                    )),
+                                              );
+                                            },
+                                          )),
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0,
+                                                    right: 8.0,
+                                                    top: 2.0),
+                                                child: Text(
+                                                  carvaanList?[index].name ??
+                                                      '',
+                                                  style: Styles.textRegular(
+                                                      size: 14),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0),
+                                                child: Text(
+                                                  Utility()
+                                                      .calculateTimeDifferenceBetween(
+                                                          DateTime.parse(date
+                                                              .toString()
+                                                              .substring(
+                                                                  0, 19)),
+                                                          now,
+                                                          context),
+                                                  style:
+                                                      Styles.regular(size: 12),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
 
-                   Padding(
-                padding: carvaanList?[index].description != null
-                    ? const EdgeInsets.only(bottom: 7, left: 10, top: 13)
-                    : const EdgeInsets.only(bottom: 0, left: 10, top: 0),
-                child: ReadMoreText(text: '${carvaanList?[index].description ?? ''}')),
+                                  Padding(
+                                      padding:
+                                          carvaanList?[index].description !=
+                                                  null
+                                              ? const EdgeInsets.only(
+                                                  bottom: 7, left: 10, top: 13)
+                                              : const EdgeInsets.only(
+                                                  bottom: 0, left: 10, top: 0),
+                                      child: ReadMoreText(
+                                          text:
+                                              '${carvaanList?[index].description ?? ''}')),
 
-                         
-                                 
-    //                                    carvaanList?[index].resourcePath
-    //                                               ?.contains('.mp4')  == true||
-    //                                             carvaanList?[index].resourcePath
-    //                                               ?.contains('.mov') == true
-    //                                       // ? CustomBetterPlayer(
-    //                                       //     url: widget.fileList[index])
-    //                                       ? Container
-    //                                       (
-    //                                         height: 30,
-    //                                         child: FlickVideoPlayer(
-    //     flickManager: FlickManager(
-    //   videoPlayerController:
-    //       VideoPlayerController.network('${carvaanList?[index].resourcePath}'),
-    // )
-    //   )
-                                            
-    //                                         ):   
-    Image.network(
-                                '${carvaanList?[index].resourcePath}')]),
+                                  //                                    carvaanList?[index].resourcePath
+                                  //                                               ?.contains('.mp4')  == true||
+                                  //                                             carvaanList?[index].resourcePath
+                                  //                                               ?.contains('.mov') == true
+                                  //                                       // ? CustomBetterPlayer(
+                                  //                                       //     url: widget.fileList[index])
+                                  //                                       ? Container
+                                  //                                       (
+                                  //                                         height: 30,
+                                  //                                         child: FlickVideoPlayer(
+                                  //     flickManager: FlickManager(
+                                  //   videoPlayerController:
+                                  //       VideoPlayerController.network('${carvaanList?[index].resourcePath}'),
+                                  // )
+                                  //   )
+
+                                  //                                         ):
+                                  Image.network(
+                                      '${carvaanList?[index].resourcePath}')
+                                ]),
                           );
-                          
                         }),
                   ),
                 )
@@ -999,16 +1095,14 @@ class _DashboardPageState extends State<DashboardPage> {
           margin: EdgeInsets.only(left: 17, right: 17, top: 4),
           child: Column(
             children: [
-              Divider(
-              
-                
-              ),
+              Divider(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Icon(CupertinoIcons.star_fill, color: ColorConstants.YELLOW),
                   SizedBox(width: 8),
-                  Text('Featured Updates', style: Styles.bold(color: Color(0xff0E1638))),
+                  Text('Featured Updates',
+                      style: Styles.bold(color: Color(0xff0E1638))),
                   Expanded(child: SizedBox()),
                   InkWell(
                     onTap: () {
@@ -1394,41 +1488,39 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 }
 
-class  CreateThumnail extends StatelessWidget {
+class CreateThumnail extends StatelessWidget {
   final String? path;
 
   const CreateThumnail({super.key, this.path});
 
   @override
-  Widget  build(BuildContext context) {
-
-    
+  Widget build(BuildContext context) {
     return FutureBuilder<Uint8List?>(
-      
-      future: getFile(),
-      builder: (context, snapshot){
-      if(snapshot.hasData) return Stack(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.memory(
-                  snapshot.data!,
-                  fit: BoxFit.cover,
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
+        future: getFile(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData)
+            return Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.memory(
+                    snapshot.data!,
+                    fit: BoxFit.cover,
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                  ),
                 ),
-              ),
-              Center(
-                child: SvgPicture.asset(
-                  'assets/images/play.svg',
-                  height: 40.0,
-                  width: 40.0,
-                  allowDrawingOutsideViewBox: true,
+                Center(
+                  child: SvgPicture.asset(
+                    'assets/images/play.svg',
+                    height: 40.0,
+                    width: 40.0,
+                    allowDrawingOutsideViewBox: true,
+                  ),
                 ),
-              ),
-            ],
-          );
-      return Shimmer.fromColors(
+              ],
+            );
+          return Shimmer.fromColors(
             baseColor: Color(0xffe6e4e6),
             highlightColor: Color(0xffeaf0f3),
             child: Container(
@@ -1439,10 +1531,10 @@ class  CreateThumnail extends StatelessWidget {
                   color: Colors.white, borderRadius: BorderRadius.circular(6)),
             ),
           );
-    });
+        });
   }
 
-   Future<Uint8List?> getFile() async {
+  Future<Uint8List?> getFile() async {
     final uint8list = await VideoThumbnail.thumbnailData(
       video: path!,
       imageFormat: ImageFormat.PNG,
@@ -1455,7 +1547,6 @@ class  CreateThumnail extends StatelessWidget {
     return uint8list;
   }
 }
-
 
 class ShowImage extends StatefulWidget {
   final String? path;

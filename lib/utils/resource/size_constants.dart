@@ -45,7 +45,7 @@ class SizeConstants {
   static const double JOB_LEFT_SCREEN_MGN = 17;
   static const double JOB_RIGHT_SCREEN_MGN = 17;
   static const double JOB_TOP_SCREEN_MGN = 60;
-  static const double JOB_BOTTOM_SCREEN_MGN = 20;
+  static const double JOB_BOTTOM_SCREEN_MGN = 28;
 
   static const double JOB_SEARCH_PAGE_MGN = 10;
 

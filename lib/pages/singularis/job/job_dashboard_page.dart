@@ -8,8 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/user_jobs_list_response.dart';
+import 'package:masterg/pages/custom_pages/custom_widgets/rounded_appbar.dart';
 import 'package:masterg/pages/singularis/job/job_search_view_page.dart';
 import 'package:masterg/utils/Log.dart';
+import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/resource/size_constants.dart';
 import 'package:shimmer/shimmer.dart';
@@ -23,7 +25,8 @@ import '../../custom_pages/custom_widgets/NextPageRouting.dart';
 import 'job_details_page.dart';
 
 class JobDashboardPage extends StatefulWidget {
-  const JobDashboardPage({Key? key}) : super(key: key);
+  const 
+  JobDashboardPage({Key? key}) : super(key: key);
 
   @override
   State<JobDashboardPage> createState() => _JobDashboardPageState();
@@ -71,12 +74,88 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
       child: Container(
         margin: EdgeInsets.only(
             // left: SizeConstants.JOB_LEFT_SCREEN_MGN,
-            top: SizeConstants.JOB_TOP_SCREEN_MGN,
+            // top: SizeConstants.JOB_TOP_SCREEN_MGN,
             // right: SizeConstants.JOB_RIGHT_SCREEN_MGN,
             bottom: SizeConstants.JOB_BOTTOM_SCREEN_MGN),
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
+
+             RoundedAppBar(
+                        appBarHeight: height(context) * 0.16,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(200),
+                                    child: SizedBox(
+                                      width: 40,
+                                      child: Image.network(
+                                          '${Preference.getString(Preference.PROFILE_IMAGE)}'),
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Welcome',
+                                          style: Styles.regular(
+                                              color: ColorConstants.WHITE)),
+                                      Text('Prince Vishwkarma', style: Styles.bold(color: ColorConstants.WHITE),),
+                                    ],
+                                  ),
+                                ],
+                              ),
+SizedBox(height: 10),
+                              Container(
+                                          height: 8,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                          decoration: BoxDecoration(
+                                              color: ColorConstants.WHITE.withOpacity(0.2),
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                height: 10,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.6 *
+                                                    (30/
+                                                        100),
+                                                decoration: BoxDecoration(
+                                                    color: Color(0xffFFB72F),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+SizedBox(height: 10),
+
+                              Text('Profile completed: 30% ',
+                                  style: Styles.semiBoldWhite())
+                            ],
+                          ),
+                        )),
+
+                        SizedBox(
+                          height: height(context) * 0.06,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [Text('Skill Assessment'), Text('Career Opportunities')]),
+                        ),
             ///Search Job
             Padding(
               padding: const  EdgeInsets.only(
