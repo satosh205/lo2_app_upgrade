@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_certificate.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_education.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfolio.dart';
 import 'package:masterg/pages/user_profile_page/singularis_profile_edit.dart';
 import 'package:masterg/utils/Styles.dart';
@@ -470,7 +472,7 @@ class _PortfolioState extends State<Portfolio> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: ((context) => AddPortfolio())));
+                                    builder: ((context) => AddCertificate())));
                           },
                           child: Icon(Icons.arrow_forward_ios_rounded))
                     ],
