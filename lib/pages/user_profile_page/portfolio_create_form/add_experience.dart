@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfolio.dart';
+import 'package:masterg/pages/analytics_pages/kpi_wise_analysis_page.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
 import 'package:masterg/utils/constant.dart';
 
-class AddEducation extends StatefulWidget {
-  const AddEducation({Key? key}) : super(key: key);
+class AddExperience extends StatefulWidget {
+  const AddExperience({Key? key}) : super(key: key);
 
   @override
-  State<AddEducation> createState() => _AddEducationState();
+  State<AddExperience> createState() => _AddExperienceState();
 }
 
-class _AddEducationState extends State<AddEducation> {
+class _AddExperienceState extends State<AddExperience> {
+  var value;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +23,7 @@ class _AddEducationState extends State<AddEducation> {
             backgroundColor: Colors.white,
             title: const Center(
               child: Text(
-                "Add Education",
+                "Add Experience",
                 style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -42,7 +43,7 @@ class _AddEducationState extends State<AddEducation> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                   const Text(
-                    "School*",
+                    "Position Title*",
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -51,13 +52,12 @@ class _AddEducationState extends State<AddEducation> {
                   const SizedBox(
                     height: 5,
                   ),
-                  CustomTextField(
-                      hintText: 'Ex. Middle East College (MEC), Muscat, Oman'),
+                  CustomTextField(hintText: 'Ex. Ui Designer'),
                   const SizedBox(
                     height: 10,
                   ),
                   Text(
-                    "Degree*",
+                    "Company Name*",
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -66,10 +66,24 @@ class _AddEducationState extends State<AddEducation> {
                   const SizedBox(
                     height: 5,
                   ),
-                  CustomTextField(
-                      hintText: 'Ex: Bachelor’s of Instrumentation'),
-                  SizedBox(
+                  CustomTextField(hintText: 'Ex: Google, Microsoft'),
+                  const SizedBox(
                     height: 10,
+                  ),
+                  Text(
+                    "Employment type*",
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xff5A5F73)),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Radio(value: true, groupValue: 1, onChanged: value),
+                      Radio(value: true, groupValue: 1, onChanged: value),
+                      Radio(value: true, groupValue: 1, onChanged: value)
+                    ],
                   ),
                   Text(
                     "Start Date*",
@@ -112,8 +126,18 @@ class _AddEducationState extends State<AddEducation> {
                       ],
                     ),
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(value: false, onChanged: value),
+                      Text("I currently work here",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xff929BA3)))
+                    ],
                   ),
                   Text(
                     "End date (or expected)*",
@@ -159,19 +183,21 @@ class _AddEducationState extends State<AddEducation> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Text(
-                    "Description",
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xff5A5F73)),
-                  ),
-                  const SizedBox(
-                    height: 5,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Description",
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff5A5F73)),
+                    ),
                   ),
                   CustomDescription(
-                    hintText:
-                        'You can mention your Grades, Achievements, Activities or subjects you are studying ',
+                    hintText: 'Describe your work or achievement',
+                  ),
+                  SizedBox(
+                    height: 20,
                   ),
                   customButton()
                 ]))));

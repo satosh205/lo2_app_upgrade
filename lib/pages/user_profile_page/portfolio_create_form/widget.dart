@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
@@ -45,7 +46,6 @@ class customUploade extends StatelessWidget {
         border: Border.all(width: 1.0, color: const Color(0xffE5E5E5)),
         borderRadius: const BorderRadius.all(Radius.circular(10.0)),
       ),
-      
       child: Padding(
         padding: const EdgeInsets.only(left: .0),
         child: Row(
@@ -65,10 +65,7 @@ class customUploade extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 90.0),
                   child: Row(
                     children: [
-                      Icon(
-                        Icons.upload,
-                        color: Colors.orange,
-                      ),
+                      SvgPicture.asset('assets/images/upload_icon.svg'),
                       Text(
                         uploadeText,
                         style: Styles.bold(size: 12),
@@ -115,22 +112,26 @@ class CustomDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width(context),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(width: 1.0, color: const Color(0xffE5E5E5)),
-        borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-      ),
-      child: TextField(
-        maxLines: 8,
-        decoration: InputDecoration(
-          // fillColor: Colors.grey.shade100,
-          // filled: true,
-          border: OutlineInputBorder(
-              borderSide: const BorderSide(width: 1, color: Color(0xffE5E5E5)),
-              borderRadius: BorderRadius.circular(10)),
-          hintText: hintText,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        width: width(context),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(width: 1.0, color: const Color(0xffE5E5E5)),
+          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+        ),
+        child: TextField(
+          maxLines: 6,
+          decoration: InputDecoration(
+            // fillColor: Colors.grey.shade100,
+            // filled: true,
+            border: OutlineInputBorder(
+                borderSide:
+                    const BorderSide(width: 1, color: Color(0xffE5E5E5)),
+                borderRadius: BorderRadius.circular(10)),
+            hintText: hintText,
+          ),
         ),
       ),
     );

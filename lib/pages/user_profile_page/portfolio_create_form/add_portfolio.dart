@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
@@ -130,13 +131,10 @@ class _AddPortfolioState extends State<AddPortfolio> {
                           },
                           child: Row(
                             children: [
+                              SvgPicture.asset('assets/images/upload_icon.svg'),
                               Text(
                                 "Upload Image",
                                 style: Styles.bold(size: 12),
-                              ),
-                              Icon(
-                                Icons.upload,
-                                color: Colors.orange,
                               ),
                             ],
                           )),

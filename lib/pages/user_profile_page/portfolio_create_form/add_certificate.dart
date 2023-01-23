@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
 import 'package:masterg/utils/constant.dart';
 
@@ -86,7 +87,11 @@ class _AddCertificateState extends State<AddCertificate> {
                                 color: Color(0xff929BA3)),
                           ),
                         ),
-                        Icon(Icons.edit_calendar_outlined)
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: SvgPicture.asset(
+                              'assets/images/selected_calender.svg'),
+                        ),
                       ],
                     ),
                   ),
