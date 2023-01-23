@@ -28,6 +28,7 @@ import 'package:masterg/pages/ghome/widget/read_more.dart';
 import 'package:masterg/pages/ghome/widget/view_widget_details_page.dart';
 
 import 'package:masterg/pages/training_pages/new_screen/courses_details_page.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_page.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
@@ -121,12 +122,17 @@ class _DashboardPageState extends State<DashboardPage> {
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(200),
-                                    child: SizedBox(
-                                      width: 40,
-                                      child: Image.network(
-                                          '${Preference.getString(Preference.PROFILE_IMAGE)}'),
+                                  InkWell(
+                                    onTap: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> Portfolio()));
+                                    },
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(200),
+                                      child: SizedBox(
+                                        width: 40,
+                                        child: Image.network(
+                                            '${Preference.getString(Preference.PROFILE_IMAGE)}'),
+                                      ),
                                     ),
                                   ),
                                   SizedBox(width: 10),
