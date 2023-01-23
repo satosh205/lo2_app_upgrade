@@ -15,6 +15,7 @@ import 'package:masterg/data/providers/assessment_detail_provider.dart';
 import 'package:masterg/data/providers/assignment_detail_provider.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/ghome/widget/read_more.dart';
+import 'package:masterg/pages/singularis/leaderboard_page.dart';
 import 'package:masterg/pages/training_pages/assessment_page.dart';
 import 'package:masterg/pages/training_pages/assignment_detail_page.dart';
 import 'package:masterg/pages/training_pages/training_service.dart';
@@ -235,9 +236,17 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                                 children: [
                                   Image.asset('assets/images/leaderboard.png'),
                                   SizedBox(width: 8),
-                                  Text('View Leaderboard',
-                                      style: Styles.bold(
-                                          color: Color(0xff5A5F73))),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LeaderboardPage()));
+                                    },
+                                    child: Text('View Leaderboard',
+                                        style: Styles.bold(
+                                            color: Color(0xff5A5F73))),
+                                  ),
                                 ],
                               ),
                             ),
@@ -266,8 +275,8 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                         itemCount: 3,
                         itemBuilder: (BuildContext context, int index) =>
                             Shimmer.fromColors(
-                              //              baseColor: Color(0xffFF2252).withOpacity(0.3),
-                              // highlightColor: Color(0xffFC7B04).withOpacity(0.3),
+                              //              baseColor: ColorConstants.GRADIENT_RED.withOpacity(0.3),
+                              // highlightColor: ColorConstants.GRADIENT_ORANGE.withOpacity(0.3),
                               baseColor: Color(0xffe6e4e6),
                               highlightColor: Color(0xffeaf0f3),
                               child: Container(

@@ -40,7 +40,7 @@ class _PortfolioState extends State<Portfolio> {
                             end: Alignment.centerRight,
                             colors: <Color>[
                               Color(0xfffc7804),
-                              Color(0xffff2252)
+                              ColorConstants.GRADIENT_RED
                             ]),
                       ),
                       child: Column(
@@ -309,7 +309,7 @@ class _PortfolioState extends State<Portfolio> {
                                             end: Alignment.centerRight,
                                             colors: <Color>[
                                               Color(0xfffc7804),
-                                              Color(0xffff2252)
+                                              ColorConstants.GRADIENT_RED
                                             ]).createShader(bounds);
                                       },
                                       child: Text(
@@ -357,7 +357,7 @@ class _PortfolioState extends State<Portfolio> {
                                             end: Alignment.centerRight,
                                             colors: <Color>[
                                               Color(0xfffc7804),
-                                              Color(0xffff2252)
+                                              ColorConstants.GRADIENT_RED
                                             ]).createShader(bounds);
                                       },
                                       child: Text(
@@ -415,7 +415,7 @@ class _PortfolioState extends State<Portfolio> {
                         end: Alignment.centerRight,
                         colors: <Color>[
                           Color(0xfffc7804),
-                          Color(0xffff2252)
+                          ColorConstants.GRADIENT_RED
                         ]).createShader(bounds);
                   },
                   child: Text(
@@ -557,7 +557,7 @@ scrollDirection: Axis.horizontal,                    itemBuilder: (context, int)
             return LinearGradient(
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
-                    colors: <Color>[Color(0xfffc7804), Color(0xffff2252)])
+                    colors: <Color>[Color(0xfffc7804), ColorConstants.GRADIENT_RED])
                 .createShader(bounds);
           },
           child: Text(
@@ -602,7 +602,7 @@ scrollDirection: Axis.horizontal,                    itemBuilder: (context, int)
                           end: Alignment.centerRight,
                           colors: <Color>[
                             Color(0xfffc7804),
-                            Color(0xffff2252)
+                            ColorConstants.GRADIENT_RED
                           ]).createShader(bounds);
                     },
                     child: Text(
@@ -652,7 +652,7 @@ scrollDirection: Axis.horizontal,                    itemBuilder: (context, int)
             linearGradient: LinearGradient(
                 begin: Alignment.centerRight,
                 end: Alignment.centerLeft,
-                colors: <Color>[Color(0xfffc7804), Color(0xffff2252)]),
+                colors: <Color>[Color(0xfffc7804), ColorConstants.GRADIENT_RED]),
           ),
         ),
       ],

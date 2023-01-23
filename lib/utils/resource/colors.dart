@@ -112,6 +112,11 @@ class ColorConstants {
   static const HIGH_LIGHTS_CARD_COLOR1 = Color(0xff3EBDA0);
   static const HIGH_LIGHTS_CARD_COLOR2 = Color(0xffF4900C);
 
+  static const GRADIENT_RED = Color(0xffFF2252);
+  static const GRADIENT_ORANGE = Color(0xffFC7B04);
+
+  
+
 
 
   //ASSESSMENT COLORS

@@ -14,6 +14,7 @@ import 'package:masterg/data/models/request/home_request/user_program_subscribe.
 import 'package:masterg/data/models/request/home_request/user_tracking_activity.dart';
 import 'package:masterg/data/models/request/save_answer_request.dart';
 import 'package:masterg/data/models/response/auth_response/user_session.dart';
+import 'package:masterg/data/models/response/home_response/competition_response.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/utility.dart';
@@ -2114,22 +2115,19 @@ class HomeProvider {
   //   }
   // }
 
-
-
-
-Future<ApiResponse?> getCompetitionContentList({int? competitionId}) async {
-
+  Future<ApiResponse?> getCompetitionContentList({int? competitionId}) async {
     try {
-      final response = await api.dio.get(ApiConstants.COMPETITION_CONTENT_LIST + '$competitionId',
-          options: Options(
-              method: 'GET',
-              headers: {
-                "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
-              },
-              contentType: "application/json",
-              responseType: ResponseType.json // or ResponseType.JSON
-              ));
+      final response = await api.dio
+          .get(ApiConstants.COMPETITION_CONTENT_LIST + '$competitionId',
+              options: Options(
+                  method: 'GET',
+                  headers: {
+                    "Authorization": "Bearer ${UserSession.userToken}",
+                    ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                  },
+                  contentType: "application/json",
+                  responseType: ResponseType.json // or ResponseType.JSON
+                  ));
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data.containsKey('error') &&
             (response.data["error"] as List).length != 0) {
@@ -2143,6 +2141,42 @@ Future<ApiResponse?> getCompetitionContentList({int? competitionId}) async {
     }
     return null;
   }
+  //leaderboard
+
+  Future<ApiResponse?> getLeaderboard(
+      {int? id, String? type, int? skipotherUser, int? skipcurrentUser}) async {
+    try {
+      Map<String, dynamic> data = Map();
+      data['id'] = id;
+      data['type'] = type;
+      data['skipotherUser'] = skipotherUser;
+      data['skipcurrentUser'] = skipcurrentUser;
+      final response =
+          await api.dio.post(ApiConstants.LEADERBOARD ,
+              data: FormData.fromMap(data),
+              options: Options(
+                  method: 'POST',
+                  headers: {
+                    "Authorization": "Bearer ${UserSession.userToken}",
+                    ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+                  },
+                  contentType: "application/json",
+                  responseType: ResponseType.json // or ResponseType.JSON
+                  ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+    return null;
+  }
+
   Future<ApiResponse?> updateVideoCompletion(
       int bookmark, int contentId) async {
     try {

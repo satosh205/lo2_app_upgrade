@@ -95,631 +95,631 @@ class _DashboardState extends State<Dashboard> {
         // appBar: AppBar(),
         backgroundColor: ColorConstants.WHITE,
         body: SafeArea(
-          child: BlocManager(
-              initState: (context) {},
-              child: Consumer2<VideoPlayerProvider, MenuListProvider>(
-                builder: (context, value, menuProvider, child) => BlocManager(
-                  initState: (context) {
-                    videoPlayerProvider = value;
-                  },
-                  child: BlocListener<HomeBloc, HomeState>(
-                    listener: (context, state) async {
-                      if (state is JoyContentListState) {
-                        _handleJoyContentListResponse(state);
-                      }
-                      if (state is getLiveClassState)
-                        _handleLiveClassResponse(state);
+          child: Consumer2<VideoPlayerProvider, MenuListProvider>(
+            builder: (context, value, menuProvider, child) => BlocManager(
+              initState: (context) {
+                videoPlayerProvider = value;
+              },
+              child: BlocListener<HomeBloc, HomeState>(
+                listener: (context, state) async {
+                  if (state is JoyContentListState) {
+                    _handleJoyContentListResponse(state);
+                  }
+                  if (state is getLiveClassState)
+                    _handleLiveClassResponse(state);
 
-                      if (state is FilteredPopularCoursesState)
-                        _handlePopularFilteredCourses(state);
-                    },
-                    child: Container(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            //TODO: User Detail Start
-                            Container(
-                              //margin: EdgeInsets.only(top: 16),
-                              margin:
-                                  EdgeInsets.only(left: 17, right: 17, top: 17),
+                  if (state is FilteredPopularCoursesState)
+                    _handlePopularFilteredCourses(state);
+                },
+                child: Container(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //TODO: User Detail Start
+                        Container(
+                          //margin: EdgeInsets.only(top: 16),
+                          margin: EdgeInsets.only(left: 17, right: 17, top: 17),
 
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Welcome',
-                                    style: Styles.semibold(size: 14),
-                                  ),
-                                  Text(
-                                    '${Preference.getString(Preference.FIRST_NAME)}',
-                                    style: Styles.bold(size: 28),
-                                  ),
-                                  Text(
-                                    'Begin your learning journey',
-                                    style: Styles.regular(),
-                                  ),
-                                ],
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Welcome',
+                                style: Styles.semibold(size: 14),
                               ),
-                            ),
-
-                            //grid view content start
-
-                            ValueListenableBuilder(
-                                valueListenable: box!.listenable(),
-                                builder: (bc, Box box, child) {
-                                  if (box.get("joyContentListResponse") ==
-                                      null) {
-                                    return Shimmer.fromColors(
-                                      baseColor: Color(0xffe6e4e6),
-                                      highlightColor: Color(0xffeaf0f3),
-                                      child: Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.07,
-                                        margin: EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 20),
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(6)),
-                                      ),
-                                    );
-                                  } else if (box
-                                      .get("joyContentListResponse")
-                                      .isEmpty) {
-                                    return Container(
-                                      // height: 290,
-                                      margin: EdgeInsets.only(
-                                          left: 17, right: 17, top: 17),
-                                      width: MediaQuery.of(context).size.width,
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 14),
-                                            child: Divider(
-                                              color: ColorConstants.GREY_3,
-                                            ),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Icon(Icons.star,
-                                                  color: ColorConstants.YELLOW),
-                                              SizedBox(width: 8),
-                                              Text('Featured Updates',
-                                                  style: Styles.bold()),
-                                            ],
-                                          ),
-                                          SizedBox(height: 20),
-                                          Center(
-                                            child: Text(
-                                              "No Data available",
-                                              style: Styles.textBold(),
-                                            ),
-                                          ),
-                                          SizedBox(height: 20)
-                                        ],
-                                      ),
-                                    );
-                                  }
-
-                                  joyContentListResponse = box
-                                      .get("joyContentListResponse")
-                                      .map((e) =>
-                                          JoyContentListElement.fromJson(
-                                              Map<String, dynamic>.from(e)))
-                                      .cast<JoyContentListElement>()
-                                      .toList();
-                                  joyContentListView = joyContentListResponse;
-
-                                  if (selectedJoyContentCategoryId != 1) {
-                                    joyContentListView = joyContentListView
-                                        ?.where((element) =>
-                                            element.categoryId ==
-                                            selectedJoyContentCategoryId)
-                                        .toList();
-                                  }
-
-                                  return Container(
-                                    margin: EdgeInsets.only(
-                                        left: 17, right: 17, top: 17),
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 14),
-                                          child: Divider(
-                                            color: ColorConstants.GREY_3,
-                                          ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Icon(Icons.star,
-                                                color: ColorConstants.YELLOW),
-                                            SizedBox(width: 8),
-                                            Text('Featured Updates',
-                                                style: Styles.bold()),
-                                            Expanded(child: SizedBox()),
-                                            InkWell(
-                                              onTap: () {
-                                                // menuProvider
-                                                //     .updateCurrentIndex(1);
-                                              },
-                                              child: Text('View all',
-                                                  style: Styles.regular(
-                                                    size: 12,
-                                                    color:
-                                                        ColorConstants.ORANGE_3,
-                                                  )),
-                                            ),
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: Visibility(
-                                            visible:
-                                                joyContentListView!.length > 0,
-                                            child: GridView.builder(
-                                              physics:
-                                                  NeverScrollableScrollPhysics(),
-                                              itemCount: showAllFeatured
-                                                  ? joyContentListView!.length
-                                                  : min(
-                                                      2,
-                                                      joyContentListView!
-                                                          .length),
-                                              shrinkWrap: true,
-                                              gridDelegate:
-                                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                                      mainAxisSpacing: 0,
-                                                      crossAxisSpacing: 20,
-                                                      childAspectRatio: 2 / 3,
-                                                      mainAxisExtent:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.35,
-                                                      crossAxisCount: 2),
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                return InkWell(
-                                                  onTap: () async {
-                                                    value
-                                                        .enableProviderControl();
-                                                    value.mute();
-                                                    value.pause().then((data) =>
-                                                        showModalBottomSheet(
-                                                            context: context,
-                                                            backgroundColor:
-                                                                ColorConstants
-                                                                    .WHITE,
-                                                            isScrollControlled:
-                                                                true,
-                                                            builder: (context) {
-                                                              return FractionallySizedBox(
-                                                                  heightFactor:
-                                                                      1.0,
-                                                                  child:
-                                                                      ViewWidgetDetailsPage(
-                                                                    joyContentList:
-                                                                        joyContentListView,
-                                                                    currentIndex:
-                                                                        index,
-                                                                  ));
-                                                            }));
-                                                  },
-                                                  child: Column(
-                                                    children: [
-                                                      Container(
-                                                          decoration: BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10)),
-                                                          child: Stack(
-                                                            children: [
-                                                              ClipRRect(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                                child: Container(
-                                                                    height: MediaQuery.of(context).size.height * 0.25,
-                                                                    width: MediaQuery.of(context).size.width,
-                                                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                                                                    foregroundDecoration: BoxDecoration(
-                                                                        gradient: LinearGradient(
-                                                                      end: const Alignment(
-                                                                          0.0,
-                                                                          -1),
-                                                                      begin: const Alignment(
-                                                                          0.0,
-                                                                          0.8),
-                                                                      colors: [
-                                                                        const Color(0x8A000000)
-                                                                            .withOpacity(0.4),
-                                                                        Colors
-                                                                            .black12
-                                                                            .withOpacity(0.0)
-                                                                      ],
-                                                                    )),
-                                                                    child: CachedNetworkImage(
-                                                                      imageUrl:
-                                                                          '${joyContentListView![index].thumbnailUrl}',
-                                                                      imageBuilder:
-                                                                          (context, imageProvider) =>
-                                                                              Container(
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                                image: DecorationImage(
-                                                                          image:
-                                                                              imageProvider,
-                                                                          fit: BoxFit
-                                                                              .fill,
-                                                                        )),
-                                                                      ),
-                                                                      placeholder: (context,
-                                                                              url) =>
-                                                                          Image
-                                                                              .asset(
-                                                                        'assets/images/placeholder.png',
-                                                                        fit: BoxFit
-                                                                            .fill,
-                                                                      ),
-                                                                      errorWidget: (context,
-                                                                              url,
-                                                                              error) =>
-                                                                          Image
-                                                                              .asset(
-                                                                        'assets/images/placeholder.png',
-                                                                        fit: BoxFit
-                                                                            .fill,
-                                                                      ),
-                                                                    )
-                                                                    // child: Image.network(
-                                                                    //   '${joyContentListView![index].thumbnailUrl}',
-                                                                    //   fit: BoxFit.fill,
-                                                                    // ),
-                                                                    ),
-                                                              ),
-                                                              if (joyContentListView![
-                                                                      index]
-                                                                  .resourcePath!
-                                                                  .contains(
-                                                                      '.mp4'))
-                                                                Positioned.fill(
-                                                                  child: Align(
-                                                                    alignment:
-                                                                        Alignment
-                                                                            .center,
-                                                                    child: SvgPicture
-                                                                        .asset(
-                                                                      'assets/images/play_video_icon.svg',
-                                                                      height:
-                                                                          30.0,
-                                                                      width:
-                                                                          30.0,
-                                                                      allowDrawingOutsideViewBox:
-                                                                          true,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                            ],
-                                                          )),
-                                                      Container(
-                                                        height: 60,
-                                                        margin: EdgeInsets.only(
-                                                            top: 4),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            joyContentListView![
-                                                                            index]
-                                                                        .viewCount !=
-                                                                    null
-                                                                ? Row(
-                                                                    children: [
-                                                                      Text(
-                                                                          '${joyContentListView![index].viewCount}  ${Strings.of(context)?.Views}',
-                                                                          style: Styles.regular(
-                                                                              size: 10,
-                                                                              color: ColorConstants.GREY_3)),
-                                                                      if (joyContentListView![index]
-                                                                              .viewCount! >
-                                                                          1)
-                                                                        Text(
-                                                                            Preference.getInt(Preference.APP_LANGUAGE) == 1
-                                                                                ? 's'
-                                                                                : '',
-                                                                            style:
-                                                                                Styles.regular(size: 10, color: ColorConstants.GREY_3)),
-                                                                    ],
-                                                                  )
-                                                                : Text(
-                                                                    '${0}  ${Strings.of(context)?.Views}',
-                                                                    style: Styles.regular(
-                                                                        size:
-                                                                            10,
-                                                                        color: ColorConstants
-                                                                            .GREY_3)),
-                                                            // SizedBox(
-                                                            //   width: 10,
-                                                            //   height: 4,
-                                                            // ),
-                                                            SizedBox(
-                                                              width: 150,
-                                                              child: Text(
-                                                                  joyContentListView![
-                                                                              index]
-                                                                          .title ??
-                                                                      '',
-                                                                  maxLines: 2,
-                                                                  softWrap:
-                                                                      true,
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  style: Styles
-                                                                      .semibold(
-                                                                          size:
-                                                                              14,
-                                                                          color:
-                                                                              ColorConstants.GREY_1)),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }),
-
-                            //grid view content end
-
-                            //Live classes start
-
-                            Container(
-                                // color: ColorConstants.GREY_4,
-                                child: Padding(
-                                    padding: EdgeInsets.only(top: 10),
-                                    child: liveclassList != null &&
-                                            liveclassList!.length > 0
-                                        ? _getTodayClass()
-                                        : Container())),
-
-                            //live class ended
-
-                            //recent activites
-                            Container(
-                              color: ColorConstants.GREY,
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 12, top: 16, right: 12),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      'Recent activites',
-                                      style: Styles.bold(),
-                                    ),
-                                    Expanded(child: SizedBox()),
-                                  ],
-                                ),
+                              Text(
+                                '${Preference.getString(Preference.FIRST_NAME)}',
+                                style: Styles.bold(size: 28),
                               ),
-                            ),
-
-                            Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.12,
-                                child: MyAssignmentPage(fromDashboard: true)),
-
-                            Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.14,
-                                child: MyAssessmentPage(fromDashboard: true)),
-
-                            //recent activites end
-
-                            //mycourses starrted
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 12, top: 16, right: 12),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'My Courses',
-                                    style: Styles.bold(),
-                                  ),
-                                  Expanded(child: SizedBox()),
-                                  InkWell(
-                                    onTap: () {
-                                      // menuProvider.updateCurrentIndex(2);
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MyCourses()));
-                                    },
-                                    child: Text('View all',
-                                        style: Styles.regular(
-                                          size: 12,
-                                          color: ColorConstants.ORANGE_3,
-                                        )),
-                                  ),
-                                ],
+                              Text(
+                                'Begin your learning journey',
+                                style: Styles.regular(),
                               ),
-                            ),
+                            ],
+                          ),
+                        ),
 
-                            Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.2,
-                                child: MyCourses(fromDashboard: true)),
+                        //grid view content start
 
-                            Container(
-                              height: MediaQuery.of(context).size.height * 0.04,
-                              width: double.infinity,
-                              color: ColorConstants.GREY,
-                            ),
-
-                            //Latest Trends start
-
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 4),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            vertical: 8,
-                                            horizontal: 10,
-                                          ),
-                                          child: Text(
-                                            'Latest Trends',
-                                            style: Styles.bold(),
-                                          )),
-                                      Expanded(child: SizedBox()),
-                                      IconButton(
-                                          onPressed: () {
-                                            // menuProvider.updateCurrentIndex(3);
-                                          },
-                                          icon: Icon(Icons.arrow_forward_ios))
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 14),
-                                    child: Divider(
-                                      color: ColorConstants.GREY_3,
-                                    ),
-                                  ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width,
+                        ValueListenableBuilder(
+                            valueListenable: box!.listenable(),
+                            builder: (bc, Box box, child) {
+                              if (box.get("joyContentListResponse") == null) {
+                                return Shimmer.fromColors(
+                                  baseColor: Color(0xffe6e4e6),
+                                  highlightColor: Color(0xffeaf0f3),
+                                  child: Container(
                                     height: MediaQuery.of(context).size.height *
-                                        0.34,
-                                    child: ReelHorizontal(),
-                                  )
-                                ],
-                              ),
-                            ),
-                            //Latest Trends end
-
-                            //recommended course start
-
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 4),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            vertical: 8,
-                                            horizontal: 10,
-                                          ),
-                                          child: Text(
-                                            'Recommended Courses',
-                                            style: Styles.bold(),
-                                          )),
-                                      Expanded(child: SizedBox()),
-                                      IconButton(
-                                          onPressed: () {
-                                            // menuProvider.updateCurrentIndex(2);
-                                          },
-                                          icon: Icon(Icons.arrow_forward_ios))
-                                    ],
-                                  ),
-                                  Container(
+                                        0.07,
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 20),
                                     width: MediaQuery.of(context).size.width,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.34,
-                                    child: _getRecommendedCourses(
-                                        context,
-                                        MediaQuery.of(context).size.height *
-                                            0.35),
-                                  )
-                                ],
-                              ),
-                            ),
-
-                            //recommended course end
-
-                            //recent Careers start
-
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 4,
-                              ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(6)),
+                                  ),
+                                );
+                              } else if (box
+                                  .get("joyContentListResponse")
+                                  .isEmpty) {
+                                return Container(
+                                  // height: 290,
+                                  margin: EdgeInsets.only(
+                                      left: 17, right: 17, top: 17),
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Column(
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
-                                          vertical: 8,
-                                          horizontal: 10,
-                                        ),
-                                        child: Text(
-                                          'Recent Career Posts',
-                                          style: Styles.bold(),
+                                            vertical: 14),
+                                        child: Divider(
+                                          color: ColorConstants.GREY_3,
                                         ),
                                       ),
-                                      Expanded(child: SizedBox()),
-                                      // Icon(Icons.arrow_forward_ios)
-                                      IconButton(
-                                          onPressed: () {
-                                            // menuProvider.updateCurrentIndex(4);
-                                          },
-                                          icon: Icon(Icons.arrow_forward_ios))
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Icon(Icons.star,
+                                              color: ColorConstants.YELLOW),
+                                          SizedBox(width: 8),
+                                          Text('Featured Updates',
+                                              style: Styles.bold()),
+                                        ],
+                                      ),
+                                      SizedBox(height: 20),
+                                      Center(
+                                        child: Text(
+                                          "No Data available",
+                                          style: Styles.textBold(),
+                                        ),
+                                      ),
+                                      SizedBox(height: 20)
                                     ],
                                   ),
+                                );
+                              }
 
-                                  Container(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.5,
-                                    color: ColorConstants.WHITE,
-                                    child: GCarvaanPostPage(
-                                      fileToUpload: null,
-                                      desc: null,
-                                      filesPath: null,
-                                      formCreatePost: false,
-                                      fromDashboard: true,
+                              joyContentListResponse = box
+                                  .get("joyContentListResponse")
+                                  .map((e) => JoyContentListElement.fromJson(
+                                      Map<String, dynamic>.from(e)))
+                                  .cast<JoyContentListElement>()
+                                  .toList();
+                              joyContentListView = joyContentListResponse;
+
+                              if (selectedJoyContentCategoryId != 1) {
+                                joyContentListView = joyContentListView
+                                    ?.where((element) =>
+                                        element.categoryId ==
+                                        selectedJoyContentCategoryId)
+                                    .toList();
+                              }
+
+                              return Container(
+                                margin: EdgeInsets.only(
+                                    left: 17, right: 17, top: 17),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 14),
+                                      child: Divider(
+                                        color: ColorConstants.GREY_3,
+                                      ),
                                     ),
-                                  ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Icon(Icons.star,
+                                            color: ColorConstants.YELLOW),
+                                        SizedBox(width: 8),
+                                        Text('Featured Updates',
+                                            style: Styles.bold()),
+                                        Expanded(child: SizedBox()),
+                                        InkWell(
+                                          onTap: () {
+                                            // menuProvider
+                                            //     .updateCurrentIndex(1);
+                                          },
+                                          child: Text('View all',
+                                              style: Styles.regular(
+                                                size: 12,
+                                                color: ColorConstants.ORANGE_3,
+                                              )),
+                                        ),
+                                      ],
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10),
+                                      child: Visibility(
+                                        visible: joyContentListView!.length > 0,
+                                        child: GridView.builder(
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          itemCount: showAllFeatured
+                                              ? joyContentListView!.length
+                                              : min(2,
+                                                  joyContentListView!.length),
+                                          shrinkWrap: true,
+                                          gridDelegate:
+                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                                  mainAxisSpacing: 0,
+                                                  crossAxisSpacing: 20,
+                                                  childAspectRatio: 2 / 3,
+                                                  mainAxisExtent:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .height *
+                                                          0.35,
+                                                  crossAxisCount: 2),
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            return InkWell(
+                                              onTap: () async {
+                                                value.enableProviderControl();
+                                                value.mute();
+                                                value.pause().then((data) =>
+                                                    showModalBottomSheet(
+                                                        context: context,
+                                                        backgroundColor:
+                                                            ColorConstants
+                                                                .WHITE,
+                                                        isScrollControlled:
+                                                            true,
+                                                        builder: (context) {
+                                                          return FractionallySizedBox(
+                                                              heightFactor: 1.0,
+                                                              child:
+                                                                  ViewWidgetDetailsPage(
+                                                                joyContentList:
+                                                                    joyContentListView,
+                                                                currentIndex:
+                                                                    index,
+                                                              ));
+                                                        }));
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  Container(
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10)),
+                                                      child: Stack(
+                                                        children: [
+                                                          ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            child: Container(
+                                                                height: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .height *
+                                                                    0.25,
+                                                                width:
+                                                                    MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width,
+                                                                decoration: BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10)),
+                                                                foregroundDecoration:
+                                                                    BoxDecoration(
+                                                                        gradient:
+                                                                            LinearGradient(
+                                                                  end:
+                                                                      const Alignment(
+                                                                          0.0,
+                                                                          -1),
+                                                                  begin:
+                                                                      const Alignment(
+                                                                          0.0,
+                                                                          0.8),
+                                                                  colors: [
+                                                                    const Color(
+                                                                            0x8A000000)
+                                                                        .withOpacity(
+                                                                            0.4),
+                                                                    Colors
+                                                                        .black12
+                                                                        .withOpacity(
+                                                                            0.0)
+                                                                  ],
+                                                                )),
+                                                                child:
+                                                                    CachedNetworkImage(
+                                                                  imageUrl:
+                                                                      '${joyContentListView![index].thumbnailUrl}',
+                                                                  imageBuilder:
+                                                                      (context,
+                                                                              imageProvider) =>
+                                                                          Container(
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                            image:
+                                                                                DecorationImage(
+                                                                      image:
+                                                                          imageProvider,
+                                                                      fit: BoxFit
+                                                                          .fill,
+                                                                    )),
+                                                                  ),
+                                                                  placeholder: (context,
+                                                                          url) =>
+                                                                      Image
+                                                                          .asset(
+                                                                    'assets/images/placeholder.png',
+                                                                    fit: BoxFit
+                                                                        .fill,
+                                                                  ),
+                                                                  errorWidget: (context,
+                                                                          url,
+                                                                          error) =>
+                                                                      Image
+                                                                          .asset(
+                                                                    'assets/images/placeholder.png',
+                                                                    fit: BoxFit
+                                                                        .fill,
+                                                                  ),
+                                                                )
+                                                                // child: Image.network(
+                                                                //   '${joyContentListView![index].thumbnailUrl}',
+                                                                //   fit: BoxFit.fill,
+                                                                // ),
+                                                                ),
+                                                          ),
+                                                          if (joyContentListView![
+                                                                  index]
+                                                              .resourcePath!
+                                                              .contains('.mp4'))
+                                                            Positioned.fill(
+                                                              child: Align(
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                child:
+                                                                    SvgPicture
+                                                                        .asset(
+                                                                  'assets/images/play_video_icon.svg',
+                                                                  height: 30.0,
+                                                                  width: 30.0,
+                                                                  allowDrawingOutsideViewBox:
+                                                                      true,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                        ],
+                                                      )),
+                                                  Container(
+                                                    height: 60,
+                                                    margin:
+                                                        EdgeInsets.only(top: 4),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        joyContentListView![
+                                                                        index]
+                                                                    .viewCount !=
+                                                                null
+                                                            ? Row(
+                                                                children: [
+                                                                  Text(
+                                                                      '${joyContentListView![index].viewCount}  ${Strings.of(context)?.Views}',
+                                                                      style: Styles.regular(
+                                                                          size:
+                                                                              10,
+                                                                          color:
+                                                                              ColorConstants.GREY_3)),
+                                                                  if (joyContentListView![
+                                                                              index]
+                                                                          .viewCount! >
+                                                                      1)
+                                                                    Text(
+                                                                        Preference.getInt(Preference.APP_LANGUAGE) == 1
+                                                                            ? 's'
+                                                                            : '',
+                                                                        style: Styles.regular(
+                                                                            size:
+                                                                                10,
+                                                                            color:
+                                                                                ColorConstants.GREY_3)),
+                                                                ],
+                                                              )
+                                                            : Text(
+                                                                '${0}  ${Strings.of(context)?.Views}',
+                                                                style: Styles.regular(
+                                                                    size: 10,
+                                                                    color: ColorConstants
+                                                                        .GREY_3)),
+                                                        // SizedBox(
+                                                        //   width: 10,
+                                                        //   height: 4,
+                                                        // ),
+                                                        SizedBox(
+                                                          width: 150,
+                                                          child: Text(
+                                                              joyContentListView![
+                                                                          index]
+                                                                      .title ??
+                                                                  '',
+                                                              maxLines: 2,
+                                                              softWrap: true,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: Styles.semibold(
+                                                                  size: 14,
+                                                                  color: ColorConstants
+                                                                      .GREY_1)),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
 
-                                  //show posts
+                        //grid view content end
+
+                        //Live classes start
+
+                        Container(
+                            // color: ColorConstants.GREY_4,
+                            child: Padding(
+                                padding: EdgeInsets.only(top: 10),
+                                child: liveclassList != null &&
+                                        liveclassList!.length > 0
+                                    ? _getTodayClass()
+                                    : Container())),
+
+                        //live class ended
+
+                        //recent activites
+                        Container(
+                          color: ColorConstants.GREY,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 12, top: 16, right: 12),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Recent activites',
+                                  style: Styles.bold(),
+                                ),
+                                Expanded(child: SizedBox()),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        Container(
+                            height: MediaQuery.of(context).size.height * 0.12,
+                            child: MyAssignmentPage(fromDashboard: true)),
+
+                        Container(
+                            height: MediaQuery.of(context).size.height * 0.14,
+                            child: MyAssessmentPage(fromDashboard: true)),
+
+                        //recent activites end
+
+                        //mycourses starrted
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 12, top: 16, right: 12),
+                          child: Row(
+                            children: [
+                              Text(
+                                'My Courses',
+                                style: Styles.bold(),
+                              ),
+                              Expanded(child: SizedBox()),
+                              InkWell(
+                                onTap: () {
+                                  // menuProvider.updateCurrentIndex(2);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MyCourses()));
+                                },
+                                child: Text('View all',
+                                    style: Styles.regular(
+                                      size: 12,
+                                      color: ColorConstants.ORANGE_3,
+                                    )),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        Container(
+                            height: MediaQuery.of(context).size.height * 0.2,
+                            child: MyCourses(fromDashboard: true)),
+
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.04,
+                          width: double.infinity,
+                          color: ColorConstants.GREY,
+                        ),
+
+                        //Latest Trends start
+
+                        Container(
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 8,
+                                        horizontal: 10,
+                                      ),
+                                      child: Text(
+                                        'Latest Trends',
+                                        style: Styles.bold(),
+                                      )),
+                                  Expanded(child: SizedBox()),
+                                  IconButton(
+                                      onPressed: () {
+                                        // menuProvider.updateCurrentIndex(3);
+                                      },
+                                      icon: Icon(Icons.arrow_forward_ios))
                                 ],
                               ),
-                            )
-                          ],
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 14),
+                                child: Divider(
+                                  color: ColorConstants.GREY_3,
+                                ),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.34,
+                                child: ReelHorizontal(),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
+                        //Latest Trends end
+
+                        //recommended course start
+
+                        Container(
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 8,
+                                        horizontal: 10,
+                                      ),
+                                      child: Text(
+                                        'Recommended Courses',
+                                        style: Styles.bold(),
+                                      )),
+                                  Expanded(child: SizedBox()),
+                                  IconButton(
+                                      onPressed: () {
+                                        // menuProvider.updateCurrentIndex(2);
+                                      },
+                                      icon: Icon(Icons.arrow_forward_ios))
+                                ],
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.34,
+                                child: _getRecommendedCourses(context,
+                                    MediaQuery.of(context).size.height * 0.35),
+                              )
+                            ],
+                          ),
+                        ),
+
+                        //recommended course end
+
+                        //recent Careers start
+
+                        Container(
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 4,
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 8,
+                                      horizontal: 10,
+                                    ),
+                                    child: Text(
+                                      'Recent Career Posts',
+                                      style: Styles.bold(),
+                                    ),
+                                  ),
+                                  Expanded(child: SizedBox()),
+                                  // Icon(Icons.arrow_forward_ios)
+                                  IconButton(
+                                      onPressed: () {
+                                        // menuProvider.updateCurrentIndex(4);
+                                      },
+                                      icon: Icon(Icons.arrow_forward_ios))
+                                ],
+                              ),
+
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.5,
+                                color: ColorConstants.WHITE,
+                                child: GCarvaanPostPage(
+                                  fileToUpload: null,
+                                  desc: null,
+                                  filesPath: null,
+                                  formCreatePost: false,
+                                  fromDashboard: true,
+                                ),
+                              ),
+
+                              //show posts
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),
-              )),
+              ),
+            ),
+          ),
         ));
   }
 

@@ -84,7 +84,7 @@ class _CompetetionState extends State<Competetion> {
                           end: Alignment.centerRight,
                           colors: <Color>[
                             Color(0xfffc7804),
-                            Color(0xffff2252)
+                            ColorConstants.GRADIENT_RED
                           ]),
                     ),
                     child: Stack(

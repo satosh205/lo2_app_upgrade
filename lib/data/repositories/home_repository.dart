@@ -72,6 +72,7 @@ import '../models/response/auth_response/dashboard_content_resp.dart';
 import '../models/response/auth_response/dashboard_view_resp.dart';
 import '../models/response/home_response/create_portfolio_response.dart';
 import '../models/response/home_response/delete_portfolio_response.dart';
+import '../models/response/home_response/leaderboard_resp.dart';
 import '../models/response/home_response/list_portfolio_responsed.dart';
 import '../models/response/home_response/remove_account_resp.dart';
 
@@ -562,6 +563,25 @@ class HomeRepository {
     } else {
       Log.v("====> ${response.body}");
       return CompetitionContentListResponse.fromJson(response.body);
+    }
+  }
+
+  //leaderboard
+  Future<LeaderboardResponse> getLeaderboard(
+      int? id, String? type, int? skipotherUser, int? skipcurrentUser) async {
+    final response = await homeProvider.getLeaderboard(
+        id: id,
+        type: type,
+        skipcurrentUser: skipcurrentUser,
+        skipotherUser: skipotherUser);
+    if (response!.success) {
+      Log.v("Competition Content List  DATA : ${response.body}");
+      LeaderboardResponse competitionData =
+          LeaderboardResponse.fromJson(response.body);
+      return competitionData;
+    } else {
+      Log.v("====> ${response.body}");
+      return LeaderboardResponse.fromJson(response.body);
     }
   }
 

@@ -145,12 +145,17 @@ class _homePageState extends State<homePage> {
 
     var pages = {
       '/g-home': GHome(),
+<<<<<<< HEAD
       // '/g-dashboard': const DashboardPage(),
       '/g-dashboard': Competetion(),
       // '/g-school': const Competetion(),
+=======
+      '/g-dashboard': const DashboardPage(),
+      '/g-competitions': Competetion(),
+      '/g-careers': JobDashboardPage(),
+>>>>>>> hotFix
       '/g-school': const GSchool(),
       '/g-reels': ReelsDashboardPage(),
-      // '/g-reels': JobDashboardPage(),
       '/g-carvaan': GCarvaanPostPage(
         fromDashboard: false,
         fileToUpload: widget.fileToUpload,
@@ -208,6 +213,8 @@ class _homePageState extends State<homePage> {
 
     var iconUnSelected = {
       '/g-dashboard': 'assets/images/un_dashboard.svg',
+      '/g-competitions': 'assets/images/unselected_competition.svg',
+      '/g-careers': 'assets/images/un_careers.svg',
       '/g-home': 'assets/images/un_community.svg',
       '/g-school': 'assets/images/un_learn.svg',
       '/g-reels': 'assets/images/un_trends.svg',
@@ -222,6 +229,8 @@ class _homePageState extends State<homePage> {
 
     var iconSelected = {
       '/g-dashboard': 'assets/images/s_dashboards.svg',
+      '/g-competitions': 'assets/images/selected_competition.svg',
+      '/g-careers': 'assets/images/s_careers.svg',
       '/g-home': 'assets/images/s_community.svg',
       '/g-school': 'assets/images/s_learn.svg',
       '/g-reels': 'assets/images/s_trends.svg',
@@ -274,6 +283,7 @@ class _homePageState extends State<homePage> {
                   key: _scaffoldKey,
                   backgroundColor: ColorConstants.GREY,
 
+<<<<<<< HEAD
                   appBar: widget.bottomMenu![menuProvider.getCurrentIndex()]
                                   .url !=
                               '/g-reels' &&
@@ -356,6 +366,98 @@ class _homePageState extends State<homePage> {
                         )
                       : PreferredSize(
                           child: SizedBox(), preferredSize: Size.zero),
+=======
+                  appBar:PreferredSize(
+                    preferredSize: Size.fromHeight(0),
+                    child: AppBar(
+                            automaticallyImplyLeading: false,
+                            elevation: 0,
+                            flexibleSpace: Container(
+                            
+                              decoration: const BoxDecoration(  color: ColorConstants.WHITE,
+                                gradient: LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                    colors: <Color>[
+                                    ColorConstants.GRADIENT_ORANGE,
+                                      ColorConstants.GRADIENT_RED
+                                    ]),
+                              ),
+                            )),
+                  ),
+                  // widget.bottomMenu![menuProvider.getCurrentIndex()]
+                  //                 .url !=
+                  //             '/g-reels' &&
+                  //         APK_DETAILS['package_name'] !=
+                  //             "com.at.perfetti_swayam"
+                  //     ? AppBar(
+                  //         automaticallyImplyLeading: false,
+                  //         flexibleSpace: Container(
+                  //           decoration: const BoxDecoration(
+                  //             gradient: LinearGradient(
+                  //                 begin: Alignment.centerLeft,
+                  //                 end: Alignment.centerRight,
+                  //                 colors: <Color>[
+                  //                   Color(0xfffc7804),
+                  //                   ColorConstants.GRADIENT_RED
+                  //                 ]),
+                  //           ),
+                  //         ),
+                  //         // leading: IconButton(
+                  //         //   onPressed: () async {},
+                  //         //   icon: appBarImagePath.split('.').last == 'svg'
+                  //         //       ? SvgPicture.asset(
+                  //         //           appBarImagePath,
+                  //         //           fit: BoxFit.contain,
+                  //         //         )
+                  //         //       : Image.asset(
+                  //         //           appBarImagePath,
+                  //         //           fit: BoxFit.contain,
+                  //         //         ),
+                  //         // ),
+                  //         title: Row(
+                  //           children: [
+                  //             InkWell(
+                  //               onTap: () {
+                  //                 Navigator.push(context,
+                  //                     MaterialPageRoute(builder: (context) {
+                  //                   return UserProfilePage();
+                  //                 })).then(onGoBack);
+                  //               },
+                  //               child: Transform.scale(
+                  //                 scale: 1,
+                  //                 child:
+                  //                     profileImage != null && profileImage != ''
+                  //                         ? CircleAvatar(
+                  //                             onBackgroundImageError: (_, __) {
+                  //                               setState(() {
+                  //                                 profileImage = '';
+                  //                               });
+                  //                             },
+                  //                             backgroundImage: NetworkImage(
+                  //                               profileImage!,
+                  //                             ))
+                  //                         : SvgPicture.asset(
+                  //                             'assets/images/default_user.svg',
+                  //                             height: 40.0,
+                  //                             width: 40.0,
+                  //                             allowDrawingOutsideViewBox: true,
+                  //                           ),
+                  //               ),
+                  //             ),
+
+                  //             //  Text('')
+                  //           ],
+                  //         ),
+                  //         backgroundColor: ColorConstants().primaryColor(),
+                  //         elevation: 0.0,
+                  //         centerTitle: true,
+                  //       )
+                  //     : 
+                      
+                      // PreferredSize(
+                      //     child: SizedBox(), preferredSize: Size.zero),
+>>>>>>> hotFix
 
                   body: pages[
                       widget.bottomMenu![menuProvider.getCurrentIndex()].url],
