@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfolio.dart';
 import 'package:masterg/pages/user_profile_page/singularis_profile_edit.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:path/path.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class Portfolio extends StatefulWidget {
@@ -463,7 +465,14 @@ class _PortfolioState extends State<Portfolio> {
                         style: Styles.semibold(size: 16),
                       ),
                       Spacer(),
-                      Icon(Icons.arrow_forward_ios_rounded)
+                      InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) => AddPortfolio())));
+                          },
+                          child: Icon(Icons.arrow_forward_ios_rounded))
                     ],
                   ),
                   Padding(
@@ -473,33 +482,37 @@ class _PortfolioState extends State<Portfolio> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.4,
                     child: ListView.builder(
-                      itemCount: 3,
-                      
-
-scrollDirection: Axis.horizontal,                    itemBuilder: (context, int)=> Container(
-  margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Image.network(
-                                'https://picsum.photos/seed/picsum/300/300',
-                                width: MediaQuery.of(context).size.width * 0.8,
-                                height: MediaQuery.of(context).size.height * 0.3,
-                                fit: BoxFit.fill),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            'Title of the project',
-                            style: Styles.bold(),
-                          ),
-                          Text('for Company Name',
-                              style: Styles.semibold(
-                                  size: 12, color: Color(0xff929BA3))),
-                        ],
-                      ),
-                    )),
+                        itemCount: 3,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, int) => Container(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.network(
+                                        'https://picsum.photos/seed/picsum/300/300',
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.8,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.3,
+                                        fit: BoxFit.fill),
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Title of the project',
+                                    style: Styles.bold(),
+                                  ),
+                                  Text('for Company Name',
+                                      style: Styles.semibold(
+                                          size: 12, color: Color(0xff929BA3))),
+                                ],
+                              ),
+                            )),
                   )
                 ],
               ),
@@ -555,10 +568,12 @@ scrollDirection: Axis.horizontal,                    itemBuilder: (context, int)
           blendMode: BlendMode.srcIn,
           shaderCallback: (Rect bounds) {
             return LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    colors: <Color>[Color(0xfffc7804), ColorConstants.GRADIENT_RED])
-                .createShader(bounds);
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: <Color>[
+                  Color(0xfffc7804),
+                  ColorConstants.GRADIENT_RED
+                ]).createShader(bounds);
           },
           child: Text(
             title,
@@ -652,7 +667,10 @@ scrollDirection: Axis.horizontal,                    itemBuilder: (context, int)
             linearGradient: LinearGradient(
                 begin: Alignment.centerRight,
                 end: Alignment.centerLeft,
-                colors: <Color>[Color(0xfffc7804), ColorConstants.GRADIENT_RED]),
+                colors: <Color>[
+                  Color(0xfffc7804),
+                  ColorConstants.GRADIENT_RED
+                ]),
           ),
         ),
       ],
