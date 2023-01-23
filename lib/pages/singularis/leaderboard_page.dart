@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,7 +9,6 @@ import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
-import 'package:http/http.dart' as http;
 
 import '../../data/models/response/home_response/leaderboard_resp.dart';
 
@@ -69,10 +66,12 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                 ),
               ),
               centerTitle: true,
-              leading: const Icon(
+              leading:  IconButton(
+                onPressed: (){Navigator.pop(context);},
+                icon: Icon(
                 Icons.arrow_back_ios,
                 color: Colors.black,
-              ),
+              )),
               title: Text(
                 "Leaderboard",
                 style: Styles.bold(),
@@ -96,7 +95,15 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                     ),
                     height: height(context) * 0.35,
                     width: width(context),
-                    child: Row(
+                    child: isLeaderboardLoading == true ?  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        leadercard('Lorem Ipsum', 2, 2, 2),
+                        leadercard('Lorem Ipsumdolor', 2, 2, 1),
+                        leadercard('Lorem Ipsum', 2, 2, 3),
+                      ],
+                    ) : Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
@@ -157,20 +164,73 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                           trailing: Text("800"),
                         ),
                       )),
-                  Container(
+             isLeaderboardLoading == false ?       Container(
                     color: Colors.white,
                     margin: EdgeInsets.symmetric(vertical: 16),
                     child: ListView.builder(
-                        itemCount: 2,
+                        itemCount: leaderboardResponse?.data.length,
                         shrinkWrap: true,
                         itemBuilder: (BuildContext context, int index) =>
-                            userCard('prince', index + 1, 800)),
-                  ),
+                            userCard(name : leaderboardResponse?.data[index].name, profileImg: leaderboardResponse?.data[index].profileImage,index:  index + 1 , coin:  leaderboardResponse?.data[index].gScore)),
+                  ) : Text('Leaderboard Loading'),
                 ],
               ),
             ),
           ),
         ));
+  }
+
+
+  Widget userCard({String? name, String?  profileImg,  int? index, int? coin, int? totalAct}){
+
+
+return Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    child: ListTile(
+                        leading: SizedBox(
+                          width: width(context) * 0.2,
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Text("${leaderboardResponse?.status}"),
+                              ),
+                              CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                      "$profileImg")),
+                            ],
+                          ),
+                        ),
+                        title: Text("$name"),
+                        subtitle: Text(
+                                "${totalAct ?? 0} Activities"),
+                        trailing: SizedBox(
+                          height: height(context) * 0.2,
+                          width: width(context) * 0.25,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              SvgPicture.asset(
+                                'assets/images/coin.svg',
+                                width: width(context) * 0.07,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    right: 8.0, top: 18),
+                                child: Text(
+                                  "${coin ?? 0}",
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                       
+                        ),
+                  );
+
+
   }
 
   void handleLeaderboardResponse(LeaderboardState state) {
@@ -203,75 +263,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
     });
   }
 
-  Widget userCard(
-    String name,
-    int activityCount,
-    int coinCount,
-  ) {
-    return Container(
-        height: height(context) * 0.6,
-        width: width(context) * 0.7,
-        child: isLeaderboardLoading == false
-            ? ListView.builder(
-                itemCount: leaderboardResponse?.data.length,
-                itemBuilder: ((context, index) {
-                  return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    child: ListTile(
-                        leading: SizedBox(
-                          width: width(context) * 0.2,
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: Text("${leaderboardResponse?.status}"),
-                              ),
-                              // https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa69_HGc_i3MXKCPZzCfAjBZC4bXJsn0rS0Ufe6H-ctZz5FbIVaPkd1jCPTpKwPruIT3Q&usqp=CAU
-                              CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                      "${leaderboardResponse?.data[index].profileImage}")),
-                            ],
-                          ),
-                        ),
-                        title: Text("${leaderboardResponse?.data[index].name}"),
-                        subtitle: isLeaderboardLoading != true
-                            ? Text(
-                                "${leaderboardResponse?.data[index].totalActivities} Activities")
-                            : Text("no data now"),
-                        trailing: Expanded(
-                          child: SizedBox(
-                            height: height(context) * 0.2,
-                            width: width(context) * 0.25,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/images/coin.svg',
-                                  width: width(context) * 0.07,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 8.0, top: 18),
-                                  child: Text(
-                                    "800",
-                                    style: TextStyle(fontSize: 15),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        )
-                        // SvgPicture.asset(
-                        //   'assets/images/coin.svg',
-                        //   width: width(context) * 0.05,
-                        // ),
-                        ),
-                  );
-                }))
-            : Text("null"));
-  }
-
+ 
   Widget leadercard(String title, int activityCount, int coinCount, int rank) {
     String? url;
     switch (rank) {

@@ -222,9 +222,9 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                         ),
                         Center(
                           child: Container(
-                            width: size.width * 0.6,
+                            width: size.width * 0.5,
                             padding: EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 12),
+                                vertical: 8, horizontal: 8),
                             margin: EdgeInsets.symmetric(vertical: 10),
                             decoration: BoxDecoration(
                                 border: Border.all(color: Color(0xffFF2452)),
@@ -244,7 +244,8 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                                                   LeaderboardPage()));
                                     },
                                     child: Text('View Leaderboard',
-                                        style: Styles.bold(
+                                        style: Styles.semibold(
+                                          size: 12,
                                             color: Color(0xff5A5F73))),
                                   ),
                                 ],
@@ -259,9 +260,8 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                     ),
                   ),
                   if (competitionDetailLoading == false) ...[
-                    // Text('we got the data from contentList')
-
                     ListView.builder(
+                     physics: BouncingScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: contentList?.data?.list?.length,
                         itemBuilder: (context, index) {

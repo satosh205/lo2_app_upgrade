@@ -360,7 +360,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                 .createShader(bounds);
           },
           child: Text(
-            'Discover Communities “Technology”',
+            'Discover Communities',
             style: Styles.bold(size: 12),
           ),
         ),

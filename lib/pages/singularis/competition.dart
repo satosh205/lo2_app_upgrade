@@ -38,14 +38,13 @@ class _CompetetionState extends State<Competetion> {
     super.initState();
   }
 
-
-  void getCompetitionList(){
-        BlocProvider.of<HomeBloc>(context)
+  void getCompetitionList() {
+    BlocProvider.of<HomeBloc>(context)
         .add(CompetitionListEvent(isPopular: false));
   }
 
-   void getPopularCompetitionList(){
-        BlocProvider.of<HomeBloc>(context)
+  void getPopularCompetitionList() {
+    BlocProvider.of<HomeBloc>(context)
         .add(CompetitionListEvent(isPopular: true));
   }
 
@@ -63,16 +62,14 @@ class _CompetetionState extends State<Competetion> {
               if (state is CompetitionListState) {
                 _handlecompetitionListResponse(state);
               }
-              if(state is PopularCompetitionListState) {
+              if (state is PopularCompetitionListState) {
                 _handlePopularCompetitionListResponse(state);
-
               }
             },
             child: Container(
               color: ColorConstants.WHITE,
               child: SingleChildScrollView(
-                child: Column(
-                  children: [
+                child: Column(children: [
                   Container(
                     width: double.infinity,
                     height: mobileHeight * 0.25,
@@ -204,51 +201,54 @@ class _CompetetionState extends State<Competetion> {
                                   },
                                   child: Icon(Icons.filter_list))
                             ]),
-                        competitionLoading == false ? 
-                          ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: competitionResponse?.data?.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CompetitionDetail(
-                                                      competition:
-                                                          competitionResponse?.data?[index])));
-                                    },
-                                    child: renderCompetitionCard(
-                                        '${competitionResponse?.data![index]?.image}',
-                                        '${competitionResponse?.data![index]?.name}',
-                                        '',
-                                        '',
-                                        '${competitionResponse?.data![index]?.gScore}',
-                                        '${competitionResponse?.data![index]?.endDate}'
-                                        // '${Utility.convertDateFromMillis(int.parse('${competitionResponse?.data![index]?.endDate}'), "dd MMM yyyy")}'
-                                        ));
-                              }) : Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
-              enabled: true,
-              child: ListView.builder(
-                // scrollDirection: direction,
-                shrinkWrap: true,
-                itemBuilder: (_, __) => Container(
-                  padding:  EdgeInsets.symmetric(vertical: 8),
-                  width: MediaQuery.of(context).size.width,
-                  child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8)),
-                        width: double.infinity,
-                        height: 80,
-                      ),
-                ),
-                itemCount: 2,
-              ),
-            ),
+                        competitionLoading == false
+                            ? ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: competitionResponse?.data?.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CompetitionDetail(
+                                                        competition:
+                                                            competitionResponse
+                                                                    ?.data?[
+                                                                index])));
+                                      },
+                                      child: renderCompetitionCard(
+                                          '${competitionResponse?.data![index]?.image}',
+                                          '${competitionResponse?.data![index]?.name}',
+                                          '',
+                                          '',
+                                          '${competitionResponse?.data![index]?.gScore}',
+                                          '${competitionResponse?.data![index]?.endDate}'
+                                          // '${Utility.convertDateFromMillis(int.parse('${competitionResponse?.data![index]?.endDate}'), "dd MMM yyyy")}'
+                                          ));
+                                })
+                            : Shimmer.fromColors(
+                                baseColor: Colors.grey[300]!,
+                                highlightColor: Colors.grey[100]!,
+                                enabled: true,
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemBuilder: (_, __) => Container(
+                                    padding: EdgeInsets.symmetric(vertical: 8),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
+                                      width: double.infinity,
+                                      height: 80,
+                                    ),
+                                  ),
+                                  itemCount: 2,
+                                ),
+                              ),
                         SizedBox(height: 10),
                         Row(
                           children: [
@@ -260,34 +260,44 @@ class _CompetetionState extends State<Competetion> {
                         ),
 
                         //
-             if( competitionLoading == false)      Container(
-                          height: 233,
-                          // color: Colors.green,
-                          // padding: EdgeInsets.symmetric(vertical: 20),
-                          margin: EdgeInsets.only(top: 8, bottom: 20),
-                          child:    popularCompetitionResponse?.data?.length != 0 ?    ListView.builder(
-                              itemCount: popularCompetitionResponse?.data?.length,
-                              shrinkWrap: true,
-                              
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (BuildContext context, int index) {
-                                return InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  CompetitionDetail( competition:
-                                                          popularCompetitionResponse?.data?[index])));
-                                    },
-                                    child: renderActivityCard('${popularCompetitionResponse?.data![index]?.image}',
-                                        '${popularCompetitionResponse?.data![index]?.name}',
-                                        '',
-                                        '',
-                                        '${popularCompetitionResponse?.data![index]?.gScore}',
-                                        '${popularCompetitionResponse?.data![index]?.endDate}'));
-                              }):  Center(child: Text('No Popular Activites Found')),
-                        ),
+                        if (competitionLoading == false)
+                          Container(
+                            height: 233,
+                            // color: Colors.green,
+                            // padding: EdgeInsets.symmetric(vertical: 20),
+                            margin: EdgeInsets.only(top: 8, bottom: 20),
+                            child: popularCompetitionResponse?.data?.length != 0
+                                ? ListView.builder(
+                                    itemCount: popularCompetitionResponse
+                                        ?.data?.length,
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        CompetitionDetail(
+                                                            competition:
+                                                                popularCompetitionResponse
+                                                                        ?.data?[
+                                                                    index])));
+                                          },
+                                          child: renderActivityCard(
+                                              '${popularCompetitionResponse?.data![index]?.image}',
+                                              '${popularCompetitionResponse?.data![index]?.name}',
+                                              '',
+                                              '',
+                                              '${popularCompetitionResponse?.data![index]?.gScore}',
+                                              '${popularCompetitionResponse?.data![index]?.endDate}'));
+                                    })
+                                : Center(
+                                    child: Text('No Popular Activites Found')),
+                          ),
                       ],
                     ),
                   )
@@ -324,8 +334,7 @@ class _CompetetionState extends State<Competetion> {
                     topLeft: Radius.circular(16),
                     topRight: Radius.circular(16)),
                 child: CachedNetworkImage(
-                  imageUrl:
-                      competitionImg,
+                  imageUrl: competitionImg,
                   width: 100,
                   height: 120,
                   errorWidget: (context, url, error) => SvgPicture.asset(
@@ -649,7 +658,7 @@ class _CompetetionState extends State<Competetion> {
     }
   }
 
-  void _handlecompetitionListResponse(CompetitionListState state ) {
+  void _handlecompetitionListResponse(CompetitionListState state) {
     var competitionState = state;
     setState(() {
       switch (competitionState.apiState) {
@@ -666,7 +675,7 @@ class _CompetetionState extends State<Competetion> {
         case ApiStatus.ERROR:
           Log.v(
               "Error CompetitionListIDState ..........................${competitionState.error}");
-            competitionLoading = false;
+          competitionLoading = false;
           break;
         case ApiStatus.INITIAL:
           break;
@@ -674,8 +683,8 @@ class _CompetetionState extends State<Competetion> {
     });
   }
 
-
-   void _handlePopularCompetitionListResponse(PopularCompetitionListState state ) {
+  void _handlePopularCompetitionListResponse(
+      PopularCompetitionListState state) {
     var popularCompetitionState = state;
     setState(() {
       switch (popularCompetitionState.apiState) {
@@ -692,7 +701,7 @@ class _CompetetionState extends State<Competetion> {
         case ApiStatus.ERROR:
           Log.v(
               "Error Popular CompetitionListIDState ..........................${popularCompetitionState.error}");
-            popularCompetitionLoading = false;
+          popularCompetitionLoading = false;
           break;
         case ApiStatus.INITIAL:
           break;
