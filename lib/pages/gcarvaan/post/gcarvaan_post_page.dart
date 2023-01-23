@@ -226,7 +226,8 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                           Row(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
-                                                mainAxisAlignment: MainAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                             children: [
                                               InkWell(
                                                 onTap: () {
@@ -249,7 +250,8 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                               ),
                                               SizedBox(width: 10),
                                               Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Container(
                                                     height: 8,
@@ -283,35 +285,55 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                                                       .circular(
                                                                           10)),
                                                         ),
-                                                     
                                                       ],
                                                     ),
                                                   ),
                                                   SizedBox(height: 8),
-                                                     Text(
-                                                            'Profile completed: 30% ',
-                                                            style: Styles
-                                                                .semiBoldWhite())
+                                                  Text(
+                                                      'Profile completed: 30% ',
+                                                      style: Styles
+                                                          .semiBoldWhite())
                                                 ],
                                               ),
                                               Container(
-                                                margin: EdgeInsets.only(left: 4),
-                                                padding: EdgeInsets.symmetric(vertical: 4, horizontal : 8),
-                                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: ColorConstants.WHITE.withOpacity(0.5)),
-                                                child: Row(children: [
-
-                                                  Container(
-                                                    padding: EdgeInsets.all(4),
-                                                    decoration: BoxDecoration(shape: BoxShape.circle, color: ColorConstants.WHITE),
-                                                    child: Center(child: SvgPicture.asset('assets/images/GReelsS.svg'))),SizedBox(width: 4),
-                                                Text('Reels', style: Styles.semibold(size: 14, color: Color(0xff0E1638)))
-                                              ],)),
+                                                  margin:
+                                                      EdgeInsets.only(left: 4),
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 4,
+                                                      horizontal: 8),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color: ColorConstants
+                                                          .WHITE
+                                                          .withOpacity(0.5)),
+                                                  child: Row(
+                                                    children: [
+                                                      Container(
+                                                          padding:
+                                                              EdgeInsets.all(4),
+                                                          decoration: BoxDecoration(
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                              color:
+                                                                  ColorConstants
+                                                                      .WHITE),
+                                                          child: Center(
+                                                              child: SvgPicture
+                                                                  .asset(
+                                                                      'assets/images/GReelsS.svg'))),
+                                                      SizedBox(width: 4),
+                                                      Text('Reels',
+                                                          style: Styles.semibold(
+                                                              size: 14,
+                                                              color: Color(
+                                                                  0xff0E1638)))
+                                                    ],
+                                                  )),
                                             ],
                                           ),
                                         ]))),
-
-
-                                        
                             if (createPostProvider.getPostStatus() == true)
                               Text('Uploading Post'),
                             if (isPostedLoading ||
@@ -345,27 +367,27 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                       ),
                                     ],
                                   )),
-
-                                     Row(
-                                       children: [
-
-                                        SvgPicture.asset('assets/images/discover.svg'),
-                                         ShaderMask(
-          blendMode: BlendMode.srcIn,
-          shaderCallback: (Rect bounds) {
-            return LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    colors: <Color>[Color(0xfffc7804), ColorConstants.GRADIENT_RED])
-                .createShader(bounds);
-          },
-          child: Text(
-            'Discover Communities',
-            style: Styles.bold(size: 12),
-          ),
-        ),
-                                       ],
-                                     ),
+                            Row(
+                              children: [
+                                SvgPicture.asset('assets/images/discover.svg'),
+                                ShaderMask(
+                                  blendMode: BlendMode.srcIn,
+                                  shaderCallback: (Rect bounds) {
+                                    return LinearGradient(
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                        colors: <Color>[
+                                          Color(0xfffc7804),
+                                          ColorConstants.GRADIENT_RED
+                                        ]).createShader(bounds);
+                                  },
+                                  child: Text(
+                                    'Discover Communities',
+                                    style: Styles.bold(size: 12),
+                                  ),
+                                ),
+                              ],
+                            ),
                             if (!widget.fromDashboard)
                               Consumer<CreatePostProvider>(
                                 builder: (context, value, child) => Container(
@@ -476,9 +498,6 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                   ),
                                 ),
                               ),
-
-
-                            
                             Container(
                               margin: widget.fromDashboard == true
                                   ? null

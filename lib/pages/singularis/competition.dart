@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
@@ -30,7 +31,8 @@ class _CompetetionState extends State<Competetion> {
   CompetitionResponse? competitionResponse, popularCompetitionResponse;
   bool? competitionLoading;
   bool? popularCompetitionLoading;
-  @override
+
+ @override
   void initState() {
     getCompetitionList();
     getPopularCompetitionList();
@@ -206,6 +208,8 @@ class _CompetetionState extends State<Competetion> {
                                 shrinkWrap: true,
                                 itemCount: competitionResponse?.data?.length,
                                 itemBuilder: (BuildContext context, int index) {
+
+                                  
                                   return InkWell(
                                       onTap: () {
                                         Navigator.push(
@@ -219,13 +223,12 @@ class _CompetetionState extends State<Competetion> {
                                                                 index])));
                                       },
                                       child: renderCompetitionCard(
-                                          '${competitionResponse?.data![index]?.image}',
-                                          '${competitionResponse?.data![index]?.name}',
-                                          '',
-                                          '',
-                                          '${competitionResponse?.data![index]?.gScore}',
-                                          '${competitionResponse?.data![index]?.endDate}'
-                                          // '${Utility.convertDateFromMillis(int.parse('${competitionResponse?.data![index]?.endDate}'), "dd MMM yyyy")}'
+                                          '${competitionResponse?.data![index]?.image ?? ''}',
+                                          '${competitionResponse?.data![index]?.name ?? ''}',
+                                       '${competitionResponse?.data![index]?.organizedBy ?? ''}',
+                                          '${competitionResponse?.data![index]?.competitionLevel ?? 'Easy'}',
+                                          '${competitionResponse?.data![index]?.gScore ?? 0}',
+                                          '${Utility.ordinalDate(dateVal: "${competitionResponse?.data![index]?.endDate}")}'
                                           ));
                                 })
                             : Shimmer.fromColors(
@@ -432,9 +435,11 @@ class _CompetetionState extends State<Competetion> {
             ),
             Row(
               children: [
-                Text('Google'),
+                Text('Conducted by ' , style: Styles.regular(size: 10, color: Color(0xff929BA3))),
+                Text(companyName , style: Styles.semibold(size: 12),),
+
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.48,
+                  width: MediaQuery.of(context).size.width * 0.4,
                 ),
                 Icon(
                   Icons.arrow_forward_ios,

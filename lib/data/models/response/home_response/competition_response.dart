@@ -60,6 +60,7 @@ class Competition {
         this.isStructured,
         this.isCompetition,
         this.terminationDays,
+        this.organizedBy,this.competitionLevel, this.isPopular
     });
 
     int? id;
@@ -92,7 +93,15 @@ class Competition {
     int? isStructured;
     int? isCompetition;
     dynamic terminationDays;
+    String? organizedBy;
+    String? competitionLevel;
+    int? isPopular;
 
+
+
+// "organized_by": null,
+//             "competition_level": null,
+//             "is_popular": null
     factory Competition.fromJson(Map<String, dynamic> json) => Competition(
         id: json["id"],
         parentId: json["parent_id"],
@@ -124,6 +133,9 @@ class Competition {
         isStructured: json["is_structured"],
         isCompetition: json["is_competition"],
         terminationDays: json["termination_days"],
+        organizedBy: json['organized_by'],
+      competitionLevel: json['competition_level'],
+      isPopular:  json['is_popular']
     );
 
     Map<String, dynamic> toJson() => {
@@ -157,5 +169,8 @@ class Competition {
         "is_structured": isStructured,
         "is_competition": isCompetition,
         "termination_days": terminationDays,
+        "organized_by" : organizedBy,
+        "competition_level" : competitionLevel,
+        "is_popular" : isPopular
     };
 }
