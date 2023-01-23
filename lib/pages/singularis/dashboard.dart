@@ -123,8 +123,12 @@ class _DashboardPageState extends State<DashboardPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   InkWell(
-                                    onTap: (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> Portfolio()));
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Portfolio()));
                                     },
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(200),
@@ -138,47 +142,45 @@ class _DashboardPageState extends State<DashboardPage> {
                                   SizedBox(width: 10),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text('Welcome',
                                           style: Styles.regular(
                                               color: ColorConstants.WHITE)),
-                                      Text('Prince Vishwkarma', style: Styles.bold(color: ColorConstants.WHITE),),
+                                      Text(
+                                        'Prince Vishwkarma',
+                                        style: Styles.bold(
+                                            color: ColorConstants.WHITE),
+                                      ),
                                     ],
                                   ),
                                 ],
                               ),
-SizedBox(height: 10),
+                              SizedBox(height: 10),
                               Container(
-                                          height: 8,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                          decoration: BoxDecoration(
-                                              color: ColorConstants.WHITE.withOpacity(0.2),
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          child: Stack(
-                                            children: [
-                                              Container(
-                                                height: 10,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.6 *
-                                                    (30/
-                                                        100),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xffFFB72F),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-SizedBox(height: 10),
-
+                                height: 8,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    color:
+                                        ColorConstants.WHITE.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      height: 10,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.6 *
+                                          (30 / 100),
+                                      decoration: BoxDecoration(
+                                          color: Color(0xffFFB72F),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 10),
                               Text('Profile completed: 30% ',
                                   style: Styles.semiBoldWhite())
                             ],

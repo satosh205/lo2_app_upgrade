@@ -13,9 +13,12 @@ import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/create_post_response.dart';
 import 'package:masterg/data/models/response/home_response/gcarvaan_post_reponse.dart';
+import 'package:masterg/local/pref/Preference.dart';
+import 'package:masterg/pages/custom_pages/custom_widgets/rounded_appbar.dart';
 import 'package:masterg/pages/gcarvaan/components/gcarvaan_card_post.dart';
 import 'package:masterg/pages/gcarvaan/createpost/create_gcarvaan_page.dart';
 import 'package:masterg/pages/gcarvaan/createpost/create_post_provider.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_page.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
@@ -130,7 +133,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
             create: (context) => GCarvaanListModel(gcarvaanPosts),
           ),
           ChangeNotifierProvider<CreatePostProvider>(
-            create: (context) => CreatePostProvider([],null),
+            create: (context) => CreatePostProvider([], null),
           ),
         ],
         child: Scaffold(
@@ -189,10 +192,10 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                 },
               ),
 
-
-
               child: Consumer2<GCarvaanListModel, CreatePostProvider>(
-                builder: (context, carvaanListModel,createPostProvider, child) => BlocManager(
+                builder:
+                    (context, carvaanListModel, createPostProvider, child) =>
+                        BlocManager(
                   initState: (context) {},
                   child: BlocListener<HomeBloc, HomeState>(
                     listener: (context, state) async {
@@ -210,8 +213,107 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
+                            RoundedAppBar(
+                                appBarHeight: height(context) * 0.1,
+                                child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              Portfolio()));
+                                                },
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          200),
+                                                  child: SizedBox(
+                                                    width: 40,
+                                                    child: Image.network(
+                                                        '${Preference.getString(Preference.PROFILE_IMAGE)}'),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(width: 10),
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    height: 8,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.5,
+                                                    decoration: BoxDecoration(
+                                                        color: ColorConstants
+                                                            .WHITE
+                                                            .withOpacity(0.2),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10)),
+                                                    child: Stack(
+                                                      children: [
+                                                        Container(
+                                                          height: 10,
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.6 *
+                                                              (30 / 100),
+                                                          decoration: BoxDecoration(
+                                                              color: Color(
+                                                                  0xffFFB72F),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10)),
+                                                        ),
+                                                     
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 8),
+                                                     Text(
+                                                            'Profile completed: 30% ',
+                                                            style: Styles
+                                                                .semiBoldWhite())
+                                                ],
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(left: 4),
+                                                padding: EdgeInsets.symmetric(vertical: 4, horizontal : 8),
+                                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: ColorConstants.WHITE.withOpacity(0.5)),
+                                                child: Row(children: [
 
-if(createPostProvider.getPostStatus() == true) Text('Uploading Post'),
+                                                  Container(
+                                                    padding: EdgeInsets.all(4),
+                                                    decoration: BoxDecoration(shape: BoxShape.circle, color: ColorConstants.WHITE),
+                                                    child: Center(child: SvgPicture.asset('assets/images/GReelsS.svg'))),SizedBox(width: 4),
+                                                Text('Reels', style: Styles.semibold(size: 14, color: Color(0xff0E1638)))
+                                              ],)),
+                                            ],
+                                          ),
+                                        ]))),
+
+
+                                        
+                            if (createPostProvider.getPostStatus() == true)
+                              Text('Uploading Post'),
                             if (isPostedLoading ||
                                 isGCarvaanPostLoading &&
                                     widget.fileToUpload != null)
@@ -243,8 +345,27 @@ if(createPostProvider.getPostStatus() == true) Text('Uploading Post'),
                                       ),
                                     ],
                                   )),
-                           
 
+                                     Row(
+                                       children: [
+
+                                        SvgPicture.asset('assets/images/discover.svg'),
+                                         ShaderMask(
+          blendMode: BlendMode.srcIn,
+          shaderCallback: (Rect bounds) {
+            return LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: <Color>[Color(0xfffc7804), ColorConstants.GRADIENT_RED])
+                .createShader(bounds);
+          },
+          child: Text(
+            'Discover Communities “Technology”',
+            style: Styles.bold(size: 12),
+          ),
+        ),
+                                       ],
+                                     ),
                             if (!widget.fromDashboard)
                               Consumer<CreatePostProvider>(
                                 builder: (context, value, child) => Container(
@@ -258,9 +379,6 @@ if(createPostProvider.getPostStatus() == true) Text('Uploading Post'),
                                   // height: 80,
                                   child: Column(
                                     children: [
-
-
-                                      
                                       InkWell(
                                         onTap: () {
                                           Navigator.push(
@@ -354,12 +472,13 @@ if(createPostProvider.getPostStatus() == true) Text('Uploading Post'),
                                       //     )
                                       //   ],
                                       // )
-                               
-                               
                                     ],
                                   ),
                                 ),
                               ),
+
+
+                            
                             Container(
                               margin: widget.fromDashboard == true
                                   ? null
@@ -422,17 +541,16 @@ if(createPostProvider.getPostStatus() == true) Text('Uploading Post'),
         }
 
         Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => CreateGCarvaanPage(
-                        isReelsPost: false,
-                        fileToUpload: [],
-                        filesPath: provider.files,
-                        provider: provider)))
-            .then((value) {
-              provider.postStatus(true);
-_refreshController.requestRefresh();
-            } );
+            context,
+            MaterialPageRoute(
+                builder: (context) => CreateGCarvaanPage(
+                    isReelsPost: false,
+                    fileToUpload: [],
+                    filesPath: provider.files,
+                    provider: provider))).then((value) {
+          provider.postStatus(true);
+          _refreshController.requestRefresh();
+        });
       }
     }
   }
@@ -526,9 +644,8 @@ _refreshController.requestRefresh();
                       userID: gcarvaanPosts[index].userId,
                     )
                   : Container();
-            }) 
-        : _emptyPostListWidget()
-        ;
+            })
+        : _emptyPostListWidget();
 
     //TODO: OLd Code
     /*return box != null ? ValueListenableBuilder(
@@ -888,10 +1005,10 @@ _refreshController.requestRefresh();
         //   gcarvaanPosts = [];
         //   gcarvaanPosts!.addAll(state.response!.data!.list!);
         // }
-        
-if(state.response!.data!.list!.length == 0) callCount--;
+
+        if (state.response!.data!.list!.length == 0) callCount--;
         gcarvaanPosts!.addAll(state.response!.data!.list!);
-         model.refreshList(gcarvaanPosts!);
+        model.refreshList(gcarvaanPosts!);
 
         var seen = Set<GCarvaanPostElement>();
         List<GCarvaanPostElement> uniquelist =

@@ -145,15 +145,9 @@ class _homePageState extends State<homePage> {
 
     var pages = {
       '/g-home': GHome(),
-<<<<<<< HEAD
-      // '/g-dashboard': const DashboardPage(),
-      '/g-dashboard': Competetion(),
-      // '/g-school': const Competetion(),
-=======
       '/g-dashboard': const DashboardPage(),
       '/g-competitions': Competetion(),
       '/g-careers': JobDashboardPage(),
->>>>>>> hotFix
       '/g-school': const GSchool(),
       '/g-reels': ReelsDashboardPage(),
       '/g-carvaan': GCarvaanPostPage(
@@ -283,90 +277,6 @@ class _homePageState extends State<homePage> {
                   key: _scaffoldKey,
                   backgroundColor: ColorConstants.GREY,
 
-<<<<<<< HEAD
-                  appBar: widget.bottomMenu![menuProvider.getCurrentIndex()]
-                                  .url !=
-                              '/g-reels' &&
-                          APK_DETAILS['package_name'] !=
-                              "com.at.perfetti_swayam"
-                      ?  PreferredSize(
-                        preferredSize:  Size.fromHeight(100),
-                          child: Container(
-                            height: 100,
-                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
-                              gradient: LinearGradient(
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                  colors: <Color>[
-                                    Color(0xfffc7804),
-                                    Color(0xffff2252)
-                                  ]),
-                            ),
-
-                            child: Center(
-                              child: Row(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (context) {
-                                      return UserProfilePage();
-                                    })).then(onGoBack);
-                                  },
-                                  child: Transform.scale(
-                                    scale: 1,
-                                    child:
-                                        profileImage != null && profileImage != ''
-                                            ? CircleAvatar(
-                                                onBackgroundImageError: (_, __) {
-                                                  setState(() {
-                                                    profileImage = '';
-                                                  });
-                                                },
-                                                backgroundImage: NetworkImage(
-                                                  profileImage!,
-                                                ))
-                                            : SvgPicture.asset(
-                                                'assets/images/default_user.svg',
-                                                height: 40.0,
-                                                width: 40.0,
-                                                allowDrawingOutsideViewBox: true,
-                                              ),
-                                  ),
-                                ),
-                                SizedBox(width: 8),
-                                Text(
-                                    '${Preference.getString(Preference.FIRST_NAME)}',
-                                    style:
-                                        Styles.bold(
-                                          size: 22,
-                                          color: ColorConstants.WHITE))
-                              ],
-                          ),
-                            )
-                          ),
-                          // leading: IconButton(
-                          //   onPressed: () async {},
-                          //   icon: appBarImagePath.split('.').last == 'svg'
-                          //       ? SvgPicture.asset(
-                          //           appBarImagePath,
-                          //           fit: BoxFit.contain,
-                          //         )
-                          //       : Image.asset(
-                          //           appBarImagePath,
-                          //           fit: BoxFit.contain,
-                          //         ),
-                          // ),
-                          // title: ,
-                          // backgroundColor: ColorConstants().primaryColor(),
-                          // elevation: 0.0,
-                          // centerTitle: true,
-                        )
-                      : PreferredSize(
-                          child: SizedBox(), preferredSize: Size.zero),
-=======
                   appBar:PreferredSize(
                     preferredSize: Size.fromHeight(0),
                     child: AppBar(
@@ -457,7 +367,6 @@ class _homePageState extends State<homePage> {
                       
                       // PreferredSize(
                       //     child: SizedBox(), preferredSize: Size.zero),
->>>>>>> hotFix
 
                   body: pages[
                       widget.bottomMenu![menuProvider.getCurrentIndex()].url],
