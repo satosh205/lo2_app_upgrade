@@ -114,6 +114,7 @@ class ColorConstants {
 
   static const GRADIENT_RED = Color(0xffFF2252);
   static const GRADIENT_ORANGE = Color(0xffFC7B04);
+  static const PROGESSBAR_TEAL = Color(0xff3EBDA0);
 
   
 

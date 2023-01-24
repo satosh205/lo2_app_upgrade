@@ -109,6 +109,10 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                 //_getResumeLerarning(),
                 //_getCourses(),
                 // _getDashboard(context),
+                Container(
+              height: 180,
+              width: width(context),
+                  child: MyCourses(fromDashboard: true,)),
 
                 Container(
 
@@ -119,9 +123,17 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
                     children: [
-                      topRoundedCard(),
-                      topRoundedCard(),
-                      topRoundedCard(),
+                      topRoundedCard('Classes', (){
+                        Navigator.push(context,MaterialPageRoute(builder: (context)=> MyClasses()));
+                      }),
+                      topRoundedCard('Assignments', (){
+                        Navigator.push(context,MaterialPageRoute(builder: (context)=> MyAssignmentPage()));
+
+                      }),
+                      topRoundedCard('Quizes', (){
+                        Navigator.push(context,MaterialPageRoute(builder: (context)=> MyAssessmentPage()));
+
+                      }),
                     ],
                   ),
                 ),
@@ -141,7 +153,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
   }
 
 
-  Widget topRoundedCard(){
+  Widget topRoundedCard(String name, Function action){
     return Container(
                         height: 50,
                         width: width(context) * 0.3,
@@ -174,7 +186,47 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                         
                                         )
                                         
-                                        )
+                                        ),
+
+                                    Positioned(
+                                      left: 10,
+                                      top: height(context) * 0.08,
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('My', style: Styles.semibold(size: 12, color: ColorConstants.WHITE)),
+                                          Text('$name', style: Styles.semibold(size: 12, color: ColorConstants.WHITE)),
+
+                                        ],
+                                      )),
+
+                                       Positioned(
+                                      right: 10,
+                                      top: height(context) * 0.135,
+                                      child: InkWell(
+
+                                        onTap: (){
+                                          action();
+                                        },
+                                        child: Container(
+                                          width: width(context) * 0.1,
+                                          height: width(context) * 0.1,
+                                          padding: EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            
+                                         boxShadow: <BoxShadow>[
+                                          BoxShadow(
+                                              color: Colors.black.withOpacity(0.3),
+                                              blurRadius: 4.0,
+                                              offset: Offset(0.0, 4.07)
+                                          
+                                          )
+                                        ],
+                                            color: ColorConstants.WHITE, shape: BoxShape.circle),
+                                          child: SvgPicture.asset('assets/images/gradient_arrow.svg'),
+                                          ),
+                                      ))
                                 ],),
                       );
   }

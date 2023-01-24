@@ -197,7 +197,7 @@ class _MyCoursesState extends State<MyCourses> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                if (!widget.fromDashboard)
+                                // if (!widget.fromDashboard)
                                   SizedBox(
                                     width: 120,
                                     height: 100,
@@ -282,10 +282,12 @@ class _MyCoursesState extends State<MyCourses> {
                                                             .completionPer! /
                                                         100),
                                                 decoration: BoxDecoration(
-                                                    color: !widget.fromDashboard
-                                                        ? ColorConstants()
-                                                            .primaryColor()
-                                                        : ColorConstants.YELLOW,
+                                                    // color: !widget.fromDashboard
+                                                    //     ? ColorConstants()
+                                                    //         .primaryColor()
+                                                    //     : ColorConstants.YELLOW,
+
+                                                    color: ColorConstants.PROGESSBAR_TEAL,
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10)),
