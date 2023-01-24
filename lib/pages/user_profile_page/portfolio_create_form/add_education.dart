@@ -173,7 +173,7 @@ class _AddEducationState extends State<AddEducation> {
                     hintText:
                         'You can mention your Grades, Achievements, Activities or subjects you are studying ',
                   ),
-                  customButton()
+                  PortfolioCustomButton(clickAction: (){},)
                 ]))));
   }
 }

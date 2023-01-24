@@ -28,6 +28,7 @@ import 'package:masterg/pages/ghome/widget/read_more.dart';
 import 'package:masterg/pages/ghome/widget/view_widget_details_page.dart';
 
 import 'package:masterg/pages/training_pages/new_screen/courses_details_page.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/portfolio_page.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_page.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
@@ -124,7 +125,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                 children: [
                                   InkWell(
                                     onTap: (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> Portfolio()));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> NewPortfolioPage()));
                                     },
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(200),

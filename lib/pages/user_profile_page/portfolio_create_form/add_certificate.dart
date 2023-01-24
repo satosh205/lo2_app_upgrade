@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
 import 'package:masterg/utils/constant.dart';
@@ -98,7 +96,7 @@ class _AddCertificateState extends State<AddCertificate> {
                   SizedBox(
                     height: 60,
                   ),
-                  customUploade(uploadeText: 'Uploade Certificate'),
+                  CustomUpload(UploadText: 'Upload Certificate'),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Center(
@@ -109,7 +107,7 @@ class _AddCertificateState extends State<AddCertificate> {
                               color: Color(0xff929BA3))),
                     ),
                   ),
-                  customButton()
+                  PortfolioCustomButton(clickAction: (){},)
                 ]))));
   }
 }
