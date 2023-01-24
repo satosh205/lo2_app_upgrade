@@ -619,91 +619,99 @@ class _DashboardPageState extends State<DashboardPage> {
                                         isMaintainState: true));
                               },
                               child: Container(
-                                  padding: EdgeInsets.all(10),
-                                  margin: EdgeInsets.only(top: 12, right: 10),
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.8,
-                                  //height: MediaQuery.of(context).size.height * 0.13,
-                                  decoration: BoxDecoration(
-                                      color:
-                                          ColorConstants.GREY.withOpacity(0.6),
-                                      borderRadius: BorderRadius.circular(15)),
-                                  child: SizedBox(
-                                    height: 200,
-                                    width: width(context),
-                                    child: Row(
-                                      children: [
-                                        ListTile(
-                                          title: ClipRRect(
-                                            child: SvgPicture.asset(
-                                              'assets/images/gscore_postnow_bg.svg',
-                                              width: 50,
-                                              height: 50,
+                                padding: EdgeInsets.all(10),
+                                margin: EdgeInsets.only(top: 12, right: 10),
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.13,
+                                decoration: BoxDecoration(
+                                    color: ColorConstants.GREY.withOpacity(0.6),
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    // mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          SvgPicture.asset(
+                                            'assets/images/gscore_postnow_bg.svg',
+                                            width: 80,
+                                            height: 80,
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text('${myCoursesList![index].name}',
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              softWrap: false,
+                                              style: Styles.bold(size: 16)),
+                                        ],
+                                      ),
+                                      // SizedBox(height: 4),
+                                      // Row(
+                                      //   children: [
+                                      //     Expanded(child: SizedBox()),
+                                      //     Icon(
+                                      //       Icons.arrow_forward_ios,
+                                      //       color: ColorConstants.GREY_2,
+                                      //       size: 20,
+                                      //     )
+                                      //   ],
+                                      // ),
+                                      // SizedBox(height: 15),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                              '${myCoursesList![index].completion.toString().split('.').first}% ${Strings.of(context)?.Completed}',
+                                              style: Styles.regular(size: 12)),
+                                        ],
+                                      ),
+                                      SizedBox(height: 10),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Container(
+                                            height: 10,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.5,
+                                            decoration: BoxDecoration(
+                                                color: ColorConstants.GREY,
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            child: Stack(
+                                              children: [
+                                                Container(
+                                                  height: 10,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.8 *
+                                                      (myCoursesList![index]
+                                                              .completion! /
+                                                          100),
+                                                  decoration: BoxDecoration(
+                                                      color: ColorConstants
+                                                          .PROGESSBAR_TEAL,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10)),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                  // Column(
-                                  //     crossAxisAlignment:
-                                  //         CrossAxisAlignment.start,
-                                  //     mainAxisAlignment: MainAxisAlignment.center,
-                                  //     children: [
-
-                                  //       Text('${myCoursesList![index].name}',
-                                  //           maxLines: 1,
-                                  //           overflow: TextOverflow.ellipsis,
-                                  //           softWrap: false,
-                                  //           style: Styles.bold(size: 16)),
-                                  //       // SizedBox(height: 4),
-                                  //       Row(
-                                  //         children: [
-                                  //           Expanded(child: SizedBox()),
-                                  //           Icon(
-                                  //             Icons.arrow_forward_ios,
-                                  //             color: ColorConstants.GREY_2,
-                                  //             size: 20,
-                                  //           )
-                                  //         ],
-                                  //       ),
-                                  //       // SizedBox(height: 15),
-                                  //       Text(
-                                  //           '${myCoursesList![index].completion.toString().split('.').first}% ${Strings.of(context)?.Completed}',
-                                  //           style: Styles.regular(size: 12)),
-                                  //       SizedBox(height: 10),
-                                  //       Container(
-                                  //         height: 10,
-                                  //         width:
-                                  //             MediaQuery.of(context).size.width *
-                                  //                 0.9,
-                                  //         decoration: BoxDecoration(
-                                  //             color: ColorConstants.GREY,
-                                  //             borderRadius:
-                                  //                 BorderRadius.circular(10)),
-                                  //         child: Stack(
-                                  //           children: [
-                                  //             Container(
-                                  //               height: 10,
-                                  //               width: MediaQuery.of(context)
-                                  //                       .size
-                                  //                       .width *
-                                  //                   0.8 *
-                                  //                   (myCoursesList![index]
-                                  //                           .completion! /
-                                  //                       100),
-                                  //               decoration: BoxDecoration(
-                                  //                   color: ColorConstants
-                                  //                       .PROGESSBAR_TEAL,
-                                  //                   borderRadius:
-                                  //                       BorderRadius.circular(
-                                  //                           10)),
-                                  //             ),
-                                  //           ],
-                                  //         ),
-                                  //       ),
-                                  //     ]),
-                                  )),
+                                        ],
+                                      ),
+                                    ]),
+                              )),
                         ],
                       );
                     },
