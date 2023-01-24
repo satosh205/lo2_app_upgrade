@@ -106,33 +106,40 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                         ? Container()
                         : Container(),
                 //_getRecentActivities(),
-                //_getResumeLerarning(),
+                // _getResumeLerarning(),
                 //_getCourses(),
                 // _getDashboard(context),
                 Container(
-              height: 180,
-              width: width(context),
-                  child: MyCourses(fromDashboard: true,)),
+                    height: 160,
+                    width: width(context),
+                    child: MyCourses(
+                      fromDashboard: true,
+                    )),
 
                 Container(
-
-
-                        padding: EdgeInsets.all( 10),
+                  padding: EdgeInsets.all(10),
                   height: height(context) * 0.22,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
                     children: [
-                      topRoundedCard('Classes', (){
-                        Navigator.push(context,MaterialPageRoute(builder: (context)=> MyClasses()));
+                      topRoundedCard('Classes', () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MyClasses()));
                       }),
-                      topRoundedCard('Assignments', (){
-                        Navigator.push(context,MaterialPageRoute(builder: (context)=> MyAssignmentPage()));
-
+                      topRoundedCard('Assignments', () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MyAssignmentPage()));
                       }),
-                      topRoundedCard('Quizes', (){
-                        Navigator.push(context,MaterialPageRoute(builder: (context)=> MyAssessmentPage()));
-
+                      topRoundedCard('Quizes', () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MyAssessmentPage()));
                       }),
                     ],
                   ),
@@ -152,83 +159,80 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
     );
   }
 
-
-  Widget topRoundedCard(String name, Function action){
+  Widget topRoundedCard(String name, Function action) {
     return Container(
-                        height: 50,
-                        width: width(context) * 0.3,
-                        margin: EdgeInsets.only(right: 6),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            gradient: LinearGradient(
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                                colors: <Color>[
-                                  ColorConstants.GRADIENT_ORANGE,
-                                   ColorConstants.GRADIENT_RED
-                                ]),
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(50),
-                                bottomRight: Radius.circular(12),
-                                topLeft: Radius.circular(12),
-                                bottomLeft: Radius.circular(12))),
-                                child: Stack(children: [
-                                  Positioned(
-                                    left: -8,
-                                    top: -8,
-                                    child: Container(
-                                      width: width(context) * 0.16,
-                                      height: width(context) * 0.16,
-                                      decoration: BoxDecoration(
-                                        color: ColorConstants.WHITE.withOpacity(0.3),
-                                        shape: BoxShape.circle),
-                                        child: Center(child: SvgPicture.asset('assets/images/my_classes.svg',  width: width(context) * 0.07,)),
-                                        
-                                        )
-                                        
-                                        ),
-
-                                    Positioned(
-                                      left: 10,
-                                      top: height(context) * 0.08,
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text('My', style: Styles.semibold(size: 12, color: ColorConstants.WHITE)),
-                                          Text('$name', style: Styles.semibold(size: 12, color: ColorConstants.WHITE)),
-
-                                        ],
-                                      )),
-
-                                       Positioned(
-                                      right: 10,
-                                      top: height(context) * 0.135,
-                                      child: InkWell(
-
-                                        onTap: (){
-                                          action();
-                                        },
-                                        child: Container(
-                                          width: width(context) * 0.1,
-                                          height: width(context) * 0.1,
-                                          padding: EdgeInsets.all(8),
-                                          decoration: BoxDecoration(
-                                            
-                                         boxShadow: <BoxShadow>[
-                                          BoxShadow(
-                                              color: Colors.black.withOpacity(0.3),
-                                              blurRadius: 4.0,
-                                              offset: Offset(0.0, 4.07)
-                                          
-                                          )
-                                        ],
-                                            color: ColorConstants.WHITE, shape: BoxShape.circle),
-                                          child: SvgPicture.asset('assets/images/gradient_arrow.svg'),
-                                          ),
-                                      ))
-                                ],),
-                      );
+      height: 50,
+      width: width(context) * 0.3,
+      margin: EdgeInsets.only(right: 6),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: <Color>[
+                ColorConstants.GRADIENT_ORANGE,
+                ColorConstants.GRADIENT_RED
+              ]),
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(50),
+              bottomRight: Radius.circular(12),
+              topLeft: Radius.circular(12),
+              bottomLeft: Radius.circular(12))),
+      child: Stack(
+        children: [
+          Positioned(
+              left: -8,
+              top: -8,
+              child: Container(
+                width: width(context) * 0.16,
+                height: width(context) * 0.16,
+                decoration: BoxDecoration(
+                    color: ColorConstants.WHITE.withOpacity(0.3),
+                    shape: BoxShape.circle),
+                child: Center(
+                    child: SvgPicture.asset(
+                  'assets/images/my_classes.svg',
+                  width: width(context) * 0.07,
+                )),
+              )),
+          Positioned(
+              left: 10,
+              top: height(context) * 0.08,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('My',
+                      style: Styles.semibold(
+                          size: 12, color: ColorConstants.WHITE)),
+                  Text('$name',
+                      style: Styles.semibold(
+                          size: 12, color: ColorConstants.WHITE)),
+                ],
+              )),
+          Positioned(
+              right: 10,
+              top: height(context) * 0.135,
+              child: InkWell(
+                onTap: () {
+                  action();
+                },
+                child: Container(
+                  width: width(context) * 0.1,
+                  height: width(context) * 0.1,
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(boxShadow: <BoxShadow>[
+                    BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 4.0,
+                        offset: Offset(0.0, 4.07))
+                  ], color: ColorConstants.WHITE, shape: BoxShape.circle),
+                  child: SvgPicture.asset('assets/images/gradient_arrow.svg'),
+                ),
+              ))
+        ],
+      ),
+    );
   }
 
   void _handleAnnouncmentData(MyAssignmentState state) {
