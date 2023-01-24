@@ -108,17 +108,17 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
         if (widget.height == null) {
           widget.height = widget.dimension?.first.height;
           videoHeight = double.parse('${widget.height}');
-        } 
-     
-     
-    
-     else    if (double.parse('${widget.width}') > 1500) {
-          videoHeight = double.parse('${widget.height}') / 4.7;
+        } else if (double.parse('${widget.width}') > 1500) {
+          if (double.parse('${widget.height}') > 2500) {
+            videoHeight = double.parse('${widget.height}') / 8.3;
+          } else {
+            videoHeight = double.parse('${widget.height}') / 4.7;
+          }
         } else if (double.parse('${widget.height}') < 1200) {
           if (double.parse('${widget.height}') < 800) {
-            videoHeight = double.parse('${widget.height}') / 1.7;
+            videoHeight = double.parse('${widget.height}') / 1.6;
           } else {
-            videoHeight = double.parse('${widget.height}') / 2.9;
+            videoHeight = double.parse('${widget.height}') / 2.8;
           }
         } else if (double.parse('${widget.height}') > 1200) {
           videoHeight = double.parse('${widget.height}') / 1.9;
