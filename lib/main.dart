@@ -10,7 +10,6 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:masterg/blocs/home_bloc.dart';
-import 'package:masterg/pages/user_profile_page/portfolio_create_form/portfolio_page.dart';
 import 'package:masterg/pages/walk_through_page/splash_screen.dart';
 import 'package:masterg/utils/check_connection.dart';
 import 'package:masterg/utils/constant.dart';
@@ -159,7 +158,7 @@ class _MyAppState extends State<MyApp> {
             const Locale('hi', ''),
             const Locale('ml', ''),
           ],
-          home: Portfolio (),
+          home: EntryAnimationPage(),
           debugShowCheckedModeBanner: false,
         ));
   }
