@@ -14,7 +14,9 @@ class AddExperience extends StatefulWidget {
 }
 
 class _AddExperienceState extends State<AddExperience> {
-  var value;
+  static String _value = "value";
+  bool? isclicked = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,9 +82,33 @@ class _AddExperienceState extends State<AddExperience> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Radio(value: true, groupValue: 1, onChanged: value),
-                      Radio(value: true, groupValue: 1, onChanged: value),
-                      Radio(value: true, groupValue: 1, onChanged: value)
+                      Radio(
+                          value: "Full-Time",
+                          groupValue: _value,
+                          onChanged: (value) {
+                            setState(() {
+                              _value = value.toString();
+                            });
+                          }),
+                      Text("Full-Time"),
+                      Radio(
+                          value: "Part-Time",
+                          groupValue: _value,
+                          onChanged: (value) {
+                            setState(() {
+                              _value = value.toString();
+                            });
+                          }),
+                      Text("Part-Time"),
+                      Radio(
+                          value: "Internship",
+                          groupValue: _value,
+                          onChanged: (value) {
+                            setState(() {
+                              _value = value.toString();
+                            });
+                          }),
+                      Text("Internship"),
                     ],
                   ),
                   Text(
@@ -131,7 +157,13 @@ class _AddExperienceState extends State<AddExperience> {
                   ),
                   Row(
                     children: [
-                      Checkbox(value: false, onChanged: value),
+                      Checkbox(
+                          value: isclicked,
+                          onChanged: (bool) {
+                            setState(() {
+                              isclicked = bool;
+                            });
+                          }),
                       Text("I currently work here",
                           style: TextStyle(
                               fontSize: 14,

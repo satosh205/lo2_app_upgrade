@@ -474,7 +474,7 @@ class _PortfolioState extends State<Portfolio> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: ((context) => AddActivities())));
+                                    builder: ((context) => AddExperience())));
                           },
                           child: Icon(Icons.arrow_forward_ios_rounded))
                     ],
