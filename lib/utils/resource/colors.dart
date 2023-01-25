@@ -116,9 +116,8 @@ class ColorConstants {
   static const GRADIENT_ORANGE = Color(0xffFC7B04);
   static const PROGESSBAR_TEAL = Color(0xff3EBDA0);
 
-  
-
-
+  ///Tab Bar Color
+  static const selected = Color(0xffFC7B04);
 
   //ASSESSMENT COLORS
   static const ANSWERED = Color.fromRGBO(255, 157, 92, 1);
@@ -146,4 +145,5 @@ class ColorConstants {
   Color primaryForgroundColor() {
     return HexColor.fromHex(APK_DETAILS['theme_forground_color']!);
   }
+
 }

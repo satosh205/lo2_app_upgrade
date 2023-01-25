@@ -1,9 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:masterg/pages/singularis/job/peger/ExampleItemPager.dart';
 import 'package:masterg/pages/singularis/job/widgets/blank_widget_page.dart';
-import 'package:paginated_search_bar/paginated_search_bar.dart';
+import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import '../../../blocs/bloc_manager.dart';
 import '../../../blocs/home_bloc.dart';
 import '../../../data/api/api_service.dart';
@@ -14,7 +13,6 @@ import '../../../utils/resource/size_constants.dart';
 import '../../custom_pages/custom_widgets/NextPageRouting.dart';
 import 'job_details_page.dart';
 import 'model/ExampleItem.dart';
-import 'package:endless/endless.dart';
 import 'package:masterg/data/models/response/home_response/user_jobs_list_response.dart';
 
 class JobSearchViewPage extends StatefulWidget {
@@ -32,10 +30,71 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
   bool? isJobLoading;
   List<ListElement>? jobList;
 
+  ///Search Job New -----
+  static const historyLength = 5;
+
+  List<String> _searchHistory = [
+    'fuchsia',
+    'flutter',
+    'widgets',
+    'resocoder',
+  ];
+
+  late List<String> filteredSearchHistory;
+
+  late String selectedTerm = 'Search Skills...';
+
+  List<String> filterSearchTerms({
+    required String filter,
+  }) {
+    if (filter != null && filter.isNotEmpty) {
+      return _searchHistory.reversed
+          .where((term) => term.startsWith(filter))
+          .toList();
+    } else {
+      return _searchHistory.reversed.toList();
+    }
+  }
+
+  void addSearchTerm(String term) {
+    if (_searchHistory.contains(term)) {
+      putSearchTermFirst(term);
+      return;
+    }
+
+    _searchHistory.add(term);
+    if (_searchHistory.length > historyLength) {
+      _searchHistory.removeRange(0, _searchHistory.length - historyLength);
+    }
+
+    filteredSearchHistory = filterSearchTerms(filter: 'null');
+  }
+
+  void deleteSearchTerm(String term) {
+    _searchHistory.removeWhere((t) => t == term);
+    filteredSearchHistory = filterSearchTerms(filter: 'null');
+  }
+
+  void putSearchTermFirst(String term) {
+    deleteSearchTerm(term);
+    addSearchTerm(term);
+  }
+
+  late FloatingSearchBarController controller;
+
+
   @override
   void initState() {
     super.initState();
+    controller = FloatingSearchBarController();
+    filteredSearchHistory = filterSearchTerms(filter: 'null');
     getJobList();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   void getJobList(){
@@ -53,16 +112,17 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
           }
         },
         child: Scaffold(
-          appBar: AppBar(
+          /*appBar: AppBar(
             iconTheme: IconThemeData(
               color: Colors.black, //change your color here
             ),
             elevation: 0.0,
             backgroundColor: ColorConstants.WHITE,
             title: Text(widget.appBarTitle!, style: TextStyle(color: Colors.black),),
-          ),
+          ),*/
           backgroundColor: ColorConstants.JOB_BG_COLOR,
-          body: _makeBody(),
+          //body: _makeBody(),
+          body: _searchWidgetList(),
         ),
       ),
     );
@@ -80,8 +140,8 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
         child: Column(
           children: [
             ///Search Job
-            widget.isSearchMode == true ? _searchFilter():SizedBox(),
-
+            //widget.isSearchMode == true ? _searchFilter():SizedBox(),
+            SizedBox(height: 30.0,),
             ///Job List
             widget.isSearchMode == true ? SizedBox(height: 30,):SizedBox(),
             jobList != null ? _recommendedJobsListCard() : BlankWidgetPage(),
@@ -91,77 +151,111 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
     );
   }
 
-
-  Widget _searchFilter(){
-    ExampleItemPager pager = ExampleItemPager();
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Container(
-          padding: const EdgeInsets.only(top: 0),
-          alignment: Alignment.topCenter,
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: PaginatedSearchBar<ExampleItem>(
-              maxHeight: 300,
-              hintText: 'Search',
-              emptyBuilder: (context) {
-                return const Text("I'm an empty state!");
+ //TODO: Search Widget
+  Widget _searchWidgetList(){
+    return FloatingSearchBar(
+      controller: controller,
+      body: FloatingSearchBarScrollNotifier(
+        /*child: SearchResultsListView(
+          searchTerm: selectedTerm,
+        ),*/
+        child: _makeBody(),
+      ),
+      //body: _makeBody(),
+      transition: CircularFloatingSearchBarTransition(),
+      physics: BouncingScrollPhysics(),
+      title: Text(
+        selectedTerm ?? 'The Search App',
+        //style: Theme.of(context).textTheme.headline6,
+        style: TextStyle(fontSize: 14.0),
+      ),
+      hint: 'Search...',
+      actions: [
+        FloatingSearchBarAction.searchToClear(),
+      ],
+      onQueryChanged: (query) {
+        setState(() {
+          filteredSearchHistory = filterSearchTerms(filter: query);
+        });
+      },
+      onSubmitted: (query) {
+        setState(() {
+          addSearchTerm(query);
+          selectedTerm = query;
+        });
+        controller.close();
+      },
+      builder: (context, transition) {
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Material(
+            color: Colors.white,
+            elevation: 4,
+            child: Builder(
+              builder: (context) {
+                if (filteredSearchHistory.isEmpty &&
+                    controller.query.isEmpty) {
+                  return Container(
+                    height: 56,
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Start searching',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                  );
+                } else if (filteredSearchHistory.isEmpty) {
+                  return ListTile(
+                    title: Text(controller.query),
+                    leading: const Icon(Icons.search),
+                    onTap: () {
+                      setState(() {
+                        addSearchTerm(controller.query);
+                        selectedTerm = controller.query;
+                      });
+                      controller.close();
+                    },
+                  );
+                } else {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: filteredSearchHistory
+                        .map(
+                          (term) => ListTile(
+                        title: Text(
+                          term,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        /*leading: const Icon(Icons.history),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: () {
+                            setState(() {
+                              deleteSearchTerm(term);
+                            });
+                          },
+                        ),*/
+                        onTap: () {
+                          setState(() {
+                            putSearchTermFirst(term);
+                            selectedTerm = term;
+                          });
+                          controller.close();
+                        },
+                      ),
+                    )
+                        .toList(),
+                  );
+                }
               },
-              /*placeholderBuilder: (context) {
-                return const Text("I'm a placeholder state!");
-              },*/
-              paginationDelegate: EndlessPaginationDelegate(
-                pageSize: 20,
-                maxPages: 3,
-              ),
-
-              /*onSubmit: ({
-                required item,
-                required searchQuery,
-              }) {
-                print('item.title=== ${searchQuery}');
-                print('item.title=== ${item?.title}');
-                //submit(item!, searchQuery);
-              },*/
-
-              onSearch: ({
-                required pageIndex,
-                required pageSize,
-                required searchQuery,
-              }) async {
-                return Future.delayed(const Duration(milliseconds: 1300), () {
-                  if (searchQuery == "empty") {
-                    return [];
-                  }
-                  if (pageIndex == 0) {
-                    pager = ExampleItemPager();
-                  }
-                  return pager.nextBatch();
-                });
-              },
-              itemBuilder: (
-                  context, {
-                    required item,
-                    required index,
-                  }) {
-                return InkWell(
-                  onTap: (){
-                    print('item.title=== ${item.title}');
-                    pager.nextBatch();
-                  },
-                    child: Text(item.title));
-              },
-
             ),
           ),
-        ),
-      ],
+        );
+      },
     );
-  }
-
-  void submit(ExampleItem item, String q){
-    print('item.title=== ${item.title}');
   }
 
 

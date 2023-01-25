@@ -38,6 +38,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../utils/check_connection.dart';
 import '../custom_pages/custom_widgets/NextPageRouting.dart';
+import '../singularis/careers/careers_dashboard.dart';
 
 class homePage extends StatefulWidget {
   final index;
@@ -147,7 +148,7 @@ class _homePageState extends State<homePage> {
       '/g-home': GHome(),
       '/g-dashboard': const DashboardPage(),
       '/g-competitions': Competetion(),
-      '/g-careers': JobDashboardPage(),
+      '/g-careers': CareersDashboard(),
       '/g-school': const GSchool(),
       '/g-reels': ReelsDashboardPage(),
       '/g-carvaan': GCarvaanPostPage(

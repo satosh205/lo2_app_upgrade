@@ -1,9 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:masterg/pages/singularis/job/peger/ExampleItemPager.dart';
 import 'package:masterg/pages/singularis/job/widgets/blank_widget_page.dart';
-import 'package:paginated_search_bar/paginated_search_bar.dart';
 import '../../../blocs/bloc_manager.dart';
 import '../../../blocs/home_bloc.dart';
 import '../../../utils/Styles.dart';
@@ -12,7 +10,6 @@ import '../../../utils/resource/size_constants.dart';
 import '../../custom_pages/custom_widgets/NextPageRouting.dart';
 import 'model/ExampleItem.dart';
 import 'package:masterg/data/models/response/home_response/user_jobs_list_response.dart';
-import 'package:endless/endless.dart';
 
 class JobDetailsPage extends StatefulWidget {
 
