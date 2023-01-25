@@ -94,8 +94,8 @@ class _DashboardPageState extends State<DashboardPage> {
       "dashboard_reels_limit": renderReels(),
       "dashboard_recommended_courses_limit": renderRecommandedCourses(),
 
-      "dashboard_carvan_limit": renderReels()
-      // "dashboard_carvan_limit": renderCarvaan()
+      // "dashboard_carvan_limit": renderReels()
+      "dashboard_carvan_limit": renderCarvaan()
     };
     return Consumer2<VideoPlayerProvider, MenuListProvider>(
         builder: (context, value, mp, child) => BlocManager(

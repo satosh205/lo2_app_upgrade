@@ -96,7 +96,9 @@ class _AddCertificateState extends State<AddCertificate> {
                   SizedBox(
                     height: 60,
                   ),
-                  CustomUpload(UploadText: 'Upload Certificate'),
+                  CustomUpload(
+                    onClick: (){},
+                    uploadText: 'Upload Certificate'),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Center(

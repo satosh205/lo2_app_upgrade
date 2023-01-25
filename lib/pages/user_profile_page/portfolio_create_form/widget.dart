@@ -38,14 +38,14 @@ class CustomTextField extends StatelessWidget {
 
 class CustomUpload extends StatelessWidget {
   final String uploadText;
-  final Function? onClick;
-  const CustomUpload({Key? key, required this.uploadText, this.onClick }) : super(key: key);
+  final Function onClick;
+  const CustomUpload({Key? key, required this.uploadText,required this.onClick }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-        onClick!();
+        onClick();
       },
       child: Container(
         width: width(context),

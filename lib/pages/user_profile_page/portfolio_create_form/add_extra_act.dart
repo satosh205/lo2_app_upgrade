@@ -130,9 +130,9 @@ class _AddActivitiesState extends State<AddActivities> {
                   SizedBox(
                     height: 20,
                   ),
-                  CustomDescription(
-                    hintText: 'Describe your work or achievement',
-                  ),
+                  // CustomDescription(
+                  //   hintText: 'Describe your work or achievement',
+                  // ),
                   Text(
                     "Featured image",
                     style: TextStyle(
