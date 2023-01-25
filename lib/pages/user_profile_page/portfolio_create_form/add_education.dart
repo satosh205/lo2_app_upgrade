@@ -15,27 +15,30 @@ class AddEducation extends StatefulWidget {
 }
 
 class _AddEducationState extends State<AddEducation> {
+  final titleController = TextEditingController();
+  final descController = TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: AppBar(
-        //     elevation: 0.0,
-        //     backgroundColor: Colors.white,
-        //     title: const Center(
-        //       child: Text(
-        //         "Add Education",
-        //         style: TextStyle(
-        //             fontSize: 14,
-        //             fontWeight: FontWeight.w600,
-        //             color: Colors.black),
-        //       ),
-        //     ),
-        //     actions: const [
-        //       Icon(
-        //         Icons.close,
-        //         color: Colors.black,
-        //       )
-        //     ]),
+        appBar: AppBar(
+            elevation: 0.0,
+            backgroundColor: Colors.white,
+            title: const Center(
+              child: Text(
+                "Add Education",
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black),
+              ),
+            ),
+            actions: const [
+              Icon(
+                Icons.close,
+                color: Colors.black,
+              )
+            ]),
         body: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SingleChildScrollView(
@@ -66,6 +69,7 @@ class _AddEducationState extends State<AddEducation> {
                     height: 5,
                   ),
                   CustomTextField(
+                    controller: titleController,
                       hintText: 'Ex. Middle East College (MEC), Muscat, Oman'),
                   const SizedBox(
                     height: 10,
@@ -81,6 +85,7 @@ class _AddEducationState extends State<AddEducation> {
                     height: 5,
                   ),
                   CustomTextField(
+                    controller: titleController,
                       hintText: 'Ex: Bachelor’s of Instrumentation'),
                   SizedBox(
                     height: 10,
@@ -184,6 +189,7 @@ class _AddEducationState extends State<AddEducation> {
                     height: 5,
                   ),
                   CustomTextField(
+                    controller: descController,
                     maxLine: 6,
                     hintText:
                         'You can mention your Grades, Achievements, Activities or subjects you are studying ',

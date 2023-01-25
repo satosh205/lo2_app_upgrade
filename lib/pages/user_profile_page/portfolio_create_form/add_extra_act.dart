@@ -13,6 +13,8 @@ class AddActivities extends StatefulWidget {
 }
 
 class _AddActivitiesState extends State<AddActivities> {
+  final titleController = TextEditingController();
+  final descController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,9 +132,12 @@ class _AddActivitiesState extends State<AddActivities> {
                   SizedBox(
                     height: 20,
                   ),
-                  // CustomDescription(
-                  //   hintText: 'Describe your work or achievement',
-                  // ),
+                  CustomTextField(
+                    controller: descController,
+                    
+                  
+                    hintText: 'Describe your work or achievement',
+                  ),
                   Text(
                     "Featured image",
                     style: TextStyle(

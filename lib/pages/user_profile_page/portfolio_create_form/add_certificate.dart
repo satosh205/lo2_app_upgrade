@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
+import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 
 class AddCertificate extends StatefulWidget {
@@ -11,18 +12,19 @@ class AddCertificate extends StatefulWidget {
 }
 
 class _AddCertificateState extends State<AddCertificate> {
+  final titleController = TextEditingController();
+  final descController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
             elevation: 0.0,
             backgroundColor: Colors.white,
-            title: const Center(
+            title:  Center(
               child: Text(
                 "Add Certificate",
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
+                style: Styles.regular(
+                    size: 14,
                     color: Colors.black),
               ),
             ),
@@ -38,25 +40,42 @@ class _AddCertificateState extends State<AddCertificate> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                  const Text(
+                      Row(
+                        children: [
+                          Text(
+                "Add Certificate",
+                style: Styles.regular(
+                    size: 14,
+                    color: Colors.black),
+              ),
+
+              IconButton(
+                onPressed: ()=> Navigator.pop(context),
+                icon:  Icon(
+                Icons.close,
+                color: Colors.black,
+              ),)
+                        ],
+                      ),
+                   Text(
                     "Certificate*",
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
+                    style: Styles.regular(
+                        size: 14,
                         color: Color(0xff5A5F73)),
                   ),
                   const SizedBox(
                     height: 5,
                   ),
-                  CustomTextField(hintText: 'Type project title here'),
+                  CustomTextField(
+                    controller: titleController,
+                    hintText: 'Type project title here'),
                   const SizedBox(
                     height: 10,
                   ),
                   Text(
                     "Start Date*",
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
+                    style: Styles.regular(
+                        size: 14,
                         color: Color(0xff5A5F73)),
                   ),
                   const SizedBox(
@@ -79,9 +98,8 @@ class _AddCertificateState extends State<AddCertificate> {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             "Select Date",
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
+                            style: Styles.regular(
+                                size: 14,
                                 color: Color(0xff929BA3)),
                           ),
                         ),
@@ -103,9 +121,8 @@ class _AddCertificateState extends State<AddCertificate> {
                     padding: const EdgeInsets.all(8.0),
                     child: Center(
                       child: Text("Supported Files: .jpeg, .png",
-                          style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w400,
+                          style: Styles.regular(
+                              size: 10,
                               color: Color(0xff929BA3))),
                     ),
                   ),

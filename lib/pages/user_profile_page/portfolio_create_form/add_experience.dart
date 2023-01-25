@@ -11,6 +11,8 @@ class AddExperience extends StatefulWidget {
 }
 
 class _AddExperienceState extends State<AddExperience> {
+  final titleController = TextEditingController();
+  final descController = TextEditingController();
   static String _value = "value";
   bool? isclicked = false;
 
