@@ -15,6 +15,7 @@ import 'package:masterg/data/models/response/auth_response/bottombar_response.da
 import 'package:masterg/data/models/response/auth_response/dashboard_content_resp.dart';
 import 'package:masterg/data/models/response/auth_response/dashboard_view_resp.dart';
 import 'package:masterg/data/models/response/general_resp.dart';
+import 'package:masterg/data/models/response/home_response/add_portfolio_resp.dart';
 import 'package:masterg/data/models/response/home_response/assignment_submissions_response.dart';
 import 'package:masterg/data/models/response/home_response/competition_content_list_resp.dart';
 import 'package:masterg/data/models/response/home_response/competition_response.dart';
@@ -42,6 +43,7 @@ import 'package:masterg/data/models/response/home_response/map_interest_response
 import 'package:masterg/data/models/response/home_response/master_language_response.dart';
 import 'package:masterg/data/models/response/home_response/my_assessment_response.dart';
 import 'package:masterg/data/models/response/home_response/my_assignment_response.dart';
+import 'package:masterg/data/models/response/home_response/new_portfolio_response.dart';
 import 'package:masterg/data/models/response/home_response/notification_resp.dart';
 import 'package:masterg/data/models/response/home_response/onboard_sessions.dart';
 import 'package:masterg/data/models/response/home_response/popular_courses_response.dart';
@@ -1376,13 +1378,77 @@ class SubmitPollEvent extends HomeEvent {
   SubmitPollEvent({this.submitPollReq}) : super([submitPollReq]);
 }
 
+class PortfolioEvent extends HomeEvent {
+  PortfolioEvent() : super([]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+class AddPortfolioEvent extends HomeEvent {
+  Map<String, dynamic>? data;
+
+  AddPortfolioEvent({this.data}) : super([data]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+class PortfolioState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  PortfolioResponse? response;
+  String? error;
+  PortfolioState(this.state, {this.response, this.error});
+}
+
+
+class AddPortfolioState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  AddPortfolioResp? response;
+  String? error;
+  AddPortfolioState(this.state, {this.response, this.error});
+}
+
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final homeRepository = Injector.appInstance.get<HomeRepository>();
 
   HomeBloc(HomeState initialState) : super(initialState);
 
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
-    if (event is CompetitionContentListEvent) {
+
+    if(event is AddPortfolioEvent){
+      
+       try {
+        yield AddPortfolioState(ApiStatus.LOADING);
+        final response = await homeRepository.addPortfolio(data: event.data);
+        Log.v("Add PORTFOLIO DATA ::: ${response.data}");
+
+        if (response.data != null) {
+          yield AddPortfolioState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("Add ERROR DATA ::: $response");
+          yield AddPortfolioState(ApiStatus.ERROR, response: response);
+        }
+      } catch (e) {}
+    }
+
+   else  if (event is PortfolioEvent) {
+      try {
+        yield PortfolioState(ApiStatus.LOADING);
+        final response = await homeRepository.getPortfolio();
+        Log.v("PORTFOLIO DATA ::: ${response.data}");
+
+        if (response.data != null) {
+          yield PortfolioState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA ::: $response");
+          yield PortfolioState(ApiStatus.ERROR, response: response);
+        }
+      } catch (e) {}
+    }
+    else if (event is CompetitionContentListEvent) {
       try {
         yield CompetitionContentListState(ApiStatus.LOADING);
         final response =

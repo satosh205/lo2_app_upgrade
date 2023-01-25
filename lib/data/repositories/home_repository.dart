@@ -12,6 +12,7 @@ import 'package:masterg/data/models/request/save_answer_request.dart';
 import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
 import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/data/models/response/general_resp.dart';
+import 'package:masterg/data/models/response/home_response/add_portfolio_resp.dart';
 import 'package:masterg/data/models/response/home_response/assignment_submissions_response.dart';
 import 'package:masterg/data/models/response/home_response/category_response.dart';
 import 'package:masterg/data/models/response/home_response/competition_content_list_resp.dart';
@@ -40,6 +41,7 @@ import 'package:masterg/data/models/response/home_response/map_interest_response
 import 'package:masterg/data/models/response/home_response/master_language_response.dart';
 import 'package:masterg/data/models/response/home_response/my_assessment_response.dart';
 import 'package:masterg/data/models/response/home_response/my_assignment_response.dart';
+import 'package:masterg/data/models/response/home_response/new_portfolio_response.dart';
 import 'package:masterg/data/models/response/home_response/notification_resp.dart';
 import 'package:masterg/data/models/response/home_response/onboard_sessions.dart';
 import 'package:masterg/data/models/response/home_response/popular_courses_response.dart';
@@ -563,6 +565,31 @@ class HomeRepository {
     } else {
       Log.v("====> ${response.body}");
       return CompetitionContentListResponse.fromJson(response.body);
+    }
+  }
+
+  Future<PortfolioResponse> getPortfolio() async {
+    final response = await homeProvider.getPortfolio();
+    if (response!.success) {
+      Log.v("Portfolio Content  DATA : ${response.body}");
+      PortfolioResponse competitionData =
+          PortfolioResponse.fromJson(response.body);
+      return competitionData;
+    } else {
+      Log.v("====> ${response.body}");
+      return PortfolioResponse.fromJson(response.body);
+    }
+  }
+  Future<AddPortfolioResp> addPortfolio( { Map<String, dynamic>? data}) async {
+    final response = await homeProvider.addPortfolio(data: data);
+    if (response!.success) {
+      Log.v("Add Portfolio Content  DATA : ${response.body}");
+      AddPortfolioResp competitionData =
+          AddPortfolioResp.fromJson(response.body);
+      return competitionData;
+    } else {
+      Log.v("====> ${response.body}");
+      return AddPortfolioResp.fromJson(response.body);
     }
   }
 

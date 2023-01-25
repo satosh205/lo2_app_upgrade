@@ -136,4 +136,6 @@ class ApiConstants {
   static const COMPETITION_MODULE_DATA = '/api/competition-list';
   static const COMPETITION_CONTENT_LIST = '/api/learner-competition-detail/';
   static const LEADERBOARD = '/api/competition-leaderboard';
+  static const USER_PORTFOLIO = '/api/user-portfolio';
+  static const ADD_PORTFOLIO = '/api/addPortfolio';
 }
