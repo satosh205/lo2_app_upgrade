@@ -99,8 +99,8 @@ dependencies:
   device_info_plus: any
   zoom_pinch_overlay: ^1.2.0
   internet_connection_checker: any
-  paginated_search_bar: ^1.1.2
   http: ^0.13.5
+  material_floating_search_bar: ^0.3.7
 # dependency_overrides: null
 
 dev_dependencies:

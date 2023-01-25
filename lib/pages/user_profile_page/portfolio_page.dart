@@ -476,7 +476,7 @@ class _PortfolioState extends State<Portfolio> {
                       itemCount: 3,
                       
 
-scrollDirection: Axis.horizontal,                    itemBuilder: (context, int)=> Container(
+scrollDirection: Axis.horizontal,itemBuilder: (context, int)=> Container(
   margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -534,19 +534,16 @@ scrollDirection: Axis.horizontal,                    itemBuilder: (context, int)
       case 3:
         position = 'MASTER';
         image += 'master.svg';
-
         break;
 
       case 2:
         position = 'Learner';
         image += 'learner.svg';
-
         break;
 
       case 1:
         position = 'NOVICE';
         image += 'novice.svg';
-
         break;
     }
     return Column(
