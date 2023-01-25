@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfolio.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
+import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 
 class AddEducation extends StatefulWidget {
@@ -17,31 +18,44 @@ class _AddEducationState extends State<AddEducation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            elevation: 0.0,
-            backgroundColor: Colors.white,
-            title: const Center(
-              child: Text(
-                "Add Education",
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black),
-              ),
-            ),
-            actions: const [
-              Icon(
-                Icons.close,
-                color: Colors.black,
-              )
-            ]),
+        // appBar: AppBar(
+        //     elevation: 0.0,
+        //     backgroundColor: Colors.white,
+        //     title: const Center(
+        //       child: Text(
+        //         "Add Education",
+        //         style: TextStyle(
+        //             fontSize: 14,
+        //             fontWeight: FontWeight.w600,
+        //             color: Colors.black),
+        //       ),
+        //     ),
+        //     actions: const [
+        //       Icon(
+        //         Icons.close,
+        //         color: Colors.black,
+        //       )
+        //     ]),
         body: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SingleChildScrollView(
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                  const Text(
+
+                      Row(
+                        children: [
+                          Text('Add Education', style: Styles.bold(size: 14)),
+                          IconButton(
+                            onPressed: ()=> Navigator.pop(context),
+                            icon: Icon(
+                                          Icons.close,
+                                          color: Colors.black,
+                                        ),
+                          )
+                        ],
+                      ),
+                   Text(
                     "School*",
                     style: TextStyle(
                         fontSize: 14,
