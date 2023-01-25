@@ -28,6 +28,7 @@ import 'package:masterg/pages/ghome/widget/read_more.dart';
 import 'package:masterg/pages/ghome/widget/view_widget_details_page.dart';
 
 import 'package:masterg/pages/training_pages/new_screen/courses_details_page.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/portfolio_page.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_page.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
@@ -95,8 +96,8 @@ class _DashboardPageState extends State<DashboardPage> {
       "dashboard_reels_limit": renderReels(),
       "dashboard_recommended_courses_limit": renderRecommandedCourses(),
 
-      "dashboard_carvan_limit": renderReels()
-      // "dashboard_carvan_limit": renderCarvaan()
+      // "dashboard_carvan_limit": renderReels()
+      "dashboard_carvan_limit": renderCarvaan()
     };
     return Consumer2<VideoPlayerProvider, MenuListProvider>(
         builder: (context, value, mp, child) => BlocManager(
@@ -125,12 +126,17 @@ class _DashboardPageState extends State<DashboardPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   InkWell(
+<<<<<<< HEAD
                                     onTap: () {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   Portfolio()));
+=======
+                                    onTap: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> NewPortfolioPage()));
+>>>>>>> portfolioCreateForm
                                     },
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(200),

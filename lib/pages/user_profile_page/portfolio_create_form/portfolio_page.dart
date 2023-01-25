@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfolio.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
 
 import 'package:masterg/pages/user_profile_page/singularis_profile_edit.dart';
@@ -9,14 +10,14 @@ import 'package:masterg/utils/resource/colors.dart';
 
 import 'package:percent_indicator/percent_indicator.dart';
 
-class Portfolio extends StatefulWidget {
-  const Portfolio({super.key});
+class NewPortfolioPage extends StatefulWidget {
+  const NewPortfolioPage({super.key});
 
   @override
-  State<Portfolio> createState() => _PortfolioState();
+  State<NewPortfolioPage> createState() => _NewPortfolioPageState();
 }
 
-class _PortfolioState extends State<Portfolio> {
+class _NewPortfolioPageState extends State<NewPortfolioPage> {
   bool editModeEnabled = false;
   @override
   Widget build(BuildContext context) {
@@ -462,220 +463,226 @@ class _PortfolioState extends State<Portfolio> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20)),
                               context: context,
+                              enableDrag: true,
+                              isScrollControlled: true,
                               builder: (context) {
-                                return Container(
-                                  height: height(context) * 7,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: SingleChildScrollView(
-                                        child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Row(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 120.0),
-                                                  child: Text(
-                                                    "Add Portfolio",
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: Colors.black),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 90),
-                                                  child: Icon(
-                                                      Icons.close_outlined),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              "Project Title*",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Color(0xff5A5F73)),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Container(
-                                              width: width(context),
-                                              height: height(context) * 0.07,
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                border: Border.all(
-                                                    width: 1.0,
-                                                    color: const Color(
-                                                        0xffE5E5E5)),
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(10.0)),
-                                              ),
-                                              child: TextField(
-                                                  decoration: InputDecoration(
-                                                border: OutlineInputBorder(
-                                                    borderSide:
-                                                        const BorderSide(
-                                                            width: 1,
-                                                            color: Color(
-                                                                0xffE5E5E5)),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                                hintText:
-                                                    'Type project title here..',
-                                              )),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: const Text(
-                                              "Project Description*",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Color(0xff5A5F73)),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Container(
-                                              width: width(context),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                border: Border.all(
-                                                    width: 1.0,
-                                                    color: const Color(
-                                                        0xffE5E5E5)),
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(10.0)),
-                                              ),
-                                              child: TextField(
-                                                maxLines: 8,
-                                                decoration: InputDecoration(
-                                                  // fillColor: Colors.grey.shade100,
-                                                  // filled: true,
-                                                  border: OutlineInputBorder(
-                                                      borderSide:
-                                                          const BorderSide(
-                                                              width: 1,
-                                                              color: Color(
-                                                                  0xffE5E5E5)),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10)),
-                                                  hintText:
-                                                      'Type project description here',
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: const Text(
-                                              "Featured image*",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Color(0xff5A5F73)),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Row(
-                                              children: [
-                                                ShaderMask(
-                                                    blendMode: BlendMode.srcIn,
-                                                    shaderCallback:
-                                                        (Rect bounds) {
-                                                      return LinearGradient(
-                                                              begin: Alignment
-                                                                  .centerLeft,
-                                                              end: Alignment
-                                                                  .centerRight,
-                                                              colors: <Color>[
-                                                            Color(0xfffc7804),
-                                                            ColorConstants
-                                                                .GRADIENT_RED
-                                                          ])
-                                                          .createShader(bounds);
-                                                    },
-                                                    child: Row(
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                            'assets/images/upload_icon.svg'),
-                                                        Text(
-                                                          "Upload Image",
-                                                          style: Styles.bold(
-                                                              size: 12),
-                                                        ),
-                                                      ],
-                                                    )),
-                                                SizedBox(
-                                                  width: 4,
-                                                ),
-                                                const Text(
-                                                    "Supported Format: .pdf, .doc, .jpeg",
-                                                    style: TextStyle(
-                                                        fontSize: 10,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color:
-                                                            Color(0xff929BA3))),
-                                              ],
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              "Associated link (if any)*",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Color(0xff5A5F73)),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: CustomTextField(
-                                              hintText: 'https//',
-                                            ),
-                                          ),
-                                          Column(
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: customUploade(
-                                                  uploadeText: 'Uploade Image',
-                                                ),
-                                              ),
-                                              Text(
-                                                  "Supported Format: .pdf, .doc, .jpeg",
-                                                  style: TextStyle(
-                                                      fontSize: 10,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      color:
-                                                          Color(0xff929BA3))),
-                                            ],
-                                          ),
-                                          customButton()
-                                        ])),
+                                return FractionallySizedBox(
+                                  heightFactor: 0.7,
+                                  child: Container(
+                                    height: height(context),
+                                      padding: const EdgeInsets.all(8.0),
+                                      margin: const EdgeInsets.only(top: 10),
+                                      child: AddPortfolio()
+
+                                    // child: SingleChildScrollView(
+                                    //     child: Column(
+                                    //         crossAxisAlignment:
+                                    //             CrossAxisAlignment.start,
+                                    //         children: [
+                                    //       Padding(
+                                    //         padding: const EdgeInsets.all(8.0),
+                                    //         child: Row(
+                                    //           children: [
+                                    //             Padding(
+                                    //               padding:
+                                    //                   const EdgeInsets.only(
+                                    //                       left: 120.0),
+                                    //               child: Text(
+                                    //                 "Add Portfolio",
+                                    //                 style: TextStyle(
+                                    //                     fontSize: 14,
+                                    //                     fontWeight:
+                                    //                         FontWeight.w600,
+                                    //                     color: Colors.black),
+                                    //               ),
+                                    //             ),
+                                    //             Padding(
+                                    //               padding:
+                                    //                   const EdgeInsets.only(
+                                    //                       left: 90),
+                                    //               child: Icon(
+                                    //                   Icons.close_outlined),
+                                    //             ),
+                                    //           ],
+                                    //         ),
+                                    //       ),
+                                    //       Padding(
+                                    //         padding: const EdgeInsets.all(8.0),
+                                    //         child: Text(
+                                    //           "Project Title*",
+                                    //           style: TextStyle(
+                                    //               fontSize: 14,
+                                    //               fontWeight: FontWeight.w500,
+                                    //               color: Color(0xff5A5F73)),
+                                    //         ),
+                                    //       ),
+                                    //       Padding(
+                                    //         padding: const EdgeInsets.all(8.0),
+                                    //         child: Container(
+                                    //           width: width(context),
+                                    //           height: height(context) * 0.07,
+                                    //           decoration: BoxDecoration(
+                                    //             color: Colors.white,
+                                    //             border: Border.all(
+                                    //                 width: 1.0,
+                                    //                 color: const Color(
+                                    //                     0xffE5E5E5)),
+                                    //             borderRadius:
+                                    //                 const BorderRadius.all(
+                                    //                     Radius.circular(10.0)),
+                                    //           ),
+                                    //           child: TextField(
+                                    //               decoration: InputDecoration(
+                                    //             border: OutlineInputBorder(
+                                    //                 borderSide:
+                                    //                     const BorderSide(
+                                    //                         width: 1,
+                                    //                         color: Color(
+                                    //                             0xffE5E5E5)),
+                                    //                 borderRadius:
+                                    //                     BorderRadius.circular(
+                                    //                         10)),
+                                    //             hintText:
+                                    //                 'Type project title here..',
+                                    //           )),
+                                    //         ),
+                                    //       ),
+                                    //       Padding(
+                                    //         padding: const EdgeInsets.all(8.0),
+                                    //         child: const Text(
+                                    //           "Project Description*",
+                                    //           style: TextStyle(
+                                    //               fontSize: 14,
+                                    //               fontWeight: FontWeight.w500,
+                                    //               color: Color(0xff5A5F73)),
+                                    //         ),
+                                    //       ),
+                                    //       Padding(
+                                    //         padding: const EdgeInsets.all(8.0),
+                                    //         child: Container(
+                                    //           width: width(context),
+                                    //           decoration: BoxDecoration(
+                                    //             color: Colors.white,
+                                    //             border: Border.all(
+                                    //                 width: 1.0,
+                                    //                 color: const Color(
+                                    //                     0xffE5E5E5)),
+                                    //             borderRadius:
+                                    //                 const BorderRadius.all(
+                                    //                     Radius.circular(10.0)),
+                                    //           ),
+                                    //           child: TextField(
+                                    //             maxLines: 8,
+                                    //             decoration: InputDecoration(
+                                    //               // fillColor: Colors.grey.shade100,
+                                    //               // filled: true,
+                                    //               border: OutlineInputBorder(
+                                    //                   borderSide:
+                                    //                       const BorderSide(
+                                    //                           width: 1,
+                                    //                           color: Color(
+                                    //                               0xffE5E5E5)),
+                                    //                   borderRadius:
+                                    //                       BorderRadius.circular(
+                                    //                           10)),
+                                    //               hintText:
+                                    //                   'Type project description here',
+                                    //             ),
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //       Padding(
+                                    //         padding: const EdgeInsets.all(8.0),
+                                    //         child: const Text(
+                                    //           "Featured image*",
+                                    //           style: TextStyle(
+                                    //               fontSize: 14,
+                                    //               fontWeight: FontWeight.w500,
+                                    //               color: Color(0xff5A5F73)),
+                                    //         ),
+                                    //       ),
+                                    //       Padding(
+                                    //         padding: const EdgeInsets.all(8.0),
+                                    //         child: Row(
+                                    //           children: [
+                                    //             ShaderMask(
+                                    //                 blendMode: BlendMode.srcIn,
+                                    //                 shaderCallback:
+                                    //                     (Rect bounds) {
+                                    //                   return LinearGradient(
+                                    //                           begin: Alignment
+                                    //                               .centerLeft,
+                                    //                           end: Alignment
+                                    //                               .centerRight,
+                                    //                           colors: <Color>[
+                                    //                         Color(0xfffc7804),
+                                    //                         ColorConstants
+                                    //                             .GRADIENT_RED
+                                    //                       ])
+                                    //                       .createShader(bounds);
+                                    //                 },
+                                    //                 child: Row(
+                                    //                   children: [
+                                    //                     SvgPicture.asset(
+                                    //                         'assets/images/upload_icon.svg'),
+                                    //                     Text(
+                                    //                       "Upload Image",
+                                    //                       style: Styles.bold(
+                                    //                           size: 12),
+                                    //                     ),
+                                    //                   ],
+                                    //                 )),
+                                    //             SizedBox(
+                                    //               width: 4,
+                                    //             ),
+                                    //             const Text(
+                                    //                 "Supported Format: .pdf, .doc, .jpeg",
+                                    //                 style: TextStyle(
+                                    //                     fontSize: 10,
+                                    //                     fontWeight:
+                                    //                         FontWeight.w400,
+                                    //                     color:
+                                    //                         Color(0xff929BA3))),
+                                    //           ],
+                                    //         ),
+                                    //       ),
+                                    //       Padding(
+                                    //         padding: const EdgeInsets.all(8.0),
+                                    //         child: Text(
+                                    //           "Associated link (if any)*",
+                                    //           style: TextStyle(
+                                    //               fontSize: 14,
+                                    //               fontWeight: FontWeight.w500,
+                                    //               color: Color(0xff5A5F73)),
+                                    //         ),
+                                    //       ),
+                                    //       Padding(
+                                    //         padding: const EdgeInsets.all(8.0),
+                                    //         child: CustomTextField(
+                                    //           hintText: 'https//',
+                                    //         ),
+                                    //       ),
+                                    //       Column(
+                                    //         children: [
+                                    //           Padding(
+                                    //             padding:
+                                    //                 const EdgeInsets.all(8.0),
+                                    //             child: CustomUpload(
+                                    //               UploadText: 'Upload Image',
+                                    //             ),
+                                    //           ),
+                                    //           Text(
+                                    //               "Supported Format: .pdf, .doc, .jpeg",
+                                    //               style: TextStyle(
+                                    //                   fontSize: 10,
+                                    //                   fontWeight:
+                                    //                       FontWeight.w400,
+                                    //                   color:
+                                    //                       Color(0xff929BA3))),
+                                    //         ],
+                                    //       ),
+                                    //       PortfolioCustomButton()
+                                    //     ])),
                                   ),
                                 );
                               });

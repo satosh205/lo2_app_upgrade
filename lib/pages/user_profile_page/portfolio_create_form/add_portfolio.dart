@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
@@ -15,33 +18,41 @@ class AddPortfolio extends StatefulWidget {
 }
 
 class _AddPortfolioState extends State<AddPortfolio> {
+   final titleController = TextEditingController();
+   final descController = TextEditingController();
+   final linkController = TextEditingController();
+   File? uploadImg;
+   File? img;
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-        appBar: AppBar(
-            elevation: 0.0,
-            backgroundColor: Colors.white,
-            title: const Center(
-              child: Text(
-                "Add Portfolio",
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black),
-              ),
-            ),
-            actions: const [
-              Icon(
-                Icons.close,
-                color: Colors.black,
-              )
-            ]),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SingleChildScrollView(
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                     Row(
+                       children: [
+                         Padding(
+                           padding:
+                                EdgeInsets.only(
+                                   left: width(context) * 0.34),
+                           child: Text(
+                             "Add Portfolio",
+                             style: TextStyle(
+                                 fontSize: 14,
+                                 fontWeight:
+                                     FontWeight.w600,
+                                 color: Colors.black),
+                           ),
+                         ),
+                         Expanded(child: SizedBox()),
+                         Icon(
+                             Icons.close_outlined),
+                       ],
+                     ),
                 const Text(
                   "Project Title*",
                   style: TextStyle(
@@ -52,24 +63,11 @@ class _AddPortfolioState extends State<AddPortfolio> {
                 const SizedBox(
                   height: 5,
                 ),
-                Container(
-                  width: width(context),
-                  height: height(context) * 0.07,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border:
-                        Border.all(width: 1.0, color: const Color(0xffE5E5E5)),
-                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                  ),
-                  child: TextField(
-                      decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            width: 1, color: Color(0xffE5E5E5)),
-                        borderRadius: BorderRadius.circular(10)),
-                    hintText: 'Type project title here..',
-                  )),
+                  CustomTextField(
+                  controller: titleController,
+                  hintText: 'Type project title here..',
                 ),
+              
                 const SizedBox(
                   height: 20,
                 ),
@@ -92,10 +90,11 @@ class _AddPortfolioState extends State<AddPortfolio> {
                     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                   ),
                   child: TextField(
+                    controller: descController,
                     maxLines: 8,
+
                     decoration: InputDecoration(
-                      // fillColor: Colors.grey.shade100,
-                      // filled: true,
+                   
                       border: OutlineInputBorder(
                           borderSide: const BorderSide(
                               width: 1, color: Color(0xffE5E5E5)),
@@ -114,8 +113,23 @@ class _AddPortfolioState extends State<AddPortfolio> {
                       fontWeight: FontWeight.w500,
                       color: Color(0xff5A5F73)),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                SizedBox(height: 8),
+                InkWell(
+                  onTap: ()async{
+                     final picker = ImagePicker();
+    final pickedFileC = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 100,
+       );
+    if (pickedFileC != null) {
+      setState(() {
+      uploadImg =  File(pickedFileC.path);
+      });
+    } else if (Platform.isAndroid) {
+      final LostData response = await picker.getLostData();
+     
+    }
+                  },
                   child: Row(
                     children: [
                       ShaderMask(
@@ -141,7 +155,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                       SizedBox(
                         width: 4,
                       ),
-                      const Text("Supported Format: .pdf, .doc, .jpeg",
+                       Text(uploadImg  != null ? '${uploadImg?.path.split('/').last}' :  "Supported Format: .pdf, .doc, .jpeg",
                           style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w400,
@@ -149,9 +163,8 @@ class _AddPortfolioState extends State<AddPortfolio> {
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 5,
-                ),
+                               SizedBox(height: 8),
+
                 Text(
                   "Associated link (if any)*",
                   style: TextStyle(
@@ -163,6 +176,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                   height: 5,
                 ),
                 CustomTextField(
+                  controller: linkController,
                   hintText: 'https//',
                 ),
                 const SizedBox(
@@ -172,8 +186,24 @@ class _AddPortfolioState extends State<AddPortfolio> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: customUploade(
-                        uploadeText: 'Uploade Image',
+                      child: CustomUpload(
+                    onClick: ()async{
+                       final picker = ImagePicker();
+    final pickedFileC = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 100,
+       );
+    if (pickedFileC != null) {
+      setState(() {
+      img =  File(pickedFileC.path);
+      });
+    } else if (Platform.isAndroid) {
+      final LostData response = await picker.getLostData();
+     
+    }
+                    },
+
+                        uploadText: 'Upload Image',
                       ),
                     ),
                     Text("Supported Format: .pdf, .doc, .jpeg",
@@ -183,7 +213,10 @@ class _AddPortfolioState extends State<AddPortfolio> {
                             color: Color(0xff929BA3))),
                   ],
                 ),
-                customButton()
+
+                PortfolioCustomButton(clickAction: (){
+print('${titleController.text}');
+                  },)
               ])),
         ));
   }

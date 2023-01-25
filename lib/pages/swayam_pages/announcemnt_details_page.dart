@@ -350,7 +350,7 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
                     if (widget.announmentData?.multipleFileUpload != null)
                       Text(
                         (_progress.isEmpty)
-                            ? "maximum ${int.parse('${widget.announmentData?.multiFileUploadsCount}')} files can be uploaded"
+                            ? "maximum ${int.parse('${widget.announmentData?.multiFileUploadsCount}')} files can be Uploadd"
                             : _progress,
                         textAlign: TextAlign.start,
                         style: TextStyle(

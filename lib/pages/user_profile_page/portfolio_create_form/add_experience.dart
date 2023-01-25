@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:masterg/pages/analytics_pages/kpi_wise_analysis_page.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
 import 'package:masterg/utils/constant.dart';
 
@@ -225,13 +222,14 @@ class _AddExperienceState extends State<AddExperience> {
                           color: Color(0xff5A5F73)),
                     ),
                   ),
-                  CustomDescription(
+                CustomTextField(
+                    maxLine: 6,
                     hintText: 'Describe your work or achievement',
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  customButton()
+                  PortfolioCustomButton(clickAction: (){},)
                 ]))));
   }
 }

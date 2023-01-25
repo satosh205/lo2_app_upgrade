@@ -169,11 +169,12 @@ class _AddEducationState extends State<AddEducation> {
                   const SizedBox(
                     height: 5,
                   ),
-                  CustomDescription(
+                  CustomTextField(
+                    maxLine: 6,
                     hintText:
                         'You can mention your Grades, Achievements, Activities or subjects you are studying ',
                   ),
-                  customButton()
+                  PortfolioCustomButton(clickAction: (){},)
                 ]))));
   }
 }

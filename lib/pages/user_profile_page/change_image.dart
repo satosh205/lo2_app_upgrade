@@ -53,7 +53,7 @@ class _ChangeImageState extends State<ChangeImage> {
     if (_croppedFile != null || _pickedFile != null) {
       return _imageCard();
     } else {
-      return _uploaderCard();
+      return _UploadrCard();
     }
   }
 
@@ -135,7 +135,7 @@ class _ChangeImageState extends State<ChangeImage> {
     );
   }
 
-  Widget _uploaderCard() {
+  Widget _UploadrCard() {
     return Center(
       child: Card(
         elevation: 4.0,
