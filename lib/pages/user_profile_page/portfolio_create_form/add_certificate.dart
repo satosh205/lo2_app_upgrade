@@ -153,7 +153,7 @@ class _AddCertificateState extends State<AddCertificate> {
                             try {
                               String? fileName =
                                   uploadCerti?.path.split('/').last;
-                              data['certificate_image'] =
+                              data['portfolio_image'] =
                                   await MultipartFile.fromFile(
                                       '${uploadCerti?.path}',
                                       filename: fileName);
