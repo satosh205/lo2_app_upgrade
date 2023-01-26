@@ -108,8 +108,21 @@ class _AddCertificateState extends State<AddCertificate> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(right: 8.0),
-                                child: SvgPicture.asset(
-                                    'assets/images/selected_calender.svg'),
+                                child: InkWell(
+                                  onTap: (() async {
+                                    DateTime? datePiked = await showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: (DateTime(2021)),
+                                        lastDate: DateTime(2050));
+                                    if (datePiked != null) {
+                                      print(
+                                          'Date Selected : ${datePiked.day}--${datePiked.month}--${datePiked.year}');
+                                    }
+                                  }),
+                                  child: SvgPicture.asset(
+                                      'assets/images/selected_calender.svg'),
+                                ),
                               ),
                             ],
                           ),

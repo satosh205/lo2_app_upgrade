@@ -7,6 +7,7 @@ import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/new_portfolio_response.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_certificate.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_education.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_experience.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_extra_act.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfolio.dart';
 
@@ -666,7 +667,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                     const EdgeInsets.all(8.0),
                                                 margin: const EdgeInsets.only(
                                                     top: 10),
-                                                child: AddEducation()),
+                                                child: AddExperience()),
                                           );
                                         });
                                   },
