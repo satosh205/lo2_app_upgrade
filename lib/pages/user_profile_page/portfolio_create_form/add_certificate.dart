@@ -2,9 +2,14 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:masterg/blocs/bloc_manager.dart';
+import 'package:masterg/blocs/home_bloc.dart';
+import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
+import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/constant.dart';
 
 class AddCertificate extends StatefulWidget {
@@ -16,16 +21,21 @@ class AddCertificate extends StatefulWidget {
 
 class _AddCertificateState extends State<AddCertificate> {
   final titleController = TextEditingController();
-  final descController = TextEditingController();
-  final linkController = TextEditingController();
+  
   File? uploadCerti;
   File? img;
-  bool? isAddPortfolioLoading = false;
+  bool? isAddCertificateLoading = false;
   @override
   Widget build(BuildContext context) {
-    var path;
+    
 
-    return Scaffold(
+    return BlocManager(
+      initState: (value) {},
+      child: BlocListener<HomeBloc, HomeState>(
+          listener: (context, state) async {
+            if (state is AddCertificateState) handleAddCertificate(state);
+          },
+   child: Scaffold(
         body: Padding(
       padding: const EdgeInsets.only(top: 50.0),
       child: Container(
@@ -186,6 +196,33 @@ class _AddCertificateState extends State<AddCertificate> {
           ),
         ),
       ),
-    ));
+      ))));
   }
+   void addActivities(Map<String, dynamic> data) {
+    print(data);
+    // BlocProvider.of<HomeBloc>(context).add(AddActivitiesEvent(data: data));
+  }
+   void handleAddCertificate(AddCertificateState state) {
+    var addCertificateState = state;
+    setState(() {
+      switch (addCertificateState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading Add Activities....................");
+          isAddCertificateLoading = true;
+          break;
+
+        case ApiStatus.SUCCESS:
+          Log.v("Success Add Activities....................");
+          isAddCertificateLoading = false;
+          // Navigator.pop(context);
+          break;
+        case ApiStatus.ERROR:
+          Log.v("Error Add Activities....................");
+          isAddCertificateLoading = false;
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
+}
 }

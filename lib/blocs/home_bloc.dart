@@ -1410,6 +1410,38 @@ class AddPortfolioState extends HomeState {
   String? error;
   AddPortfolioState(this.state, {this.response, this.error});
 }
+class AddActivitiesEvent extends HomeEvent {
+  Map<String, dynamic>? data;
+
+  AddActivitiesEvent({this.data}) : super([data]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+class AddActivitiesState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  AddPortfolioResp? response;
+  String? error;
+  AddActivitiesState(this.state, {this.response, this.error});
+}
+class AddCertificateEvent extends HomeEvent {
+  Map<String, dynamic>? data;
+
+  AddCertificateEvent({this.data}) : super([data]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+class AddCertificateState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  AddPortfolioResp? response;
+  String? error;
+  AddCertificateState(this.state, {this.response, this.error});
+}
+
+
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final homeRepository = Injector.appInstance.get<HomeRepository>();
