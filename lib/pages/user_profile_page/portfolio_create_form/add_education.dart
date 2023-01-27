@@ -6,6 +6,7 @@ import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfo
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
+import 'package:masterg/utils/utility.dart';
 
 class AddEducation extends StatefulWidget {
   const AddEducation({Key? key}) : super(key: key);
@@ -15,6 +16,12 @@ class AddEducation extends StatefulWidget {
 }
 
 class _AddEducationState extends State<AddEducation> {
+  TextEditingController? titleController;
+  TextEditingController? descController;
+  TextEditingController? startDate;
+  TextEditingController? endDate;
+  DateTime selectedDate = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,20 +49,19 @@ class _AddEducationState extends State<AddEducation> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
-                      Row(
-                        children: [
-                          Text('Add Education', style: Styles.bold(size: 14)),
-                          IconButton(
-                            onPressed: ()=> Navigator.pop(context),
-                            icon: Icon(
-                                          Icons.close,
-                                          color: Colors.black,
-                                        ),
-                          )
-                        ],
-                      ),
-                   Text(
+                  Row(
+                    children: [
+                      Text('Add Education', style: Styles.bold(size: 14)),
+                      IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        icon: Icon(
+                          Icons.close,
+                          color: Colors.black,
+                        ),
+                      )
+                    ],
+                  ),
+                  Text(
                     "School*",
                     style: TextStyle(
                         fontSize: 14,
@@ -66,6 +72,7 @@ class _AddEducationState extends State<AddEducation> {
                     height: 5,
                   ),
                   CustomTextField(
+                      controller: titleController,
                       hintText: 'Ex. Middle East College (MEC), Muscat, Oman'),
                   const SizedBox(
                     height: 10,
@@ -81,7 +88,8 @@ class _AddEducationState extends State<AddEducation> {
                     height: 5,
                   ),
                   CustomTextField(
-                      hintText: 'Ex: Bachelor’s of Instrumentation'),
+                      controller: titleController,
+                      hintText: 'Ex: Bachelor\'s of Instrumentation'),
                   SizedBox(
                     height: 10,
                   ),
@@ -95,35 +103,48 @@ class _AddEducationState extends State<AddEducation> {
                   const SizedBox(
                     height: 5,
                   ),
-                  Container(
-                    width: width(context),
-                    height: height(context) * 0.07,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                          width: 1.0, color: const Color(0xffE5E5E5)),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10.0)),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Select Date",
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xff929BA3)),
+                  InkWell(
+                    onTap: () {
+                      try {
+                        selectDate(context, startDate!);
+                      } catch (e) {
+                        startDate = TextEditingController();
+                      selectDate(context, startDate!);
+
+                      }
+                    },
+                    child: Container(
+                      width: width(context),
+                      height: height(context) * 0.07,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                            width: 1.0, color: const Color(0xffE5E5E5)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10.0)),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              startDate != null
+                                  ? startDate!.value.text
+                                  : "Select Date",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xff929BA3)),
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: SvgPicture.asset(
-                              'assets/images/selected_calender.svg'),
-                        ),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: SvgPicture.asset(
+                                'assets/images/selected_calender.svg'),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -139,35 +160,49 @@ class _AddEducationState extends State<AddEducation> {
                   const SizedBox(
                     height: 5,
                   ),
-                  Container(
-                    width: width(context),
-                    height: height(context) * 0.07,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                          width: 1.0, color: const Color(0xffE5E5E5)),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10.0)),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Select Date",
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xff929BA3)),
+                  InkWell(
+
+                    onTap: (){
+                        try {
+                        selectDate(context, endDate!, startDate: selectedDate);
+                      } catch (e) {
+                        endDate = TextEditingController();
+                      selectDate(context, endDate!,  startDate: selectedDate);
+
+                      }
+                    },
+                    child: Container(
+                      width: width(context),
+                      height: height(context) * 0.07,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                            width: 1.0, color: const Color(0xffE5E5E5)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10.0)),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                          endDate != null
+                                  ? endDate!.value.text
+                                  :     "Select Date",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xff929BA3)),
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: SvgPicture.asset(
-                              'assets/images/selected_calender.svg'),
-                        ),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: SvgPicture.asset(
+                                'assets/images/selected_calender.svg'),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -184,11 +219,28 @@ class _AddEducationState extends State<AddEducation> {
                     height: 5,
                   ),
                   CustomTextField(
+                    controller: descController,
                     maxLine: 6,
                     hintText:
                         'You can mention your Grades, Achievements, Activities or subjects you are studying ',
                   ),
-                  PortfolioCustomButton(clickAction: (){},)
+                  PortfolioCustomButton(
+                    clickAction: () {},
+                  )
                 ]))));
+  }
+
+  selectDate(BuildContext context, TextEditingController controller, {DateTime? startDate}) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate, // Refer step 1
+      firstDate:startDate ??  DateTime(1900),
+      lastDate: DateTime(2030),
+    );
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+        controller.text = Utility.convertDateFormat(selectedDate);
+      });
   }
 }

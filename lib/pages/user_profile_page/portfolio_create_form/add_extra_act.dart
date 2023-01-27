@@ -192,7 +192,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                     ),
                                   ),
                                 ),
-                              SizedBox(
+                                SizedBox(
                                   height: 10,
                                 ),
                                 // CustomDescription(
