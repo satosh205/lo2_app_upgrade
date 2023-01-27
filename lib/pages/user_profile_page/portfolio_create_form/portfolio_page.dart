@@ -667,7 +667,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                     const EdgeInsets.all(8.0),
                                                 margin: const EdgeInsets.only(
                                                     top: 10),
-                                                child: AddExperience()),
+                                                child: AddEducation()),
                                           );
                                         });
                                   },
@@ -677,7 +677,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    AddActivities()));
+                                                    AddEducation()));
                                       },
                                       child: Icon(Icons.add))),
                               Icon(Icons.arrow_forward_ios_outlined),
