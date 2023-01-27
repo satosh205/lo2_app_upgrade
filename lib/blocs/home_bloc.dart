@@ -1401,7 +1401,6 @@ class PortfolioState extends HomeState {
   PortfolioState(this.state, {this.response, this.error});
 }
 
-
 class AddPortfolioState extends HomeState {
   ApiStatus state;
 
@@ -1410,6 +1409,7 @@ class AddPortfolioState extends HomeState {
   String? error;
   AddPortfolioState(this.state, {this.response, this.error});
 }
+
 class AddActivitiesEvent extends HomeEvent {
   Map<String, dynamic>? data;
 
@@ -1417,6 +1417,7 @@ class AddActivitiesEvent extends HomeEvent {
 
   List<Object> get props => throw UnimplementedError();
 }
+
 class AddActivitiesState extends HomeState {
   ApiStatus state;
 
@@ -1425,6 +1426,7 @@ class AddActivitiesState extends HomeState {
   String? error;
   AddActivitiesState(this.state, {this.response, this.error});
 }
+
 class AddCertificateEvent extends HomeEvent {
   Map<String, dynamic>? data;
 
@@ -1432,6 +1434,7 @@ class AddCertificateEvent extends HomeEvent {
 
   List<Object> get props => throw UnimplementedError();
 }
+
 class AddCertificateState extends HomeState {
   ApiStatus state;
 
@@ -1441,18 +1444,14 @@ class AddCertificateState extends HomeState {
   AddCertificateState(this.state, {this.response, this.error});
 }
 
-
-
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final homeRepository = Injector.appInstance.get<HomeRepository>();
 
   HomeBloc(HomeState initialState) : super(initialState);
 
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
-
-    if(event is AddPortfolioEvent){
-      
-       try {
+    if (event is AddPortfolioEvent) {
+      try {
         yield AddPortfolioState(ApiStatus.LOADING);
         final response = await homeRepository.addPortfolio(data: event.data);
         Log.v("Add PORTFOLIO DATA ::: ${response.data}");
@@ -1464,9 +1463,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           yield AddPortfolioState(ApiStatus.ERROR, response: response);
         }
       } catch (e) {}
-    }
-
-   else  if (event is PortfolioEvent) {
+    } else if (event is PortfolioEvent) {
       try {
         yield PortfolioState(ApiStatus.LOADING);
         final response = await homeRepository.getPortfolio();
@@ -1479,8 +1476,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           yield PortfolioState(ApiStatus.ERROR, response: response);
         }
       } catch (e) {}
-    }
-    else if (event is CompetitionContentListEvent) {
+    } else if (event is CompetitionContentListEvent) {
       try {
         yield CompetitionContentListState(ApiStatus.LOADING);
         final response =

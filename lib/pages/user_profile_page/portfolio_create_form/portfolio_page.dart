@@ -598,66 +598,72 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                               itemCount: 3,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, int) => Container(
-                                 padding: EdgeInsets.only(bottom: 8),
-                                 margin: EdgeInsets.only(right: 8),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(color: ColorConstants.GREY_4)
-                                ),
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius:
-                                         BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-                                      child: Image.network(
-                                          'https://picsum.photos/seed/picsum/300/300',
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.65,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.2,
-                                          fit: BoxFit.fill),
-                                    ),
-                                    SizedBox(height: 10),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
-                                      child: Text(
-                                        'Ui Design Test Series',
-                                        style: Styles.bold(),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
-                                      child: Row(
-                                        children: [
-                                          Text('Rank : 20',
-                                              style: Styles.semibold(
-                                                  size: 12,
-                                                  color: Color(0xff929BA3))),
-                                                  SizedBox(width: 8),
-                                          SvgPicture.asset(
-                                            'assets/images/coin.svg',
-                                            width: width(context) * 0.04,
+                                    padding: EdgeInsets.only(bottom: 8),
+                                    margin: EdgeInsets.only(right: 8),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                            color: ColorConstants.GREY_4)),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(8),
+                                              topRight: Radius.circular(8)),
+                                          child: Image.network(
+                                              'https://picsum.photos/seed/picsum/300/300',
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.65,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.2,
+                                              fit: BoxFit.fill),
+                                        ),
+                                        SizedBox(height: 10),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
+                                          child: Text(
+                                            'Ui Design Test Series',
+                                            style: Styles.bold(),
                                           ),
-                                           Text(' • ',
-                                              style: Styles.semibold(
-                                                  size: 12,
-                                                  color: Color(0xff929BA3))),
-                                           Text('120 Points Earned',
-                                              style: Styles.semibold(
-                                                  size: 12,
-                                                  color: Color(0xff929BA3))),
-                                        ],
-                                      ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
+                                          child: Row(
+                                            children: [
+                                              Text('Rank : 20',
+                                                  style: Styles.semibold(
+                                                      size: 12,
+                                                      color:
+                                                          Color(0xff929BA3))),
+                                              SizedBox(width: 8),
+                                              SvgPicture.asset(
+                                                'assets/images/coin.svg',
+                                                width: width(context) * 0.04,
+                                              ),
+                                              Text(' • ',
+                                                  style: Styles.semibold(
+                                                      size: 12,
+                                                      color:
+                                                          Color(0xff929BA3))),
+                                              Text('120 Points Earned',
+                                                  style: Styles.semibold(
+                                                      size: 12,
+                                                      color:
+                                                          Color(0xff929BA3))),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              )),
+                                  )),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -696,7 +702,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    AddExperience()));
+                                                    AddActivities()));
                                       },
                                       child: Icon(Icons.add))),
                               Icon(Icons.arrow_forward_ios_outlined),

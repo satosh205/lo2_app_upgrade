@@ -138,4 +138,5 @@ class ApiConstants {
   static const LEADERBOARD = '/api/competition-leaderboard';
   static const USER_PORTFOLIO = '/api/user-portfolio';
   static const ADD_PORTFOLIO = '/api/addPortfolio';
+  static const ADD_PROFESSIONAL = 'api/addProfessional';
 }

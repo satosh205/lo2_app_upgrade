@@ -568,6 +568,19 @@ class HomeRepository {
     }
   }
 
+   Future<AddPortfolioResp> addProfessional({Map<String, dynamic>? data}) async {
+    final response = await homeProvider.addProfessional(data : data);
+    if (response!.success) {
+      Log.v("Add Professional Content  DATA : ${response.body}");
+      AddPortfolioResp addProfessionalData =
+          AddPortfolioResp.fromJson(response.body);
+      return addProfessionalData;
+    } else {
+      Log.v("====> ${response.body}");
+      return AddPortfolioResp.fromJson(response.body);
+    }
+  }
+
   Future<PortfolioResponse> getPortfolio() async {
     final response = await homeProvider.getPortfolio();
     if (response!.success) {
