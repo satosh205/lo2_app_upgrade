@@ -1,81 +1,88 @@
-
 import 'dart:convert';
 
-PortfolioResponse portfolioResponseFromJson(String str) => PortfolioResponse.fromJson(json.decode(str));
+PortfolioResponse portfolioResponseFromJson(String str) =>
+    PortfolioResponse.fromJson(json.decode(str));
 
-String portfolioResponseToJson(PortfolioResponse data) => json.encode(data.toJson());
+String portfolioResponseToJson(PortfolioResponse data) =>
+    json.encode(data.toJson());
 
 class PortfolioResponse {
-    PortfolioResponse({
-        required this.status,
-        required this.data,
-        required this.error,
-    });
+  PortfolioResponse({
+    required this.status,
+    required this.data,
+    required this.error,
+  });
 
-    int status;
-    Data data;
-    List<dynamic> error;
+  int status;
+  Data data;
+  List<dynamic> error;
 
-    factory PortfolioResponse.fromJson(Map<String, dynamic> json) => PortfolioResponse(
+  factory PortfolioResponse.fromJson(Map<String, dynamic> json) =>
+      PortfolioResponse(
         status: json["status"],
         data: Data.fromJson(json["data"]),
         error: List<dynamic>.from(json["error"].map((x) => x)),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "status": status,
         "data": data.toJson(),
         "error": List<dynamic>.from(error.map((x) => x)),
-    };
+      };
 }
 
 class Data {
-    Data({
-        required this.profileCompletionPer,
-        required this.userResume,
-        required this.lookingForInternship,
-        required this.lookingForPlacement,
-        required this.portfolio,
-        required this.skill,
-        required this.contactNo,
-        required this.message,
-        required this.facebook,
-        required this.insta,
-        required this.linkedin,
-        required this.siteUrl,
-        required this.bee,
-        required this.other,
-        required this.twitter,
-        required this.pinterest,
-        required this.education,
-        required this.experience,
-    });
+  Data({
+    required this.profileCompletionPer,
+    required this.userResume,
+    required this.lookingForInternship,
+    required this.lookingForPlacement,
+    required this.portfolio,
+    required this.skill,
+    required this.contactNo,
+    required this.message,
+    required this.facebook,
+    required this.insta,
+    required this.linkedin,
+    required this.siteUrl,
+    required this.bee,
+    required this.other,
+    required this.twitter,
+    required this.pinterest,
+    required this.education,
+    required this.experience,
+    required this.certificate,
+    required this.extraActivities,
+  });
 
-    int profileCompletionPer;
-    String userResume;
-    String lookingForInternship;
-    String lookingForPlacement;
-    List<Portfolio> portfolio;
-    List<Skill> skill;
-    String contactNo;
-    String message;
-    String facebook;
-    String insta;
-    String linkedin;
-    String siteUrl;
-    String bee;
-    String other;
-    String twitter;
-    String pinterest;
-    List<CommonProfession> education;
-    List<CommonProfession> experience;
+  int profileCompletionPer;
+  String userResume;
+  String lookingForInternship;
+  String lookingForPlacement;
+  List<Portfolio> portfolio;
+  List<Skill> skill;
+  String contactNo;
+  String message;
+  String facebook;
+  String insta;
+  String linkedin;
+  String siteUrl;
+  String bee;
+  String other;
+  String twitter;
+  String pinterest;
+  List<CommonProfession> education;
+  List<CommonProfession> experience;
+  List<CommonProfession> certificate;
+  List<CommonProfession> extraActivities;
 
-    factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
         profileCompletionPer: json["profile_completion_per"],
         userResume: json["user_resume"],
         lookingForInternship: json["looking_for_internship"],
         lookingForPlacement: json["looking_for_placement"],
-        portfolio: List<Portfolio>.from(json["portfolio"].map((x) => Portfolio.fromJson(x))),
+        portfolio: List<Portfolio>.from(
+            json["portfolio"].map((x) => Portfolio.fromJson(x))),
         skill: List<Skill>.from(json["skill"].map((x) => Skill.fromJson(x))),
         contactNo: json["contact_no"],
         message: json["message"],
@@ -87,11 +94,17 @@ class Data {
         other: json["other"],
         twitter: json["twitter"],
         pinterest: json["pinterest"],
-        education: List<CommonProfession>.from(json["Education"].map((x) => CommonProfession.fromJson(x))),
-        experience: List<CommonProfession>.from(json["Experience"].map((x) => CommonProfession.fromJson(x))),
-    );
+        education: List<CommonProfession>.from(
+            json["Education"].map((x) => CommonProfession.fromJson(x))),
+        experience: List<CommonProfession>.from(
+            json["Experience"].map((x) => CommonProfession.fromJson(x))),
+        certificate: List<CommonProfession>.from(
+            json["Certificate"].map((x) => CommonProfession.fromJson(x))),
+        extraActivities: List<CommonProfession>.from(
+            json["Certificate"].map((x) => CommonProfession.fromJson(x))),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "profile_completion_per": profileCompletionPer,
         "user_resume": userResume,
         "looking_for_internship": lookingForInternship,
@@ -110,37 +123,41 @@ class Data {
         "pinterest": pinterest,
         "Education": List<dynamic>.from(education.map((x) => x.toJson())),
         "Experience": List<dynamic>.from(experience.map((x) => x.toJson())),
-    };
+        "Certificate": List<dynamic>.from(certificate.map((x) => x.toJson())),
+        "extra_activities":
+            List<dynamic>.from(extraActivities.map((x) => x.toJson())),
+      };
 }
 
 class CommonProfession {
-    CommonProfession({
-        required this.activityType,
-        required this.title,
-        required this.description,
-        required this.startDate,
-        required this.endDate,
-        required this.institute,
-        required this.certificate,
-        required this.action,
-        required this.professionalKey,
-        required this.editUrlProfessional,
-        required this.imageName,
-    });
+  CommonProfession({
+    required this.activityType,
+    required this.title,
+    required this.description,
+    required this.startDate,
+    required this.endDate,
+    required this.institute,
+    required this.certificate,
+    required this.action,
+    required this.professionalKey,
+    required this.editUrlProfessional,
+    required this.imageName,
+  });
 
-    String activityType;
-    String title;
-    String description;
-    String startDate;
-    String endDate;
-    String institute;
-    String certificate;
-    String action;
-    String professionalKey;
-    String editUrlProfessional;
-    String imageName;
+  String activityType;
+  String title;
+  String description;
+  String startDate;
+  String endDate;
+  String institute;
+  String certificate;
+  String action;
+  String professionalKey;
+  String editUrlProfessional;
+  String imageName;
 
-    factory CommonProfession.fromJson(Map<String, dynamic> json) => CommonProfession(
+  factory CommonProfession.fromJson(Map<String, dynamic> json) =>
+      CommonProfession(
         activityType: json["activity_type"],
         title: json["title"],
         description: json["description"],
@@ -152,9 +169,9 @@ class CommonProfession {
         professionalKey: json["professional_key"],
         editUrlProfessional: json["edit_url_professional"],
         imageName: json["image_name"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "activity_type": activityType,
         "title": title,
         "description": description,
@@ -166,29 +183,29 @@ class CommonProfession {
         "professional_key": professionalKey,
         "edit_url_professional": editUrlProfessional,
         "image_name": imageName,
-    };
+      };
 }
 
 class Portfolio {
-    Portfolio({
-        required this.portfolioTitle,
-        required this.portfolioLink,
-        required this.action,
-        required this.portfolioKey,
-        required this.editUrlPortfolio,
-        required this.editImageType,
-        required this.imageName,
-    });
+  Portfolio({
+    required this.portfolioTitle,
+    required this.portfolioLink,
+    required this.action,
+    required this.portfolioKey,
+    required this.editUrlPortfolio,
+    required this.editImageType,
+    required this.imageName,
+  });
 
-    String portfolioTitle;
-    String portfolioLink;
-    String action;
-    String portfolioKey;
-    String editUrlPortfolio;
-    String editImageType;
-    String imageName;
+  String portfolioTitle;
+  String portfolioLink;
+  String action;
+  String portfolioKey;
+  String editUrlPortfolio;
+  String editImageType;
+  String imageName;
 
-    factory Portfolio.fromJson(Map<String, dynamic> json) => Portfolio(
+  factory Portfolio.fromJson(Map<String, dynamic> json) => Portfolio(
         portfolioTitle: json["portfolio_title"],
         portfolioLink: json["portfolio_link"],
         action: json["action"],
@@ -196,9 +213,9 @@ class Portfolio {
         editUrlPortfolio: json["edit_url_portfolio"],
         editImageType: json["edit_image_type"],
         imageName: json["image_name"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "portfolio_title": portfolioTitle,
         "portfolio_link": portfolioLink,
         "action": action,
@@ -206,37 +223,37 @@ class Portfolio {
         "edit_url_portfolio": editUrlPortfolio,
         "edit_image_type": editImageType,
         "image_name": imageName,
-    };
+      };
 }
 
 class Skill {
-    Skill({
-        required this.skillTitle,
-        required this.skillPercentage,
-        required this.skillKey,
-        required this.editUrlSkill,
-        required this.imageName,
-    });
+  Skill({
+    required this.skillTitle,
+    required this.skillPercentage,
+    required this.skillKey,
+    required this.editUrlSkill,
+    required this.imageName,
+  });
 
-    String skillTitle;
-    String skillPercentage;
-    String skillKey;
-    String editUrlSkill;
-    String imageName;
+  String skillTitle;
+  String skillPercentage;
+  String skillKey;
+  String editUrlSkill;
+  String imageName;
 
-    factory Skill.fromJson(Map<String, dynamic> json) => Skill(
+  factory Skill.fromJson(Map<String, dynamic> json) => Skill(
         skillTitle: json["skill_title"],
         skillPercentage: json["skill_percentage"],
         skillKey: json["skill_key"],
         editUrlSkill: json["edit_url_skill"],
         imageName: json["image_name"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "skill_title": skillTitle,
         "skill_percentage": skillPercentage,
         "skill_key": skillKey,
         "edit_url_skill": editUrlSkill,
         "image_name": imageName,
-    };
+      };
 }
