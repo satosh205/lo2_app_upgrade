@@ -136,24 +136,14 @@ class _AddExperienceState extends State<AddExperience> {
                               height: 5,
                             ),
                             InkWell(
-                               onTap: () {
-                      try {
-                        selectDate(context, endDate!, startDate: selectedDate);
-                      } catch (e) {
-                        endDate = TextEditingController();
-                        selectDate(context, endDate!, startDate: selectedDate);
-                      }
-                    },
-
-
-                              // onTap: () {
-                              //   try {
-                              //     selectDate(context, startDate!);
-                              //   } catch (e) {
-                              //     startDate = TextEditingController();
-                              //     selectDate(context, startDate!);
-                              //   }
-                              // },
+                              onTap: () {
+                                try {
+                                  selectDate(context, startDate!);
+                                } catch (e) {
+                                  startDate = TextEditingController();
+                                  selectDate(context, startDate!);
+                                }
+                              },
                               child: Container(
                                 width: width(context),
                                 height: height(context) * 0.07,
@@ -234,50 +224,66 @@ class _AddExperienceState extends State<AddExperience> {
                             const SizedBox(
                               height: 5,
                             ),
-                            Container(
-                              width: width(context),
-                              height: height(context) * 0.07,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
-                                    width: 1.0, color: const Color(0xffE5E5E5)),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(10.0)),
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "Select Date",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: Color(0xff929BA3)),
+                            InkWell(
+                              onTap: () {
+                                try {
+                                  selectDate(context, endDate!,
+                                      startDate: selectedDate);
+                                } catch (e) {
+                                  endDate = TextEditingController();
+                                  selectDate(context, endDate!,
+                                      startDate: selectedDate);
+                                }
+                              },
+                              child: Container(
+                                width: width(context),
+                                height: height(context) * 0.07,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                      width: 1.0,
+                                      color: const Color(0xffE5E5E5)),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10.0)),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        endDate != null
+                                            ? endDate!.value.text
+                                            : "Select Date",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                            color: Color(0xff929BA3)),
+                                      ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8.0),
-                                    child: InkWell(
-                                      onTap: (() async {
-                                        DateTime? datePiked =
-                                            await showDatePicker(
-                                                context: context,
-                                                initialDate: DateTime.now(),
-                                                firstDate: (DateTime(2021)),
-                                                lastDate: DateTime(2050));
-                                        if (datePiked != null) {
-                                          print(
-                                              'Date Selected : ${datePiked.day}--${datePiked.month}--${datePiked.year}');
-                                        }
-                                      }),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 8.0),
+                                      // child: InkWell(
+                                      // onTap: (() async {
+                                      //   DateTime? datePiked =
+                                      //       await showDatePicker(
+                                      //           context: context,
+                                      //           initialDate: DateTime.now(),
+                                      //           firstDate: (DateTime(2021)),
+                                      //           lastDate: DateTime(2050));
+                                      //   if (datePiked != null) {
+                                      //     print(
+                                      //         'Date Selected : ${datePiked.day}--${datePiked.month}--${datePiked.year}');
+                                      //   }
+                                      // }),
                                       child: SvgPicture.asset(
                                           'assets/images/selected_calender.svg'),
+                                      // ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                             const SizedBox(
