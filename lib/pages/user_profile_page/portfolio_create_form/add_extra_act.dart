@@ -14,6 +14,7 @@ import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:masterg/utils/utility.dart';
 
 class AddActivities extends StatefulWidget {
   const AddActivities({Key? key}) : super(key: key);
@@ -26,6 +27,9 @@ class _AddActivitiesState extends State<AddActivities> {
   final activitytitleController = TextEditingController();
   final nametitleController = TextEditingController();
   final typetitleController = TextEditingController();
+  TextEditingController? startDate;
+  TextEditingController? endDate;
+  DateTime selectedDate = DateTime.now();
 
   File? uploadImg;
   File? img;
@@ -137,58 +141,71 @@ class _AddActivitiesState extends State<AddActivities> {
                                   ),
                                 ),
 
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    width: width(context),
-                                    height: height(context) * 0.07,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                          width: 1.0,
-                                          color: const Color(0xffE5E5E5)),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(10.0)),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            "Select Date",
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                                color: Color(0xff929BA3)),
+                                InkWell(
+                                  onTap: () {
+                                    try {
+                                      selectDate(context, startDate!);
+                                    } catch (e) {
+                                      startDate = TextEditingController();
+                                      selectDate(context, startDate!);
+                                    }
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      width: width(context),
+                                      height: height(context) * 0.07,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(
+                                            width: 1.0,
+                                            color: const Color(0xffE5E5E5)),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(10.0)),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              startDate != null
+                                                  ? startDate!.value.text
+                                                  : "Select Date",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Color(0xff929BA3)),
+                                            ),
                                           ),
-                                        ),
-                                        // Icon(Icons.edit_calendar_outlined)
+                                          // Icon(Icons.edit_calendar_outlined)
 
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 8.0),
-                                          child: InkWell(
-                                            onTap: (() async {
-                                              DateTime? datePiked =
-                                                  await showDatePicker(
-                                                      context: context,
-                                                      initialDate:
-                                                          DateTime.now(),
-                                                      firstDate:
-                                                          (DateTime(2021)),
-                                                      lastDate: DateTime(2050));
-                                              if (datePiked != null) {
-                                                print(
-                                                    'Date Selected : ${datePiked.day}--${datePiked.month}--${datePiked.year}');
-                                              }
-                                            }),
-                                            child: SvgPicture.asset(
-                                                'assets/images/selected_calender.svg'),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 8.0),
+                                            child: InkWell(
+                                              onTap: (() async {
+                                                DateTime? datePiked =
+                                                    await showDatePicker(
+                                                        context: context,
+                                                        initialDate:
+                                                            DateTime.now(),
+                                                        firstDate:
+                                                            (DateTime(2021)),
+                                                        lastDate:
+                                                            DateTime(2050));
+                                                if (datePiked != null) {
+                                                  print(
+                                                      'Date Selected : ${datePiked.day}--${datePiked.month}--${datePiked.year}');
+                                                }
+                                              }),
+                                              child: SvgPicture.asset(
+                                                  'assets/images/selected_calender.svg'),
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -308,8 +325,8 @@ class _AddActivitiesState extends State<AddActivities> {
   }
 
   void addActivities(Map<String, dynamic> data) {
-    print(data);
-    // BlocProvider.of<HomeBloc>(context).add(AddActivitiesEvent(data: data));
+    // print(data);
+    BlocProvider.of<HomeBloc>(context).add(AddActivitiesEvent(data: data));
   }
 
   void handleAddActivities(AddActivitiesState state) {
@@ -334,5 +351,20 @@ class _AddActivitiesState extends State<AddActivities> {
           break;
       }
     });
+  }
+
+  selectDate(BuildContext context, TextEditingController controller,
+      {DateTime? startDate}) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate, // Refer step 1
+      firstDate: startDate ?? DateTime(1900),
+      lastDate: DateTime(2030),
+    );
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+        controller.text = Utility.convertDateFormat(selectedDate);
+      });
   }
 }

@@ -1476,6 +1476,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           yield PortfolioState(ApiStatus.ERROR, response: response);
         }
       } catch (e) {}
+    } else if (event is AddActivitiesEvent) {
+      try {
+        yield AddActivitiesState(ApiStatus.LOADING);
+        final response = await homeRepository.addProfessional();
+        Log.v("ACTIVITIES DATA ::: ${response.data}");
+
+        if (response.data != null) {
+          yield AddActivitiesState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA ::: $response");
+          yield AddActivitiesState(ApiStatus.ERROR, response: response);
+        }
+      } catch (e) {}
     } else if (event is CompetitionContentListEvent) {
       try {
         yield CompetitionContentListState(ApiStatus.LOADING);
