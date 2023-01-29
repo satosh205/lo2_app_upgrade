@@ -66,6 +66,7 @@ import 'package:masterg/data/models/response/home_response/user_program_subscrib
 import 'package:masterg/data/providers/home_provider.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/user_profile_page/model/MasterBrand.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_experience.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -568,13 +569,26 @@ class HomeRepository {
     }
   }
 
-   Future<AddPortfolioResp> addProfessional({Map<String, dynamic>? data}) async {
-    final response = await homeProvider.addProfessional(data : data);
+  Future<AddPortfolioResp> addProfessional({Map<String, dynamic>? data}) async {
+    final response = await homeProvider.addProfessional(data: data);
     if (response!.success) {
       Log.v("Add Professional Content  DATA : ${response.body}");
       AddPortfolioResp addProfessionalData =
           AddPortfolioResp.fromJson(response.body);
       return addProfessionalData;
+    } else {
+      Log.v("====> ${response.body}");
+      return AddPortfolioResp.fromJson(response.body);
+    }
+  }
+
+  Future<AddPortfolioResp> addExperience({Map<String, dynamic>? data}) async {
+    final response = await homeProvider.addExperience(data: data);
+    if (response!.success) {
+      Log.v("Add Experience Content  DATA : ${response.body}");
+      AddPortfolioResp addExperienceData =
+          AddPortfolioResp.fromJson(response.body);
+      return addExperienceData;
     } else {
       Log.v("====> ${response.body}");
       return AddPortfolioResp.fromJson(response.body);
@@ -593,7 +607,8 @@ class HomeRepository {
       return PortfolioResponse.fromJson(response.body);
     }
   }
-  Future<AddPortfolioResp> addPortfolio( { Map<String, dynamic>? data}) async {
+
+  Future<AddPortfolioResp> addPortfolio({Map<String, dynamic>? data}) async {
     final response = await homeProvider.addPortfolio(data: data);
     if (response!.success) {
       Log.v("Add Portfolio Content  DATA : ${response.body}");

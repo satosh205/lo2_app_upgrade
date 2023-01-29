@@ -1410,6 +1410,23 @@ class AddPortfolioState extends HomeState {
   AddPortfolioState(this.state, {this.response, this.error});
 }
 
+class AddExperienceEvent extends HomeEvent {
+  Map<String, dynamic>? data;
+
+  AddExperienceEvent({this.data}) : super([data]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+class AddExperienceState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  AddPortfolioResp? response;
+  String? error;
+  AddExperienceState(this.state, {this.response, this.error});
+}
+
 class AddActivitiesEvent extends HomeEvent {
   Map<String, dynamic>? data;
 
@@ -1487,6 +1504,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         } else {
           Log.v("ERROR DATA ::: $response");
           yield AddActivitiesState(ApiStatus.ERROR, response: response);
+        }
+      } catch (e) {}
+    } else if (event is AddExperienceEvent) {
+      try {
+        yield AddExperienceState(ApiStatus.LOADING);
+        final response = await homeRepository.addExperience();
+        Log.v("EXPERIENCE DATA ::: ${response.data}");
+
+        if (response.data != null) {
+          yield AddExperienceState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA ::: $response");
+          yield AddExperienceState(ApiStatus.ERROR, response: response);
         }
       } catch (e) {}
     } else if (event is CompetitionContentListEvent) {

@@ -17,6 +17,7 @@ import 'package:masterg/data/models/request/save_answer_request.dart';
 import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/data/models/response/home_response/competition_response.dart';
 import 'package:masterg/local/pref/Preference.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_experience.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/utility.dart';
 
@@ -2211,6 +2212,33 @@ class HomeProvider {
   Future<ApiResponse?> addProfessional({Map<String, dynamic>? data}) async {
     try {
       final response = await api.dio.post(ApiConstants.ADD_PROFESSIONAL,
+          data: FormData.fromMap(data!),
+          options: Options(
+              method: 'POST',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+    return null;
+  }
+
+  Future<ApiResponse?> addExperience({Map<String, dynamic>? data}) async {
+    try {
+      final response = await api.dio.post(ApiConstants.ADD_EXPERIENCE,
           data: FormData.fromMap(data!),
           options: Options(
               method: 'POST',
