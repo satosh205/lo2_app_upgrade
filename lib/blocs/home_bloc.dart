@@ -1427,6 +1427,23 @@ class AddExperienceState extends HomeState {
   AddExperienceState(this.state, {this.response, this.error});
 }
 
+class AddEducationEvent extends HomeEvent {
+  Map<String, dynamic>? data;
+
+  AddEducationEvent({this.data}) : super([data]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+class AddEducationState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  AddPortfolioResp? response;
+  String? error;
+  AddEducationState(this.state, {this.response, this.error});
+}
+
 class AddActivitiesEvent extends HomeEvent {
   Map<String, dynamic>? data;
 
@@ -1491,6 +1508,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         } else {
           Log.v("ERROR DATA ::: $response");
           yield PortfolioState(ApiStatus.ERROR, response: response);
+        }
+      } catch (e) {}
+    } else if (event is AddEducationEvent) {
+      try {
+        yield AddEducationState(ApiStatus.LOADING);
+        final response = await homeRepository.addEducation();
+        Log.v("PORTFOLIO DATA ::: ${response.data}");
+
+        if (response.data != null) {
+          yield AddEducationState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA ::: $response");
+          yield AddEducationState(ApiStatus.ERROR, response: response);
         }
       } catch (e) {}
     } else if (event is AddActivitiesEvent) {

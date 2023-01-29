@@ -66,6 +66,7 @@ import 'package:masterg/data/models/response/home_response/user_program_subscrib
 import 'package:masterg/data/providers/home_provider.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/user_profile_page/model/MasterBrand.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_education.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_experience.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/constant.dart';
@@ -597,6 +598,20 @@ class HomeRepository {
 
   Future<PortfolioResponse> getPortfolio() async {
     final response = await homeProvider.getPortfolio();
+    if (response!.success) {
+      Log.v("Portfolio Content  DATA : ${response.body}");
+      PortfolioResponse competitionData =
+          PortfolioResponse.fromJson(response.body);
+      return competitionData;
+    } else {
+      Log.v("====> ${response.body}");
+      return PortfolioResponse.fromJson(response.body);
+    }
+  }
+
+//add education
+  Future<PortfolioResponse> addEducation({Map<String, dynamic>? data}) async {
+    final response = await homeProvider.addEducation(data: data);
     if (response!.success) {
       Log.v("Portfolio Content  DATA : ${response.body}");
       PortfolioResponse competitionData =

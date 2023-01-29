@@ -25,7 +25,7 @@ class _AddExperienceState extends State<AddExperience> {
   TextEditingController? startDate;
   TextEditingController? endDate;
   DateTime selectedDate = DateTime.now();
-  bool? isAddExperienceLoading = false;
+  bool? isAddExperienceLoading;
 
   @override
   Widget build(BuildContext context) {

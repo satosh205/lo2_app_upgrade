@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:masterg/blocs/bloc_manager.dart';
+import 'package:masterg/blocs/home_bloc.dart';
+import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfolio.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
+import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/utility.dart';
@@ -17,14 +22,21 @@ class AddEducation extends StatefulWidget {
 
 class _AddEducationState extends State<AddEducation> {
   TextEditingController? titleController;
+   TextEditingController? degreeController;
   TextEditingController? descController;
   TextEditingController? startDate;
   TextEditingController? endDate;
   DateTime selectedDate = DateTime.now();
-
+  bool? isAddEducationLoading;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocManager(
+        initState: (value) {},
+        child: BlocListener<HomeBloc, HomeState>(
+            listener: (context, state) async {
+              if (state is AddEducationState) handleAddEducation(state);
+            },
+    child:Scaffold(
         body: Padding(
             padding: const EdgeInsets.only(top: 50.0),
             child: SingleChildScrollView(
@@ -78,7 +90,7 @@ class _AddEducationState extends State<AddEducation> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: CustomTextField(
-                        controller: titleController,
+                        controller: degreeController,
                         hintText: 'Ex: Bachelor\'s of Instrumentation'),
                   ),
                   Padding(
@@ -213,10 +225,42 @@ class _AddEducationState extends State<AddEducation> {
                     ),
                   ),
                   PortfolioCustomButton(
-                    clickAction: () {},
+                    clickAction: () async{
+                      
+
+                    },
                   )
-                ]))));
+                ]))))));
   }
+  void addEducation(Map<String, dynamic> data) {
+    // print(data);
+    BlocProvider.of<HomeBloc>(context).add(AddEducationEvent(data: data));
+  }
+  void handleAddEducation(AddEducationState state) {
+     var addEducationState = state;
+    setState(() {
+      switch (addEducationState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading Add Education....................");
+          isAddEducationLoading = true;
+          break;
+
+        case ApiStatus.SUCCESS:
+          Log.v("Success Add Education....................");
+          isAddEducationLoading = false;
+          // Navigator.pop(context);
+          break;
+        case ApiStatus.ERROR:
+          Log.v("Error Add Education....................");
+          isAddEducationLoading = false;
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
+  }
+
+
 
   selectDate(BuildContext context, TextEditingController controller,
       {DateTime? startDate}) async {
