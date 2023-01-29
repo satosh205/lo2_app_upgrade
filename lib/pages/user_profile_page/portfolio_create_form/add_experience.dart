@@ -301,7 +301,20 @@ class _AddExperienceState extends State<AddExperience> {
                                       height: 20,
                                     ),
                                     PortfolioCustomButton(
-                                      clickAction: () {},
+                                      clickAction: () async {
+                                        Map<String, dynamic> data = Map();
+                                        data['position_title'] =
+                                            titleController.value.text;
+                                        data['company_name'] =
+                                            nameController.value.text;
+                                        data['employment_type'] = '';
+
+                                        data['select_date'] = '';
+                                        data['edit_image_type'] = '';
+                                        data['company_name'] =
+                                            descController.value.text;
+                                        addExperience(data);
+                                      },
                                     )
                                   ])))
                         ])))))));
