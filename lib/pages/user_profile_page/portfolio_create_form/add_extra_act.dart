@@ -33,7 +33,7 @@ class _AddActivitiesState extends State<AddActivities> {
 
   File? uploadImg;
   File? img;
-  bool? isAddActivitiesLoading;
+  bool? isAddActivitiesLoading = false;
   @override
   Widget build(BuildContext context) {
     return BlocManager(
