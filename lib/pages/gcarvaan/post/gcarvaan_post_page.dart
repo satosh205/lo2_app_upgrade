@@ -213,127 +213,9 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            RoundedAppBar(
-                                appBarHeight: height(context) * 0.1,
-                                child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              InkWell(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              Portfolio()));
-                                                },
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          200),
-                                                  child: SizedBox(
-                                                    width: 40,
-                                                    child: Image.network(
-                                                        '${Preference.getString(Preference.PROFILE_IMAGE)}'),
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(width: 10),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    height: 8,
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.5,
-                                                    decoration: BoxDecoration(
-                                                        color: ColorConstants
-                                                            .WHITE
-                                                            .withOpacity(0.2),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10)),
-                                                    child: Stack(
-                                                      children: [
-                                                        Container(
-                                                          height: 10,
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width *
-                                                              0.6 *
-                                                              (30 / 100),
-                                                          decoration: BoxDecoration(
-                                                              color: Color(
-                                                                  0xffFFB72F),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10)),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 8),
-                                                  Text(
-                                                      'Profile completed: 30% ',
-                                                      style: Styles
-                                                          .semiBoldWhite())
-                                                ],
-                                              ),
-                                              Container(
-                                                  margin:
-                                                      EdgeInsets.only(left: 4),
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 4,
-                                                      horizontal: 8),
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: ColorConstants
-                                                          .WHITE
-                                                          .withOpacity(0.5)),
-                                                  child: Row(
-                                                    children: [
-                                                      Container(
-                                                          padding:
-                                                              EdgeInsets.all(4),
-                                                          decoration: BoxDecoration(
-                                                              shape: BoxShape
-                                                                  .circle,
-                                                              color:
-                                                                  ColorConstants
-                                                                      .WHITE),
-                                                          child: Center(
-                                                              child: SvgPicture
-                                                                  .asset(
-                                                                      'assets/images/GReelsS.svg'))),
-                                                      SizedBox(width: 4),
-                                                      Text('Reels',
-                                                          style: Styles.semibold(
-                                                              size: 14,
-                                                              color: Color(
-                                                                  0xff0E1638)))
-                                                    ],
-                                                  )),
-                                            ],
-                                          ),
-                                        ]))),
+                            //Add Action Bar
+                            _customAppBar(),
+
                             if (createPostProvider.getPostStatus() == true)
                               Text('Uploading Post'),
                             if (isPostedLoading ||
@@ -341,14 +223,14 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                     widget.fileToUpload != null)
                               Container(
                                   decoration:
-                                      BoxDecoration(color: Colors.white),
+                                  BoxDecoration(color: Colors.white),
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         width:
-                                            MediaQuery.of(context).size.width,
+                                        MediaQuery.of(context).size.width,
                                         height: 16.0,
                                         child: Shimmer.fromColors(
                                           baseColor: Colors.blue[800]!,
@@ -361,7 +243,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                             decoration: BoxDecoration(
                                                 color: Colors.white,
                                                 borderRadius:
-                                                    BorderRadius.circular(2)),
+                                                BorderRadius.circular(2)),
                                           ),
                                         ),
                                       ),
@@ -394,9 +276,9 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                   color: ColorConstants.WHITE,
                                   width: MediaQuery.of(context).size.width,
                                   padding: EdgeInsets.only(
-                                      // left: 10.0,
-                                      // top: 10.0,
-                                      // right: 10.0,
+                                    // left: 10.0,
+                                    // top: 10.0,
+                                    // right: 10.0,
                                       bottom: 10.0),
                                   // height: 80,
                                   child: Column(
@@ -404,13 +286,13 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                       InkWell(
                                         onTap: () {
                                           Navigator.push(
-                                              //     context,
-                                              //     MaterialPageRoute(
-                                              //         builder: (context) => SharePost(
-                                              //               isReelsPost: false,
-                                              //               fileToUpload: [],
-                                              //               filesPath: value.files,
-                                              //             )));
+                                            //     context,
+                                            //     MaterialPageRoute(
+                                            //         builder: (context) => SharePost(
+                                            //               isReelsPost: false,
+                                            //               fileToUpload: [],
+                                            //               filesPath: value.files,
+                                            //             )));
 
                                               context,
                                               MaterialPageRoute(
@@ -426,7 +308,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                         },
                                         child: Container(
                                           width:
-                                              MediaQuery.of(context).size.width,
+                                          MediaQuery.of(context).size.width,
                                           padding: EdgeInsets.symmetric(
                                             vertical: 10,
                                             horizontal: 15,
@@ -436,9 +318,9 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                           ),
                                           decoration: BoxDecoration(
                                               color:
-                                                  ColorConstants.TEXT_FIELD_BG,
+                                              ColorConstants.TEXT_FIELD_BG,
                                               borderRadius:
-                                                  BorderRadius.circular(8)),
+                                              BorderRadius.circular(8)),
                                           child: Text(
                                               '${Strings.of(context)?.writeAPost}',
                                               style: Styles.regular(
@@ -502,10 +384,10 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                               margin: widget.fromDashboard == true
                                   ? null
                                   : const EdgeInsets.only(
-                                      top: 3,
-                                    ),
+                                top: 3,
+                              ),
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
+                              const EdgeInsets.symmetric(horizontal: 8),
                               width: double.infinity,
                               color: widget.fromDashboard
                                   ? ColorConstants.WHITE
@@ -523,6 +405,131 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                 ),
               ),
             )));
+  }
+
+
+  Widget _customAppBar() {
+    return RoundedAppBar(
+        appBarHeight: height(context) * 0.1,
+        child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+                mainAxisAlignment:
+                MainAxisAlignment.start,
+                crossAxisAlignment:
+                CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment:
+                    CrossAxisAlignment.center,
+                    mainAxisAlignment:
+                    MainAxisAlignment.start,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      Portfolio()));
+                        },
+                        child: ClipRRect(
+                          borderRadius:
+                          BorderRadius.circular(
+                              200),
+                          child: SizedBox(
+                            width: 40,
+                            child: Image.network(
+                                '${Preference.getString(Preference.PROFILE_IMAGE)}'),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment:
+                        CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 8,
+                            width:
+                            MediaQuery.of(context)
+                                .size
+                                .width *
+                                0.5,
+                            decoration: BoxDecoration(
+                                color: ColorConstants
+                                    .WHITE
+                                    .withOpacity(0.2),
+                                borderRadius:
+                                BorderRadius
+                                    .circular(10)),
+                            child: Stack(
+                              children: [
+                                Container(
+                                  height: 10,
+                                  width: MediaQuery.of(
+                                      context)
+                                      .size
+                                      .width *
+                                      0.6 *
+                                      (30 / 100),
+                                  decoration: BoxDecoration(
+                                      color: Color(
+                                          0xffFFB72F),
+                                      borderRadius:
+                                      BorderRadius
+                                          .circular(
+                                          10)),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                              'Profile completed: 30% ',
+                              style: Styles
+                                  .semiBoldWhite())
+                        ],
+                      ),
+                      Container(
+                          margin:
+                          EdgeInsets.only(left: 4),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 4,
+                              horizontal: 8),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                              BorderRadius.circular(
+                                  10),
+                              color: ColorConstants
+                                  .WHITE
+                                  .withOpacity(0.5)),
+                          child: Row(
+                            children: [
+                              Container(
+                                  padding:
+                                  EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape
+                                          .circle,
+                                      color:
+                                      ColorConstants
+                                          .WHITE),
+                                  child: Center(
+                                      child: SvgPicture
+                                          .asset(
+                                          'assets/images/GReelsS.svg'))),
+                              SizedBox(width: 4),
+                              Text('Reels',
+                                  style: Styles.semibold(
+                                      size: 14,
+                                      color: Color(
+                                          0xff0E1638)))
+                            ],
+                          )),
+                    ],
+                  ),
+                ])));
   }
 
   void _initFilePiker(CreatePostProvider provider, isVideo) async {
@@ -592,6 +599,8 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
   //   }
   //   return null;
   // }
+
+
 
   Widget _postListWidget(gcarvaanPosts, GCarvaanListModel value) {
     if (value.list?.length == 0 && isGCarvaanPostLoading == false)

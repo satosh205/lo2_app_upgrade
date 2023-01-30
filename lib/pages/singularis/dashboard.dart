@@ -72,15 +72,18 @@ class _DashboardPageState extends State<DashboardPage> {
   List<DashboardLimit>? carvaanList;
   List<DashboardSessionsLimit>? sessionList;
   List<DashboardMyCoursesLimit>? myCoursesList;
-
   DashboardViewResponse? dashboardViewResponse;
-
   bool showAllFeatured = false;
-
   MenuListProvider? menuProvider;
+  late int selectedPage;
+  late final PageController _pageController;
+
+
 
   @override
   void initState() {
+    selectedPage = 0;
+    _pageController = PageController(initialPage: selectedPage);
     getDashboardIsVisible();
     getDasboardList();
 
@@ -98,7 +101,9 @@ class _DashboardPageState extends State<DashboardPage> {
 
       // "dashboard_carvan_limit": renderReels()
       "dashboard_carvan_limit": renderCarvaan()
+      //"dashboard_carvan_limit": renderCarvaanPageView()
     };
+
     return Consumer2<VideoPlayerProvider, MenuListProvider>(
         builder: (context, value, mp, child) => BlocManager(
             initState: (context) {},
@@ -219,7 +224,8 @@ class _DashboardPageState extends State<DashboardPage> {
         builder: (bc, Box box, child) {
           if (box.get("getDashboardIsVisible") == null) {
             // return CustomProgressIndicator(true, Colors.white);
-            return Text('lading');
+            //return Text('lading');
+            return BlankPage();
           } else if (box.get("getDashboardIsVisible").isEmpty) {
             return Container(
               height: 290,
@@ -264,7 +270,8 @@ class _DashboardPageState extends State<DashboardPage> {
         valueListenable: Hive.box(DB.CONTENT).listenable(),
         builder: (bc, Box box, child) {
           if (box.get("dashboard_sessions_limit") == null) {
-            return Text('Loading');
+            //return Text('Loading singh');
+            return BlankPage();
           } else if (box.get("dashboard_sessions_limit").isEmpty) {
             return Container(
               // height: 290,
@@ -530,7 +537,8 @@ class _DashboardPageState extends State<DashboardPage> {
         valueListenable: Hive.box(DB.CONTENT).listenable(),
         builder: (bc, Box box, child) {
           if (box.get("dashboard_my_courses_limit") == null) {
-            return Text('lading');
+            //return Text('lading');
+            return BlankPage();
           } else if (box.get("dashboard_my_courses_limit").isEmpty) {
             return Container(
               height: 290,
@@ -775,7 +783,8 @@ class _DashboardPageState extends State<DashboardPage> {
         valueListenable: Hive.box(DB.CONTENT).listenable(),
         builder: (bc, Box box, child) {
           if (box.get("dashboard_reels_limit") == null) {
-            return Text('lading');
+            //return Text('lading');
+            return BlankPage();
           } else if (box.get("dashboard_reels_limit").isEmpty) {
             return Container(
               height: 290,
@@ -854,7 +863,8 @@ class _DashboardPageState extends State<DashboardPage> {
         builder: (bc, Box box, child) {
           if (box.get("dashboard_recommended_courses_limit") == null) {
             // return CustomProgressIndicator(true, Colors.white);
-            return Text('lading');
+            //return Text('lading');
+            return BlankPage();
           } else if (box.get("dashboard_recommended_courses_limit").isEmpty) {
             return Container(
               height: 290,
@@ -929,7 +939,8 @@ class _DashboardPageState extends State<DashboardPage> {
         valueListenable: Hive.box(DB.CONTENT).listenable(),
         builder: (bc, Box box, child) {
           if (box.get("dashboard_carvan_limit") == null) {
-            return Text('lading');
+            //return Text('lading');
+            return BlankPage();
           } else if (box.get("dashboard_carvan_limit").isEmpty) {
             return Container(
               height: 290,
@@ -1153,13 +1164,31 @@ class _DashboardPageState extends State<DashboardPage> {
         });
   }
 
+  renderCarvaanPageView(){
+    return PageView.builder(
+      controller: _pageController,
+      itemCount: carvaanList?.length,
+      onPageChanged: (page) {
+        setState(() {
+          selectedPage = page;
+        });
+      }, itemBuilder: (BuildContext context, int index) {
+        return Container(
+          height: 300,
+          child: Text('hello'),
+        );
+    },
+    );
+  }
+
   renderFeaturedContentLimit() {
     return ValueListenableBuilder(
       valueListenable: Hive.box(DB.CONTENT).listenable(),
       builder: (bc, Box box, child) {
         if (box.get("dashboard_featured_content_limit") == null) {
           // return CustomProgressIndicator(true, Colors.white);
-          return Text('lading');
+          //return Text('lading');
+          return BlankPage();
         } else if (box.get("dashboard_featured_content_limit").isEmpty) {
           return Container(
             height: 290,
@@ -1702,5 +1731,419 @@ class _ShowImageState extends State<ShowImage> {
                   color: Colors.white, borderRadius: BorderRadius.circular(6)),
             ),
           );
+  }
+}
+
+
+class BlankPage extends StatelessWidget {
+  const BlankPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.only(
+                left: 10.0, top: 15.0, right: 10.0, bottom: 15.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 9,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      left: 5.0,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Shimmer.fromColors(
+                          baseColor: Color(0xffe6e4e6),
+                          highlightColor: Color(0xffeaf0f3),
+                          child: Container(
+                              height: 150,
+                              margin: EdgeInsets.only(left: 2),
+                              width: 190,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                              )),
+                        ),
+
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 9,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      left: 5.0,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Shimmer.fromColors(
+                          baseColor: Color(0xffe6e4e6),
+                          highlightColor: Color(0xffeaf0f3),
+                          child: Container(
+                              height: 150,
+                              margin: EdgeInsets.only(left: 2),
+                              width: 190,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                              )),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.only(
+                left: 10.0, top: 15.0, right: 10.0, bottom: 15.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      right: 10.0,
+                    ),
+                    child: Image.asset('assets/images/blank.png'),
+                  ),
+                ),
+                Expanded(
+                  flex: 9,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      left: 5.0,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Shimmer.fromColors(
+                          baseColor: Color(0xffe6e4e6),
+                          highlightColor: Color(0xffeaf0f3),
+                          child: Container(
+                              height: 13,
+                              margin: EdgeInsets.only(left: 2),
+                              width: 190,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                              )),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Shimmer.fromColors(
+                            baseColor: Color(0xffe6e4e6),
+                            highlightColor: Color(0xffeaf0f3),
+                            child: Container(
+                                height: 13,
+                                margin: EdgeInsets.only(left: 2),
+                                width: 160,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                )),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5.0),
+                          child: Row(
+                            children: [
+                              Shimmer.fromColors(
+                                baseColor: Color(0xffe6e4e6),
+                                highlightColor: Color(0xffeaf0f3),
+                                child: Container(
+                                    height: 13,
+                                    margin: EdgeInsets.only(left: 2),
+                                    width: 60,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                    )),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20.0),
+                                child: Shimmer.fromColors(
+                                  baseColor: Color(0xffe6e4e6),
+                                  highlightColor: Color(0xffeaf0f3),
+                                  child: Container(
+                                      height: 13,
+                                      margin: EdgeInsets.only(left: 2),
+                                      width: 60,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                      )),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Divider(
+          height: 1,
+          color: ColorConstants.GREY_3,
+        ),
+        Container(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.only(
+                left: 10.0, top: 15.0, right: 10.0, bottom: 15.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      right: 10.0,
+                    ),
+                    child: Image.asset('assets/images/blank.png'),
+                  ),
+                ),
+                Expanded(
+                  flex: 9,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      left: 5.0,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Shimmer.fromColors(
+                          baseColor: Color(0xffe6e4e6),
+                          highlightColor: Color(0xffeaf0f3),
+                          child: Container(
+                              height: 13,
+                              margin: EdgeInsets.only(left: 2),
+                              width: 190,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                              )),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Shimmer.fromColors(
+                            baseColor: Color(0xffe6e4e6),
+                            highlightColor: Color(0xffeaf0f3),
+                            child: Container(
+                                height: 13,
+                                margin: EdgeInsets.only(left: 2),
+                                width: 160,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                )),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5.0),
+                          child: Row(
+                            children: [
+                              Shimmer.fromColors(
+                                baseColor: Color(0xffe6e4e6),
+                                highlightColor: Color(0xffeaf0f3),
+                                child: Container(
+                                    height: 13,
+                                    margin: EdgeInsets.only(left: 2),
+                                    width: 60,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                    )),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20.0),
+                                child: Shimmer.fromColors(
+                                  baseColor: Color(0xffe6e4e6),
+                                  highlightColor: Color(0xffeaf0f3),
+                                  child: Container(
+                                      height: 13,
+                                      margin: EdgeInsets.only(left: 2),
+                                      width: 60,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                      )),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        Container(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.only(
+                left: 10.0, top: 30.0, right: 10.0, bottom: 15.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 9,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      left: 5.0,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Shimmer.fromColors(
+                          baseColor: Color(0xffe6e4e6),
+                          highlightColor: Color(0xffeaf0f3),
+                          child: Container(
+                              height: 150,
+                              margin: EdgeInsets.only(left: 2),
+                              width: 190,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                              )),
+                        ),
+
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 9,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      left: 5.0,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Shimmer.fromColors(
+                          baseColor: Color(0xffe6e4e6),
+                          highlightColor: Color(0xffeaf0f3),
+                          child: Container(
+                              height: 150,
+                              margin: EdgeInsets.only(left: 2),
+                              width: 190,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                              )),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        Container(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.only(
+                left: 10.0, top: 15.0, right: 10.0, bottom: 15.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      right: 10.0,
+                    ),
+                    child: Image.asset('assets/images/blank.png'),
+                  ),
+                ),
+                Expanded(
+                  flex: 9,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      left: 5.0,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Shimmer.fromColors(
+                          baseColor: Color(0xffe6e4e6),
+                          highlightColor: Color(0xffeaf0f3),
+                          child: Container(
+                              height: 13,
+                              margin: EdgeInsets.only(left: 2),
+                              width: 190,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                              )),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Shimmer.fromColors(
+                            baseColor: Color(0xffe6e4e6),
+                            highlightColor: Color(0xffeaf0f3),
+                            child: Container(
+                                height: 13,
+                                margin: EdgeInsets.only(left: 2),
+                                width: 160,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                )),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5.0),
+                          child: Row(
+                            children: [
+                              Shimmer.fromColors(
+                                baseColor: Color(0xffe6e4e6),
+                                highlightColor: Color(0xffeaf0f3),
+                                child: Container(
+                                    height: 13,
+                                    margin: EdgeInsets.only(left: 2),
+                                    width: 60,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                    )),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20.0),
+                                child: Shimmer.fromColors(
+                                  baseColor: Color(0xffe6e4e6),
+                                  highlightColor: Color(0xffeaf0f3),
+                                  child: Container(
+                                      height: 13,
+                                      margin: EdgeInsets.only(left: 2),
+                                      width: 60,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                      )),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
