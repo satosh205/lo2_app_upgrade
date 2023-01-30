@@ -1484,20 +1484,22 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc(HomeState initialState) : super(initialState);
 
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
-    if (event is AddPortfolioEvent) {
-      try {
-        yield AddPortfolioState(ApiStatus.LOADING);
-        final response = await homeRepository.addPortfolio(data: event.data);
-        Log.v("Add PORTFOLIO DATA ::: ${response.data}");
+    // if (event is AddPortfolioEvent) {
+    //   try {
+    //     yield AddPortfolioState(ApiStatus.LOADING);
+    //     final response = await homeRepository.addPortfolio(data: event.data);
+    //     Log.v("Add PORTFOLIO DATA ::: ${response.data}");
 
-        if (response.data != null) {
-          yield AddPortfolioState(ApiStatus.SUCCESS, response: response);
-        } else {
-          Log.v("Add ERROR DATA ::: $response");
-          yield AddPortfolioState(ApiStatus.ERROR, response: response);
-        }
-      } catch (e) {}
-    } else if (event is PortfolioEvent) {
+    //     if (response.data != null) {
+    //       yield AddPortfolioState(ApiStatus.SUCCESS, response: response);
+    //     } else {
+    //       Log.v("Add ERROR DATA ::: $response");
+    //       yield AddPortfolioState(ApiStatus.ERROR, response: response);
+    //     }
+    //   } catch (e) {}
+    // } 
+    // else 
+    if (event is PortfolioEvent) {
       try {
         yield PortfolioState(ApiStatus.LOADING);
         final response = await homeRepository.getPortfolio();
@@ -1510,20 +1512,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           yield PortfolioState(ApiStatus.ERROR, response: response);
         }
       } catch (e) {}
-      // } else if (event is AddEducationEvent) {
-      //   try {
-      //     yield AddEducationState(ApiStatus.LOADING);
-      //     final response = await homeRepository.addEducation();
-      //     Log.v("PORTFOLIO DATA ::: ${response.data}");
+    } 
+    // else if (event is AddEducationEvent) {
+    //   try {
+    //     yield AddEducationState(ApiStatus.LOADING);
+    //     final response = await homeRepository.addProfessional();
+    //     Log.v("Add Education  DATA ::: ${response.data}");
 
-      //     if (response.data != null) {
-      //       yield AddEducationState(ApiStatus.SUCCESS, response: response);
-      //     } else {
-      //       Log.v("ERROR DATA ::: $response");
-      //       yield AddEducationState(ApiStatus.ERROR, response: response);
-      //     }
-      //   } catch (e) {}
-    } else if (event is AddActivitiesEvent) {
+    //     if (response.data != null) {
+    //       yield AddEducationState(ApiStatus.SUCCESS, response: response);
+    //     } else {
+    //       Log.v("Education Error DATA ::: $response");
+    //       yield AddEducationState(ApiStatus.ERROR, response: response);
+    //     }
+    //   } catch (e) {}
+    // } 
+    
+    else if (event is AddActivitiesEvent) {
       try {
         yield AddActivitiesState(ApiStatus.LOADING);
         final response = await homeRepository.addProfessional();

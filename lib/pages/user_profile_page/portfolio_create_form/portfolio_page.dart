@@ -18,6 +18,7 @@ import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:shimmer/shimmer.dart';
 
 class NewPortfolioPage extends StatefulWidget {
   const NewPortfolioPage({super.key});
@@ -586,11 +587,15 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                               Icon(Icons.arrow_forward_ios_outlined),
                               Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 8),
+                                    const EdgeInsets.symmetric(vertical: 4),
                                 child: Divider(),
                               ),
                             ],
                           ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          child: Divider(),
                         ),
                         SizedBox(
                           height: height(context) * 0.3,
@@ -692,7 +697,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                     const EdgeInsets.all(8.0),
                                                 margin: const EdgeInsets.only(
                                                     top: 10),
-                                                child: AddPortfolio()),
+                                                child: AddEducation()),
                                           );
                                         });
                                   },
@@ -714,7 +719,90 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                             ],
                           ),
                         ),
-                      ]))
+                      ])),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Divider(),
+              ),
+// education list
+              isPortfolioLoading == false
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: portfolioResponse?.data.education.length,
+                      itemBuilder: (context, index) => Container(
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 8,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: Image.network(
+                                          portfolioResponse?.data
+                                                  .education[index].imageName ??
+                                              '',
+                                          height: 30,
+                                          width: 30,
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (context, url, error) {
+                                            return Container(
+                                              padding: EdgeInsets.all(14),
+                                              decoration: BoxDecoration(
+                                                  color: Color(0xffD5D5D5)),
+                                              child: SvgPicture.asset(
+                                                'assets/images/default_education.svg',
+                                                height: 30,
+                                                width: 30,
+                                                color: ColorConstants.GREY_5,
+                                                allowDrawingOutsideViewBox:
+                                                    true,
+                                              ),
+                                            );
+                                          },
+                                          loadingBuilder: (BuildContext context,
+                                              Widget child,
+                                              ImageChunkEvent?
+                                                  loadingProgress) {
+                                            if (loadingProgress == null)
+                                              return child;
+                                            return Shimmer.fromColors(
+                                              baseColor: Color(0xffe6e4e6),
+                                              highlightColor: Color(0xffeaf0f3),
+                                              child: Container(
+                                                  height: 50,
+                                                  margin:
+                                                      EdgeInsets.only(left: 2),
+                                                  width: 50,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    shape: BoxShape.circle,
+                                                  )),
+                                            );
+                                          },
+                                        )),SizedBox(width: 10,),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                            '${portfolioResponse?.data.education[index].title}', style: Styles.bold( ),),
+                                            Text('${portfolioResponse?.data.education[index].institute}', style: Styles.regular(size: 12),)
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                SizedBox(height: 10,),
+                                Text('${portfolioResponse?.data.education[index].description}'),
+
+                              if(index != portfolioResponse?.data.education.length)  Divider(),
+                              ],
+                            ),
+                          ))
+                  : Text('no portfolio found ')
             ]))),
       ),
     );
