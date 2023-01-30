@@ -261,7 +261,7 @@ addEducation(data);
         case ApiStatus.SUCCESS:
           Log.v("Success Add Education....................");
           isAddEducationLoading = false;
-          // Navigator.pop(context);
+          Navigator.pop(context);
           break;
         case ApiStatus.ERROR:
           Log.v("Error Add Education....................");

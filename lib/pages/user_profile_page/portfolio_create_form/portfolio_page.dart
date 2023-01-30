@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -135,7 +136,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                     Stack(
                                       children: [
                                         ClipOval(
-                                          child: Image.network(
+                                          child: CachedNetworkImage(
+                                                 imageUrl:
                                             'https://cdn.pixabay.com/photo/2020/05/09/13/29/photographer-5149664_1280.jpg',
                                             filterQuality: FilterQuality.low,
                                             width: 70,
@@ -481,18 +483,21 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                           ],
                         ),
                         Divider(),
-                        SizedBox(
-                          height: 120,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              skillProgess("3D Animation", 1, 20),
-                              skillProgess("3D Animation", 2, 30),
-                              skillProgess("3D Animation", 3, 80),
-                              skillProgess("3D Animation", 4, 90),
-                            ],
-                          ),
-                        ),
+                        // SizedBox(
+                        //   height: 120,
+                        //   child: ListView(
+                        //     scrollDirection: Axis.horizontal,
+                        //     children: [
+                        //       skillProgess("3D Animation", 1, 20),
+                        //       skillProgess("3D Animation", 2, 30),
+                        //       skillProgess("3D Animation", 3, 80),
+                        //       skillProgess("3D Animation", 4, 90),
+                        //     ],
+                        //   ),
+                        // ),
+
+                                    SvgPicture.asset('assets/images/skills_1.svg'),
+
                         dividerLine(),
                         Row(
                           children: [
@@ -502,8 +507,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                             ),
                             Spacer(),
                             InkWell(
-                                onTap: (() {
-                                  showModalBottomSheet(
+                                onTap: (() async{
+                                await   showModalBottomSheet(
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(20)),
@@ -521,7 +526,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                   top: 10),
                                               child: AddPortfolio()),
                                         );
-                                      });
+                                      }).then((value) => getPortfolio());
                                 }),
                                 child: Icon(Icons.add)),
                             Icon(Icons.arrow_forward_ios_rounded),
@@ -548,8 +553,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                             ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(12),
-                                              child: Image.network(
-                                                  'https://picsum.photos/seed/picsum/300/300',
+                                              child: CachedNetworkImage(
+                                                 imageUrl:  '${portfolioResponse?.data.fileBaseurl}${portfolioResponse?.data.portfolio[index].imageName}',
                                                   width: MediaQuery.of(context)
                                                           .size
                                                           .width *
@@ -558,14 +563,40 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                           .size
                                                           .height *
                                                       0.3,
-                                                  fit: BoxFit.fill),
+                                                  fit: BoxFit.fill,
+
+                                                  errorWidget: (context, url, error) {
+                                            return Container(
+                                               width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.8,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.3,
+                                              padding: EdgeInsets.all(14),
+                                              decoration: BoxDecoration(
+                                                
+                                                  color: Color(0xffD5D5D5)),
+                                              // child: SvgPicture.asset(
+                                              //   'assets/images/default_education.svg',
+                                              //   // height: 30,
+                                              //   // width: 30,
+                                              //   color: ColorConstants.GREY_5,
+                                              //   allowDrawingOutsideViewBox:
+                                              //       true,
+                                              // ),
+                                            );
+                                          },
+                                                  ),
                                             ),
                                             SizedBox(height: 8),
                                             Text(
                                               '${portfolioResponse?.data.portfolio[index].portfolioTitle}',
                                               style: Styles.bold(),
                                             ),
-                                            Text('for Company Name',
+                                            Text('${portfolioResponse?.data.portfolio[index].desc}',
                                                 style: Styles.semibold(
                                                     size: 12,
                                                     color: Color(0xff929BA3))),
@@ -617,7 +648,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                           borderRadius: BorderRadius.only(
                                               topLeft: Radius.circular(8),
                                               topRight: Radius.circular(8)),
-                                          child: Image.network(
+                                          child: CachedNetworkImage(
+                                                 imageUrl:
                                               'https://picsum.photos/seed/picsum/300/300',
                                               width: MediaQuery.of(context)
                                                       .size
@@ -742,14 +774,15 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                   children: [
                                     ClipRRect(
                                         borderRadius: BorderRadius.circular(8),
-                                        child: Image.network(
+                                        child: CachedNetworkImage(
+                                                 imageUrl:
                                           portfolioResponse?.data
                                                   .education[index].imageName ??
                                               '',
                                           height: 30,
                                           width: 30,
                                           fit: BoxFit.cover,
-                                          errorBuilder: (context, url, error) {
+                                          errorWidget: (context, url, error) {
                                             return Container(
                                               padding: EdgeInsets.all(14),
                                               decoration: BoxDecoration(
@@ -764,12 +797,10 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                               ),
                                             );
                                           },
-                                          loadingBuilder: (BuildContext context,
-                                              Widget child,
-                                              ImageChunkEvent?
+                                          placeholder: (BuildContext context,
+                                             
                                                   loadingProgress) {
-                                            if (loadingProgress == null)
-                                              return child;
+                                        
                                             return Shimmer.fromColors(
                                               baseColor: Color(0xffe6e4e6),
                                               highlightColor: Color(0xffeaf0f3),

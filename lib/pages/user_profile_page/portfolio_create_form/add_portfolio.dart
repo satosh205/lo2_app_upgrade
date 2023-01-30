@@ -266,7 +266,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
         case ApiStatus.SUCCESS:
           Log.v("Success Add Portfolio....................");
           isAddPortfolioLoading = false;
-          // Navigator.pop(context);
+          Navigator.pop(context);
           break;
         case ApiStatus.ERROR:
           Log.v("Error Add Portfolio....................");

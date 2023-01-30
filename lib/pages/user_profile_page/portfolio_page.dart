@@ -432,29 +432,31 @@ class _PortfolioState extends State<Portfolio> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        'Skills Level & Badges',
-                        style: Styles.semibold(size: 16),
-                      ),
-                      Spacer(),
-                      Icon(Icons.arrow_forward_ios_rounded)
-                    ],
-                  ),
+                  // Row(
+                  //   children: [
+                  //     Text(
+                  //       'Skills Level & Badges',
+                  //       style: Styles.semibold(size: 16),
+                  //     ),
+                  //     Spacer(),
+                  //     Icon(Icons.arrow_forward_ios_rounded)
+                  //   ],
+                  // ),
                   Divider(),
-                  SizedBox(
-                    height: 120,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        skillProgess("3D Animation", 1, 20),
-                        skillProgess("3D Animation", 2, 30),
-                        skillProgess("3D Animation", 3, 80),
-                        skillProgess("3D Animation", 4, 90),
-                      ],
-                    ),
-                  ),
+                  // SizedBox(
+                  //   height: 120,
+                  //   child: ListView(
+                  //     scrollDirection: Axis.horizontal,
+                  //     children: [
+                  //       // skillProgess("3D Animation", 1, 20),
+                  //       // skillProgess("3D Animation", 2, 30),
+                  //       // skillProgess("3D Animation", 3, 80),
+                  //       // skillProgess("3D Animation", 4, 90),
+                  //     ],
+                  //   ),
+                  // ),
+                         SvgPicture.asset('assets/images/skill_1.svg'),
+
                   dividerLine(),
                   Row(
                     children: [
