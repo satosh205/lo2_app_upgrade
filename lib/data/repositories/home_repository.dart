@@ -596,13 +596,14 @@ class HomeRepository {
     }
   }
 
-  Future<PortfolioResponse> getPortfolio() async {
+  Future<PortfolioResponse?> getPortfolio() async {
     final response = await homeProvider.getPortfolio();
+
     if (response!.success) {
       Log.v("Portfolio Content  DATA : ${response.body}");
-      PortfolioResponse competitionData =
+      PortfolioResponse portfolioResponse =
           PortfolioResponse.fromJson(response.body);
-      return competitionData;
+      return portfolioResponse;
     } else {
       Log.v("====> ${response.body}");
       return PortfolioResponse.fromJson(response.body);

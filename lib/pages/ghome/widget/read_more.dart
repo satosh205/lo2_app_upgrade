@@ -7,8 +7,9 @@ import '../../../utils/Styles.dart';
 class ReadMoreText extends StatefulWidget {
   final String text;
   final Color? color;
+  final String? viewMore;
 
-  ReadMoreText({Key? key, required this.text, this.color}) : super(key: key);
+  ReadMoreText({Key? key, required this.text, this.color, this.viewMore}) : super(key: key);
 
   @override
   State<ReadMoreText> createState() => _ReadMoreTextState();
@@ -16,6 +17,7 @@ class ReadMoreText extends StatefulWidget {
 
 class _ReadMoreTextState extends State<ReadMoreText> {
   bool isExpanded = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,7 @@ class _ReadMoreTextState extends State<ReadMoreText> {
               });
             },
             child: Text(
-              isExpanded ? '${Strings.of(context)?.seeLess}' : '...${Strings.of(context)?.seeMore}',
+              isExpanded ? '${Strings.of(context)?.seeLess}' : '... ${widget.viewMore ?? Strings.of(context)?.seeMore}',
               style: Styles.regular(size: 14, color: ColorConstants.GREY_3),
             ),
           ),
