@@ -1510,20 +1510,20 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           yield PortfolioState(ApiStatus.ERROR, response: response);
         }
       } catch (e) {}
-    } else if (event is AddEducationEvent) {
-      try {
-        yield AddEducationState(ApiStatus.LOADING);
-        final response = await homeRepository.addEducation();
-        Log.v("PORTFOLIO DATA ::: ${response.data}");
+      // } else if (event is AddEducationEvent) {
+      //   try {
+      //     yield AddEducationState(ApiStatus.LOADING);
+      //     final response = await homeRepository.addEducation();
+      //     Log.v("PORTFOLIO DATA ::: ${response.data}");
 
-        if (response.data != null) {
-          yield AddEducationState(ApiStatus.SUCCESS, response: response);
-        } else {
-          Log.v("ERROR DATA ::: $response");
-          yield AddEducationState(ApiStatus.ERROR, response: response);
-        }
-      } catch (e) {}
-    } else if (event is AddActivitiesEvent) {
+      //     if (response.data != null) {
+      //       yield AddEducationState(ApiStatus.SUCCESS, response: response);
+      //     } else {
+      //       Log.v("ERROR DATA ::: $response");
+      //       yield AddEducationState(ApiStatus.ERROR, response: response);
+      //     }
+      //   } catch (e) {}
+      // } else if (event is AddActivitiesEvent) {
       try {
         yield AddActivitiesState(ApiStatus.LOADING);
         final response = await homeRepository.addProfessional();

@@ -33,7 +33,7 @@ class _AddActivitiesState extends State<AddActivities> {
 
   File? uploadImg;
   File? img;
-  bool? isAddActivitiesLoading = false;
+  bool? isAddActivitiesLoading;
   @override
   Widget build(BuildContext context) {
     return BlocManager(
@@ -301,7 +301,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                     } catch (e) {
                                       print('something is wrong $e');
                                     }
-                                    print('agaoni cliked');
+                                    // print('agaoni cliked');
 
                                     // data['portfolio_title'] =
                                     //     titleController.value.text;
