@@ -211,11 +211,281 @@ class _DashboardPageState extends State<DashboardPage> {
                     //     ],
                     //   ),
                     // ),
+
+                    SizedBox(height: 10,),
+                    futureTrendsList(),
+
+                    SizedBox(height: 10,),
+                    featuredJobsInternships(),
+
+                    SizedBox(height: 10,),
+                    ///API Data
                     renderWidgets(pages),
                   ],
                 )),
               ),
             ));
+  }
+
+  ///Santosh
+  futureTrendsList() {
+    return Container(
+      decoration: BoxDecoration(color: ColorConstants.WHITE),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: SvgPicture.asset(
+                  'assets/images/grf_job.svg',
+                  height: 30.0,
+                  width: 30.0,
+                  allowDrawingOutsideViewBox: true,
+                  color: ColorConstants.GRADIENT_ORANGE,
+                ),
+              ),
+
+              Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 10,
+                  ),
+                  child: Text(
+                    'Future Trends',
+                    style: Styles.bold(color: Color(0xff0E1638)),
+                  )),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Container(
+              height: 90,
+              child: ListView.builder(
+                  itemCount: 4,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      decoration: BoxDecoration(
+                          color: ColorConstants.List_Color,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: ColorConstants.List_Color)),
+                      margin: EdgeInsets.all(8),
+                      // color: Colors.red,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          // mainAxisAlignment: MainAxisAlignment,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 8.0,
+                                  right: 8.0,
+                                  top: 8.0,
+                                  bottom: 8.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'Art & Design',
+                                    style: Styles.bold(color: Color(0xff0E1638)),
+                                  ),
+
+                                  SizedBox(height: 5,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '213 Jobs',
+                                        style: Styles.regular(color: ColorConstants.GREY_3, size: 13),
+                                      ),
+
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 8.0),
+                                        child: Text(
+                                          '+30.6%',
+                                          style: Styles.regular(color: ColorConstants.GREEN, size: 13),
+                                        ),
+                                      ),
+                                      
+                                      Icon(Icons.arrow_drop_up_outlined, color: Colors.green,size: 25,)
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ]),
+                    );
+                  }),
+            ),
+          ),
+          SizedBox(height: 20,),
+        ],
+      ),
+    );
+  }
+
+  featuredJobsInternships() {
+    return Container(
+      //decoration: BoxDecoration(color: ColorConstants.WHITE),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Icon(CupertinoIcons.star_fill, color: ColorConstants.YELLOW),
+              ),
+
+              Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 10,
+                  ),
+                  child: Text(
+                    'Featured Jobs & Internships',
+                    style: Styles.bold(color: Color(0xff0E1638)),
+                  )),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Container(
+              height: 340,
+              child: ListView.builder(
+                  itemCount: 3,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      decoration: BoxDecoration(
+                          color: ColorConstants.WHITE,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: ColorConstants.List_Color)),
+                      margin: EdgeInsets.all(8),
+                      // color: Colors.red,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 8.0,
+                                  right: 8.0,
+                                  top: 15.0,
+                                  bottom: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Image.asset('assets/images/google.png'),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 10.0),
+                                    child: Text(
+                                      'Art & Design',
+                                      style: Styles.bold(color: Color(0xff0E1638)),
+                                    ),
+                                  ),
+
+                                  SizedBox(height: 10,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(Icons.location_on_outlined, color: Colors.orange,),
+
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 8.0),
+                                        child: Text(
+                                          'Bangaluru, Karnataka',
+                                          style: Styles.regular(color: ColorConstants.GREY_3, size: 13),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+
+                                  SizedBox(height: 10,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(Icons.currency_exchange_outlined, color: Colors.orange,size: 20,),
+
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 8.0),
+                                        child: Text(
+                                          '100K - 150K LPA',
+                                          style: Styles.regular(color: ColorConstants.GREY_3, size: 13),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+
+                                  Container(
+                                    width: MediaQuery.of(context).size.width * 0.7,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                        color: ColorConstants.List_Color,
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(color: ColorConstants.List_Color)),
+                                    margin: EdgeInsets.all(8),
+                                    // color: Colors.red,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0,
+                                          right: 8.0,
+                                          top: 10.0,
+                                          bottom: 8.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Skills Required',
+                                            style: Styles.bold(color: ColorConstants.GREY_3),
+                                          ),
+
+                                          SizedBox(height: 10,),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '• Java • HTML • My Sql',
+                                                style: Styles.bold(color: ColorConstants.BLACK, size: 16),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+
+                                  Container(
+                                    height: 50,
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50),
+                                      gradient:
+                                      LinearGradient(colors: [
+                                        ColorConstants.DASHBOARD_APPLY_COLOR,
+                                        ColorConstants.DASHBOARD_APPLY_COLOR,]),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text('Apply', style: TextStyle(color: Colors.white, fontSize: 16,
+                                            fontWeight: FontWeight.bold),),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ]),
+                    );
+                  }),
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   renderWidgets(pages) {
