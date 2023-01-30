@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -100,8 +101,8 @@ class _DashboardPageState extends State<DashboardPage> {
       "dashboard_recommended_courses_limit": renderRecommandedCourses(),
 
       // "dashboard_carvan_limit": renderReels()
-      "dashboard_carvan_limit": renderCarvaan()
-      //"dashboard_carvan_limit": renderCarvaanPageView()
+      //"dashboard_carvan_limit": renderCarvaan()
+      "dashboard_carvan_limit": renderCarvaanPageView()
     };
 
     return Consumer2<VideoPlayerProvider, MenuListProvider>(
@@ -1165,19 +1166,232 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   renderCarvaanPageView(){
-    return PageView.builder(
-      controller: _pageController,
-      itemCount: carvaanList?.length,
-      onPageChanged: (page) {
-        setState(() {
-          selectedPage = page;
+    return ValueListenableBuilder(
+        valueListenable: Hive.box(DB.CONTENT).listenable(),
+        builder: (bc, Box box, child) {
+          if (box.get("dashboard_carvan_limit") == null) {
+            //return Text('lading');
+            return BlankPage();
+          } else if (box.get("dashboard_carvan_limit").isEmpty) {
+            return Container(
+              height: 290,
+              width: MediaQuery.of(context).size.width,
+              child: Center(
+                child: Text(
+                  "There are no dashboard_carvan_limit available",
+                  style: Styles.textBold(),
+                ),
+              ),
+            );
+          }
+
+          carvaanList = box
+              .get("dashboard_carvan_limit")
+              .map((e) => DashboardLimit.fromJson(Map<String, dynamic>.from(e)))
+              .cast<DashboardLimit>()
+              .toList();
+
+          return Container(
+            decoration: BoxDecoration(color: ColorConstants.WHITE),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 10,
+                        ),
+                        child: Text(
+                          'Recent Community Posts',
+                          style: Styles.bold(color: Color(0xff0E1638)),
+                        )),
+                    Expanded(child: SizedBox()),
+                    IconButton(
+                        onPressed: () {
+                          menuProvider?.updateCurrentIndex('/g-carvaan');
+                        },
+                        icon: Icon(Icons.arrow_forward_ios))
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Container(
+                    height: 400,
+                    child: PageView.builder(
+                      controller: _pageController,
+                      itemCount: carvaanList?.length,
+                      onPageChanged: (page) {
+                        setState(() {
+                          selectedPage = page;
+                        });
+                      }, itemBuilder: (BuildContext context, int index) {
+                      final now = DateTime.now();
+
+                      var millis = int.parse(
+                          carvaanList![index].createdAt.toString());
+                      DateTime date = DateTime.fromMillisecondsSinceEpoch(
+                        millis * 1000,
+                      );
+                      return Container(
+                        width: MediaQuery.of(context).size.width * 0.8,
+
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                            border:
+                            Border.all(color: ColorConstants.GREY_4)),
+                        margin: EdgeInsets.all(8),
+                        // color: Colors.red,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            // mainAxisAlignment: MainAxisAlignment,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0,
+                                    right: 8.0,
+                                    top: 15.0,
+                                    bottom: 8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.start,
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Center(
+                                      child: ClipOval(
+                                          child: Image.network(
+                                            '${carvaanList?[index].profileImage}',
+                                            height: 30,
+                                            width: 30,
+                                            fit: BoxFit.cover,
+                                            errorBuilder:
+                                                (context, url, error) {
+                                              return SvgPicture.asset(
+                                                'assets/images/default_user.svg',
+                                                height: 30,
+                                                width: 30,
+                                                allowDrawingOutsideViewBox:
+                                                true,
+                                              );
+                                            },
+                                            loadingBuilder:
+                                                (BuildContext context,
+                                                Widget child,
+                                                ImageChunkEvent?
+                                                loadingProgress) {
+                                              if (loadingProgress == null)
+                                                return child;
+                                              return Shimmer.fromColors(
+                                                baseColor: Color(0xffe6e4e6),
+                                                highlightColor:
+                                                Color(0xffeaf0f3),
+                                                child: Container(
+                                                    height: 50,
+                                                    margin: EdgeInsets.only(
+                                                        left: 2),
+                                                    width: 50,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      shape: BoxShape.circle,
+                                                    )),
+                                              );
+                                            },
+                                          )),
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0,
+                                                right: 8.0,
+                                                top: 2.0),
+                                            child: Text(
+                                              carvaanList?[index].name ??
+                                                  '',
+                                              style: Styles.textRegular(
+                                                  size: 14),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0),
+                                            child: Text(
+                                              Utility()
+                                                  .calculateTimeDifferenceBetween(
+                                                  DateTime.parse(date
+                                                      .toString()
+                                                      .substring(
+                                                      0, 19)),
+                                                  now,
+                                                  context),
+                                              style:
+                                              Styles.regular(size: 12),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              Padding(
+                                  padding:
+                                  carvaanList?[index].description !=
+                                      null
+                                      ? const EdgeInsets.only(
+                                      bottom: 7, left: 10, top: 13)
+                                      : const EdgeInsets.only(
+                                      bottom: 0, left: 10, top: 0),
+                                  child: ReadMoreText(
+                                      text:
+                                      '${carvaanList?[index].description ?? ''}')),
+
+                              Image.network('${carvaanList?[index].resourcePath}'),
+
+                            ]),
+                      );
+                    },
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 10.0,),
+                _dots(selectedPage),
+                SizedBox(height: 20.0,)
+              ],
+            ),
+          );
         });
-      }, itemBuilder: (BuildContext context, int index) {
-        return Container(
-          height: 300,
-          child: Text('hello'),
-        );
-    },
+
+  }
+
+  _dots(int index) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        DotsIndicator(
+          dotsCount: 3,
+          position: index.toDouble(),
+          decorator: DotsDecorator(
+            size: const Size.square(8.0),
+            color: Color(0xffCCCACA),
+            activeColor: ColorConstants.GRADIENT_ORANGE,
+            activeSize: const Size(30.0, 8.0),
+            activeShape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0)),
+          ),
+        ),
+      ],
     );
   }
 
