@@ -126,17 +126,8 @@ class _DashboardPageState extends State<DashboardPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   InkWell(
-<<<<<<< HEAD
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  Portfolio()));
-=======
                                     onTap: (){
                                       Navigator.push(context, MaterialPageRoute(builder: (context)=> NewPortfolioPage()));
->>>>>>> portfolioCreateForm
                                     },
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(200),
