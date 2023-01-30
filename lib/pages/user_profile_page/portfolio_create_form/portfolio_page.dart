@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -5,6 +6,7 @@ import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/new_portfolio_response.dart';
+import 'package:masterg/pages/ghome/widget/read_more.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_certificate.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_education.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_experience.dart';
@@ -135,8 +137,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                     Stack(
                                       children: [
                                         ClipOval(
-                                          child: Image.network(
-                                            'https://cdn.pixabay.com/photo/2020/05/09/13/29/photographer-5149664_1280.jpg',
+                                          child: CachedNetworkImage(
+                                            imageUrl:
+                                                'https://cdn.pixabay.com/photo/2020/05/09/13/29/photographer-5149664_1280.jpg',
                                             filterQuality: FilterQuality.low,
                                             width: 70,
                                             height: 70,
@@ -481,18 +484,21 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                           ],
                         ),
                         Divider(),
-                        SizedBox(
-                          height: 120,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              skillProgess("3D Animation", 1, 20),
-                              skillProgess("3D Animation", 2, 30),
-                              skillProgess("3D Animation", 3, 80),
-                              skillProgess("3D Animation", 4, 90),
-                            ],
-                          ),
-                        ),
+                        // SizedBox(
+                        //   height: 120,
+                        //   child: ListView(
+                        //     scrollDirection: Axis.horizontal,
+                        //     children: [
+                        //       skillProgess("3D Animation", 1, 20),
+                        //       skillProgess("3D Animation", 2, 30),
+                        //       skillProgess("3D Animation", 3, 80),
+                        //       skillProgess("3D Animation", 4, 90),
+                        //     ],
+                        //   ),
+                        // ),
+
+                        SvgPicture.asset('assets/images/skills_1.svg'),
+
                         dividerLine(),
                         Row(
                           children: [
@@ -502,8 +508,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                             ),
                             Spacer(),
                             InkWell(
-                                onTap: (() {
-                                  showModalBottomSheet(
+                                onTap: (() async {
+                                  await showModalBottomSheet(
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(20)),
@@ -521,7 +527,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                   top: 10),
                                               child: AddPortfolio()),
                                         );
-                                      });
+                                      }).then((value) => getPortfolio());
                                 }),
                                 child: Icon(Icons.add)),
                             Icon(Icons.arrow_forward_ios_rounded),
@@ -548,24 +554,54 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                             ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(12),
-                                              child: Image.network(
-                                                  'https://picsum.photos/seed/picsum/300/300',
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.8,
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.3,
-                                                  fit: BoxFit.fill),
+                                              child: CachedNetworkImage(
+                                                imageUrl:
+                                                    '${portfolioResponse?.data.fileBaseurl}${portfolioResponse?.data.portfolio[index].imageName}',
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.8,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.3,
+                                                fit: BoxFit.fill,
+                                                errorWidget:
+                                                    (context, url, error) {
+                                                  return Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.8,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.3,
+                                                    padding: EdgeInsets.all(14),
+                                                    decoration: BoxDecoration(
+                                                        color:
+                                                            Color(0xffD5D5D5)),
+                                                    // child: SvgPicture.asset(
+                                                    //   'assets/images/default_education.svg',
+                                                    //   // height: 30,
+                                                    //   // width: 30,
+                                                    //   color: ColorConstants.GREY_5,
+                                                    //   allowDrawingOutsideViewBox:
+                                                    //       true,
+                                                    // ),
+                                                  );
+                                                },
+                                              ),
                                             ),
                                             SizedBox(height: 8),
                                             Text(
                                               '${portfolioResponse?.data.portfolio[index].portfolioTitle}',
                                               style: Styles.bold(),
                                             ),
-                                            Text('for Company Name',
+                                            Text(
+                                                '${portfolioResponse?.data.portfolio[index].desc}',
                                                 style: Styles.semibold(
                                                     size: 12,
                                                     color: Color(0xff929BA3))),
@@ -617,8 +653,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                           borderRadius: BorderRadius.only(
                                               topLeft: Radius.circular(8),
                                               topRight: Radius.circular(8)),
-                                          child: Image.network(
-                                              'https://picsum.photos/seed/picsum/300/300',
+                                          child: CachedNetworkImage(
+                                              imageUrl:
+                                                  'https://picsum.photos/seed/picsum/300/300',
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width *
@@ -711,19 +748,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                       },
                                       child: Icon(Icons.add))),
                               Icon(Icons.arrow_forward_ios_outlined),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8),
-                                child: Divider(),
-                              ),
                             ],
                           ),
                         ),
                       ])),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                child: Divider(),
-              ),
+              Divider(),
 // education list
               isPortfolioLoading == false
                   ? ListView.builder(
@@ -742,69 +771,382 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                   children: [
                                     ClipRRect(
                                         borderRadius: BorderRadius.circular(8),
-                                        child: Image.network(
-                                          portfolioResponse?.data
+                                        child: CachedNetworkImage(
+                                          imageUrl: portfolioResponse?.data
                                                   .education[index].imageName ??
                                               '',
                                           height: 30,
                                           width: 30,
                                           fit: BoxFit.cover,
-                                          errorBuilder: (context, url, error) {
+                                          errorWidget: (context, url, error) {
                                             return Container(
                                               padding: EdgeInsets.all(14),
                                               decoration: BoxDecoration(
                                                   color: Color(0xffD5D5D5)),
                                               child: SvgPicture.asset(
                                                 'assets/images/default_education.svg',
-                                                height: 30,
-                                                width: 30,
+                                                height: 40,
+                                                width: 40,
                                                 color: ColorConstants.GREY_5,
                                                 allowDrawingOutsideViewBox:
                                                     true,
                                               ),
                                             );
                                           },
-                                          loadingBuilder: (BuildContext context,
-                                              Widget child,
-                                              ImageChunkEvent?
-                                                  loadingProgress) {
-                                            if (loadingProgress == null)
-                                              return child;
-                                            return Shimmer.fromColors(
-                                              baseColor: Color(0xffe6e4e6),
-                                              highlightColor: Color(0xffeaf0f3),
-                                              child: Container(
-                                                  height: 50,
-                                                  margin:
-                                                      EdgeInsets.only(left: 2),
-                                                  width: 50,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    shape: BoxShape.circle,
-                                                  )),
+                                          placeholder: (BuildContext context,
+                                              loadingProgress) {
+                                            return Container(
+                                              padding: EdgeInsets.all(14),
+                                              decoration: BoxDecoration(
+                                                  color: Color(0xffD5D5D5)),
+                                              child: SvgPicture.asset(
+                                                'assets/images/default_education.svg',
+                                                height: 40,
+                                                width: 40,
+                                                color: ColorConstants.GREY_5,
+                                                allowDrawingOutsideViewBox:
+                                                    true,
+                                              ),
                                             );
                                           },
-                                        )),SizedBox(width: 10,),
+                                        )),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                            '${portfolioResponse?.data.education[index].title}', style: Styles.bold( ),),
-                                            Text('${portfolioResponse?.data.education[index].institute}', style: Styles.regular(size: 12),)
+                                          '${portfolioResponse?.data.education[index].title}',
+                                          style: Styles.bold(),
+                                        ),
+                                        Text(
+                                          '${portfolioResponse?.data.education[index].institute}',
+                                          style: Styles.regular(size: 12),
+                                        )
                                       ],
                                     )
                                   ],
                                 ),
-                                SizedBox(height: 10,),
-                                Text('${portfolioResponse?.data.education[index].description}'),
-
-                              if(index != portfolioResponse?.data.education.length)  Divider(),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                    '${portfolioResponse?.data.education[index].description}'),
+                                if (index !=
+                                    portfolioResponse?.data.education.length)
+                                  Divider(),
                               ],
                             ),
                           ))
-                  : Text('no portfolio found ')
+                  : Text('no portfolio found '),
+              dividerLine(),
+              getCertificateWidget(portfolioResponse?.data.certificate),
+              dividerLine(),
+              getExperience(portfolioResponse?.data.experience),
+              dividerLine(),
+
+              getExtraActivitesWidget(portfolioResponse?.data.extraActivities),
             ]))),
       ),
+    );
+  }
+
+  Widget getCertificateWidget(List<CommonProfession>? certificateList) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Row(
+            children: [
+              Text(
+                'Certificate',
+                style: Styles.bold(size: 16),
+              ),
+              Spacer(),
+              IconButton(
+                  onPressed: () {
+                    showModalBottomSheet(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        context: context,
+                        enableDrag: true,
+                        isScrollControlled: true,
+                        builder: (context) {
+                          return FractionallySizedBox(
+                            heightFactor: 0.7,
+                            child: Container(
+                                height: height(context),
+                                padding: const EdgeInsets.all(8.0),
+                                margin: const EdgeInsets.only(top: 10),
+                                child: AddCertificate()),
+                          );
+                        });
+                  },
+                  icon: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AddEducation()));
+                      },
+                      child: Icon(Icons.add))),
+              Icon(Icons.arrow_forward_ios_outlined),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Divider(),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.all(8),
+          height: height(context) * 0.415,
+          child: ListView.builder(
+              itemCount: certificateList?.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: EdgeInsets.only(right: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: width(context) * 0.7,
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Fvectors%2Fcertificate&psig=AOvVaw3MmsA8gCQJoI5TyY5Yh4kg&ust=1675167982903000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCKjzu5al7_wCFQAAAAAdAAAAABAE',
+                          errorWidget: (context, url, data) => Image.asset(
+                            "assets/images/certificate_dummy.png",
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text('${certificateList?[index].title}',
+                          style: Styles.bold(size: 18)),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        '${certificateList?[index].startDate ?? 'Sep 21'}',
+                        style: Styles.regular(),
+                      ),
+                    ],
+                  ),
+                );
+              }),
+        )
+      ],
+    );
+  }
+
+  Widget getExperience(List<CommonProfession>? experience) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Row(
+            children: [
+              Text(
+                'Experience',
+                style: Styles.bold(size: 16),
+              ),
+              Spacer(),
+              IconButton(
+                  onPressed: () {
+                    showModalBottomSheet(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        context: context,
+                        enableDrag: true,
+                        isScrollControlled: true,
+                        builder: (context) {
+                          return FractionallySizedBox(
+                            heightFactor: 0.7,
+                            child: Container(
+                                height: height(context),
+                                padding: const EdgeInsets.all(8.0),
+                                margin: const EdgeInsets.only(top: 10),
+                                child: AddCertificate()),
+                          );
+                        });
+                  },
+                  icon: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AddEducation()));
+                      },
+                      child: Icon(Icons.add))),
+              Icon(Icons.arrow_forward_ios_outlined),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Divider(),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.all(8),
+          child: ListView.builder(
+              itemCount: experience?.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: EdgeInsets.only(right: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: width(context) * 0.3,
+                            height: height(context) * 0.1,
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Fvectors%2Fcertificate&psig=AOvVaw3MmsA8gCQJoI5TyY5Yh4kg&ust=1675167982903000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCKjzu5al7_wCFQAAAAAdAAAAABAE',
+                              errorWidget: (context, url, data) => Image.asset(
+                                "assets/images/certificate_dummy.png",
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Ui Desing Intern',
+                                style: Styles.bold(),
+                              ),
+                              Text(
+                                'IBM',
+                                style: Styles.regular(),
+                              ),
+                              Text('Internship 6 Months ')
+                            ],
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      ReadMoreText(
+                        text: '${experience?[index].title}',
+                        color: ColorConstants.GREY_3,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: Divider(),
+                      )
+                    ],
+                  ),
+                );
+              }),
+        )
+      ],
+    );
+  }
+
+  Widget getExtraActivitesWidget(List<CommonProfession>? extraActivities) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Row(
+            children: [
+              Text(
+                'Extra Curricular Activities',
+                style: Styles.bold(size: 16),
+              ),
+              Spacer(),
+              IconButton(
+                  onPressed: () {
+                    showModalBottomSheet(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        context: context,
+                        enableDrag: true,
+                        isScrollControlled: true,
+                        builder: (context) {
+                          return FractionallySizedBox(
+                            heightFactor: 0.7,
+                            child: Container(
+                                height: height(context),
+                                padding: const EdgeInsets.all(8.0),
+                                margin: const EdgeInsets.only(top: 10),
+                                child: AddCertificate()),
+                          );
+                        });
+                  },
+                  icon: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AddEducation()));
+                      },
+                      child: Icon(Icons.add))),
+              Icon(Icons.arrow_forward_ios_outlined),
+             Divider(),
+            ],
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.all(8),
+          height: height(context) * 0.415,
+          child: ListView.builder(
+              itemCount: extraActivities?.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: EdgeInsets.only(right: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: width(context) * 0.2,
+                            height: width(context) * 0.2,
+                            child: CachedNetworkImage(
+                              imageUrl: "http://via.placeho",
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) =>
+                                      CircularProgressIndicator(
+                                          value: downloadProgress.progress),
+                              errorWidget: (context, url, error) => Container(
+                                  width: width(context) * 0.2,
+                                  height: width(context) * 0.2,
+                                  padding: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                      color: ColorConstants.DIVIDER,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: SvgPicture.asset(
+                                      'assets/images/extra.svg')),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              }),
+        )
+      ],
     );
   }
 

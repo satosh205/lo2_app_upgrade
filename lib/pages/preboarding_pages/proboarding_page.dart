@@ -9,6 +9,7 @@ import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/resource/images.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class PreBoardingPage extends StatefulWidget {
   @override
@@ -56,15 +57,16 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
 
   Widget _loginRegisterWidget(int index) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
       child: Container(
         color: Colors.white,
         // alignment: Alignment.center,
-        child: Row(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _dots(index),
+            SizedBox(height: 30,),
             TapWidget(
               onTap: () {
                 Navigator.push(
@@ -73,10 +75,32 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
                       showEdulystLogo: true,
                     )));
               },
-              child: Image.asset(
+              /*child: Image.asset(
                 "assets/images/next.png",
                 height: 50,
                 width: 50,
+              ),*/
+              child: Container(
+                height: 50,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  gradient:
+                  LinearGradient(colors: [
+                    ColorConstants.GRADIENT_ORANGE,
+                    ColorConstants.GRADIENT_RED,]),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Get Started', style: TextStyle(color: Colors.white, fontSize: 16,
+                        fontWeight: FontWeight.bold),),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Icon(Icons.arrow_forward_ios_rounded, color: Colors.white,),
+                    ),
+                  ],
+                ),
               ),
             )
           ],
@@ -119,10 +143,14 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(
-            height: 110,
+            height: 100,
+          ),
+          _buildContentTitle(index),
+          SizedBox(
+            height: 10,
           ),
           Container(
-            height: 300,
+            //height: 300,
             width: double.infinity,
             color: Colors.white,
             child: Padding(
@@ -151,10 +179,10 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
           dotsCount: 3,
           position: index.toDouble(),
           decorator: DotsDecorator(
-            size: const Size.square(10.0),
+            size: const Size.square(8.0),
             color: Color(0xffCCCACA),
-            activeColor: Color(0xff939393),
-            activeSize: const Size(10.0, 10.0),
+            activeColor: ColorConstants.GRADIENT_ORANGE,
+            activeSize: const Size(30.0, 8.0),
             activeShape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.0)),
           ),
@@ -186,15 +214,38 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(
+            /*Text(
               PreBoardingData.getDat()[index]['text1'],
               style: Styles.textRegular(size: 28)
                   .copyWith(fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 18),
+            ),*/
+            //SizedBox(height: 18),
             Text(
               PreBoardingData.getDat()[index]['text2'],
               style: Styles.textRegular(size: 16),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _buildContentTitle(int index) {
+    return Container(
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            GradientText(
+              PreBoardingData.getDat()[index]['text1'],
+              style: Styles.textRegular(size: 28).copyWith(fontWeight: FontWeight.bold),
+              colors: [
+                ColorConstants.GRADIENT_ORANGE,
+                ColorConstants.GRADIENT_RED,
+              ],
             ),
           ],
         ),

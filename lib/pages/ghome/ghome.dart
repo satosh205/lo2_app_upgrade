@@ -1041,7 +1041,6 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
 
   void _getCategoryList() async {
     box = Hive.box(DB.CONTENT);
-
     BlocProvider.of<HomeBloc>(context).add(ProgramListEvent());
   }
 
@@ -1144,7 +1143,6 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
           Log.v("CourseCategoryState....................");
 
           programListResponse = state.response!.data!.list;
-
           isProgramListLoading = false;
 
           break;

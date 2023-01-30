@@ -101,6 +101,7 @@ dependencies:
   internet_connection_checker: any
   http: ^0.13.5
   material_floating_search_bar: ^0.3.7
+  simple_gradient_text: ^1.2.4
 # dependency_overrides: null
 
 dev_dependencies:

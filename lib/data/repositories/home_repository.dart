@@ -771,11 +771,11 @@ class HomeRepository {
           dashboardViewResponse.data?.dashboardReelsLimit
               ?.map((e) => e.toJson())
               .toList());
-      // box.put(
-      //     'dashboard_carvan_limit',
-      //     dashboardViewResponse.data?.dashboardCarvanLimit
-      //         ?.map((e) => e.toJson())
-      //         .toList());
+      box.put(
+          'dashboard_carvan_limit',
+          dashboardViewResponse.data?.dashboardCarvanLimit
+              ?.map((e) => e.toJson())
+              .toList());
       box.put(
           'dashboard_featured_content_limit',
           dashboardViewResponse.data?.dashboardFeaturedContentLimit

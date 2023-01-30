@@ -1484,21 +1484,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc(HomeState initialState) : super(initialState);
 
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
-    // if (event is AddPortfolioEvent) {
-    //   try {
-    //     yield AddPortfolioState(ApiStatus.LOADING);
-    //     final response = await homeRepository.addPortfolio(data: event.data);
-    //     Log.v("Add PORTFOLIO DATA ::: ${response.data}");
+    if (event is AddPortfolioEvent) {
+      try {
+        yield AddPortfolioState(ApiStatus.LOADING);
+        final response = await homeRepository.addPortfolio(data: event.data);
+        Log.v("Add PORTFOLIO DATA ::: ${response.data}");
 
-    //     if (response.data != null) {
-    //       yield AddPortfolioState(ApiStatus.SUCCESS, response: response);
-    //     } else {
-    //       Log.v("Add ERROR DATA ::: $response");
-    //       yield AddPortfolioState(ApiStatus.ERROR, response: response);
-    //     }
-    //   } catch (e) {}
-    // } 
-    // else 
+        if (response.data != null) {
+          yield AddPortfolioState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("Add ERROR DATA ::: $response");
+          yield AddPortfolioState(ApiStatus.ERROR, response: response);
+        }
+      } catch (e) {}
+    } 
+    else 
     if (event is PortfolioEvent) {
       try {
         yield PortfolioState(ApiStatus.LOADING);

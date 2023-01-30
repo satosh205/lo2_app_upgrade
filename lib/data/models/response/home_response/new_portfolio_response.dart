@@ -53,6 +53,7 @@ class Data {
     required this.experience,
     required this.certificate,
     required this.extraActivities,
+    required this.fileBaseurl
   });
 
   int profileCompletionPer;
@@ -75,6 +76,7 @@ class Data {
   List<CommonProfession> experience;
   List<CommonProfession> certificate;
   List<CommonProfession> extraActivities;
+  String? fileBaseurl;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         profileCompletionPer: json["profile_completion_per"],
@@ -94,6 +96,7 @@ class Data {
         other: json["other"],
         twitter: json["twitter"],
         pinterest: json["pinterest"],
+        fileBaseurl: json["base_file_url"],
         education: List<CommonProfession>.from(
             json["Education"].map((x) => CommonProfession.fromJson(x))),
         experience: List<CommonProfession>.from(
@@ -142,6 +145,7 @@ class CommonProfession {
     required this.professionalKey,
     required this.editUrlProfessional,
     required this.imageName,
+    required this.id,
   });
 
   String activityType;
@@ -155,6 +159,7 @@ class CommonProfession {
   String professionalKey;
   String editUrlProfessional;
   String imageName;
+  int id;
 
   factory CommonProfession.fromJson(Map<String, dynamic> json) =>
       CommonProfession(
@@ -169,6 +174,7 @@ class CommonProfession {
         professionalKey: json["professional_key"],
         editUrlProfessional: json["edit_url_professional"],
         imageName: json["image_name"],
+        id: json['id']
       );
 
   Map<String, dynamic> toJson() => {
@@ -183,6 +189,7 @@ class CommonProfession {
         "professional_key": professionalKey,
         "edit_url_professional": editUrlProfessional,
         "image_name": imageName,
+        "id" : id
       };
 }
 
@@ -195,6 +202,7 @@ class Portfolio {
     required this.editUrlPortfolio,
     required this.editImageType,
     required this.imageName,
+     this.desc
   });
 
   String portfolioTitle;
@@ -204,6 +212,7 @@ class Portfolio {
   String editUrlPortfolio;
   String editImageType;
   String imageName;
+  String? desc;
 
   factory Portfolio.fromJson(Map<String, dynamic> json) => Portfolio(
         portfolioTitle: json["portfolio_title"],
@@ -213,6 +222,7 @@ class Portfolio {
         editUrlPortfolio: json["edit_url_portfolio"],
         editImageType: json["edit_image_type"],
         imageName: json["image_name"],
+        desc: json["desc"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -223,6 +233,7 @@ class Portfolio {
         "edit_url_portfolio": editUrlPortfolio,
         "edit_image_type": editImageType,
         "image_name": imageName,
+        "desc": desc ?? "",
       };
 }
 
