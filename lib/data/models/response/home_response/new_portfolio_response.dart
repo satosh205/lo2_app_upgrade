@@ -104,7 +104,7 @@ class Data {
         certificate: List<CommonProfession>.from(
             json["Certificate"].map((x) => CommonProfession.fromJson(x))),
         extraActivities: List<CommonProfession>.from(
-            json["Certificate"].map((x) => CommonProfession.fromJson(x))),
+            json["extra_activities"].map((x) => CommonProfession.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
