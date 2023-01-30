@@ -37,7 +37,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   @override
   void initState() {
     super.initState();
-    getPortfolio();
+    // getPortfolio();
   }
 
   void getPortfolio() {
