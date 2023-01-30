@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
-import 'package:masterg/blocs/home_bloc.dart';
+
 import 'package:masterg/data/models/request/home_request/poll_submit_req.dart';
 import 'package:masterg/data/models/request/home_request/submit_feedback_req.dart';
 import 'package:masterg/data/models/request/home_request/submit_survey_req.dart';
@@ -12,6 +12,7 @@ import 'package:masterg/data/models/request/save_answer_request.dart';
 import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
 import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/data/models/response/general_resp.dart';
+import 'package:masterg/data/models/response/home_response/add_portfolio_resp.dart';
 import 'package:masterg/data/models/response/home_response/assignment_submissions_response.dart';
 import 'package:masterg/data/models/response/home_response/category_response.dart';
 import 'package:masterg/data/models/response/home_response/competition_content_list_resp.dart';
@@ -40,6 +41,7 @@ import 'package:masterg/data/models/response/home_response/map_interest_response
 import 'package:masterg/data/models/response/home_response/master_language_response.dart';
 import 'package:masterg/data/models/response/home_response/my_assessment_response.dart';
 import 'package:masterg/data/models/response/home_response/my_assignment_response.dart';
+import 'package:masterg/data/models/response/home_response/new_portfolio_response.dart';
 import 'package:masterg/data/models/response/home_response/notification_resp.dart';
 import 'package:masterg/data/models/response/home_response/onboard_sessions.dart';
 import 'package:masterg/data/models/response/home_response/popular_courses_response.dart';
@@ -64,6 +66,8 @@ import 'package:masterg/data/models/response/home_response/user_program_subscrib
 import 'package:masterg/data/providers/home_provider.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/user_profile_page/model/MasterBrand.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_education.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_experience.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -563,6 +567,85 @@ class HomeRepository {
     } else {
       Log.v("====> ${response.body}");
       return CompetitionContentListResponse.fromJson(response.body);
+    }
+  }
+
+  Future<AddPortfolioResp> addProfessional({Map<String, dynamic>? data}) async {
+    final response = await homeProvider.addProfessional(data: data);
+    if (response!.success) {
+      Log.v("Add Professional Content  DATA : ${response.body}");
+      AddPortfolioResp addProfessionalData =
+          AddPortfolioResp.fromJson(response.body);
+      return addProfessionalData;
+    } else {
+      Log.v("====> ${response.body}");
+      return AddPortfolioResp.fromJson(response.body);
+    }
+  }
+
+  Future<AddPortfolioResp> addExperience({Map<String, dynamic>? data}) async {
+    final response = await homeProvider.addExperience(data: data);
+    if (response!.success) {
+      Log.v("Add Experience Content  DATA : ${response.body}");
+      AddPortfolioResp addExperienceData =
+          AddPortfolioResp.fromJson(response.body);
+      return addExperienceData;
+    } else {
+      Log.v("====> ${response.body}");
+      return AddPortfolioResp.fromJson(response.body);
+    }
+  }
+
+  Future<PortfolioResponse> getPortfolio() async {
+    final response = await homeProvider.getPortfolio();
+    if (response!.success) {
+      Log.v("Portfolio Content  DATA : ${response.body}");
+      PortfolioResponse competitionData =
+          PortfolioResponse.fromJson(response.body);
+      return competitionData;
+    } else {
+      Log.v("====> ${response.body}");
+      return PortfolioResponse.fromJson(response.body);
+    }
+  }
+
+//add education
+  Future<PortfolioResponse> addEducation({Map<String, dynamic>? data}) async {
+    final response = await homeProvider.addEducation(data: data);
+    if (response!.success) {
+      Log.v("Portfolio Content  DATA : ${response.body}");
+      PortfolioResponse competitionData =
+          PortfolioResponse.fromJson(response.body);
+      return competitionData;
+    } else {
+      Log.v("====> ${response.body}");
+      return PortfolioResponse.fromJson(response.body);
+    }
+  }
+//certificate
+  Future<PortfolioResponse> addCertificate({Map<String, dynamic>? data}) async {
+    final response = await homeProvider.addCertificate(data: data);
+    if (response!.success) {
+      Log.v("Portfolio Content  DATA : ${response.body}");
+      PortfolioResponse competitionData =
+          PortfolioResponse.fromJson(response.body);
+      return competitionData;
+    } else {
+      Log.v("====> ${response.body}");
+      return PortfolioResponse.fromJson(response.body);
+    }
+  }
+
+  Future<AddPortfolioResp> addPortfolio({Map<String, dynamic>? data}) async {
+    final response = await homeProvider.addPortfolio(data: data);
+    if (response!.success) {
+      Log.v("Add Portfolio Content  DATA : ${response.body}");
+      AddPortfolioResp competitionData =
+          AddPortfolioResp.fromJson(response.body);
+      return competitionData;
+    } else {
+      Log.v("====> ${response.body}");
+      return AddPortfolioResp.fromJson(response.body);
     }
   }
 

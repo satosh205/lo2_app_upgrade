@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:masterg/data/api/api_constants.dart';
 import 'package:masterg/data/api/api_response.dart';
@@ -16,6 +17,7 @@ import 'package:masterg/data/models/request/save_answer_request.dart';
 import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/data/models/response/home_response/competition_response.dart';
 import 'package:masterg/local/pref/Preference.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_experience.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/utility.dart';
 
@@ -2094,26 +2096,30 @@ class HomeProvider {
     }
   }
 
-  // Future<ApiResponse?> getCompetitionContentList({int? competitionId}) async {
-  //   try {
-  //     final response = await api.dio
-  //         .get(ApiConstants.COMPETITION_CONTENT_LIST + '$competitionId',
-  //             options: Options(
-  //                 method: 'GET',
-  //                 headers: {
-  //                   "Authorization": "Bearer ${UserSession.userToken}",
-  //                   ApiConstants.API_KEY: ApiConstants().APIKeyValue()
-  //                 },
-  //                 contentType: "application/json",
-  //                 responseType: ResponseType.json // or ResponseType.JSON
-  //                 ));
-  //     if (response.statusCode == 200 || response.statusCode == 201) {
-  //       return ApiResponse.success(response.data);
-  //     }
-  //   } catch (e) {
-  //     // return ApiResponse.failure(e, message: e.response.data["message"]);
-  //   }
-  // }
+  Future<dynamic> getPortfolio() async {
+    try {
+      final response = await api.dio.get(ApiConstants.USER_PORTFOLIO,
+          options: Options(
+              method: 'GET',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+  }
 
   Future<ApiResponse?> getCompetitionContentList({int? competitionId}) async {
     try {
@@ -2151,18 +2157,152 @@ class HomeProvider {
       data['type'] = type;
       data['skipotherUser'] = skipotherUser;
       data['skipcurrentUser'] = skipcurrentUser;
-      final response =
-          await api.dio.post(ApiConstants.LEADERBOARD ,
-              data: FormData.fromMap(data),
-              options: Options(
-                  method: 'POST',
-                  headers: {
-                    "Authorization": "Bearer ${UserSession.userToken}",
-                    ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
-                  },
-                  contentType: "application/json",
-                  responseType: ResponseType.json // or ResponseType.JSON
-                  ));
+      final response = await api.dio.post(ApiConstants.LEADERBOARD,
+          data: FormData.fromMap(data),
+          options: Options(
+              method: 'POST',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+    return null;
+  }
+
+  Future<ApiResponse?> addPortfolio({Map<String, dynamic>? data}) async {
+    try {
+      final response = await api.dio.post(ApiConstants.ADD_PORTFOLIO,
+          data: FormData.fromMap(data!),
+          options: Options(
+              method: 'POST',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+    return null;
+  }
+
+  Future<ApiResponse?> addProfessional({Map<String, dynamic>? data}) async {
+    try {
+      final response = await api.dio.post(ApiConstants.ADD_PROFESSIONAL,
+          data: FormData.fromMap(data!),
+          options: Options(
+              method: 'POST',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+    return null;
+  }
+
+  Future<ApiResponse?>addExperience({Map<String, dynamic>? data}) async {
+    try {
+      final response = await api.dio.post(ApiConstants.ADD_EXPERIENCE,
+          data: FormData.fromMap(data!),
+          options: Options(
+              method: 'POST',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+    return null;
+  }
+
+  Future<ApiResponse?>addEducation({Map<String, dynamic>? data}) async {
+    try {
+      final response = await api.dio.post(ApiConstants.ADD_EXPERIENCE,
+          data: FormData.fromMap(data!),
+          options: Options(
+              method: 'POST',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+    return null;
+  }
+
+  Future<ApiResponse?>addCertificate({Map<String, dynamic>? data}) async {
+    try {
+      final response = await api.dio.post(ApiConstants.ADD_EXPERIENCE,
+          data: FormData.fromMap(data!),
+          options: Options(
+              method: 'POST',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data.containsKey('error') &&
             (response.data["error"] as List).length != 0) {

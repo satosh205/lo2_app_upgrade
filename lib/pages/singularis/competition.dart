@@ -14,6 +14,7 @@ import 'package:masterg/data/models/response/home_response/course_category_list_
 import 'package:masterg/pages/singularis/competition_detail.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
+import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 import 'package:shimmer/shimmer.dart';
@@ -32,7 +33,7 @@ class _CompetetionState extends State<Competetion> {
   bool? competitionLoading;
   bool? popularCompetitionLoading;
 
- @override
+  @override
   void initState() {
     getCompetitionList();
     getPopularCompetitionList();
@@ -208,8 +209,6 @@ class _CompetetionState extends State<Competetion> {
                                 shrinkWrap: true,
                                 itemCount: competitionResponse?.data?.length,
                                 itemBuilder: (BuildContext context, int index) {
-
-                                  
                                   return InkWell(
                                       onTap: () {
                                         Navigator.push(
@@ -225,11 +224,10 @@ class _CompetetionState extends State<Competetion> {
                                       child: renderCompetitionCard(
                                           '${competitionResponse?.data![index]?.image ?? ''}',
                                           '${competitionResponse?.data![index]?.name ?? ''}',
-                                       '${competitionResponse?.data![index]?.organizedBy ?? ''}',
+                                          '${competitionResponse?.data![index]?.organizedBy ?? ''}',
                                           '${competitionResponse?.data![index]?.competitionLevel ?? 'Easy'}',
                                           '${competitionResponse?.data![index]?.gScore ?? 0}',
-                                          '${Utility.ordinalDate(dateVal: "${competitionResponse?.data![index]?.endDate}")}'
-                                          ));
+                                          '${Utility.ordinalDate(dateVal: "${competitionResponse?.data![index]?.endDate}")}'));
                                 })
                             : Shimmer.fromColors(
                                 baseColor: Colors.grey[300]!,
@@ -265,10 +263,11 @@ class _CompetetionState extends State<Competetion> {
                         //
                         if (competitionLoading == false)
                           Container(
-                            height: 233,
+                            height: height(context) * 0.38,
                             // color: Colors.green,
-                            // padding: EdgeInsets.symmetric(vertical: 20),
-                            margin: EdgeInsets.only(top: 8, bottom: 20),
+                            padding: EdgeInsets.symmetric(vertical: 20),
+
+                            // margin: EdgeInsets.only(top: 5, bottom: 10),
                             child: popularCompetitionResponse?.data?.length != 0
                                 ? ListView.builder(
                                     itemCount: popularCompetitionResponse
@@ -294,7 +293,7 @@ class _CompetetionState extends State<Competetion> {
                                               '${popularCompetitionResponse?.data![index]?.image}',
                                               '${popularCompetitionResponse?.data![index]?.name}',
                                               '',
-                                              '',
+                                              '${popularCompetitionResponse?.data![index]?.competitionLevel ?? "Easy"}',
                                               '${popularCompetitionResponse?.data![index]?.gScore}',
                                               '${popularCompetitionResponse?.data![index]?.endDate}'));
                                     })
@@ -313,7 +312,7 @@ class _CompetetionState extends State<Competetion> {
       String difficulty, String gScore, String date) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.7,
-      margin: EdgeInsets.only(bottom: 20, left: 0, right: 16),
+      margin: EdgeInsets.only(bottom: 20, left: 0, right: 55),
       decoration: BoxDecoration(
         color: ColorConstants.WHITE,
         borderRadius: BorderRadius.circular(16),
@@ -349,7 +348,9 @@ class _CompetetionState extends State<Competetion> {
             ),
             SizedBox(height: 8),
             Padding(
-              padding: const EdgeInsets.only(left: 8),
+              padding: const EdgeInsets.only(
+                left: 8,
+              ),
               child: Text(
                 name,
                 style: Styles.bold(),
@@ -360,9 +361,14 @@ class _CompetetionState extends State<Competetion> {
               padding: const EdgeInsets.only(left: 8),
               child: Row(
                 children: [
-                  Text(difficulty,
-                      style: Styles.regular(
-                          color: ColorConstants.GREEN_1, size: 12)),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 5.0,
+                    ),
+                    child: Text(difficulty,
+                        style: Styles.regular(
+                            color: ColorConstants.GREEN_1, size: 12)),
+                  ),
                   SizedBox(
                     width: 4,
                   ),
@@ -426,25 +432,34 @@ class _CompetetionState extends State<Competetion> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              name,
-              style: Styles.bold(size: 14),
+            SizedBox(
+              width: width(context) * 0.6,
+              child: Text(
+                name,
+                style: Styles.bold(size: 14),
+                maxLines: 1,
+                softWrap: true,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
             SizedBox(
               height: 2,
             ),
             Row(
               children: [
-                Text('Conducted by ' , style: Styles.regular(size: 10, color: Color(0xff929BA3))),
-                Text(companyName , style: Styles.semibold(size: 12),),
-
+                Text('Conducted by ',
+                    style: Styles.regular(size: 10, color: Color(0xff929BA3))),
+                Text(
+                  companyName,
+                  style: Styles.semibold(size: 12),
+                ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
                 ),
                 Icon(
                   Icons.arrow_forward_ios,
                   color: Color(0xff0E1638),
-                )
+                ),
               ],
             ),
             SizedBox(

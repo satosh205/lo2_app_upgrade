@@ -165,7 +165,8 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
       transition: CircularFloatingSearchBarTransition(),
       physics: BouncingScrollPhysics(),
       title: Text(
-        selectedTerm ?? 'The Search App',
+        selectedTerm,
+        // selectedTerm ?? 'The Search App',
         //style: Theme.of(context).textTheme.headline6,
         style: TextStyle(fontSize: 14.0),
       ),
