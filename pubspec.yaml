@@ -118,6 +118,7 @@ flutter:
     - assets/images/splash/
     - assets/policy.html
     - assets/terms.html
+    - assets/images/temp/
 
   fonts:
     - family: OpenSansBold
