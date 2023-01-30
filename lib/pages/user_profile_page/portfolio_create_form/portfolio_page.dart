@@ -137,8 +137,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                       children: [
                                         ClipOval(
                                           child: CachedNetworkImage(
-                                                 imageUrl:
-                                            'https://cdn.pixabay.com/photo/2020/05/09/13/29/photographer-5149664_1280.jpg',
+                                            imageUrl:
+                                                'https://cdn.pixabay.com/photo/2020/05/09/13/29/photographer-5149664_1280.jpg',
                                             filterQuality: FilterQuality.low,
                                             width: 70,
                                             height: 70,
@@ -496,7 +496,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                         //   ),
                         // ),
 
-                                    SvgPicture.asset('assets/images/skills_1.svg'),
+                        SvgPicture.asset('assets/images/skills_1.svg'),
 
                         dividerLine(),
                         Row(
@@ -507,8 +507,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                             ),
                             Spacer(),
                             InkWell(
-                                onTap: (() async{
-                                await   showModalBottomSheet(
+                                onTap: (() async {
+                                  await showModalBottomSheet(
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(20)),
@@ -554,49 +554,53 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                               borderRadius:
                                                   BorderRadius.circular(12),
                                               child: CachedNetworkImage(
-                                                 imageUrl:  '${portfolioResponse?.data.fileBaseurl}${portfolioResponse?.data.portfolio[index].imageName}',
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.8,
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.3,
-                                                  fit: BoxFit.fill,
-
-                                                  errorWidget: (context, url, error) {
-                                            return Container(
-                                               width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.8,
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.3,
-                                              padding: EdgeInsets.all(14),
-                                              decoration: BoxDecoration(
-                                                
-                                                  color: Color(0xffD5D5D5)),
-                                              // child: SvgPicture.asset(
-                                              //   'assets/images/default_education.svg',
-                                              //   // height: 30,
-                                              //   // width: 30,
-                                              //   color: ColorConstants.GREY_5,
-                                              //   allowDrawingOutsideViewBox:
-                                              //       true,
-                                              // ),
-                                            );
-                                          },
-                                                  ),
+                                                imageUrl:
+                                                    '${portfolioResponse?.data.fileBaseurl}${portfolioResponse?.data.portfolio[index].imageName}',
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.8,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.3,
+                                                fit: BoxFit.fill,
+                                                errorWidget:
+                                                    (context, url, error) {
+                                                  return Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.8,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.3,
+                                                    padding: EdgeInsets.all(14),
+                                                    decoration: BoxDecoration(
+                                                        color:
+                                                            Color(0xffD5D5D5)),
+                                                    // child: SvgPicture.asset(
+                                                    //   'assets/images/default_education.svg',
+                                                    //   // height: 30,
+                                                    //   // width: 30,
+                                                    //   color: ColorConstants.GREY_5,
+                                                    //   allowDrawingOutsideViewBox:
+                                                    //       true,
+                                                    // ),
+                                                  );
+                                                },
+                                              ),
                                             ),
                                             SizedBox(height: 8),
                                             Text(
                                               '${portfolioResponse?.data.portfolio[index].portfolioTitle}',
                                               style: Styles.bold(),
                                             ),
-                                            Text('${portfolioResponse?.data.portfolio[index].desc}',
+                                            Text(
+                                                '${portfolioResponse?.data.portfolio[index].desc}',
                                                 style: Styles.semibold(
                                                     size: 12,
                                                     color: Color(0xff929BA3))),
@@ -649,8 +653,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                               topLeft: Radius.circular(8),
                                               topRight: Radius.circular(8)),
                                           child: CachedNetworkImage(
-                                                 imageUrl:
-                                              'https://picsum.photos/seed/picsum/300/300',
+                                              imageUrl:
+                                                  'https://picsum.photos/seed/picsum/300/300',
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width *
@@ -775,8 +779,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                     ClipRRect(
                                         borderRadius: BorderRadius.circular(8),
                                         child: CachedNetworkImage(
-                                                 imageUrl:
-                                          portfolioResponse?.data
+                                          imageUrl: portfolioResponse?.data
                                                   .education[index].imageName ??
                                               '',
                                           height: 30,
@@ -798,9 +801,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                             );
                                           },
                                           placeholder: (BuildContext context,
-                                             
-                                                  loadingProgress) {
-                                        
+                                              loadingProgress) {
                                             return Shimmer.fromColors(
                                               baseColor: Color(0xffe6e4e6),
                                               highlightColor: Color(0xffeaf0f3),
@@ -815,27 +816,108 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                   )),
                                             );
                                           },
-                                        )),SizedBox(width: 10,),
+                                        )),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                            '${portfolioResponse?.data.education[index].title}', style: Styles.bold( ),),
-                                            Text('${portfolioResponse?.data.education[index].institute}', style: Styles.regular(size: 12),)
+                                          '${portfolioResponse?.data.education[index].title}',
+                                          style: Styles.bold(),
+                                        ),
+                                        Text(
+                                          '${portfolioResponse?.data.education[index].institute}',
+                                          style: Styles.regular(size: 12),
+                                        )
                                       ],
                                     )
                                   ],
                                 ),
-                                SizedBox(height: 10,),
-                                Text('${portfolioResponse?.data.education[index].description}'),
-
-                              if(index != portfolioResponse?.data.education.length)  Divider(),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                    '${portfolioResponse?.data.education[index].description}'),
+                                if (index !=
+                                    portfolioResponse?.data.education.length)
+                                  Divider(),
                               ],
                             ),
                           ))
-                  : Text('no portfolio found ')
+                  : Text('no portfolio found '),
+                  getCertificateWidget(portfolioResponse?.data.certificate)
             ]))),
       ),
+    );
+  }
+
+  Widget getCertificateWidget(List<CommonProfession>? certificateList) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Text(
+                'Certificate',
+                style: Styles.semibold(size: 16),
+              ),
+              Spacer(),
+              IconButton(
+                  onPressed: () {
+                    showModalBottomSheet(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        context: context,
+                        enableDrag: true,
+                        isScrollControlled: true,
+                        builder: (context) {
+                          return FractionallySizedBox(
+                            heightFactor: 0.7,
+                            child: Container(
+                                height: height(context),
+                                padding: const EdgeInsets.all(8.0),
+                                margin: const EdgeInsets.only(top: 10),
+                                child: AddCertificate()),
+                          );
+                        });
+                  },
+                  icon: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AddEducation()));
+                      },
+                      child: Icon(Icons.add))),
+              Icon(Icons.arrow_forward_ios_outlined),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Divider(),
+              ),
+            ],
+          ),
+        )
+    
+    ,
+      ListView.builder(
+        shrinkWrap: true,
+        itemCount: certificateList?.length,
+        itemBuilder: (context, index){
+        return Column(
+children: [
+  CachedNetworkImage(imageUrl: '${portfolioResponse?.data.fileBaseurl}${certificateList?[index].imageName}'),
+  Row(children: [
+    Text('${certificateList?[index].title}', style: Styles.bold(size: 18)),
+    Text('${certificateList?[index].startDate}', style: Styles.regular(),),
+  ],)
+],
+        );
+      })
+      ],
     );
   }
 

@@ -186,7 +186,6 @@ class _AddCertificateState extends State<AddCertificate> {
                                     } catch (e) {
                                       print('something is wrong $e');
                                     }
-                                    print('agaoni cliked');
 
                                     data['portfolio_title'] =
                                         titleController.value.text;
