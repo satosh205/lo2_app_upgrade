@@ -18,6 +18,7 @@ import 'package:masterg/data/models/response/home_response/onboard_sessions.dart
 import 'package:masterg/data/models/response/home_response/popular_courses_response.dart';
 import 'package:masterg/data/models/response/home_response/user_analytics_response.dart';
 import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
+import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/ghome/my_assessments.dart';
 import 'package:masterg/pages/ghome/my_assignments.dart';
 import 'package:masterg/pages/ghome/my_courses.dart';
@@ -109,6 +110,30 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                 // _getResumeLerarning(),
                 //_getCourses(),
                 // _getDashboard(context),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  child: Row(children: [
+                    Text(
+                      'My Courses',
+                      style: Styles.bold(size: 16),
+                    ),
+                    Spacer(),
+                    InkWell(
+                      child: Text(
+                        'View All',
+                        style: Styles.regular(color: Color(0xfffF2452)),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            NextPageRoute(MyCourses(
+                              fromDashboard: false,
+                            )));
+                      },
+                    )
+                  ]),
+                ),
                 Container(
                     height: 160,
                     width: width(context),
@@ -1094,6 +1119,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                       //                 otherLearners[index]),
                                       //         child: OLCourseDetailPage())));
                                     },
+                                    
                                     child: _getCourseTemplate(
                                         context,
                                         otherLearners![index],
@@ -1297,21 +1323,19 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
 
   Widget _getCourseTemplate(context, yourCourses, int index, String tag) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.14,
-      //decoration: BoxDecoration(color: ColorConstants.GREY),
-      //padding: EdgeInsets.all(10),
-      margin: EdgeInsets.all(7),
-      //borderRadius
+      height: MediaQuery.of(context).size.height * 0.32,
+      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: ColorConstants.WHITE,
       ),
-
-      child: Row(children: [
-        Padding(
-            child: SizedBox(
-              width: MediaQuery.of(context).size.height * 0.1,
-              height: MediaQuery.of(context).size.height * 0.11,
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.2,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Hero(
@@ -1328,121 +1352,70 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                 ),
               ),
             ),
-            padding: EdgeInsets.all(10)),
-
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                 Text('${yourCourses.name}',
-                    maxLines: 2,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  softWrap: false,
+                  style: Styles.semibold(size: 20)),
+                      SizedBox(height: 8,)
+,
+              if (APK_DETAILS['package_name'] == 'com.learn_build')
+                Text('${yourCourses.approvalStatus ?? ''}',
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     softWrap: false,
-                    style: Styles.semibold(size: 16)),
-                if (APK_DETAILS['package_name'] == 'com.learn_build')
-                  Text('${yourCourses.approvalStatus ?? ''}',
-                      maxLines: 1,
+                    style:
+                        Styles.semibold(size: 12, color: ColorConstants.YELLOW)),
+                         Text(
+                      '${yourCourses.enrolmentCount} ${Strings.of(context)?.enrollments}',
                       overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                       softWrap: false,
-                      style: Styles.semibold(
-                          size: 12, color: ColorConstants.YELLOW)),
-                Row(
+                      style: Styles.regular(size: 18)),
+                      SizedBox(height: 8,)
+,              SizedBox(
+                width: width(context) * 0.5,
+                child: Row(
                   children: [
-                    Text(
-                        '${yourCourses.enrolmentCount} ${Strings.of(context)?.enrollments}',
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        softWrap: false,
-                        style: Styles.regular(size: 14)),
-                    Spacer(),
-                    if (yourCourses.regularPrice != yourCourses.salePrice)
-                      Text('₹${yourCourses.regularPrice}',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          softWrap: false,
-                          style: TextStyle(
-                            fontSize: 14,
-                            decoration: TextDecoration.lineThrough,
-                          )),
-                    if (yourCourses.salePrice != null)
-                      Text('₹${yourCourses.salePrice}',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          softWrap: false,
-                          style: Styles.bold(
-                              size: 18, color: ColorConstants.GREEN)),
+                  SvgPicture.asset('assets/images/clock_icon.svg', color: ColorConstants.GREY_4,
+                  height: 18,
+                  )
+                  
+                  ,
+                  SizedBox(width: 8,),
+                Text('${yourCourses.duration}'),
+                   
+                    // if (yourCourses.regularPrice != yourCourses.salePrice)
+                    //   Text('₹${yourCourses.regularPrice}',
+                    //       maxLines: 1,
+                    //       overflow: TextOverflow.ellipsis,
+                    //       softWrap: false,
+                    //       style: TextStyle(
+                    //         fontSize: 14,
+                    //         decoration: TextDecoration.lineThrough,
+                    //       )),
+                    // if (yourCourses.salePrice != null)
+                    //   Text('₹${yourCourses.salePrice}',
+                    //       maxLines: 1,
+                    //       overflow: TextOverflow.ellipsis,
+                    //       softWrap: false,
+                    //       style:
+                    //           Styles.bold(size: 18, color: ColorConstants.GREEN)),
                   ],
-                )
-              ],
-            ),
-          ),
-        )
+                ),
+              ),
 
-        // Padding(
-        //     padding: const EdgeInsets.only(top: 3.0, bottom: 3.0),
-        //     child: Column(
-        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //         crossAxisAlignment: CrossAxisAlignment.start,
-        //         children: [
-        //           SizedBox(height: 1),
-        //           Row(
-        //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //               children: [
-        //                 SizedBox(
-        //                     width: 180,
-        //                     child: Text('${yourCourses.name}',
-        //                         style: Styles.bold(size: 16))),
-        //                 // Container(
-        //                 //     child: _getCoinCardWidget(
-        //                 //         '${yourCourses.totalCoins ?? 0}', 'G Score'))
-        //               ]),
-        //           SizedBox(height: 7),
-        //           // Row(
-        //           //   children: [
-        //           //     Icon(CupertinoIcons.clock,
-        //           //         size: 15, color: Color(0xFFFDB515)),
-        //           //     Text('${yourCourses.duration}',
-        //           //         style: Styles.regular(size: 10))
-        //           //   ],
-        //           // ),
-        //           SizedBox(height: 10),
-        //           // Row(
-        //           //   children: [
-        //           //     Text('4.5',
-        //           //         style: Styles.textRegular(
-        //           //             color: ColorConstants.ACTIVE_TAB, size: 20)),
-        //           //     Icon(Icons.star, color: ColorConstants.ACTIVE_TAB, size: 20),
-        //           //     Icon(Icons.star, color: ColorConstants.ACTIVE_TAB, size: 20),
-        //           //     Icon(Icons.star, color: ColorConstants.ACTIVE_TAB, size: 20),
-        //           //     Icon(Icons.star, color: ColorConstants.ACTIVE_TAB, size: 20),
-        //           //     Icon(Icons.star, color: ColorConstants.ACTIVE_TAB, size: 20),
-        //           //   ],
-        //           // ),
-        //           Row(
-        //             mainAxisAlignment: MainAxisAlignment.start,
-        //             children: [
-        //               Text('${yourCourses.enrolmentCount} ${Strings.of(context)?.enrollments}',
-        //                   style: Styles.regular(size: 12)),
-        //               Row(
-        //                 children: [
-        //                   Text('₹${yourCourses.regularPrice}',
-        //                       style: TextStyle(
-        //                         decoration: TextDecoration.lineThrough,
-        //                       )),
-        //                   Text(
-        //                     '₹${yourCourses.salePrice}',
-        //                     style: Styles.textExtraBold(
-        //                         size: 22, color: ColorConstants.GREEN),
-        //                   ),
-        //                 ],
-        //               ),
-        //             ],
-        //           ),
-        //         ]))
-      ]),
+              ],),
+            ),
+
+            
+
+          ]),
     );
   }
 
