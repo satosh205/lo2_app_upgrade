@@ -702,7 +702,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    AddEducation()));
+                                                    AddActivities()));
                                       },
                                       child: Icon(Icons.add))),
                               Icon(Icons.arrow_forward_ios_outlined),

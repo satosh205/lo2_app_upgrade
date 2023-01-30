@@ -1523,7 +1523,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       //       yield AddEducationState(ApiStatus.ERROR, response: response);
       //     }
       //   } catch (e) {}
-      // } else if (event is AddActivitiesEvent) {
+    } else if (event is AddActivitiesEvent) {
       try {
         yield AddActivitiesState(ApiStatus.LOADING);
         final response = await homeRepository.addProfessional();
