@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -19,7 +18,6 @@ class SkillAssessment extends StatefulWidget {
 }
 
 class _SkillAssessmentState extends State<SkillAssessment> {
-
   @override
   Widget build(BuildContext context) {
     return BlocManager(
@@ -38,19 +36,21 @@ class _SkillAssessmentState extends State<SkillAssessment> {
     );
   }
 
-
   Widget _makeBody() {
     return SingleChildScrollView(
       physics: ScrollPhysics(),
       child: Container(
-        margin: EdgeInsets.only(
-            left: SizeConstants.JOB_LEFT_SCREEN_MGN,
-            right: SizeConstants.JOB_RIGHT_SCREEN_MGN,
-            bottom: SizeConstants.JOB_BOTTOM_SCREEN_MGN),
+        margin: EdgeInsets.only(left: 8, right: 8),
+        // margin: EdgeInsets.only(
+        // left: SizeConstants.JOB_LEFT_SCREEN_MGN,
+        // right: SizeConstants.JOB_RIGHT_SCREEN_MGN,
+        // bottom: SizeConstants.JOB_BOTTOM_SCREEN_MGN),
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
-            SizedBox(height: height(context) * 0.03,),
+            SizedBox(
+              height: height(context) * 0.03,
+            ),
 
             ///TODO: Skill
             SizedBox(
@@ -63,6 +63,499 @@ class _SkillAssessmentState extends State<SkillAssessment> {
                   skillProgressBar("Motion Design", 3, 80),
                   skillProgressBar("Animation", 4, 90),
                 ],
+              ),
+            ),
+            Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0)),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  height: height(context) * 0.15,
+                  width: width(context) * 6,
+                  child: Column(
+                    children: [
+                      // Image.asset('assets/images/temp/UX_SKILL.png',
+                      //     height: 20, width: 20),
+                      Row(
+                        children: [
+                          SvgPicture.asset('assets/images/temp/ux_skill.svg'),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 8.0, bottom: 8),
+                                child: Text(
+                                  "UX Research",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0, bottom: 16),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("10/200 Assessments Completed"),
+                                    Icon(Icons.arrow_forward_ios_outlined)
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.only(left: 60.0),
+                        child: Row(
+                          children: [
+                            ShaderMask(
+                              blendMode: BlendMode.srcIn,
+                              shaderCallback: (Rect bounds) {
+                                return LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                    colors: <Color>[
+                                      Color(0xfffc7804),
+                                      ColorConstants.GRADIENT_RED
+                                    ]).createShader(bounds);
+                              },
+                              child: Text(
+                                "Learner",
+                                style: Styles.bold(size: 12),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Container(
+                              height: 10,
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              decoration: BoxDecoration(
+                                  color: ColorConstants.GREY,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    height: 10,
+                                    width: width(context) * 0.3,
+                                    // width: MediaQuery.of(context).size.width *
+                                    //     0.9 *
+                                    //     (
+                                    //         //.completion! /
+                                    //         100),
+                                    decoration: BoxDecoration(
+                                        color: Color(
+                                          0xfffc7804,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            ShaderMask(
+                              blendMode: BlendMode.srcIn,
+                              shaderCallback: (Rect bounds) {
+                                return LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                    colors: <Color>[
+                                      Color(0xfffc7804),
+                                      ColorConstants.GRADIENT_RED
+                                    ]).createShader(bounds);
+                              },
+                              child: Text(
+                                "Master",
+                                style: Styles.bold(size: 12),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0)),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  margin: EdgeInsets.only(left: 8, right: 8),
+                  height: height(context) * 0.15,
+                  // width: width(context) * 2,
+                  child: Column(
+                    children: [
+                      // Image.asset('assets/images/temp/UX_SKILL.png',
+                      //     height: 20, width: 20),
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                              'assets/images/temp/graphic_skill.svg'),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 8.0, bottom: 8),
+                                child: Text(
+                                  "Graphic Design",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0, bottom: 16),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("0/100 Assessments Completed"),
+                                    Icon(Icons.arrow_forward_ios_outlined)
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.only(left: 60.0),
+                        child: Row(
+                          children: [
+                            ShaderMask(
+                              blendMode: BlendMode.srcIn,
+                              shaderCallback: (Rect bounds) {
+                                return LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                    colors: <Color>[
+                                      Color(0xfffc7804),
+                                      ColorConstants.GRADIENT_RED
+                                    ]).createShader(bounds);
+                              },
+                              child: Text(
+                                "Learner",
+                                style: Styles.bold(size: 12),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Container(
+                              height: 10,
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              decoration: BoxDecoration(
+                                  color: ColorConstants.GREY,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    height: 10,
+                                    width: width(context) * 0.3,
+                                    // width: MediaQuery.of(context).size.width *
+                                    //     0.9 *
+                                    //     (
+                                    //         //.completion! /
+                                    //         100),
+                                    decoration: BoxDecoration(
+                                        color: Color(
+                                          0xfffc7804,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            ShaderMask(
+                              blendMode: BlendMode.srcIn,
+                              shaderCallback: (Rect bounds) {
+                                return LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                    colors: <Color>[
+                                      Color(0xfffc7804),
+                                      ColorConstants.GRADIENT_RED
+                                    ]).createShader(bounds);
+                              },
+                              child: Text(
+                                "Master",
+                                style: Styles.bold(size: 12),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0)),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  margin: EdgeInsets.only(left: 8, right: 8),
+                  height: height(context) * 0.15,
+                  // width: width(context) * 2,
+                  child: Column(
+                    children: [
+                      // Image.asset('assets/images/temp/UX_SKILL.png',
+                      //     height: 20, width: 20),
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                              'assets/images/temp/motion_skill.svg'),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 8.0, bottom: 8),
+                                child: Text(
+                                  "Motion Design",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0, bottom: 16),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("2/100 Assessments Completed"),
+                                    Icon(Icons.arrow_forward_ios_outlined)
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.only(left: 60.0),
+                        child: Row(
+                          children: [
+                            ShaderMask(
+                              blendMode: BlendMode.srcIn,
+                              shaderCallback: (Rect bounds) {
+                                return LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                    colors: <Color>[
+                                      Color(0xfffc7804),
+                                      ColorConstants.GRADIENT_RED
+                                    ]).createShader(bounds);
+                              },
+                              child: Text(
+                                "Learner",
+                                style: Styles.bold(size: 12),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Container(
+                              height: 10,
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              decoration: BoxDecoration(
+                                  color: ColorConstants.GREY,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    height: 10,
+                                    width: width(context) * 0.3,
+                                    // width: MediaQuery.of(context).size.width *
+                                    //     0.9 *
+                                    //     (
+                                    //         //.completion! /
+                                    //         100),
+                                    decoration: BoxDecoration(
+                                        color: Color(
+                                          0xfffc7804,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            ShaderMask(
+                              blendMode: BlendMode.srcIn,
+                              shaderCallback: (Rect bounds) {
+                                return LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                    colors: <Color>[
+                                      Color(0xfffc7804),
+                                      ColorConstants.GRADIENT_RED
+                                    ]).createShader(bounds);
+                              },
+                              child: Text(
+                                "Master",
+                                style: Styles.bold(size: 12),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0)),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  margin: EdgeInsets.only(left: 8, right: 8),
+                  height: height(context) * 0.15,
+                  // width: width(context) * 2,
+                  child: Column(
+                    children: [
+                      // Image.asset('assets/images/temp/UX_SKILL.png',
+                      //     height: 20, width: 20),
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                              'assets/images/temp/animation_skill.svg'),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 8.0, bottom: 8),
+                                child: Text(
+                                  "Animation",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0, bottom: 16),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("4/100 Assessments Completed"),
+                                    Icon(Icons.arrow_forward_ios_outlined)
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.only(left: 60.0),
+                        child: Row(
+                          children: [
+                            ShaderMask(
+                              blendMode: BlendMode.srcIn,
+                              shaderCallback: (Rect bounds) {
+                                return LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                    colors: <Color>[
+                                      Color(0xfffc7804),
+                                      ColorConstants.GRADIENT_RED
+                                    ]).createShader(bounds);
+                              },
+                              child: Text(
+                                "Learner",
+                                style: Styles.bold(size: 12),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Container(
+                              height: 10,
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              decoration: BoxDecoration(
+                                  color: ColorConstants.GREY,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    height: 10,
+                                    width: width(context) * 0.3,
+                                    // width: MediaQuery.of(context).size.width *
+                                    //     0.9 *
+                                    //     (
+                                    //         //.completion! /
+                                    //         100),
+                                    decoration: BoxDecoration(
+                                        color: Color(
+                                          0xfffc7804,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            ShaderMask(
+                              blendMode: BlendMode.srcIn,
+                              shaderCallback: (Rect bounds) {
+                                return LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                    colors: <Color>[
+                                      Color(0xfffc7804),
+                                      ColorConstants.GRADIENT_RED
+                                    ]).createShader(bounds);
+                              },
+                              child: Text(
+                                "Master",
+                                style: Styles.bold(size: 12),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],
@@ -104,8 +597,10 @@ class _SkillAssessmentState extends State<SkillAssessment> {
             return LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
-                colors: <Color>[Color(0xfffc7804), ColorConstants.GRADIENT_RED])
-                .createShader(bounds);
+                colors: <Color>[
+                  Color(0xfffc7804),
+                  ColorConstants.GRADIENT_RED
+                ]).createShader(bounds);
           },
           child: Text(
             title,
@@ -157,7 +652,6 @@ class _SkillAssessmentState extends State<SkillAssessment> {
                       style: Styles.bold(size: 9.19),
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -165,7 +659,10 @@ class _SkillAssessmentState extends State<SkillAssessment> {
             linearGradient: LinearGradient(
                 begin: Alignment.centerRight,
                 end: Alignment.centerLeft,
-                colors: <Color>[Color(0xfffc7804), ColorConstants.GRADIENT_RED]),
+                colors: <Color>[
+                  Color(0xfffc7804),
+                  ColorConstants.GRADIENT_RED
+                ]),
           ),
         ),
       ],
