@@ -301,10 +301,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                     } catch (e) {
                                       print('something is wrong $e');
                                     }
-                                    // print('agaoni cliked');
-
-                                    // data['portfolio_title'] =
-                                    //     titleController.value.text;
+                                 
 
                                     data['activity_title'] =
                                         activitytitleController.value.text;

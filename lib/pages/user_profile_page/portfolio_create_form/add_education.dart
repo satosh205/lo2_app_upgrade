@@ -17,11 +17,11 @@ class AddEducation extends StatefulWidget {
   const AddEducation({Key? key}) : super(key: key);
 
   @override
-  State<AddEducation> createState() => _AddEducationState();
+  State<AddEducation> createState() => _AddActivitiesState();
 }
 
-class _AddEducationState extends State<AddEducation> {
-  TextEditingController? titleController;
+class _AddActivitiesState extends State<AddEducation> {
+  TextEditingController? schoolController;
    TextEditingController? degreeController;
   TextEditingController? descController;
   TextEditingController? startDate;
@@ -34,7 +34,7 @@ class _AddEducationState extends State<AddEducation> {
         initState: (value) {},
         child: BlocListener<HomeBloc, HomeState>(
             listener: (context, state) async {
-              if (state is AddEducationState) handleAddEducation(state);
+              if (state is AddActivitiesState) handleAddEducation(state);
             },
     child:Scaffold(
         body: Padding(
@@ -73,7 +73,7 @@ class _AddEducationState extends State<AddEducation> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: CustomTextField(
-                        controller: titleController,
+                        controller: schoolController,
                         hintText:
                             'Ex. Middle East College (MEC), Muscat, Oman'),
                   ),
@@ -226,20 +226,33 @@ class _AddEducationState extends State<AddEducation> {
                   ),
                   PortfolioCustomButton(
                     clickAction: () async{
-                      
+                      Map<String, dynamic> data = Map();
+                      data["activity_type"] = "Education";   
+data["title"] = "";
+data["description"] = descController?.value.text;
+data["start_date"] =startDate?.value.text;
+data["end_date"] = endDate?.value.text;
+data["institute"] = schoolController?.value.text;
+data["certificate"] = "";
+data["action"] = "";
+data["professional_key"] = "new_professional"; 
+data["edit_url_professional"] = "";
+                      print(data);
 
+                      
+addEducation(data);
                     },
                   )
                 ]))))));
   }
   void addEducation(Map<String, dynamic> data) {
     // print(data);
-    BlocProvider.of<HomeBloc>(context).add(AddEducationEvent(data: data));
+    BlocProvider.of<HomeBloc>(context).add(AddActivitiesEvent(data: data));
   }
-  void handleAddEducation(AddEducationState state) {
-     var addEducationState = state;
+  void handleAddEducation(AddActivitiesState state) {
+     var addActivitiesState = state;
     setState(() {
-      switch (addEducationState.apiState) {
+      switch (addActivitiesState.apiState) {
         case ApiStatus.LOADING:
           Log.v("Loading Add Education....................");
           isAddEducationLoading = true;
