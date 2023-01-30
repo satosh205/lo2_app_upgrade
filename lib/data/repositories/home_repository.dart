@@ -622,6 +622,19 @@ class HomeRepository {
       return PortfolioResponse.fromJson(response.body);
     }
   }
+//certificate
+  Future<PortfolioResponse> addCertificate({Map<String, dynamic>? data}) async {
+    final response = await homeProvider.addCertificate(data: data);
+    if (response!.success) {
+      Log.v("Portfolio Content  DATA : ${response.body}");
+      PortfolioResponse competitionData =
+          PortfolioResponse.fromJson(response.body);
+      return competitionData;
+    } else {
+      Log.v("====> ${response.body}");
+      return PortfolioResponse.fromJson(response.body);
+    }
+  }
 
   Future<AddPortfolioResp> addPortfolio({Map<String, dynamic>? data}) async {
     final response = await homeProvider.addPortfolio(data: data);
