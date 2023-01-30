@@ -455,7 +455,6 @@ class _DashboardPageState extends State<DashboardPage> {
                                       ),
                                     ),
                                   ),
-
                                   Container(
                                     height: 50,
                                     width: MediaQuery.of(context).size.width,
