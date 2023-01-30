@@ -114,9 +114,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   menuProvider = mp;
                 });
               },
-              child: FutureBuilder(
-                future: Future.delayed(Duration(seconds: 2)),
-                builder: (context, snapshot) => SingleChildScrollView(
+              child:  SingleChildScrollView(
                     child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -216,7 +214,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   ],
                 )),
               ),
-            )));
+            ));
   }
 
   renderWidgets(pages) {

@@ -207,6 +207,7 @@ class _CompetetionState extends State<Competetion> {
                         competitionLoading == false
                             ? ListView.builder(
                                 shrinkWrap: true,
+                                physics: BouncingScrollPhysics(),
                                 itemCount: competitionResponse?.data?.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return InkWell(
