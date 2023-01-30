@@ -127,7 +127,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                 children: [
                                   InkWell(
                                     onTap: (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> NewPortfolioPage()));
+                                      Navigator.push(context, NextPageRoute(NewPortfolioPage()));
                                     },
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(200),
