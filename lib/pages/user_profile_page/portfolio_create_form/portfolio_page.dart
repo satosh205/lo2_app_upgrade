@@ -1179,23 +1179,26 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                           SizedBox(
                             width: 10,
                           ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${experience?[index].title}',
-                                style: Styles.bold(),
-                              ),
-                              Text(
-                                '${experience?[index].institute}',
-                                style: Styles.regular(),
-                              ),
-                              Text(
-                                'Internship • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${startDate.day} ${listOfMonths[startDate.month].substring(0, 3)} - ${endDate.day} ${listOfMonths[endDate.month].substring(0, 3)}',
-                                style: Styles.regular(size: 14),
-                              )
-                            ],
+                          SizedBox(
+                            width: width(context) * 0.6,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${experience?[index].title}',
+                                  style: Styles.bold(),
+                                ),
+                                Text(
+                                  '${experience?[index].institute}',
+                                  style: Styles.regular(),
+                                ),
+                                Text(
+                                  'Internship • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${startDate.day} ${listOfMonths[startDate.month].substring(0, 3)} - ${endDate.day} ${listOfMonths[endDate.month].substring(0, 3)}',
+                                  style: Styles.regular(size: 14),
+                                )
+                              ],
+                            ),
                           )
                         ],
                       ),
