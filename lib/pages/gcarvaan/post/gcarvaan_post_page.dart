@@ -249,7 +249,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                       ),
                                     ],
                                   )),
-                            Row(
+                            /*Row(
                               children: [
                                 SvgPicture.asset('assets/images/discover.svg'),
                                 ShaderMask(
@@ -269,7 +269,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                   ),
                                 ),
                               ],
-                            ),
+                            ),*/
                             if (!widget.fromDashboard)
                               Consumer<CreatePostProvider>(
                                 builder: (context, value, child) => Container(

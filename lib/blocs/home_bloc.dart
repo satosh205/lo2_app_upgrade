@@ -1503,9 +1503,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       try {
         yield PortfolioState(ApiStatus.LOADING);
         final response = await homeRepository.getPortfolio();
-        Log.v("PORTFOLIO DATA ::: ${response.data}");
+        Log.v("PORTFOLIO DATA ::: ${response?.data}");
 
-        if (response.data != null) {
+        if (response?.data != null) {
           yield PortfolioState(ApiStatus.SUCCESS, response: response);
         } else {
           Log.v("ERROR DATA ::: $response");

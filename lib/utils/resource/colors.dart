@@ -107,6 +107,8 @@ class ColorConstants {
 
   static const Color_5f6687 = Color(0xff5f6687);
 
+  static const List_Color = Color(0xffFFF5F5);
+
   ///For Job
   static const JOB_BG_COLOR = Color(0xffF2F2F2);
   static const HIGH_LIGHTS_CARD_COLOR1 = Color(0xff3EBDA0);
@@ -129,6 +131,8 @@ class ColorConstants {
 /************ */
   static const APPBAR_COLOR = Color(0xff2c73d9);
   static const BUTTON_COLOR = Color(0xff2c73d9);
+
+  static const DASHBOARD_APPLY_COLOR = Color(0xff0E1638);
   /********** */
   Color primaryColor() {
     return HexColor.fromHex(APK_DETAILS['theme_color']!);
