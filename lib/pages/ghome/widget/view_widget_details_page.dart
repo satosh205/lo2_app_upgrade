@@ -18,17 +18,19 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ViewWidgetDetailsPage extends StatefulWidget {
-  final int currentIndex;
+  late int currentIndex;
   final List<JoyContentListElement>? joyContentList;
+  final int? currentID;
 
-  ViewWidgetDetailsPage({Key? key, this.joyContentList, this.currentIndex = 0})
+  ViewWidgetDetailsPage({Key? key, this.joyContentList, this.currentIndex = 0, this.currentID,})
       : super(key: key);
   @override
   _ViewWidgetDetailsPageState createState() => _ViewWidgetDetailsPageState();
 }
 
 class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
-  PageController controller = PageController(initialPage: 0);
+  PageController controller = PageController(keepPage: true,
+      viewportFraction: 1, initialPage: 0);
   PageController controllerV = PageController(initialPage: 0);
   bool isLoading = true;
   bool _isJoyContentListLoading = true;
@@ -54,10 +56,18 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
         case ApiStatus.SUCCESS:
           Log.v("JoyContentListState....................");
           Log.v(state.response!.data!.list.toString());
-          joyContentListResponse =
-              state.response!.data!.list!.cast<JoyContentListElement>();
-
+          joyContentListResponse = state.response!.data!.list!.cast<JoyContentListElement>();
           list.updateList(joyContentListResponse!);
+
+          for(int i = 0; i<joyContentListResponse!.length; i++){
+            if(joyContentListResponse![i].id == widget.currentID){
+              this.setState(() {
+                //currentIndexLocal = i;
+                controller.jumpToPage(i);
+              });
+              break;
+            }
+          }
 
           _isJoyContentListLoading = false;
           break;
@@ -90,7 +100,7 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
         ],
         child: BlocManager(
             initState: (context) {
-              // BlocProvider.of<HomeBloc>(context).add(JoyContentListEvent());
+              BlocProvider.of<HomeBloc>(context).add(JoyContentListEvent());
             },
             child: Consumer<JoyContentListModel>(
               builder: (context, joyContentModel, child) =>
@@ -139,10 +149,12 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
               isLoading: _isJoyContentListLoading,
               body: Container(
                 child: PageView.builder(
-                  controller: PageController(
+
+                  controller: controller,
+                  /*controller: PageController(
                       initialPage: widget.currentIndex,
                       keepPage: true,
-                      viewportFraction: 1),
+                      viewportFraction: 1),*/
                   itemCount: joyContentListResponse.list!.length != 0
                       ? joyContentListResponse.list!.length
                       : 0,

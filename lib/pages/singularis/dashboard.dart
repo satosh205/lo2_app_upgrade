@@ -2715,8 +2715,18 @@ class _DashboardPageState extends State<DashboardPage> {
                   Expanded(child: SizedBox()),
                   InkWell(
                     onTap: () {
-                      // menuProvider
-                      //     .updateCurrentIndex(1);
+                      print('ViewWidgetDetailsPage');
+                      //menuProvider?.updateCurrentIndex('1'); //Gcarva page
+                      showModalBottomSheet(
+                          context: context,
+                          backgroundColor: ColorConstants.WHITE,
+                          isScrollControlled: true,
+                          builder: (context) {
+                            return FractionallySizedBox(
+                              heightFactor: 1.0,
+                              child: ViewWidgetDetailsPage(),
+                            );
+                          });
                     },
                     child: Text('View all',
                         style: Styles.regular(
@@ -2753,11 +2763,14 @@ class _DashboardPageState extends State<DashboardPage> {
                               builder: (context) {
                                 return FractionallySizedBox(
                                     heightFactor: 1.0,
-                                    child: ViewWidgetDetailsPage(
+                                    /*child: ViewWidgetDetailsPage(
                                       joyContentList: featuredContentList
                                           as List<JoyContentListElement>,
                                       currentIndex: index,
-                                    ),
+                                    ),*/
+                                  child: ViewWidgetDetailsPage(
+                                    currentID: featuredContentList![index].id,
+                                  ),
                                 );
                               });
                         },
@@ -2791,7 +2804,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                             ],
                                           )),
                                           child: CachedNetworkImage(
-                                            imageUrl: '',
+                                            imageUrl: '${featuredContentList![index].resourcePathThumbnail}',
                                             // '${featuredContentList![index].thumbnailUrl}',
                                             imageBuilder:
                                                 (context, imageProvider) =>
