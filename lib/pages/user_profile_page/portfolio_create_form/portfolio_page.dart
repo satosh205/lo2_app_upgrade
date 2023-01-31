@@ -2,13 +2,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
+import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/data/models/response/home_response/new_portfolio_response.dart';
 import 'package:masterg/local/pref/Preference.dart';
+import 'package:masterg/pages/auth_pages/choose_language.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
+import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/pdf_view_page.dart';
 import 'package:masterg/pages/ghome/widget/read_more.dart';
@@ -122,34 +126,57 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         color: ColorConstants.WHITE,
                                       )),
                                   Spacer(),
-                                  InkWell(
-                                    onTap: () {
-                                      // setState(() {
-                                      //   editModeEnabled = !editModeEnabled;
-                                      // });
-                                    },
-                                    child: Row(
-                                      children: [
-                                        SvgPicture.asset(editModeEnabled
-                                            ? 'assets/images/check.svg'
-                                            : 'assets/images/edit.svg'),
-                                        SizedBox(
-                                          width: 4,
-                                        ),
-                                        Text(
-                                          editModeEnabled
-                                              ? 'Save'
-                                              : 'Edit Portfolio',
-                                          style: Styles.regular(
-                                              size: 12,
-                                              color: ColorConstants.WHITE),
-                                        ),
-                                        SizedBox(
-                                          width: 8,
-                                        ),
-                                      ],
-                                    ),
-                                  )
+
+                                  IconButton(
+                  onPressed: () {
+                    AlertsWidget.showCustomDialog(
+                        context: context,
+                        title:'${Strings.of(context)?.leavingSoSoon}',
+                        text: '${Strings.of(context)?.areYouSureYouWantToExit}',
+                        icon: 'assets/images/circle_alert_fill.svg',
+                        onOkClick: () async {
+                          UserSession.clearSession();
+                          await Hive.deleteFromDisk();
+                          Preference.clearPref().then((value) {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                NextPageRoute(ChooseLanguage(showEdulystLogo: true,)),
+                                    (route) => false);
+                          });
+                        });
+                  },
+                  icon: Icon(
+                    Icons.logout,
+                    color: ColorConstants.WHITE,
+                  )),
+                                  // InkWell(
+                                  //   onTap: () {
+                                  //     // setState(() {
+                                  //     //   editModeEnabled = !editModeEnabled;
+                                  //     // });
+                                  //   },
+                                  //   child: Row(
+                                  //     children: [
+                                  //       SvgPicture.asset(editModeEnabled
+                                  //           ? 'assets/images/check.svg'
+                                  //           : 'assets/images/edit.svg'),
+                                  //       SizedBox(
+                                  //         width: 4,
+                                  //       ),
+                                  //       Text(
+                                  //         editModeEnabled
+                                  //             ? 'Save'
+                                  //             : 'Edit Portfolio',
+                                  //         style: Styles.regular(
+                                  //             size: 12,
+                                  //             color: ColorConstants.WHITE),
+                                  //       ),
+                                  //       SizedBox(
+                                  //         width: 8,
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // )
                                 ],
                               ),
                               Padding(
