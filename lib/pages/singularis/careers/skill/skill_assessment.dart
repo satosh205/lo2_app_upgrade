@@ -94,6 +94,39 @@ class _SkillAssessmentState extends State<SkillAssessment> {
             SizedBox(
               height: 10,
             ),
+            Row(
+              children: [
+                // Container(
+                //   height: height(context) * 0.06,
+                //   width: width(context) * 0.6,
+                //   child: Container(
+                //     // height: height(context) * 0.06,
+                //     // width: width(context) * 0.6,
+                //     padding: EdgeInsets.symmetric(
+                //       horizontal: 30,
+                //       vertical: 10,
+                //     ),
+                //     decoration: ShapeDecoration(
+                //       // color: Colors.red,
+                //       shape: StadiumBorder(
+                //         side: BorderSide(
+                //           width: 6,
+                //           color: Colors.orange[200]!,
+                //         ),
+                //       ),
+                //     ),
+                //     child: Text(
+                //       'Product Manager',
+                //       style: TextStyle(
+                //         fontSize: 10,
+                //         color: Colors.white,
+                //         fontWeight: FontWeight.bold,
+                //       ),
+                //     ),
+                //   ),
+                // )
+              ],
+            ),
             Card(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0)),

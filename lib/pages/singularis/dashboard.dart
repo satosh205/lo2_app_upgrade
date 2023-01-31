@@ -131,10 +131,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                     onTap: () {
                                       Navigator.push(context,
                                           NextPageRoute(NewPortfolioPage()));
-<<<<<<< HEAD
-=======
                                       print('clicked');
->>>>>>> a931a851e88c419dae15f13af62f89b2bcdbd0c1
                                     },
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(200),
@@ -382,8 +379,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   //     height: 20, width: 20),
                   Row(
                     children: [
-                      SvgPicture.asset(
-                          'assets/images/temp/graphic_skill.svg'),
+                      SvgPicture.asset('assets/images/temp/graphic_skill.svg'),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -400,8 +396,7 @@ class _DashboardPageState extends State<DashboardPage> {
                             padding:
                                 const EdgeInsets.only(left: 8.0, bottom: 16),
                             child: Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text("0/100 Assessments Completed"),
                                 SizedBox(
