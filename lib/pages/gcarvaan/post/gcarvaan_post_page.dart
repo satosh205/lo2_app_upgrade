@@ -493,6 +493,9 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                   .semiBoldWhite())
                         ],
                       ),
+
+
+                      
                       Spacer(),
                       InkWell(
 
