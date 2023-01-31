@@ -7,6 +7,7 @@ import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/new_portfolio_response.dart';
+import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/pdf_view_page.dart';
@@ -123,9 +124,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                   Spacer(),
                                   InkWell(
                                     onTap: () {
-                                      setState(() {
-                                        editModeEnabled = !editModeEnabled;
-                                      });
+                                      // setState(() {
+                                      //   editModeEnabled = !editModeEnabled;
+                                      // });
                                     },
                                     child: Row(
                                       children: [
@@ -164,7 +165,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                           ClipOval(
                                             child: CachedNetworkImage(
                                               imageUrl:
-                                                  'https://cdn.pixabay.com/photo/2020/05/09/13/29/photographer-5149664_1280.jpg',
+                                                  '${Preference.getString(Preference.PROFILE_IMAGE)}',
                                               filterQuality: FilterQuality.low,
                                               width: 70,
                                               height: 70,
@@ -212,7 +213,10 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            Text('Prince Vishwakarma',
+                                            Text(
+                                          '${Preference.getString(Preference.FIRST_NAME)}'
+                                              
+                                              ,
                                                 maxLines: 2,
                                                 overflow: TextOverflow.ellipsis,
                                                 softWrap: false,
@@ -220,7 +224,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                     size: 18,
                                                     color:
                                                         ColorConstants.WHITE)),
-                                            Text('Flutter Developer',
+                                            Text('Chief Technology Officer',
                                                 style: Styles.regular(
                                                     size: 12,
                                                     color:
@@ -284,7 +288,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Egestas lectus duis Lorem ipsum dolor sit amet, consectetur adipiscing elit. Egestas lectus duis',
+                            'A very Organized and punctual person. Always positive and super co-operative individual in group activities. Contact me, If this profile interest you !',
                             style: Styles.regular(
                                 size: 12, color: Color(0xff5A5F73)),
                           ),
@@ -371,7 +375,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                             height: 30,
                                             child: SvgPicture.asset(
                                                 'assets/images/leaderboard.svg')),
-                                        SizedBox(width: 4),
+                                        // SizedBox(width: 2),
                                         ShaderMask(
                                           blendMode: BlendMode.srcIn,
                                           shaderCallback: (Rect bounds) {
@@ -384,7 +388,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                 ]).createShader(bounds);
                                           },
                                           child: Text(
-                                            '52',
+                                            '1',
                                             style: Styles.bold(size: 24),
                                           ),
                                         )
@@ -432,7 +436,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                 ]).createShader(bounds);
                                           },
                                           child: Text(
-                                            '120',
+                                            '50',
                                             style: Styles.bold(size: 24),
                                           ),
                                         )
