@@ -132,10 +132,13 @@ class _SkillAssessmentState extends State<SkillAssessment> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0)),
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(
+                    left: 4.0, right: 4, top: 12, bottom: 12),
                 child: Container(
-                  decoration: BoxDecoration(),
-                  height: height(context) * 0.15,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  // height: height(context) * 0.15,
                   width: width(context) * 6,
                   child: Column(
                     children: [
@@ -272,10 +275,11 @@ class _SkillAssessmentState extends State<SkillAssessment> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0)),
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(
+                    left: 4.0, right: 4, top: 12, bottom: 12),
                 child: Container(
                   margin: EdgeInsets.only(left: 8, right: 8),
-                  height: height(context) * 0.15,
+                  // height: height(context) * 0.15,
                   // width: width(context) * 2,
                   child: Column(
                     children: [
@@ -411,10 +415,11 @@ class _SkillAssessmentState extends State<SkillAssessment> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0)),
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(
+                    left: 4.0, right: 4, top: 8, bottom: 8),
                 child: Container(
                   margin: EdgeInsets.only(left: 8, right: 8),
-                  height: height(context) * 0.15,
+                  // height: height(context) * 0.15,
                   // width: width(context) * 2,
                   child: Column(
                     children: [
@@ -550,10 +555,11 @@ class _SkillAssessmentState extends State<SkillAssessment> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0)),
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(
+                    left: 4.0, right: 4, top: 12, bottom: 12),
                 child: Container(
                   margin: EdgeInsets.only(left: 8, right: 8),
-                  height: height(context) * 0.15,
+                  // height: height(context) * 0.15,
                   // width: width(context) * 2,
                   child: Column(
                     children: [

@@ -14,7 +14,8 @@ import 'package:masterg/utils/resource/colors.dart';
 import '../../data/models/response/home_response/leaderboard_resp.dart';
 
 class LeaderboardPage extends StatefulWidget {
-  const LeaderboardPage({Key? key}) : super(key: key);
+  final bool fromDashboard;
+  const LeaderboardPage({Key? key,  this.fromDashboard = false, }) : super(key: key);
 
   @override
   State<LeaderboardPage> createState() => _LeaderboardPageState();
@@ -94,7 +95,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                             ColorConstants.GRADIENT_ORANGE.withOpacity(0.4)
                           ]),
                     ),
-                    height: height(context) * 0.4,
+                    height: height(context) * 0.35,
                     width: width(context),
                     child: isLeaderboardLoading == true ?  Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

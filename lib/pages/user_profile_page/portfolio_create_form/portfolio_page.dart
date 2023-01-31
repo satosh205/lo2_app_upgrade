@@ -2,12 +2,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
+import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/data/models/response/home_response/new_portfolio_response.dart';
+import 'package:masterg/local/pref/Preference.dart';
+import 'package:masterg/pages/auth_pages/choose_language.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
+import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
+import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
+import 'package:masterg/pages/custom_pages/custom_widgets/pdf_view_page.dart';
 import 'package:masterg/pages/ghome/widget/read_more.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_certificate.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_education.dart';
@@ -119,34 +126,57 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         color: ColorConstants.WHITE,
                                       )),
                                   Spacer(),
-                                  InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        editModeEnabled = !editModeEnabled;
-                                      });
-                                    },
-                                    child: Row(
-                                      children: [
-                                        SvgPicture.asset(editModeEnabled
-                                            ? 'assets/images/check.svg'
-                                            : 'assets/images/edit.svg'),
-                                        SizedBox(
-                                          width: 4,
-                                        ),
-                                        Text(
-                                          editModeEnabled
-                                              ? 'Save'
-                                              : 'Edit Portfolio',
-                                          style: Styles.regular(
-                                              size: 12,
-                                              color: ColorConstants.WHITE),
-                                        ),
-                                        SizedBox(
-                                          width: 8,
-                                        ),
-                                      ],
-                                    ),
-                                  )
+
+                                  IconButton(
+                  onPressed: () {
+                    AlertsWidget.showCustomDialog(
+                        context: context,
+                        title:'${Strings.of(context)?.leavingSoSoon}',
+                        text: '${Strings.of(context)?.areYouSureYouWantToExit}',
+                        icon: 'assets/images/circle_alert_fill.svg',
+                        onOkClick: () async {
+                          UserSession.clearSession();
+                          await Hive.deleteFromDisk();
+                          Preference.clearPref().then((value) {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                NextPageRoute(ChooseLanguage(showEdulystLogo: true,)),
+                                    (route) => false);
+                          });
+                        });
+                  },
+                  icon: Icon(
+                    Icons.logout,
+                    color: ColorConstants.WHITE,
+                  )),
+                                  // InkWell(
+                                  //   onTap: () {
+                                  //     // setState(() {
+                                  //     //   editModeEnabled = !editModeEnabled;
+                                  //     // });
+                                  //   },
+                                  //   child: Row(
+                                  //     children: [
+                                  //       SvgPicture.asset(editModeEnabled
+                                  //           ? 'assets/images/check.svg'
+                                  //           : 'assets/images/edit.svg'),
+                                  //       SizedBox(
+                                  //         width: 4,
+                                  //       ),
+                                  //       Text(
+                                  //         editModeEnabled
+                                  //             ? 'Save'
+                                  //             : 'Edit Portfolio',
+                                  //         style: Styles.regular(
+                                  //             size: 12,
+                                  //             color: ColorConstants.WHITE),
+                                  //       ),
+                                  //       SizedBox(
+                                  //         width: 8,
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // )
                                 ],
                               ),
                               Padding(
@@ -162,7 +192,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                           ClipOval(
                                             child: CachedNetworkImage(
                                               imageUrl:
-                                                  'https://cdn.pixabay.com/photo/2020/05/09/13/29/photographer-5149664_1280.jpg',
+                                                  '${Preference.getString(Preference.PROFILE_IMAGE)}',
                                               filterQuality: FilterQuality.low,
                                               width: 70,
                                               height: 70,
@@ -210,7 +240,10 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            Text('Prince Vishwakarma',
+                                            Text(
+                                          '${Preference.getString(Preference.FIRST_NAME)}'
+                                              
+                                              ,
                                                 maxLines: 2,
                                                 overflow: TextOverflow.ellipsis,
                                                 softWrap: false,
@@ -218,7 +251,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                     size: 18,
                                                     color:
                                                         ColorConstants.WHITE)),
-                                            Text('Flutter Developer',
+                                            Text('Chief Technology Officer',
                                                 style: Styles.regular(
                                                     size: 12,
                                                     color:
@@ -282,7 +315,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Egestas lectus duis Lorem ipsum dolor sit amet, consectetur adipiscing elit. Egestas lectus duis',
+                            'A very Organized and punctual person. Always positive and super co-operative individual in group activities. Contact me, If this profile interest you !',
                             style: Styles.regular(
                                 size: 12, color: Color(0xff5A5F73)),
                           ),
@@ -369,7 +402,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                             height: 30,
                                             child: SvgPicture.asset(
                                                 'assets/images/leaderboard.svg')),
-                                        SizedBox(width: 4),
+                                        // SizedBox(width: 2),
                                         ShaderMask(
                                           blendMode: BlendMode.srcIn,
                                           shaderCallback: (Rect bounds) {
@@ -382,7 +415,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                 ]).createShader(bounds);
                                           },
                                           child: Text(
-                                            '52',
+                                            '1',
                                             style: Styles.bold(size: 24),
                                           ),
                                         )
@@ -430,7 +463,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                 ]).createShader(bounds);
                                           },
                                           child: Text(
-                                            '120',
+                                            '50',
                                             style: Styles.bold(size: 24),
                                           ),
                                         )
@@ -472,6 +505,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                   ),
                 InkWell(
                   onTap: () {
+                    // if(portfolioResponse?.data.userResume != null && portfolioResponse?.data.userResume != "")
+                      Navigator.push(context, NextPageRoute(PdfViewPage(
+                                      url: '${portfolioResponse?.data.userResume}',
+                                      callBack: false,
+                                    )));
                     print('show resume');
                   },
                   child: Row(
@@ -1172,23 +1210,26 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                           SizedBox(
                             width: 10,
                           ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${experience?[index].title}',
-                                style: Styles.bold(),
-                              ),
-                              Text(
-                                '${experience?[index].institute}',
-                                style: Styles.regular(),
-                              ),
-                              Text(
-                                'Internship • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${startDate.day} ${listOfMonths[startDate.month].substring(0, 3)} - ${endDate.day} ${listOfMonths[endDate.month].substring(0, 3)}',
-                                style: Styles.regular(size: 14),
-                              )
-                            ],
+                          SizedBox(
+                            width: width(context) * 0.6,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${experience?[index].title}',
+                                  style: Styles.bold(),
+                                ),
+                                Text(
+                                  '${experience?[index].institute}',
+                                  style: Styles.regular(),
+                                ),
+                                Text(
+                                  'Internship • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${startDate.day} ${listOfMonths[startDate.month].substring(0, 3)} - ${endDate.day} ${listOfMonths[endDate.month].substring(0, 3)}',
+                                  style: Styles.regular(size: 14),
+                                )
+                              ],
+                            ),
                           )
                         ],
                       ),
