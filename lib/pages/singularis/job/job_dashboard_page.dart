@@ -8,6 +8,7 @@ import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/user_jobs_list_response.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/rounded_appbar.dart';
 import 'package:masterg/pages/singularis/job/job_search_view_page.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/portfolio_page.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
@@ -196,23 +197,25 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
       child: InkWell(
         onTap: () {
           if (clickType == 'build_portfolio') {
-            print('object');
+          Navigator.push(context, NextPageRoute(NewPortfolioPage()));
 
-            print('Email == ${Preference.getString(Preference.USER_EMAIL)}');
+            // print('object');
 
-            if (Preference.getString(Preference.USER_EMAIL) != null) {
-              String portfolioUrl =
-                  'https://singularis.learningoxygen.com/user-portfolio-webview?email=${Preference.getString(Preference.USER_EMAIL)}';
-              Navigator.push(
-                  context,
-                  NextPageRoute(CommonWebView(
-                    url: portfolioUrl,
-                  ))).then((isSuccess) {
-                if (isSuccess == true) {
-                  Navigator.pop(context, true);
-                }
-              });
-            }
+            // print('Email == ${Preference.getString(Preference.USER_EMAIL)}');
+
+            // if (Preference.getString(Preference.USER_EMAIL) != null) {
+            //   String portfolioUrl =
+            //       'https://singularis.learningoxygen.com/user-portfolio-webview?email=${Preference.getString(Preference.USER_EMAIL)}';
+            //   Navigator.push(
+            //       context,
+            //       NextPageRoute(CommonWebView(
+            //         url: portfolioUrl,
+            //       ))).then((isSuccess) {
+            //     if (isSuccess == true) {
+            //       Navigator.pop(context, true);
+            //     }
+            //   });
+            // }
           }
         },
         child: Padding(

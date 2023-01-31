@@ -493,7 +493,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                   .semiBoldWhite())
                         ],
                       ),
-                      SizedBox(width: 10,),
+                      Spacer(),
                       InkWell(
 
                         onTap: (){

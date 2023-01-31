@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,9 @@ import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/competition_response.dart';
 import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
+import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/singularis/competition_detail.dart';
+import 'package:masterg/pages/singularis/leaderboard_page.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
@@ -21,7 +24,8 @@ import 'package:shimmer/shimmer.dart';
 // import 'package:phone_verification/phone_verification.dart';
 
 class Competetion extends StatefulWidget {
-  const Competetion({Key? key}) : super(key: key);
+  final bool? fromDasboard;
+  const Competetion({Key? key, this.fromDasboard = false}) : super(key: key);
 
   @override
   _CompetetionState createState() => _CompetetionState();
@@ -36,7 +40,7 @@ class _CompetetionState extends State<Competetion> {
   @override
   void initState() {
     getCompetitionList();
-    getPopularCompetitionList();
+    if (widget.fromDasboard == false) getPopularCompetitionList();
 
     super.initState();
   }
@@ -74,11 +78,9 @@ class _CompetetionState extends State<Competetion> {
               child: SingleChildScrollView(
                 child: Column(children: [
                   Container(
-                    width: double.infinity,
-                    height: mobileHeight * 0.25,
-                    padding: EdgeInsets.only(top: 8),
+                    width: width(context),
+                    height: height(context) * 0.1,
                     decoration: BoxDecoration(
-                      color: ColorConstants.WHITE,
                       gradient: LinearGradient(
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
@@ -87,128 +89,174 @@ class _CompetetionState extends State<Competetion> {
                             ColorConstants.GRADIENT_RED
                           ]),
                     ),
-                    child: Stack(
-                      children: [
-                        Positioned(
-                            left: mobileWidth * 0.08,
-                            top: 8,
-                            child: renderProgressBar(
-                                percent, barThickness, mobileWidth)),
-                        Positioned(
-                            left: mobileWidth * 0.01,
-                            top: 30,
-                            child: Text(
-                              '50 Points',
-                              style: Styles.regular(
-                                  color: ColorConstants.WHITE, size: 12.5),
-                            )),
-                        Positioned(
-                          left: mobileWidth * 0.02,
-                          child: Container(
-                            width: 25,
-                            height: 25,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                    color: ColorConstants.WHITE, width: 2.5)),
-                            child: Image.asset('assets/images/check.png'),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                             width: 45,
+                                height: 45,
+                            child:ClipRRect(
+                              borderRadius: BorderRadius.circular(200),
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    '${Preference.getString(Preference.PROFILE_IMAGE)}',
+                                filterQuality: FilterQuality.low,
+                                width: 45,
+                                height: 45,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
-                        ),
-                        Positioned(
-                            left: mobileWidth * 0.59,
-                            top: 8,
-                            child: renderBar(barThickness, mobileWidth)),
-                        Positioned(
-                            left: mobileWidth * 0.72,
-                            top: 8,
-                            child: renderBar(barThickness, mobileWidth)),
-                        Positioned(
-                            left: mobileWidth * 0.85,
-                            top: 8,
-                            child: renderBar(barThickness, mobileWidth)),
-                        Positioned(
-                            left: mobileWidth * 0.97,
-                            top: 8,
-                            child: renderBar(barThickness, mobileWidth,
-                                fullWidth: true)),
-                        Positioned(
-                            left: mobileWidth * 0.53,
-                            top: 4,
-                            child: renderEllipse('100')),
-                        Positioned(
-                            left: mobileWidth * 0.66,
-                            top: 3.8,
-                            child: renderEllipse('150')),
-                        Positioned(
-                            left: mobileWidth * 0.79,
-                            top: 4,
-                            child: renderEllipse('200')),
-                        Positioned(
-                            left: mobileWidth * 0.92,
-                            top: 4,
-                            child: renderEllipse('250')),
-                        Positioned(
-                            left: 10,
-                            bottom: 40,
-                            child: renderTopButton(
+                          SizedBox(width: width(context) * 0.02,),
+                          Text('${Preference.getString(Preference.FIRST_NAME)}', style: Styles.bold(size: 22, color: ColorConstants.WHITE),)
+                        ],
+                      ),
+                    ),
+                  ),
+                  if (widget.fromDasboard == false)
+                    Container(
+                      width: double.infinity,
+                      height: mobileHeight * 0.25,
+                      padding: EdgeInsets.only(top: 8),
+                      decoration: BoxDecoration(
+                        color: ColorConstants.WHITE,
+                        gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: <Color>[
+                              Color(0xfffc7804),
+                              ColorConstants.GRADIENT_RED
+                            ]),
+                      ),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                              left: mobileWidth * 0.08,
+                              top: 8,
+                              child: renderProgressBar(
+                                  percent, barThickness, mobileWidth)),
+                          Positioned(
+                              left: mobileWidth * 0.01,
+                              top: 30,
+                              child: Text(
+                                '50 Points',
+                                style: Styles.regular(
+                                    color: ColorConstants.WHITE, size: 12.5),
+                              )),
+                          Positioned(
+                            left: mobileWidth * 0.02,
+                            child: Container(
+                              width: 25,
+                              height: 25,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                      color: ColorConstants.WHITE, width: 2.5)),
+                              child: Image.asset('assets/images/check.png'),
+                            ),
+                          ),
+                          Positioned(
+                              left: mobileWidth * 0.59,
+                              top: 8,
+                              child: renderBar(barThickness, mobileWidth)),
+                          Positioned(
+                              left: mobileWidth * 0.72,
+                              top: 8,
+                              child: renderBar(barThickness, mobileWidth)),
+                          Positioned(
+                              left: mobileWidth * 0.85,
+                              top: 8,
+                              child: renderBar(barThickness, mobileWidth)),
+                          Positioned(
+                              left: mobileWidth * 0.97,
+                              top: 8,
+                              child: renderBar(barThickness, mobileWidth,
+                                  fullWidth: true)),
+                          Positioned(
+                              left: mobileWidth * 0.53,
+                              top: 4,
+                              child: renderEllipse('100')),
+                          Positioned(
+                              left: mobileWidth * 0.66,
+                              top: 3.8,
+                              child: renderEllipse('150')),
+                          Positioned(
+                              left: mobileWidth * 0.79,
+                              top: 4,
+                              child: renderEllipse('200')),
+                          Positioned(
+                              left: mobileWidth * 0.92,
+                              top: 4,
+                              child: renderEllipse('250')),
+                          Positioned(
+                              left: 10,
+                              bottom: 40,
+                              child: renderTopButton(
                                 'assets/images/leaderboard.png',
                                 'Your rank: ',
                                 '120')),
-                        Positioned(
-                            right: 10,
-                            bottom: 40,
-                            child: renderTopButton(
-                                'assets/images/coin.png', 'Points: ', '50')),
-                        Positioned(
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          child: Container(
-                            height: 30,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                                color: ColorConstants.WHITE,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(16),
-                                    topRight: Radius.circular(16))),
-                          ),
-                        )
-                      ],
+                          Positioned(
+                              right: 10,
+                              bottom: 40,
+                              child: renderTopButton(
+                                  'assets/images/coin.png', 'Points: ', '50')),
+                          Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: Container(
+                              height: 30,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  color: ColorConstants.WHITE,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(16),
+                                      topRight: Radius.circular(16))),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
 
                   //show other content
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8),
                     child: Column(
                       children: [
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Participate & Add to Your Portfolio',
-                                  style: Styles.regular(
-                                    color: ColorConstants.GREY_6,
-                                  )),
-                              InkWell(
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                        context: context,
-                                        backgroundColor: Colors.transparent,
-                                        isScrollControlled: true,
-                                        builder: (context) {
-                                          return FractionallySizedBox(
-                                            heightFactor: 0.49,
-                                            child: renderFilter(),
-                                          );
-                                        });
-                                  },
-                                  child: Icon(Icons.filter_list))
-                            ]),
+                        if (widget.fromDasboard == false)
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Participate & Add to Your Portfolio',
+                                    style: Styles.regular(
+                                      color: ColorConstants.GREY_6,
+                                    )),
+                                InkWell(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                          context: context,
+                                          backgroundColor: Colors.transparent,
+                                          isScrollControlled: true,
+                                          builder: (context) {
+                                            return FractionallySizedBox(
+                                              heightFactor: 0.49,
+                                              child: renderFilter(),
+                                            );
+                                          });
+                                    },
+                                    child: Icon(Icons.filter_list))
+                              ]),
                         competitionLoading == false
                             ? ListView.builder(
                                 shrinkWrap: true,
                                 physics: BouncingScrollPhysics(),
-                                itemCount: competitionResponse?.data?.length,
+                                itemCount: widget.fromDasboard == true
+                                    ? min(
+                                        3,
+                                        int.parse(
+                                            '${competitionResponse?.data?.length}'))
+                                    : competitionResponse?.data?.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return InkWell(
                                       onTap: () {
@@ -517,28 +565,36 @@ class _CompetetionState extends State<Competetion> {
   }
 
   renderTopButton(String img, String title, String value) {
-    return Container(
-      height: 45,
-      width: MediaQuery.of(context).size.width * 0.45,
-      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 6),
-      decoration: BoxDecoration(
-          color: ColorConstants.WHITE.withOpacity(0.3),
-          borderRadius: BorderRadius.circular(8)),
-      child: Row(children: [
-        Container(
-          width: 30,
-          height: 30,
-          padding: EdgeInsets.all(2),
-          decoration: BoxDecoration(
-              shape: BoxShape.circle, color: ColorConstants.WHITE),
-          child: Image.asset(img),
-        ),
-        SizedBox(
-          width: 10,
-        ),
-        Text(title, style: Styles.semibold(size: 14)),
-        Text(value, style: Styles.semibold(size: 16)),
-      ]),
+    return InkWell(
+      onTap: () {
+         Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LeaderboardPage()));  
+      },
+      child: Container(
+        height: 45,
+        width: MediaQuery.of(context).size.width * 0.45,
+        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+        decoration: BoxDecoration(
+            color: ColorConstants.WHITE.withOpacity(0.3),
+            borderRadius: BorderRadius.circular(8)),
+        child: Row(children: [
+          Container(
+            width: 30,
+            height: 30,
+            padding: EdgeInsets.all(2),
+            decoration: BoxDecoration(
+                shape: BoxShape.circle, color: ColorConstants.WHITE),
+            child: Image.asset(img),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(title, style: Styles.semibold(size: 14)),
+          Text(value, style: Styles.semibold(size: 16)),
+        ]),
+      ),
     );
   }
 

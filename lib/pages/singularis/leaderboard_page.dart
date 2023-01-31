@@ -95,7 +95,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                             ColorConstants.GRADIENT_ORANGE.withOpacity(0.4)
                           ]),
                     ),
-                    height: height(context) * 0.4,
+                    height: height(context) * 0.35,
                     width: width(context),
                     child: isLeaderboardLoading == true ?  Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
