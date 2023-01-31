@@ -17,8 +17,10 @@ import 'package:masterg/data/models/response/home_response/my_assignment_respons
 import 'package:masterg/data/models/response/home_response/onboard_sessions.dart';
 import 'package:masterg/data/models/response/home_response/popular_courses_response.dart';
 import 'package:masterg/data/models/response/home_response/user_analytics_response.dart';
+import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
+import 'package:masterg/pages/custom_pages/custom_widgets/rounded_appbar.dart';
 import 'package:masterg/pages/ghome/my_assessments.dart';
 import 'package:masterg/pages/ghome/my_assignments.dart';
 import 'package:masterg/pages/ghome/my_courses.dart';
@@ -101,6 +103,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                _customAppBar(),
                 liveclassList != null && liveclassList!.length > 0
                     ? _getTodayClass()
                     : isNotLiveclass == true
@@ -495,6 +498,77 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
   void _getFilteredPopularCourses() {
     box = Hive.box(DB.CONTENT);
     BlocProvider.of<HomeBloc>(context).add(FilteredPopularCoursesEvent());
+  }
+
+  Widget _customAppBar() {
+    return RoundedAppBar(
+        appBarHeight: height(context) * 0.16,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(200),
+                    child: SizedBox(
+                      width: 40,
+                      child: Image.network(
+                          '${Preference.getString(
+                              Preference.PROFILE_IMAGE)}'),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                     
+                      Text(
+                        '${Preference.getString(
+                            Preference.FIRST_NAME)}',
+                        style: Styles.bold(color: ColorConstants.WHITE),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              Container(
+                height: 8,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width,
+                decoration: BoxDecoration(
+                    color: ColorConstants.WHITE.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Stack(
+                  children: [
+                    Container(
+                      height: 10,
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width *
+                          0.6 *
+                          (30 / 100),
+                      decoration: BoxDecoration(
+                          color: Color(0xffFFB72F),
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 10),
+              Text('Profile completed: 30% ',
+                  style: Styles.semiBoldWhite())
+            ],
+          ),
+        ));
   }
 
   Widget _getTodayClass() {

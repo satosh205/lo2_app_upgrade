@@ -5,6 +5,7 @@ import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/leaderboard_resp.dart';
+import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
@@ -93,23 +94,23 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                             ColorConstants.GRADIENT_ORANGE.withOpacity(0.4)
                           ]),
                     ),
-                    height: height(context) * 0.35,
+                    height: height(context) * 0.4,
                     width: width(context),
                     child: isLeaderboardLoading == true ?  Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        leadercard('Lorem Ipsum', 2, 2, 2),
-                        leadercard('Lorem Ipsumdolor', 2, 2, 1),
-                        leadercard('Lorem Ipsum', 2, 2, 3),
+                        leadercard('Saksham', 2, 10, 2),
+                        leadercard('Ajay', 2, 2, 1),
+                        leadercard('Abhishek', 2, 2, 3),
                       ],
                     ) : Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        leadercard('Lorem Ipsum', 2, 2, 2),
-                        leadercard('Lorem Ipsumdolor', 2, 2, 1),
-                        leadercard('Lorem Ipsum', 2, 2, 3),
+                         leadercard('Saksham', 2, 10, 2),
+                        leadercard('Ajay', 2, 2, 1),
+                        leadercard('Abhishek', 2, 2, 3),
                       ],
                     ),
                   ),
@@ -151,28 +152,62 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8.0),
-                                  child: Text("13."),
+                                  child: Text("1."),
                                 ),
+
+                                // ClipRRect(
+                                //       borderRadius: BorderRadius.circular(200),
+                                //       child: SizedBox(
+                                //         width: 100,
+                                //         child: Image.network(
+                                //             '${Preference.getString(Preference.PROFILE_IMAGE)}'),
+                                //       ),
+                                //     )
                                 CircleAvatar(
                                     backgroundImage: NetworkImage(
-                                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa69_HGc_i3MXKCPZzCfAjBZC4bXJsn0rS0Ufe6H-ctZz5FbIVaPkd1jCPTpKwPruIT3Q&usqp=CAU")),
+                                        "${Preference.getString(Preference.PROFILE_IMAGE)}")),
                               ],
                             ),
                           ),
-                          title: Text("Shresth Bhadani"),
-                          subtitle: Text("22 Activities"),
-                          trailing: Text("800"),
+                          title: Text("Ajay"),
+                          subtitle: Text("2 Activities"),
+                          trailing: SizedBox(
+                            width: width(context) * 0.15,
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/images/coin.svg',
+                                  width: width(context) * 0.07,
+                                ),
+                                  const SizedBox(
+              width: 4,
+            ),
+                                Text("50"),
+                              ],
+                            ),
+                          ),
                         ),
                       )),
-             isLeaderboardLoading == false ?       Container(
-                    color: Colors.white,
-                    margin: EdgeInsets.symmetric(vertical: 16),
-                    child: ListView.builder(
-                        itemCount: leaderboardResponse?.data.length,
-                        shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int index) =>
-                            userCard(name : leaderboardResponse?.data[index].name, profileImg: leaderboardResponse?.data[index].profileImage,index:  index + 1 , coin:  leaderboardResponse?.data[index].gScore)),
-                  ) : Text('Leaderboard Loading'),
+             isLeaderboardLoading == false ?       Column(
+               children: [
+                //  Container(
+                //         color: Colors.white,
+                //         margin: EdgeInsets.symmetric(vertical: 16),
+                //         child: ListView.builder(
+                //             itemCount: leaderboardResponse?.data.length,
+                //             shrinkWrap: true,
+                //             itemBuilder: (BuildContext context, int index) =>
+                //                 userCard(name : leaderboardResponse?.data[index].name, profileImg: leaderboardResponse?.data[index].profileImage,index:  index + 1 , coin:  leaderboardResponse?.data[index].gScore, totalAct: 2)),
+                //       ),
+                      SizedBox(height: 10,),
+
+                      userCard(name : "Saksham", profileImg: leaderboardResponse?.data[0].profileImage,index:  2 , coin:  10, totalAct: 2),
+                      SizedBox(height: 10,),
+                      userCard(name : 'Abhishek', profileImg: leaderboardResponse?.data[0].profileImage,index:  3 , coin:  2, totalAct: 2),
+
+                      
+               ],
+             ) : Text('Leaderboard Loading'),
                 ],
               ),
             ),
@@ -185,6 +220,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
 
 
 return Container(
+  color: ColorConstants.WHITE,
                     margin: EdgeInsets.symmetric(horizontal: 10),
                     child: ListTile(
                         leading: SizedBox(
@@ -193,11 +229,15 @@ return Container(
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
-                                child: Text("${leaderboardResponse?.status}"),
+                                child: Text("$index."),
                               ),
-                              CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                      "$profileImg")),
+                              SizedBox(
+              width:  50,
+              height:  50,
+              child: SvgPicture.asset('assets/images/default_user.svg')),
+                              // CircleAvatar(
+                              //     backgroundImage: NetworkImage(
+                              //         "$profileImg")),
                             ],
                           ),
                         ),
@@ -215,6 +255,9 @@ return Container(
                                 'assets/images/coin.svg',
                                 width: width(context) * 0.07,
                               ),
+                                const SizedBox(
+              width: 4,
+            ),
                               Padding(
                                 padding: const EdgeInsets.only(
                                     right: 8.0, top: 18),
@@ -284,16 +327,21 @@ return Container(
         const SizedBox(
           height: 10,
         ),
-        ClipRRect(
+       rank == 1 ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(200),
+                                      child: SizedBox(
+                                        width: 100,
+                                        child: Image.network(
+                                            '${Preference.getString(Preference.PROFILE_IMAGE)}'),
+                                      ),
+                                    ):  ClipRRect(
             borderRadius: BorderRadius.circular(200),
             child: SizedBox(
-              width: rank == 1 ? 100 : 50,
-              height: rank == 1 ? 100 : 50,
-              child: Image.network(
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa69_HGc_i3MXKCPZzCfAjBZC4bXJsn0rS0Ufe6H-ctZz5FbIVaPkd1jCPTpKwPruIT3Q&usqp=CAU"),
-            )),
+              width: rank == 1 ? 100 : 70,
+              height: rank == 1 ? 100 : 70,
+              child: SvgPicture.asset('assets/images/default_user.svg'))),
         const SizedBox(
-          height: 10,
+          height: 5,
         ),
         Text(
           '$title',
@@ -312,7 +360,7 @@ return Container(
               width: width(context) * 0.05,
             ),
             const SizedBox(
-              height: 10,
+              width: 4,
             ),
             Text("$activityCount"),
           ],
