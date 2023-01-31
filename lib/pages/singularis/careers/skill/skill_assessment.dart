@@ -128,8 +128,9 @@ class _SkillAssessmentState extends State<SkillAssessment> {
               ],
             ),
             Card(
+              elevation: 0.0,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0)),
+                  borderRadius: BorderRadius.circular(10.0)),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
@@ -264,8 +265,9 @@ class _SkillAssessmentState extends State<SkillAssessment> {
               ),
             ),
             Card(
+              elevation: 0.0,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0)),
+                  borderRadius: BorderRadius.circular(10.0)),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
@@ -399,8 +401,9 @@ class _SkillAssessmentState extends State<SkillAssessment> {
               ),
             ),
             Card(
+              elevation: 0.0,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0)),
+                  borderRadius: BorderRadius.circular(10.0)),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
@@ -534,8 +537,9 @@ class _SkillAssessmentState extends State<SkillAssessment> {
               ),
             ),
             Card(
+              elevation: 0.0,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0)),
+                  borderRadius: BorderRadius.circular(10.0)),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
