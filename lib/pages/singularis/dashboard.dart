@@ -236,6 +236,7 @@ class _DashboardPageState extends State<DashboardPage> {
             ));
   }
 
+
   ///Santosh
   futureTrendsList() {
     return Container(
