@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterg/utils/constant.dart';
 
 class ResumeScreen extends StatefulWidget {
@@ -40,11 +41,12 @@ class _ResumeScreenState extends State<ResumeScreen> {
             height: height(context) * 0.9,
             child: Column(
               children: [
-                Image.network(
-                  'https://static.thenounproject.com/png/3321498-200.png',
-                  color: const Color(0xffE5E5E5),
-                  scale: 2,
-                ),
+                SvgPicture.asset('assets/images/no_resume.svg'),
+                // Image.network(
+                //   'https://static.thenounproject.com/png/3321498-200.png',
+                //   color: const Color(0xffE5E5E5),
+                //   scale: 2,
+                // ),
                 const Text(
                   "You have not uploaded your resume yet!",
                   style: TextStyle(

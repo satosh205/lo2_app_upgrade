@@ -21,6 +21,7 @@ import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_educat
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_experience.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_extra_act.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfolio.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/resume.dart';
 
 import 'package:masterg/pages/user_profile_page/singularis_profile_edit.dart';
 import 'package:masterg/utils/Log.dart';
@@ -506,11 +507,14 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                 InkWell(
                   onTap: () {
                     // if(portfolioResponse?.data.userResume != null && portfolioResponse?.data.userResume != "")
-                      Navigator.push(context, NextPageRoute(PdfViewPage(
-                                      url: '${portfolioResponse?.data.userResume}',
-                                      callBack: false,
+                      Navigator.push(context, NextPageRoute(ResumeScreen(
+                                     
                                     )));
-                    print('show resume');
+                      // Navigator.push(context, NextPageRoute(PdfViewPage(
+                      //                 url: '${portfolioResponse?.data.userResume}',
+                      //                 callBack: false,
+                      //               )));
+                    // print('show resume');
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
