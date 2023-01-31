@@ -58,12 +58,74 @@ class _SkillAssessmentState extends State<SkillAssessment> {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
-                  skillProgressBar("3D Animation", 1, 20),
-                  skillProgressBar("HTML", 2, 30),
-                  skillProgressBar("Motion Design", 3, 80),
-                  skillProgressBar("Animation", 4, 90),
+                  Image.asset('assets/images/temp/ux_design.png'),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Image.asset('assets/images/temp/prototype.png'),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Image.asset('assets/images/temp/informational.png'),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Image.asset('assets/images/temp/information.png'),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Image.asset('assets/images/temp/linux.png'),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Image.asset('assets/images/temp/linuxy.png'),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Image.asset('assets/images/temp/information.png'),
+
+                  // skillProgressBar("3D Animation", 1, 20),
+                  // skillProgressBar("HTML", 2, 30),
+                  // skillProgressBar("Motion Design", 3, 80),
+                  // skillProgressBar("Animation", 4, 90),
                 ],
               ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                // Container(
+                //   height: height(context) * 0.06,
+                //   width: width(context) * 0.6,
+                //   child: Container(
+                //     // height: height(context) * 0.06,
+                //     // width: width(context) * 0.6,
+                //     padding: EdgeInsets.symmetric(
+                //       horizontal: 30,
+                //       vertical: 10,
+                //     ),
+                //     decoration: ShapeDecoration(
+                //       // color: Colors.red,
+                //       shape: StadiumBorder(
+                //         side: BorderSide(
+                //           width: 6,
+                //           color: Colors.orange[200]!,
+                //         ),
+                //       ),
+                //     ),
+                //     child: Text(
+                //       'Product Manager',
+                //       style: TextStyle(
+                //         fontSize: 10,
+                //         color: Colors.white,
+                //         fontWeight: FontWeight.bold,
+                //       ),
+                //     ),
+                //   ),
+                // )
+              ],
             ),
             Card(
               shape: RoundedRectangleBorder(
@@ -103,7 +165,19 @@ class _SkillAssessmentState extends State<SkillAssessment> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("10/200 Assessments Completed"),
+                                    Text(
+                                      "10/200 ",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      "Assessments Completed",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w300),
+                                    ),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
                                     Icon(Icons.arrow_forward_ios_outlined)
                                   ],
                                 ),
@@ -146,7 +220,7 @@ class _SkillAssessmentState extends State<SkillAssessment> {
                                 children: [
                                   Container(
                                     height: 10,
-                                    width: width(context) * 0.3,
+                                    width: width(context) * 0.15,
                                     // width: MediaQuery.of(context).size.width *
                                     //     0.9 *
                                     //     (
@@ -226,7 +300,19 @@ class _SkillAssessmentState extends State<SkillAssessment> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("0/100 Assessments Completed"),
+                                    Text(
+                                      "0/100 ",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      "Assessments Completed",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w300),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
                                     Icon(Icons.arrow_forward_ios_outlined)
                                   ],
                                 ),
@@ -269,7 +355,7 @@ class _SkillAssessmentState extends State<SkillAssessment> {
                                 children: [
                                   Container(
                                     height: 10,
-                                    width: width(context) * 0.3,
+                                    width: width(context) * 0.0,
                                     // width: MediaQuery.of(context).size.width *
                                     //     0.9 *
                                     //     (
@@ -349,7 +435,19 @@ class _SkillAssessmentState extends State<SkillAssessment> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("2/100 Assessments Completed"),
+                                    Text(
+                                      "2/100 ",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      "Assessments Completed",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w300),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
                                     Icon(Icons.arrow_forward_ios_outlined)
                                   ],
                                 ),
@@ -392,7 +490,7 @@ class _SkillAssessmentState extends State<SkillAssessment> {
                                 children: [
                                   Container(
                                     height: 10,
-                                    width: width(context) * 0.3,
+                                    width: width(context) * 0.02,
                                     // width: MediaQuery.of(context).size.width *
                                     //     0.9 *
                                     //     (
@@ -472,7 +570,19 @@ class _SkillAssessmentState extends State<SkillAssessment> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("4/100 Assessments Completed"),
+                                    Text(
+                                      "4/200 ",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      "Assessments Completed",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w300),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
                                     Icon(Icons.arrow_forward_ios_outlined)
                                   ],
                                 ),
@@ -515,7 +625,7 @@ class _SkillAssessmentState extends State<SkillAssessment> {
                                 children: [
                                   Container(
                                     height: 10,
-                                    width: width(context) * 0.3,
+                                    width: width(context) * 0.05,
                                     // width: MediaQuery.of(context).size.width *
                                     //     0.9 *
                                     //     (
@@ -567,28 +677,28 @@ class _SkillAssessmentState extends State<SkillAssessment> {
   Widget skillProgressBar(String title, int rating, double percent) {
     String? position;
     String? image = 'assets/images/';
-    switch (rating) {
-      case 5:
-        position = 'LEADER';
-        image += 'pro_in_bg.svg';
-        break;
-      case 4:
-        position = 'EXPERT';
-        image += 'pro_in_bg.svg';
-        break;
-      case 3:
-        position = 'MASTER';
-        image += 'pro_in_bg.svg';
-        break;
-      case 2:
-        position = 'Learner';
-        image += 'pro_in_bg.svg';
-        break;
-      case 1:
-        position = 'NOVICE';
-        image += 'pro_in_bg.svg';
-        break;
-    }
+    // switch (rating) {
+    //   case 5:
+    //     position = 'LEADER';
+    //     image += 'pro_in_bg.svg';
+    //     break;
+    //   case 4:
+    //     position = 'EXPERT';
+    //     image += 'pro_in_bg.svg';
+    //     break;
+    //   case 3:
+    //     position = 'MASTER';
+    //     image += 'pro_in_bg.svg';
+    //     break;
+    //   case 2:
+    //     position = 'Learner';
+    //     image += 'pro_in_bg.svg';
+    //     break;
+    //   case 1:
+    //     position = 'NOVICE';
+    //     image += 'pro_in_bg.svg';
+    //     break;
+    // }
     return Column(
       children: [
         ShaderMask(

@@ -2096,7 +2096,7 @@ class HomeProvider {
     }
   }
 
-  Future<dynamic> getPortfolio() async {
+  Future<ApiResponse?> getPortfolio() async {
     try {
       final response = await api.dio.get(ApiConstants.USER_PORTFOLIO,
           options: Options(
@@ -2119,6 +2119,7 @@ class HomeProvider {
     } catch (e) {
       // return ApiResponse.failure(e, message: e.response.data["message"]);
     }
+    return null;
   }
 
   Future<ApiResponse?> getCompetitionContentList({int? competitionId}) async {

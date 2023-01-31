@@ -60,7 +60,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                         ),
                       ),
                       Expanded(child: SizedBox()),
-                      Icon(Icons.close_outlined),
+                      IconButton(onPressed: ()=> Navigator.pop(context), icon: Icon(Icons.close_outlined)),
                     ],
                   ),
                   const Text(

@@ -14,10 +14,12 @@ import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/create_post_response.dart';
 import 'package:masterg/data/models/response/home_response/gcarvaan_post_reponse.dart';
 import 'package:masterg/local/pref/Preference.dart';
+import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/rounded_appbar.dart';
 import 'package:masterg/pages/gcarvaan/components/gcarvaan_card_post.dart';
 import 'package:masterg/pages/gcarvaan/createpost/create_gcarvaan_page.dart';
 import 'package:masterg/pages/gcarvaan/createpost/create_post_provider.dart';
+import 'package:masterg/pages/reels/reels_dashboard_page.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_page.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
@@ -491,42 +493,49 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                   .semiBoldWhite())
                         ],
                       ),
-                      Container(
-                          margin:
-                          EdgeInsets.only(left: 4),
-                          padding: EdgeInsets.symmetric(
-                              vertical: 4,
-                              horizontal: 8),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                              BorderRadius.circular(
-                                  10),
-                              color: ColorConstants
-                                  .WHITE
-                                  .withOpacity(0.5)),
-                          child: Row(
-                            children: [
-                              Container(
-                                  padding:
-                                  EdgeInsets.all(4),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape
-                                          .circle,
-                                      color:
-                                      ColorConstants
-                                          .WHITE),
-                                  child: Center(
-                                      child: SvgPicture
-                                          .asset(
-                                          'assets/images/GReelsS.svg'))),
-                              SizedBox(width: 4),
-                              Text('Reels',
-                                  style: Styles.semibold(
-                                      size: 14,
-                                      color: Color(
-                                          0xff0E1638)))
-                            ],
-                          )),
+                      SizedBox(width: 10,),
+                      InkWell(
+
+                        onTap: (){
+                          Navigator.push(context, NextPageRoute(ReelsDashboardPage()));
+                        },
+                        child: Container(
+                            margin:
+                            EdgeInsets.only(left: 4),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 4,
+                                horizontal: 8),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.circular(
+                                    10),
+                                color: ColorConstants
+                                    .WHITE
+                                    .withOpacity(0.5)),
+                            child: Row(
+                              children: [
+                                Container(
+                                    padding:
+                                    EdgeInsets.all(4),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape
+                                            .circle,
+                                        color:
+                                        ColorConstants
+                                            .WHITE),
+                                    child: Center(
+                                        child: SvgPicture
+                                            .asset(
+                                            'assets/images/GReelsS.svg'))),
+                                SizedBox(width: 4),
+                                Text('Reels',
+                                    style: Styles.semibold(
+                                        size: 14,
+                                        color: Color(
+                                            0xff0E1638)))
+                              ],
+                            )),
+                      ),
                     ],
                   ),
                 ])));
