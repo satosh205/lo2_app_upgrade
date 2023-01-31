@@ -474,7 +474,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                   ),
                 InkWell(
                   onTap: () {
-                    if(portfolioResponse?.data.userResume != null && portfolioResponse?.data.userResume != "")
+                    // if(portfolioResponse?.data.userResume != null && portfolioResponse?.data.userResume != "")
                       Navigator.push(context, NextPageRoute(PdfViewPage(
                                       url: '${portfolioResponse?.data.userResume}',
                                       callBack: false,
