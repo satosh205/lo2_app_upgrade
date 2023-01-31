@@ -379,8 +379,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   //     height: 20, width: 20),
                   Row(
                     children: [
-                      SvgPicture.asset(
-                          'assets/images/temp/graphic_skill.svg'),
+                      SvgPicture.asset('assets/images/temp/graphic_skill.svg'),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -397,8 +396,7 @@ class _DashboardPageState extends State<DashboardPage> {
                             padding:
                                 const EdgeInsets.only(left: 8.0, bottom: 16),
                             child: Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text("0/100 Assessments Completed"),
                                 SizedBox(
@@ -1542,48 +1540,6 @@ class _DashboardPageState extends State<DashboardPage> {
                                               ),
                                             ],
                                           ),
-                                          //         SizedBox(height: 10),
-                                          //         Row(
-                                          //           mainAxisAlignment:
-                                          //               MainAxisAlignment.end,
-                                          //           children: [
-                                          //             Container(
-                                          //               height: 10,
-                                          //               width: MediaQuery.of(context)
-                                          //                       .size
-                                          //                       .width *
-                                          //                   0.5,
-                                          //               decoration: BoxDecoration(
-                                          //                   color: ColorConstants.GREY,
-                                          //                   borderRadius:
-                                          //                       BorderRadius.circular(10)),
-                                          //               child: Stack(
-                                          //                 children: [
-                                          //                   Container(
-                                          //                     height: 10,
-                                          //                     width: MediaQuery.of(context)
-                                          //                             .size
-                                          //                             .width *
-                                          //                         0.8 *
-                                          //                         (myCoursesList![index]
-                                          //                                 .completion! /
-                                          //                             100),
-                                          //                     decoration: BoxDecoration(
-                                          //                         color: ColorConstants
-                                          //                             .PROGESSBAR_TEAL,
-                                          //                         borderRadius:
-                                          //                             BorderRadius.circular(
-                                          //                                 10)),
-                                          //                   ),
-                                          //                 ],
-                                          //               ),
-                                          //             ),
-                                          //           ],
-                                          //         ),
-                                          //       ]),
-                                          //      )
-                                          //     ),
-                                          // ],
                                         ])))
                           ]);
                     },
