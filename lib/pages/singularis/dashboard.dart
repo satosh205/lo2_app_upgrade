@@ -154,7 +154,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                           style: Styles.regular(
                                               color: ColorConstants.WHITE)),
                                       Text(
-                                        'Prince Vishwkarma',
+                                        '${Preference.getString(Preference.FIRST_NAME)}',
                                         style: Styles.bold(
                                             color: ColorConstants.WHITE),
                                       ),
