@@ -241,100 +241,559 @@ class _DashboardPageState extends State<DashboardPage> {
 
   ///Santosh
   futureTrendsList() {
-    return Container(
-      decoration: BoxDecoration(color: ColorConstants.WHITE),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: SvgPicture.asset(
-                  'assets/images/grf_job.svg',
-                  height: 30.0,
-                  width: 30.0,
-                  allowDrawingOutsideViewBox: true,
-                  color: ColorConstants.GRADIENT_ORANGE,
-                ),
-              ),
-
-              Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 8,
-                    horizontal: 10,
+    return InkWell(
+      onTap: (){
+        futureTrendsButtonSheet();
+      },
+      child: Container(
+        decoration: BoxDecoration(color: ColorConstants.WHITE),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: SvgPicture.asset(
+                    'assets/images/grf_job.svg',
+                    height: 30.0,
+                    width: 30.0,
+                    allowDrawingOutsideViewBox: true,
+                    color: ColorConstants.GRADIENT_ORANGE,
                   ),
-                  child: Text(
-                    'Future Trends',
-                    style: Styles.bold(color: Color(0xff0E1638)),
-                  )),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Container(
-              height: 90,
-              child: ListView.builder(
-                  itemCount: 4,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      decoration: BoxDecoration(
-                          color: ColorConstants.List_Color,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: ColorConstants.List_Color)),
-                      margin: EdgeInsets.all(8),
-                      // color: Colors.red,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          // mainAxisAlignment: MainAxisAlignment,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 8.0,
-                                  right: 8.0,
-                                  top: 8.0,
-                                  bottom: 8.0),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    'Art & Design',
-                                    style: Styles.bold(color: Color(0xff0E1638), size: 13),
-                                  ),
+                ),
 
-                                  SizedBox(height: 5,),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        '213 Jobs',
-                                        style: Styles.regular(color: ColorConstants.GREY_3, size: 11),
-                                      ),
-
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 8.0),
-                                        child: Text(
-                                          '+30.6%',
-                                          style: Styles.regular(color: ColorConstants.GREEN, size: 11),
-                                        ),
-                                      ),
-                                      
-                                      Icon(Icons.arrow_drop_up_outlined, color: Colors.green,size: 20,)
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ]),
-                    );
-                  }),
+                Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 10,
+                    ),
+                    child: Text(
+                      'Future Trends',
+                      style: Styles.bold(color: Color(0xff0E1638)),
+                    )),
+              ],
             ),
-          ),
-          SizedBox(height: 20,),
-        ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Container(
+                height: 90,
+                child: ListView.builder(
+                    itemCount: 4,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        decoration: BoxDecoration(
+                            color: ColorConstants.List_Color,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: ColorConstants.List_Color)),
+                        margin: EdgeInsets.all(8),
+                        // color: Colors.red,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            // mainAxisAlignment: MainAxisAlignment,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0,
+                                    right: 8.0,
+                                    top: 8.0,
+                                    bottom: 8.0),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'Art & Design',
+                                      style: Styles.bold(color: Color(0xff0E1638), size: 13),
+                                    ),
+
+                                    SizedBox(height: 5,),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          '213 Jobs',
+                                          style: Styles.regular(color: ColorConstants.GREY_3, size: 11),
+                                        ),
+
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 8.0),
+                                          child: Text(
+                                            '+30.6%',
+                                            style: Styles.regular(color: ColorConstants.GREEN, size: 11),
+                                          ),
+                                        ),
+
+                                        Icon(Icons.arrow_drop_up_outlined, color: Colors.green,size: 20,)
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ]),
+                      );
+                    }),
+              ),
+            ),
+            SizedBox(height: 20,),
+          ],
+        ),
       ),
     );
+  }
+
+  futureTrendsButtonSheet(){
+    return showModalBottomSheet(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+        backgroundColor: Colors.white,
+        context: context,
+        useRootNavigator: true,
+        isScrollControlled: true,
+        builder: (context) {
+          return Container(
+            height: MediaQuery.of(context).size.height - 60,
+            child: Column(
+              children: [
+                Container(
+                  height: 35,
+                  padding: EdgeInsets.only(right: 20.0, top: 10.0),
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),),
+                  child: InkWell(
+                    onTap: (){
+                      Navigator.of(context).pop();
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Icon(Icons.close, color: Colors.black,)
+                      ],
+                    ),
+                  ),
+                ),
+
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  decoration: BoxDecoration(
+                      color: ColorConstants.List_Color,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: ColorConstants.List_Color)),
+                  //margin: EdgeInsets.all(8),
+                  // color: Colors.red,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      // mainAxisAlignment: MainAxisAlignment,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 8.0,
+                              right: 8.0,
+                              top: 8.0,
+                              bottom: 8.0),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: Text(
+                                      '+30.6%',
+                                      style: Styles.regular(color: ColorConstants.GREEN, size: 11),
+                                    ),
+                                  ),
+
+                                  Icon(Icons.arrow_drop_up_outlined, color: Colors.green,size: 20,)
+                                ],
+                              ),
+                              SizedBox(height: 5,),
+                              Text(
+                                'Projected Growth',
+                                style: Styles.regular(color: Color(0xff0E1638), size: 12),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ]),
+                ),
+                
+                Container(
+                  margin: EdgeInsets.only(top: 30.0),
+                  child: Image.asset('assets/images/graf_img.png'),
+                ),
+
+                SizedBox(height: 20,),
+                Container(
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child:
+                          Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        decoration: BoxDecoration(
+                            color: ColorConstants.List_Color,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: ColorConstants.List_Color)),
+                        margin: EdgeInsets.all(8),
+                        // color: Colors.red,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            // mainAxisAlignment: MainAxisAlignment,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0,
+                                    right: 8.0,
+                                    top: 8.0,
+                                    bottom: 8.0),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'Art & Design',
+                                      style: Styles.bold(color: Color(0xff0E1638), size: 12),
+                                    ),
+
+                                    SizedBox(height: 5,),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "\$59k",
+                                          style: Styles.regular(color: ColorConstants.GREY_3, size: 11),
+                                        ),
+
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 8.0),
+                                          child: Text(
+                                            '+30.6%',
+                                            style: Styles.regular(color: ColorConstants.GREEN, size: 11),
+                                          ),
+                                        ),
+
+                                        Icon(Icons.arrow_drop_up_outlined, color: Colors.green,size: 20,)
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ]),
+                      )
+                      ),
+
+                      Expanded(
+                          child:
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            decoration: BoxDecoration(
+                                color: ColorConstants.List_Color,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: ColorConstants.List_Color)),
+                            margin: EdgeInsets.all(0),
+                            // color: Colors.red,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                // mainAxisAlignment: MainAxisAlignment,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0,
+                                        right: 8.0,
+                                        top: 8.0,
+                                        bottom: 8.0),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Art & Design',
+                                          style: Styles.bold(color: Color(0xff0E1638), size: 12),
+                                        ),
+
+                                        SizedBox(height: 5,),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "\$59k",
+                                              style: Styles.regular(color: ColorConstants.GREY_3, size: 12),
+                                            ),
+
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 8.0),
+                                              child: Text(
+                                                '+30.6%',
+                                                style: Styles.regular(color: ColorConstants.GREEN, size: 11),
+                                              ),
+                                            ),
+
+                                            Icon(Icons.arrow_drop_up_outlined, color: Colors.green,size: 20,)
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ]),
+                          )
+                      ),
+
+                      Expanded(
+                          child:
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            decoration: BoxDecoration(
+                                color: ColorConstants.List_Color,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: ColorConstants.List_Color)),
+                            margin: EdgeInsets.all(8),
+                            // color: Colors.red,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                // mainAxisAlignment: MainAxisAlignment,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0,
+                                        right: 8.0,
+                                        top: 8.0,
+                                        bottom: 8.0),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Art & Design',
+                                          style: Styles.bold(color: Color(0xff0E1638), size: 12),
+                                        ),
+
+                                        SizedBox(height: 5,),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "\$59k",
+                                              style: Styles.regular(color: ColorConstants.GREY_3, size: 11),
+                                            ),
+
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 8.0),
+                                              child: Text(
+                                                '+30.6%',
+                                                style: Styles.regular(color: ColorConstants.GREEN, size: 11),
+                                              ),
+                                            ),
+
+                                            Icon(Icons.arrow_drop_up_outlined, color: Colors.green,size: 20,)
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ]),
+                          )
+                      ),
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: 10,),
+                Container(
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child:
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            decoration: BoxDecoration(
+                                color: ColorConstants.List_Color,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: ColorConstants.List_Color)),
+                            margin: EdgeInsets.all(8),
+                            // color: Colors.red,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                // mainAxisAlignment: MainAxisAlignment,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0,
+                                        right: 8.0,
+                                        top: 8.0,
+                                        bottom: 8.0),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Art & Design',
+                                          style: Styles.bold(color: Color(0xff0E1638), size: 12),
+                                        ),
+
+                                        SizedBox(height: 5,),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "\$59k",
+                                              style: Styles.regular(color: ColorConstants.GREY_3, size: 11),
+                                            ),
+
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 8.0),
+                                              child: Text(
+                                                '+30.6%',
+                                                style: Styles.regular(color: ColorConstants.GREEN, size: 11),
+                                              ),
+                                            ),
+
+                                            Icon(Icons.arrow_drop_up_outlined, color: Colors.green,size: 20,)
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ]),
+                          )
+                      ),
+
+                      Expanded(
+                          child:
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            decoration: BoxDecoration(
+                                color: ColorConstants.List_Color,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: ColorConstants.List_Color)),
+                            margin: EdgeInsets.all(0),
+                            // color: Colors.red,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                // mainAxisAlignment: MainAxisAlignment,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0,
+                                        right: 8.0,
+                                        top: 8.0,
+                                        bottom: 8.0),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Art & Design',
+                                          style: Styles.bold(color: Color(0xff0E1638), size: 12),
+                                        ),
+
+                                        SizedBox(height: 5,),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "\$59k",
+                                              style: Styles.regular(color: ColorConstants.GREY_3, size: 12),
+                                            ),
+
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 8.0),
+                                              child: Text(
+                                                '+30.6%',
+                                                style: Styles.regular(color: ColorConstants.GREEN, size: 11),
+                                              ),
+                                            ),
+
+                                            Icon(Icons.arrow_drop_up_outlined, color: Colors.green,size: 20,)
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ]),
+                          )
+                      ),
+
+                      Expanded(
+                          child:
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            decoration: BoxDecoration(
+                                color: ColorConstants.List_Color,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: ColorConstants.List_Color)),
+                            margin: EdgeInsets.all(8),
+                            // color: Colors.red,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                // mainAxisAlignment: MainAxisAlignment,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0,
+                                        right: 8.0,
+                                        top: 8.0,
+                                        bottom: 8.0),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Art & Design',
+                                          style: Styles.bold(color: Color(0xff0E1638), size: 12),
+                                        ),
+
+                                        SizedBox(height: 5,),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "\$59k",
+                                              style: Styles.regular(color: ColorConstants.GREY_3, size: 11),
+                                            ),
+
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 8.0),
+                                              child: Text(
+                                                '+30.6%',
+                                                style: Styles.regular(color: ColorConstants.GREEN, size: 11),
+                                              ),
+                                            ),
+
+                                            Icon(Icons.arrow_drop_up_outlined, color: Colors.green,size: 20,)
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ]),
+                          )
+                      ),
+                    ],
+                  ),
+                ),
+
+                Container(
+                  height: 50,
+                  margin: EdgeInsets.only(left: 50.0, right: 50.0, top: 20.0, bottom: 10.0),
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    gradient:
+                    LinearGradient(colors: [
+                      ColorConstants.WHITE,
+                      ColorConstants.WHITE,]),
+                    border: Border.all(color: ColorConstants.GRADIENT_ORANGE),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('View Skill Assessments', style: TextStyle(color: ColorConstants.GRADIENT_ORANGE, fontSize: 14,
+                          fontWeight: FontWeight.bold),),
+                      
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10.0),
+                        child: Icon(Icons.arrow_forward_ios_rounded,
+                          color: ColorConstants.GRADIENT_ORANGE,),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
   }
 
   featuredJobsInternships() {
@@ -2288,10 +2747,6 @@ class _DashboardPageState extends State<DashboardPage> {
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
                         onTap: () async {
-                          // value
-                          //     .enableProviderControl();
-                          // value.mute();
-                          // value.pause().then((data) =>
                           showModalBottomSheet(
                               context: context,
                               backgroundColor: ColorConstants.WHITE,
@@ -2303,7 +2758,8 @@ class _DashboardPageState extends State<DashboardPage> {
                                       joyContentList: featuredContentList
                                           as List<JoyContentListElement>,
                                       currentIndex: index,
-                                    ));
+                                    ),
+                                );
                               });
                         },
                         child: Column(
