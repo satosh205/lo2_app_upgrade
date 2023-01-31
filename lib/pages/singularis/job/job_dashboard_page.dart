@@ -186,8 +186,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
     );
   }
 
-  Widget _highLightsCard(
-      Color colorBg, String strTitle, String strDes, String clickType) {
+  Widget _highLightsCard(Color colorBg, String strTitle, String strDes, String clickType) {
     return Container(
       height: 120,
       margin: const EdgeInsets.only(

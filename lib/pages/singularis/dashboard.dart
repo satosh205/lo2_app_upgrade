@@ -48,6 +48,8 @@ import 'package:visibility_detector/visibility_detector.dart';
 import '../../data/models/response/auth_response/bottombar_response.dart';
 import '../../data/providers/training_detail_provider.dart';
 import '../../data/providers/video_player_provider.dart';
+import '../../utils/resource/size_constants.dart';
+import '../custom_pages/custom_widgets/CommonWebView.dart';
 import '../reels/reels_dashboard_page.dart';
 import '../training_pages/training_detail_page.dart';
 import '../training_pages/training_service.dart';
@@ -132,7 +134,6 @@ class _DashboardPageState extends State<DashboardPage> {
                                   InkWell(
                                     onTap: (){
                                       Navigator.push(context, NextPageRoute(NewPortfolioPage()));
-                                      print('clicked');
                                     },
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(200),
@@ -218,6 +219,14 @@ class _DashboardPageState extends State<DashboardPage> {
                     SizedBox(height: 10,),
                     featuredJobsInternships(),
 
+                     SizedBox(height: 10,),
+                    _highLightsCard(
+                        ColorConstants.ORANGE,
+                        'Build Your Portfolio',
+                        'Creating a Portfolio helps the recruiters to understand better about your profile and your skills.',
+                        'build_portfolio'),
+
+
                     SizedBox(height: 10,),
                     ///API Data
                     renderWidgets(pages),
@@ -288,7 +297,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                 children: [
                                   Text(
                                     'Art & Design',
-                                    style: Styles.bold(color: Color(0xff0E1638)),
+                                    style: Styles.bold(color: Color(0xff0E1638), size: 13),
                                   ),
 
                                   SizedBox(height: 5,),
@@ -297,18 +306,18 @@ class _DashboardPageState extends State<DashboardPage> {
                                     children: [
                                       Text(
                                         '213 Jobs',
-                                        style: Styles.regular(color: ColorConstants.GREY_3, size: 13),
+                                        style: Styles.regular(color: ColorConstants.GREY_3, size: 11),
                                       ),
 
                                       Padding(
                                         padding: const EdgeInsets.only(left: 8.0),
                                         child: Text(
                                           '+30.6%',
-                                          style: Styles.regular(color: ColorConstants.GREEN, size: 13),
+                                          style: Styles.regular(color: ColorConstants.GREEN, size: 11),
                                         ),
                                       ),
                                       
-                                      Icon(Icons.arrow_drop_up_outlined, color: Colors.green,size: 25,)
+                                      Icon(Icons.arrow_drop_up_outlined, color: Colors.green,size: 20,)
                                     ],
                                   ),
                                 ],
@@ -383,7 +392,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                     padding: const EdgeInsets.only(top: 10.0),
                                     child: Text(
                                       'Art & Design',
-                                      style: Styles.bold(color: Color(0xff0E1638)),
+                                      style: Styles.bold(color: Color(0xff0E1638), size: 13),
                                     ),
                                   ),
 
@@ -397,7 +406,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                         padding: const EdgeInsets.only(left: 8.0),
                                         child: Text(
                                           'Bangaluru, Karnataka',
-                                          style: Styles.regular(color: ColorConstants.GREY_3, size: 13),
+                                          style: Styles.regular(color: ColorConstants.GREY_3, size: 11),
                                         ),
                                       ),
                                     ],
@@ -407,13 +416,13 @@ class _DashboardPageState extends State<DashboardPage> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Icon(Icons.currency_exchange_outlined, color: Colors.orange,size: 20,),
+                                      Icon(Icons.currency_exchange_outlined, color: Colors.orange,size: 18,),
 
                                       Padding(
                                         padding: const EdgeInsets.only(left: 8.0),
                                         child: Text(
                                           '100K - 150K LPA',
-                                          style: Styles.regular(color: ColorConstants.GREY_3, size: 13),
+                                          style: Styles.regular(color: ColorConstants.GREY_3, size: 11),
                                         ),
                                       ),
                                     ],
@@ -439,7 +448,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                         children: [
                                           Text(
                                             'Skills Required',
-                                            style: Styles.bold(color: ColorConstants.GREY_3),
+                                            style: Styles.bold(color: ColorConstants.GREY_3, size: 13),
                                           ),
 
                                           SizedBox(height: 10,),
@@ -448,7 +457,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                             children: [
                                               Text(
                                                 '• Java • HTML • My Sql',
-                                                style: Styles.bold(color: ColorConstants.BLACK, size: 16),
+                                                style: Styles.bold(color: ColorConstants.BLACK, size: 13),
                                               ),
                                             ],
                                           ),
@@ -487,6 +496,165 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
+  Widget _highLightsCard(Color colorBg, String strTitle, String strDes, String clickType) {
+    return Container(
+      height: 120,
+      margin: const EdgeInsets.only(
+          left: SizeConstants.JOB_LEFT_SCREEN_MGN,
+          right: SizeConstants.JOB_RIGHT_SCREEN_MGN),
+      width: double.infinity,
+      child: InkWell(
+        onTap: () {
+          Navigator.push(context, NextPageRoute(NewPortfolioPage()));
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 9,
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('$strTitle',
+                          style: Styles.bold(
+                              size: 16, color: ColorConstants.WHITE)),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Text('$strDes', style: Styles.regularWhite()),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Container(
+                  padding: EdgeInsets.only(left: 10.0),
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                    size: 28,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        gradient:
+        LinearGradient(colors: [
+          ColorConstants.GRADIENT_ORANGE,
+          ColorConstants.GRADIENT_RED,]),
+        color: colorBg,
+        boxShadow: [
+          //  BoxShadow(color: Colors.white, spreadRadius: 3),
+        ],
+      ),
+    );
+  }
+
+  skillGapAnalysisWidgets(){
+    return Container(
+      decoration: BoxDecoration(color: ColorConstants.WHITE),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Image.asset(
+                  'assets/images/skill_gap_analysis.png',
+                  height: 30.0,
+                  width: 30.0,
+                ),
+              ),
+
+              Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 10,
+                  ),
+                  child: Text(
+                    'Skill Gap Analysis',
+                    style: Styles.bold(color: Color(0xff0E1638)),
+                  )),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Container(
+              height: 90,
+              child: ListView.builder(
+                  itemCount: 4,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      decoration: BoxDecoration(
+                          color: ColorConstants.List_Color,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: ColorConstants.List_Color)),
+                      margin: EdgeInsets.all(8),
+                      // color: Colors.red,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          // mainAxisAlignment: MainAxisAlignment,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 8.0,
+                                  right: 8.0,
+                                  top: 8.0,
+                                  bottom: 8.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'Art & Design',
+                                    style: Styles.bold(color: Color(0xff0E1638), size: 13),
+                                  ),
+
+                                  SizedBox(height: 5,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '213 Jobs',
+                                        style: Styles.regular(color: ColorConstants.GREY_3, size: 11),
+                                      ),
+
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 8.0),
+                                        child: Text(
+                                          '+30.6%',
+                                          style: Styles.regular(color: ColorConstants.GREEN, size: 11),
+                                        ),
+                                      ),
+
+                                      Icon(Icons.arrow_drop_up_outlined, color: Colors.green,size: 20,)
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ]),
+                    );
+                  }),
+            ),
+          ),
+          SizedBox(height: 20,),
+        ],
+      ),
+    );
+  }
+
+
+  //skill_gap_analysis.png
   renderWidgets(pages) {
     return ValueListenableBuilder(
         valueListenable: Hive.box(DB.CONTENT).listenable(),
