@@ -14,7 +14,8 @@ import 'package:masterg/utils/resource/colors.dart';
 import '../../data/models/response/home_response/leaderboard_resp.dart';
 
 class LeaderboardPage extends StatefulWidget {
-  const LeaderboardPage({Key? key}) : super(key: key);
+  final bool fromDashboard;
+  const LeaderboardPage({Key? key,  this.fromDashboard = false, }) : super(key: key);
 
   @override
   State<LeaderboardPage> createState() => _LeaderboardPageState();

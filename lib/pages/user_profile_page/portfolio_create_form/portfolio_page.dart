@@ -8,6 +8,8 @@ import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/new_portfolio_response.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
+import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
+import 'package:masterg/pages/custom_pages/custom_widgets/pdf_view_page.dart';
 import 'package:masterg/pages/ghome/widget/read_more.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_certificate.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_education.dart';
@@ -472,6 +474,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                   ),
                 InkWell(
                   onTap: () {
+                    if(portfolioResponse?.data.userResume != null && portfolioResponse?.data.userResume != "")
+                      Navigator.push(context, NextPageRoute(PdfViewPage(
+                                      url: '${portfolioResponse?.data.userResume}',
+                                      callBack: false,
+                                    )));
                     print('show resume');
                   },
                   child: Row(
