@@ -40,7 +40,7 @@ class _AddExperienceState extends State<AddExperience> {
                 body: ScreenWithLoader(
               isLoading: isAddExperienceLoading,
               body: Padding(
-                  padding: const EdgeInsets.only(top: 50.0),
+                  padding: const EdgeInsets.only(top: 0.0),
                   child: Container(
                       height: height(context) * 0.9,
                       child: SingleChildScrollView(
@@ -57,10 +57,8 @@ class _AddExperienceState extends State<AddExperience> {
                                     color: Colors.black),
                               ),
                             ),
-                            SizedBox(
-                              width: 90,
-                            ),
-                            Icon(Icons.close),
+                            Spacer(),
+                           IconButton(onPressed: ()=> Navigator.pop(context), icon:  Icon(Icons.close)),
                           ],
                         ),
                         Padding(

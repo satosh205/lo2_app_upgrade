@@ -1531,7 +1531,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     else if (event is AddActivitiesEvent) {
       try {
         yield AddActivitiesState(ApiStatus.LOADING);
-        final response = await homeRepository.addProfessional();
+        final response = await homeRepository.addProfessional(data: event.data);
         Log.v("ACTIVITIES DATA ::: ${response.data}");
 
         if (response.data != null) {
