@@ -46,7 +46,7 @@ class _AddActivitiesState extends State<AddActivities> {
               body: ScreenWithLoader(
             isLoading: isAddActivitiesLoading,
             body: Padding(
-                padding: const EdgeInsets.only(top: 50.0),
+                padding: const EdgeInsets.only(top: 0.0),
                 child: Container(
                     height: height(context) * 0.9,
                     child: SingleChildScrollView(
@@ -63,10 +63,10 @@ class _AddActivitiesState extends State<AddActivities> {
                                   color: Colors.black),
                             ),
                           ),
-                          SizedBox(
-                            width: 50,
-                          ),
-                          Icon(Icons.close),
+                          Spacer(),
+                         IconButton(onPressed: (){
+                          Navigator.pop(context);
+                         }, icon:  Icon(Icons.close)),
                         ],
                       ),
                       Padding(

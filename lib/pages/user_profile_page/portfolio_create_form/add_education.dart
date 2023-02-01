@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
@@ -11,6 +14,7 @@ import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dar
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
+import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 
 class AddEducation extends StatefulWidget {
@@ -21,13 +25,15 @@ class AddEducation extends StatefulWidget {
 }
 
 class _AddActivitiesState extends State<AddEducation> {
-  TextEditingController? schoolController;
-   TextEditingController? degreeController;
-  TextEditingController? descController;
-  TextEditingController? startDate;
-  TextEditingController? endDate;
+  TextEditingController schoolController = TextEditingController();
+  TextEditingController degreeController = TextEditingController();
+  TextEditingController descController = TextEditingController();
+  TextEditingController startDate = TextEditingController();
+  TextEditingController endDate = TextEditingController();
   DateTime selectedDate = DateTime.now();
   bool? isAddEducationLoading;
+   File? uploadImg;
+  File? img;
   @override
   Widget build(BuildContext context) {
     return BlocManager(
@@ -38,7 +44,7 @@ class _AddActivitiesState extends State<AddEducation> {
             },
     child:Scaffold(
         body: Padding(
-            padding: const EdgeInsets.only(top: 50.0),
+            padding: const EdgeInsets.only(top: 0.0),
             child: SingleChildScrollView(
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +56,8 @@ class _AddActivitiesState extends State<AddEducation> {
                         child:
                             Text('Add Education', style: Styles.bold(size: 14)),
                       ),
-                      SizedBox(width: 70),
+                      // SizedBox(width: width(context) * 0.2),
+                      Spacer(),
                       IconButton(
                         onPressed: () => Navigator.pop(context),
                         icon: Icon(
@@ -106,10 +113,10 @@ class _AddActivitiesState extends State<AddEducation> {
                   InkWell(
                     onTap: () {
                       try {
-                        selectDate(context, startDate!);
+                        selectDate(context, startDate);
                       } catch (e) {
                         startDate = TextEditingController();
-                        selectDate(context, startDate!);
+                        selectDate(context, startDate);
                       }
                     },
                     child: Padding(
@@ -130,8 +137,8 @@ class _AddActivitiesState extends State<AddEducation> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                startDate != null
-                                    ? startDate!.value.text
+                                startDate.value.text != ''
+                                    ? startDate.value.text
                                     : "Select Date",
                                 style: TextStyle(
                                     fontSize: 14,
@@ -162,10 +169,10 @@ class _AddActivitiesState extends State<AddEducation> {
                   InkWell(
                     onTap: () {
                       try {
-                        selectDate(context, endDate!, startDate: selectedDate);
+                        selectDate(context, endDate, startDate: selectedDate);
                       } catch (e) {
                         endDate = TextEditingController();
-                        selectDate(context, endDate!, startDate: selectedDate);
+                        selectDate(context, endDate, startDate: selectedDate);
                       }
                     },
                     child: Padding(
@@ -186,8 +193,8 @@ class _AddActivitiesState extends State<AddEducation> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                endDate != null
-                                    ? endDate!.value.text
+                                endDate.value.text != ''
+                                    ? endDate.value.text
                                     : "Select Date",
                                 style: TextStyle(
                                     fontSize: 14,
@@ -224,23 +231,84 @@ class _AddActivitiesState extends State<AddEducation> {
                           'You can mention your Grades, Achievements, Activities or subjects you are studying ',
                     ),
                   ),
+                   Padding(
+                     padding: const EdgeInsets.all(8.0),
+                     child: const Text(
+                      "Featured image*",
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff5A5F73)),
+                  ),
+                   ),
+                  SizedBox(height: 8),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      onTap: () async {
+                        final picker = ImagePicker();
+                        final pickedFileC = await ImagePicker().pickImage(
+                          source: ImageSource.gallery,
+                          imageQuality: 100,
+                        );
+                        if (pickedFileC != null) {
+                          setState(() {
+                            uploadImg = File(pickedFileC.path);
+                          });
+                        } else if (Platform.isAndroid) {
+                          final LostData response = await picker.getLostData();
+                        }
+                      },
+                      child: Row(
+                        children: [
+                          ShaderMask(
+                              blendMode: BlendMode.srcIn,
+                              shaderCallback: (Rect bounds) {
+                                return LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                    colors: <Color>[
+                                      ColorConstants.GRADIENT_ORANGE,
+                                      ColorConstants.GRADIENT_RED
+                                    ]).createShader(bounds);
+                              },
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset('assets/images/upload_icon.svg'),
+                                  Text(
+                                    "Upload Image",
+                                    style: Styles.bold(size: 12),
+                                  ),
+                                ],
+                              )),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                              uploadImg != null
+                                  ? '${uploadImg?.path.split('/').last}'
+                                  : "Supported Format: .pdf, .doc, .jpeg",
+                              style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xff929BA3))),
+                        ],
+                      ),
+                    ),
+                  ),
                   PortfolioCustomButton(
                     clickAction: () async{
                       Map<String, dynamic> data = Map();
                       data["activity_type"] = "Education";   
-data["title"] = "";
-data["description"] = descController?.value.text;
-data["start_date"] =startDate?.value.text;
-data["end_date"] = endDate?.value.text;
-data["institute"] = schoolController?.value.text;
-data["certificate"] = "";
-data["action"] = "";
-data["professional_key"] = "new_professional"; 
-data["edit_url_professional"] = "";
+                      data["title"] = degreeController.value.text;
+                      data["description"] = descController.value.text;
+                      data["start_date"] =startDate.value.text;
+                      data["end_date"] = endDate.value.text;
+                      data["institute"] = schoolController.value.text;
+                      data["professional_key"] = "new_professional"; 
+                      data["edit_url_professional"] = "";
                       print(data);
-
-                      
-addEducation(data);
+                      addEducation(data);
                     },
                   )
                 ]))))));

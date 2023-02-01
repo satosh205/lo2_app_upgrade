@@ -41,7 +41,7 @@ class _AddCertificateState extends State<AddCertificate> {
                 body: ScreenWithLoader(
                   isLoading: isAddCertificateLoading,
                   body: Padding(
-                              padding: const EdgeInsets.only(top: 50.0),
+                              padding: const EdgeInsets.only(top: 0.0),
                               child: Container(
                   height: height(context) * 0.6,
                   child: SingleChildScrollView(
@@ -59,10 +59,12 @@ class _AddCertificateState extends State<AddCertificate> {
                                     color: Colors.black),
                               ),
                             ),
-                            SizedBox(
-                              width: 90,
-                            ),
-                            Icon(Icons.close),
+                            Spacer(),
+                            IconButton(
+                              onPressed: (){
+                                Navigator.pop(context);
+                              },
+                              icon: Icon(Icons.close)),
                           ],
                         ),
                         Padding(
