@@ -27,6 +27,7 @@ import 'package:masterg/pages/ghome/my_courses.dart';
 import 'package:masterg/pages/ghome/video_player_screen.dart';
 import 'package:masterg/pages/ghome/widget/read_more.dart';
 import 'package:masterg/pages/ghome/widget/view_widget_details_page.dart';
+import 'package:masterg/pages/singularis/competition_detail.dart';
 
 import 'package:masterg/pages/training_pages/new_screen/courses_details_page.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/portfolio_page.dart';
@@ -35,17 +36,20 @@ import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
+import 'package:masterg/utils/coustom_outline_button.dart';
 import 'package:masterg/utils/custom_progress_indicator.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../data/models/response/auth_response/bottombar_response.dart';
+import '../../data/models/response/home_response/competition_response.dart';
 import '../../data/providers/training_detail_provider.dart';
 import '../../data/providers/video_player_provider.dart';
 import '../../utils/resource/size_constants.dart';
@@ -71,8 +75,9 @@ class _DashboardPageState extends State<DashboardPage> {
   DashboardContentResponse? dashboardContentResponse;
   List<DashboardFeaturedContentLimit>? featuredContentList;
   List<DashboardRecommendedCoursesLimit>? recommendedCourseList;
-  List<DashboardLimit>? reelsList;
-  List<DashboardLimit>? carvaanList;
+  //List<DashboardLimit>? reelsList;
+  List<DashboardReelsLimit>? reelsList;
+  List<DashboardCarvanLimit>? carvaanList;
   List<DashboardSessionsLimit>? sessionList;
   List<DashboardMyCoursesLimit>? myCoursesList;
   DashboardViewResponse? dashboardViewResponse;
@@ -80,7 +85,8 @@ class _DashboardPageState extends State<DashboardPage> {
   MenuListProvider? menuProvider;
   late int selectedPage;
   late final PageController _pageController;
-
+  CompetitionResponse?  competitionResponse;
+  //bool? popularCompetitionLoading;
 
 
   @override
@@ -89,8 +95,39 @@ class _DashboardPageState extends State<DashboardPage> {
     _pageController = PageController(initialPage: selectedPage);
     getDashboardIsVisible();
     getDasboardList();
-
+    getCompetitionList();
     super.initState();
+  }
+
+
+  ///TODO: Competition List Api
+  void getCompetitionList() {
+    BlocProvider.of<HomeBloc>(context).add(CompetitionListEvent(isPopular: false));
+  }
+
+  void _handlecompetitionListResponse(CompetitionListState state) {
+    print('_handlecompetitionListResponse');
+    var competitionState = state;
+    setState(() {
+      switch (competitionState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("CompetitionState....................");
+          print('competitionResponse =====${state.response}');
+          competitionResponse = state.response;
+
+          break;
+        case ApiStatus.ERROR:
+          Log.v(
+              "Error CompetitionListIDState ..........................${competitionState.error}");
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
   }
 
   @override
@@ -101,8 +138,6 @@ class _DashboardPageState extends State<DashboardPage> {
       "dashboard_my_courses_limit": renderMyCourses(),
       "dashboard_reels_limit": renderReels(),
       "dashboard_recommended_courses_limit": renderRecommandedCourses(),
-
-      // "dashboard_carvan_limit": renderReels()
       //"dashboard_carvan_limit": renderCarvaan()
       "dashboard_carvan_limit": renderCarvaanPageView()
     };
@@ -112,6 +147,9 @@ class _DashboardPageState extends State<DashboardPage> {
             initState: (context) {},
             child: BlocListener<HomeBloc, HomeState>(
               listener: (context, state) async {
+                if (state is CompetitionListState) {
+                  _handlecompetitionListResponse(state);
+                }
                 setState(() {
                   menuProvider = mp;
                 });
@@ -219,15 +257,18 @@ class _DashboardPageState extends State<DashboardPage> {
                     SizedBox(height: 10,),
                     featuredJobsInternships(),
 
-                     SizedBox(height: 10,),
-                    _highLightsCard(
+                    SizedBox(height: 10,),
+                    skillGapAnalysisWidgets(),
+
+                    SizedBox(height: 20,),
+                    competitionsWidgets(),
+
+                    SizedBox(height: 20,),
+                    _buildYourPortfolioCard(
                         ColorConstants.ORANGE,
                         'Build Your Portfolio',
                         'Creating a Portfolio helps the recruiters to understand better about your profile and your skills.',
                         'build_portfolio'),
-
-                    SizedBox(height: 10,),
-                    skillGapAnalysisWidgets(),
 
                     SizedBox(height: 10,),
                     ///API Data
@@ -236,6 +277,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 )),
               ),
             ));
+
   }
 
   ///Santosh
@@ -763,18 +805,18 @@ class _DashboardPageState extends State<DashboardPage> {
                   ),
                 ),
 
-                Container(
+                /*Container(
                   height: 50,
                   margin: EdgeInsets.only(left: 50.0, right: 50.0, top: 20.0, bottom: 10.0),
                   width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),
                     gradient:
                     LinearGradient(colors: [
                       ColorConstants.WHITE,
                       ColorConstants.WHITE,]),
                     border: Border.all(color: ColorConstants.GRADIENT_ORANGE),
                   ),
+
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -788,6 +830,29 @@ class _DashboardPageState extends State<DashboardPage> {
                       )
                     ],
                   ),
+                ),*/
+
+                SizedBox(height: 30,),
+                CustomOutlineButton(
+                  strokeWidth: 2,
+                  radius: 50,
+                  gradient: LinearGradient(
+                    colors: [ColorConstants.GRADIENT_ORANGE, ColorConstants.GRADIENT_RED],
+                    begin: Alignment.topLeft,
+                    end: Alignment.topRight,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 50.0, right: 50.0),
+                    child: GradientText(
+                      'View Skill Assessments',
+                      style: Styles.textRegular(size: 14),
+                      colors: [
+                        ColorConstants.GRADIENT_ORANGE,
+                        ColorConstants.GRADIENT_RED,
+                      ],
+                    ),
+                  ),
+                  onPressed: () {},
                 ),
               ],
             ),
@@ -957,7 +1022,7 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  Widget _highLightsCard(Color colorBg, String strTitle, String strDes, String clickType) {
+  Widget _buildYourPortfolioCard(Color colorBg, String strTitle, String strDes, String clickType) {
     return Container(
       height: 120,
       margin: const EdgeInsets.only(
@@ -1488,11 +1553,259 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
             ),
           ),
+
+          SizedBox(height: 10,),
+          CustomOutlineButton(
+            strokeWidth: 2,
+            radius: 50,
+            gradient: LinearGradient(
+              colors: [ColorConstants.GRADIENT_ORANGE, ColorConstants.GRADIENT_RED],
+              begin: Alignment.topLeft,
+              end: Alignment.topRight,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 50.0, right: 50.0),
+              child: GradientText(
+                'View all Skill',
+                style: Styles.textRegular(size: 14),
+                colors: [
+                  ColorConstants.GRADIENT_ORANGE,
+                  ColorConstants.GRADIENT_RED,
+                ],
+              ),
+            ),
+            onPressed: () {},
+          ),
           SizedBox(height: 20,),
         ],
       ),
     );
   }
+
+  competitionsWidgets(){
+    return Container(
+      decoration: BoxDecoration(color: ColorConstants.WHITE),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: SvgPicture.asset(
+                  'assets/images/selected_competition.svg',
+                  height: 30.0,
+                  width: 30.0,
+                ),
+              ),
+
+              Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 10,
+                  ),
+                  child: Text(
+                    'Competitions',
+                    style: Styles.bold(color: Color(0xff0E1638)),
+                  )),
+            ],
+          ),
+          Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 10,
+              ),
+              child: Text(
+                'Participate and add to your portfolio Participate and add to your portfolio',
+                style: Styles.regular(color: ColorConstants.GREY_3),
+              )),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: competitionResponse?.data?.length != null ?
+            ListView.builder(
+                itemCount: (competitionResponse?.data?.length)! < 4 ? competitionResponse?.data?.length : 4 ,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext
+                                context) =>
+                                    CompetitionDetail(
+                                        competition:
+                                        competitionResponse
+                                            ?.data?[
+                                        index])));
+                      },
+                      child: renderCompetitionCard(
+                          '${competitionResponse?.data![index]?.image}',
+                          '${competitionResponse?.data![index]?.name}',
+                          '',
+                          '${competitionResponse?.data![index]?.competitionLevel ?? "Easy"}',
+                          '${competitionResponse?.data![index]?.gScore}',
+                          '${Utility.ordinalDate(dateVal: "${competitionResponse?.data![index]?.endDate}")}')
+
+                  );
+                }) : CompetitionBlankPage(),
+          ),
+          SizedBox(height: 10,),
+          competitionResponse?.data?.length != null ? CustomOutlineButton(
+            strokeWidth: 2,
+            radius: 50,
+            gradient: LinearGradient(
+              colors: [ColorConstants.GRADIENT_ORANGE, ColorConstants.GRADIENT_RED],
+              begin: Alignment.topLeft,
+              end: Alignment.topRight,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 50.0, right: 50.0),
+              child: GradientText(
+                'View all Skill',
+                style: Styles.textRegular(size: 14),
+                colors: [
+                  ColorConstants.GRADIENT_ORANGE,
+                  ColorConstants.GRADIENT_RED,
+                ],
+              ),
+            ),
+            onPressed: () {
+              menuProvider?.updateCurrentIndex('/g-competitions');
+            },
+          ) : SizedBox(),
+          competitionResponse?.data?.length != null ? SizedBox(height: 20,) : SizedBox(),
+        ],
+      ),
+    );
+  }
+
+  //TODO:Competition Widgets
+  renderCompetitionCard(String competitionImg, String name, String companyName,
+      String difficulty, String gScore, String date) {
+    return Container(
+      height: 90,
+      width: double.infinity,
+      padding: EdgeInsets.all(8),
+      margin: EdgeInsets.symmetric(vertical: 6),
+      decoration: BoxDecoration(
+        color: ColorConstants.WHITE,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 10,
+            offset: const Offset(5, 5),
+          ),
+        ],
+      ),
+      child: Row(children: [
+        SizedBox(
+          width: 70,
+          height: 90,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: CachedNetworkImage(
+              imageUrl: competitionImg,
+              width: 100,
+              height: 120,
+              errorWidget: (context, url, error) => SvgPicture.asset(
+                'assets/images/gscore_postnow_bg.svg',
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        SizedBox(width: 10),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: width(context) * 0.6,
+              child: Text(
+                name,
+                style: Styles.bold(size: 14),
+                maxLines: 1,
+                softWrap: true,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            SizedBox(
+              height: 2,
+            ),
+            Row(
+              children: [
+                Text('Conducted by ',
+                    style: Styles.regular(size: 10, color: Color(0xff929BA3))),
+                Text(
+                  companyName,
+                  style: Styles.semibold(size: 12),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                ),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  color: Color(0xff0E1638),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 4,
+            ),
+            Row(
+              children: [
+                Text('Easy',
+                    style: Styles.regular(
+                        color: ColorConstants.GREEN_1, size: 12)),
+                SizedBox(
+                  width: 4,
+                ),
+                Text('•',
+                    style:
+                    Styles.regular(color: ColorConstants.GREY_2, size: 12)),
+                SizedBox(
+                  width: 4,
+                ),
+                SizedBox(
+                    height: 15, child: Image.asset('assets/images/coin.png')),
+                SizedBox(
+                  width: 4,
+                ),
+                Text('$gScore Points',
+                    style: Styles.regular(
+                        color: ColorConstants.ORANGE_4, size: 12)),
+                SizedBox(
+                  width: 4,
+                ),
+                Text('•',
+                    style:
+                    Styles.regular(color: ColorConstants.GREY_2, size: 12)),
+                SizedBox(
+                  width: 4,
+                ),
+                Icon(
+                  Icons.calendar_month,
+                  size: 20,
+                ),
+                SizedBox(
+                  width: 4,
+                ),
+                Text(
+                  date,
+                  style: Styles.regular(size: 12, color: Color(0xff5A5F73)),
+                )
+              ],
+            )
+          ],
+        ),
+      ]),
+    );
+  }
+
+
 
 
   //skill_gap_analysis.png
@@ -2078,8 +2391,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
           reelsList = box
               .get("dashboard_reels_limit")
-              .map((e) => DashboardLimit.fromJson(Map<String, dynamic>.from(e)))
-              .cast<DashboardLimit>()
+              .map((e) => DashboardReelsLimit.fromJson(Map<String, dynamic>.from(e)))
+              .cast<DashboardReelsLimit>()
               .toList();
 
           return Column(
@@ -2234,8 +2547,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
           carvaanList = box
               .get("dashboard_carvan_limit")
-              .map((e) => DashboardLimit.fromJson(Map<String, dynamic>.from(e)))
-              .cast<DashboardLimit>()
+              .map((e) => DashboardCarvanLimit.fromJson(Map<String, dynamic>.from(e)))
+              .cast<DashboardCarvanLimit>()
               .toList();
 
           return Container(
@@ -2464,8 +2777,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
           carvaanList = box
               .get("dashboard_carvan_limit")
-              .map((e) => DashboardLimit.fromJson(Map<String, dynamic>.from(e)))
-              .cast<DashboardLimit>()
+              .map((e) => DashboardCarvanLimit.fromJson(Map<String, dynamic>.from(e)))
+              .cast<DashboardCarvanLimit>()
               .toList();
 
           return Container(
@@ -3643,6 +3956,148 @@ class BlankPage extends StatelessWidget {
               ],
             ),
           ),
+        ),
+      ],
+    );
+  }
+}
+
+class CompetitionBlankPage extends StatelessWidget {
+  const CompetitionBlankPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          height: 90,
+          width: double.infinity,
+          padding: EdgeInsets.all(8),
+          margin: EdgeInsets.symmetric(vertical: 6),
+          decoration: BoxDecoration(
+            color: ColorConstants.WHITE,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 10,
+                offset: const Offset(5, 5),
+              ),
+            ],
+          ),
+          child: Row(children: [
+            Shimmer.fromColors(
+              baseColor: Color(0xffe6e4e6),
+              highlightColor: Color(0xffeaf0f3),
+              child: Container(
+                  height: 80,
+                  margin: EdgeInsets.only(left: 2),
+                  width: 80,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                  )),
+            ),
+            SizedBox(width: 10),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Shimmer.fromColors(
+                  baseColor: Color(0xffe6e4e6),
+                  highlightColor: Color(0xffeaf0f3),
+                  child: Container(
+                      height: 12,
+                      margin: EdgeInsets.only(left: 2),
+                      width: 150,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      )),
+                ),
+                SizedBox(
+                  height: 7,
+                ),
+                Row(
+                  children: [
+                    Shimmer.fromColors(
+                      baseColor: Color(0xffe6e4e6),
+                      highlightColor: Color(0xffeaf0f3),
+                      child: Container(
+                          height: 12,
+                          margin: EdgeInsets.only(left: 2),
+                          width: 100,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                          )),
+                    ),
+                    Shimmer.fromColors(
+                      baseColor: Color(0xffe6e4e6),
+                      highlightColor: Color(0xffeaf0f3),
+                      child: Container(
+                          height: 12,
+                          margin: EdgeInsets.only(left: 2),
+                          width: 100,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                          )),
+                    ),
+
+                  ],
+                ),
+                SizedBox(
+                  height: 7,
+                ),
+                Row(
+                  children: [
+                    Shimmer.fromColors(
+                      baseColor: Color(0xffe6e4e6),
+                      highlightColor: Color(0xffeaf0f3),
+                      child: Container(
+                          height: 12,
+                          margin: EdgeInsets.only(left: 2),
+                          width: 60,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                          )),
+                    ),
+                    SizedBox(
+                      width: 7,
+                    ),
+
+                    SizedBox(
+                      width: 7,
+                    ),
+                    Shimmer.fromColors(
+                      baseColor: Color(0xffe6e4e6),
+                      highlightColor: Color(0xffeaf0f3),
+                      child: Container(
+                          height: 12,
+                          margin: EdgeInsets.only(left: 2),
+                          width: 70,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                          )),
+                    ),
+                    SizedBox(
+                      width: 3,
+                    ),
+                    SizedBox(
+                      width: 3,
+                    ),
+                    Shimmer.fromColors(
+                      baseColor: Color(0xffe6e4e6),
+                      highlightColor: Color(0xffeaf0f3),
+                      child: Container(
+                          height: 12,
+                          margin: EdgeInsets.only(left: 2),
+                          width: 70,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                          )),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ]),
         ),
       ],
     );

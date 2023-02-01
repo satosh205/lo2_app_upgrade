@@ -760,8 +760,7 @@ class _CompetetionState extends State<Competetion> {
     });
   }
 
-  void _handlePopularCompetitionListResponse(
-      PopularCompetitionListState state) {
+  void _handlePopularCompetitionListResponse(PopularCompetitionListState state) {
     var popularCompetitionState = state;
     setState(() {
       switch (popularCompetitionState.apiState) {
