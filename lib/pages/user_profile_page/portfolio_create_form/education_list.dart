@@ -150,9 +150,17 @@ class EducationList extends StatelessWidget {
                                 style: Styles.bold(size: 16),
                               ),
                               SizedBox(height: 4),
-                              Text(
-                                '${education[index].institute}',
-                                style: Styles.regular(size: 14),
+                              SizedBox(
+                                width: width(context)*0.5,
+                                
+                                child: Text(
+
+                                  
+                                  '${education[index].institute}',
+                                  style: Styles.regular(size: 14),
+                                  maxLines: 2,
+     overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                               SizedBox(height: 4),
                               Row(
