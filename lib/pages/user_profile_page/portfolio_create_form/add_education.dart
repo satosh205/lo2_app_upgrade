@@ -56,6 +56,7 @@ class _AddActivitiesState extends State<AddEducation> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return BlocManager(
