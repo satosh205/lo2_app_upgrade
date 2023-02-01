@@ -54,7 +54,7 @@ class _SkillAssessmentState extends State<SkillAssessment> {
 
             ///TODO: Skill
             SizedBox(
-              height: 120,
+              height: height(context) * 0.12,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
@@ -132,8 +132,8 @@ class _SkillAssessmentState extends State<SkillAssessment> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0)),
               child: Padding(
-                                  padding: const EdgeInsets.only(left: 4.0, right: 4, top: 12, bottom: 12),
-
+                padding: const EdgeInsets.only(
+                    left: 4.0, right: 4, top: 12, bottom: 12),
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30.0),
@@ -144,49 +144,54 @@ class _SkillAssessmentState extends State<SkillAssessment> {
                     children: [
                       // Image.asset('assets/images/temp/UX_SKILL.png',
                       //     height: 20, width: 20),
-                      Row(
-                        children: [
-                          SvgPicture.asset('assets/images/temp/ux_skill.svg'),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, bottom: 8),
-                                child: Text(
-                                  "UX Research",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12.0),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              'assets/images/temp/ux_skill.svg',
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, bottom: 8),
+                                  child: Text(
+                                    "UX Research",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0, bottom: 16),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "10/200 ",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      "Assessments Completed",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w300),
-                                    ),
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-                                    Icon(Icons.arrow_forward_ios_outlined)
-                                  ],
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, bottom: 16),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "10/200 ",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        "Assessments Completed",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w300),
+                                      ),
+                                      SizedBox(
+                                        width: 15,
+                                      ),
+                                      Icon(Icons.arrow_forward_ios_outlined)
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          )
-                        ],
+                              ],
+                            )
+                          ],
+                        ),
                       ),
 
                       Padding(
@@ -266,13 +271,12 @@ class _SkillAssessmentState extends State<SkillAssessment> {
               ),
             ),
             Card(
-            
               elevation: 0.0,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0)),
               child: Padding(
-                                 padding: const EdgeInsets.only(left: 4.0, right: 4, top: 12, bottom: 12),
-
+                padding: const EdgeInsets.only(
+                    left: 4.0, right: 4, top: 12, bottom: 12),
                 child: Container(
                   margin: EdgeInsets.only(left: 8, right: 8),
                   // height: height(context) * 0.15,
@@ -281,50 +285,53 @@ class _SkillAssessmentState extends State<SkillAssessment> {
                     children: [
                       // Image.asset('assets/images/temp/UX_SKILL.png',
                       //     height: 20, width: 20),
-                      Row(
-                        children: [
-                          SvgPicture.asset(
-                              'assets/images/temp/graphic_skill.svg'),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, bottom: 8),
-                                child: Text(
-                                  "Graphic Design",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12.0),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                                'assets/images/temp/graphic_skill.svg'),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, bottom: 8),
+                                  child: Text(
+                                    "Graphic Design",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0, bottom: 16),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "0/100 ",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      "Assessments Completed",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w300),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Icon(Icons.arrow_forward_ios_outlined)
-                                  ],
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, bottom: 16),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "0/100 ",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        "Assessments Completed",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w300),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Icon(Icons.arrow_forward_ios_outlined)
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          )
-                        ],
+                              ],
+                            )
+                          ],
+                        ),
                       ),
 
                       Padding(
@@ -408,7 +415,8 @@ class _SkillAssessmentState extends State<SkillAssessment> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0)),
               child: Padding(
-                 padding: const EdgeInsets.only(left: 4.0, right: 4, top: 8, bottom: 8),
+                padding: const EdgeInsets.only(
+                    left: 4.0, right: 4, top: 8, bottom: 8),
                 child: Container(
                   margin: EdgeInsets.only(left: 8, right: 8),
                   // height: height(context) * 0.15,
@@ -417,50 +425,53 @@ class _SkillAssessmentState extends State<SkillAssessment> {
                     children: [
                       // Image.asset('assets/images/temp/UX_SKILL.png',
                       //     height: 20, width: 20),
-                      Row(
-                        children: [
-                          SvgPicture.asset(
-                              'assets/images/temp/motion_skill.svg'),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, bottom: 8),
-                                child: Text(
-                                  "Motion Design",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12.0),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                                'assets/images/temp/motion_skill.svg'),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, bottom: 8),
+                                  child: Text(
+                                    "Motion Design",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0, bottom: 16),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "2/100 ",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      "Assessments Completed",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w300),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Icon(Icons.arrow_forward_ios_outlined)
-                                  ],
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, bottom: 16),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "2/100 ",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        "Assessments Completed",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w300),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Icon(Icons.arrow_forward_ios_outlined)
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          )
-                        ],
+                              ],
+                            )
+                          ],
+                        ),
                       ),
 
                       Padding(
@@ -544,8 +555,8 @@ class _SkillAssessmentState extends State<SkillAssessment> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0)),
               child: Padding(
-                                  padding: const EdgeInsets.only(left: 4.0, right: 4, top: 12, bottom: 12),
-
+                padding: const EdgeInsets.only(
+                    left: 4.0, right: 4, top: 12, bottom: 12),
                 child: Container(
                   margin: EdgeInsets.only(left: 8, right: 8),
                   // height: height(context) * 0.15,
@@ -554,50 +565,53 @@ class _SkillAssessmentState extends State<SkillAssessment> {
                     children: [
                       // Image.asset('assets/images/temp/UX_SKILL.png',
                       //     height: 20, width: 20),
-                      Row(
-                        children: [
-                          SvgPicture.asset(
-                              'assets/images/temp/animation_skill.svg'),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, bottom: 8),
-                                child: Text(
-                                  "Animation",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12.0),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                                'assets/images/temp/animation_skill.svg'),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, bottom: 8),
+                                  child: Text(
+                                    "Animation",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0, bottom: 16),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "4/200 ",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      "Assessments Completed",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w300),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Icon(Icons.arrow_forward_ios_outlined)
-                                  ],
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, bottom: 16),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "4/200 ",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        "Assessments Completed",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w300),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Icon(Icons.arrow_forward_ios_outlined)
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          )
-                        ],
+                              ],
+                            )
+                          ],
+                        ),
                       ),
 
                       Padding(
