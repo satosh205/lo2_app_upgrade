@@ -15,7 +15,8 @@ import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/utility.dart';
 
 class AddCertificate extends StatefulWidget {
-  const AddCertificate({Key? key}) : super(key: key);
+  final bool? isEditMode;
+  const AddCertificate({Key? key, this.isEditMode = false}) : super(key: key);
 
   @override
   State<AddCertificate> createState() => _AddCertificateState();
@@ -23,11 +24,10 @@ class AddCertificate extends StatefulWidget {
 
 class _AddCertificateState extends State<AddCertificate> {
   final titleController = TextEditingController();
-  TextEditingController? startDate;
+  TextEditingController startDate = TextEditingController();
    DateTime selectedDate = DateTime.now();
   
   File? uploadCerti;
-  File? img;
   bool? isAddCertificateLoading = false;
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class _AddCertificateState extends State<AddCertificate> {
         initState: (value) {},
         child: BlocListener<HomeBloc, HomeState>(
             listener: (context, state) async {
-              if (state is AddCertificateState) handleAddCertificate(state);
+              if (state is AddActivitiesState) handleAddCertificate(state);
             },
             child: Scaffold(
                 body: ScreenWithLoader(
@@ -102,10 +102,10 @@ class _AddCertificateState extends State<AddCertificate> {
                                   InkWell(
                                     onTap: () {
                                       try {
-                                        selectDate(context, startDate!);
+                                        selectDate(context, startDate);
                                       } catch (e) {
                                         startDate = TextEditingController();
-                                        selectDate(context, startDate!);
+                                        selectDate(context, startDate);
                                       }
                                     },
 
@@ -127,7 +127,7 @@ class _AddCertificateState extends State<AddCertificate> {
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
-                                              "Select Date",
+                                           startDate.value.text != "" ?    startDate.value.text:   "Select Date",
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w400,
@@ -137,22 +137,8 @@ class _AddCertificateState extends State<AddCertificate> {
                                           Padding(
                                             padding:
                                                 const EdgeInsets.only(right: 8.0),
-                                            child: InkWell(
-                                              onTap: (() async {
-                                                DateTime? datePiked =
-                                                    await showDatePicker(
-                                                        context: context,
-                                                        initialDate: DateTime.now(),
-                                                        firstDate: (DateTime(2021)),
-                                                        lastDate: DateTime(2050));
-                                                if (datePiked != null) {
-                                                  print(
-                                                      'Date Selected : ${datePiked.day}--${datePiked.month}--${datePiked.year}');
-                                                }
-                                              }),
-                                              child: SvgPicture.asset(
-                                                  'assets/images/selected_calender.svg'),
-                                            ),
+                                            child: SvgPicture.asset(
+                                                'assets/images/selected_calender.svg'),
                                           ),
                                         ],
                                       ),
@@ -171,7 +157,7 @@ class _AddCertificateState extends State<AddCertificate> {
                                         );
                                         if (pickedFileC != null) {
                                           setState(() {
-                                            img = File(pickedFileC.path);
+                                            uploadCerti = File(pickedFileC.path);
                                           });
                                         } else if (Platform.isAndroid) {
                                           final LostData response =
@@ -198,19 +184,23 @@ class _AddCertificateState extends State<AddCertificate> {
                                       try {
                                         String? fileName =
                                             uploadCerti?.path.split('/').last;
-                                        data['portfolio_image'] =
+                                             data["activity_type"] = "Certificate";   
+                                        data['certificate'] =
                                             await MultipartFile.fromFile(
                                                 '${uploadCerti?.path}',
                                                 filename: fileName);
                                       } catch (e) {
                                         print('something is wrong $e');
                                       }
-                                      print('agaoni cliked');
+                                   
                 
-                                      data['portfolio_title'] =
+                                      data['title'] =
                                           titleController.value.text;
-                
-                                      data['edit_image_type'] = '';
+                                      data['start_date'] = startDate.value.text;
+                                      data["professional_key"] = widget.isEditMode == true ? "certificate_id":   "new_professional"; 
+                                      data["edit_url_professional"] = "";
+
+                                      addCertificate(data);
                                     },
                                   )
                                 ]))),
@@ -223,11 +213,10 @@ class _AddCertificateState extends State<AddCertificate> {
   }
 
   void addCertificate(Map<String, dynamic> data) {
-    // print(data);
-    BlocProvider.of<HomeBloc>(context).add(AddCertificateEvent(data: data));
+    BlocProvider.of<HomeBloc>(context).add(AddActivitiesEvent(data: data));
   }
 
-  void handleAddCertificate(AddCertificateState state) {
+  void handleAddCertificate(AddActivitiesState state) {
     var addCertificateState = state;
     setState(() {
       switch (addCertificateState.apiState) {
@@ -239,7 +228,7 @@ class _AddCertificateState extends State<AddCertificate> {
         case ApiStatus.SUCCESS:
           Log.v("Success Add  Certificate....................");
           isAddCertificateLoading = false;
-          // Navigator.pop(context);
+          Navigator.pop(context);
           break;
         case ApiStatus.ERROR:
           Log.v("Error Add Certificate....................");
