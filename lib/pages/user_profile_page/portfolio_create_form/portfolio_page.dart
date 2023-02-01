@@ -21,6 +21,7 @@ import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_educat
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_experience.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_extra_act.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfolio.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_list.dart';
 
 import 'package:masterg/pages/user_profile_page/singularis_profile_edit.dart';
 import 'package:masterg/utils/Log.dart';
@@ -652,7 +653,12 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                   }),
                                   child: Icon(Icons.add)),
                                   SizedBox(width: 8,),
-                              Icon(Icons.arrow_forward_ios_rounded),
+
+                                  IconButton(onPressed: (){
+                                    Navigator.push(context, NextPageRoute(PortfolioList(baseUrl: portfolioResponse?.data.baseFileUrl,portfolioList: portfolioResponse
+                                        ?.data.portfolio)));
+                                  }, icon: Icon(Icons.arrow_forward_ios_rounded))
+                              ,
                             ],
                           ),
                           Padding(
