@@ -21,6 +21,9 @@ import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_educat
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_experience.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_extra_act.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfolio.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/education_list.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/resume.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_list.dart';
 
 import 'package:masterg/pages/user_profile_page/singularis_profile_edit.dart';
 import 'package:masterg/utils/Log.dart';
@@ -128,27 +131,34 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                   Spacer(),
 
                                   IconButton(
-                  onPressed: () {
-                    AlertsWidget.showCustomDialog(
-                        context: context,
-                        title:'${Strings.of(context)?.leavingSoSoon}',
-                        text: '${Strings.of(context)?.areYouSureYouWantToExit}',
-                        icon: 'assets/images/circle_alert_fill.svg',
-                        onOkClick: () async {
-                          UserSession.clearSession();
-                          await Hive.deleteFromDisk();
-                          Preference.clearPref().then((value) {
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                NextPageRoute(ChooseLanguage(showEdulystLogo: true,)),
-                                    (route) => false);
-                          });
-                        });
-                  },
-                  icon: Icon(
-                    Icons.logout,
-                    color: ColorConstants.WHITE,
-                  )),
+                                      onPressed: () {
+                                        AlertsWidget.showCustomDialog(
+                                            context: context,
+                                            title:
+                                                '${Strings.of(context)?.leavingSoSoon}',
+                                            text:
+                                                '${Strings.of(context)?.areYouSureYouWantToExit}',
+                                            icon:
+                                                'assets/images/circle_alert_fill.svg',
+                                            onOkClick: () async {
+                                              UserSession.clearSession();
+                                              await Hive.deleteFromDisk();
+                                              Preference.clearPref()
+                                                  .then((value) {
+                                                Navigator.pushAndRemoveUntil(
+                                                    context,
+                                                    NextPageRoute(
+                                                        ChooseLanguage(
+                                                      showEdulystLogo: true,
+                                                    )),
+                                                    (route) => false);
+                                              });
+                                            });
+                                      },
+                                      icon: Icon(
+                                        Icons.logout,
+                                        color: ColorConstants.WHITE,
+                                      )),
                                   // InkWell(
                                   //   onTap: () {
                                   //     // setState(() {
@@ -241,9 +251,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                          '${Preference.getString(Preference.FIRST_NAME)}'
-                                              
-                                              ,
+                                                '${Preference.getString(Preference.FIRST_NAME)}',
                                                 maxLines: 2,
                                                 overflow: TextOverflow.ellipsis,
                                                 softWrap: false,
@@ -506,10 +514,12 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                 InkWell(
                   onTap: () {
                     // if(portfolioResponse?.data.userResume != null && portfolioResponse?.data.userResume != "")
-                      Navigator.push(context, NextPageRoute(PdfViewPage(
-                                      url: '${portfolioResponse?.data.userResume}',
-                                      callBack: false,
-                                    )));
+                    Navigator.push(
+                        context,
+                        NextPageRoute(PdfViewPage(
+                          url: '${portfolioResponse?.data.userResume}',
+                          callBack: false,
+                        )));
                     print('show resume');
                   },
                   child: Row(
@@ -609,31 +619,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                   'assets/images/temp/information.png',
                                   width: 100,
                                 ),
-
-                                // skillProgressBar("3D Animation", 1, 20),
-                                // skillProgressBar("HTML", 2, 30),
-                                // skillProgressBar("Motion Design", 3, 80),
-                                // skillProgressBar("Animation", 4, 90),
                               ],
                             ),
-                          )
-                          // SizedBox(
-                          //   height: 120,
-                          //   child: ListView(
-                          //     scrollDirection: Axis.horizontal,
-                          //     children: [
-                          //       skillProgess("3D Animation", 1, 20),
-                          //       skillProgess("3D Animation", 2, 30),
-                          //       skillProgess("3D Animation", 3, 80),
-                          //       skillProgess("3D Animation", 4, 90),
-                          //     ],
-                          //   ),
-                          // ),
-
-                          // SvgPicture.asset('assets/images/skills_1.svg'),
-
-                          ,
+                          ),
                           dividerLine(),
+
                           Row(
                             children: [
                               Text(
@@ -664,7 +654,13 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         }).then((value) => getPortfolio());
                                   }),
                                   child: Icon(Icons.add)),
-                              Icon(Icons.arrow_forward_ios_rounded),
+                                  SizedBox(width: 8,),
+
+                                  IconButton(onPressed: (){
+                                    Navigator.push(context, NextPageRoute(PortfolioList(baseUrl: portfolioResponse?.data.baseFileUrl,portfolioList: portfolioResponse
+                                        ?.data.portfolio)));
+                                  }, icon: Icon(Icons.arrow_forward_ios_rounded))
+                              ,
                             ],
                           ),
                           Padding(
@@ -718,14 +714,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                       decoration: BoxDecoration(
                                                           color: Color(
                                                               0xffD5D5D5)),
-                                                      // child: SvgPicture.asset(
-                                                      //   'assets/images/default_education.svg',
-                                                      //   // height: 30,
-                                                      //   // width: 30,
-                                                      //   color: ColorConstants.GREY_5,
-                                                      //   allowDrawingOutsideViewBox:
-                                                      //       true,
-                                                      // ),
                                                     );
                                                   },
                                                 ),
@@ -848,12 +836,45 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                             height: 20,
                           ),
                           dividerLine(),
-                          topRow('Education', () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AddCertificate()));
-                          }),
+                          Row(
+                            children: [
+                              Text(
+                                'Education',
+                                style: Styles.semibold(size: 16),
+                              ),
+                              Spacer(),
+                              InkWell(
+                                  onTap: (() async {
+                                    await showModalBottomSheet(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        context: context,
+                                        enableDrag: true,
+                                        isScrollControlled: true,
+                                        builder: (context) {
+                                          return FractionallySizedBox(
+                                            heightFactor: 0.7,
+                                            child: Container(
+                                                height: height(context),
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                margin: const EdgeInsets.only(
+                                                    top: 10),
+                                                child: AddEducation()),
+                                          );
+                                        }).then((value) => getPortfolio());
+                                  }),
+                                  child: Icon(Icons.add)),
+                                  SizedBox(width: 8,),
+                                  IconButton(onPressed: (){
+                                    Navigator.push(context, NextPageRoute(EducationList(
+                                      baseUrl: portfolioResponse?.data.baseFileUrl,
+                                      education: portfolioResponse?.data.education as List<CommonProfession>,)));
+                                  }, icon: Icon(Icons.arrow_forward_ios_rounded))
+                              
+                            ],
+                          ),
                         ])),
                 // education list
                 isPortfolioLoading == false
@@ -977,14 +998,14 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                 if (isPortfolioLoading == false) ...[
                   dividerLine(),
                   if (isPortfolioLoading == false)
-                    getCertificateWidget(portfolioResponse?.data.certificate),
+                    getCertificateWidget(portfolioResponse?.data.certificate, context),
                   dividerLine(),
-                  getExperience(portfolioResponse?.data.experience),
+                  getExperience(portfolioResponse?.data.experience, context),
                   dividerLine(),
                   getRecentActivites(),
                   dividerLine(),
                   getExtraActivitesWidget(
-                      portfolioResponse?.data.extraActivities),
+                      portfolioResponse?.data.extraActivities, context),
                 ],
               ])))),
     );
@@ -1065,10 +1086,27 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     );
   }
 
-  Widget getCertificateWidget(List<CommonProfession>? certificateList) {
+  Widget getCertificateWidget(List<CommonProfession>? certificateList, context) {
     return Column(
       children: [
-        topRow('Certificates', () {}),
+        topRow('Certificates', () async {
+          await showModalBottomSheet(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              context: context,
+              enableDrag: true,
+              isScrollControlled: true,
+              builder: (context) {
+                return FractionallySizedBox(
+                  heightFactor: 0.7,
+                  child: Container(
+                      height: height(context),
+                      padding: const EdgeInsets.all(8.0),
+                      margin: const EdgeInsets.only(top: 10),
+                      child: AddCertificate()),
+                );
+              }).then((value) => getPortfolio());
+        }),
         Container(
           padding: EdgeInsets.all(8),
           height: height(context) * 0.43,
@@ -1123,21 +1161,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     );
   }
 
-  Widget getExperience(List<CommonProfession>? experience) {
+  Widget getExperience(List<CommonProfession>? experience, context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Row(
-            children: [
-              Text(
-                'Experience',
-                style: Styles.bold(size: 16),
-              ),
-              Spacer(),
-              IconButton(
-                  onPressed: () {
-                    showModalBottomSheet(
+        topRow('Experience', (){
+showModalBottomSheet(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
                         context: context,
@@ -1150,26 +1178,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                 height: height(context),
                                 padding: const EdgeInsets.all(8.0),
                                 margin: const EdgeInsets.only(top: 10),
-                                child: AddCertificate()),
+                                child: AddExperience()),
                           );
                         });
-                  },
-                  icon: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AddEducation()));
-                      },
-                      child: Icon(Icons.add))),
-              Icon(Icons.arrow_forward_ios_outlined),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Divider(),
-              ),
-            ],
-          ),
-        ),
+              }),
+        
         Container(
           padding: EdgeInsets.all(8),
           child: ListView.builder(
@@ -1253,21 +1266,12 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     );
   }
 
-  Widget getExtraActivitesWidget(List<CommonProfession>? extraActivities) {
+  Widget getExtraActivitesWidget(List<CommonProfession>? extraActivities, context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Row(
-            children: [
-              Text(
-                'Extra Curricular Activities',
-                style: Styles.bold(size: 16),
-              ),
-              Spacer(),
-              IconButton(
-                  onPressed: () {
-                    showModalBottomSheet(
+
+        topRow('Extra Curricular Activities', (){
+showModalBottomSheet(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
                         context: context,
@@ -1280,23 +1284,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                 height: height(context),
                                 padding: const EdgeInsets.all(8.0),
                                 margin: const EdgeInsets.only(top: 10),
-                                child: AddCertificate()),
+                                child: AddActivities()),
                           );
                         });
-                  },
-                  icon: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AddEducation()));
-                      },
-                      child: Icon(Icons.add))),
-              Icon(Icons.arrow_forward_ios_outlined),
-            ],
-          ),
-        ),
-        Divider(),
+        }),
+        
         Container(
           padding: EdgeInsets.all(8),
           child: ListView.builder(
@@ -1575,34 +1567,12 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
               ),
               Spacer(),
               if (showAddButton)
-                IconButton(
-                    onPressed: () {
-                      action();
-                      // showModalBottomSheet(
-                      //     shape: RoundedRectangleBorder(
-                      //         borderRadius: BorderRadius.circular(20)),
-                      //     context: context,
-                      //     enableDrag: true,
-                      //     isScrollControlled: true,
-                      //     builder: (context) {
-                      //       return FractionallySizedBox(
-                      //         heightFactor: 0.7,
-                      //         child: Container(
-                      //             height: height(context),
-                      //             padding: const EdgeInsets.all(8.0),
-                      //             margin: const EdgeInsets.only(top: 10),
-                      //             child: AddCertificate()),
-                      //       );
-                      //     });
-                    },
-                    icon: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AddEducation()));
-                        },
-                        child: Icon(Icons.add))),
+              IconButton(
+                  onPressed: () {
+        action();
+                   
+                  },
+                  icon:  Icon(Icons.add)),
               Icon(Icons.arrow_forward_ios_outlined),
             ],
           ),

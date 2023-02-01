@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_html/style.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
 import 'package:masterg/utils/constant.dart';
 
 class SocialPage extends StatefulWidget {
@@ -27,9 +30,17 @@ class _SocialPageState extends State<SocialPage> {
               ),
             ),
             actions: [
-              Icon(
-                Icons.menu,
-                color: Colors.black,
+              Padding(
+                padding: const EdgeInsets.only(right:8.0),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(
+                    Icons.close,
+                    color: Colors.black,
+                  ),
+                ),
               )
             ]),
         body: Padding(
@@ -48,11 +59,8 @@ class _SocialPageState extends State<SocialPage> {
                       height: 1,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: const [
-                          Icon(
-                            Icons.phone,
-                            color: Colors.orange,
-                          ),
+                        children: [
+                          SvgPicture.asset('assets/images/call.svg'),
                           VerticalDivider(
                             thickness: 1,
                             color: Color(0xffE5E5E5),
@@ -79,11 +87,9 @@ class _SocialPageState extends State<SocialPage> {
                       height: 1,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: const [
-                          Icon(
-                            Icons.mail,
-                            color: Colors.orange,
-                          ),
+                        children:  [
+                            SvgPicture.asset('assets/images/email.svg'),
+                          
                           VerticalDivider(
                             thickness: 1,
                             color: Color(0xffE5E5E5),
@@ -97,11 +103,8 @@ class _SocialPageState extends State<SocialPage> {
                 Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Row(
-                    children: const [
-                      Icon(
-                        Icons.remove_red_eye_outlined,
-                        color: Colors.orange,
-                      ),
+                    children:  [
+                      SvgPicture.asset('assets/images/close_eye.svg'),
                       VerticalDivider(),
                       Text(
                         "Hide contact details on portfolio",
@@ -138,11 +141,8 @@ class _SocialPageState extends State<SocialPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
-                      children: const [
-                        Icon(
-                          Icons.mail,
-                          color: Colors.orange,
-                        ),
+                      children: [
+                        SvgPicture.asset('assets/images/linkedin.svg'),
                         VerticalDivider(
                           thickness: 1,
                           color: Color(0xffE5E5E5),
@@ -153,13 +153,7 @@ class _SocialPageState extends State<SocialPage> {
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xff929BA3))),
                         Spacer(),
-                        Text(
-                          "Connect Linkedin",
-                          style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.orange),
-                        )
+                         GradientText(child: Text("Connect linkedin",style: TextStyle(fontSize: 10),))
                       ],
                     ),
                   ),
@@ -178,11 +172,8 @@ class _SocialPageState extends State<SocialPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
-                      children: const [
-                        Icon(
-                          Icons.mail,
-                          color: Colors.orange,
-                        ),
+                      children: [
+                         SvgPicture.asset('assets/images/behance.svg'),
                         VerticalDivider(
                           thickness: 1,
                           color: Color(0xffE5E5E5),
@@ -193,13 +184,7 @@ class _SocialPageState extends State<SocialPage> {
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xff929BA3))),
                         Spacer(),
-                        Text(
-                          "Connect behance",
-                          style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.orange),
-                        )
+                         GradientText(child: Text("Connect behance",style: TextStyle(fontSize: 10),))
                       ],
                     ),
                   ),
@@ -218,11 +203,8 @@ class _SocialPageState extends State<SocialPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
-                      children: const [
-                        Icon(
-                          Icons.mail,
-                          color: Colors.orange,
-                        ),
+                      children:[
+                         SvgPicture.asset('assets/images/dribble.svg'),
                         VerticalDivider(
                           thickness: 1,
                           color: Color(0xffE5E5E5),
@@ -233,13 +215,7 @@ class _SocialPageState extends State<SocialPage> {
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xff929BA3))),
                         Spacer(),
-                        Text(
-                          "Connect dribbble",
-                          style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.orange),
-                        )
+                         GradientText(child: Text("Connect dribble",style: TextStyle(fontSize: 10),))
                       ],
                     ),
                   ),
@@ -258,11 +234,8 @@ class _SocialPageState extends State<SocialPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
-                      children: const [
-                        Icon(
-                          Icons.mail,
-                          color: Colors.orange,
-                        ),
+                      children:  [
+                         SvgPicture.asset('assets/images/instagram.svg'),
                         VerticalDivider(
                           thickness: 1,
                           color: Color(0xffE5E5E5),
@@ -273,13 +246,7 @@ class _SocialPageState extends State<SocialPage> {
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xff929BA3))),
                         Spacer(),
-                        Text(
-                          "Connect instagram",
-                          style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.orange),
-                        )
+                         GradientText(child: Text("Connect instagram",style: TextStyle(fontSize: 10),))
                       ],
                     ),
                   ),
@@ -298,11 +265,8 @@ class _SocialPageState extends State<SocialPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
-                      children: const [
-                        Icon(
-                          Icons.mail,
-                          color: Colors.orange,
-                        ),
+                      children:  [
+                         SvgPicture.asset('assets/images/facebook.svg'),
                         VerticalDivider(
                           thickness: 1,
                           color: Color(0xffE5E5E5),
@@ -313,13 +277,7 @@ class _SocialPageState extends State<SocialPage> {
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xff929BA3))),
                         Spacer(),
-                        Text(
-                          "Connect facebook",
-                          style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.orange),
-                        )
+                         GradientText(child: Text("Connect facebook",style: TextStyle(fontSize: 10),))
                       ],
                     ),
                   ),
@@ -338,11 +296,8 @@ class _SocialPageState extends State<SocialPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
-                      children: const [
-                        Icon(
-                          Icons.mail,
-                          color: Colors.orange,
-                        ),
+                      children:  [
+                         SvgPicture.asset('assets/images/twitter.svg'),
                         VerticalDivider(
                           thickness: 1,
                           color: Color(0xffE5E5E5),
@@ -353,13 +308,7 @@ class _SocialPageState extends State<SocialPage> {
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xff929BA3))),
                         Spacer(),
-                        Text(
-                          "Connect twitter",
-                          style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.orange),
-                        )
+                         GradientText(child: Text("Connect twitter",style: TextStyle(fontSize: 10),))
                       ],
                     ),
                   ),
@@ -378,11 +327,8 @@ class _SocialPageState extends State<SocialPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
-                      children: const [
-                        Icon(
-                          Icons.mail,
-                          color: Colors.orange,
-                        ),
+                      children:  [
+                         SvgPicture.asset('assets/images/pintrest.svg'),
                         VerticalDivider(
                           thickness: 1,
                           color: Color(0xffE5E5E5),
@@ -393,13 +339,7 @@ class _SocialPageState extends State<SocialPage> {
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xff929BA3))),
                         Spacer(),
-                        Text(
-                          "Connect pinterest",
-                          style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.orange),
-                        )
+                        GradientText(child: Text("Connect pinterest",style: TextStyle(fontSize: 10),))
                       ],
                     ),
                   ),

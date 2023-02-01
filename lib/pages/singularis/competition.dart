@@ -268,7 +268,7 @@ class _CompetetionState extends State<Competetion> {
                                                         competition:
                                                             competitionResponse
                                                                     ?.data?[
-                                                                index])));
+                                                              index])));
                                       },
                                       child: renderCompetitionCard(
                                           '${competitionResponse?.data![index]?.image ?? ''}',
