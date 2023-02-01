@@ -139,7 +139,6 @@ class ApiConstants {
   static const USER_PORTFOLIO = '/api/user-portfolio';
   static const ADD_PORTFOLIO = '/api/addPortfolio';
   static const ADD_PROFESSIONAL = 'api/addProfessional';
-  static const ADD_EXPERIENCE = 'api/addExperience';
-  static const ADD_EDUCATION = '';
-  static const ADD_CERTIFICATE = '';
+
+  static const  PORTFOLIO_DELETE = '/api/deletePortfolio';
 }

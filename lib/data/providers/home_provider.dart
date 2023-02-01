@@ -184,12 +184,12 @@ class HomeProvider {
     return null;
   }
 
-  Future<ApiResponse?> getPortfolioDelete() async {
+  Future<ApiResponse?> singularisDeletePortfolio() async {
     //  Utility.hideKeyboard();
     try {
-      final response = await api.dio.get(ApiConstants.USER_PROFILE_SWAYAM_API,
+      final response = await api.dio.get(ApiConstants.PORTFOLIO_DELETE,
           options: Options(
-              method: 'GET',
+              method: 'POST',
               headers: {
                 "Authorization": "Bearer ${UserSession.userToken}",
                 ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
