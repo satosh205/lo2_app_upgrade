@@ -583,18 +583,7 @@ class HomeRepository {
     }
   }
 
-  Future<AddPortfolioResp> addExperience({Map<String, dynamic>? data}) async {
-    final response = await homeProvider.addExperience(data: data);
-    if (response!.success) {
-      Log.v("Add Experience Content  DATA : ${response.body}");
-      AddPortfolioResp addExperienceData =
-          AddPortfolioResp.fromJson(response.body);
-      return addExperienceData;
-    } else {
-      Log.v("====> ${response.body}");
-      return AddPortfolioResp.fromJson(response.body);
-    }
-  }
+ 
 
   Future<PortfolioResponse?> getPortfolio() async {
     final response = await homeProvider.getPortfolio();
@@ -610,32 +599,7 @@ class HomeRepository {
     }
   }
 
-//add education
-  Future<PortfolioResponse> addEducation({Map<String, dynamic>? data}) async {
-    final response = await homeProvider.addEducation(data: data);
-    if (response!.success) {
-      Log.v("Portfolio Content  DATA : ${response.body}");
-      PortfolioResponse competitionData =
-          PortfolioResponse.fromJson(response.body);
-      return competitionData;
-    } else {
-      Log.v("====> ${response.body}");
-      return PortfolioResponse.fromJson(response.body);
-    }
-  }
-//certificate
-  Future<PortfolioResponse> addCertificate({Map<String, dynamic>? data}) async {
-    final response = await homeProvider.addCertificate(data: data);
-    if (response!.success) {
-      Log.v("Portfolio Content  DATA : ${response.body}");
-      PortfolioResponse competitionData =
-          PortfolioResponse.fromJson(response.body);
-      return competitionData;
-    } else {
-      Log.v("====> ${response.body}");
-      return PortfolioResponse.fromJson(response.body);
-    }
-  }
+
 
   Future<AddPortfolioResp> addPortfolio({Map<String, dynamic>? data}) async {
     final response = await homeProvider.addPortfolio(data: data);
