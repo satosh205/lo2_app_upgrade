@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -27,7 +28,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
   final descController = TextEditingController();
   final linkController = TextEditingController();
   File? uploadImg;
-  File? img;
+  File? file;
 
   bool? isAddPortfolioLoading = false;
   @override
@@ -196,19 +197,15 @@ class _AddPortfolioState extends State<AddPortfolio> {
                         padding: const EdgeInsets.all(8.0),
                         child: CustomUpload(
                           onClick: () async {
-                            final picker = ImagePicker();
-                            final pickedFileC = await ImagePicker().pickImage(
-                              source: ImageSource.gallery,
-                              imageQuality: 100,
-                            );
+                            FilePickerResult? pickedFileC = await FilePicker.platform.pickFiles(
+  type: FileType.custom,
+  allowedExtensions: ['pdf', 'doc', 'jpeg', 'png', 'jpg'],
+);
                             if (pickedFileC != null) {
                               setState(() {
-                                img = File(pickedFileC.path);
+                                file = File(pickedFileC.files.first.path!);
                               });
-                            } else if (Platform.isAndroid) {
-                              final LostData response =
-                                  await picker.getLostData();
-                            }
+                            } 
                           },
                           uploadText: 'Upload Image',
                         ),
@@ -224,14 +221,13 @@ class _AddPortfolioState extends State<AddPortfolio> {
                     clickAction: () async {
                       Map<String, dynamic> data = Map();
                       try {
-                        String? fileName = img?.path.split('/').last;
+                        String? fileName = file?.path.split('/').last;
                         data['portfolio_image'] = await MultipartFile.fromFile(
-                            '${img?.path}',
+                            '${file?.path}',
                             filename: fileName);
                       } catch (e) {
                         print('something is wrong $e');
                       }
-                      print('agaoni cliked');
             
                       data['portfolio_title'] = titleController.value.text;
                       data['portfolio_link'] = linkController.value.text;

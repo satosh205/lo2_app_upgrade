@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -9,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
-import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfolio.dart';
+import 'package:masterg/data/models/response/home_response/new_portfolio_response.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
@@ -18,7 +19,10 @@ import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 
 class AddEducation extends StatefulWidget {
-  const AddEducation({Key? key}) : super(key: key);
+  final CommonProfession? education;
+  
+  final bool? isEditMode;
+  const AddEducation({Key? key, this.isEditMode = false,  this.education}) : super(key: key);
 
   @override
   State<AddEducation> createState() => _AddActivitiesState();
@@ -33,8 +37,22 @@ class _AddActivitiesState extends State<AddEducation> {
   DateTime selectedDate = DateTime.now();
   bool? isAddEducationLoading;
    File? uploadImg;
-  File? img;
+
+
+   @override
+  void initState() {
+    setValues();
+    super.initState();
+  }
+
+  void setValues(){
+    if(widget.isEditMode == true){
+      schoolController = TextEditingController(text: widget.education?.institute);
+    }
+  }
   @override
+
+
   Widget build(BuildContext context) {
     return BlocManager(
         initState: (value) {},
@@ -299,22 +317,30 @@ class _AddActivitiesState extends State<AddEducation> {
                   PortfolioCustomButton(
                     clickAction: () async{
                       Map<String, dynamic> data = Map();
+
+                        try {
+                        String? fileName = uploadImg?.path.split('/').last;
+                        data['certificate'] = await MultipartFile.fromFile(
+                            '${uploadImg?.path}',
+                            filename: fileName);
+                      } catch (e) {
+                        print('something is wrong $e');
+                      }
+            
                       data["activity_type"] = "Education";   
                       data["title"] = degreeController.value.text;
                       data["description"] = descController.value.text;
                       data["start_date"] =startDate.value.text;
                       data["end_date"] = endDate.value.text;
                       data["institute"] = schoolController.value.text;
-                      data["professional_key"] = "new_professional"; 
+                      data["professional_key"] = widget.isEditMode == true ? "education_${widget.education?.id}":   "new_professional"; 
                       data["edit_url_professional"] = "";
-                      print(data);
                       addEducation(data);
                     },
                   )
                 ]))))));
   }
   void addEducation(Map<String, dynamic> data) {
-    // print(data);
     BlocProvider.of<HomeBloc>(context).add(AddActivitiesEvent(data: data));
   }
   void handleAddEducation(AddActivitiesState state) {

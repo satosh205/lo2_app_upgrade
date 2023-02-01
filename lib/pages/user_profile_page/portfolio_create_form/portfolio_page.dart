@@ -653,7 +653,12 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                   }),
                                   child: Icon(Icons.add)),
                                   SizedBox(width: 8,),
-                              Icon(Icons.arrow_forward_ios_rounded),
+
+                                  IconButton(onPressed: (){
+                                    Navigator.push(context, NextPageRoute(PortfolioList(baseUrl: portfolioResponse?.data.baseFileUrl,portfolioList: portfolioResponse
+                                        ?.data.portfolio)));
+                                  }, icon: Icon(Icons.arrow_forward_ios_rounded))
+                              ,
                             ],
                           ),
                           Padding(
@@ -860,7 +865,12 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                   }),
                                   child: Icon(Icons.add)),
                                   SizedBox(width: 8,),
-                              Icon(Icons.arrow_forward_ios_rounded),
+                                  IconButton(onPressed: (){
+                                    Navigator.push(context, NextPageRoute(EducationList(
+                                      baseUrl: portfolioResponse?.data.baseFileUrl,
+                                      education: portfolioResponse?.data.education as List<CommonProfession>,)));
+                                  }, icon: Icon(Icons.arrow_forward_ios_rounded))
+                              
                             ],
                           ),
                         ])),
