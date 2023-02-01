@@ -9,7 +9,12 @@ class CustomTextField extends StatelessWidget {
   final String? style;
   final TextEditingController? controller;
   final int maxLine;
-  const CustomTextField({Key? key, required this.hintText, this.style, this.controller, this.maxLine = 1})
+  const CustomTextField(
+      {Key? key,
+      required this.hintText,
+      this.style,
+      this.controller,
+      this.maxLine = 1})
       : super(key: key);
 
   @override
@@ -36,15 +41,37 @@ class CustomTextField extends StatelessWidget {
   }
 }
 
+class GradientText extends StatelessWidget {
+  final Widget child;
+  const GradientText({Key? key, required this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ShaderMask(
+      blendMode: BlendMode.srcIn,
+      shaderCallback: (Rect bounds) {
+        return LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: <Color>[Color(0xfffc7804), ColorConstants.GRADIENT_RED])
+            .createShader(bounds);
+      },
+      child: child,
+    );
+  }
+}
+
 class CustomUpload extends StatelessWidget {
   final String uploadText;
   final Function onClick;
-  const CustomUpload({Key? key, required this.uploadText,required this.onClick }) : super(key: key);
+  const CustomUpload(
+      {Key? key, required this.uploadText, required this.onClick})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         onClick();
       },
       child: Container(
@@ -92,13 +119,15 @@ class CustomUpload extends StatelessWidget {
 
 class PortfolioCustomButton extends StatelessWidget {
   final Function clickAction;
-  const PortfolioCustomButton({Key? key, required this.clickAction}) : super(key: key);
+  const PortfolioCustomButton({Key? key, required this.clickAction})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
-        clickAction();      },
+      onTap: () {
+        clickAction();
+      },
       child: Container(
         height: height(context) * 0.06,
         width: width(context) * 0.9,
@@ -111,7 +140,9 @@ class PortfolioCustomButton extends StatelessWidget {
           child: Text(
             "Save",
             style: TextStyle(
-                fontSize: 14.0, fontWeight: FontWeight.w500, color: Colors.white),
+                fontSize: 14.0,
+                fontWeight: FontWeight.w500,
+                color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
@@ -119,4 +150,3 @@ class PortfolioCustomButton extends StatelessWidget {
     );
   }
 }
-
