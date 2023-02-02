@@ -6,6 +6,7 @@ import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfolio.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_detail.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
@@ -90,25 +91,49 @@ class _PortfolioListState extends State<PortfolioList> {
         return InkWell(
 
           onTap: ()async{
-               await showModalBottomSheet(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        context: context,
-                                        enableDrag: true,
-                                        isScrollControlled: true,
-                                        builder: (context) {
-                                          return FractionallySizedBox(
-                                            heightFactor: 0.7,
-                                            child: Container(
-                                                height: height(context),
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                margin: const EdgeInsets.only(
-                                                    top: 10),
-                                                child: AddPortfolio()),
-                                          );
-                                        });
+
+
+ Navigator.of(context).push( PageRouteBuilder(
+  transitionDuration: Duration(milliseconds: 600),
+  reverseTransitionDuration: Duration(milliseconds: 600),
+    pageBuilder: (context, animation, secondaryAnimation) =>  PortfolioDetail(
+      baseUrl: widget.baseUrl,
+      portfolio: portfolioList![index],),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(0.0, 1.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  ));
+
+
+
+              //  await showModalBottomSheet(
+              //                           shape: RoundedRectangleBorder(
+              //                               borderRadius:
+              //                                   BorderRadius.circular(20)),
+              //                           context: context,
+              //                           enableDrag: true,
+              //                           isScrollControlled: true,
+              //                           builder: (context) {
+              //                             return FractionallySizedBox(
+              //                               heightFactor: 0.7,
+              //                               child: Container(
+              //                                   height: height(context),
+              //                                   padding:
+              //                                       const EdgeInsets.all(8.0),
+              //                                   margin: const EdgeInsets.only(
+              //                                       top: 10),
+              //                                   child: PortfolioDetail(portfolio: portfolioList![index],),
+              //                             ));
+              //                           });
           },
           child: Container(
                                               margin: EdgeInsets.symmetric(
