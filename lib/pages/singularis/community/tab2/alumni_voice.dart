@@ -375,24 +375,5 @@ class _AlumniVoiceState extends State<AlumniVoice> with WidgetsBindingObserver {
             ),
           ),
         ));
-
-    /*return BlocManager(
-      initState: (context) {},
-      child: BlocListener<HomeBloc, HomeState>(
-        listener: (context, state) async {
-          if (state is JoyContentListState)
-            _handleJoyContentListResponse(state);
-        },
-        child: Scaffold(
-          backgroundColor: ColorConstants.SECTION_DIVIDER,
-          body: _contentBody(),
-        ),
-      ),
-    );*/
   }
-
-/*Widget _contentBody() {
-    return ;
-  }
-*/
 }

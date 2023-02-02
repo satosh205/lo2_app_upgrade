@@ -54,6 +54,7 @@ import '../../data/providers/training_detail_provider.dart';
 import '../../data/providers/video_player_provider.dart';
 import '../../utils/resource/size_constants.dart';
 import '../custom_pages/custom_widgets/CommonWebView.dart';
+import '../gcarvaan/comment/comment_view_page.dart';
 import '../reels/reels_dashboard_page.dart';
 import '../training_pages/training_detail_page.dart';
 import '../training_pages/training_service.dart';
@@ -178,12 +179,12 @@ class _DashboardPageState extends State<DashboardPage> {
                                       child: SizedBox(
                                         width: 40,
                                         child: Image.network(
-                                          
+
                                             '${Preference.getString(Preference.PROFILE_IMAGE)}',
-                                            
+
                                             errorBuilder: (context, error, stackTrace) => SvgPicture.asset('assets/images/default_user.svg'
                                   ,           width: 40,
-                                            
+
                                             ),
                                             ),
                                       ),
@@ -2224,10 +2225,8 @@ class _DashboardPageState extends State<DashboardPage> {
                                 child: Container(
                                     padding: EdgeInsets.all(10),
                                     margin: EdgeInsets.only(top: 12, right: 10),
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.8,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.15,
+                                    width: MediaQuery.of(context).size.width * 0.8,
+                                    height: MediaQuery.of(context).size.height * 0.15,
                                     decoration: BoxDecoration(
                                         color: ColorConstants.GREY
                                             .withOpacity(0.6),
@@ -2265,13 +2264,14 @@ class _DashboardPageState extends State<DashboardPage> {
                                               SizedBox(
                                                 width: 10,
                                               ),
-                                              Text(
-                                                  '${myCoursesList![index].name}',
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  softWrap: false,
-                                                  style: Styles.bold(size: 16)),
+                                              Flexible(
+                                                child: Text(
+                                                    '${myCoursesList![index].name}',
+                                                    maxLines: 2,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    softWrap: true,
+                                                    style: Styles.bold(size: 14)),
+                                              ),
                                             ],
                                           ),
                                           Column(
@@ -2762,6 +2762,7 @@ class _DashboardPageState extends State<DashboardPage> {
         });
   }
 
+  //TODO: Now used for recent community post------
   renderCarvaanPageView(){
     return ValueListenableBuilder(
         valueListenable: Hive.box(DB.CONTENT).listenable(),
@@ -2815,7 +2816,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Container(
-                    height: 400,
+                    height: 480,
                     child: PageView.builder(
                       controller: _pageController,
                       itemCount: carvaanList?.length,
@@ -2939,7 +2940,6 @@ class _DashboardPageState extends State<DashboardPage> {
                                   ],
                                 ),
                               ),
-
                               Padding(
                                   padding:
                                   carvaanList?[index].description !=
@@ -2949,10 +2949,144 @@ class _DashboardPageState extends State<DashboardPage> {
                                       : const EdgeInsets.only(
                                       bottom: 0, left: 10, top: 0),
                                   child: ReadMoreText(
-                                      text:
-                                      '${carvaanList?[index].description ?? ''}')),
+                                      text: '${carvaanList?[index].description ?? ''}')),
+                              Image.network('${carvaanList?[index].resourcePath}',
+                                height: 300,
+                                width: double.infinity,
+                                  fit: BoxFit.fitWidth),
 
-                              Image.network('${carvaanList?[index].resourcePath}'),
+                              //TODO: Like Dislike
+                              SizedBox(height: 20,),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 10.0,
+                                  horizontal: 10.0,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+
+                                        });
+                                      },
+                                      child: Container(
+                                        child: Row(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                right: 4.0,
+                                              ),
+                                              child: SvgPicture.asset(
+                                                'assets/images/like_icon.svg',
+                                                height: 18.8,
+                                                width: 17.86,
+                                                color: ColorConstants.BLACK,
+                                              ),
+                                            ),
+                                            Text(
+                                              carvaanList?[index].likeCount != 0
+                                                  ? '${carvaanList?[index].likeCount} ${Strings.of(context)?.Like}'
+                                                  : ' ${Strings.of(context)?.Like}',
+                                              style: Styles.regular(
+                                                  size: 12, color: ColorConstants.BLACK),
+                                            ),
+                                            /*if (widget.value?.getLikeCount(widget.index) != 0 &&
+                                                widget.value?.getLikeCount(widget.index) != 1 &&
+                                                Preference.getInt(Preference.APP_LANGUAGE) == 1)
+                                              Text(
+                                                Preference.getInt(Preference.APP_LANGUAGE) == 1
+                                                    ? 's'
+                                                    : '',
+                                                style: Styles.regular(
+                                                    size: 12, color: ColorConstants.BLACK),
+                                              )*/
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        showModalBottomSheet(
+                                            context: context,
+                                            backgroundColor: ColorConstants.WHITE,
+                                            isScrollControlled: true,
+                                            builder: (context) {
+                                              return FractionallySizedBox(
+                                                heightFactor: 0.7,
+                                                child: CommentViewPage(
+                                                  postId: carvaanList?[index].id,
+                                                  //value: widget.value,
+                                                ),
+                                              );
+                                            });
+                                      },
+                                      child: Container(
+                                        child: Row(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                right: 4.0,
+                                              ),
+                                              child: SvgPicture.asset(
+                                                'assets/images/comment_icon.svg',
+                                                height: 18.8,
+                                                width: 17.86,
+                                                allowDrawingOutsideViewBox: true,
+                                              ),
+                                            ),
+                                            Text(
+                                              carvaanList?[index].commentCount != 0
+                                                  ? '${carvaanList?[index].commentCount} ${Strings.of(context)?.Comment}'
+                                                  : ' ${Strings.of(context)?.Comment}',
+                                              style: Styles.regular(
+                                                  size: 12, color: ColorConstants.BLACK),
+                                            ),
+                                            /*if (carvaanList?[index].commentCount! > 1 &&
+                                                Preference.getInt(Preference.APP_LANGUAGE) == 1)
+                                              Text(
+                                                Preference.getInt(Preference.APP_LANGUAGE) == 1
+                                                    ? 's'
+                                                    : '',
+                                                style: Styles.regular(
+                                                    size: 12, color: ColorConstants.BLACK),
+                                              )*/
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        //Share.share('${widget.image_path}');
+                                      },
+                                      child: Container(
+                                        child: Row(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                right: 4.0,
+                                              ),
+                                              child: SvgPicture.asset(
+                                                'assets/images/share_icon.svg',
+                                                height: 18.8,
+                                                width: 17.86,
+                                                allowDrawingOutsideViewBox: true,
+                                              ),
+                                            ),
+                                            Text(
+                                              '${Strings.of(context)?.Share}',
+                                              style: Styles.regular(
+                                                  size: 12, color: ColorConstants.BLACK),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
 
                             ]),
                       );
@@ -2983,7 +3117,7 @@ class _DashboardPageState extends State<DashboardPage> {
             size: const Size.square(8.0),
             color: Color(0xffCCCACA),
             activeColor: ColorConstants.GRADIENT_ORANGE,
-            activeSize: const Size(30.0, 8.0),
+            activeSize: const Size(25.0, 8.0),
             activeShape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.0)),
           ),

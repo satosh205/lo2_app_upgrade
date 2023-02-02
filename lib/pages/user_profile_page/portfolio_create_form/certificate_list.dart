@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_certificate.dart';
 import 'package:masterg/utils/Styles.dart';
@@ -61,31 +62,43 @@ class _CertificateListState extends State<CertificateList> {
     ),
     body: Container(
       
-      height: height(context)*0.9,
+      height: height(context)*1,
       width: width(context),
       child: ListView.builder(
         itemCount: 2,
         itemBuilder:(context, index) {
 
-         return Container(
-          height: height(context)*0.9,
-          width: width(context),
-                  margin: EdgeInsets.only(right: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: width(context) * 0.7,
-                        height: width(context) * 0.45,
-                        
-                         
-                   child:  Image.asset(
-                            "assets/images/certificate_dummy.png",
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                  ]));
+         return Padding(
+           padding: const EdgeInsets.all(8.0),
+           child: Column(
+             mainAxisAlignment: MainAxisAlignment.start,
+             crossAxisAlignment: CrossAxisAlignment.start,
+             children: [
+               SizedBox(
+                 width: width(context) * 0.7,
+                 height: width(context) * 0.45,
+                 
+                  
+            child:  Image.asset(
+                     "assets/images/certificate_dummy.png",
+                     fit: BoxFit.cover,
+                   ),
+                   
+                 ),
+                 SizedBox(height: 20,),
+                 Row(
+
+                   children: [
+                     Text("UI Design Certificate",style: Styles.DMSansregular(),),
+                     SizedBox(width: 110,),
+                    
+                     SvgPicture.asset('assets/images/edit_portfolio.svg'),
+                     SizedBox(width: 10,),
+                      SvgPicture.asset('assets/images/delete.svg'),
+                   ],
+                 )
+           ]),
+         );
         
       })));
     

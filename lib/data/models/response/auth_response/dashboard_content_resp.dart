@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:path/path.dart';
+
 /*DashboardContentResponse dashboardContentResponseFromJson(String str) =>
     DashboardContentResponse.fromJson(json.decode(str));
 
@@ -1004,7 +1006,7 @@ class DashboardCarvanLimit {
   int? isMultilingual;
   int? visibilityValue;
   int? visibility;
-  Dimension? dimension;
+  //Dimension? dimension;
   List<String>? multiFileUploads;
   int? viewCount;
   dynamic multipleFileUpload;
@@ -1046,7 +1048,7 @@ class DashboardCarvanLimit {
     this.isMultilingual,
     this.visibilityValue,
     this.visibility,
-    this.dimension,
+    //this.dimension,
     this.multiFileUploads,
     this.viewCount,
     this.multipleFileUpload,
@@ -1089,7 +1091,7 @@ class DashboardCarvanLimit {
     isMultilingual = json['is_multilingual'] as int?;
     visibilityValue = json['visibility_value'] as int?;
     visibility = json['visibility'] as int?;
-    dimension = (json['dimension'] as Map<String,dynamic>?) != null ? Dimension.fromJson(json['dimension'] as Map<String,dynamic>) : null;
+    //dimension = (json['dimension'] as Map<String,dynamic>?) != null ? Dimension.fromJson(json['dimension'] as Map<String,dynamic>) : null;
     multiFileUploads = (json['multi_file_uploads'] as List?)?.map((dynamic e) => e as String).toList();
     viewCount = json['view_count'] as int?;
     multipleFileUpload = json['multiple_file_upload'];
@@ -1133,7 +1135,7 @@ class DashboardCarvanLimit {
     json['is_multilingual'] = isMultilingual;
     json['visibility_value'] = visibilityValue;
     json['visibility'] = visibility;
-    json['dimension'] = dimension?.toJson();
+    //json['dimension'] = dimension?.toJson();
     json['multi_file_uploads'] = multiFileUploads;
     json['view_count'] = viewCount;
     json['multiple_file_upload'] = multipleFileUpload;
@@ -1325,7 +1327,7 @@ class DashboardMyCoursesLimit {
   String? name;
   int? hours;
   int? enrollments;
-  double? completion;
+  int? completion;
 
   DashboardMyCoursesLimit({
     this.id,

@@ -1020,14 +1020,22 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Text(
-                                          '${portfolioResponse?.data.education[index].title}',
-                                          style: Styles.bold(size: 16),
+                                        SizedBox(
+                                          width: width(context)*0.5,
+                                          child: Text(
+                                            '${portfolioResponse?.data.education[index].title}',
+                                            style: Styles.bold(size: 16),
+                                          ),
                                         ),
                                         SizedBox(height: 4),
-                                        Text(
-                                          '${portfolioResponse?.data.education[index].institute}',
-                                          style: Styles.regular(size: 14),
+                                        SizedBox(
+                                          width: width(context)*0.5,
+                                          child: Text(
+                                            maxLines:2,
+                                            
+                                            '${portfolioResponse?.data.education[index].institute}',
+                                            style: Styles.regular(size: 14),
+                                          ),
                                         ),
                                         SizedBox(height: 4),
                                         Row(
@@ -1161,22 +1169,40 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     return Column(
       children: [
         topRow('Certificates', () async {
-          await showModalBottomSheet(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              context: context,
-              enableDrag: true,
-              isScrollControlled: true,
-              builder: (context) {
-                return FractionallySizedBox(
-                  heightFactor: 0.7,
-                  child: Container(
-                      height: height(context),
-                      padding: const EdgeInsets.all(8.0),
-                      margin: const EdgeInsets.only(top: 10),
-                      child: AddCertificate()),
-                );
-              }).then((value) => getPortfolio());
+    
+     Navigator.of(context).push( PageRouteBuilder(
+    transitionDuration: Duration(milliseconds: 600),
+    reverseTransitionDuration: Duration(milliseconds: 600),
+    pageBuilder: (context, animation, secondaryAnimation) =>  AddCertificate(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(0.0, 1.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+    
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+    
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+    )).then((value) => getPortfolio());
+          // await showModalBottomSheet(
+          //     shape: RoundedRectangleBorder(
+          //         borderRadius: BorderRadius.circular(20)),
+          //     context: context,
+          //     enableDrag: true,
+          //     isScrollControlled: true,
+          //     builder: (context) {
+          //       return FractionallySizedBox(
+          //         heightFactor: 0.7,
+          //         child: Container(
+          //             height: height(context),
+          //             padding: const EdgeInsets.all(8.0),
+          //             margin: const EdgeInsets.only(top: 10),
+          //             child: AddCertificate()),
+          //       );
+          //     }).then((value) => getPortfolio());
         }),
         Container(
           padding: EdgeInsets.all(8),
@@ -1187,7 +1213,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
               itemBuilder: (context, index) {
                 String startDateString =
                     "${portfolioResponse?.data.education[index].startDate}";
-
+          
                 DateTime startDate =
                     DateFormat("dd/MM/yyyy").parse(startDateString);
                 return Container(
@@ -1236,23 +1262,40 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     return Column(
       children: [
         topRow('Experience', () {
-          showModalBottomSheet(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              context: context,
-              enableDrag: true,
-              isScrollControlled: true,
-              builder: (context) {
-                return FractionallySizedBox(
-                  heightFactor: 0.7,
-                  child: Container(
-                      height: height(context),
-                      padding: const EdgeInsets.all(8.0),
-                      margin: const EdgeInsets.only(top: 10),
-                      child: AddExperience()),
-                );
-              });
-        }),
+               Navigator.of(context).push( PageRouteBuilder(
+    transitionDuration: Duration(milliseconds: 600),
+    reverseTransitionDuration: Duration(milliseconds: 600),
+    pageBuilder: (context, animation, secondaryAnimation) =>  AddExperience(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(0.0, 1.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+    
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+    
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+    )).then((value) => getPortfolio());
+        //   showModalBottomSheet(
+        //       shape: RoundedRectangleBorder(
+        //           borderRadius: BorderRadius.circular(20)),
+        //       context: context,
+        //       enableDrag: true,
+        //       isScrollControlled: true,
+        //       builder: (context) {
+        //         return FractionallySizedBox(
+        //           heightFactor: 0.7,
+        //           child: Container(
+        //               height: height(context),
+        //               padding: const EdgeInsets.all(8.0),
+        //               margin: const EdgeInsets.only(top: 10),
+        //               child: AddExperience()),
+        //         );
+        //       });
+         }),
         Container(
           padding: EdgeInsets.all(8),
           child: ListView.builder(
@@ -1341,22 +1384,39 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     return Column(
       children: [
         topRow('Extra Curricular Activities', () {
-          showModalBottomSheet(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              context: context,
-              enableDrag: true,
-              isScrollControlled: true,
-              builder: (context) {
-                return FractionallySizedBox(
-                  heightFactor: 0.7,
-                  child: Container(
-                      height: height(context),
-                      padding: const EdgeInsets.all(8.0),
-                      margin: const EdgeInsets.only(top: 10),
-                      child: AddActivities()),
-                );
-              });
+            Navigator.of(context).push( PageRouteBuilder(
+    transitionDuration: Duration(milliseconds: 600),
+    reverseTransitionDuration: Duration(milliseconds: 600),
+    pageBuilder: (context, animation, secondaryAnimation) =>  AddActivities(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(0.0, 1.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+    
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+    
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+    )).then((value) => getPortfolio());
+          // showModalBottomSheet(
+          //     shape: RoundedRectangleBorder(
+          //         borderRadius: BorderRadius.circular(20)),
+          //     context: context,
+          //     enableDrag: true,
+          //     isScrollControlled: true,
+          //     builder: (context) {
+          //       return FractionallySizedBox(
+          //         heightFactor: 0.7,
+          //         child: Container(
+          //             height: height(context),
+          //             padding: const EdgeInsets.all(8.0),
+          //             margin: const EdgeInsets.only(top: 10),
+          //             child: AddActivities()),
+          //       );
+          //     });
         }),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 8),
