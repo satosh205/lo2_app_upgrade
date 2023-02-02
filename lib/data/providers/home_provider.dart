@@ -184,10 +184,14 @@ class HomeProvider {
     return null;
   }
 
-  Future<ApiResponse?> singularisDeletePortfolio() async {
+  Future<ApiResponse?> singularisDeletePortfolio(int portfolioId) async {
     //  Utility.hideKeyboard();
     try {
-      final response = await api.dio.get(ApiConstants.PORTFOLIO_DELETE,
+         Map<String, dynamic> data = Map();
+      data['portfolio_id'] = portfolioId;
+   
+      final response = await api.dio.post(ApiConstants.PORTFOLIO_DELETE,
+data: FormData.fromMap(data),
           options: Options(
               method: 'POST',
               headers: {

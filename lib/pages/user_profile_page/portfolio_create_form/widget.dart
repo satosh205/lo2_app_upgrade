@@ -9,35 +9,39 @@ class CustomTextField extends StatelessWidget {
   final String? style;
   final TextEditingController? controller;
   final int maxLine;
+  final bool? validate;
+  final String? validationString;
   const CustomTextField(
       {Key? key,
       required this.hintText,
       this.style,
       this.controller,
-      this.maxLine = 1})
+      this.maxLine = 1, this.validate = false, this.validationString = ""})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width(context),
-      // height: height(context) * 0.07,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(width: 1.0, color: const Color(0xffE5E5E5)),
-        borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-      ),
-      child: TextField(
+    return 
+   
+       TextFormField(
+        
         controller: controller,
+        validator: (value) {
+          if(validate == false) return null;
+    if (value == null || value.isEmpty) {
+      return validationString;
+    }
+    return null;
+  },
         maxLines: maxLine,
         decoration: InputDecoration(
           border: OutlineInputBorder(
+            
               borderSide: const BorderSide(width: 1, color: Color(0xffE5E5E5)),
               borderRadius: BorderRadius.circular(10)),
           hintText: hintText,
-        ),
-      ),
-    );
+       ));
+  
   }
 }
 

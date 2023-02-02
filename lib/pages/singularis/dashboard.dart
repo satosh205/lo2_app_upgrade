@@ -178,7 +178,14 @@ class _DashboardPageState extends State<DashboardPage> {
                                       child: SizedBox(
                                         width: 40,
                                         child: Image.network(
-                                            '${Preference.getString(Preference.PROFILE_IMAGE)}'),
+                                          
+                                            '${Preference.getString(Preference.PROFILE_IMAGE)}',
+                                            
+                                            errorBuilder: (context, error, stackTrace) => SvgPicture.asset('assets/images/default_user.svg'
+                                  ,           width: 40,
+                                            
+                                            ),
+                                            ),
                                       ),
                                     ),
                                   ),

@@ -1325,7 +1325,7 @@ class DashboardMyCoursesLimit {
   String? name;
   int? hours;
   int? enrollments;
-  int? completion;
+  double? completion;
 
   DashboardMyCoursesLimit({
     this.id,
@@ -1342,7 +1342,7 @@ class DashboardMyCoursesLimit {
     name = json['name'] as String?;
     hours = json['hours'] as int?;
     enrollments = json['enrollments'] as int?;
-    completion = json['completion'] as int?;
+    completion = json['completion'] ;
   }
 
   Map<String, dynamic> toJson() {

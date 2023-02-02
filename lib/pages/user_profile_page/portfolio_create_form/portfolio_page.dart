@@ -75,6 +75,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
 
   @override
   Widget build(BuildContext context) {
+    String? baseUrl = portfolioResponse?.data.baseFileUrl;
+
     return BlocManager(
       initState: (context) {},
       child: BlocListener<HomeBloc, HomeState>(
@@ -199,14 +201,77 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                     children: [
                                       Stack(
                                         children: [
-                                          ClipOval(
-                                            child: CachedNetworkImage(
-                                              imageUrl:
-                                                  '${Preference.getString(Preference.PROFILE_IMAGE)}',
-                                              filterQuality: FilterQuality.low,
-                                              width: 70,
-                                              height: 70,
-                                              fit: BoxFit.cover,
+                                          InkWell(
+                                            onTap: () {
+                                              showModalBottomSheet(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                              topLeft: Radius
+                                                                  .circular(20),
+                                                              topRight: Radius
+                                                                  .circular(
+                                                                      20))),
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return FractionallySizedBox(
+                                                      heightFactor: 0.7,
+                                                      child: Container(
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: <Widget>[
+                                                            ListTile(
+
+                                                              leading: SvgPicture
+                                                                  .asset(
+                                                                      'assets/images/camera.svg'),
+                                                              title: new Text(
+                                                                'View or edit profile picture',
+                                                                style: Styles
+                                                                    .regular(
+                                                                        size:
+                                                                            14),
+                                                              ),
+                                                              onTap: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                            ),
+
+                                                             ListTile(
+                                                              leading: SvgPicture
+                                                                  .asset(
+                                                                      'assets/images/portfolio_video.svg'),
+                                                              title: new Text(
+                                                                'Add profile video',
+                                                                style: Styles
+                                                                    .regular(
+                                                                        size:
+                                                                            14),
+                                                              ),
+                                                              onTap: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                            ),
+                                                            
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    );
+                                                  });
+                                            },
+                                            child: ClipOval(
+                                              child: CachedNetworkImage(
+                                                imageUrl:
+                                                    '${Preference.getString(Preference.PROFILE_IMAGE)}',
+                                                filterQuality:
+                                                    FilterQuality.low,
+                                                width: 70,
+                                                height: 70,
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
                                           ),
                                           Positioned(
@@ -259,7 +324,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                     size: 18,
                                                     color:
                                                         ColorConstants.WHITE)),
-                                            Text('Chief Technology Officer',
+                                            Text(
+                                                '${Preference.getString(Preference.USER_HEADLINE)}',
                                                 style: Styles.regular(
                                                     size: 12,
                                                     color:
@@ -269,7 +335,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                               children: [
                                                 SvgPicture.asset(
                                                     'assets/images/person_location.svg'),
-                                                Text(' New Delhi, India',
+                                                Text(
+                                                    '${Preference.getString(Preference.LOCATION)}',
                                                     style: Styles.regular(
                                                         size: 12,
                                                         color: ColorConstants
@@ -323,7 +390,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            'A very Organized and punctual person. Always positive and super co-operative individual in group activities. Contact me, If this profile interest you !',
+                            '${Preference.getString(Preference.ABOUT_ME)}',
                             style: Styles.regular(
                                 size: 12, color: Color(0xff5A5F73)),
                           ),
@@ -513,14 +580,13 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                   ),
                 InkWell(
                   onTap: () {
-                    // if(portfolioResponse?.data.userResume != null && portfolioResponse?.data.userResume != "")
                     Navigator.push(
                         context,
                         NextPageRoute(PdfViewPage(
-                          url: '${portfolioResponse?.data.userResume}',
+                          url:
+                              '$baseUrl${portfolioResponse?.data.resume.first.url}',
                           callBack: false,
                         )));
-                    print('show resume');
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -623,7 +689,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                             ),
                           ),
                           dividerLine(),
-
                           Row(
                             children: [
                               Text(
@@ -654,13 +719,20 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         }).then((value) => getPortfolio());
                                   }),
                                   child: Icon(Icons.add)),
-                                  SizedBox(width: 8,),
-
-                                  IconButton(onPressed: (){
-                                    Navigator.push(context, NextPageRoute(PortfolioList(baseUrl: portfolioResponse?.data.baseFileUrl,portfolioList: portfolioResponse
-                                        ?.data.portfolio)));
-                                  }, icon: Icon(Icons.arrow_forward_ios_rounded))
-                              ,
+                              SizedBox(
+                                width: 8,
+                              ),
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        NextPageRoute(PortfolioList(
+                                            baseUrl: portfolioResponse
+                                                ?.data.baseFileUrl,
+                                            portfolioList: portfolioResponse
+                                                ?.data.portfolio)));
+                                  },
+                                  icon: Icon(Icons.arrow_forward_ios_rounded)),
                             ],
                           ),
                           Padding(
@@ -685,6 +757,23 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                 borderRadius:
                                                     BorderRadius.circular(12),
                                                 child: CachedNetworkImage(
+                                                  progressIndicatorBuilder:
+                                                      (context, url,
+                                                          downloadProgress) {
+                                                    return SvgPicture.asset(
+                                                      'assets/images/default_user.svg',
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.8,
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.3,
+                                                    );
+                                                  },
                                                   imageUrl:
                                                       '${portfolioResponse?.data.baseFileUrl}${portfolioResponse?.data.portfolio[index].imageName}',
                                                   width: MediaQuery.of(context)
@@ -866,13 +955,22 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         }).then((value) => getPortfolio());
                                   }),
                                   child: Icon(Icons.add)),
-                                  SizedBox(width: 8,),
-                                  IconButton(onPressed: (){
-                                    Navigator.push(context, NextPageRoute(EducationList(
-                                      baseUrl: portfolioResponse?.data.baseFileUrl,
-                                      education: portfolioResponse?.data.education as List<CommonProfession>,)));
-                                  }, icon: Icon(Icons.arrow_forward_ios_rounded))
-                              
+                              SizedBox(
+                                width: 8,
+                              ),
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        NextPageRoute(EducationList(
+                                          baseUrl: portfolioResponse
+                                              ?.data.baseFileUrl,
+                                          education:
+                                              portfolioResponse?.data.education
+                                                  as List<CommonProfession>,
+                                        )));
+                                  },
+                                  icon: Icon(Icons.arrow_forward_ios_rounded))
                             ],
                           ),
                         ])),
@@ -998,7 +1096,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                 if (isPortfolioLoading == false) ...[
                   dividerLine(),
                   if (isPortfolioLoading == false)
-                    getCertificateWidget(portfolioResponse?.data.certificate, context),
+                    getCertificateWidget(
+                        portfolioResponse?.data.certificate, context),
                   dividerLine(),
                   getExperience(portfolioResponse?.data.experience, context),
                   dividerLine(),
@@ -1086,7 +1185,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     );
   }
 
-  Widget getCertificateWidget(List<CommonProfession>? certificateList, context) {
+  Widget getCertificateWidget(
+      List<CommonProfession>? certificateList, context) {
     return Column(
       children: [
         topRow('Certificates', () async {
@@ -1164,25 +1264,24 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   Widget getExperience(List<CommonProfession>? experience, context) {
     return Column(
       children: [
-        topRow('Experience', (){
-showModalBottomSheet(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                        context: context,
-                        enableDrag: true,
-                        isScrollControlled: true,
-                        builder: (context) {
-                          return FractionallySizedBox(
-                            heightFactor: 0.7,
-                            child: Container(
-                                height: height(context),
-                                padding: const EdgeInsets.all(8.0),
-                                margin: const EdgeInsets.only(top: 10),
-                                child: AddExperience()),
-                          );
-                        });
-              }),
-        
+        topRow('Experience', () {
+          showModalBottomSheet(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              context: context,
+              enableDrag: true,
+              isScrollControlled: true,
+              builder: (context) {
+                return FractionallySizedBox(
+                  heightFactor: 0.7,
+                  child: Container(
+                      height: height(context),
+                      padding: const EdgeInsets.all(8.0),
+                      margin: const EdgeInsets.only(top: 10),
+                      child: AddExperience()),
+                );
+              });
+        }),
         Container(
           padding: EdgeInsets.all(8),
           child: ListView.builder(
@@ -1266,31 +1365,30 @@ showModalBottomSheet(
     );
   }
 
-  Widget getExtraActivitesWidget(List<CommonProfession>? extraActivities, context) {
+  Widget getExtraActivitesWidget(
+      List<CommonProfession>? extraActivities, context) {
     return Column(
       children: [
-
-        topRow('Extra Curricular Activities', (){
-showModalBottomSheet(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                        context: context,
-                        enableDrag: true,
-                        isScrollControlled: true,
-                        builder: (context) {
-                          return FractionallySizedBox(
-                            heightFactor: 0.7,
-                            child: Container(
-                                height: height(context),
-                                padding: const EdgeInsets.all(8.0),
-                                margin: const EdgeInsets.only(top: 10),
-                                child: AddActivities()),
-                          );
-                        });
+        topRow('Extra Curricular Activities', () {
+          showModalBottomSheet(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              context: context,
+              enableDrag: true,
+              isScrollControlled: true,
+              builder: (context) {
+                return FractionallySizedBox(
+                  heightFactor: 0.7,
+                  child: Container(
+                      height: height(context),
+                      padding: const EdgeInsets.all(8.0),
+                      margin: const EdgeInsets.only(top: 10),
+                      child: AddActivities()),
+                );
+              });
         }),
-        
         Container(
-          padding: EdgeInsets.all(8),
+          padding: EdgeInsets.symmetric(horizontal: 8),
           child: ListView.builder(
               itemCount: extraActivities?.length,
               shrinkWrap: true,
@@ -1327,26 +1425,29 @@ showModalBottomSheet(
                             ),
                           ),
                           SizedBox(width: 6),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${extraActivities?[index].title}',
-                                style: Styles.bold(size: 16),
-                              ),
-                              SizedBox(
-                                height: 4,
-                              ),
-                              Text(
-                                '${extraActivities?[index].institute}',
-                                style: Styles.regular(size: 14),
-                              ),
-                              SizedBox(
-                                height: 4,
-                              ),
-                              Text('${extraActivities?[index].title}'),
-                            ],
+                          SizedBox(
+                            width: width(context) * 0.7,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${extraActivities?[index].title}',
+                                  style: Styles.bold(size: 16),
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Text(
+                                  '${extraActivities?[index].institute}',
+                                  style: Styles.regular(size: 14),
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Text('${extraActivities?[index].title}'),
+                              ],
+                            ),
                           )
                         ],
                       ),
@@ -1533,6 +1634,23 @@ showModalBottomSheet(
         case ApiStatus.SUCCESS:
           Log.v("PortfolioState Success....................");
           portfolioResponse = portfolioState.response;
+          Preference.setString(
+              Preference.FIRST_NAME, '${portfolioState.response?.data.name}');
+          Preference.setString(Preference.PROFILE_IMAGE,
+              '${portfolioState.response?.data.image}');
+          Preference.setString(Preference.PROFILE_VIDEO,
+              '${portfolioState.response?.data.profileVideo}');
+
+          Preference.setString(Preference.PROFILE_VIDEO,
+              '${portfolioState.response?.data.profileVideo}');
+
+          Preference.setString(Preference.ABOUT_ME,
+              '${portfolioState.response?.data.portfolioProfile.first.aboutMe}');
+
+          Preference.setString(Preference.USER_HEADLINE,
+              '${portfolioState.response?.data.portfolioProfile.first.headline}');
+          Preference.setString(Preference.LOCATION,
+              '${portfolioState.response?.data.portfolioProfile.first.city}, ${portfolioState.response?.data.portfolioProfile.first.country}');
           isPortfolioLoading = false;
           setState(() {});
           break;
@@ -1567,19 +1685,15 @@ showModalBottomSheet(
               ),
               Spacer(),
               if (showAddButton)
-              IconButton(
-                  onPressed: () {
-        action();
-                   
-                  },
-                  icon:  Icon(Icons.add)),
+                IconButton(
+                    onPressed: () {
+                      action();
+                    },
+                    icon: Icon(Icons.add)),
               Icon(Icons.arrow_forward_ios_outlined),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Divider(),
-          ),
+          Divider(),
         ],
       ),
     );
