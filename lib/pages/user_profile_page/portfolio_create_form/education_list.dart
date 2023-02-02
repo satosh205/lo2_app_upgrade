@@ -179,14 +179,21 @@ class _EducationListState extends State<EducationList> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,
                                             children: [
-                                              Text(
-                                                '${widget.education[index].title}',
-                                                style: Styles.bold(size: 16),
+                                              SizedBox(
+                                                width: width(context)*0.5,
+                                                child: Text(
+                                                    maxLines: 2,
+                                                    // overflow: TextOverflow.ellipsis,
+                                                  '${widget.education[index].title}',
+                                                  style: Styles.bold(size: 16),
+                                                ),
                                               ),
                                               SizedBox(height: 4),
                                               SizedBox(
                                                 width: width(context) * 0.5,
                                                 child: Text(
+                                                  
+          
                                                   '${widget.education[index].institute}',
                                                   style: Styles.regular(size: 14),
                                                   maxLines: 2,

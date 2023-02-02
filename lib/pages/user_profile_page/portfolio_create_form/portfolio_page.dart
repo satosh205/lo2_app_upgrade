@@ -1040,14 +1040,22 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Text(
-                                          '${portfolioResponse?.data.education[index].title}',
-                                          style: Styles.bold(size: 16),
+                                        SizedBox(
+                                          width: width(context)*0.5,
+                                          child: Text(
+                                            '${portfolioResponse?.data.education[index].title}',
+                                            style: Styles.bold(size: 16),
+                                          ),
                                         ),
                                         SizedBox(height: 4),
-                                        Text(
-                                          '${portfolioResponse?.data.education[index].institute}',
-                                          style: Styles.regular(size: 14),
+                                        SizedBox(
+                                          width: width(context)*0.5,
+                                          child: Text(
+                                            maxLines:2,
+                                            
+                                            '${portfolioResponse?.data.education[index].institute}',
+                                            style: Styles.regular(size: 14),
+                                          ),
                                         ),
                                         SizedBox(height: 4),
                                         Row(
