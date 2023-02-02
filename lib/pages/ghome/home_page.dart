@@ -152,13 +152,14 @@ class _homePageState extends State<homePage> {
       '/g-careers': CareersDashboard(),
       '/g-school': const GSchool(),
       '/g-reels': ReelsDashboardPage(),
-      '/g-carvaan': GCarvaanPostPage(
+      '/g-carvaan': CommunityDashboard(),
+      /*'/g-carvaan': GCarvaanPostPage(
         fromDashboard: false,
         fileToUpload: widget.fileToUpload,
         desc: widget.desc,
         filesPath: widget.filesPath,
         formCreatePost: widget.isFromCreatePost,
-      ),
+      ),*/
       '/training': ChangeNotifierProvider<TrainingProvider>(
           create: (context) => TrainingProvider(TrainingService(ApiService())),
           child: TrainingHomePage(
@@ -255,12 +256,13 @@ class _homePageState extends State<homePage> {
       widget.desc = null;
       widget.filesPath = null;
       widget.isFromCreatePost = false;
-      pages['/g-carvaan'] = GCarvaanPostPage(
+      /*pages['/g-carvaan'] = GCarvaanPostPage(
         fileToUpload: null,
         desc: null,
         filesPath: null,
         formCreatePost: widget.isFromCreatePost,
-      );
+      );*/
+      pages['/g-carvaan'] = CommunityDashboard();
     }
 
     String appBarImagePath = 'assets/images/${APK_DETAILS['logo_url']}';

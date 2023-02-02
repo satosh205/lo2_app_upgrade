@@ -1035,7 +1035,6 @@ class _GHomeState extends State<GHome> with WidgetsBindingObserver {
 
   void _getJoyContentList() {
     box = Hive.box(DB.CONTENT);
-
     BlocProvider.of<HomeBloc>(context).add(JoyContentListEvent());
   }
 

@@ -21,8 +21,14 @@ class ViewWidgetDetailsPage extends StatefulWidget {
   late int currentIndex;
   final List<JoyContentListElement>? joyContentList;
   final int? currentID;
+  final String? root;
 
-  ViewWidgetDetailsPage({Key? key, this.joyContentList, this.currentIndex = 0, this.currentID,})
+  ViewWidgetDetailsPage({
+  Key? key,
+  this.joyContentList,
+  this.currentIndex = 0,
+  this.currentID,
+  this.root})
       : super(key: key);
   @override
   _ViewWidgetDetailsPageState createState() => _ViewWidgetDetailsPageState();
@@ -44,8 +50,7 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
     _isJoyContentListLoading = false;
   }
 
-  void _handleJoyContentListResponse(
-      JoyContentListState state, JoyContentListModel list) {
+  void _handleJoyContentListResponse(JoyContentListState state, JoyContentListModel list) {
     var loginState = state;
     setState(() {
       switch (loginState.apiState) {
@@ -62,13 +67,11 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
           for(int i = 0; i<joyContentListResponse!.length; i++){
             if(joyContentListResponse![i].id == widget.currentID){
               this.setState(() {
-                //currentIndexLocal = i;
                 controller.jumpToPage(i);
               });
               break;
             }
           }
-
           _isJoyContentListLoading = false;
           break;
         case ApiStatus.ERROR:
@@ -100,8 +103,11 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
         ],
         child: BlocManager(
             initState: (context) {
-              BlocProvider.of<HomeBloc>(context).add(JoyContentListEvent());
+              if (widget.root == 'dashboard') {
+                BlocProvider.of<HomeBloc>(context).add(JoyContentListEvent());
+              }
             },
+
             child: Consumer<JoyContentListModel>(
               builder: (context, joyContentModel, child) =>
                   BlocListener<HomeBloc, HomeState>(
@@ -150,7 +156,10 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
               body: Container(
                 child: PageView.builder(
 
-                  controller: controller,
+                  controller: widget.root == 'dashboard' ? controller : PageController(
+                      initialPage: widget.currentIndex,
+                      keepPage: true,
+                      viewportFraction: 1),
                   /*controller: PageController(
                       initialPage: widget.currentIndex,
                       keepPage: true,

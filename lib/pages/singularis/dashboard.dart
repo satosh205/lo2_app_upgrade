@@ -3028,7 +3028,6 @@ class _DashboardPageState extends State<DashboardPage> {
                   Expanded(child: SizedBox()),
                   InkWell(
                     onTap: () {
-                      print('ViewWidgetDetailsPage');
                       //menuProvider?.updateCurrentIndex('1'); //Gcarva page
                       showModalBottomSheet(
                           context: context,
@@ -3037,7 +3036,7 @@ class _DashboardPageState extends State<DashboardPage> {
                           builder: (context) {
                             return FractionallySizedBox(
                               heightFactor: 1.0,
-                              child: ViewWidgetDetailsPage(),
+                              child: ViewWidgetDetailsPage(root: 'dashboard',),
                             );
                           });
                     },
@@ -3083,6 +3082,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                     ),*/
                                   child: ViewWidgetDetailsPage(
                                     currentID: featuredContentList![index].id,
+                                    root: 'dashboard',
                                   ),
                                 );
                               });
