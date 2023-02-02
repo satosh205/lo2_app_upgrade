@@ -16,6 +16,7 @@ import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ViewWidgetDetailsPage extends StatefulWidget {
   late int currentIndex;
@@ -152,18 +153,14 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
               backgroundColor: ColorConstants.BLACK,
             ),
             body: ScreenWithLoader(
-              isLoading: _isJoyContentListLoading,
+              //isLoading: _isJoyContentListLoading,
+              isLoading: false,
               body: Container(
                 child: PageView.builder(
-
                   controller: widget.root == 'dashboard' ? controller : PageController(
                       initialPage: widget.currentIndex,
                       keepPage: true,
                       viewportFraction: 1),
-                  /*controller: PageController(
-                      initialPage: widget.currentIndex,
-                      keepPage: true,
-                      viewportFraction: 1),*/
                   itemCount: joyContentListResponse.list!.length != 0
                       ? joyContentListResponse.list!.length
                       : 0,
@@ -172,255 +169,258 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                         child: Stack(
-                      children: <Widget>[
-                        Container(
-                            child: Container(
-                          child: PageView.builder(
-                            // ignore: unrelated_type_equality_checks
-                            itemCount: joyContentListResponse
+                          children: <Widget>[
+                            Container(
+                                child: Container(
+                                  child: PageView.builder(
+                                    // ignore: unrelated_type_equality_checks
+                                    itemCount: joyContentListResponse
                                         .list![index].multiFileUploads !=
-                                    0
-                                ? joyContentListResponse
-                                    .list![index].multiFileUploads!.length
-                                : 0,
-                            scrollDirection: Axis.vertical,
-                            physics: BouncingScrollPhysics(),
-                            itemBuilder: (BuildContext context, int indexIn) {
-                              return Stack(children: [
-                                Container(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Stack(children: [
+                                        0
+                                        ? joyContentListResponse
+                                        .list![index].multiFileUploads!.length
+                                        : 0,
+                                    scrollDirection: Axis.vertical,
+                                    physics: BouncingScrollPhysics(),
+                                    itemBuilder: (BuildContext context, int indexIn) {
+                                      return Stack(children: [
                                         Container(
-                                          child: joyContentListResponse
+                                          child: Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Stack(children: [
+                                                Container(
+                                                  child: joyContentListResponse
                                                       .list![index]
                                                       .resourceType ==
-                                                  'image'
-                                              ? Image.network(
-                                                  '${joyContentListResponse.list![index].multiFileUploads![indexIn]}',
-                                                  fit: BoxFit.fitHeight,
-                                                  //height: MediaQuery.of(context).size.height * 0.87,
-                                                  width: double.infinity,
-                                                )
-                                              : joyContentListResponse
-                                                          .list?[index]
-                                                          .resourceType ==
+                                                      'image'
+                                                      ? Image.network(
+                                                    '${joyContentListResponse.list![index].multiFileUploads![indexIn]}',
+                                                    fit: BoxFit.fitHeight,
+                                                    //height: MediaQuery.of(context).size.height * 0.87,
+                                                    width: double.infinity,
+                                                  )
+                                                      : joyContentListResponse
+                                                      .list?[index]
+                                                      .resourceType ==
                                                       'video'
-                                                  ? Container(
-                                                      height:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.9,
-                                                      child: CustomVideoPlayer(
-                                                        url: joyContentListResponse
-                                                                .list?[index]
-                                                                .multiFileUploads![
-                                                            indexIn],
-                                                        // sendflickManager:
-                                                        //     () {}
-                                                      ),
-                                                    )
-                                                  : Container(
-                                                      height: 370,
+                                                      ? Container(
+                                                    height:
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                        0.9,
+                                                    child: CustomVideoPlayer(
+                                                      url: joyContentListResponse
+                                                          .list?[index]
+                                                          .multiFileUploads![
+                                                      indexIn],
+                                                      // sendflickManager:
+                                                      //     () {}
                                                     ),
+                                                  )
+                                                      : Container(
+                                                    height: 370,
+                                                  ),
+                                                ),
+                                              ]),
+                                            ],
+                                          ),
                                         ),
-                                      ]),
+                                      ]);
+                                    },
+                                  ),
+                                )),
+                            Positioned(
+                              left: 0,
+                              bottom: 0,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                constraints: BoxConstraints(minHeight: 120),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    stops: [0.0, 1.0],
+                                    colors: [
+                                      Colors.black.withOpacity(0.0),
+                                      Colors.black.withOpacity(0.8),
                                     ],
                                   ),
                                 ),
-                              ]);
-                            },
-                          ),
-                        )),
-                        Positioned(
-                          left: 0,
-                          bottom: 0,
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            constraints: BoxConstraints(minHeight: 120),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                stops: [0.0, 1.0],
-                                colors: [
-                                  Colors.black.withOpacity(0.0),
-                                  Colors.black.withOpacity(0.8),
-                                ],
-                              ),
-                            ),
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  margin: EdgeInsets.only(top: 10.0, left: 5.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      margin: EdgeInsets.only(top: 10.0, left: 5.0),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 8.0, right: 8.0, top: 8.0),
-                                        child: joyContentListResponse
-                                                    .list![index].title !=
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0, right: 8.0, top: 8.0),
+                                            child: joyContentListResponse
+                                                .list![index].title !=
                                                 null
-                                            ? Text(
-                                                '${joyContentListResponse.list![index].title}',
-                                                style: Styles.bold(
-                                                    size: 14,
-                                                    color:
-                                                        ColorConstants.WHITE),
-                                              )
-                                            : null,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            bottom: 10, left: 8, right: 8),
-                                        child: Text(
-                                          joyContentListResponse.list![index]
-                                                      .description !=
+                                                ? Text(
+                                              '${joyContentListResponse.list![index].title}',
+                                              style: Styles.bold(
+                                                  size: 14,
+                                                  color:
+                                                  ColorConstants.WHITE),
+                                            )
+                                                : null,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 10, left: 8, right: 8),
+                                            child: Text(
+                                              joyContentListResponse.list![index]
+                                                  .description !=
                                                   null
-                                              ? '${joyContentListResponse.list![index].description}'
-                                              : '',
-                                          style: Styles.regular(
-                                              size: 12,
-                                              color: ColorConstants.WHITE),
-                                        ),
+                                                  ? '${joyContentListResponse.list![index].description}'
+                                                  : '',
+                                              style: Styles.regular(
+                                                  size: 12,
+                                                  color: ColorConstants.WHITE),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 0, left: 12.0, bottom: 60.0),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        child: joyContentListResponse
-                                                    .list![index].viewCount !=
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 0, left: 12.0, bottom: 60.0),
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            child: joyContentListResponse
+                                                .list![index].viewCount !=
                                                 null
-                                            ? Row(
-                                                children: [
+                                                ? Row(
+                                              children: [
+                                                Text(
+                                                  '${joyContentListResponse.list![index].viewCount ?? 0} ${Strings.of(context)?.Views}',
+                                                  style: Styles.regular(
+                                                      size: 12,
+                                                      color: ColorConstants
+                                                          .WHITE),
+                                                ),
+                                                if (joyContentListResponse
+                                                    .list![index]
+                                                    .viewCount! >
+                                                    1 &&
+                                                    Preference.getInt(Preference
+                                                        .APP_LANGUAGE) ==
+                                                        1)
                                                   Text(
-                                                    '${joyContentListResponse.list![index].viewCount ?? 0} ${Strings.of(context)?.Views}',
+                                                    Preference.getInt(Preference
+                                                        .APP_LANGUAGE) ==
+                                                        1
+                                                        ? 's'
+                                                        : '',
                                                     style: Styles.regular(
-                                                        size: 12,
+                                                        size: 14,
                                                         color: ColorConstants
                                                             .WHITE),
                                                   ),
-                                                  if (joyContentListResponse
-                                                              .list![index]
-                                                              .viewCount! >
-                                                          1 &&
-                                                      Preference.getInt(Preference
-                                                              .APP_LANGUAGE) ==
-                                                          1)
-                                                    Text(
-                                                      Preference.getInt(Preference
-                                                                  .APP_LANGUAGE) ==
-                                                              1
-                                                          ? 's'
-                                                          : '',
-                                                      style: Styles.regular(
-                                                          size: 14,
-                                                          color: ColorConstants
-                                                              .WHITE),
-                                                    ),
-                                                ],
-                                              )
-                                            : Text(
-                                                '${0} view',
-                                                style: Styles.regular(
-                                                    size: 12,
-                                                    color:
-                                                        ColorConstants.WHITE),
-                                              ),
-                                      ),
-                                      if (joyContentListResponse.list![index]
-                                              .multiFileUploads!.length >
-                                          1)
-                                        Container(
-                                          margin: EdgeInsets.only(top: 0),
-                                          child: Center(
-                                            child: DotsIndicator(
-                                              dotsCount: joyContentListResponse
-                                                  .list![index]
-                                                  .multiFileUploads!
-                                                  .length,
-                                              position: currentIndexPage,
-                                              decorator: DotsDecorator(
-                                                size: const Size.square(9.0),
-                                                activeSize:
-                                                    const Size(18.0, 9.0),
-                                                activeColor:
-                                                    ColorConstants.WHITE,
-                                                color: ColorConstants.GREY_4,
-                                                activeShape:
-                                                    RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                    24.0)),
-                                              ),
+                                              ],
+                                            )
+                                                : Text(
+                                              '${0} view',
+                                              style: Styles.regular(
+                                                  size: 12,
+                                                  color:
+                                                  ColorConstants.WHITE),
                                             ),
                                           ),
-                                        ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          // margin: EdgeInsets.only(bottom: 20.0),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 55, top: 20, bottom: 0),
-                            child: Column(
-                              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Expanded(
-                                    child: Row(
-                                  children: <Widget>[
-                                    Container(
-                                      width: size.width * 0.7,
+                                          if (joyContentListResponse.list![index]
+                                              .multiFileUploads!.length >
+                                              1)
+                                            Container(
+                                              margin: EdgeInsets.only(top: 0),
+                                              child: Center(
+                                                child: DotsIndicator(
+                                                  dotsCount: joyContentListResponse
+                                                      .list![index]
+                                                      .multiFileUploads!
+                                                      .length,
+                                                  position: currentIndexPage,
+                                                  decorator: DotsDecorator(
+                                                    size: const Size.square(9.0),
+                                                    activeSize:
+                                                    const Size(18.0, 9.0),
+                                                    activeColor:
+                                                    ColorConstants.WHITE,
+                                                    color: ColorConstants.GREY_4,
+                                                    activeShape:
+                                                    RoundedRectangleBorder(
+                                                        borderRadius:
+                                                        BorderRadius
+                                                            .circular(
+                                                            24.0)),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                        ],
+                                      ),
                                     ),
-                                    RightPanel(
-                                      size: size,
-                                      likes: joyContentListResponse
-                                              .list![index].likeCount ??
-                                          0,
-                                      comments: joyContentListResponse
-                                              .list![index].commentCount ??
-                                          0,
-                                      shares: "shares",
-                                      contentId: joyContentListResponse
-                                          .list![index].id,
-                                      isLiked: joyContentListResponse
-                                                  .list![index].userLiked ==
-                                              0
-                                          ? false
-                                          : true,
-                                      model: joyContentListResponse,
-                                    )
                                   ],
-                                ))
-                              ],
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ],
-                    ));
+                            Container(
+                              // margin: EdgeInsets.only(bottom: 20.0),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 55, top: 20, bottom: 0),
+                                child: Column(
+                                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Expanded(
+                                        child: Row(
+                                          children: <Widget>[
+                                            Container(
+                                              width: size.width * 0.7,
+                                            ),
+                                            RightPanel(
+                                              size: size,
+                                              likes: joyContentListResponse
+                                                  .list![index].likeCount ??
+                                                  0,
+                                              comments: joyContentListResponse
+                                                  .list![index].commentCount ??
+                                                  0,
+                                              shares: "shares",
+                                              contentId: joyContentListResponse
+                                                  .list![index].id,
+                                              isLiked: joyContentListResponse
+                                                  .list![index].userLiked ==
+                                                  0
+                                                  ? false
+                                                  : true,
+                                              model: joyContentListResponse,
+                                            )
+                                          ],
+                                        ))
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ));
                   },
                 ),
               ),
-            )));
+
+              /*body: JoyContentBlankPage(),*/
+            ),
+        ));
   }
 }
 
@@ -574,5 +574,92 @@ class _LikeWidgetState extends State<LikeWidget> {
   void updateLikeandViews(int? like) async {
     BlocProvider.of<HomeBloc>(context).add(LikeContentEvent(
         contentId: widget.contentId, like: like, type: 'contents'));
+  }
+}
+
+
+class JoyContentBlankPage extends StatelessWidget {
+  const JoyContentBlankPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          height: MediaQuery.of(context).size.height -90,
+          width: double.infinity,
+          padding: EdgeInsets.all(8),
+          margin: EdgeInsets.symmetric(vertical: 6),
+          decoration: BoxDecoration(
+            color: ColorConstants.BLACK,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 10,
+                offset: const Offset(5, 5),
+              ),
+            ],
+          ),
+          child: Stack(
+            alignment: Alignment.bottomLeft,
+            fit: StackFit.loose,
+            clipBehavior: Clip.hardEdge,
+            children: [
+              Positioned(
+                bottom: 50,
+                child: Shimmer.fromColors(
+                  baseColor: Color(0xffe6e4e6),
+                  highlightColor: Color(0xffeaf0f3),
+                  child: Container(
+                      height: 12,
+                      margin: EdgeInsets.only(left: 2),
+                      width: 250,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      )),
+                ),
+              ),
+              SizedBox(
+                height: 7,
+              ),
+              Positioned(
+                bottom: 10,
+                child: Shimmer.fromColors(
+                  baseColor: Color(0xffe6e4e6),
+                  highlightColor: Color(0xffeaf0f3),
+                  child: Container(
+                      height: 12,
+                      margin: EdgeInsets.only(left: 2),
+                      width: 130,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      )),
+                ),
+              ),
+              SizedBox(
+                height: 7,
+              ),
+              Positioned(
+                bottom: 30,
+                child: Shimmer.fromColors(
+                  baseColor: Color(0xffe6e4e6),
+                  highlightColor: Color(0xffeaf0f3),
+                  child: Container(
+                      height: 12,
+                      margin: EdgeInsets.only(left: 2),
+                      width: 180,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      )),
+                ),
+              ),
+              SizedBox(
+                height: 7,
+              ),
+          ],),
+        ),
+      ],
+    );
   }
 }
