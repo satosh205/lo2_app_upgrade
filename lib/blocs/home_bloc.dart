@@ -51,6 +51,7 @@ import 'package:masterg/data/models/response/home_response/post_comment_response
 import 'package:masterg/data/models/response/home_response/program_list_reponse.dart';
 import 'package:masterg/data/models/response/home_response/report_content_response.dart';
 import 'package:masterg/data/models/response/home_response/save_answer_response.dart';
+import 'package:masterg/data/models/response/home_response/singularis_portfolio_deleteResp.dart';
 import 'package:masterg/data/models/response/home_response/submit_answer_response.dart';
 import 'package:masterg/data/models/response/home_response/submit_feedback_resp.dart';
 import 'package:masterg/data/models/response/home_response/survey_data_resp.dart';
@@ -731,6 +732,24 @@ class DeletePortfolioState extends HomeState {
   String? error;
 
   DeletePortfolioState(this.state, {this.response, this.error});
+}
+
+class SingularisDeletePortfolioEvent extends HomeEvent {
+
+  int? portfolioId;
+  SingularisDeletePortfolioEvent ({ this.portfolioId}) : super([portfolioId]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+class SingularisDeletePortfolioState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  SingularisPortfolioDelete? response;
+  String? error;
+
+  SingularisDeletePortfolioState(this.state, {this.response, this.error});
 }
 
 class ListPortfolioState extends HomeState {
@@ -1513,20 +1532,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         }
       } catch (e) {}
     } 
-    // else if (event is AddEducationEvent) {
-    //   try {
-    //     yield AddEducationState(ApiStatus.LOADING);
-    //     final response = await homeRepository.addProfessional();
-    //     Log.v("Add Education  DATA ::: ${response.data}");
 
-    //     if (response.data != null) {
-    //       yield AddEducationState(ApiStatus.SUCCESS, response: response);
-    //     } else {
-    //       Log.v("Education Error DATA ::: $response");
-    //       yield AddEducationState(ApiStatus.ERROR, response: response);
-    //     }
-    //   } catch (e) {}
-    // } 
+     else 
+    if (event is SingularisDeletePortfolioEvent ) {
+      try {
+        yield SingularisDeletePortfolioState(ApiStatus.LOADING);
+        final response = await homeRepository.singularisPortfolioDelete(event.portfolioId!);
+        Log.v(" Delete PORTFOLIO DATA ::: ${response.data}");
+
+        if (response.data != null) {
+          yield SingularisDeletePortfolioState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA ::: $response");
+          yield SingularisDeletePortfolioState(ApiStatus.ERROR, response: response);
+        }
+      } catch (e) {}
+    } 
+  
     
     else if (event is AddActivitiesEvent) {
       try {
