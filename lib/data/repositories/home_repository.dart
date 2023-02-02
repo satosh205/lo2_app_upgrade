@@ -49,6 +49,7 @@ import 'package:masterg/data/models/response/home_response/post_comment_response
 import 'package:masterg/data/models/response/home_response/program_list_reponse.dart';
 import 'package:masterg/data/models/response/home_response/report_content_response.dart';
 import 'package:masterg/data/models/response/home_response/save_answer_response.dart';
+import 'package:masterg/data/models/response/home_response/singularis_portfolio_deleteResp.dart';
 import 'package:masterg/data/models/response/home_response/submit_answer_response.dart';
 import 'package:masterg/data/models/response/home_response/submit_feedback_resp.dart';
 import 'package:masterg/data/models/response/home_response/survey_data_resp.dart';
@@ -615,16 +616,16 @@ class HomeRepository {
   }
 
 
-   Future<AddPortfolioResp> singularisPortfolioDelete(int portfolioId) async {
+   Future<SingularisPortfolioDelete> singularisPortfolioDelete(int portfolioId) async {
     final response = await homeProvider.singularisDeletePortfolio(portfolioId);
     if (response!.success) {
       Log.v("Delete Portfolio Content  DATA : ${response.body}");
-      AddPortfolioResp competitionData =
-          AddPortfolioResp.fromJson(response.body);
+      SingularisPortfolioDelete competitionData =
+          SingularisPortfolioDelete.fromJson(response.body);
       return competitionData;
     } else {
       Log.v("====> ${response.body}");
-      return AddPortfolioResp.fromJson(response.body);
+      return SingularisPortfolioDelete.fromJson(response.body);
     }
   } 
 

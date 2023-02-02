@@ -21,15 +21,10 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width(context),
-      // height: height(context) * 0.07,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(width: 1.0, color: const Color(0xffE5E5E5)),
-        borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-      ),
-      child: TextFormField(
+    return 
+   
+       TextFormField(
+        
         controller: controller,
         validator: (value) {
           if(validate == false) return null;
@@ -41,12 +36,12 @@ class CustomTextField extends StatelessWidget {
         maxLines: maxLine,
         decoration: InputDecoration(
           border: OutlineInputBorder(
+            
               borderSide: const BorderSide(width: 1, color: Color(0xffE5E5E5)),
               borderRadius: BorderRadius.circular(10)),
           hintText: hintText,
-        ),
-      ),
-    );
+       ));
+  
   }
 }
 
