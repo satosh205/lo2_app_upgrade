@@ -29,6 +29,8 @@ class _AddCertificateState extends State<AddCertificate> {
   
   File? uploadCerti;
   bool? isAddCertificateLoading = false;
+    final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return BlocManager(
@@ -45,166 +47,185 @@ class _AddCertificateState extends State<AddCertificate> {
                               child: Container(
                   height: height(context) * 0.6,
                   child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 130.0),
-                              child: Text(
-                                "Add Certificate",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 130.0),
+                                child: Text(
+                                  "Add Certificate",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
                               ),
-                            ),
-                            Spacer(),
-                            IconButton(
-                              onPressed: (){
-                                Navigator.pop(context);
-                              },
-                              icon: Icon(Icons.close)),
-                          ],
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SingleChildScrollView(
-                                child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                  const Text(
-                                    "Certificate*",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        color: Color(0xff5A5F73)),
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  CustomTextField(
-                                      controller: titleController,
-                                      hintText: 'Type project title here'),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    "Start Date*",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        color: Color(0xff5A5F73)),
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      try {
-                                        selectDate(context, startDate);
-                                      } catch (e) {
-                                        startDate = TextEditingController();
-                                        selectDate(context, startDate);
-                                      }
-                                    },
-
-                                    child: Container(
-                                      width: width(context),
-                                      height: height(context) * 0.07,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border.all(
-                                            width: 1.0,
-                                            color: const Color(0xffE5E5E5)),
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10.0)),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                           startDate.value.text != "" ?    startDate.value.text:   "Select Date",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Color(0xff929BA3)),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(right: 8.0),
-                                            child: SvgPicture.asset(
-                                                'assets/images/selected_calender.svg'),
-                                          ),
-                                        ],
-                                      ),
+                              Spacer(),
+                              IconButton(
+                                onPressed: (){
+                                  Navigator.pop(context);
+                                },
+                                icon: Icon(Icons.close)),
+                            ],
+                          ),
+                          Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SingleChildScrollView(
+                                  child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                    const Text(
+                                      "Certificate Title*",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color(0xff5A5F73)),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 60,
-                                  ),
-                                  CustomUpload(
-                                      onClick: () async {
-                                        final picker = ImagePicker();
-                                        final pickedFileC =
-                                            await ImagePicker().pickImage(
-                                          source: ImageSource.gallery,
-                                          imageQuality: 100,
-                                        );
-                                        if (pickedFileC != null) {
-                                          setState(() {
-                                            uploadCerti = File(pickedFileC.path);
-                                          });
-                                        } else if (Platform.isAndroid) {
-                                          final LostData response =
-                                              await picker.getLostData();
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    CustomTextField(
+                                      validate: true,
+                                      validationString: 'plese enter title'
+                                      ,
+                                        controller: titleController,
+                                        hintText: 'Type project title here'),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      "Start Date*",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color(0xff5A5F73)),
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        try {
+                                          selectDate(context, startDate);
+                                        } catch (e) {
+                                          startDate = TextEditingController();
+                                          selectDate(context, startDate);
                                         }
                                       },
-                                      uploadText: 'Upload Certificate'),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Center(
-                                      child: Text(
-                                          uploadCerti != null
-                                              ? '${uploadCerti?.path.split('/').last}'
-                                              : "Supported Files: .jpeg, .png",
-                                          style: TextStyle(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w400,
-                                              color: Color(0xff929BA3))),
+                    
+                                      child: Container(
+                                        width: width(context),
+                                        height: height(context) * 0.07,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          border: Border.all(
+                                              width: 1.0,
+                                              color: const Color(0xffE5E5E5)),
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(10.0)),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Text(
+                                             startDate.value.text != "" ?    startDate.value.text:   "Select Date",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Color(0xff929BA3)),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.only(right: 8.0),
+                                              child: SvgPicture.asset(
+                                                  'assets/images/selected_calender.svg'),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  PortfolioCustomButton(
-                                    clickAction: () async {
-                                      Map<String, dynamic> data = Map();
-                                      try {
-                                        String? fileName =
-                                            uploadCerti?.path.split('/').last;
-                                             data["activity_type"] = "Certificate";   
-                                        data['certificate'] =
-                                            await MultipartFile.fromFile(
-                                                '${uploadCerti?.path}',
-                                                filename: fileName);
-                                      } catch (e) {
-                                        print('something is wrong $e');
-                                      }
-                                   
-                
-                                      data['title'] =
-                                          titleController.value.text;
-                                      data['start_date'] = startDate.value.text;
-                                      data["professional_key"] = widget.isEditMode == true ? "certificate_id":   "new_professional"; 
-                                      data["edit_url_professional"] = "";
+                                    SizedBox(
+                                      height: 60,
+                                    ),
+                                    CustomUpload(
+                                        onClick: () async {
+                                          final picker = ImagePicker();
+                                          final pickedFileC =
+                                              await ImagePicker().pickImage(
+                                            source: ImageSource.gallery,
+                                            imageQuality: 100,
+                                          );
+                                          if (pickedFileC != null) {
+                                            setState(() {
+                                              uploadCerti = File(pickedFileC.path);
+                                            });
+                                          } else if (Platform.isAndroid) {
+                                            final LostData response =
+                                                await picker.getLostData();
+                                          }
+                                        },
+                                        uploadText: 'Upload Certificate'),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Center(
+                                        child: Text(
+                                            uploadCerti != null
+                                                ? '${uploadCerti?.path.split('/').last}'
+                                                : "Supported Files: .jpeg, .png",
+                                            style: TextStyle(
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.w400,
+                                                color: Color(0xff929BA3))),
+                                      ),
+                                    ),
+                                    PortfolioCustomButton(
+                                      clickAction: () async {
+                                           if (startDate.value.text == '') {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content:
+                                            Text('Please choose start date')),
+                                  );
+                                } 
+                                        
+                                      else if (_formKey.currentState!.validate()) {
 
-                                      addCertificate(data);
-                                    },
-                                  )
-                                ]))),
-                      ],
+                                        Map<String, dynamic> data = Map();
+                                        try {
+                                          String? fileName =
+                                              uploadCerti?.path.split('/').last;
+                                               data["activity_type"] = "Certificate";   
+                                          data['certificate'] =
+                                              await MultipartFile.fromFile(
+                                                  '${uploadCerti?.path}',
+                                                  filename: fileName);
+                                                   data['title'] =
+                                            titleController.value.text;
+                                        data['start_date'] = startDate.value.text;
+                                        data["professional_key"] = widget.isEditMode == true ? "certificate_id":   "new_professional"; 
+                                        data["edit_url_professional"] = "";
+                    
+                                        addCertificate(data);
+                                        } catch (e) {
+                                           ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Please upload file')),);
+
+                                        }
+                                     
+                                    
+                                      }
+                                      },
+                                    )
+                                  ]))),
+                        ],
+                      ),
                     ),
                   ),
                               ),
