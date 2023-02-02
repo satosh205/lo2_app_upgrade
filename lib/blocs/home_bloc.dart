@@ -1453,6 +1453,21 @@ class AddEducationEvent extends HomeEvent {
 
   List<Object> get props => throw UnimplementedError();
 }
+class AddPortfolioProfileEvent extends HomeEvent {
+  Map<String, dynamic>? data;
+
+  AddPortfolioProfileEvent({this.data}) : super([data]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+class AddProfolioProfileState extends HomeState {
+  ApiStatus state;
+  ApiStatus get apiState => state;
+  AddPortfolioResp? response;
+  String? error;
+  AddProfolioProfileState(this.state, {this.response, this.error});
+}
 
 class AddEducationState extends HomeState {
   ApiStatus state;
@@ -1503,7 +1518,22 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc(HomeState initialState) : super(initialState);
 
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
-    if (event is AddPortfolioEvent) {
+
+    if(event is AddPortfolioProfileEvent){
+       try {
+        yield AddProfolioProfileState(ApiStatus.LOADING);
+        final response = await homeRepository.addPortfolioProfile(data: event.data);
+        Log.v("Add PORTFOLIO Profile DATA ::: ${response.data}");
+
+        if (response.data != null) {
+          yield AddProfolioProfileState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("PORTFOLIO Profile  ERROR DATA ::: $response");
+          yield AddProfolioProfileState(ApiStatus.ERROR, response: response);
+        }
+      } catch (e) {}
+    }
+    else if (event is AddPortfolioEvent) {
       try {
         yield AddPortfolioState(ApiStatus.LOADING);
         final response = await homeRepository.addPortfolio(data: event.data);

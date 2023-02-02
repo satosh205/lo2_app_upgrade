@@ -347,7 +347,7 @@ const EN_TEXT = {
   'emailIsRequired': 'Email is required',
   'photo': 'Photo',
   'video': 'Video',
-  'writeAPost': 'Write a post...',
+  'writeAPost': 'Create post in the community...',
   'imageVideoSizeLarge': 'Video/image size can\'t be larger than',
   'only4ImagesVideosAllowed': 'Only 4 images/videos are allowed',
   'noPostAvailable': 'No Post Available',
