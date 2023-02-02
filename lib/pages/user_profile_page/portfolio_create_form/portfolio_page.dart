@@ -21,6 +21,7 @@ import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_educat
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_experience.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_extra_act.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfolio.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/certificate_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/education_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/resume.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_list.dart';
@@ -1690,7 +1691,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                       action();
                     },
                     icon: Icon(Icons.add)),
-              Icon(Icons.arrow_forward_ios_outlined),
+              InkWell(
+                onTap: (() {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>CertificateList()));
+                }),
+                child: Icon(Icons.arrow_forward_ios_outlined)),
             ],
           ),
           Divider(),
