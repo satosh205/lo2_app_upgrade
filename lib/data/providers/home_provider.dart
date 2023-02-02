@@ -184,14 +184,42 @@ class HomeProvider {
     return null;
   }
 
+  Future<ApiResponse?> addPortfolioProfile({Map<String, dynamic>? data}) async {
+    try {
+      final response = await api.dio.post(ApiConstants.ADD_PORTFOLIO_PROFILE,
+          data: FormData.fromMap(data!),
+          options: Options(
+              method: 'POST',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      Log.v(response.statusCode);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+    return null;
+  }
+
   Future<ApiResponse?> singularisDeletePortfolio(int portfolioId) async {
     //  Utility.hideKeyboard();
     try {
-         Map<String, dynamic> data = Map();
+      Map<String, dynamic> data = Map();
       data['portfolio_id'] = portfolioId;
-   
+
       final response = await api.dio.post(ApiConstants.PORTFOLIO_DELETE,
-data: FormData.fromMap(data),
+          data: FormData.fromMap(data),
           options: Options(
               method: 'POST',
               headers: {
@@ -2268,11 +2296,6 @@ data: FormData.fromMap(data),
     }
     return null;
   }
-
-  
-
-
-
 
   Future<ApiResponse?> updateVideoCompletion(
       int bookmark, int contentId) async {

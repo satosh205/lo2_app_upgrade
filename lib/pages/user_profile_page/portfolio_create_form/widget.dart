@@ -11,11 +11,14 @@ class CustomTextField extends StatelessWidget {
   final int maxLine;
   final bool? validate;
   final String? validationString;
+  final int? maxChar;
   const CustomTextField(
       {Key? key,
       required this.hintText,
       this.style,
       this.controller,
+      this.maxChar,
+
       this.maxLine = 1, this.validate = false, this.validationString = ""})
       : super(key: key);
 
@@ -24,6 +27,7 @@ class CustomTextField extends StatelessWidget {
     return 
    
        TextFormField(
+        maxLength: maxChar,
         
         controller: controller,
         validator: (value) {

@@ -21,8 +21,9 @@ import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_educat
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_experience.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_extra_act.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfolio.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/certificate_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/education_list.dart';
-import 'package:masterg/pages/user_profile_page/portfolio_create_form/resume.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/view_resume.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_list.dart';
 
 import 'package:masterg/pages/user_profile_page/singularis_profile_edit.dart';
@@ -43,7 +44,7 @@ class NewPortfolioPage extends StatefulWidget {
 }
 
 class _NewPortfolioPageState extends State<NewPortfolioPage> {
-  bool editModeEnabled = false;
+  bool editModeEnabled = true;
   bool? isPortfolioLoading = true;
   PortfolioResponse? portfolioResponse;
 
@@ -82,7 +83,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       child: BlocListener<HomeBloc, HomeState>(
           listener: (context, state) {
             if (state is PortfolioState) {
-              print('handle the api');
               handlePortfolioState(state);
             }
           },
@@ -158,37 +158,10 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                             });
                                       },
                                       icon: Icon(
-                                        Icons.logout,
+                                        Icons.share,
                                         color: ColorConstants.WHITE,
                                       )),
-                                  // InkWell(
-                                  //   onTap: () {
-                                  //     // setState(() {
-                                  //     //   editModeEnabled = !editModeEnabled;
-                                  //     // });
-                                  //   },
-                                  //   child: Row(
-                                  //     children: [
-                                  //       SvgPicture.asset(editModeEnabled
-                                  //           ? 'assets/images/check.svg'
-                                  //           : 'assets/images/edit.svg'),
-                                  //       SizedBox(
-                                  //         width: 4,
-                                  //       ),
-                                  //       Text(
-                                  //         editModeEnabled
-                                  //             ? 'Save'
-                                  //             : 'Edit Portfolio',
-                                  //         style: Styles.regular(
-                                  //             size: 12,
-                                  //             color: ColorConstants.WHITE),
-                                  //       ),
-                                  //       SizedBox(
-                                  //         width: 8,
-                                  //       ),
-                                  //     ],
-                                  //   ),
-                                  // )
+                                 
                                 ],
                               ),
                               Padding(
@@ -215,14 +188,28 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                   context: context,
                                                   builder: (context) {
                                                     return FractionallySizedBox(
-                                                      heightFactor: 0.7,
+                                                      heightFactor: 0.4,
                                                       child: Container(
                                                         child: Column(
                                                           mainAxisSize:
                                                               MainAxisSize.min,
                                                           children: <Widget>[
+                                                            Row(
+                                                              children: [
+                                                                Spacer(),
+                                                                IconButton(
+                                                                  onPressed: () =>
+                                                                      Navigator.pop(
+                                                                          context),
+                                                                  icon: Icon(
+                                                                    Icons.close,
+                                                                    color: Colors
+                                                                        .black,
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
                                                             ListTile(
-
                                                               leading: SvgPicture
                                                                   .asset(
                                                                       'assets/images/camera.svg'),
@@ -238,8 +225,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                     context);
                                                               },
                                                             ),
-
-                                                             ListTile(
+                                                            ListTile(
                                                               leading: SvgPicture
                                                                   .asset(
                                                                       'assets/images/portfolio_video.svg'),
@@ -255,7 +241,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                     context);
                                                               },
                                                             ),
-                                                            
                                                           ],
                                                         ),
                                                       ),
@@ -340,29 +325,57 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                     style: Styles.regular(
                                                         size: 12,
                                                         color: ColorConstants
-                                                            .WHITE))
+                                                            .WHITE)),
+                                                Spacer(),
+                                                SizedBox(
+                                                    width: 18,
+                                                    child: Transform.scale(
+                                                        scale: 1.2,
+                                                        child: InkWell(
+                                                          onTap: () async {
+                                                            await showModalBottomSheet(
+                                                              backgroundColor: 
+                                                             ColorConstants
+                                                                            .WHITE ,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            20)),
+                                                                context:
+                                                                    context,
+                                                                enableDrag:
+                                                                    true,
+                                                                isScrollControlled:
+                                                                    true,
+                                                                builder:
+                                                                    (context) {
+                                                                  return FractionallySizedBox(
+                                                                    heightFactor:
+                                                                        0.7,
+                                                                    child: Container(
+                                                                        height: height(
+                                                                            context),
+                                                                        color: ColorConstants
+                                                                            .WHITE,
+                                                                        padding:
+                                                                            const EdgeInsets.all(
+                                                                                8.0),
+                                                                        margin: const EdgeInsets.only(
+                                                                            top:
+                                                                                10),
+                                                                        child:
+                                                                            EditProfilePage()),
+                                                                  );
+                                                                }).then((value) => getPortfolio());
+                                                          },
+                                                          child: SvgPicture.asset(
+                                                              'assets/images/edit.svg'),
+                                                        )))
                                               ],
                                             )
                                           ],
                                         ),
                                       ),
-                                      editModeEnabled
-                                          ? SizedBox(
-                                              width: 18,
-                                              child: Transform.scale(
-                                                  scale: 1.4,
-                                                  child: InkWell(
-                                                    onTap: () {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  EditProfilePage()));
-                                                    },
-                                                    child: SvgPicture.asset(
-                                                        'assets/images/edit.svg'),
-                                                  )))
-                                          : SizedBox(width: 18),
                                     ]),
                               ),
                             ],
@@ -371,22 +384,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                         SizedBox(
                           height: 50,
                         ),
-                        if (editModeEnabled)
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Text('About'),
-                                Spacer(),
-                                Transform.scale(
-                                    scale: 1.4,
-                                    child: SvgPicture.asset(
-                                      'assets/images/edit.svg',
-                                      color: ColorConstants.BLACK,
-                                    )),
-                              ],
-                            ),
-                          ),
+                        
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
@@ -395,22 +393,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                 size: 12, color: Color(0xff5A5F73)),
                           ),
                         ),
-                        if (editModeEnabled)
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Text('Contact and social'),
-                                Spacer(),
-                                Transform.scale(
-                                    scale: 1.4,
-                                    child: SvgPicture.asset(
-                                      'assets/images/edit.svg',
-                                      color: ColorConstants.BLACK,
-                                    )),
-                              ],
-                            ),
-                          ),
+                        
                         Center(
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width * 0.95,
@@ -562,30 +545,16 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                       width: MediaQuery.of(context).size.width * 0.94,
                       child: Divider()),
                 ),
-                if (editModeEnabled)
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Text('Resume'),
-                        Spacer(),
-                        Transform.scale(
-                            scale: 1.4,
-                            child: SvgPicture.asset(
-                              'assets/images/edit.svg',
-                              color: ColorConstants.BLACK,
-                            )),
-                      ],
-                    ),
-                  ),
+                
                 InkWell(
                   onTap: () {
                     Navigator.push(
                         context,
-                        NextPageRoute(PdfViewPage(
-                          url:
+                        NextPageRoute(ViewResume(
+                          resumeId: portfolioResponse?.data.resume.first.id,
+                          resumUrl:
                               '$baseUrl${portfolioResponse?.data.resume.first.url}',
-                          callBack: false,
+                        
                         )));
                   },
                   child: Row(
@@ -698,25 +667,45 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                               Spacer(),
                               InkWell(
                                   onTap: (() async {
-                                    await showModalBottomSheet(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        context: context,
-                                        enableDrag: true,
-                                        isScrollControlled: true,
-                                        builder: (context) {
-                                          return FractionallySizedBox(
-                                            heightFactor: 0.7,
-                                            child: Container(
-                                                height: height(context),
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                margin: const EdgeInsets.only(
-                                                    top: 10),
-                                                child: AddPortfolio()),
-                                          );
-                                        }).then((value) => getPortfolio());
+
+ Navigator.of(context).push( PageRouteBuilder(
+  transitionDuration: Duration(milliseconds: 600),
+  reverseTransitionDuration: Duration(milliseconds: 600),
+    pageBuilder: (context, animation, secondaryAnimation) =>  AddPortfolio(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(0.0, 1.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  )).then((value) => getPortfolio());
+// getPortfolio();
+
+                                    // await showModalBottomSheet(
+                                    //     shape: RoundedRectangleBorder(
+                                    //         borderRadius:
+                                    //             BorderRadius.circular(20)),
+                                    //     context: context,
+                                    //     enableDrag: true,
+                                    //     isScrollControlled: true,
+                                    //     builder: (context) {
+                                    //       return FractionallySizedBox(
+                                    //         heightFactor: 0.7,
+                                    //         child: Container(
+                                    //             height: height(context),
+                                    //             padding:
+                                    //                 const EdgeInsets.all(8.0),
+                                    //             margin: const EdgeInsets.only(
+                                    //                 top: 10),
+                                    //             child: AddPortfolio()),
+                                    //       );
+                                    //     }).then((value) => );
                                   }),
                                   child: Icon(Icons.add)),
                               SizedBox(
@@ -934,25 +923,27 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                               Spacer(),
                               InkWell(
                                   onTap: (() async {
-                                    await showModalBottomSheet(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        context: context,
-                                        enableDrag: true,
-                                        isScrollControlled: true,
-                                        builder: (context) {
-                                          return FractionallySizedBox(
-                                            heightFactor: 0.7,
-                                            child: Container(
-                                                height: height(context),
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                margin: const EdgeInsets.only(
-                                                    top: 10),
-                                                child: AddEducation()),
-                                          );
-                                        }).then((value) => getPortfolio());
+
+ Navigator.of(context).push( PageRouteBuilder(
+  transitionDuration: Duration(milliseconds: 600),
+  reverseTransitionDuration: Duration(milliseconds: 600),
+    pageBuilder: (context, animation, secondaryAnimation) =>  AddEducation(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(0.0, 1.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  )).then((value) => getPortfolio());
+
+                                    
+                            
                                   }),
                                   child: Icon(Icons.add)),
                               SizedBox(
@@ -1690,7 +1681,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                       action();
                     },
                     icon: Icon(Icons.add)),
-              Icon(Icons.arrow_forward_ios_outlined),
+              InkWell(
+                onTap: (() {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>CertificateList()));
+                }),
+                child: Icon(Icons.arrow_forward_ios_outlined)),
             ],
           ),
           Divider(),
