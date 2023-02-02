@@ -614,6 +614,20 @@ class HomeRepository {
     }
   }
 
+
+   Future<AddPortfolioResp> singularisPortfolioDelete(int portfolioId) async {
+    final response = await homeProvider.singularisDeletePortfolio(portfolioId);
+    if (response!.success) {
+      Log.v("Delete Portfolio Content  DATA : ${response.body}");
+      AddPortfolioResp competitionData =
+          AddPortfolioResp.fromJson(response.body);
+      return competitionData;
+    } else {
+      Log.v("====> ${response.body}");
+      return AddPortfolioResp.fromJson(response.body);
+    }
+  } 
+
   //leaderboard
   Future<LeaderboardResponse> getLeaderboard(
       int? id, String? type, int? skipotherUser, int? skipcurrentUser) async {
