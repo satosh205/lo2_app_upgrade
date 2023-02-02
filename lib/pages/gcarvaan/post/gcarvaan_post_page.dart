@@ -20,6 +20,7 @@ import 'package:masterg/pages/gcarvaan/components/gcarvaan_card_post.dart';
 import 'package:masterg/pages/gcarvaan/createpost/create_gcarvaan_page.dart';
 import 'package:masterg/pages/gcarvaan/createpost/create_post_provider.dart';
 import 'package:masterg/pages/reels/reels_dashboard_page.dart';
+import 'package:masterg/pages/singularis/community/discover_communities_page.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_page.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
@@ -245,27 +246,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                   ),
                                 ],
                               )),
-                            /*Row(
-                              children: [
-                                SvgPicture.asset('assets/images/discover.svg'),
-                                ShaderMask(
-                                  blendMode: BlendMode.srcIn,
-                                  shaderCallback: (Rect bounds) {
-                                    return LinearGradient(
-                                        begin: Alignment.centerLeft,
-                                        end: Alignment.centerRight,
-                                        colors: <Color>[
-                                          Color(0xfffc7804),
-                                          ColorConstants.GRADIENT_RED
-                                        ]).createShader(bounds);
-                                  },
-                                  child: Text(
-                                    'Discover Communities',
-                                    style: Styles.bold(size: 12),
-                                  ),
-                                ),
-                              ],
-                            ),*/
+
                             if (!widget.fromDashboard)
                               Consumer<CreatePostProvider>(
                                 builder: (context, value, child) => Container(
@@ -339,7 +320,9 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
 
                                       InkWell(
                                         onTap: (){
-                                          print('hello');
+                                          Navigator.push(
+                                              context,
+                                              NextPageRoute(DiscoverCommunitiesPage()));
                                         },
                                         child: Row(
                                           children: [
@@ -356,13 +339,6 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                                       ColorConstants.GRADIENT_RED
                                                     ]).createShader(bounds);
                                               },
-                                              /*child: Padding(
-                                                padding: const EdgeInsets.only(left: 8.0),
-                                                child: Text(
-                                                  'Discover Communities',
-                                                  style: Styles.bold(size: 12),
-                                                ),
-                                              ),*/
 
                                               child: Padding(
                                                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),

@@ -2224,10 +2224,8 @@ class _DashboardPageState extends State<DashboardPage> {
                                 child: Container(
                                     padding: EdgeInsets.all(10),
                                     margin: EdgeInsets.only(top: 12, right: 10),
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.8,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.15,
+                                    width: MediaQuery.of(context).size.width * 0.8,
+                                    height: MediaQuery.of(context).size.height * 0.15,
                                     decoration: BoxDecoration(
                                         color: ColorConstants.GREY
                                             .withOpacity(0.6),
@@ -2265,13 +2263,14 @@ class _DashboardPageState extends State<DashboardPage> {
                                               SizedBox(
                                                 width: 10,
                                               ),
-                                              Text(
-                                                  '${myCoursesList![index].name}',
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  softWrap: false,
-                                                  style: Styles.bold(size: 16)),
+                                              Flexible(
+                                                child: Text(
+                                                    '${myCoursesList![index].name}',
+                                                    maxLines: 2,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    softWrap: true,
+                                                    style: Styles.bold(size: 14)),
+                                              ),
                                             ],
                                           ),
                                           Column(
