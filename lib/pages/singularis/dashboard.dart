@@ -178,7 +178,14 @@ class _DashboardPageState extends State<DashboardPage> {
                                       child: SizedBox(
                                         width: 40,
                                         child: Image.network(
-                                            '${Preference.getString(Preference.PROFILE_IMAGE)}'),
+                                          
+                                            '${Preference.getString(Preference.PROFILE_IMAGE)}',
+                                            
+                                            errorBuilder: (context, error, stackTrace) => SvgPicture.asset('assets/images/default_user.svg'
+                                  ,           width: 40,
+                                            
+                                            ),
+                                            ),
                                       ),
                                     ),
                                   ),
@@ -3028,7 +3035,6 @@ class _DashboardPageState extends State<DashboardPage> {
                   Expanded(child: SizedBox()),
                   InkWell(
                     onTap: () {
-                      print('ViewWidgetDetailsPage');
                       //menuProvider?.updateCurrentIndex('1'); //Gcarva page
                       showModalBottomSheet(
                           context: context,
@@ -3037,7 +3043,7 @@ class _DashboardPageState extends State<DashboardPage> {
                           builder: (context) {
                             return FractionallySizedBox(
                               heightFactor: 1.0,
-                              child: ViewWidgetDetailsPage(),
+                              child: ViewWidgetDetailsPage(root: 'dashboard',),
                             );
                           });
                     },
@@ -3083,6 +3089,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                     ),*/
                                   child: ViewWidgetDetailsPage(
                                     currentID: featuredContentList![index].id,
+                                    root: 'dashboard',
                                   ),
                                 );
                               });
