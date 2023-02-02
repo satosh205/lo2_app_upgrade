@@ -83,7 +83,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       child: BlocListener<HomeBloc, HomeState>(
           listener: (context, state) {
             if (state is PortfolioState) {
-              print('handle the api');
               handlePortfolioState(state);
             }
           },
@@ -552,17 +551,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                     Navigator.push(
                         context,
                         NextPageRoute(ViewResume(
+                          resumeId: portfolioResponse?.data.resume.first.id,
                           resumUrl:
                               '$baseUrl${portfolioResponse?.data.resume.first.url}',
                         
                         )));
-                    // Navigator.push(
-                    //     context,
-                    //     NextPageRoute(PdfViewPage(
-                    //       url:
-                    //           '$baseUrl${portfolioResponse?.data.resume.first.url}',
-                    //       callBack: false,
-                    //     )));
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -674,25 +667,45 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                               Spacer(),
                               InkWell(
                                   onTap: (() async {
-                                    await showModalBottomSheet(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        context: context,
-                                        enableDrag: true,
-                                        isScrollControlled: true,
-                                        builder: (context) {
-                                          return FractionallySizedBox(
-                                            heightFactor: 0.7,
-                                            child: Container(
-                                                height: height(context),
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                margin: const EdgeInsets.only(
-                                                    top: 10),
-                                                child: AddPortfolio()),
-                                          );
-                                        }).then((value) => getPortfolio());
+
+ Navigator.of(context).push( PageRouteBuilder(
+  transitionDuration: Duration(milliseconds: 600),
+  reverseTransitionDuration: Duration(milliseconds: 600),
+    pageBuilder: (context, animation, secondaryAnimation) =>  AddPortfolio(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(0.0, 1.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  )).then((value) => getPortfolio());
+// getPortfolio();
+
+                                    // await showModalBottomSheet(
+                                    //     shape: RoundedRectangleBorder(
+                                    //         borderRadius:
+                                    //             BorderRadius.circular(20)),
+                                    //     context: context,
+                                    //     enableDrag: true,
+                                    //     isScrollControlled: true,
+                                    //     builder: (context) {
+                                    //       return FractionallySizedBox(
+                                    //         heightFactor: 0.7,
+                                    //         child: Container(
+                                    //             height: height(context),
+                                    //             padding:
+                                    //                 const EdgeInsets.all(8.0),
+                                    //             margin: const EdgeInsets.only(
+                                    //                 top: 10),
+                                    //             child: AddPortfolio()),
+                                    //       );
+                                    //     }).then((value) => );
                                   }),
                                   child: Icon(Icons.add)),
                               SizedBox(
@@ -910,25 +923,27 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                               Spacer(),
                               InkWell(
                                   onTap: (() async {
-                                    await showModalBottomSheet(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        context: context,
-                                        enableDrag: true,
-                                        isScrollControlled: true,
-                                        builder: (context) {
-                                          return FractionallySizedBox(
-                                            heightFactor: 0.7,
-                                            child: Container(
-                                                height: height(context),
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                margin: const EdgeInsets.only(
-                                                    top: 10),
-                                                child: AddEducation()),
-                                          );
-                                        }).then((value) => getPortfolio());
+
+ Navigator.of(context).push( PageRouteBuilder(
+  transitionDuration: Duration(milliseconds: 600),
+  reverseTransitionDuration: Duration(milliseconds: 600),
+    pageBuilder: (context, animation, secondaryAnimation) =>  AddEducation(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(0.0, 1.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  )).then((value) => getPortfolio());
+
+                                    
+                            
                                   }),
                                   child: Icon(Icons.add)),
                               SizedBox(
