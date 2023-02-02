@@ -38,7 +38,7 @@ class _AddActivitiesState extends State<AddEducation> {
   DateTime selectedDate = DateTime.now();
   bool? isAddEducationLoading;
   File? uploadImg;
-
+  final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     setValues();
@@ -50,12 +50,12 @@ class _AddActivitiesState extends State<AddEducation> {
       schoolController =
           TextEditingController(text: widget.education?.institute);
       degreeController = TextEditingController(text: widget.education?.title);
-      descController = TextEditingController(text: widget.education?.description);
+      descController =
+          TextEditingController(text: widget.education?.description);
       startDate = TextEditingController(text: widget.education?.startDate);
       endDate = TextEditingController(text: widget.education?.endDate);
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +103,8 @@ class _AddActivitiesState extends State<AddEducation> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: CustomTextField(
+                                validate: true,
+                                validationString: 'Please enter School',
                                 controller: schoolController,
                                 hintText:
                                     'Ex. Middle East College (MEC), Muscat, Oman'),
@@ -120,6 +122,8 @@ class _AddActivitiesState extends State<AddEducation> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: CustomTextField(
+                                validate: true,
+                                validationString: 'Please enter Degree*',
                                 controller: degreeController,
                                 hintText: 'Ex: Bachelor\'s of Instrumentation'),
                           ),
@@ -256,6 +260,8 @@ class _AddActivitiesState extends State<AddEducation> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: CustomTextField(
+                              validate: true,
+                              validationString: 'Please enter Description',
                               controller: descController,
                               maxLine: 6,
                               hintText:
@@ -332,31 +338,45 @@ class _AddActivitiesState extends State<AddEducation> {
                           ),
                           PortfolioCustomButton(
                             clickAction: () async {
-                              Map<String, dynamic> data = Map();
+                              if (startDate.value.text == '') {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content:
+                                          Text('Please choose start date')),
+                                );
+                              } 
+                              
+                              else if (_formKey.currentState!.validate()) {
+                                Map<String, dynamic> data = Map();
 
-                              try {
-                                String? fileName =
-                                    uploadImg?.path.split('/').last;
-                                data['certificate'] =
-                                    await MultipartFile.fromFile(
-                                        '${uploadImg?.path}',
-                                        filename: fileName);
-                              } catch (e) {
-                                print('something is wrong $e');
+                                try {
+                                  String? fileName =
+                                      uploadImg?.path.split('/').last;
+                                  data['certificate'] =
+                                      await MultipartFile.fromFile(
+                                          '${uploadImg?.path}',
+                                          filename: fileName);
+                                  data["activity_type"] = "Education";
+                                  data["title"] = degreeController.value.text;
+                                  data["description"] =
+                                      descController.value.text;
+                                  data["start_date"] = startDate.value.text;
+                                  data["end_date"] = endDate.value.text;
+                                  data["institute"] =
+                                      schoolController.value.text;
+                                  data["professional_key"] =
+                                      widget.isEditMode == true
+                                          ? "education_${widget.education?.id}"
+                                          : "new_professional";
+                                  data["edit_url_professional"] = "";
+                                  addEducation(data);
+                                } catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text('Please upload file')),
+                                  );
+                                }
                               }
-
-                              data["activity_type"] = "Education";
-                              data["title"] = degreeController.value.text;
-                              data["description"] = descController.value.text;
-                              data["start_date"] = startDate.value.text;
-                              data["end_date"] = endDate.value.text;
-                              data["institute"] = schoolController.value.text;
-                              data["professional_key"] =
-                                  widget.isEditMode == true
-                                      ? "education_${widget.education?.id}"
-                                      : "new_professional";
-                              data["edit_url_professional"] = "";
-                              addEducation(data);
                             },
                           )
                         ]))))));
