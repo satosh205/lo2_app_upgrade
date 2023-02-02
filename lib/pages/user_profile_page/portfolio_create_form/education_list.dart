@@ -279,7 +279,7 @@ class _EducationListState extends State<EducationList> {
     BlocProvider.of<HomeBloc>(context).add(SingularisDeletePortfolioEvent(portfolioId: id));
   }
 
-  void handleSingularisDeletePortfolioState(SingularisDeletePortfolioState state){
+ void handleSingularisDeletePortfolioState(SingularisDeletePortfolioState state){
 
    
     setState(() {

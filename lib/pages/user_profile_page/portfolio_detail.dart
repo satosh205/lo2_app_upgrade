@@ -11,6 +11,8 @@ class PortfolioDetail extends StatefulWidget {
 class _PortfolioDetailState extends State<PortfolioDetail> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Column(children: [
+      
+    ],);
   }
 }
