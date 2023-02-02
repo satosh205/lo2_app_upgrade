@@ -32,7 +32,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
 
   bool? isAddPortfolioLoading = false;
 
-   final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -40,19 +40,19 @@ class _AddPortfolioState extends State<AddPortfolio> {
       initState: (value) {},
       child: BlocListener<HomeBloc, HomeState>(
         listener: (context, state) async {
-          if(state is AddPortfolioState) handleAddPortfolio(state);
+          if (state is AddPortfolioState) handleAddPortfolio(state);
         },
         child: Scaffold(
             body: ScreenWithLoader(
-              isLoading: isAddPortfolioLoading,
-              body: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SingleChildScrollView(
+          isLoading: isAddPortfolioLoading,
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SingleChildScrollView(
                 child: Form(
-                  key: _formKey,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+              key: _formKey,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     Row(
                       children: [
                         Padding(
@@ -66,7 +66,9 @@ class _AddPortfolioState extends State<AddPortfolio> {
                           ),
                         ),
                         Expanded(child: SizedBox()),
-                        IconButton(onPressed: ()=> Navigator.pop(context), icon: Icon(Icons.close_outlined)),
+                        IconButton(
+                            onPressed: () => Navigator.pop(context),
+                            icon: Icon(Icons.close_outlined)),
                       ],
                     ),
                     const Text(
@@ -98,14 +100,13 @@ class _AddPortfolioState extends State<AddPortfolio> {
                     const SizedBox(
                       height: 5,
                     ),
-                     CustomTextField(
+                    CustomTextField(
                       validate: true,
                       validationString: 'Please enter description',
-                        controller: descController,
-                         hintText: 'Type project description here',
-                         maxLine: 8,
+                      controller: descController,
+                      hintText: 'Type project description here',
+                      maxLine: 8,
                     ),
-
                     const SizedBox(
                       height: 20,
                     ),
@@ -147,7 +148,8 @@ class _AddPortfolioState extends State<AddPortfolio> {
                               },
                               child: Row(
                                 children: [
-                                  SvgPicture.asset('assets/images/upload_icon.svg'),
+                                  SvgPicture.asset(
+                                      'assets/images/upload_icon.svg'),
                                   Text(
                                     "Upload Image",
                                     style: Styles.bold(size: 12),
@@ -182,7 +184,6 @@ class _AddPortfolioState extends State<AddPortfolio> {
                     CustomTextField(
                       controller: linkController,
                       hintText: 'https//',
-                     
                     ),
                     const SizedBox(
                       height: 20,
@@ -193,15 +194,22 @@ class _AddPortfolioState extends State<AddPortfolio> {
                           padding: const EdgeInsets.all(8.0),
                           child: CustomUpload(
                             onClick: () async {
-                              FilePickerResult? pickedFileC = await FilePicker.platform.pickFiles(
-                  type: FileType.custom,
-                  allowedExtensions: ['pdf', 'doc', 'jpeg', 'png', 'jpg'],
-                );
+                              FilePickerResult? pickedFileC =
+                                  await FilePicker.platform.pickFiles(
+                                type: FileType.custom,
+                                allowedExtensions: [
+                                  'pdf',
+                                  'doc',
+                                  'jpeg',
+                                  'png',
+                                  'jpg'
+                                ],
+                              );
                               if (pickedFileC != null) {
                                 setState(() {
                                   file = File(pickedFileC.files.first.path!);
                                 });
-                              } 
+                              }
                             },
                             uploadText: 'Upload Image',
                           ),
@@ -215,42 +223,40 @@ class _AddPortfolioState extends State<AddPortfolio> {
                     ),
                     PortfolioCustomButton(
                       clickAction: () async {
+                        if (_formKey.currentState!.validate()) {
+                          Map<String, dynamic> data = Map();
+                          try {
+                            String? portfolioImage = file?.path.split('/').last;
+                            String? portfolioFile = file?.path.split('/').last;
+                            data['portfolio_image'] =
+                                await MultipartFile.fromFile('${file?.path}',
+                                    filename: portfolioImage);
 
+                            data['portfolio_file'] =
+                                await MultipartFile.fromFile(
+                                    '${uploadImg?.path}',
+                                    filename: portfolioFile);
 
-                      if (_formKey.currentState!.validate()) {
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Processing Data')),
-      );
-    }     
-    else {
-       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('jhandl Data')),
-      );
-    }                // Map<String, dynamic> data = Map();
-                        // try {
-                        //   String? fileName = file?.path.split('/').last;
-                        //   data['portfolio_image'] = await MultipartFile.fromFile(
-                        //       '${file?.path}',
-                        //       filename: fileName);
-                        // } catch (e) {
-                        //   print('something is wrong $e');
-                        // }
-                            
-                        // data['portfolio_title'] = titleController.value.text;
-                        // data['portfolio_link'] = linkController.value.text;
-                        // data['portfolio_key'] = 'new_portfolio';
-                        // data['edit_url_portfolio'] = '';
-                        // data['edit_image_type'] = '';
-                        // data['desc'] = descController.value.text;
-                            
-                        // addPortfolio(data);
+                            data['portfolio_title'] =
+                                titleController.value.text;
+                            data['portfolio_link'] = linkController.value.text;
+                            data['portfolio_key'] = 'new_portfolio';
+                            data['edit_url_portfolio'] = '';
+                            data['edit_image_type'] = '';
+                            data['desc'] = descController.value.text;
+                            addPortfolio(data);
+                          } catch (e) {
+                             ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Please upload file')),
+                          );
+                          }
+                        }
                       },
                     )
                   ]),
-                )),
-                    ),
             )),
+          ),
+        )),
       ),
     );
   }
