@@ -614,6 +614,18 @@ class HomeRepository {
       return AddPortfolioResp.fromJson(response.body);
     }
   }
+  Future<AddPortfolioResp> addPortfolioProfile({Map<String, dynamic>? data}) async {
+    final response = await homeProvider.addPortfolioProfile(data: data);
+    if (response!.success) {
+      Log.v("Add Portfolio Profile DATA : ${response.body}");
+      AddPortfolioResp competitionData =
+          AddPortfolioResp.fromJson(response.body);
+      return competitionData;
+    } else {
+      Log.v("====> ${response.body}");
+      return AddPortfolioResp.fromJson(response.body);
+    }
+  }
 
 
    Future<SingularisPortfolioDelete> singularisPortfolioDelete(int portfolioId) async {
