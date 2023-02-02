@@ -1,7 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:intl/intl.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_certificate.dart';
+import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 
@@ -13,10 +16,14 @@ class CertificateList extends StatefulWidget {
 }
 
 class _CertificateListState extends State<CertificateList> {
+  
+
   @override
   Widget build(BuildContext context) {
+  
     return Scaffold(
         appBar: AppBar(
+          title: Text("Certificate",style: Styles.bold()),
                   elevation: 0,
                   backgroundColor: ColorConstants.WHITE,
                   leading: IconButton(
@@ -48,13 +55,43 @@ class _CertificateListState extends State<CertificateList> {
                         icon: Icon(
                           Icons.add,
                           color: ColorConstants.BLACK,
-                        ))
+                        )),
                   ],
                       
     ),
+    body: Container(
+      
+      height: height(context)*0.9,
+      width: width(context),
+      child: ListView.builder(
+        itemCount: 2,
+        itemBuilder:(context, index) {
 
+         return Container(
+          height: height(context)*0.9,
+          width: width(context),
+                  margin: EdgeInsets.only(right: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: width(context) * 0.7,
+                        height: width(context) * 0.45,
+                        
+                         
+                   child:  Image.asset(
+                            "assets/images/certificate_dummy.png",
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                  ]));
+        
+      })));
+    
+  
 
-    );
+  
     
   }
 }
