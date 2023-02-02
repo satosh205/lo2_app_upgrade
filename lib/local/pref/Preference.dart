@@ -11,6 +11,10 @@ class Preference {
   static const PHONE = "phonenumber";
   static const NATIONALITY = "NATIONALITY";
   static const PROFILE_IMAGE = "PROFILE_IMAGE";
+  static const PROFILE_VIDEO = "PROFILE_VIDEO";
+  static const ABOUT_ME = "ABOUT_ME";
+  static const USER_HEADLINE = "USER_HEADLINE";
+  static const LOCATION = "LOCATION";
   static const GENDER = "GENDER";
   static const USER_ID = "USER_ID";
   static const FIRST_NAME = "FIRST_NAME";
