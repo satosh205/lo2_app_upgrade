@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
+import 'package:masterg/data/models/response/home_response/new_portfolio_response.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
 import 'package:masterg/utils/Log.dart';
@@ -17,23 +18,40 @@ import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 
 class AddActivities extends StatefulWidget {
-  const AddActivities({Key? key}) : super(key: key);
+  final bool? isEditMode;
+  final CommonProfession? activity;
+  const AddActivities({Key? key, this.isEditMode = false, this.activity}) : super(key: key);
 
   @override
   State<AddActivities> createState() => _AddActivitiesState();
 }
 
 class _AddActivitiesState extends State<AddActivities> {
-  final activitytitleController = TextEditingController();
-  final nametitleController = TextEditingController();
-  final typetitleController = TextEditingController();
-  TextEditingController? startDate;
-  TextEditingController? endDate;
+  TextEditingController activitytitleController = TextEditingController();
+  TextEditingController organizationController = TextEditingController();
+  TextEditingController activityController = TextEditingController();
+  TextEditingController descController = TextEditingController();
+   TextEditingController startDate =  TextEditingController();
   DateTime selectedDate = DateTime.now();
 
   File? uploadImg;
   File? img;
   bool? isAddActivitiesLoading = false;
+
+  @override
+  void initState() {
+    updateValue();
+    super.initState();
+  }
+
+  void updateValue(){
+    if(widget.isEditMode == true){
+      activitytitleController = 
+
+       activitytitleController =
+          TextEditingController(text: widget.activity?.title);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return BlocManager(
@@ -107,7 +125,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: CustomTextField(
-                                        controller: nametitleController,
+                                        controller: organizationController,
                                         hintText:
                                             'Ex. College, Company, NGO, Others'),
                                   ),
@@ -126,7 +144,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: CustomTextField(
-                                        controller: typetitleController,
+                                        controller: activityController,
                                         hintText:
                                             'Ex: Sports, Acting, Event Management'),
                                   ),
@@ -145,10 +163,10 @@ class _AddActivitiesState extends State<AddActivities> {
                                   InkWell(
                                     onTap: () {
                                       try {
-                                        selectDate(context, startDate!);
+                                        selectDate(context, startDate);
                                       } catch (e) {
                                         startDate = TextEditingController();
-                                        selectDate(context, startDate!);
+                                        selectDate(context, startDate);
                                       }
                                     },
                                     child: Padding(
@@ -171,8 +189,8 @@ class _AddActivitiesState extends State<AddActivities> {
                                             Padding(
                                               padding: const EdgeInsets.all(8.0),
                                               child: Text(
-                                                startDate != null
-                                                    ? startDate!.value.text
+                                               startDate.value.text != ''
+                                                    ? startDate.value.text
                                                     : "Select Date",
                                                 style: TextStyle(
                                                     fontSize: 14,
@@ -185,25 +203,8 @@ class _AddActivitiesState extends State<AddActivities> {
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   right: 8.0),
-                                              child: InkWell(
-                                                onTap: (() async {
-                                                  DateTime? datePiked =
-                                                      await showDatePicker(
-                                                          context: context,
-                                                          initialDate:
-                                                              DateTime.now(),
-                                                          firstDate:
-                                                              (DateTime(2021)),
-                                                          lastDate:
-                                                              DateTime(2050));
-                                                  if (datePiked != null) {
-                                                    print(
-                                                        'Date Selected : ${datePiked.day}--${datePiked.month}--${datePiked.year}');
-                                                  }
-                                                }),
-                                                child: SvgPicture.asset(
-                                                    'assets/images/selected_calender.svg'),
-                                              ),
+                                              child: SvgPicture.asset(
+                                                  'assets/images/selected_calender.svg'),
                                             ),
                                           ],
                                         ),
@@ -213,9 +214,11 @@ class _AddActivitiesState extends State<AddActivities> {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  // CustomDescription(
-                                  //   hintText: 'Describe your work or achievement',
-                                  // ),
+                                  CustomTextField(
+                                    controller: descController,
+                                    maxLine: 6,
+                                    hintText: 'Describe your work or achievement',
+                                  ),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
@@ -248,41 +251,57 @@ class _AddActivitiesState extends State<AddActivities> {
                                               await picker.getLostData();
                                         }
                                       },
-                                      child: Row(
-                                        children: [
-                                          ShaderMask(
-                                              blendMode: BlendMode.srcIn,
-                                              shaderCallback: (Rect bounds) {
-                                                return LinearGradient(
-                                                    begin: Alignment.centerLeft,
-                                                    end: Alignment.centerRight,
-                                                    colors: <Color>[
-                                                      Color(0xfffc7804),
-                                                      ColorConstants.GRADIENT_RED
-                                                    ]).createShader(bounds);
-                                              },
-                                              child: Row(
-                                                children: [
-                                                  SvgPicture.asset(
-                                                      'assets/images/upload_icon.svg'),
-                                                  Text(
-                                                    "Upload Image",
-                                                    style: Styles.bold(size: 12),
-                                                  ),
-                                                ],
-                                              )),
-                                          SizedBox(
-                                            width: 4,
-                                          ),
-                                          Text(
-                                              uploadImg != null
-                                                  ? '${uploadImg?.path.split('/').last}'
-                                                  : "Supported Format: .pdf, .doc, .jpeg",
-                                              style: TextStyle(
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Color(0xff929BA3))),
-                                        ],
+                                      child: InkWell(
+                                        onTap: ()async{
+                                           final picker = ImagePicker();
+                          final pickedFileC = await ImagePicker().pickImage(
+                            source: ImageSource.gallery,
+                            imageQuality: 100,
+                          );
+                          if (pickedFileC != null) {
+                            setState(() {
+                              uploadImg = File(pickedFileC.path);
+                            });
+                          } else if (Platform.isAndroid) {
+                            final LostData response = await picker.getLostData();
+                          }
+                                        },
+                                        child: Row(
+                                          children: [
+                                            ShaderMask(
+                                                blendMode: BlendMode.srcIn,
+                                                shaderCallback: (Rect bounds) {
+                                                  return LinearGradient(
+                                                      begin: Alignment.centerLeft,
+                                                      end: Alignment.centerRight,
+                                                      colors: <Color>[
+                                                        Color(0xfffc7804),
+                                                        ColorConstants.GRADIENT_RED
+                                                      ]).createShader(bounds);
+                                                },
+                                                child: Row(
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images/upload_icon.svg'),
+                                                    Text(
+                                                      "Upload Image",
+                                                      style: Styles.bold(size: 12),
+                                                    ),
+                                                  ],
+                                                )),
+                                            SizedBox(
+                                              width: 4,
+                                            ),
+                                            Text(
+                                                uploadImg != null
+                                                    ? '${uploadImg?.path.split('/').last}'
+                                                    : "Supported Format: .pdf, .doc, .jpeg",
+                                                style: TextStyle(
+                                                    fontSize: 10,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Color(0xff929BA3))),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -291,27 +310,35 @@ class _AddActivitiesState extends State<AddActivities> {
                                   ),
                                   PortfolioCustomButton(
                                     clickAction: () async {
+
+
                                       Map<String, dynamic> data = Map();
                                       try {
                                         String? fileName =
-                                            img?.path.split('/').last;
-                                        data['portfolio_image'] =
+                                            uploadImg?.path.split('/').last;
+                                        data['certificate'] =
                                             await MultipartFile.fromFile(
-                                                '${img?.path}',
+                                                '${uploadImg?.path}',
                                                 filename: fileName);
                                       } catch (e) {
                                         print('something is wrong $e');
                                       }
+
+
+                                  data["activity_type"] = 'extra_activities';  
+data["title"] = activitytitleController.value.text;
+data["description"] = descController.value.text;
+data["start_date"] = startDate.value.text;
+data["institute"] = organizationController.value.text;
+data["professional_key"] = 'new_professional' ;  
+// data["edit_url_professional"] = '' ;
+data['curricular_type'] =  activitytitleController.value.text;
+
+
+
                                    
           
-                                      data['activity_title'] =
-                                          activitytitleController.value.text;
-                                      data['Organisation_title'] =
-                                          nametitleController.value.text;
-                                      data['activityType_title'] =
-                                          typetitleController.value.text;
-                                      data['select_date'] =
-                                          data['edit_image_type'] = '';
+                            
           
                                       addActivities(data);
                                     },

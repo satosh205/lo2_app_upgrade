@@ -1389,7 +1389,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     return Column(
       children: [
         topRow('Extra Curricular Activities',arrowAction: (){
-          Navigator.push(context, NextPageRoute(ExtraActivitiesList(activities: [],)));
+          Navigator.push(context, NextPageRoute(ExtraActivitiesList(
+            baseUrl: '${portfolioResponse?.data.baseFileUrl}',
+            activities: extraActivities!,)));
         } ,addAction:  () {
             Navigator.of(context).push( PageRouteBuilder(
     transitionDuration: Duration(milliseconds: 600),
@@ -1408,22 +1410,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       );
     },
     )).then((value) => getPortfolio());
-          // showModalBottomSheet(
-          //     shape: RoundedRectangleBorder(
-          //         borderRadius: BorderRadius.circular(20)),
-          //     context: context,
-          //     enableDrag: true,
-          //     isScrollControlled: true,
-          //     builder: (context) {
-          //       return FractionallySizedBox(
-          //         heightFactor: 0.7,
-          //         child: Container(
-          //             height: height(context),
-          //             padding: const EdgeInsets.all(8.0),
-          //             margin: const EdgeInsets.only(top: 10),
-          //             child: AddActivities()),
-          //       );
-          //     });
+         
         }),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 8),
@@ -1431,6 +1418,12 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
               itemCount: extraActivities?.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
+                 String startDateString =
+                              "${extraActivities?[index].startDate}";
+                     
+                          DateTime startDate =
+                              DateFormat("dd/MM/yyyy").parse(startDateString);
+                     
                 return Container(
                   margin: EdgeInsets.only(right: 10),
                   child: Column(
@@ -1483,7 +1476,18 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                 SizedBox(
                                   height: 4,
                                 ),
-                                Text('${extraActivities?[index].title}'),
+                                Row(
+                                          children: [
+                                          
+                                           
+                                Text('${extraActivities?[index].curricularType} • '),
+                                  Text(
+                                              '  ${startDate.day} ${listOfMonths[startDate.month]} ',
+                                              style: Styles.regular(size: 14),
+                                            ),
+
+                                          ],
+                                        )
                               ],
                             ),
                           )
