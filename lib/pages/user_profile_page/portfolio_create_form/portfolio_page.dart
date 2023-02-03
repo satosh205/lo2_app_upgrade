@@ -24,6 +24,7 @@ import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfo
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/certificate_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/education_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/extra_activities_list.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/view_edit_profile_image.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/view_resume.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_list.dart';
 
@@ -222,8 +223,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                             14),
                                                               ),
                                                               onTap: () {
-                                                                Navigator.pop(
-                                                                    context);
+                                                               Navigator.push(context, NextPageRoute(UploadProfile()));
                                                               },
                                                             ),
                                                             ListTile(
@@ -734,6 +734,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                             height: MediaQuery.of(context).size.height * 0.4,
                             child: isPortfolioLoading == false
                                 ? ListView.builder(
+                              controller:
+                new ScrollController(keepScrollOffset: true),
                                     itemCount: portfolioResponse
                                         ?.data.portfolio.length,
                                     scrollDirection: Axis.horizontal,

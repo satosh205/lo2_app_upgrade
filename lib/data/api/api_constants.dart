@@ -143,4 +143,5 @@ class ApiConstants {
   static const  PORTFOLIO_DELETE = '/api/deletePortfolio';
   static const  ADD_PORTFOLIO_PROFILE = '/api/add_portfolio_profile';
   static const  ADD_RESUME = '/api/addResume';
+  static const  UPDATE_PROFILE = '/api/portfolio_image_upload';
 }

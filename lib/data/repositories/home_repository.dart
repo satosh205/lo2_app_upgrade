@@ -599,6 +599,19 @@ class HomeRepository {
       return PortfolioResponse.fromJson(response.body);
     }
   }
+  Future<AddPortfolioResp?> uploadProfile({Map<String, dynamic>? data}) async {
+    final response = await homeProvider.uploadProfile( data!);
+
+    if (response!.success) {
+      Log.v("Portfolio Content  DATA : ${response.body}");
+      AddPortfolioResp portfolioResponse =
+          AddPortfolioResp.fromJson(response.body);
+      return portfolioResponse;
+    } else {
+      Log.v("====> ${response.body}");
+      return AddPortfolioResp.fromJson(response.body);
+    }
+  }
 
 
 
