@@ -23,6 +23,7 @@ import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_extra_
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfolio.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/certificate_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/education_list.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/extra_activities_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/view_resume.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_list.dart';
 
@@ -1092,7 +1093,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   Widget getRecentActivites() {
     return Column(
       children: [
-        topRow('Recent Activites', () {}, showAddButton: false),
+        topRow('Recent Activites', addAction :  () {}, arrowAction : (){}, showAddButton: false),
         SizedBox(
           height: height(context) * 0.5,
           child: ListView(
@@ -1168,7 +1169,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       List<CommonProfession>? certificateList, context) {
     return Column(
       children: [
-        topRow('Certificates', () async {
+        topRow('Certificates',  arrowAction: (){
+          Navigator.push(context, NextPageRoute(CertificateList()));
+        },addAction:  () async {
     
      Navigator.of(context).push( PageRouteBuilder(
     transitionDuration: Duration(milliseconds: 600),
@@ -1261,7 +1264,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   Widget getExperience(List<CommonProfession>? experience, context) {
     return Column(
       children: [
-        topRow('Experience', () {
+        topRow('Experience',arrowAction: (){
+          // Navigator.push(context, NextPageRoute(Experti));
+        } , addAction:  () {
                Navigator.of(context).push( PageRouteBuilder(
     transitionDuration: Duration(milliseconds: 600),
     reverseTransitionDuration: Duration(milliseconds: 600),
@@ -1383,7 +1388,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       List<CommonProfession>? extraActivities, context) {
     return Column(
       children: [
-        topRow('Extra Curricular Activities', () {
+        topRow('Extra Curricular Activities',arrowAction: (){
+          Navigator.push(context, NextPageRoute(ExtraActivitiesList(activities: [],)));
+        } ,addAction:  () {
             Navigator.of(context).push( PageRouteBuilder(
     transitionDuration: Duration(milliseconds: 600),
     reverseTransitionDuration: Duration(milliseconds: 600),
@@ -1699,7 +1706,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     });
   }
 
-  Widget topRow(String title, Function action, {bool showAddButton = true}) {
+  Widget topRow(String title,{required Function addAction,required Function arrowAction, bool showAddButton = true}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Column(
@@ -1718,12 +1725,12 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
               if (showAddButton)
                 IconButton(
                     onPressed: () {
-                      action();
+                      addAction();
                     },
                     icon: Icon(Icons.add)),
               InkWell(
                 onTap: (() {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>CertificateList()));
+                  arrowAction();
                 }),
                 child: Icon(Icons.arrow_forward_ios_outlined)),
             ],
