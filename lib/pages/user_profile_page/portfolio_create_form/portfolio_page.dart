@@ -548,10 +548,19 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                 
                 InkWell(
                   onTap: () {
-                    Navigator.push(
+                if(portfolioResponse?.data.resume.length == 0)Navigator.push(
                         context,
                         NextPageRoute(ViewResume(
-                          resumeId: portfolioResponse?.data.resume.first.id,
+                          resumeId:  null,
+                          resumUrl:
+                              null,
+                        
+                        )));
+                
+                else     Navigator.push(
+                        context,
+                        NextPageRoute(ViewResume(
+                          resumeId: portfolioResponse?.data.resume.first.id ?? null,
                           resumUrl:
                               '$baseUrl${portfolioResponse?.data.resume.first.url}',
                         

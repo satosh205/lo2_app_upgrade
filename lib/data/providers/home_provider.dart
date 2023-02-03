@@ -1526,6 +1526,36 @@ class HomeProvider {
     return null;
   }
 
+
+
+   Future<ApiResponse?> addResume(Map<String, dynamic> data) async {
+    
+    try {
+      final response = await api.dio.post(ApiConstants.ADD_RESUME,
+      data: FormData.fromMap(data),
+          options: Options(
+              method: 'POST',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+    return null;
+  }
+
   Future<ApiResponse?> getLearningSpaceData() async {
     // Utility.hideKeyboard();
     try {
