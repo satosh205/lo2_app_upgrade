@@ -50,6 +50,13 @@ class _AddActivitiesState extends State<AddActivities> {
 
        activitytitleController =
           TextEditingController(text: widget.activity?.title);
+   organizationController = TextEditingController(text: widget.activity?.institute);
+   activityController = TextEditingController(text: widget.activity?.activityType);
+   descController = TextEditingController(text: widget.activity?.description);
+   startDate = TextEditingController(text: widget.activity?.startDate);
+
+
+
     }
   }
   @override
@@ -60,11 +67,11 @@ class _AddActivitiesState extends State<AddActivities> {
           listener: (context, state) async {
             if (state is AddActivitiesState) handleAddActivities(state);
           },
-          child: SafeArea(
-            child: Scaffold(
-                body: ScreenWithLoader(
-              isLoading: isAddActivitiesLoading,
-              body: Padding(
+          child: Scaffold(
+              body: ScreenWithLoader(
+            isLoading: isAddActivitiesLoading,
+            body: SafeArea(
+              child: Padding(
                   padding: const EdgeInsets.only(top: 0.0),
                   child: Container(
                       height: height(context) * 0.9,
@@ -103,14 +110,14 @@ class _AddActivitiesState extends State<AddActivities> {
                                           color: Color(0xff5A5F73)),
                                     ),
                                   ),
-          
+                      
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: CustomTextField(
                                         controller: activitytitleController,
                                         hintText: 'Ex. Man of the match'),
                                   ),
-          
+                      
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
@@ -121,7 +128,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                           color: Color(0xff5A5F73)),
                                     ),
                                   ),
-          
+                      
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: CustomTextField(
@@ -129,7 +136,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                         hintText:
                                             'Ex. College, Company, NGO, Others'),
                                   ),
-          
+                      
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
@@ -140,7 +147,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                           color: Color(0xff5A5F73)),
                                     ),
                                   ),
-          
+                      
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: CustomTextField(
@@ -148,7 +155,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                         hintText:
                                             'Ex: Sports, Acting, Event Management'),
                                   ),
-          
+                      
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
@@ -159,7 +166,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                           color: Color(0xff5A5F73)),
                                     ),
                                   ),
-          
+                      
                                   InkWell(
                                     onTap: () {
                                       try {
@@ -199,7 +206,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                               ),
                                             ),
                                             // Icon(Icons.edit_calendar_outlined)
-          
+                      
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   right: 8.0),
@@ -310,8 +317,8 @@ class _AddActivitiesState extends State<AddActivities> {
                                   ),
                                   PortfolioCustomButton(
                                     clickAction: () async {
-
-
+            
+            
                                       Map<String, dynamic> data = Map();
                                       try {
                                         String? fileName =
@@ -323,30 +330,33 @@ class _AddActivitiesState extends State<AddActivities> {
                                       } catch (e) {
                                         print('something is wrong $e');
                                       }
-
-
+            
+            
                                   data["activity_type"] = 'extra_activities';  
-data["title"] = activitytitleController.value.text;
-data["description"] = descController.value.text;
-data["start_date"] = startDate.value.text;
-data["institute"] = organizationController.value.text;
-data["professional_key"] = 'new_professional' ;  
-// data["edit_url_professional"] = '' ;
-data['curricular_type'] =  activitytitleController.value.text;
-
-
-
+            data["title"] = activitytitleController.value.text;
+            data["description"] = descController.value.text;
+            data["start_date"] = startDate.value.text;
+            data["professional_key"] =  
+            widget.isEditMode == true
+                   ? "activity_${widget.activity?.id}"
+                  : "new_professional";
+            data["institute"] = organizationController.value.text;
+            data["edit_url_professional"] = widget.isEditMode == true && uploadImg?.path == null ? widget.activity?.imageName:"";
+            data['curricular_type'] =  activitytitleController.value.text;
+            
+            
+            
                                    
-          
+                      
                             
-          
+                      
                                       addActivities(data);
                                     },
                                   )
                                 ]))
                       ])))),
-            )),
-          )),
+            ),
+          ))),
     );
   }
 
