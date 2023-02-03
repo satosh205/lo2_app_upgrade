@@ -342,7 +342,7 @@ class _AddActivitiesState extends State<AddActivities> {
                   : "new_professional";
             data["institute"] = organizationController.value.text;
             data["edit_url_professional"] = widget.isEditMode == true && uploadImg?.path == null ? widget.activity?.imageName:"";
-            data['curricular_type'] =  activitytitleController.value.text;
+            data['curricular_type'] =  activityController.value.text;
             
             
             
