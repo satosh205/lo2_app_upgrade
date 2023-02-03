@@ -340,7 +340,10 @@ class _AddActivitiesState extends State<AddActivities> {
         case ApiStatus.SUCCESS:
           Log.v("Success Add Activities....................");
           isAddActivitiesLoading = false;
-          // Navigator.pop(context);
+           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Activities added"),
+          ));
+          Navigator.pop(context);
           break;
         case ApiStatus.ERROR:
           Log.v("Error Add Activities....................");
