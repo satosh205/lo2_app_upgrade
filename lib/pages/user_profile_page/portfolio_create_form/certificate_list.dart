@@ -85,7 +85,7 @@ class _CertificateListState extends State<CertificateList> {
                    ),
                    
                  ),
-                 SizedBox(height: 20,),
+
                  Row(
 
                    children: [
