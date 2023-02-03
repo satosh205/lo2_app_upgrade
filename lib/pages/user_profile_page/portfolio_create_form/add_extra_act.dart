@@ -70,292 +70,290 @@ class _AddActivitiesState extends State<AddActivities> {
           child: Scaffold(
               body: ScreenWithLoader(
             isLoading: isAddActivitiesLoading,
-            body: SafeArea(
-              child: Padding(
-                  padding: const EdgeInsets.only(top: 0.0),
-                  child: Container(
-                      height: height(context) * 0.9,
-                      child: SingleChildScrollView(
-                          child: Column(children: [
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 85.0),
-                              child: Text(
-                                "Add Extra Curricular Activities",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black),
-                              ),
+            body: Padding(
+                padding: const EdgeInsets.only(top: 0.0),
+                child: Container(
+                    height: height(context) * 0.9,
+                    child: SingleChildScrollView(
+                        child: Column(children: [
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 85.0),
+                            child: Text(
+                              "Add Extra Curricular Activities",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
                             ),
-                            Spacer(),
-                           IconButton(onPressed: (){
-                            Navigator.pop(context);
-                           }, icon:  Icon(Icons.close)),
-                          ],
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
+                          ),
+                          Spacer(),
+                         IconButton(onPressed: (){
+                          Navigator.pop(context);
+                         }, icon:  Icon(Icons.close)),
+                        ],
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: const Text(
+                                    "Activity Title*",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color(0xff5A5F73)),
+                                  ),
+                                ),
+                    
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: CustomTextField(
+                                      controller: activitytitleController,
+                                      hintText: 'Ex. Man of the match'),
+                                ),
+                    
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Associated Organisation Name*",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color(0xff5A5F73)),
+                                  ),
+                                ),
+                    
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: CustomTextField(
+                                      controller: organizationController,
+                                      hintText:
+                                          'Ex. College, Company, NGO, Others'),
+                                ),
+                    
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Activity Type*",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color(0xff5A5F73)),
+                                  ),
+                                ),
+                    
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: CustomTextField(
+                                      controller: activityController,
+                                      hintText:
+                                          'Ex: Sports, Acting, Event Management'),
+                                ),
+                    
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Start Date*",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color(0xff5A5F73)),
+                                  ),
+                                ),
+                    
+                                InkWell(
+                                  onTap: () {
+                                    try {
+                                      selectDate(context, startDate);
+                                    } catch (e) {
+                                      startDate = TextEditingController();
+                                      selectDate(context, startDate);
+                                    }
+                                  },
+                                  child: Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: const Text(
-                                      "Activity Title*",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: Color(0xff5A5F73)),
+                                    child: Container(
+                                      width: width(context),
+                                      height: height(context) * 0.07,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(
+                                            width: 1.0,
+                                            color: const Color(0xffE5E5E5)),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(10.0)),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                             startDate.value.text != ''
+                                                  ? startDate.value.text
+                                                  : "Select Date",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Color(0xff929BA3)),
+                                            ),
+                                          ),
+                                          // Icon(Icons.edit_calendar_outlined)
+                    
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 8.0),
+                                            child: SvgPicture.asset(
+                                                'assets/images/selected_calender.svg'),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                      
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: CustomTextField(
-                                        controller: activitytitleController,
-                                        hintText: 'Ex. Man of the match'),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                CustomTextField(
+                                  controller: descController,
+                                  maxLine: 6,
+                                  hintText: 'Describe your work or achievement',
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Featured image",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color(0xff5A5F73)),
                                   ),
-                      
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "Associated Organisation Name*",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: Color(0xff5A5F73)),
-                                    ),
-                                  ),
-                      
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: CustomTextField(
-                                        controller: organizationController,
-                                        hintText:
-                                            'Ex. College, Company, NGO, Others'),
-                                  ),
-                      
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "Activity Type*",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: Color(0xff5A5F73)),
-                                    ),
-                                  ),
-                      
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: CustomTextField(
-                                        controller: activityController,
-                                        hintText:
-                                            'Ex: Sports, Acting, Event Management'),
-                                  ),
-                      
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "Start Date*",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: Color(0xff5A5F73)),
-                                    ),
-                                  ),
-                      
-                                  InkWell(
-                                    onTap: () {
-                                      try {
-                                        selectDate(context, startDate);
-                                      } catch (e) {
-                                        startDate = TextEditingController();
-                                        selectDate(context, startDate);
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: InkWell(
+                                    onTap: () async {
+                                      final picker = ImagePicker();
+                                      final pickedFileC =
+                                          await ImagePicker().pickImage(
+                                        source: ImageSource.gallery,
+                                        imageQuality: 100,
+                                      );
+                                      if (pickedFileC != null) {
+                                        setState(() {
+                                          uploadImg = File(pickedFileC.path);
+                                        });
+                                      } else if (Platform.isAndroid) {
+                                        final LostData response =
+                                            await picker.getLostData();
                                       }
                                     },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        width: width(context),
-                                        height: height(context) * 0.07,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          border: Border.all(
-                                              width: 1.0,
-                                              color: const Color(0xffE5E5E5)),
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(10.0)),
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Text(
-                                               startDate.value.text != ''
-                                                    ? startDate.value.text
-                                                    : "Select Date",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Color(0xff929BA3)),
-                                              ),
-                                            ),
-                                            // Icon(Icons.edit_calendar_outlined)
-                      
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 8.0),
-                                              child: SvgPicture.asset(
-                                                  'assets/images/selected_calender.svg'),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  CustomTextField(
-                                    controller: descController,
-                                    maxLine: 6,
-                                    hintText: 'Describe your work or achievement',
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "Featured image",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: Color(0xff5A5F73)),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
                                     child: InkWell(
-                                      onTap: () async {
-                                        final picker = ImagePicker();
-                                        final pickedFileC =
-                                            await ImagePicker().pickImage(
-                                          source: ImageSource.gallery,
-                                          imageQuality: 100,
-                                        );
-                                        if (pickedFileC != null) {
-                                          setState(() {
-                                            uploadImg = File(pickedFileC.path);
-                                          });
-                                        } else if (Platform.isAndroid) {
-                                          final LostData response =
-                                              await picker.getLostData();
-                                        }
+                                      onTap: ()async{
+                                         final picker = ImagePicker();
+                        final pickedFileC = await ImagePicker().pickImage(
+                          source: ImageSource.gallery,
+                          imageQuality: 100,
+                        );
+                        if (pickedFileC != null) {
+                          setState(() {
+                            uploadImg = File(pickedFileC.path);
+                          });
+                        } else if (Platform.isAndroid) {
+                          final LostData response = await picker.getLostData();
+                        }
                                       },
-                                      child: InkWell(
-                                        onTap: ()async{
-                                           final picker = ImagePicker();
-                          final pickedFileC = await ImagePicker().pickImage(
-                            source: ImageSource.gallery,
-                            imageQuality: 100,
-                          );
-                          if (pickedFileC != null) {
-                            setState(() {
-                              uploadImg = File(pickedFileC.path);
-                            });
-                          } else if (Platform.isAndroid) {
-                            final LostData response = await picker.getLostData();
-                          }
-                                        },
-                                        child: Row(
-                                          children: [
-                                            ShaderMask(
-                                                blendMode: BlendMode.srcIn,
-                                                shaderCallback: (Rect bounds) {
-                                                  return LinearGradient(
-                                                      begin: Alignment.centerLeft,
-                                                      end: Alignment.centerRight,
-                                                      colors: <Color>[
-                                                        Color(0xfffc7804),
-                                                        ColorConstants.GRADIENT_RED
-                                                      ]).createShader(bounds);
-                                                },
-                                                child: Row(
-                                                  children: [
-                                                    SvgPicture.asset(
-                                                        'assets/images/upload_icon.svg'),
-                                                    Text(
-                                                      "Upload Image",
-                                                      style: Styles.bold(size: 12),
-                                                    ),
-                                                  ],
-                                                )),
-                                            SizedBox(
-                                              width: 4,
-                                            ),
-                                            Text(
-                                                uploadImg != null
-                                                    ? '${uploadImg?.path.split('/').last}'
-                                                    : "Supported Format: .pdf, .doc, .jpeg",
-                                                style: TextStyle(
-                                                    fontSize: 10,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Color(0xff929BA3))),
-                                          ],
-                                        ),
+                                      child: Row(
+                                        children: [
+                                          ShaderMask(
+                                              blendMode: BlendMode.srcIn,
+                                              shaderCallback: (Rect bounds) {
+                                                return LinearGradient(
+                                                    begin: Alignment.centerLeft,
+                                                    end: Alignment.centerRight,
+                                                    colors: <Color>[
+                                                      Color(0xfffc7804),
+                                                      ColorConstants.GRADIENT_RED
+                                                    ]).createShader(bounds);
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  SvgPicture.asset(
+                                                      'assets/images/upload_icon.svg'),
+                                                  Text(
+                                                    "Upload Image",
+                                                    style: Styles.bold(size: 12),
+                                                  ),
+                                                ],
+                                              )),
+                                          SizedBox(
+                                            width: 4,
+                                          ),
+                                          Text(
+                                              uploadImg != null
+                                                  ? '${uploadImg?.path.split('/').last}'
+                                                  : "Supported Format: .pdf, .doc, .jpeg",
+                                              style: TextStyle(
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Color(0xff929BA3))),
+                                        ],
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  PortfolioCustomButton(
-                                    clickAction: () async {
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                PortfolioCustomButton(
+                                  clickAction: () async {
             
             
-                                      Map<String, dynamic> data = Map();
-                                      try {
-                                        String? fileName =
-                                            uploadImg?.path.split('/').last;
-                                        data['certificate'] =
-                                            await MultipartFile.fromFile(
-                                                '${uploadImg?.path}',
-                                                filename: fileName);
-                                      } catch (e) {
-                                        print('something is wrong $e');
-                                      }
+                                    Map<String, dynamic> data = Map();
+                                    try {
+                                      String? fileName =
+                                          uploadImg?.path.split('/').last;
+                                      data['certificate'] =
+                                          await MultipartFile.fromFile(
+                                              '${uploadImg?.path}',
+                                              filename: fileName);
+                                    } catch (e) {
+                                      print('something is wrong $e');
+                                    }
             
             
-                                  data["activity_type"] = 'extra_activities';  
+                                data["activity_type"] = 'extra_activities';  
             data["title"] = activitytitleController.value.text;
             data["description"] = descController.value.text;
             data["start_date"] = startDate.value.text;
             data["professional_key"] =  
             widget.isEditMode == true
-                   ? "activity_${widget.activity?.id}"
-                  : "new_professional";
+                 ? "activity_${widget.activity?.id}"
+                : "new_professional";
             data["institute"] = organizationController.value.text;
             data["edit_url_professional"] = widget.isEditMode == true && uploadImg?.path == null ? widget.activity?.imageName:"";
             data['curricular_type'] =  activitytitleController.value.text;
             
             
             
-                                   
-                      
-                            
-                      
-                                      addActivities(data);
-                                    },
-                                  )
-                                ]))
-                      ])))),
-            ),
+                                 
+                    
+                          
+                    
+                                    addActivities(data);
+                                  },
+                                )
+                              ]))
+                    ])))),
           ))),
     );
   }

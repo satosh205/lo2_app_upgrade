@@ -1147,7 +1147,7 @@ class _DashboardPageState extends State<DashboardPage> {
                           border: Border.all(color: ColorConstants.GREY,),
                         ),
                         height: height(context) * 0.15,
-                        width: width(context) * 6,
+                        width: width(context),
                         child: Column(
                           children: [
                             // Image.asset('assets/images/temp/UX_SKILL.png',
@@ -1170,7 +1170,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          left: 8.0, bottom: 16),
+                                          left: 4.0, bottom: 16),
                                       child: Row(
                                         mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -1185,9 +1185,9 @@ class _DashboardPageState extends State<DashboardPage> {
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w300),
                                           ),
-                                          SizedBox(
-                                            width: 15,
-                                          ),
+                                          // SizedBox(
+                                          //   width: 4,
+                                          // ),
                                           Icon(Icons.arrow_forward_ios_outlined)
                                         ],
                                       ),
@@ -1198,7 +1198,7 @@ class _DashboardPageState extends State<DashboardPage> {
                             ),
 
                             Padding(
-                              padding: const EdgeInsets.only(left: 60.0),
+                              padding: const EdgeInsets.only(left: 40.0),
                               child: Row(
                                 children: [
                                   ShaderMask(
@@ -1327,9 +1327,9 @@ class _DashboardPageState extends State<DashboardPage> {
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w300),
                                           ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
+                                          // SizedBox(
+                                          //   width: 10,
+                                          // ),
                                           Icon(Icons.arrow_forward_ios_outlined)
                                         ],
                                       ),
@@ -1340,7 +1340,7 @@ class _DashboardPageState extends State<DashboardPage> {
                             ),
 
                             Padding(
-                              padding: const EdgeInsets.only(left: 60.0),
+                              padding: const EdgeInsets.only(left: 40.0),
                               child: Row(
                                 children: [
                                   ShaderMask(
@@ -1454,7 +1454,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          left: 8.0, bottom: 16),
+                                          left: 4.0, bottom: 16),
                                       child: Row(
                                         mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -1469,9 +1469,9 @@ class _DashboardPageState extends State<DashboardPage> {
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w300),
                                           ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
+                                          // SizedBox(
+                                          //   width: 10,
+                                          // ),
                                           Icon(Icons.arrow_forward_ios_outlined)
                                         ],
                                       ),
@@ -1482,7 +1482,7 @@ class _DashboardPageState extends State<DashboardPage> {
                             ),
 
                             Padding(
-                              padding: const EdgeInsets.only(left: 60.0),
+                              padding: const EdgeInsets.only(left: 40.0),
                               child: Row(
                                 children: [
                                   ShaderMask(
