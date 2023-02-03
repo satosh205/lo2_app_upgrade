@@ -324,7 +324,6 @@ class _AddActivitiesState extends State<AddActivities> {
   }
 
   void addActivities(Map<String, dynamic> data) {
-    // print(data);
     BlocProvider.of<HomeBloc>(context).add(AddActivitiesEvent(data: data));
   }
 
