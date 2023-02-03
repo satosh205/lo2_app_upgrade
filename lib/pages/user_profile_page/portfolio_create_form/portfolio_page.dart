@@ -16,6 +16,7 @@ import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/pdf_view_page.dart';
 import 'package:masterg/pages/ghome/widget/read_more.dart';
+import 'package:masterg/pages/reels/video_recording/video_recording_camera_page.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_certificate.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_education.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_experience.dart';
@@ -23,7 +24,6 @@ import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_extra_
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfolio.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/certificate_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/education_list.dart';
-import 'package:masterg/pages/user_profile_page/portfolio_create_form/extra_activities_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/view_resume.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_list.dart';
 
@@ -238,8 +238,22 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                             14),
                                                               ),
                                                               onTap: () {
-                                                                Navigator.pop(
-                                                                    context);
+                                              //                    Navigator.push(
+                                              //     context,
+                                              //     MaterialPageRoute(
+                                              //         builder: (context) =>
+                                              //             VideoRecordingCameraPage(
+                                              //               provider:
+                                              //                   createPostProvider,
+                                              //             ))).then((value) {
+                                              //   setState(() {
+                                              //     isGReelsLoading = true;
+                                              //   });
+                                              //   greelsList?.clear();
+
+                                              //   _getGReels();
+                                              //   reelsProvider.play();
+                                              // });
                                                               },
                                                             ),
                                                           ],
@@ -585,7 +599,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                               ]).createShader(bounds);
                         },
                         child: Text(
-                          'View Resume',
+                       portfolioResponse?.data.resume.length == 0 ? 'Upload Resume' :    'View Resume',
                           style: Styles.bold(size: 14),
                         ),
                       )
@@ -1102,7 +1116,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   Widget getRecentActivites() {
     return Column(
       children: [
-        topRow('Recent Activites', addAction :  () {}, arrowAction : (){}, showAddButton: false),
+        topRow('Recent Activites', () {}, showAddButton: false),
         SizedBox(
           height: height(context) * 0.5,
           child: ListView(
@@ -1178,9 +1192,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       List<CommonProfession>? certificateList, context) {
     return Column(
       children: [
-        topRow('Certificates',  arrowAction: (){
-          Navigator.push(context, NextPageRoute(CertificateList()));
-        },addAction:  () async {
+        topRow('Certificates', () async {
     
      Navigator.of(context).push( PageRouteBuilder(
     transitionDuration: Duration(milliseconds: 600),
@@ -1273,9 +1285,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   Widget getExperience(List<CommonProfession>? experience, context) {
     return Column(
       children: [
-        topRow('Experience',arrowAction: (){
-          // Navigator.push(context, NextPageRoute(Experti));
-        } , addAction:  () {
+        topRow('Experience', () {
                Navigator.of(context).push( PageRouteBuilder(
     transitionDuration: Duration(milliseconds: 600),
     reverseTransitionDuration: Duration(milliseconds: 600),
@@ -1397,9 +1407,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       List<CommonProfession>? extraActivities, context) {
     return Column(
       children: [
-        topRow('Extra Curricular Activities',arrowAction: (){
-          Navigator.push(context, NextPageRoute(ExtraActivitiesList(activities: [],)));
-        } ,addAction:  () {
+        topRow('Extra Curricular Activities', () {
             Navigator.of(context).push( PageRouteBuilder(
     transitionDuration: Duration(milliseconds: 600),
     reverseTransitionDuration: Duration(milliseconds: 600),
@@ -1715,7 +1723,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     });
   }
 
-  Widget topRow(String title,{required Function addAction,required Function arrowAction, bool showAddButton = true}) {
+  Widget topRow(String title, Function action, {bool showAddButton = true}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Column(
@@ -1734,12 +1742,12 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
               if (showAddButton)
                 IconButton(
                     onPressed: () {
-                      addAction();
+                      action();
                     },
                     icon: Icon(Icons.add)),
               InkWell(
                 onTap: (() {
-                  arrowAction();
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>CertificateList()));
                 }),
                 child: Icon(Icons.arrow_forward_ios_outlined)),
             ],
