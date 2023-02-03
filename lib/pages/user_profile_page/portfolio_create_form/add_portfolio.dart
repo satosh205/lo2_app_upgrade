@@ -244,7 +244,6 @@ linkController = TextEditingController(text: widget.portfolio?.portfolioLink);
                             Map<String, dynamic> data = Map();
                             try {
 
-                              if(widget.editMode == false ||  (file?.path != null && uploadImg?.path != null)){
                                   String? portfolioImage = file?.path.split('/').last;
                               String? portfolioFile = uploadImg?.path.split('/').last;
                               data['portfolio_image'] =
@@ -255,24 +254,38 @@ linkController = TextEditingController(text: widget.portfolio?.portfolioLink);
                                   await MultipartFile.fromFile(
                                       '${uploadImg?.path}',
                                       filename: portfolioFile);
-                              }
+                              
                             
             
-                              data['portfolio_title'] =
+                             
+
+                            } catch (e) {
+                               data['portfolio_image'] =null;
+            
+                              data['portfolio_file']  = null;
+                            
+                            }
+
+                            if(widget.editMode == false && (file?.path == null || uploadImg?.path == null)){
+  ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Please upload file')));
+                            }
+                            else {
+                               data['portfolio_title'] =
                                   titleController.value.text;
                               data['portfolio_link'] = linkController.value.text;
                               data['portfolio_key'] = widget.editMode == true ? "portfolio_${widget.portfolio?.id}" :  'new_portfolio';
                               data['edit_url_portfolio'] = widget.portfolio?.portfolioFile;
                               data['edit_image_type'] = widget.portfolio?.imageName;
                               data['desc'] = descController.value.text;
+                              print(data);
+
                               addPortfolio(data);
-                            } catch (e) {
-                               ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Please upload file')),
-                            );
+
+                            }
                             }
                           }
-                        },
+                        
                       )
                     ]),
               )),

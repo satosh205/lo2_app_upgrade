@@ -35,6 +35,7 @@ import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:page_transition/page_transition.dart';
 
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:shimmer/shimmer.dart';
@@ -709,34 +710,12 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                               Spacer(),
                               InkWell(
                                   onTap: (() async {
-                                    Navigator.of(context)
-                                        .push(PageRouteBuilder(
-                                          transitionDuration:
-                                              Duration(milliseconds: 600),
-                                          reverseTransitionDuration:
-                                              Duration(milliseconds: 600),
-                                          pageBuilder: (context, animation,
-                                                  secondaryAnimation) =>
-                                              AddPortfolio(),
-                                          transitionsBuilder: (context,
-                                              animation,
-                                              secondaryAnimation,
-                                              child) {
-                                            const begin = Offset(0.0, 1.0);
-                                            const end = Offset.zero;
-                                            const curve = Curves.ease;
 
-                                            var tween = Tween(
-                                                    begin: begin, end: end)
-                                                .chain(
-                                                    CurveTween(curve: curve));
 
-                                            return SlideTransition(
-                                              position: animation.drive(tween),
-                                              child: child,
-                                            );
-                                          },
-                                        ))
+                                    await Navigator.push(context, PageTransition(
+      duration:Duration(milliseconds: 600) ,
+      reverseDuration: Duration(milliseconds: 600),
+      type: PageTransitionType.bottomToTop, child: AddPortfolio()))
                                         .then((value) => getPortfolio());
                                   }),
                                   child: Icon(Icons.add)),
@@ -987,35 +966,15 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                               Spacer(),
                               InkWell(
                                   onTap: (() async {
-                                    Navigator.of(context)
-                                        .push(PageRouteBuilder(
-                                          transitionDuration:
-                                              Duration(milliseconds: 600),
-                                          reverseTransitionDuration:
-                                              Duration(milliseconds: 600),
-                                          pageBuilder: (context, animation,
-                                                  secondaryAnimation) =>
-                                              AddEducation(),
-                                          transitionsBuilder: (context,
-                                              animation,
-                                              secondaryAnimation,
-                                              child) {
-                                            const begin = Offset(0.0, 1.0);
-                                            const end = Offset.zero;
-                                            const curve = Curves.ease;
 
-                                            var tween = Tween(
-                                                    begin: begin, end: end)
-                                                .chain(
-                                                    CurveTween(curve: curve));
-
-                                            return SlideTransition(
-                                              position: animation.drive(tween),
-                                              child: child,
-                                            );
-                                          },
-                                        ))
+                                        await Navigator.push(context, PageTransition(
+      duration:Duration(milliseconds: 600) ,
+      reverseDuration: Duration(milliseconds: 600),
+      type: PageTransitionType.bottomToTop, child: AddEducation()))
                                         .then((value) => getPortfolio());
+
+
+                                
                                   }),
                                   child: Icon(Icons.add)),
                               SizedBox(
@@ -1266,44 +1225,16 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
         topRow('Certificates', arrowAction: () {
           Navigator.push(context, NextPageRoute(CertificateList()));
         }, addAction: () async {
-          Navigator.of(context)
-              .push(PageRouteBuilder(
-                transitionDuration: Duration(milliseconds: 600),
-                reverseTransitionDuration: Duration(milliseconds: 600),
-                pageBuilder: (context, animation, secondaryAnimation) =>
-                    AddCertificate(),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  const begin = Offset(0.0, 1.0);
-                  const end = Offset.zero;
-                  const curve = Curves.ease;
 
-                  var tween = Tween(begin: begin, end: end)
-                      .chain(CurveTween(curve: curve));
 
-                  return SlideTransition(
-                    position: animation.drive(tween),
-                    child: child,
-                  );
-                },
-              ))
-              .then((value) => getPortfolio());
-          // await showModalBottomSheet(
-          //     shape: RoundedRectangleBorder(
-          //         borderRadius: BorderRadius.circular(20)),
-          //     context: context,
-          //     enableDrag: true,
-          //     isScrollControlled: true,
-          //     builder: (context) {
-          //       return FractionallySizedBox(
-          //         heightFactor: 0.7,
-          //         child: Container(
-          //             height: height(context),
-          //             padding: const EdgeInsets.all(8.0),
-          //             margin: const EdgeInsets.only(top: 10),
-          //             child: AddCertificate()),
-          //       );
-          //     }).then((value) => getPortfolio());
+           await Navigator.push(context, PageTransition(
+      duration:Duration(milliseconds: 600) ,
+      reverseDuration: Duration(milliseconds: 600),
+      type: PageTransitionType.bottomToTop, child: AddCertificate()))
+                                        .then((value) => getPortfolio()).then((value) => getPortfolio());
+          
+              
+          
         }),
         Container(
           padding: EdgeInsets.all(8),
@@ -1365,44 +1296,16 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
         topRow('Experience', arrowAction: () {
           // Navigator.push(context, NextPageRoute(Experti));
         }, addAction: () {
-          Navigator.of(context)
-              .push(PageRouteBuilder(
-                transitionDuration: Duration(milliseconds: 600),
-                reverseTransitionDuration: Duration(milliseconds: 600),
-                pageBuilder: (context, animation, secondaryAnimation) =>
-                    AddExperience(),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  const begin = Offset(0.0, 1.0);
-                  const end = Offset.zero;
-                  const curve = Curves.ease;
 
-                  var tween = Tween(begin: begin, end: end)
-                      .chain(CurveTween(curve: curve));
 
-                  return SlideTransition(
-                    position: animation.drive(tween),
-                    child: child,
-                  );
-                },
-              ))
-              .then((value) => getPortfolio());
-          //   showModalBottomSheet(
-          //       shape: RoundedRectangleBorder(
-          //           borderRadius: BorderRadius.circular(20)),
-          //       context: context,
-          //       enableDrag: true,
-          //       isScrollControlled: true,
-          //       builder: (context) {
-          //         return FractionallySizedBox(
-          //           heightFactor: 0.7,
-          //           child: Container(
-          //               height: height(context),
-          //               padding: const EdgeInsets.all(8.0),
-          //               margin: const EdgeInsets.only(top: 10),
-          //               child: AddExperience()),
-          //         );
-          //       });
+
+            Navigator.push(context, PageTransition(
+      duration:Duration(milliseconds: 600) ,
+      reverseDuration: Duration(milliseconds: 600),
+      type: PageTransitionType.bottomToTop, child: AddExperience()))
+                                        .then((value) => getPortfolio());
+        
+     
         }),
         Container(
           padding: EdgeInsets.all(8),
@@ -1497,28 +1400,14 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                 activities: extraActivities!,
               )));
         }, addAction: () {
-          Navigator.of(context)
-              .push(PageRouteBuilder(
-                transitionDuration: Duration(milliseconds: 600),
-                reverseTransitionDuration: Duration(milliseconds: 600),
-                pageBuilder: (context, animation, secondaryAnimation) =>
-                    AddActivities(),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  const begin = Offset(0.0, 1.0);
-                  const end = Offset.zero;
-                  const curve = Curves.ease;
 
-                  var tween = Tween(begin: begin, end: end)
-                      .chain(CurveTween(curve: curve));
 
-                  return SlideTransition(
-                    position: animation.drive(tween),
-                    child: child,
-                  );
-                },
-              ));
-              // .then((value) => getPortfolio());
+               Navigator.push(context, PageTransition(
+      duration:Duration(milliseconds: 600) ,
+      reverseDuration: Duration(milliseconds: 600),
+      type: PageTransitionType.bottomToTop, child: AddActivities()))
+                                        .then((value) => getPortfolio());
+          
         }),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 8),

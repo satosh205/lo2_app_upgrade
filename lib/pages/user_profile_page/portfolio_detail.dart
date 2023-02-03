@@ -111,7 +111,8 @@ if(state is SingularisDeletePortfolioState){
                     Spacer(),
                     IconButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                          // Navigator.pop(context);
+                         Navigator.of(context, rootNavigator: true).pop();
                         },
                         icon: Icon(Icons.close_outlined))
                   ],
@@ -126,8 +127,7 @@ if(state is SingularisDeletePortfolioState){
                         )),
                     InkWell(
                       onTap: (){
-                        print('button is clicked');
-                        Navigator.push(context, NextPageRoute(AddPortfolio(editMode: true, portfolio: widget.portfolio,)));
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> AddPortfolio(editMode: true, portfolio: widget.portfolio,)));
                       },
                       child: SvgPicture.asset('assets/images/edit_portfolio.svg')),
                     SizedBox(
