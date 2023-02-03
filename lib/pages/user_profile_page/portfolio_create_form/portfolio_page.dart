@@ -605,59 +605,80 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                           ),
                           Divider(),
                           SizedBox(
-                            height: height(context) * 0.15,
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: [
-                                Image.asset(
-                                  'assets/images/temp/ux_design.png',
-                                  width: 100,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Image.asset(
-                                  'assets/images/temp/prototype.png',
-                                  width: 100,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Image.asset(
-                                  'assets/images/temp/informational.png',
-                                  width: 100,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Image.asset(
-                                  'assets/images/temp/information.png',
-                                  width: 100,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Image.asset(
-                                  'assets/images/temp/linux.png',
-                                  width: 100,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Image.asset(
-                                  'assets/images/temp/linuxy.png',
-                                  width: 100,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Image.asset(
-                                  'assets/images/temp/information.png',
-                                  width: 100,
-                                ),
-                              ],
-                            ),
+                            height: height(context) * 0.2,
+                            width: width(context),
+                            child : Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(children: [
+                                SvgPicture.asset('assets/images/skill_star.svg',width: 40,),
+                                RichText(
+              text: new TextSpan(
+                text: 'Complete ',
+                style: Styles.DMSansregular(),
+                children: <TextSpan>[
+                  new TextSpan(
+                      text: 'Skill Assessments  ',style:TextStyle(fontSize: 16,color: Colors.red),
+                      ),
+                  new TextSpan(text:  'to \n    gain skills and earn badges',),
+                ],
+              ),
+            ),
+                             
+                              ],),
+                            )
+                          //   child: ListView(
+                          //     scrollDirection: Axis.horizontal,
+                          //     children: [
+                          //       Image.asset(
+                          //         'assets/images/temp/ux_design.png',
+                          //         width: 100,
+                          //       ),
+                          //       SizedBox(
+                          //         width: 5,
+                          //       ),
+                          //       Image.asset(
+                          //         'assets/images/temp/prototype.png',
+                          //         width: 100,
+                          //       ),
+                          //       SizedBox(
+                          //         width: 5,
+                          //       ),
+                          //       Image.asset(
+                          //         'assets/images/temp/informational.png',
+                          //         width: 100,
+                          //       ),
+                          //       SizedBox(
+                          //         width: 5,
+                          //       ),
+                          //       Image.asset(
+                          //         'assets/images/temp/information.png',
+                          //         width: 100,
+                          //       ),
+                          //       SizedBox(
+                          //         width: 5,
+                          //       ),
+                          //       Image.asset(
+                          //         'assets/images/temp/linux.png',
+                          //         width: 100,
+                          //       ),
+                          //       SizedBox(
+                          //         width: 5,
+                          //       ),
+                          //       Image.asset(
+                          //         'assets/images/temp/linuxy.png',
+                          //         width: 100,
+                          //       ),
+                          //       SizedBox(
+                          //         width: 5,
+                          //       ),
+                          //       Image.asset(
+                          //         'assets/images/temp/information.png',
+                          //         width: 100,
+                          //       ),
+                          //     ],
+                          //   ),
                           ),
+                          
                           dividerLine(),
                           Row(
                             children: [
