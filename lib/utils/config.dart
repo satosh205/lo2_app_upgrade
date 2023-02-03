@@ -38,7 +38,7 @@ const APK_DETAILS = {
   "app_name": "Singularis",
   "package_name": "com.singulariswow",
   "logo_url": "edulyst_logo_appbar.png",
-  "theme_image_url": "edulyst_banner1.png",
+  "theme_image_url": "common_logo.png",
   "theme_image_url2": "edulyst_theme_2.png",
   "theme_color": "FC7B04",
   "theme_color_gradient": "ff2252",

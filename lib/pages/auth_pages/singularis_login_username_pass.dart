@@ -274,6 +274,10 @@ class _SingularisLoginState extends State<SingularisLogin> {
               SizedBox(
                 height: 30,
               ),
+              Padding(
+                padding: const EdgeInsets.only(top: 0.0),
+                child: Text('Welcome to', style: TextStyle(fontSize: 14),),
+              ),
               Transform.scale(
                 scale: 1.2,
                 child: appBarImagePath.split('.').last == 'svg'

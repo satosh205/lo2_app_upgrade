@@ -100,6 +100,10 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                         //crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 30.0),
+                            child: Text('Welcome to', style: TextStyle(fontSize: 14),),
+                          ),
                           if (widget.showEdulystLogo == true)
                             Transform.scale(
                                 scale: 1.2,
@@ -108,11 +112,14 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                                         appBarImagePath,
                                         fit: BoxFit.cover,
                                       )
-                                    : Image.asset(
-                                        appBarImagePath,
-                                        height: 150,
-                                        width: 150,
-                                      )),
+                                    : Padding(
+                                      padding: const EdgeInsets.only(left: 80.0, top: 2.0, right: 80.0, bottom: 20.0),
+                                      child: Image.asset(
+                                          appBarImagePath,
+                                          //height: 150,
+                                          //width: 150,
+                                        ),
+                                    )),
                           SizedBox(
                               height: APK_DETAILS['package_name'] ==
                                       'com.at.masterg'
