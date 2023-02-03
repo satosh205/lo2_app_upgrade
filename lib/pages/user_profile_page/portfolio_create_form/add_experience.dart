@@ -16,25 +16,23 @@ import 'package:masterg/utils/utility.dart';
 class AddExperience extends StatefulWidget {
   const AddExperience({Key? key}) : super(key: key);
 
-
   @override
   State<AddExperience> createState() => _AddExperienceState();
 }
 
 class _AddExperienceState extends State<AddExperience> {
-  final titleController = TextEditingController();
-  final nameController = TextEditingController();
-  final descController = TextEditingController();
-   String _value = "value";
+  TextEditingController titleController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController descController = TextEditingController();
+  String employmentType = "";
   bool? isclicked = false;
-  TextEditingController? startDate;
-  TextEditingController? endDate;
+  TextEditingController? startDate = TextEditingController();
+  TextEditingController? endDate = TextEditingController();
   DateTime selectedDate = DateTime.now();
   bool? isAddExperienceLoading = false;
 
-  
-   final _formKey = GlobalKey<FormState>();
-   File? file;
+  final _formKey = GlobalKey<FormState>();
+  File? file;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +40,7 @@ class _AddExperienceState extends State<AddExperience> {
         initState: (value) {},
         child: BlocListener<HomeBloc, HomeState>(
             listener: (context, state) async {
-              if (state is AddExperienceState) handleAddExperience(state);
+              if (state is AddActivitiesState) handleAddExperience(state);
             },
             child: SafeArea(
               child: Scaffold(
@@ -54,9 +52,9 @@ class _AddExperienceState extends State<AddExperience> {
                         height: height(context) * 0.9,
                         child: SingleChildScrollView(
                             child: Form(
-                              key: _formKey,
-                              child: Column(children: [
-                                                    Row(
+                          key: _formKey,
+                          child: Column(children: [
+                            Row(
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(left: 130.0),
@@ -69,10 +67,12 @@ class _AddExperienceState extends State<AddExperience> {
                                   ),
                                 ),
                                 Spacer(),
-                               IconButton(onPressed: ()=> Navigator.pop(context), icon:  Icon(Icons.close)),
+                                IconButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    icon: Icon(Icons.close)),
                               ],
-                                                    ),
-                                                    Padding(
+                            ),
+                            Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: SingleChildScrollView(
                                     child: Column(
@@ -90,9 +90,10 @@ class _AddExperienceState extends State<AddExperience> {
                                         height: 5,
                                       ),
                                       CustomTextField(
-                                        validate: true,
-                                        validationString: 'please enter position title',
-                                          controller: nameController,
+                                          validate: true,
+                                          validationString:
+                                              'please enter position title',
+                                          controller: titleController,
                                           hintText: 'Ex. Ui Designer'),
                                       const SizedBox(
                                         height: 10,
@@ -108,9 +109,10 @@ class _AddExperienceState extends State<AddExperience> {
                                         height: 5,
                                       ),
                                       CustomTextField(
-                                        validate: true,
-                                        validationString: 'plese enter company name',
-                                          controller: titleController,
+                                          validate: true,
+                                          validationString:
+                                              'plese enter company name',
+                                          controller: nameController,
                                           hintText: 'Ex: Google, Microsoft'),
                                       const SizedBox(
                                         height: 10,
@@ -127,30 +129,32 @@ class _AddExperienceState extends State<AddExperience> {
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Radio(
-                                            
-                                              value: "Full-Time",
-                                              groupValue: _value,
+                                              value: "full_time",
+                                              groupValue: employmentType,
                                               onChanged: (value) {
                                                 setState(() {
-                                                  _value = value.toString();
+                                                  employmentType =
+                                                      value.toString();
                                                 });
                                               }),
                                           Text("Full-Time"),
                                           Radio(
-                                              value: "Part-Time",
-                                              groupValue: _value,
+                                              value: "part_time",
+                                              groupValue: employmentType,
                                               onChanged: (value) {
                                                 setState(() {
-                                                  _value = value.toString();
+                                                  employmentType =
+                                                      value.toString();
                                                 });
                                               }),
                                           Text("Part-Time"),
                                           Radio(
-                                              value: "Internship",
-                                              groupValue: _value,
+                                              value: "internship",
+                                              groupValue: employmentType,
                                               onChanged: (value) {
                                                 setState(() {
-                                                  _value = value.toString();
+                                                  employmentType =
+                                                      value.toString();
                                                 });
                                               }),
                                           Text("Internship"),
@@ -183,29 +187,32 @@ class _AddExperienceState extends State<AddExperience> {
                                             border: Border.all(
                                                 width: 1.0,
                                                 color: const Color(0xffE5E5E5)),
-                                            borderRadius: const BorderRadius.all(
-                                                Radius.circular(10.0)),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(10.0)),
                                           ),
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsets.all(8.0),
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
                                                 child: Text(
-                                                  startDate != null
+                                                  startDate!.value.text != ''
                                                       ? startDate!.value.text
                                                       : "Select Date",
                                                   style: TextStyle(
                                                       fontSize: 14,
-                                                      fontWeight: FontWeight.w400,
+                                                      fontWeight:
+                                                          FontWeight.w400,
                                                       color: Color(0xff929BA3)),
                                                 ),
                                               ),
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     right: 8.0),
-                            
+
                                                 child: SvgPicture.asset(
                                                     'assets/images/selected_calender.svg'),
                                                 // ),
@@ -262,29 +269,32 @@ class _AddExperienceState extends State<AddExperience> {
                                             border: Border.all(
                                                 width: 1.0,
                                                 color: const Color(0xffE5E5E5)),
-                                            borderRadius: const BorderRadius.all(
-                                                Radius.circular(10.0)),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(10.0)),
                                           ),
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsets.all(8.0),
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
                                                 child: Text(
                                                   endDate != null
                                                       ? endDate!.value.text
                                                       : "Select Date",
                                                   style: TextStyle(
                                                       fontSize: 14,
-                                                      fontWeight: FontWeight.w400,
+                                                      fontWeight:
+                                                          FontWeight.w400,
                                                       color: Color(0xff929BA3)),
                                                 ),
                                               ),
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     right: 8.0),
-                            
+
                                                 child: SvgPicture.asset(
                                                     'assets/images/selected_calender.svg'),
                                                 // ),
@@ -317,62 +327,63 @@ class _AddExperienceState extends State<AddExperience> {
                                       ),
                                       PortfolioCustomButton(
                                         clickAction: () async {
-                                          if(_value == ""){
-            
+                                          if (employmentType == "") {
+                                            const SnackBar(
+                                                content: Text(
+                                                    'Please choose employment type*'));
+                                          } else if (startDate?.value.text ==
+                                              '') {
+                                            const SnackBar(
+                                                content: Text(
+                                                    'Please choose start date'));
+                                          } else if (_formKey.currentState!
+                                              .validate()) {
+                                            Map<String, dynamic> data = Map();
+                                     
+                                            try {
+                                              data["activity_type"] =
+                                                  'Experience';
+                                              data["title"] =
+                                                  titleController.value.text;
+                                              data["description"] =
+                                                  descController.value.text;
+                                              data["start_date"] =
+                                                  startDate?.value.text;
+                                              data["end_date"] =
+                                                  endDate?.value.text;
+                                              data["institute"] =
+                                                  nameController.value.text;
+                                              data["professional_key"] =
+                                                  'new_professional';
+                                              // data["edit_url_professional"] = '' ;
+                                              data['curricular_type'] =
+                                                  employmentType;
+
+                                              addExperience(data);
+                                            } catch (e) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                    content: Text(
+                                                        'Please upload file')),
+                                              );
+                                            }
                                           }
-                                          else{
-                                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Please choose employment type*')),
-                            );
-                                          }
-            
-            
-                                         if (_formKey.currentState!.validate()) {
-                                          Map<String, dynamic> data = Map();
-                                              try {
-                              String? portfolioImage = file?.path.split('/').last;
-                             
-                              data['portfolio_image'] =
-                                  await MultipartFile.fromFile('${file?.path}',
-                                      filename: portfolioImage);
-            
-                            
-            
-                                        
-                                          data['position_title'] =
-                                              titleController.value.text;
-                                          data['company_name'] =
-                                              nameController.value.text;
-                                          data['employment_type'] = '';
-                            
-                                          data['select_date'] = '';
-                                          data['edit_image_type'] = '';
-                                          data['company_name'] =
-                                              descController.value.text;
-                                          addExperience(data);
-                                                  } catch (e) {
-                               ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Please upload file')),
-                            );
-                            }
-                                          
-                                          }
-            
                                         },
                                       )
                                     ])))
-                                                  ]),
-                            )))),
+                          ]),
+                        )))),
               )),
             )));
   }
 
   void addExperience(Map<String, dynamic> data) {
-    // print(data);
-    BlocProvider.of<HomeBloc>(context).add(AddExperienceEvent(data: data));
+    print(data);
+    BlocProvider.of<HomeBloc>(context).add(AddActivitiesEvent(data: data));
   }
 
-  void handleAddExperience(AddExperienceState state) {
+  void handleAddExperience(AddActivitiesState state) {
     var addExperienceState = state;
     setState(() {
       switch (addExperienceState.apiState) {
@@ -384,7 +395,7 @@ class _AddExperienceState extends State<AddExperience> {
         case ApiStatus.SUCCESS:
           Log.v("Success Add Experience....................");
           isAddExperienceLoading = false;
-          // Navigator.pop(context);
+          Navigator.pop(context);
           break;
         case ApiStatus.ERROR:
           Log.v("Error Add Experience....................");

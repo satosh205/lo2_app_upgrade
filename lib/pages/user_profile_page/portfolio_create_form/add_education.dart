@@ -371,7 +371,7 @@ class _AddActivitiesState extends State<AddEducation> {
                                           widget.isEditMode == true
                                               ? "education_${widget.education?.id}"
                                               : "new_professional";
-                                      data["edit_url_professional"] = "";
+                                      data["edit_url_professional"] =  widget.isEditMode == true && uploadImg?.path == null ? widget.education?.imageName :  "";
                                       addEducation(data);
                                     } catch (e) {
                                       ScaffoldMessenger.of(context).showSnackBar(

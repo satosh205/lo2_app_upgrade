@@ -318,23 +318,19 @@ class PortfolioSocial {
 
 class Resume {
     Resume({
-        required this.imageName,
         required this.url,
         required this.id,
     });
 
-    String imageName;
     String url;
     int id;
 
     factory Resume.fromJson(Map<String, dynamic> json) => Resume(
-        imageName: json["image_name"],
         url: json["url"],
         id: json["id"],
     );
 
     Map<String, dynamic> toJson() => {
-        "image_name": imageName,
         "url": url,
         "id": id,
     };

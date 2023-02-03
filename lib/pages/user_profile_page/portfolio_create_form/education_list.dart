@@ -292,17 +292,17 @@ class _EducationListState extends State<EducationList> {
     setState(() {
       switch (state.apiState) {
         case ApiStatus.LOADING:
-          Log.v("Loading Add  Certificate....................");
+          Log.v("Loading Delete  Certificate....................");
           isEducationLoading = true;
           break;
 
         case ApiStatus.SUCCESS:
-          Log.v("Success Add  Certificate....................");
+          Log.v("Success Delete  Certificate....................");
           isEducationLoading = false;
           Navigator.pop(context);
           break;
         case ApiStatus.ERROR:
-          Log.v("Error Add Certificate....................");
+          Log.v("Error Delete Certificate....................");
           isEducationLoading = false;
           break;
         case ApiStatus.INITIAL:

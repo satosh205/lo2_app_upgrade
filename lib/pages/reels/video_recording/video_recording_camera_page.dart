@@ -14,8 +14,8 @@ import 'package:masterg/utils/resource/colors.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class VideoRecordingCameraPage extends StatefulWidget {
-  final CreatePostProvider provider;
-  const VideoRecordingCameraPage({Key? key, required this.provider})
+  final CreatePostProvider? provider;
+  const VideoRecordingCameraPage({Key? key,  this.provider})
       : super(key: key);
 
   @override
@@ -70,14 +70,14 @@ class _VideoRecordingCameraPageState extends State<VideoRecordingCameraPage> {
       });
 
       timer.cancel();
-      widget.provider.addToList(file.path);
+      widget.provider?.addToList(file.path);
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => CreateGCarvaanPage(
                     isReelsPost: true,
                     fileToUpload: [],
-                    filesPath: widget.provider.files,
+                    filesPath: widget.provider?.files,
                     provider: widget.provider,
                   )));
     } else {
@@ -97,14 +97,14 @@ class _VideoRecordingCameraPageState extends State<VideoRecordingCameraPage> {
           });
           final file = await _cameraController.stopVideoRecording();
 
-          widget.provider.addToList(file.path);
+          widget.provider?.addToList(file.path);
           await Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => CreateGCarvaanPage(
                         isReelsPost: true,
                         fileToUpload: [],
-                        filesPath: widget.provider.files,
+                        filesPath: widget.provider?.files,
                         provider: widget.provider,
                       )));
         }
@@ -133,8 +133,8 @@ class _VideoRecordingCameraPageState extends State<VideoRecordingCameraPage> {
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             InkWell(
               onTap: () {
-                widget.provider.clearList();
-                _initFilePiker(widget.provider, true);
+                widget.provider?.clearList();
+                _initFilePiker(widget.provider!, true);
               },
               child: Stack(
                 children: [

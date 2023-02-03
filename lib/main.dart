@@ -222,7 +222,7 @@ class CustomError extends StatelessWidget {
         child: Text(
           "Something is not right here...  ${errorDetails.exception}",
           style: const TextStyle(
-            color: Colors.white,
+            color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
         ),

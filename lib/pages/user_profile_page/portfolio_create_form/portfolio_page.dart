@@ -23,7 +23,10 @@ import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_extra_
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfolio.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/certificate_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/education_list.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/extra_activities_list.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/view_edit_profile_image.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/view_resume.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_detail.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_list.dart';
 
 import 'package:masterg/pages/user_profile_page/singularis_profile_edit.dart';
@@ -88,6 +91,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
           },
           child: Scaffold(
               body: SingleChildScrollView(
+                      key:const  PageStorageKey<String>('portfolioList'),
+
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -131,7 +136,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         color: ColorConstants.WHITE,
                                       )),
                                   Spacer(),
-
                                   IconButton(
                                       onPressed: () {
                                         AlertsWidget.showCustomDialog(
@@ -161,7 +165,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         Icons.share,
                                         color: ColorConstants.WHITE,
                                       )),
-                                 
                                 ],
                               ),
                               Padding(
@@ -221,8 +224,10 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                             14),
                                                               ),
                                                               onTap: () {
-                                                                Navigator.pop(
-                                                                    context);
+                                                                Navigator.push(
+                                                                    context,
+                                                                    NextPageRoute(
+                                                                        UploadProfile()));
                                                               },
                                                             ),
                                                             ListTile(
@@ -334,9 +339,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                         child: InkWell(
                                                           onTap: () async {
                                                             await showModalBottomSheet(
-                                                              backgroundColor: 
-                                                             ColorConstants
-                                                                            .WHITE ,
+                                                                backgroundColor:
+                                                                    ColorConstants
+                                                                        .WHITE,
                                                                 shape: RoundedRectangleBorder(
                                                                     borderRadius:
                                                                         BorderRadius.circular(
@@ -384,7 +389,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                         SizedBox(
                           height: 50,
                         ),
-                        
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
@@ -393,7 +397,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                 size: 12, color: Color(0xff5A5F73)),
                           ),
                         ),
-                        
                         Center(
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width * 0.95,
@@ -545,17 +548,24 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                       width: MediaQuery.of(context).size.width * 0.94,
                       child: Divider()),
                 ),
-                
+
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        NextPageRoute(ViewResume(
-                          resumeId: portfolioResponse?.data.resume.first.id,
-                          resumUrl:
-                              '$baseUrl${portfolioResponse?.data.resume.first.url}',
-                        
-                        )));
+                    if (portfolioResponse?.data.resume.length == 0)
+                      Navigator.push(
+                          context,
+                          NextPageRoute(ViewResume(
+                            resumeId: null,
+                            resumUrl: null,
+                          )));
+                    else
+                      Navigator.push(
+                          context,
+                          NextPageRoute(ViewResume(
+                            resumeId: portfolioResponse?.data.resume.first.id,
+                            resumUrl:
+                                '$baseUrl${portfolioResponse?.data.resume.first.url}',
+                          )));
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -575,7 +585,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                               ]).createShader(bounds);
                         },
                         child: Text(
-                          'View Resume',
+                          portfolioResponse?.data.resume.length == 0
+                              ? 'Upload Resume'
+                              : 'View Resume',
                           style: Styles.bold(size: 14),
                         ),
                       )
@@ -604,59 +616,89 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                           ),
                           Divider(),
                           SizedBox(
-                            height: height(context) * 0.15,
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: [
-                                Image.asset(
-                                  'assets/images/temp/ux_design.png',
-                                  width: 100,
+                              height: height(context) * 0.2,
+                              width: width(context),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    SvgPicture.asset(
+                                      'assets/images/skill_star.svg',
+                                      width: 40,
+                                    ),
+                                    RichText(
+                                      text: new TextSpan(
+                                        text: 'Complete ',
+                                        style: Styles.DMSansregular(),
+                                        children: <TextSpan>[
+                                          new TextSpan(
+                                            text: 'Skill Assessments  ',
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.red),
+                                          ),
+                                          new TextSpan(
+                                            text:
+                                                'to \n    gain skills and earn badges',
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Image.asset(
-                                  'assets/images/temp/prototype.png',
-                                  width: 100,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Image.asset(
-                                  'assets/images/temp/informational.png',
-                                  width: 100,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Image.asset(
-                                  'assets/images/temp/information.png',
-                                  width: 100,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Image.asset(
-                                  'assets/images/temp/linux.png',
-                                  width: 100,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Image.asset(
-                                  'assets/images/temp/linuxy.png',
-                                  width: 100,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Image.asset(
-                                  'assets/images/temp/information.png',
-                                  width: 100,
-                                ),
-                              ],
-                            ),
-                          ),
+                              )
+                              //   child: ListView(
+                              //     scrollDirection: Axis.horizontal,
+                              //     children: [
+                              //       Image.asset(
+                              //         'assets/images/temp/ux_design.png',
+                              //         width: 100,
+                              //       ),
+                              //       SizedBox(
+                              //         width: 5,
+                              //       ),
+                              //       Image.asset(
+                              //         'assets/images/temp/prototype.png',
+                              //         width: 100,
+                              //       ),
+                              //       SizedBox(
+                              //         width: 5,
+                              //       ),
+                              //       Image.asset(
+                              //         'assets/images/temp/informational.png',
+                              //         width: 100,
+                              //       ),
+                              //       SizedBox(
+                              //         width: 5,
+                              //       ),
+                              //       Image.asset(
+                              //         'assets/images/temp/information.png',
+                              //         width: 100,
+                              //       ),
+                              //       SizedBox(
+                              //         width: 5,
+                              //       ),
+                              //       Image.asset(
+                              //         'assets/images/temp/linux.png',
+                              //         width: 100,
+                              //       ),
+                              //       SizedBox(
+                              //         width: 5,
+                              //       ),
+                              //       Image.asset(
+                              //         'assets/images/temp/linuxy.png',
+                              //         width: 100,
+                              //       ),
+                              //       SizedBox(
+                              //         width: 5,
+                              //       ),
+                              //       Image.asset(
+                              //         'assets/images/temp/information.png',
+                              //         width: 100,
+                              //       ),
+                              //     ],
+                              //   ),
+                              ),
                           dividerLine(),
                           Row(
                             children: [
@@ -667,25 +709,35 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                               Spacer(),
                               InkWell(
                                   onTap: (() async {
+                                    Navigator.of(context)
+                                        .push(PageRouteBuilder(
+                                          transitionDuration:
+                                              Duration(milliseconds: 600),
+                                          reverseTransitionDuration:
+                                              Duration(milliseconds: 600),
+                                          pageBuilder: (context, animation,
+                                                  secondaryAnimation) =>
+                                              AddPortfolio(),
+                                          transitionsBuilder: (context,
+                                              animation,
+                                              secondaryAnimation,
+                                              child) {
+                                            const begin = Offset(0.0, 1.0);
+                                            const end = Offset.zero;
+                                            const curve = Curves.ease;
 
- Navigator.of(context).push( PageRouteBuilder(
-  transitionDuration: Duration(milliseconds: 600),
-  reverseTransitionDuration: Duration(milliseconds: 600),
-    pageBuilder: (context, animation, secondaryAnimation) =>  AddPortfolio(),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
+                                            var tween = Tween(
+                                                    begin: begin, end: end)
+                                                .chain(
+                                                    CurveTween(curve: curve));
 
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-      return SlideTransition(
-        position: animation.drive(tween),
-        child: child,
-      );
-    },
-  )).then((value) => getPortfolio());
-
+                                            return SlideTransition(
+                                              position: animation.drive(tween),
+                                              child: child,
+                                            );
+                                          },
+                                        ))
+                                        .then((value) => getPortfolio());
                                   }),
                                   child: Icon(Icons.add)),
                               SizedBox(
@@ -712,82 +764,114 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                             height: MediaQuery.of(context).size.height * 0.4,
                             child: isPortfolioLoading == false
                                 ? ListView.builder(
+                                    controller: new ScrollController(
+                                        keepScrollOffset: true),
                                     itemCount: portfolioResponse
                                         ?.data.portfolio.length,
                                     scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) => Container(
-                                          margin: EdgeInsets.symmetric(
-                                              horizontal: 8, vertical: 4),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                                child: CachedNetworkImage(
-                                                  progressIndicatorBuilder:
-                                                      (context, url,
-                                                          downloadProgress) {
-                                                    return SvgPicture.asset(
-                                                      'assets/images/default_user.svg',
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.8,
-                                                      height:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.3,
-                                                    );
-                                                  },
-                                                  imageUrl:
-                                                      '${portfolioResponse?.data.baseFileUrl}${portfolioResponse?.data.portfolio[index].imageName}',
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.8,
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.3,
-                                                  fit: BoxFit.cover,
-                                                  errorWidget:
-                                                      (context, url, error) {
-                                                    return Container(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.8,
-                                                      height:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.3,
-                                                      padding:
-                                                          EdgeInsets.all(14),
-                                                      decoration: BoxDecoration(
-                                                          color: Color(
-                                                              0xffD5D5D5)),
-                                                    );
-                                                  },
+                                    itemBuilder: (context, index) => InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                NextPageRoute(PortfolioDetail(
+                                                  baseUrl:
+                                                      '${portfolioResponse!.data.baseFileUrl}',
+                                                  portfolio: portfolioResponse!
+                                                      .data.portfolio[index],
+                                                )));
+                                          },
+                                          child: Container(
+                                             width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.8,
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 8, vertical: 4),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  child: CachedNetworkImage(
+                                                    progressIndicatorBuilder:
+                                                        (context, url,
+                                                            downloadProgress) {
+                                                      return SvgPicture.asset(
+                                                        'assets/images/default_user.svg',
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.8,
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.3,
+                                                      );
+                                                    },
+                                                    imageUrl:
+                                                        '${portfolioResponse?.data.baseFileUrl}${portfolioResponse?.data.portfolio[index].imageName}',
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.8,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.3,
+                                                    fit: BoxFit.cover,
+                                                    errorWidget:
+                                                        (context, url, error) {
+                                                      return Container(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.8,
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.3,
+                                                        padding:
+                                                            EdgeInsets.all(14),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                color: Color(
+                                                                    0xffD5D5D5)),
+                                                      );
+                                                    },
+                                                  ),
                                                 ),
-                                              ),
-                                              SizedBox(height: 8),
-                                              Text(
-                                                '${portfolioResponse?.data.portfolio[index].portfolioTitle}',
-                                                style: Styles.bold(),
-                                              ),
-                                              Text(
-                                                  '${portfolioResponse?.data.portfolio[index].desc}',
-                                                  style: Styles.semibold(
-                                                      size: 12,
-                                                      color:
-                                                          Color(0xff929BA3))),
-                                            ],
+                                                SizedBox(height: 8),
+                                                Text(
+                                                  '${portfolioResponse?.data.portfolio[index].portfolioTitle}',
+                                                  style: Styles.bold(),
+                                                ),
+                                                SizedBox(
+                                                  width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.8,
+                                                  child: Text(
+                                                      '${portfolioResponse?.data.portfolio[index].desc}',
+                                                      softWrap: true,
+                                                      maxLines: 1,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      style: Styles.semibold(
+                                                          size: 12,
+                                                          color:
+                                                              Color(0xff929BA3))),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ))
                                 : Text('no portfolio found '),
@@ -903,27 +987,35 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                               Spacer(),
                               InkWell(
                                   onTap: (() async {
+                                    Navigator.of(context)
+                                        .push(PageRouteBuilder(
+                                          transitionDuration:
+                                              Duration(milliseconds: 600),
+                                          reverseTransitionDuration:
+                                              Duration(milliseconds: 600),
+                                          pageBuilder: (context, animation,
+                                                  secondaryAnimation) =>
+                                              AddEducation(),
+                                          transitionsBuilder: (context,
+                                              animation,
+                                              secondaryAnimation,
+                                              child) {
+                                            const begin = Offset(0.0, 1.0);
+                                            const end = Offset.zero;
+                                            const curve = Curves.ease;
 
- Navigator.of(context).push( PageRouteBuilder(
-  transitionDuration: Duration(milliseconds: 600),
-  reverseTransitionDuration: Duration(milliseconds: 600),
-    pageBuilder: (context, animation, secondaryAnimation) =>  AddEducation(),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
+                                            var tween = Tween(
+                                                    begin: begin, end: end)
+                                                .chain(
+                                                    CurveTween(curve: curve));
 
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-      return SlideTransition(
-        position: animation.drive(tween),
-        child: child,
-      );
-    },
-  )).then((value) => getPortfolio());
-
-                                    
-                            
+                                            return SlideTransition(
+                                              position: animation.drive(tween),
+                                              child: child,
+                                            );
+                                          },
+                                        ))
+                                        .then((value) => getPortfolio());
                                   }),
                                   child: Icon(Icons.add)),
                               SizedBox(
@@ -961,6 +1053,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                           DateTime endDate =
                               DateFormat("dd/MM/yyyy").parse(endDateString);
                           return Container(
+                             width: width(context) * 0.3,
                             margin: EdgeInsets.symmetric(
                               horizontal: 8,
                             ),
@@ -1021,7 +1114,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         SizedBox(
-                                          width: width(context)*0.5,
+                                          width: width(context) * 0.5,
                                           child: Text(
                                             '${portfolioResponse?.data.education[index].title}',
                                             style: Styles.bold(size: 16),
@@ -1029,10 +1122,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         ),
                                         SizedBox(height: 4),
                                         SizedBox(
-                                          width: width(context)*0.5,
+                                          width: width(context) * 0.5,
                                           child: Text(
-                                            maxLines:2,
-                                            
+                                            maxLines: 2,
                                             '${portfolioResponse?.data.education[index].institute}',
                                             style: Styles.regular(size: 14),
                                           ),
@@ -1057,11 +1149,13 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                 SizedBox(
                                   height: 10,
                                 ),
-                                ReadMoreText(
-                                  viewMore: 'View more',
-                                  text:
-                                      '${portfolioResponse?.data.education[index].description}',
-                                  color: Color(0xff929BA3),
+                                SizedBox(
+                                  child: ReadMoreText(
+                                    viewMore: 'View more',
+                                    text:
+                                        '${portfolioResponse?.data.education[index].description}',
+                                    color: Color(0xff929BA3),
+                                  ),
                                 ),
                                 if (index !=
                                     portfolioResponse?.data.education.length)
@@ -1092,7 +1186,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   Widget getRecentActivites() {
     return Column(
       children: [
-        topRow('Recent Activites', () {}, showAddButton: false),
+        topRow('Recent Activites',
+            addAction: () {}, arrowAction: () {}, showAddButton: false),
         SizedBox(
           height: height(context) * 0.5,
           child: ListView(
@@ -1168,25 +1263,31 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       List<CommonProfession>? certificateList, context) {
     return Column(
       children: [
-        topRow('Certificates', () async {
-    
-     Navigator.of(context).push( PageRouteBuilder(
-    transitionDuration: Duration(milliseconds: 600),
-    reverseTransitionDuration: Duration(milliseconds: 600),
-    pageBuilder: (context, animation, secondaryAnimation) =>  AddCertificate(),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-    
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-    
-      return SlideTransition(
-        position: animation.drive(tween),
-        child: child,
-      );
-    },
-    )).then((value) => getPortfolio());
+        topRow('Certificates', arrowAction: () {
+          Navigator.push(context, NextPageRoute(CertificateList()));
+        }, addAction: () async {
+          Navigator.of(context)
+              .push(PageRouteBuilder(
+                transitionDuration: Duration(milliseconds: 600),
+                reverseTransitionDuration: Duration(milliseconds: 600),
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    AddCertificate(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  const begin = Offset(0.0, 1.0);
+                  const end = Offset.zero;
+                  const curve = Curves.ease;
+
+                  var tween = Tween(begin: begin, end: end)
+                      .chain(CurveTween(curve: curve));
+
+                  return SlideTransition(
+                    position: animation.drive(tween),
+                    child: child,
+                  );
+                },
+              ))
+              .then((value) => getPortfolio());
           // await showModalBottomSheet(
           //     shape: RoundedRectangleBorder(
           //         borderRadius: BorderRadius.circular(20)),
@@ -1213,7 +1314,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
               itemBuilder: (context, index) {
                 String startDateString =
                     "${portfolioResponse?.data.education[index].startDate}";
-          
+
                 DateTime startDate =
                     DateFormat("dd/MM/yyyy").parse(startDateString);
                 return Container(
@@ -1261,41 +1362,48 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   Widget getExperience(List<CommonProfession>? experience, context) {
     return Column(
       children: [
-        topRow('Experience', () {
-               Navigator.of(context).push( PageRouteBuilder(
-    transitionDuration: Duration(milliseconds: 600),
-    reverseTransitionDuration: Duration(milliseconds: 600),
-    pageBuilder: (context, animation, secondaryAnimation) =>  AddExperience(),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-    
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-    
-      return SlideTransition(
-        position: animation.drive(tween),
-        child: child,
-      );
-    },
-    )).then((value) => getPortfolio());
-        //   showModalBottomSheet(
-        //       shape: RoundedRectangleBorder(
-        //           borderRadius: BorderRadius.circular(20)),
-        //       context: context,
-        //       enableDrag: true,
-        //       isScrollControlled: true,
-        //       builder: (context) {
-        //         return FractionallySizedBox(
-        //           heightFactor: 0.7,
-        //           child: Container(
-        //               height: height(context),
-        //               padding: const EdgeInsets.all(8.0),
-        //               margin: const EdgeInsets.only(top: 10),
-        //               child: AddExperience()),
-        //         );
-        //       });
-         }),
+        topRow('Experience', arrowAction: () {
+          // Navigator.push(context, NextPageRoute(Experti));
+        }, addAction: () {
+          Navigator.of(context)
+              .push(PageRouteBuilder(
+                transitionDuration: Duration(milliseconds: 600),
+                reverseTransitionDuration: Duration(milliseconds: 600),
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    AddExperience(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  const begin = Offset(0.0, 1.0);
+                  const end = Offset.zero;
+                  const curve = Curves.ease;
+
+                  var tween = Tween(begin: begin, end: end)
+                      .chain(CurveTween(curve: curve));
+
+                  return SlideTransition(
+                    position: animation.drive(tween),
+                    child: child,
+                  );
+                },
+              ))
+              .then((value) => getPortfolio());
+          //   showModalBottomSheet(
+          //       shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(20)),
+          //       context: context,
+          //       enableDrag: true,
+          //       isScrollControlled: true,
+          //       builder: (context) {
+          //         return FractionallySizedBox(
+          //           heightFactor: 0.7,
+          //           child: Container(
+          //               height: height(context),
+          //               padding: const EdgeInsets.all(8.0),
+          //               margin: const EdgeInsets.only(top: 10),
+          //               child: AddExperience()),
+          //         );
+          //       });
+        }),
         Container(
           padding: EdgeInsets.all(8),
           child: ListView.builder(
@@ -1303,10 +1411,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
               shrinkWrap: true,
               physics: BouncingScrollPhysics(),
               itemBuilder: (context, index) {
-                String startDateString =
-                    "${portfolioResponse?.data.education[index].startDate}";
-                String endDateString =
-                    "${portfolioResponse?.data.education[index].endDate}";
+                String startDateString = "${experience?[index].startDate}";
+                String endDateString = "${experience?[index].endDate}";
                 DateTime startDate =
                     DateFormat("dd/MM/yyyy").parse(startDateString);
                 DateTime endDate =
@@ -1383,40 +1489,36 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       List<CommonProfession>? extraActivities, context) {
     return Column(
       children: [
-        topRow('Extra Curricular Activities', () {
-            Navigator.of(context).push( PageRouteBuilder(
-    transitionDuration: Duration(milliseconds: 600),
-    reverseTransitionDuration: Duration(milliseconds: 600),
-    pageBuilder: (context, animation, secondaryAnimation) =>  AddActivities(),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-    
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-    
-      return SlideTransition(
-        position: animation.drive(tween),
-        child: child,
-      );
-    },
-    )).then((value) => getPortfolio());
-          // showModalBottomSheet(
-          //     shape: RoundedRectangleBorder(
-          //         borderRadius: BorderRadius.circular(20)),
-          //     context: context,
-          //     enableDrag: true,
-          //     isScrollControlled: true,
-          //     builder: (context) {
-          //       return FractionallySizedBox(
-          //         heightFactor: 0.7,
-          //         child: Container(
-          //             height: height(context),
-          //             padding: const EdgeInsets.all(8.0),
-          //             margin: const EdgeInsets.only(top: 10),
-          //             child: AddActivities()),
-          //       );
-          //     });
+        topRow('Extra Curricular Activities', arrowAction: () {
+          Navigator.push(
+              context,
+              NextPageRoute(ExtraActivitiesList(
+                baseUrl: '${portfolioResponse?.data.baseFileUrl}',
+                activities: extraActivities!,
+              )));
+        }, addAction: () {
+          Navigator.of(context)
+              .push(PageRouteBuilder(
+                transitionDuration: Duration(milliseconds: 600),
+                reverseTransitionDuration: Duration(milliseconds: 600),
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    AddActivities(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  const begin = Offset(0.0, 1.0);
+                  const end = Offset.zero;
+                  const curve = Curves.ease;
+
+                  var tween = Tween(begin: begin, end: end)
+                      .chain(CurveTween(curve: curve));
+
+                  return SlideTransition(
+                    position: animation.drive(tween),
+                    child: child,
+                  );
+                },
+              ));
+              // .then((value) => getPortfolio());
         }),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 8),
@@ -1424,6 +1526,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
               itemCount: extraActivities?.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
+                String startDateString = "${extraActivities?[index].startDate}";
+
+                DateTime startDate =
+                    DateFormat("dd/MM/yyyy").parse(startDateString);
+
                 return Container(
                   margin: EdgeInsets.only(right: 10),
                   child: Column(
@@ -1476,7 +1583,16 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                 SizedBox(
                                   height: 4,
                                 ),
-                                Text('${extraActivities?[index].title}'),
+                                Row(
+                                  children: [
+                                    Text(
+                                        '${extraActivities?[index].curricularType} • '),
+                                    Text(
+                                      '  ${startDate.day} ${listOfMonths[startDate.month]} ',
+                                      style: Styles.regular(size: 14),
+                                    ),
+                                  ],
+                                )
                               ],
                             ),
                           )
@@ -1699,7 +1815,10 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     });
   }
 
-  Widget topRow(String title, Function action, {bool showAddButton = true}) {
+  Widget topRow(String title,
+      {required Function addAction,
+      required Function arrowAction,
+      bool showAddButton = true}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Column(
@@ -1718,14 +1837,14 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
               if (showAddButton)
                 IconButton(
                     onPressed: () {
-                      action();
+                      addAction();
                     },
                     icon: Icon(Icons.add)),
               InkWell(
-                onTap: (() {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>CertificateList()));
-                }),
-                child: Icon(Icons.arrow_forward_ios_outlined)),
+                  onTap: (() {
+                    arrowAction();
+                  }),
+                  child: Icon(Icons.arrow_forward_ios_outlined)),
             ],
           ),
           Divider(),
