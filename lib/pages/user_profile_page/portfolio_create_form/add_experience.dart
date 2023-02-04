@@ -464,7 +464,7 @@ employmentType = '${widget.experience?.employmentType}';
                                               data["institute"] =
                                                   nameController.value.text;
                                               data["professional_key"] =
-                                                  'new_professional';
+                                             widget.isEditMode == true  ?  "experience_${widget.experience?.id}" :     'new_professional';
                                               data["edit_url_professional"] = widget.isEditMode == true ? '${widget.experience?.imageName}':  '' ;
                                               data['curricular_type'] =
                                                   employmentType;

@@ -417,7 +417,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                   child: GestureDetector(
                                     onTap: () {
                                       Navigator.push(
-                                          context, NextPageRoute(SocialPage()));
+                                          context, NextPageRoute(SocialPage(social:portfolioResponse?.data.portfolioSocial.first)));
                                     },
                                     child: SizedBox(
                                       width: MediaQuery.of(context).size.width *
@@ -1524,9 +1524,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                 String startDateString = "${experience?[index].startDate}";
                 String endDateString = "${experience?[index].endDate}";
                 DateTime startDate =
-                    DateFormat("dd/MM/yyyy").parse(startDateString);
+                    DateFormat("yyy-MM-dd").parse(startDateString);
                 DateTime endDate =
-                    DateFormat("dd/MM/yyyy").parse(endDateString);
+                    DateFormat("yyy-MM-dd").parse(endDateString);
                 return Container(
                   margin: EdgeInsets.only(right: 10),
                   child: Column(
@@ -1567,7 +1567,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                   style: Styles.regular(),
                                 ),
                                 Text(
-                                  'Internship • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${startDate.day} ${listOfMonths[startDate.month - 1].substring(0, 3)} - ${endDate.day} ${listOfMonths[endDate.month - 1].substring(0, 3)}',
+                                  '${experience?[index].employmentType} • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${startDate.day} ${listOfMonths[startDate.month - 1].substring(0, 3)} - ${endDate.day} ${listOfMonths[endDate.month - 1].substring(0, 3)}',
                                   style: Styles.regular(size: 14),
                                 )
                               ],
