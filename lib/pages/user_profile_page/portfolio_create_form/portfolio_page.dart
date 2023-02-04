@@ -1831,13 +1831,10 @@ String endDateString =
                                         '${extraActivities?[index]
                                             .curricularType} • '),
                                     Text(
-<<<<<<< HEAD
                                       '  ${startDate
                                           .day} ${listOfMonths[startDate
                                           .month]} ',
-=======
                                       '  ${startDate.day} ${listOfMonths[startDate.month - 1]} ',
->>>>>>> origin/wow
                                       style: Styles.regular(size: 14),
                                     ),
                                   ],
