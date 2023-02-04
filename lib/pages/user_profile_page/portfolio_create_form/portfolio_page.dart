@@ -2417,5 +2417,4 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     );
   }
 
-
 }
