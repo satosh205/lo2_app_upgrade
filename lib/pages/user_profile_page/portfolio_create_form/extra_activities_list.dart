@@ -28,7 +28,7 @@ class ExtraActivitiesList extends StatefulWidget {
 }
 
 class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
-  bool isActivitieLoading = false;
+  bool ?isActivitieLoading;
   List<CommonProfession>? activities;
   List<String> listOfMonths = [
     "Janaury",
@@ -54,14 +54,7 @@ activities = widget.activities;
   
   @override
   Widget build(BuildContext context) {
-    return BlocManager(
-        initState: (value) {},
-        child: BlocListener<HomeBloc, HomeState>(
-            listener: (context, state) async {
-              if (state is SingularisDeletePortfolioState)
-                handleSingularisDeletePortfolioState(state);
-            },
-            child: Scaffold(
+    return Scaffold(
                 appBar: AppBar(
                   title: Text("Extra currricular Activities",
                       style: Styles.bold()),
@@ -123,10 +116,10 @@ activities = widget.activities;
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ListView.builder(
-                              itemCount: widget.activities.length,
+                              itemCount: activities?.length,
                               itemBuilder: (BuildContext context, int index) {
                                 String startDateString =
-                                    "${widget.activities[index].startDate}";
+                                    "${activities?[index].startDate}";
 
                                 DateTime startDate = DateFormat("yyy-MM-dd")
                                     .parse(startDateString);
@@ -149,7 +142,7 @@ activities = widget.activities;
                                             height: width(context) * 0.2,
                                             child: CachedNetworkImage(
                                               imageUrl:
-                                                  "${widget.baseUrl}${widget.activities[index].imageName}",
+                                                  "${widget.baseUrl}${activities?[index].imageName}",
                                               progressIndicatorBuilder:
                                                   (context, url,
                                                           downloadProgress) =>
@@ -193,7 +186,7 @@ activities = widget.activities;
                                                       width:
                                                           width(context) * 0.5,
                                                       child: Text(
-                                                        '${widget.activities[index].title}',
+                                                        '${activities?[index].title}',
                                                         style: Styles.bold(
                                                             size: 16),
                                                       ),
@@ -229,7 +222,7 @@ activities = widget.activities;
                                                                           isEditMode:
                                                                               true,
                                                                           activity:
-                                                                              widget.activities[index],
+                                                                              activities?[index],
                                                                         )),
                                                               );
                                                             }).then((value) => updatePortfolioList());
@@ -255,7 +248,7 @@ activities = widget.activities;
                                                   height: 4,
                                                 ),
                                                 Text(
-                                                  '${widget.activities[index].institute}',
+                                                  '${activities?[index].institute}',
                                                   style:
                                                       Styles.regular(size: 14),
                                                 ),
@@ -265,7 +258,7 @@ activities = widget.activities;
                                                 Row(
                                                   children: [
                                                     Text(
-                                                        '${widget.activities[index].curricularType} • '),
+                                                        '${activities?[index].curricularType} • '),
                                                     Text(
                                                       '  ${startDate.day} ${listOfMonths[startDate.month - 1]} ',
                                                       style: Styles.regular(
@@ -284,10 +277,10 @@ activities = widget.activities;
                                       ReadMoreText(
                                         viewMore: 'View more',
                                         text:
-                                            '${widget.activities[index].description}',
+                                            '${activities?[index].description}',
                                         color: Color(0xff929BA3),
                                       ),
-                                      if (index != widget.activities.length)
+                                      if (index != activities?.length)
                                         Divider()
                                     ],
                                   ),
@@ -295,7 +288,7 @@ activities = widget.activities;
                               }),
                         )),
                   ),
-                ))))));
+                ))));
   }
 
   void deletePortfolio(int id) {
