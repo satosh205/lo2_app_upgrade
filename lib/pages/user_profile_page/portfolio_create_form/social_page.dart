@@ -4,8 +4,11 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/style.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
+import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
+import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/constant.dart';
 
 class SocialPage extends StatefulWidget {
@@ -29,7 +32,9 @@ class _SocialPageState extends State<SocialPage> {
   TextEditingController otherController = TextEditingController();
   bool mobileHidden = false;
   bool emailHidden = false;
+  bool isAddPortfolioLoading = false;
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -58,370 +63,378 @@ class _SocialPageState extends State<SocialPage> {
                 ),
               )
             ]),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                TextField(
-                  controller: phoneController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                  
-                    border: OutlineInputBorder(
+        body: BlocManager(
+      initState: (value) {},
+
+          child: BlocListener<HomeBloc, HomeState>(
+        listener: (context, state) async {
+          if (state is AddSocialState) handleAddSocial(state);
+        },
+        child:Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  TextField(
+                    controller: phoneController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
                     
-                        borderSide:
-                            BorderSide(width: 1, color: Color(0xffE5E5E5)),
-                        borderRadius: BorderRadius.circular(10)),
-                    prefixIcon: SizedBox(
-                      width: 30,
-                      height: 1,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          SvgPicture.asset('assets/images/call.svg'),
-                          VerticalDivider(
-                            thickness: 1,
-                            color: Color(0xffE5E5E5),
-                          ),
-                        ],
-                      ),
-                    ),
-                    hintText: 'Enter your mobile number',
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextField(
-                   keyboardType: TextInputType.emailAddress,
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    fillColor: Colors.grey.shade100,
-                    filled: true,
-                    border: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(width: 1, color: Color(0xffE5E5E5)),
-                        borderRadius: BorderRadius.circular(10)),
-                    prefixIcon: SizedBox(
-                      width: 30,
-                      height: 1,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children:  [
-                            SvgPicture.asset('assets/images/email.svg'),
-                          
-                          VerticalDivider(
-                            thickness: 1,
-                            color: Color(0xffE5E5E5),
-                          ),
-                        ],
-                      ),
-                    ),
-                    hintText: 'Enter your email address',
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Row(
-                    children:  [
-                      SvgPicture.asset('assets/images/close_eye.svg'),
-                      VerticalDivider(),
-                      Text(
-                        "Hide contact details on portfolio",
-                        style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0xff5A5F73)),
-                      )
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: const [
-                      Text(
-                        "Social",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
+                      border: OutlineInputBorder(
+                      
+                          borderSide:
+                              BorderSide(width: 1, color: Color(0xffE5E5E5)),
+                          borderRadius: BorderRadius.circular(10)),
+                      prefixIcon: SizedBox(
+                        width: 30,
+                        height: 1,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            SvgPicture.asset('assets/images/call.svg'),
+                            VerticalDivider(
+                              thickness: 1,
+                              color: Color(0xffE5E5E5),
+                            ),
+                          ],
                         ),
-                      )
-                    ],
-                  ),
-                ),
-                // Container(
-                //   width: width(context),
-                //   height: height(context) * 0.08,
-                //   decoration: BoxDecoration(
-                //     color: Colors.white,
-                //     border: Border.all(width: 1.0, color: Color(0xffE5E5E5)),
-                //     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                //   ),
-                //   child: Padding(
-                //     padding: const EdgeInsets.all(8.0),
-                //     child: Row(
-                //       children: [
-                //         SvgPicture.asset('assets/images/linkedin.svg'),
-                //         VerticalDivider(
-                //           thickness: 1,
-                //           color: Color(0xffE5E5E5),
-                //         ),
-                //         // SizedBox(
-                //         //   width: width(context) * 0.6,
-                //         //   child: TextField(
-                //         //     controller: linkedinController,
-                //         //   ),
-                //         // ),
-                //         Text("linkedin/",
-                //             style: TextStyle(
-                //                 fontSize: 14,
-                //                 fontWeight: FontWeight.w400,
-                //                 color: Color(0xff929BA3))),
-                //         Spacer(),
-                //          GradientText(child: Text("Connect linkedin",style: TextStyle(fontSize: 10),))
-                //       ],
-                //     ),
-                //   ),
-                // ),
-                customField(imgPath:'assets/images/linkedin.svg', hintText: 'Enter your website', controller: siteController ),
-                customField(imgPath:'assets/images/linkedin.svg', hintText: 'linkedin/', controller: linkedinController ),
-                customField(imgPath:'assets/images/behance.svg', hintText: 'behance.net/', controller: behanceController ),
-                customField(imgPath:'assets/images/dribble.svg', hintText: 'dribbble.net/', controller: dribbleController ),
-                customField(imgPath:'assets/images/instagram.svg', hintText: 'instgram.com/', controller: instaController ),
-                customField(imgPath:'assets/images/facebook.svg', hintText: 'facebook.com/', controller: fbController ),
-                customField(imgPath:'assets/images/twitter.svg', hintText: 'twitter.com/', controller: twitterController ),
-                customField(imgPath:'assets/images/pintrest.svg', hintText: 'pintrest.com/', controller: pintrestController ),
-                const SizedBox(
-                  height: 15,
-                ),
-                // Container(
-                //   width: width(context),
-                //   height: height(context) * 0.08,
-                //   decoration: BoxDecoration(
-                //     color: Colors.white,
-                //     border: Border.all(width: 1.0, color: Color(0xffE5E5E5)),
-                //     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                //   ),
-                //   child: Padding(
-                //     padding: const EdgeInsets.all(8.0),
-                //     child: Row(
-                //       children: [
-                //          SvgPicture.asset('assets/images/behance.svg'),
-                //         VerticalDivider(
-                //           thickness: 1,
-                //           color: Color(0xffE5E5E5),
-                //         ),
-                //         Text("behance.net/",
-                //             style: TextStyle(
-                //                 fontSize: 14,
-                //                 fontWeight: FontWeight.w400,
-                //                 color: Color(0xff929BA3))),
-                //         Spacer(),
-                //          GradientText(child: Text("Connect behance",style: TextStyle(fontSize: 10),))
-                //       ],
-                //     ),
-                //   ),
-                // ),
-                // const SizedBox(
-                //   height: 15,
-                // ),
-                // Container(
-                //   width: width(context),
-                //   height: height(context) * 0.08,
-                //   decoration: BoxDecoration(
-                //     color: Colors.white,
-                //     border: Border.all(width: 1.0, color: Color(0xffE5E5E5)),
-                //     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                //   ),
-                //   child: Padding(
-                //     padding: const EdgeInsets.all(8.0),
-                //     child: Row(
-                //       children:[
-                //          SvgPicture.asset('assets/images/dribble.svg'),
-                //         VerticalDivider(
-                //           thickness: 1,
-                //           color: Color(0xffE5E5E5),
-                //         ),
-                //         Text("dribbble.net/",
-                //             style: TextStyle(
-                //                 fontSize: 14,
-                //                 fontWeight: FontWeight.w400,
-                //                 color: Color(0xff929BA3))),
-                //         Spacer(),
-                //          GradientText(child: Text("Connect dribble",style: TextStyle(fontSize: 10),))
-                //       ],
-                //     ),
-                //   ),
-                // ),
-                // const SizedBox(
-                //   height: 15,
-                // ),
-                // Container(
-                //   width: width(context),
-                //   height: height(context) * 0.08,
-                //   decoration: BoxDecoration(
-                //     color: Colors.white,
-                //     border: Border.all(width: 1.0, color: Color(0xffE5E5E5)),
-                //     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                //   ),
-                //   child: Padding(
-                //     padding: const EdgeInsets.all(8.0),
-                //     child: Row(
-                //       children:  [
-                //          SvgPicture.asset('assets/images/instagram.svg'),
-                //         VerticalDivider(
-                //           thickness: 1,
-                //           color: Color(0xffE5E5E5),
-                //         ),
-                //         Text("instagram.com/",
-                //             style: TextStyle(
-                //                 fontSize: 14,
-                //                 fontWeight: FontWeight.w400,
-                //                 color: Color(0xff929BA3))),
-                //         Spacer(),
-                //          GradientText(child: Text("Connect instagram",style: TextStyle(fontSize: 10),))
-                //       ],
-                //     ),
-                //   ),
-                // ),
-                // const SizedBox(
-                //   height: 15,
-                // ),
-                // Container(
-                //   width: width(context),
-                //   height: height(context) * 0.08,
-                //   decoration: BoxDecoration(
-                //     color: Colors.white,
-                //     border: Border.all(width: 1.0, color: Color(0xffE5E5E5)),
-                //     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                //   ),
-                //   child: Padding(
-                //     padding: const EdgeInsets.all(8.0),
-                //     child: Row(
-                //       children:  [
-                //          SvgPicture.asset('assets/images/facebook.svg'),
-                //         VerticalDivider(
-                //           thickness: 1,
-                //           color: Color(0xffE5E5E5),
-                //         ),
-                //         Text("facebook.com/",
-                //             style: TextStyle(
-                //                 fontSize: 14,
-                //                 fontWeight: FontWeight.w400,
-                //                 color: Color(0xff929BA3))),
-                //         Spacer(),
-                //          GradientText(child: Text("Connect facebook",style: TextStyle(fontSize: 10),))
-                //       ],
-                //     ),
-                //   ),
-                // ),
-                // const SizedBox(
-                //   height: 15,
-                // ),
-                // Container(
-                //   width: width(context),
-                //   height: height(context) * 0.08,
-                //   decoration: BoxDecoration(
-                //     color: Colors.white,
-                //     border: Border.all(width: 1.0, color: Color(0xffE5E5E5)),
-                //     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                //   ),
-                //   child: Padding(
-                //     padding: const EdgeInsets.all(8.0),
-                //     child: Row(
-                //       children:  [
-                //          SvgPicture.asset('assets/images/twitter.svg'),
-                //         VerticalDivider(
-                //           thickness: 1,
-                //           color: Color(0xffE5E5E5),
-                //         ),
-                //         Text("twitter.com/",
-                //             style: TextStyle(
-                //                 fontSize: 14,
-                //                 fontWeight: FontWeight.w400,
-                //                 color: Color(0xff929BA3))),
-                //         Spacer(),
-                //          GradientText(child: Text("Connect twitter",style: TextStyle(fontSize: 10),))
-                //       ],
-                //     ),
-                //   ),
-                // ),
-                // const SizedBox(
-                //   height: 15,
-                // ),
-                // Container(
-                //   width: width(context),
-                //   height: height(context) * 0.08,
-                //   decoration: BoxDecoration(
-                //     color: Colors.white,
-                //     border: Border.all(width: 1.0, color: Color(0xffE5E5E5)),
-                //     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                //   ),
-                //   child: Padding(
-                //     padding: const EdgeInsets.all(8.0),
-                //     child: Row(
-                //       children:  [
-                //          SvgPicture.asset('assets/images/pintrest.svg'),
-                //         VerticalDivider(
-                //           thickness: 1,
-                //           color: Color(0xffE5E5E5),
-                //         ),
-                //         Text("pinterest.com/",
-                //             style: TextStyle(
-                //                 fontSize: 14,
-                //                 fontWeight: FontWeight.w400,
-                //                 color: Color(0xff929BA3))),
-                //         Spacer(),
-                //         GradientText(child: Text("Connect pinterest",style: TextStyle(fontSize: 10),))
-                //       ],
-                //     ),
-                //   ),
-                // ),
-                InkWell(
-                  onTap: (){
-                    Map<String, dynamic> data = Map();
-                    data['mob_num'] = phoneController.value.text;
-data["email"] = emailController.value.text;
-data["linkedin"] = linkedinController.value.text;
-data["bee"] = behanceController.value.text;
-data["dribbl"] = dribbleController.value.text;
-data["insta"] = instaController.value.text;
-data["facebook"] = instaController.value.text;
-data["twitter"] = twitterController.value.text;
-data["pinterest"] = pintrestController.value.text;
-data["other"] = "";
-data["site_url"] = siteController.value.text;
-data["mob_num_hidden"] = mobileHidden;
-data["email_hidden"] = emailHidden;
-print(data);
-addSocail(data);
-                  },
-                  child: Container(
-                    height: height(context) * 0.06,
-                    width: width(context) * 0.8,
-                    padding: const EdgeInsets.all(10.0),
-                    margin: const EdgeInsets.all(20.0),
-                    decoration: const BoxDecoration(
-                        color: Color(0xff0E1638),
-                        borderRadius: BorderRadius.all(Radius.circular(21))),
-                    child: const Center(
-                      child: Text(
-                        'Save',
-                        style: TextStyle(
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white),
-                        textAlign: TextAlign.center,
                       ),
+                      hintText: 'Enter your mobile number',
                     ),
                   ),
-                )
-              ],
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextField(
+                     keyboardType: TextInputType.emailAddress,
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      fillColor: Colors.grey.shade100,
+                      filled: true,
+                      border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(width: 1, color: Color(0xffE5E5E5)),
+                          borderRadius: BorderRadius.circular(10)),
+                      prefixIcon: SizedBox(
+                        width: 30,
+                        height: 1,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children:  [
+                              SvgPicture.asset('assets/images/email.svg'),
+                            
+                            VerticalDivider(
+                              thickness: 1,
+                              color: Color(0xffE5E5E5),
+                            ),
+                          ],
+                        ),
+                      ),
+                      hintText: 'Enter your email address',
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Row(
+                      children:  [
+                        SvgPicture.asset('assets/images/close_eye.svg'),
+                        VerticalDivider(),
+                        Text(
+                          "Hide contact details on portfolio",
+                          style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xff5A5F73)),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: const [
+                        Text(
+                          "Social",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  // Container(
+                  //   width: width(context),
+                  //   height: height(context) * 0.08,
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.white,
+                  //     border: Border.all(width: 1.0, color: Color(0xffE5E5E5)),
+                  //     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                  //   ),
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(8.0),
+                  //     child: Row(
+                  //       children: [
+                  //         SvgPicture.asset('assets/images/linkedin.svg'),
+                  //         VerticalDivider(
+                  //           thickness: 1,
+                  //           color: Color(0xffE5E5E5),
+                  //         ),
+                  //         // SizedBox(
+                  //         //   width: width(context) * 0.6,
+                  //         //   child: TextField(
+                  //         //     controller: linkedinController,
+                  //         //   ),
+                  //         // ),
+                  //         Text("linkedin/",
+                  //             style: TextStyle(
+                  //                 fontSize: 14,
+                  //                 fontWeight: FontWeight.w400,
+                  //                 color: Color(0xff929BA3))),
+                  //         Spacer(),
+                  //          GradientText(child: Text("Connect linkedin",style: TextStyle(fontSize: 10),))
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  customField(imgPath:'assets/images/linkedin.svg', hintText: 'Enter your website', controller: siteController ),
+                  customField(imgPath:'assets/images/linkedin.svg', hintText: 'linkedin/', controller: linkedinController ),
+                  customField(imgPath:'assets/images/behance.svg', hintText: 'behance.net/', controller: behanceController ),
+                  customField(imgPath:'assets/images/dribble.svg', hintText: 'dribbble.net/', controller: dribbleController ),
+                  customField(imgPath:'assets/images/instagram.svg', hintText: 'instgram.com/', controller: instaController ),
+                  customField(imgPath:'assets/images/facebook.svg', hintText: 'facebook.com/', controller: fbController ),
+                  customField(imgPath:'assets/images/twitter.svg', hintText: 'twitter.com/', controller: twitterController ),
+                  customField(imgPath:'assets/images/pintrest.svg', hintText: 'pintrest.com/', controller: pintrestController ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  // Container(
+                  //   width: width(context),
+                  //   height: height(context) * 0.08,
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.white,
+                  //     border: Border.all(width: 1.0, color: Color(0xffE5E5E5)),
+                  //     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                  //   ),
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(8.0),
+                  //     child: Row(
+                  //       children: [
+                  //          SvgPicture.asset('assets/images/behance.svg'),
+                  //         VerticalDivider(
+                  //           thickness: 1,
+                  //           color: Color(0xffE5E5E5),
+                  //         ),
+                  //         Text("behance.net/",
+                  //             style: TextStyle(
+                  //                 fontSize: 14,
+                  //                 fontWeight: FontWeight.w400,
+                  //                 color: Color(0xff929BA3))),
+                  //         Spacer(),
+                  //          GradientText(child: Text("Connect behance",style: TextStyle(fontSize: 10),))
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   height: 15,
+                  // ),
+                  // Container(
+                  //   width: width(context),
+                  //   height: height(context) * 0.08,
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.white,
+                  //     border: Border.all(width: 1.0, color: Color(0xffE5E5E5)),
+                  //     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                  //   ),
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(8.0),
+                  //     child: Row(
+                  //       children:[
+                  //          SvgPicture.asset('assets/images/dribble.svg'),
+                  //         VerticalDivider(
+                  //           thickness: 1,
+                  //           color: Color(0xffE5E5E5),
+                  //         ),
+                  //         Text("dribbble.net/",
+                  //             style: TextStyle(
+                  //                 fontSize: 14,
+                  //                 fontWeight: FontWeight.w400,
+                  //                 color: Color(0xff929BA3))),
+                  //         Spacer(),
+                  //          GradientText(child: Text("Connect dribble",style: TextStyle(fontSize: 10),))
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   height: 15,
+                  // ),
+                  // Container(
+                  //   width: width(context),
+                  //   height: height(context) * 0.08,
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.white,
+                  //     border: Border.all(width: 1.0, color: Color(0xffE5E5E5)),
+                  //     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                  //   ),
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(8.0),
+                  //     child: Row(
+                  //       children:  [
+                  //          SvgPicture.asset('assets/images/instagram.svg'),
+                  //         VerticalDivider(
+                  //           thickness: 1,
+                  //           color: Color(0xffE5E5E5),
+                  //         ),
+                  //         Text("instagram.com/",
+                  //             style: TextStyle(
+                  //                 fontSize: 14,
+                  //                 fontWeight: FontWeight.w400,
+                  //                 color: Color(0xff929BA3))),
+                  //         Spacer(),
+                  //          GradientText(child: Text("Connect instagram",style: TextStyle(fontSize: 10),))
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   height: 15,
+                  // ),
+                  // Container(
+                  //   width: width(context),
+                  //   height: height(context) * 0.08,
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.white,
+                  //     border: Border.all(width: 1.0, color: Color(0xffE5E5E5)),
+                  //     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                  //   ),
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(8.0),
+                  //     child: Row(
+                  //       children:  [
+                  //          SvgPicture.asset('assets/images/facebook.svg'),
+                  //         VerticalDivider(
+                  //           thickness: 1,
+                  //           color: Color(0xffE5E5E5),
+                  //         ),
+                  //         Text("facebook.com/",
+                  //             style: TextStyle(
+                  //                 fontSize: 14,
+                  //                 fontWeight: FontWeight.w400,
+                  //                 color: Color(0xff929BA3))),
+                  //         Spacer(),
+                  //          GradientText(child: Text("Connect facebook",style: TextStyle(fontSize: 10),))
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   height: 15,
+                  // ),
+                  // Container(
+                  //   width: width(context),
+                  //   height: height(context) * 0.08,
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.white,
+                  //     border: Border.all(width: 1.0, color: Color(0xffE5E5E5)),
+                  //     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                  //   ),
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(8.0),
+                  //     child: Row(
+                  //       children:  [
+                  //          SvgPicture.asset('assets/images/twitter.svg'),
+                  //         VerticalDivider(
+                  //           thickness: 1,
+                  //           color: Color(0xffE5E5E5),
+                  //         ),
+                  //         Text("twitter.com/",
+                  //             style: TextStyle(
+                  //                 fontSize: 14,
+                  //                 fontWeight: FontWeight.w400,
+                  //                 color: Color(0xff929BA3))),
+                  //         Spacer(),
+                  //          GradientText(child: Text("Connect twitter",style: TextStyle(fontSize: 10),))
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   height: 15,
+                  // ),
+                  // Container(
+                  //   width: width(context),
+                  //   height: height(context) * 0.08,
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.white,
+                  //     border: Border.all(width: 1.0, color: Color(0xffE5E5E5)),
+                  //     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                  //   ),
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(8.0),
+                  //     child: Row(
+                  //       children:  [
+                  //          SvgPicture.asset('assets/images/pintrest.svg'),
+                  //         VerticalDivider(
+                  //           thickness: 1,
+                  //           color: Color(0xffE5E5E5),
+                  //         ),
+                  //         Text("pinterest.com/",
+                  //             style: TextStyle(
+                  //                 fontSize: 14,
+                  //                 fontWeight: FontWeight.w400,
+                  //                 color: Color(0xff929BA3))),
+                  //         Spacer(),
+                  //         GradientText(child: Text("Connect pinterest",style: TextStyle(fontSize: 10),))
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  InkWell(
+                    onTap: (){
+                      Map<String, dynamic> data = Map();
+                      data['mob_num'] = phoneController.value.text;
+        data["email"] = emailController.value.text;
+        data["linkedin"] = linkedinController.value.text;
+        data["bee"] = behanceController.value.text;
+        data["dribbl"] = dribbleController.value.text;
+        data["insta"] = instaController.value.text;
+        data["facebook"] = instaController.value.text;
+        data["twitter"] = twitterController.value.text;
+        data["pinterest"] = pintrestController.value.text;
+        data["other"] = "";
+        data["site_url"] = siteController.value.text;
+        data["mob_num_hidden"] = mobileHidden;
+        data["email_hidden"] = emailHidden;
+        print(data);
+        addSocail(data);
+                    },
+                    child: Container(
+                      height: height(context) * 0.06,
+                      width: width(context) * 0.8,
+                      padding: const EdgeInsets.all(10.0),
+                      margin: const EdgeInsets.all(20.0),
+                      decoration: const BoxDecoration(
+                          color: Color(0xff0E1638),
+                          borderRadius: BorderRadius.all(Radius.circular(21))),
+                      child: const Center(
+                        child: Text(
+                          'Save',
+                          style: TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
-        ));
+        )));
   }
 
   Widget customField({required String imgPath,required String hintText,required TextEditingController controller}){
@@ -460,5 +473,29 @@ addSocail(data);
 
   void addSocail(Map<String, dynamic> data){
     BlocProvider.of<HomeBloc>(context).add(AddSocialEvent(data: data));
+  }
+
+   void handleAddSocial(AddSocialState state) {
+    var addPortfolioState = state;
+    setState(() {
+      switch (addPortfolioState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v(" Add social Portfolio....................");
+          isAddPortfolioLoading = true;
+          break;
+
+        case ApiStatus.SUCCESS:
+          Log.v("Success Add Social....................");
+          isAddPortfolioLoading = false;
+          Navigator.pop(context);
+          break;
+        case ApiStatus.ERROR:
+          Log.v("Error Add Social....................");
+          isAddPortfolioLoading = false;
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
   }
 }

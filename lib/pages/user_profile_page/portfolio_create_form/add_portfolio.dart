@@ -21,7 +21,12 @@ class AddPortfolio extends StatefulWidget {
   final bool? editMode;
   final Portfolio? portfolio;
   final String? baseUrl;
-  const AddPortfolio({Key? key,  this.editMode = false,  this.portfolio, this.baseUrl = "", }) : super(key: key);
+  const AddPortfolio({
+    Key? key,
+    this.editMode = false,
+    this.portfolio,
+    this.baseUrl = "",
+  }) : super(key: key);
 
   @override
   State<AddPortfolio> createState() => _AddPortfolioState();
@@ -33,7 +38,6 @@ class _AddPortfolioState extends State<AddPortfolio> {
   TextEditingController linkController = TextEditingController();
   File? uploadImg;
   File? file;
-  
 
   bool? isAddPortfolioLoading = false;
 
@@ -43,11 +47,14 @@ class _AddPortfolioState extends State<AddPortfolio> {
     updateValue();
     super.initState();
   }
-  void updateValue(){
-    if(widget.editMode == true){
-      titleController = TextEditingController(text: widget.portfolio?.portfolioTitle);
-descController = TextEditingController(text: widget.portfolio?.desc);
-linkController = TextEditingController(text: widget.portfolio?.portfolioLink);
+
+  void updateValue() {
+    if (widget.editMode == true) {
+      titleController =
+          TextEditingController(text: widget.portfolio?.portfolioTitle);
+      descController = TextEditingController(text: widget.portfolio?.desc);
+      linkController =
+          TextEditingController(text: widget.portfolio?.portfolioLink);
     }
   }
 
@@ -61,9 +68,9 @@ linkController = TextEditingController(text: widget.portfolio?.portfolioLink);
         },
         child: Scaffold(
             body: SafeArea(
-              child: ScreenWithLoader(
-                      isLoading: isAddPortfolioLoading,
-                      body: Padding(
+          child: ScreenWithLoader(
+            isLoading: isAddPortfolioLoading,
+            body: Padding(
               padding: const EdgeInsets.all(8.0),
               child: SingleChildScrollView(
                   child: Form(
@@ -74,7 +81,8 @@ linkController = TextEditingController(text: widget.portfolio?.portfolioLink);
                       Row(
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(left: width(context) * 0.34),
+                            padding:
+                                EdgeInsets.only(left: width(context) * 0.34),
                             child: Text(
                               "Add Portfolio",
                               style: TextStyle(
@@ -148,7 +156,8 @@ linkController = TextEditingController(text: widget.portfolio?.portfolioLink);
                               uploadImg = File(pickedFileC.path);
                             });
                           } else if (Platform.isAndroid) {
-                            final LostData response = await picker.getLostData();
+                            final LostData response =
+                                await picker.getLostData();
                           }
                         },
                         child: Row(
@@ -239,58 +248,72 @@ linkController = TextEditingController(text: widget.portfolio?.portfolioLink);
                                   color: Color(0xff929BA3))),
                         ],
                       ),
-                      PortfolioCustomButton(
-                        clickAction: () async {
-                          if (_formKey.currentState!.validate()) {
-                            Map<String, dynamic> data = Map();
-                            try {
-
-                                  String? portfolioImage = uploadImg?.path.split('/').last;
-                              String? portfolioFile = file?.path.split('/').last;
+                      PortfolioCustomButton(clickAction: () async {
+                        if (_formKey.currentState!.validate()) {
+                          Map<String, dynamic> data = Map();
+                          try {
+                            if (widget.editMode == true) {
+                              if (uploadImg?.path != null) {
+                                String? portfolioImage =
+                                    uploadImg?.path.split('/').last;
+                                data['portfolio_image'] =
+                                    await MultipartFile.fromFile(
+                                        '${uploadImg?.path}',
+                                        filename: portfolioImage);
+                              }
+                              if (file?.path != null) {
+                                String? portfolioFile =
+                                    file?.path.split('/').last;
+                                data['portfolio_file'] =
+                                    await MultipartFile.fromFile(
+                                        '${file?.path}',
+                                        filename: portfolioFile);
+                              }
+                            } else {
+                              String? portfolioImage =
+                                  uploadImg?.path.split('/').last;
+                              String? portfolioFile =
+                                  file?.path.split('/').last;
                               data['portfolio_image'] =
-                                  await MultipartFile.fromFile('${uploadImg?.path}',
-                                      filename: portfolioImage);
-            
-                              data['portfolio_file'] =
                                   await MultipartFile.fromFile(
-                                      '${file?.path}',
+                                      '${uploadImg?.path}',
+                                      filename: portfolioImage);
+
+                              data['portfolio_file'] =
+                                  await MultipartFile.fromFile('${file?.path}',
                                       filename: portfolioFile);
-                              
-                            
-            
-                             
-
-                            } catch (e) {
-
-                            
                             }
+                          } catch (e) {}
 
-                            if(widget.editMode == false && (file?.path == null || uploadImg?.path == null)){
-  ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Please upload file')));
-                            }
-                            else {
-                               data['portfolio_title'] =
-                                  titleController.value.text;
-                              data['portfolio_link'] = linkController.value.text;
-                              data['portfolio_key'] = widget.editMode == true ? "portfolio_${widget.portfolio?.id}" :  'new_portfolio';
-                              data['edit_url_portfolio'] = '${widget.baseUrl}${widget.portfolio?.portfolioFile}';
-                              data['edit_image_type'] ='${widget.baseUrl}${widget.portfolio?.imageName}';
-                              data['desc'] = descController.value.text;
-                              print(data);
+                          if (widget.editMode == false &&
+                              (file?.path == null || uploadImg?.path == null)) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Please upload file')));
+                          } else {
+                            data['portfolio_title'] =
+                                titleController.value.text;
+                            data['portfolio_link'] = linkController.value.text;
+                            data['portfolio_key'] = widget.editMode == true
+                                ? "portfolio_${widget.portfolio?.id}"
+                                : 'new_portfolio';
+                            data['edit_file_portfolio'] = '${widget.portfolio?.portfolioFile}';
+                            data['edit_url_portfolio'] =
+                                '${widget.portfolio?.imageName}';
+                            // data['edit_file_portfolio'] = '${widget.baseUrl}${widget.portfolio?.portfolioFile}';
+                            // data['edit_url_portfolio'] ='${widget.baseUrl}${widget.portfolio?.imageName}';
+                            data['desc'] = descController.value.text;
+                            print(data);
 
-                              addPortfolio(data); 
-
-                            }
-                            }
+                            addPortfolio(data);
                           }
-                        
-                      )
+                        }
+                      })
                     ]),
               )),
-                      ),
-                    ),
-            )),
+            ),
+          ),
+        )),
       ),
     );
   }

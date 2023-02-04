@@ -8,7 +8,9 @@ import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/auth_response/user_session.dart';
+import 'package:masterg/data/models/response/home_response/competition_response.dart';
 import 'package:masterg/data/models/response/home_response/new_portfolio_response.dart';
+import 'package:masterg/data/models/response/home_response/portfolio_competition_response.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/auth_pages/choose_language.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
@@ -16,6 +18,7 @@ import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/pdf_view_page.dart';
 import 'package:masterg/pages/ghome/widget/read_more.dart';
+import 'package:masterg/pages/singularis/competition_detail.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_certificate.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_education.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_experience.dart';
@@ -52,16 +55,21 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   bool editModeEnabled = true;
   bool? isPortfolioLoading = true;
   PortfolioResponse? portfolioResponse;
+  PortfolioCompetitionResponse? competition;
 
   @override
   void initState() {
     getPortfolio();
+    getPortfolioCompetition();
 
     super.initState();
   }
 
   void getPortfolio() {
     BlocProvider.of<HomeBloc>(context).add(PortfolioEvent());
+  }
+  void getPortfolioCompetition() {
+    BlocProvider.of<HomeBloc>(context).add(PortfolioCompetitoinEvent());
   }
 
   List<String> listOfMonths = [
@@ -90,1070 +98,1204 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
             if (state is PortfolioState) {
               handlePortfolioState(state);
             }
+            if(state is PortfoilioCompetitionState ){
+              handleCompetition(state);
+            }
           },
           child: Scaffold(
               body: SingleChildScrollView(
-                      key:const  PageStorageKey<String>('portfolioList'),
-
+                  key: const PageStorageKey<String>('portfolioList'),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                Stack(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          padding: EdgeInsets.only(top: 8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10)),
-                            color: ColorConstants.WHITE,
-                            gradient: LinearGradient(
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                                colors: <Color>[
-                                  Color(0xfffc7804),
-                                  ColorConstants.GRADIENT_RED
-                                ]),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: 16,
-                              ),
-                              Row(
-                                children: [
-                                  IconButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      icon: Icon(
-                                        Icons.arrow_back,
-                                        color: ColorConstants.WHITE,
-                                      )),
-                                  Spacer(),
-                                  IconButton(
-                                      onPressed: () {
-                                        AlertsWidget.showCustomDialog(
-                                            context: context,
-                                            title:
-                                                '${Strings.of(context)?.leavingSoSoon}',
-                                            text:
-                                                '${Strings.of(context)?.areYouSureYouWantToExit}',
-                                            icon:
-                                                'assets/images/circle_alert_fill.svg',
-                                            onOkClick: () async {
-                                              UserSession.clearSession();
-                                              await Hive.deleteFromDisk();
-                                              Preference.clearPref()
-                                                  .then((value) {
-                                                Navigator.pushAndRemoveUntil(
-                                                    context,
-                                                    NextPageRoute(
-                                                        ChooseLanguage(
-                                                      showEdulystLogo: true,
-                                                    )),
-                                                    (route) => false);
-                                              });
-                                            });
-                                      },
-                                      icon: Icon(
-                                        Icons.share,
-                                        color: ColorConstants.WHITE,
-                                      )),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
+                        Stack(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: double.infinity,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.3,
+                                  padding: EdgeInsets.only(top: 8),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(10),
+                                        bottomRight: Radius.circular(10)),
+                                    color: ColorConstants.WHITE,
+                                    gradient: LinearGradient(
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                        colors: <Color>[
+                                          Color(0xfffc7804),
+                                          ColorConstants.GRADIENT_RED
+                                        ]),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Stack(
+                                      SizedBox(
+                                        height: 16,
+                                      ),
+                                      Row(
                                         children: [
-                                          InkWell(
-                                            onTap: () {
-                                              showModalBottomSheet(
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                              topLeft: Radius
-                                                                  .circular(20),
-                                                              topRight: Radius
-                                                                  .circular(
-                                                                      20))),
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return FractionallySizedBox(
-                                                      heightFactor: 0.4,
-                                                      child: Container(
-                                                        child: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
-                                                          children: <Widget>[
-                                                            Row(
-                                                              children: [
-                                                                Spacer(),
-                                                                IconButton(
-                                                                  onPressed: () =>
-                                                                      Navigator.pop(
-                                                                          context),
-                                                                  icon: Icon(
-                                                                    Icons.close,
-                                                                    color: Colors
-                                                                        .black,
-                                                                  ),
-                                                                )
-                                                              ],
-                                                            ),
-                                                            ListTile(
-                                                              leading: SvgPicture
-                                                                  .asset(
-                                                                      'assets/images/camera.svg'),
-                                                              title: new Text(
-                                                                'View or edit profile picture',
-                                                                style: Styles
-                                                                    .regular(
-                                                                        size:
-                                                                            14),
-                                                              ),
-                                                              onTap: () {
-                                                                Navigator.push(
-                                                                    context,
-                                                                    NextPageRoute(
-                                                                        UploadProfile()));
-                                                              },
-                                                            ),
-                                                            ListTile(
-                                                              leading: SvgPicture
-                                                                  .asset(
-                                                                      'assets/images/portfolio_video.svg'),
-                                                              title: new Text(
-                                                                'Add profile video',
-                                                                style: Styles
-                                                                    .regular(
-                                                                        size:
-                                                                            14),
-                                                              ),
-                                                              onTap: () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    );
-                                                  });
-                                            },
-                                            child: ClipOval(
-                                              child: CachedNetworkImage(
-                                                imageUrl:
-                                                    '${Preference.getString(Preference.PROFILE_IMAGE)}',
-                                                filterQuality:
-                                                    FilterQuality.low,
-                                                width: 70,
-                                                height: 70,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                          Positioned(
-                                            left: 40,
-                                            top: 40,
-                                            child: InkWell(
-                                              onTap: () {
-                                                // showBottomSheet(context);
-                                                /*Navigator.push(
-                                      context,
-                                      NextPageRoute(ChangeImage()));*/
+                                          IconButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
                                               },
-                                              child: Container(
-                                                height: 30.0,
-                                                width: 30.0,
-                                                padding: EdgeInsets.all(2),
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          100),
-                                                  border: Border.all(
-                                                      width: 0,
-                                                      color:
-                                                          Colors.transparent),
-                                                  color: Color(0xfffc7804),
-                                                ),
-                                                child: SvgPicture.asset(
-                                                    'assets/images/profile_play.svg'),
-                                              ),
-                                            ),
-                                          ),
+                                              icon: Icon(
+                                                Icons.arrow_back,
+                                                color: ColorConstants.WHITE,
+                                              )),
+                                          Spacer(),
+                                          IconButton(
+                                              onPressed: () {
+                                                AlertsWidget.showCustomDialog(
+                                                    context: context,
+                                                    title:
+                                                        '${Strings.of(context)?.leavingSoSoon}',
+                                                    text:
+                                                        '${Strings.of(context)?.areYouSureYouWantToExit}',
+                                                    icon:
+                                                        'assets/images/circle_alert_fill.svg',
+                                                    onOkClick: () async {
+                                                      UserSession
+                                                          .clearSession();
+                                                      await Hive
+                                                          .deleteFromDisk();
+                                                      Preference.clearPref()
+                                                          .then((value) {
+                                                        Navigator
+                                                            .pushAndRemoveUntil(
+                                                                context,
+                                                                NextPageRoute(
+                                                                    ChooseLanguage(
+                                                                  showEdulystLogo:
+                                                                      true,
+                                                                )),
+                                                                (route) =>
+                                                                    false);
+                                                      });
+                                                    });
+                                              },
+                                              icon: Icon(
+                                                Icons.share,
+                                                color: ColorConstants.WHITE,
+                                              )),
                                         ],
                                       ),
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.6,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Stack(
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      showModalBottomSheet(
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius.only(
+                                                                  topLeft: Radius
+                                                                      .circular(
+                                                                          20),
+                                                                  topRight: Radius
+                                                                      .circular(
+                                                                          20))),
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return FractionallySizedBox(
+                                                              heightFactor: 0.4,
+                                                              child: Container(
+                                                                child: Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .min,
+                                                                  children: <
+                                                                      Widget>[
+                                                                    Row(
+                                                                      children: [
+                                                                        Spacer(),
+                                                                        IconButton(
+                                                                          onPressed: () =>
+                                                                              Navigator.pop(context),
+                                                                          icon:
+                                                                              Icon(
+                                                                            Icons.close,
+                                                                            color:
+                                                                                Colors.black,
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                    ListTile(
+                                                                      leading: SvgPicture
+                                                                          .asset(
+                                                                              'assets/images/camera.svg'),
+                                                                      title:
+                                                                          new Text(
+                                                                        'View or edit profile picture',
+                                                                        style: Styles.regular(
+                                                                            size:
+                                                                                14),
+                                                                      ),
+                                                                      onTap:
+                                                                          () {
+                                                                        Navigator.push(
+                                                                            context,
+                                                                            NextPageRoute(UploadProfile()));
+                                                                      },
+                                                                    ),
+                                                                    ListTile(
+                                                                      leading: SvgPicture
+                                                                          .asset(
+                                                                              'assets/images/portfolio_video.svg'),
+                                                                      title:
+                                                                          new Text(
+                                                                        'Add profile video',
+                                                                        style: Styles.regular(
+                                                                            size:
+                                                                                14),
+                                                                      ),
+                                                                      onTap:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            );
+                                                          });
+                                                    },
+                                                    child: ClipOval(
+                                                      child: CachedNetworkImage(
+                                                        imageUrl:
+                                                            '${Preference.getString(Preference.PROFILE_IMAGE)}',
+                                                        filterQuality:
+                                                            FilterQuality.low,
+                                                        width: 70,
+                                                        height: 70,
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Positioned(
+                                                    left: 40,
+                                                    top: 40,
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        // showBottomSheet(context);
+                                                        /*Navigator.push(
+                                      context,
+                                      NextPageRoute(ChangeImage()));*/
+                                                      },
+                                                      child: Container(
+                                                        height: 30.0,
+                                                        width: 30.0,
+                                                        padding:
+                                                            EdgeInsets.all(2),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      100),
+                                                          border: Border.all(
+                                                              width: 0,
+                                                              color: Colors
+                                                                  .transparent),
+                                                          color:
+                                                              Color(0xfffc7804),
+                                                        ),
+                                                        child: SvgPicture.asset(
+                                                            'assets/images/profile_play.svg'),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.6,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                        '${Preference.getString(Preference.FIRST_NAME)}',
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        softWrap: false,
+                                                        style: Styles.bold(
+                                                            size: 18,
+                                                            color:
+                                                                ColorConstants
+                                                                    .WHITE)),
+                                                    Text(
+                                                        '${Preference.getString(Preference.USER_HEADLINE)}',
+                                                        style: Styles.regular(
+                                                            size: 12,
+                                                            color:
+                                                                ColorConstants
+                                                                    .WHITE)),
+                                                    SizedBox(height: 4),
+                                                    Row(
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                            'assets/images/person_location.svg'),
+                                                        Text(
+                                                            '${Preference.getString(Preference.LOCATION)}',
+                                                            style: Styles.regular(
+                                                                size: 12,
+                                                                color:
+                                                                    ColorConstants
+                                                                        .WHITE)),
+                                                        Spacer(),
+                                                        SizedBox(
+                                                            width: 18,
+                                                            child:
+                                                                Transform.scale(
+                                                                    scale: 1.2,
+                                                                    child:
+                                                                        InkWell(
+                                                                      onTap:
+                                                                          () async {
+                                                                        await showModalBottomSheet(
+                                                                            backgroundColor:
+                                                                                ColorConstants.WHITE,
+                                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                                                            context: context,
+                                                                            enableDrag: true,
+                                                                            isScrollControlled: true,
+                                                                            builder: (context) {
+                                                                              return FractionallySizedBox(
+                                                                                heightFactor: 0.7,
+                                                                                child: Container(height: height(context), color: ColorConstants.WHITE, padding: const EdgeInsets.all(8.0), margin: const EdgeInsets.only(top: 10), child: EditProfilePage()),
+                                                                              );
+                                                                            }).then((value) => getPortfolio());
+                                                                      },
+                                                                      child: SvgPicture
+                                                                          .asset(
+                                                                              'assets/images/edit.svg'),
+                                                                    )))
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ]),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 50,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    '${Preference.getString(Preference.ABOUT_ME)}',
+                                    style: Styles.regular(
+                                        size: 12, color: Color(0xff5A5F73)),
+                                  ),
+                                ),
+                                Center(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context, NextPageRoute(SocialPage()));
+                                    },
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.95,
+                                      height: 60,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          SvgPicture.asset(
+                                              'assets/images/call.svg'),
+                                          SizedBox(width: 8),
+                                          SvgPicture.asset(
+                                              'assets/images/email.svg'),
+                                          SizedBox(width: 8),
+                                          VerticalDivider(
+                                            color: Color(0xffECECEC),
+                                            width: 10,
+                                            thickness: 2,
+                                            indent: 10,
+                                            endIndent: 10,
+                                          ),
+                                          SizedBox(width: 8),
+                                          SvgPicture.asset(
+                                              'assets/images/linkedin.svg'),
+                                          SizedBox(width: 8),
+                                          SvgPicture.asset(
+                                              'assets/images/behance.svg'),
+                                          SizedBox(width: 8),
+                                          SvgPicture.asset(
+                                              'assets/images/insta.svg'),
+                                          SizedBox(width: 8),
+                                          SvgPicture.asset(
+                                              'assets/images/dribble.svg'),
+                                          SizedBox(width: 8),
+                                          SvgPicture.asset(
+                                              'assets/images/pintrest.svg'),
+                                          SvgPicture.asset(
+                                              'assets/images/vertical_menu.svg'),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Positioned(
+                                left: 25,
+                                right: 25,
+                                top: 170,
+                                child: Container(
+                                  height: 100,
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 4, horizontal: 8),
+                                  decoration: BoxDecoration(
+                                      color: ColorConstants.WHITE,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Color(0xff898989)
+                                                .withOpacity(0.1),
+                                            offset: Offset(0, 4.0),
+                                            blurRadius: 11)
+                                      ],
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: Center(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                                '${Preference.getString(Preference.FIRST_NAME)}',
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                softWrap: false,
-                                                style: Styles.bold(
-                                                    size: 18,
-                                                    color:
-                                                        ColorConstants.WHITE)),
-                                            Text(
-                                                '${Preference.getString(Preference.USER_HEADLINE)}',
-                                                style: Styles.regular(
-                                                    size: 12,
-                                                    color:
-                                                        ColorConstants.WHITE)),
-                                            SizedBox(height: 4),
+                                              'Rank',
+                                              style: Styles.regular(size: 12),
+                                            ),
                                             Row(
                                               children: [
-                                                SvgPicture.asset(
-                                                    'assets/images/person_location.svg'),
-                                                Text(
-                                                    '${Preference.getString(Preference.LOCATION)}',
-                                                    style: Styles.regular(
-                                                        size: 12,
-                                                        color: ColorConstants
-                                                            .WHITE)),
-                                                Spacer(),
                                                 SizedBox(
-                                                    width: 18,
-                                                    child: Transform.scale(
-                                                        scale: 1.2,
-                                                        child: InkWell(
-                                                          onTap: () async {
-                                                            await showModalBottomSheet(
-                                                                backgroundColor:
-                                                                    ColorConstants
-                                                                        .WHITE,
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            20)),
-                                                                context:
-                                                                    context,
-                                                                enableDrag:
-                                                                    true,
-                                                                isScrollControlled:
-                                                                    true,
-                                                                builder:
-                                                                    (context) {
-                                                                  return FractionallySizedBox(
-                                                                    heightFactor:
-                                                                        0.7,
-                                                                    child: Container(
-                                                                        height: height(
-                                                                            context),
-                                                                        color: ColorConstants
-                                                                            .WHITE,
-                                                                        padding:
-                                                                            const EdgeInsets.all(
-                                                                                8.0),
-                                                                        margin: const EdgeInsets.only(
-                                                                            top:
-                                                                                10),
-                                                                        child:
-                                                                            EditProfilePage()),
-                                                                  );
-                                                                }).then((value) => getPortfolio());
-                                                          },
-                                                          child: SvgPicture.asset(
-                                                              'assets/images/edit.svg'),
-                                                        )))
+                                                    height: 30,
+                                                    child: SvgPicture.asset(
+                                                        'assets/images/leaderboard.svg')),
+                                                // SizedBox(width: 2),
+                                                ShaderMask(
+                                                  blendMode: BlendMode.srcIn,
+                                                  shaderCallback:
+                                                      (Rect bounds) {
+                                                    return LinearGradient(
+                                                        begin: Alignment
+                                                            .centerLeft,
+                                                        end: Alignment
+                                                            .centerRight,
+                                                        colors: <Color>[
+                                                          Color(0xfffc7804),
+                                                          ColorConstants
+                                                              .GRADIENT_RED
+                                                        ]).createShader(bounds);
+                                                  },
+                                                  child: Text(
+                                                    '1',
+                                                    style:
+                                                        Styles.bold(size: 24),
+                                                  ),
+                                                )
                                               ],
+                                            ),
+                                            Text(
+                                              'out of 500 Students',
+                                              style: Styles.regular(
+                                                  size: 10,
+                                                  color: Color(0xff5A5F73)),
                                             )
                                           ],
                                         ),
-                                      ),
-                                    ]),
-                              ),
+                                        SizedBox(width: 20),
+                                        VerticalDivider(
+                                          color: Color(0xffECECEC),
+                                          width: 10,
+                                          thickness: 2,
+                                          indent: 10,
+                                          endIndent: 10,
+                                        ),
+                                        SizedBox(width: 20),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Points',
+                                              style: Styles.regular(size: 12),
+                                            ),
+                                            Row(
+                                              children: [
+                                                SizedBox(
+                                                    height: 30,
+                                                    child: SvgPicture.asset(
+                                                        'assets/images/coin.svg')),
+                                                ShaderMask(
+                                                  blendMode: BlendMode.srcIn,
+                                                  shaderCallback:
+                                                      (Rect bounds) {
+                                                    return LinearGradient(
+                                                        begin: Alignment
+                                                            .centerLeft,
+                                                        end: Alignment
+                                                            .centerRight,
+                                                        colors: <Color>[
+                                                          Color(0xfffc7804),
+                                                          ColorConstants
+                                                              .GRADIENT_RED
+                                                        ]).createShader(bounds);
+                                                  },
+                                                  child: Text(
+                                                    '50',
+                                                    style:
+                                                        Styles.bold(size: 24),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            Text(
+                                              'gained from 5 activities',
+                                              style: Styles.regular(
+                                                  size: 10,
+                                                  color: Color(0xff5A5F73)),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ))
+                          ],
+                        ),
+                        Center(
+                          child: SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.94,
+                              child: Divider()),
+                        ),
+
+                        InkWell(
+                          onTap: () {
+                            if (portfolioResponse?.data.resume.length == 0)
+                              Navigator.push(
+                                  context,
+                                  NextPageRoute(ViewResume(
+                                    resumeId: null,
+                                    resumUrl: null,
+                                  )));
+                            else
+                              Navigator.push(
+                                  context,
+                                  NextPageRoute(ViewResume(
+                                    resumeId:
+                                        portfolioResponse?.data.resume.first.id,
+                                    resumUrl:
+                                        '$baseUrl${portfolioResponse?.data.resume.first.url}',
+                                  )));
+                          },
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset('assets/images/resume.svg'),
+                              SizedBox(width: 6),
+                              ShaderMask(
+                                blendMode: BlendMode.srcIn,
+                                shaderCallback: (Rect bounds) {
+                                  return LinearGradient(
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                      colors: <Color>[
+                                        Color(0xfffc7804),
+                                        ColorConstants.GRADIENT_RED
+                                      ]).createShader(bounds);
+                                },
+                                child: Text(
+                                  portfolioResponse?.data.resume.length == 0
+                                      ? 'Upload Resume'
+                                      : 'View Resume',
+                                  style: Styles.bold(size: 14),
+                                ),
+                              )
                             ],
                           ),
                         ),
                         SizedBox(
-                          height: 50,
+                          height: 12,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            '${Preference.getString(Preference.ABOUT_ME)}',
-                            style: Styles.regular(
-                                size: 12, color: Color(0xff5A5F73)),
-                          ),
-                        ),
-                        Center(
-                          child: GestureDetector(
-                            onTap: (){
-                              Navigator.push(context, NextPageRoute(SocialPage()));
-                            },
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.95,
-                              height: 60,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                
+                        dividerLine(),
+                        Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 4, horizontal: 8),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  SvgPicture.asset('assets/images/call.svg'),
-                                  SizedBox(width: 8),
-                                  SvgPicture.asset('assets/images/email.svg'),
-                                  SizedBox(width: 8),
-
-                                  VerticalDivider(
-                                    color: Color(0xffECECEC),
-                                    width: 10,
-                                    thickness: 2,
-                                    indent: 10,
-                                    endIndent: 10,
-                                  ),
-                                  SizedBox(width: 8),
-
-                                  SvgPicture.asset('assets/images/linkedin.svg'),
-                                  SizedBox(width: 8),
-                                  SvgPicture.asset('assets/images/behance.svg'),
-                                  SizedBox(width: 8),
-                                  SvgPicture.asset('assets/images/insta.svg'),
-                                  SizedBox(width: 8),
-                                  SvgPicture.asset('assets/images/dribble.svg'),
-                                  SizedBox(width: 8),
-                                  SvgPicture.asset('assets/images/pintrest.svg'),
-                                  SvgPicture.asset(
-                                      'assets/images/vertical_menu.svg'),
-                                ],
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    Positioned(
-                        left: 25,
-                        right: 25,
-                        top: 170,
-                        child: Container(
-                          height: 100,
-                          padding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                          decoration: BoxDecoration(
-                              color: ColorConstants.WHITE,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Color(0xff898989).withOpacity(0.1),
-                                    offset: Offset(0, 4.0),
-                                    blurRadius: 11)
-                              ],
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Rank',
-                                      style: Styles.regular(size: 12),
-                                    ),
-                                    Row(
-                                      children: [
-                                        SizedBox(
-                                            height: 30,
-                                            child: SvgPicture.asset(
-                                                'assets/images/leaderboard.svg')),
-                                        // SizedBox(width: 2),
-                                        ShaderMask(
-                                          blendMode: BlendMode.srcIn,
-                                          shaderCallback: (Rect bounds) {
-                                            return LinearGradient(
-                                                begin: Alignment.centerLeft,
-                                                end: Alignment.centerRight,
-                                                colors: <Color>[
-                                                  Color(0xfffc7804),
-                                                  ColorConstants.GRADIENT_RED
-                                                ]).createShader(bounds);
-                                          },
-                                          child: Text(
-                                            '1',
-                                            style: Styles.bold(size: 24),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    Text(
-                                      'out of 500 Students',
-                                      style: Styles.regular(
-                                          size: 10, color: Color(0xff5A5F73)),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(width: 20),
-                                VerticalDivider(
-                                  color: Color(0xffECECEC),
-                                  width: 10,
-                                  thickness: 2,
-                                  indent: 10,
-                                  endIndent: 10,
-                                ),
-                                SizedBox(width: 20),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Points',
-                                      style: Styles.regular(size: 12),
-                                    ),
-                                    Row(
-                                      children: [
-                                        SizedBox(
-                                            height: 30,
-                                            child: SvgPicture.asset(
-                                                'assets/images/coin.svg')),
-                                        ShaderMask(
-                                          blendMode: BlendMode.srcIn,
-                                          shaderCallback: (Rect bounds) {
-                                            return LinearGradient(
-                                                begin: Alignment.centerLeft,
-                                                end: Alignment.centerRight,
-                                                colors: <Color>[
-                                                  Color(0xfffc7804),
-                                                  ColorConstants.GRADIENT_RED
-                                                ]).createShader(bounds);
-                                          },
-                                          child: Text(
-                                            '50',
-                                            style: Styles.bold(size: 24),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    Text(
-                                      'gained from 5 activities',
-                                      style: Styles.regular(
-                                          size: 10, color: Color(0xff5A5F73)),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ))
-                  ],
-                ),
-                Center(
-                  child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.94,
-                      child: Divider()),
-                ),
-
-                InkWell(
-                  onTap: () {
-                    if (portfolioResponse?.data.resume.length == 0)
-                      Navigator.push(
-                          context,
-                          NextPageRoute(ViewResume(
-                            resumeId: null,
-                            resumUrl: null,
-                          )));
-                    else
-                      Navigator.push(
-                          context,
-                          NextPageRoute(ViewResume(
-                            resumeId: portfolioResponse?.data.resume.first.id,
-                            resumUrl:
-                                '$baseUrl${portfolioResponse?.data.resume.first.url}',
-                          )));
-                  },
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset('assets/images/resume.svg'),
-                      SizedBox(width: 6),
-                      ShaderMask(
-                        blendMode: BlendMode.srcIn,
-                        shaderCallback: (Rect bounds) {
-                          return LinearGradient(
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              colors: <Color>[
-                                Color(0xfffc7804),
-                                ColorConstants.GRADIENT_RED
-                              ]).createShader(bounds);
-                        },
-                        child: Text(
-                          portfolioResponse?.data.resume.length == 0
-                              ? 'Upload Resume'
-                              : 'View Resume',
-                          style: Styles.bold(size: 14),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                dividerLine(),
-                Container(
-                    padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                'Skills Level & Badges',
-                                style: Styles.semibold(size: 16),
-                              ),
-                              Spacer(),
-                              Icon(Icons.arrow_forward_ios_rounded)
-                            ],
-                          ),
-                          Divider(),
-                          SizedBox(
-                              height: height(context) * 0.2,
-                              width: width(context),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    SvgPicture.asset(
-                                      'assets/images/skill_star.svg',
-                                      width: 40,
-                                    ),
-                                    RichText(
-                                      text: new TextSpan(
-                                        text: 'Complete ',
-                                        style: Styles.DMSansregular(),
-                                        children: <TextSpan>[
-                                          new TextSpan(
-                                            text: 'Skill Assessments  ',
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.red),
-                                          ),
-                                          new TextSpan(
-                                            text:
-                                                'to \n    gain skills and earn badges',
-                                          ),
-                                        ],
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Skills Level & Badges',
+                                        style: Styles.semibold(size: 16),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                              //   child: ListView(
-                              //     scrollDirection: Axis.horizontal,
-                              //     children: [
-                              //       Image.asset(
-                              //         'assets/images/temp/ux_design.png',
-                              //         width: 100,
-                              //       ),
-                              //       SizedBox(
-                              //         width: 5,
-                              //       ),
-                              //       Image.asset(
-                              //         'assets/images/temp/prototype.png',
-                              //         width: 100,
-                              //       ),
-                              //       SizedBox(
-                              //         width: 5,
-                              //       ),
-                              //       Image.asset(
-                              //         'assets/images/temp/informational.png',
-                              //         width: 100,
-                              //       ),
-                              //       SizedBox(
-                              //         width: 5,
-                              //       ),
-                              //       Image.asset(
-                              //         'assets/images/temp/information.png',
-                              //         width: 100,
-                              //       ),
-                              //       SizedBox(
-                              //         width: 5,
-                              //       ),
-                              //       Image.asset(
-                              //         'assets/images/temp/linux.png',
-                              //         width: 100,
-                              //       ),
-                              //       SizedBox(
-                              //         width: 5,
-                              //       ),
-                              //       Image.asset(
-                              //         'assets/images/temp/linuxy.png',
-                              //         width: 100,
-                              //       ),
-                              //       SizedBox(
-                              //         width: 5,
-                              //       ),
-                              //       Image.asset(
-                              //         'assets/images/temp/information.png',
-                              //         width: 100,
-                              //       ),
-                              //     ],
-                              //   ),
-                              ),
-                          dividerLine(),
-                          Row(
-                            children: [
-                              Text(
-                                'Portfolio',
-                                style: Styles.semibold(size: 16),
-                              ),
-                              Spacer(),
-                              InkWell(
-                                  onTap: (() async {
-
-
-                                    await Navigator.push(context, PageTransition(
-      duration:Duration(milliseconds: 600) ,
-      reverseDuration: Duration(milliseconds: 600),
-      type: PageTransitionType.bottomToTop, child: AddPortfolio()))
-                                        .then((value) => getPortfolio());
-                                  }),
-                                  child: Icon(Icons.add)),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              IconButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        NextPageRoute(PortfolioList(
-                                            baseUrl: portfolioResponse
-                                                ?.data.baseFileUrl,
-                                            portfolioList: portfolioResponse
-                                                ?.data.portfolio)));
-                                  },
-                                  icon: Icon(Icons.arrow_forward_ios_rounded)),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: Divider(),
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.4,
-                            child: isPortfolioLoading == false
-                                ? ListView.builder(
-                                    controller: new ScrollController(
-                                        keepScrollOffset: true),
-                                    itemCount: portfolioResponse
-                                        ?.data.portfolio.length,
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) => InkWell(
-                                          onTap: () {
+                                      Spacer(),
+                                      Icon(Icons.arrow_forward_ios_rounded)
+                                    ],
+                                  ),
+                                  Divider(),
+                                  SizedBox(
+                                      height: height(context) * 0.2,
+                                      width: width(context),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          children: [
+                                            SvgPicture.asset(
+                                              'assets/images/skill_star.svg',
+                                              width: 40,
+                                            ),
+                                            RichText(
+                                              text: new TextSpan(
+                                                text: 'Complete ',
+                                                style: Styles.DMSansregular(),
+                                                children: <TextSpan>[
+                                                  new TextSpan(
+                                                    text: 'Skill Assessments  ',
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        color: Colors.red),
+                                                  ),
+                                                  new TextSpan(
+                                                    text:
+                                                        'to \n    gain skills and earn badges',
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                      //   child: ListView(
+                                      //     scrollDirection: Axis.horizontal,
+                                      //     children: [
+                                      //       Image.asset(
+                                      //         'assets/images/temp/ux_design.png',
+                                      //         width: 100,
+                                      //       ),
+                                      //       SizedBox(
+                                      //         width: 5,
+                                      //       ),
+                                      //       Image.asset(
+                                      //         'assets/images/temp/prototype.png',
+                                      //         width: 100,
+                                      //       ),
+                                      //       SizedBox(
+                                      //         width: 5,
+                                      //       ),
+                                      //       Image.asset(
+                                      //         'assets/images/temp/informational.png',
+                                      //         width: 100,
+                                      //       ),
+                                      //       SizedBox(
+                                      //         width: 5,
+                                      //       ),
+                                      //       Image.asset(
+                                      //         'assets/images/temp/information.png',
+                                      //         width: 100,
+                                      //       ),
+                                      //       SizedBox(
+                                      //         width: 5,
+                                      //       ),
+                                      //       Image.asset(
+                                      //         'assets/images/temp/linux.png',
+                                      //         width: 100,
+                                      //       ),
+                                      //       SizedBox(
+                                      //         width: 5,
+                                      //       ),
+                                      //       Image.asset(
+                                      //         'assets/images/temp/linuxy.png',
+                                      //         width: 100,
+                                      //       ),
+                                      //       SizedBox(
+                                      //         width: 5,
+                                      //       ),
+                                      //       Image.asset(
+                                      //         'assets/images/temp/information.png',
+                                      //         width: 100,
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      ),
+                                  dividerLine(),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Portfolio',
+                                        style: Styles.semibold(size: 16),
+                                      ),
+                                      Spacer(),
+                                      InkWell(
+                                          onTap: (() async {
+                                            await Navigator.push(
+                                                    context,
+                                                    PageTransition(
+                                                        duration: Duration(
+                                                            milliseconds: 600),
+                                                        reverseDuration:
+                                                            Duration(
+                                                                milliseconds:
+                                                                    600),
+                                                        type: PageTransitionType
+                                                            .bottomToTop,
+                                                        child: AddPortfolio()))
+                                                .then(
+                                                    (value) => getPortfolio());
+                                          }),
+                                          child: Icon(Icons.add)),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      IconButton(
+                                          onPressed: () {
                                             Navigator.push(
                                                 context,
-                                                NextPageRoute(PortfolioDetail(
-                                                  baseUrl:
-                                                      '${portfolioResponse!.data.baseFileUrl}',
-                                                  portfolio: portfolioResponse!
-                                                      .data.portfolio[index],
-                                                )));
+                                                NextPageRoute(PortfolioList(
+                                                    baseUrl: portfolioResponse
+                                                        ?.data.baseFileUrl,
+                                                    portfolioList:
+                                                        portfolioResponse
+                                                            ?.data.portfolio)));
                                           },
-                                          child: Container(
-                                             width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.8,
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 8, vertical: 4),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
-                                                  child: CachedNetworkImage(
-                                                    progressIndicatorBuilder:
-                                                        (context, url,
-                                                            downloadProgress) {
-                                                      return SvgPicture.asset(
-                                                        'assets/images/default_user.svg',
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.8,
-                                                        height: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .height *
-                                                            0.3,
-                                                      );
-                                                    },
-                                                    imageUrl:
-                                                        '${portfolioResponse?.data.baseFileUrl}${portfolioResponse?.data.portfolio[index].imageName}',
+                                          icon: Icon(
+                                              Icons.arrow_forward_ios_rounded)),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 8),
+                                    child: Divider(),
+                                  ),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.4,
+                                    child: isPortfolioLoading == false
+                                        ? ListView.builder(
+                                            controller: new ScrollController(
+                                                keepScrollOffset: true),
+                                            itemCount: portfolioResponse
+                                                ?.data.portfolio.length,
+                                            scrollDirection: Axis.horizontal,
+                                            itemBuilder: (context, index) =>
+                                                InkWell(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        NextPageRoute(
+                                                            PortfolioDetail(
+                                                          baseUrl:
+                                                              '${portfolioResponse!.data.baseFileUrl}',
+                                                          portfolio:
+                                                              portfolioResponse!
+                                                                      .data
+                                                                      .portfolio[
+                                                                  index],
+                                                        )));
+                                                  },
+                                                  child: Container(
                                                     width:
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .width *
                                                             0.8,
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.3,
-                                                    fit: BoxFit.cover,
-                                                    errorWidget:
-                                                        (context, url, error) {
-                                                      return Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.8,
-                                                        height: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .height *
-                                                            0.3,
-                                                        padding:
-                                                            EdgeInsets.all(14),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                color: Color(
-                                                                    0xffD5D5D5)),
-                                                      );
-                                                    },
+                                                    margin:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 8,
+                                                            vertical: 4),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(12),
+                                                          child:
+                                                              CachedNetworkImage(
+                                                            progressIndicatorBuilder:
+                                                                (context, url,
+                                                                    downloadProgress) {
+                                                              return Shimmer
+                                                                  .fromColors(
+                                                                baseColor:
+                                                                    Colors.grey[
+                                                                        300]!,
+                                                                highlightColor:
+                                                                    Colors.grey[
+                                                                        100]!,
+                                                                enabled: true,
+                                                                child:
+                                                                    Container(
+                                                                  width: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width *
+                                                                      0.8,
+                                                                  height: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .height *
+                                                                      0.3,
+                                                                  color: Colors
+                                                                      .grey,
+                                                                ),
+                                                              );
+                                                            },
+                                                            imageUrl:
+                                                                '${portfolioResponse?.data.baseFileUrl}${portfolioResponse?.data.portfolio[index].imageName}',
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.8,
+                                                            height: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.3,
+                                                            fit: BoxFit.cover,
+                                                            errorWidget:
+                                                                (context, url,
+                                                                    error) {
+                                                              return Container(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.8,
+                                                                height: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .height *
+                                                                    0.3,
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(
+                                                                            14),
+                                                                decoration: BoxDecoration(
+                                                                    color: Color(
+                                                                        0xffD5D5D5)),
+                                                              );
+                                                            },
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 8),
+                                                        Text(
+                                                          '${portfolioResponse?.data.portfolio[index].portfolioTitle}',
+                                                          style: Styles.bold(),
+                                                        ),
+                                                        SizedBox(
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.8,
+                                                          child: Text(
+                                                              '${portfolioResponse?.data.portfolio[index].desc}',
+                                                              softWrap: true,
+                                                              maxLines: 1,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: Styles.semibold(
+                                                                  size: 12,
+                                                                  color: Color(
+                                                                      0xff929BA3))),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(height: 8),
-                                                Text(
-                                                  '${portfolioResponse?.data.portfolio[index].portfolioTitle}',
-                                                  style: Styles.bold(),
-                                                ),
-                                                SizedBox(
-                                                  width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.8,
-                                                  child: Text(
-                                                      '${portfolioResponse?.data.portfolio[index].desc}',
-                                                      softWrap: true,
-                                                      maxLines: 1,
-                                                      overflow: TextOverflow.ellipsis,
-                                                      style: Styles.semibold(
-                                                          size: 12,
-                                                          color:
-                                                              Color(0xff929BA3))),
-                                                ),
-                                              ],
+                                                ))
+                                        : Shimmer.fromColors(
+                                            baseColor: Colors.grey[300]!,
+                                            highlightColor: Colors.grey[100]!,
+                                            enabled: true,
+                                            child: Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.8,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.3,
+                                              color: Colors.grey,
                                             ),
                                           ),
-                                        ))
-                                : Text('no portfolio found '),
-                          ),
-                          dividerLine(),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Text(
-                                  'Competitions',
-                                  style: Styles.bold(size: 16),
-                                ),
-                                Spacer(),
-                                Icon(Icons.arrow_forward_ios_outlined),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 4),
-                                  child: Divider(),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 4),
-                            child: Divider(),
-                          ),
-                          SizedBox(
-                            height: height(context) * 0.35,
-                            child: ListView.builder(
-                                itemCount: 3,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, int) => Container(
-                                      padding: EdgeInsets.only(bottom: 8),
-                                      margin: EdgeInsets.only(right: 8),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: ColorConstants.GREY_4)),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(8),
-                                                topRight: Radius.circular(8)),
-                                            child: CachedNetworkImage(
-                                                imageUrl:
-                                                    'https://picsum.photos/seed/picsum/300/300',
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.65,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.25,
-                                                fit: BoxFit.cover),
-                                          ),
-                                          SizedBox(height: 10),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 8.0),
-                                            child: Text(
-                                              'Ui Design Test Series',
-                                              style: Styles.bold(),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 8.0),
-                                            child: Row(
-                                              children: [
-                                                Text('Rank : 20',
-                                                    style: Styles.semibold(
-                                                        size: 12,
-                                                        color:
-                                                            Color(0xff929BA3))),
-                                                SizedBox(width: 8),
-                                                SvgPicture.asset(
-                                                  'assets/images/coin.svg',
-                                                  width: width(context) * 0.04,
-                                                ),
-                                                Text(' • ',
-                                                    style: Styles.semibold(
-                                                        size: 12,
-                                                        color:
-                                                            Color(0xff929BA3))),
-                                                Text('120 Points Earned',
-                                                    style: Styles.semibold(
-                                                        size: 12,
-                                                        color:
-                                                            Color(0xff929BA3))),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          dividerLine(),
-                          Row(
-                            children: [
-                              Text(
-                                'Education',
-                                style: Styles.semibold(size: 16),
-                              ),
-                              Spacer(),
-                              InkWell(
-                                  onTap: (() async {
-
-                                        await Navigator.push(context, PageTransition(
-      duration:Duration(milliseconds: 600) ,
-      reverseDuration: Duration(milliseconds: 600),
-      type: PageTransitionType.bottomToTop, child: AddEducation()))
-                                        .then((value) => getPortfolio());
-
-
-                                
-                                  }),
-                                  child: Icon(Icons.add)),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              IconButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        NextPageRoute(EducationList(
-                                          baseUrl: portfolioResponse
-                                              ?.data.baseFileUrl,
-                                          education:
-                                              portfolioResponse?.data.education
-                                                  as List<CommonProfession>,
-                                        )));
-                                  },
-                                  icon: Icon(Icons.arrow_forward_ios_rounded))
-                            ],
-                          ),
-                        ])),
-                // education list
-                isPortfolioLoading == false
-                    ? ListView.builder(
-                        shrinkWrap: true,
-                        physics: BouncingScrollPhysics(),
-                        itemCount: portfolioResponse?.data.education.length,
-                        itemBuilder: (context, index) {
-                          String startDateString =
-                              "${portfolioResponse?.data.education[index].startDate}";
-                          String endDateString =
-                              "${portfolioResponse?.data.education[index].endDate}";
-                          DateTime startDate =
-                              DateFormat("dd/MM/yyyy").parse(startDateString);
-                          DateTime endDate =
-                              DateFormat("dd/MM/yyyy").parse(endDateString);
-                          return Container(
-                             width: width(context) * 0.3,
-                            margin: EdgeInsets.symmetric(
-                              horizontal: 8,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    ClipRRect(
-                                        borderRadius: BorderRadius.circular(8),
-                                        child: CachedNetworkImage(
-                                          imageUrl:
-                                              '${portfolioResponse?.data.baseFileUrl}${portfolioResponse?.data.education[index].imageName}',
-                                          height: width(context) * 0.3,
-                                          width: width(context) * 0.3,
-                                          fit: BoxFit.cover,
-                                          errorWidget: (context, url, error) {
-                                            return Container(
-                                              padding: EdgeInsets.all(14),
-                                              decoration: BoxDecoration(
-                                                  color: Color(0xffD5D5D5)),
-                                              child: SvgPicture.asset(
-                                                'assets/images/default_education.svg',
-                                                height: 40,
-                                                width: 40,
-                                                color: ColorConstants.GREY_5,
-                                                allowDrawingOutsideViewBox:
-                                                    true,
-                                              ),
-                                            );
-                                          },
-                                          placeholder: (BuildContext context,
-                                              loadingProgress) {
-                                            return Container(
-                                              padding: EdgeInsets.all(14),
-                                              decoration: BoxDecoration(
-                                                  color: Color(0xffD5D5D5)),
-                                              child: SvgPicture.asset(
-                                                'assets/images/default_education.svg',
-                                                height: 40,
-                                                width: 40,
-                                                color: ColorConstants.GREY_5,
-                                                allowDrawingOutsideViewBox:
-                                                    true,
-                                              ),
-                                            );
-                                          },
-                                        )),
-                                    SizedBox(
-                                      width: 10,
+                                  ),
+                                  dividerLine(),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          'Competitions',
+                                          style: Styles.bold(size: 16),
+                                        ),
+                                        Spacer(),
+                                        Icon(Icons.arrow_forward_ios_outlined),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 4),
+                                          child: Divider(),
+                                        ),
+                                      ],
                                     ),
-                                    Column(
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 4),
+                                    child: Divider(),
+                                  ),
+                       if(isPortfolioLoading == false)     SizedBox(
+                                    height: height(context) * 0.35,
+                                    child: ListView.builder(
+                                        itemCount: competition?.data.length,
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: (context, index) =>
+                                            InkWell(
+                                              onTap: (){
+                                                Navigator.push(context, NextPageRoute(CompetitionDetail(competition: Competition(id: competition?.data[index].pId, name: competition?.data[index].pName, image: competition?.data[index].pImage, gScore: competition?.data[index].gScore ?? 0, description: "", ) ,)));
+                                              },
+                                              child: Container(
+                                                width: width(context) * 0.85,
+                                                padding:
+                                                    EdgeInsets.only(bottom: 8),
+                                                margin: EdgeInsets.only(right: 8),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(8),
+                                                    border: Border.all(
+                                                        color: ColorConstants
+                                                            .GREY_4)),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                              topLeft: Radius
+                                                                  .circular(8),
+                                                              topRight:
+                                                                  Radius.circular(
+                                                                      8)),
+                                                      child: CachedNetworkImage(
+                                                          imageUrl:
+                                                              '${competition?.data[index].pImage}',
+                                                          width:double.infinity,
+                                                          height: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              0.25,
+                                                          fit: BoxFit.cover),
+                                                    ),
+                                                    SizedBox(height: 10),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 8.0),
+                                                      child: SizedBox(
+                                                width: width(context) * 0.84,
+                                            
+                                                        child: Text(
+                                                        
+                                                          '${competition?.data[index].pName}',
+                                                          softWrap: true,
+                                                          overflow: TextOverflow.ellipsis,
+                                                          style: Styles.bold(),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 8.0),
+                                                      child: Row(
+                                                        children: [
+                                                          Text('Rank : ${competition?.data[index].rank ?? 0}',
+                                                              style: Styles.semibold(
+                                                                  size: 12,
+                                                                  color: Color(
+                                                                      0xff929BA3))),
+                                                          SizedBox(width: 8),
+                                                           Text(' • ',
+                                                              style: Styles.semibold(
+                                                                  size: 12,
+                                                                  color: Color(
+                                                                      0xff929BA3))),
+                                                          SvgPicture.asset(
+                                                            'assets/images/coin.svg',
+                                                            width:
+                                                                width(context) *
+                                                                    0.04,
+                                                          ),
+                                                         
+                                                          Text(
+                                                              '${competition?.data[index].gScore ?? 0} Points Earned',
+                                                              style: Styles.semibold(
+                                                                  size: 12,
+                                                                  color: Color(
+                                                                      0xff929BA3))),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            )),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  dividerLine(),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Education',
+                                        style: Styles.semibold(size: 16),
+                                      ),
+                                      Spacer(),
+                                      InkWell(
+                                          onTap: (() async {
+                                            await Navigator.push(
+                                                    context,
+                                                    PageTransition(
+                                                        duration: Duration(
+                                                            milliseconds: 600),
+                                                        reverseDuration:
+                                                            Duration(
+                                                                milliseconds:
+                                                                    600),
+                                                        type: PageTransitionType
+                                                            .bottomToTop,
+                                                        child: AddEducation()))
+                                                .then(
+                                                    (value) => getPortfolio());
+                                          }),
+                                          child: Icon(Icons.add)),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      IconButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                NextPageRoute(EducationList(
+                                                  baseUrl: portfolioResponse
+                                                      ?.data.baseFileUrl,
+                                                  education: portfolioResponse
+                                                          ?.data.education
+                                                      as List<CommonProfession>,
+                                                )));
+                                          },
+                                          icon: Icon(
+                                              Icons.arrow_forward_ios_rounded))
+                                    ],
+                                  ),
+                                ])),
+                        // education list
+                        isPortfolioLoading == false
+                            ? ListView.builder(
+                                shrinkWrap: true,
+                                physics: BouncingScrollPhysics(),
+                                itemCount:
+                                    portfolioResponse?.data.education.length,
+                                itemBuilder: (context, index) {
+                                  String startDateString =
+                                      "${portfolioResponse?.data.education[index].startDate}";
+                                  String endDateString =
+                                      "${portfolioResponse?.data.education[index].endDate}";
+                                  DateTime startDate = DateFormat("dd/MM/yyyy")
+                                      .parse(startDateString);
+                                  DateTime endDate = DateFormat("dd/MM/yyyy")
+                                      .parse(endDateString);
+                                  return Container(
+                                    width: width(context) * 0.3,
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                    ),
+                                    child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        SizedBox(
-                                          width: width(context) * 0.5,
-                                          child: Text(
-                                            '${portfolioResponse?.data.education[index].title}',
-                                            style: Styles.bold(size: 16),
-                                          ),
-                                        ),
-                                        SizedBox(height: 4),
-                                        SizedBox(
-                                          width: width(context) * 0.5,
-                                          child: Text(
-                                            maxLines: 2,
-                                            '${portfolioResponse?.data.education[index].institute}',
-                                            style: Styles.regular(size: 14),
-                                          ),
-                                        ),
-                                        SizedBox(height: 4),
                                         Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              '${startDate.day} ${listOfMonths[startDate.month]} - ',
-                                              style: Styles.regular(size: 14),
+                                            ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      '${portfolioResponse?.data.baseFileUrl}${portfolioResponse?.data.education[index].imageName}',
+                                                  height: width(context) * 0.3,
+                                                  width: width(context) * 0.3,
+                                                  fit: BoxFit.cover,
+                                                  errorWidget:
+                                                      (context, url, error) {
+                                                    return Container(
+                                                      padding:
+                                                          EdgeInsets.all(14),
+                                                      decoration: BoxDecoration(
+                                                          color: Color(
+                                                              0xffD5D5D5)),
+                                                      child: SvgPicture.asset(
+                                                        'assets/images/default_education.svg',
+                                                        height: 40,
+                                                        width: 40,
+                                                        color: ColorConstants
+                                                            .GREY_5,
+                                                        allowDrawingOutsideViewBox:
+                                                            true,
+                                                      ),
+                                                    );
+                                                  },
+                                                  placeholder:
+                                                      (BuildContext context,
+                                                          loadingProgress) {
+                                                    return Container(
+                                                      padding:
+                                                          EdgeInsets.all(14),
+                                                      decoration: BoxDecoration(
+                                                          color: Color(
+                                                              0xffD5D5D5)),
+                                                      child: SvgPicture.asset(
+                                                        'assets/images/default_education.svg',
+                                                        height: 40,
+                                                        width: 40,
+                                                        color: ColorConstants
+                                                            .GREY_5,
+                                                        allowDrawingOutsideViewBox:
+                                                            true,
+                                                      ),
+                                                    );
+                                                  },
+                                                )),
+                                            SizedBox(
+                                              width: 10,
                                             ),
-                                            Text(
-                                              '${endDate.day} ${listOfMonths[endDate.month]}',
-                                              style: Styles.regular(size: 14),
-                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                SizedBox(
+                                                  width: width(context) * 0.5,
+                                                  child: Text(
+                                                    '${portfolioResponse?.data.education[index].title}',
+                                                    style:
+                                                        Styles.bold(size: 16),
+                                                  ),
+                                                ),
+                                                SizedBox(height: 4),
+                                                SizedBox(
+                                                  width: width(context) * 0.5,
+                                                  child: Text(
+                                                    maxLines: 2,
+                                                    '${portfolioResponse?.data.education[index].institute}',
+                                                    style: Styles.regular(
+                                                        size: 14),
+                                                  ),
+                                                ),
+                                                SizedBox(height: 4),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      '${startDate.day} ${listOfMonths[startDate.month]} - ',
+                                                      style: Styles.regular(
+                                                          size: 14),
+                                                    ),
+                                                    Text(
+                                                      '${endDate.day} ${listOfMonths[endDate.month]}',
+                                                      style: Styles.regular(
+                                                          size: 14),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            )
                                           ],
-                                        )
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        SizedBox(
+                                          child: ReadMoreText(
+                                            viewMore: 'View more',
+                                            text:
+                                                '${portfolioResponse?.data.education[index].description}',
+                                            color: Color(0xff929BA3),
+                                          ),
+                                        ),
+                                        if (index !=
+                                            portfolioResponse
+                                                ?.data.education.length)
+                                          Divider(),
                                       ],
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                SizedBox(
-                                  child: ReadMoreText(
-                                    viewMore: 'View more',
-                                    text:
-                                        '${portfolioResponse?.data.education[index].description}',
-                                    color: Color(0xff929BA3),
-                                  ),
-                                ),
-                                if (index !=
-                                    portfolioResponse?.data.education.length)
-                                  Divider(),
-                              ],
-                            ),
-                          );
-                        })
-                    : Text('no portfolio found '),
+                                    ),
+                                  );
+                                })
+                            : Text('no portfolio found '),
 
-                if (isPortfolioLoading == false) ...[
-                  dividerLine(),
-                  if (isPortfolioLoading == false)
-                    getCertificateWidget(
-                        portfolioResponse?.data.certificate, context),
-                  dividerLine(),
-                  getExperience(portfolioResponse?.data.experience, context),
-                  dividerLine(),
-                  getRecentActivites(),
-                  dividerLine(),
-                  getExtraActivitesWidget(
-                      portfolioResponse?.data.extraActivities, context),
-                ],
-              ])))),
+                        if (isPortfolioLoading == false) ...[
+                          dividerLine(),
+                          if (isPortfolioLoading == false)
+                            getCertificateWidget(
+                                portfolioResponse?.data.certificate, context),
+                          dividerLine(),
+                          getExperience(
+                              portfolioResponse?.data.experience, context),
+                          dividerLine(),
+                          getRecentActivites(),
+                          dividerLine(),
+                          getExtraActivitesWidget(
+                              portfolioResponse?.data.extraActivities, context),
+                        ],
+                      ])))),
     );
   }
 
@@ -1240,16 +1382,14 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
         topRow('Certificates', arrowAction: () {
           Navigator.push(context, NextPageRoute(CertificateList()));
         }, addAction: () async {
-
-
-           await Navigator.push(context, PageTransition(
-      duration:Duration(milliseconds: 600) ,
-      reverseDuration: Duration(milliseconds: 600),
-      type: PageTransitionType.bottomToTop, child: AddCertificate())).
-                                      then((value) => getPortfolio());
-          
-              
-          
+          await Navigator.push(
+                  context,
+                  PageTransition(
+                      duration: Duration(milliseconds: 600),
+                      reverseDuration: Duration(milliseconds: 600),
+                      type: PageTransitionType.bottomToTop,
+                      child: AddCertificate()))
+              .then((value) => getPortfolio());
         }),
         Container(
           padding: EdgeInsets.all(8),
@@ -1311,16 +1451,14 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
         topRow('Experience', arrowAction: () {
           // Navigator.push(context, NextPageRoute(Experti));
         }, addAction: () {
-
-
-
-            Navigator.push(context, PageTransition(
-      duration:Duration(milliseconds: 600) ,
-      reverseDuration: Duration(milliseconds: 600),
-      type: PageTransitionType.bottomToTop, child: AddExperience()))
-                                        .then((value) => getPortfolio());
-        
-     
+          Navigator.push(
+                  context,
+                  PageTransition(
+                      duration: Duration(milliseconds: 600),
+                      reverseDuration: Duration(milliseconds: 600),
+                      type: PageTransitionType.bottomToTop,
+                      child: AddExperience()))
+              .then((value) => getPortfolio());
         }),
         Container(
           padding: EdgeInsets.all(8),
@@ -1415,14 +1553,14 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                 activities: extraActivities!,
               )));
         }, addAction: () {
-
-
-               Navigator.push(context, PageTransition(
-      duration:Duration(milliseconds: 600) ,
-      reverseDuration: Duration(milliseconds: 600),
-      type: PageTransitionType.bottomToTop, child: AddActivities()))
-                                        .then((value) => getPortfolio());
-          
+          Navigator.push(
+                  context,
+                  PageTransition(
+                      duration: Duration(milliseconds: 600),
+                      reverseDuration: Duration(milliseconds: 600),
+                      type: PageTransitionType.bottomToTop,
+                      child: AddActivities()))
+              .then((value) => getPortfolio());
         }),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 8),
@@ -1702,6 +1840,37 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
               '${portfolioState.response?.data.portfolioProfile.first.headline}');
           Preference.setString(Preference.LOCATION,
               '${portfolioState.response?.data.portfolioProfile.first.city}, ${portfolioState.response?.data.portfolioProfile.first.country}');
+          isPortfolioLoading = false;
+          setState(() {});
+          break;
+
+        case ApiStatus.ERROR:
+          isPortfolioLoading = false;
+          Log.v("PortfolioState Error..........................");
+          Log.v(
+              "PortfolioState Error..........................${portfolioState.error}");
+
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
+  }
+
+
+   void handleCompetition(PortfoilioCompetitionState state) {
+    var portfolioState = state;
+    setState(() async {
+      switch (portfolioState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Portfolio Competition Loading....................");
+          isPortfolioLoading = true;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("PortfolioState Competition Success....................");
+          competition = portfolioState.response;
+         
+         
           isPortfolioLoading = false;
           setState(() {});
           break;

@@ -1641,6 +1641,34 @@ class HomeProvider {
     return null;
   }
 
+
+   Future<ApiResponse?> getPortfolioCompetition() async {
+    // Utility.hideKeyboard();
+    try {
+      final response = await api.dio.get(ApiConstants.GET_PORTFOLIO_COMPETITION,
+          options: Options(
+              method: 'GET',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+    return null;
+  }
+
   Future<ApiResponse?> trackAnnouncment(
       {required TrackAnnouncementReq submitRewardReq}) async {
     try {

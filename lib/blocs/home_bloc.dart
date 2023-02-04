@@ -47,6 +47,7 @@ import 'package:masterg/data/models/response/home_response/new_portfolio_respons
 import 'package:masterg/data/models/response/home_response/notification_resp.dart';
 import 'package:masterg/data/models/response/home_response/onboard_sessions.dart';
 import 'package:masterg/data/models/response/home_response/popular_courses_response.dart';
+import 'package:masterg/data/models/response/home_response/portfolio_competition_response.dart';
 import 'package:masterg/data/models/response/home_response/post_comment_response.dart';
 import 'package:masterg/data/models/response/home_response/program_list_reponse.dart';
 import 'package:masterg/data/models/response/home_response/report_content_response.dart';
@@ -1431,6 +1432,20 @@ class AddSocialEvent extends HomeEvent {
 
   List<Object> get props => throw UnimplementedError();
 }
+class PortfolioCompetitoinEvent extends HomeEvent {
+  PortfolioCompetitoinEvent() : super([]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+class PortfoilioCompetitionState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  PortfolioCompetitionResponse? response;
+  String? error;
+  PortfoilioCompetitionState(this.state, {this.response, this.error});
+}
+
 class AddSocialState extends HomeState {
   ApiStatus state;
 
@@ -1564,11 +1579,25 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc(HomeState initialState) : super(initialState);
 
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
+    if(event is PortfolioCompetitoinEvent){
+ try {
+        yield PortfoilioCompetitionState(ApiStatus.LOADING);
+        final response = await homeRepository.getPortfolioCompetition();
+        Log.v("Add Social resume DATA ::: ${response?.data}");
 
-    if(event is AddSocialEvent){
+        if (response?.data != null) {
+          yield PortfoilioCompetitionState(ApiStatus.SUCCESS, response: response!);
+        } else {
+          Log.v("Add social   ERROR DATA ::: $response");
+          yield PortfoilioCompetitionState(ApiStatus.ERROR, response: response!);
+        }
+      } catch (e) {}
+    }
+
+    else  if(event is AddSocialEvent){
  try {
         yield AddSocialState(ApiStatus.LOADING);
-        final response = await homeRepository.uploadProfile(data: event.data);
+        final response = await homeRepository.addSocial(data: event.data);
         Log.v("Add Social resume DATA ::: ${response?.data}");
 
         if (response?.data != null) {
