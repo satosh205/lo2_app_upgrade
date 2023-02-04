@@ -26,6 +26,7 @@ import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_extra_
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfolio.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/certificate_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/education_list.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/experience_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/extra_activities_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/social_page.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/view_edit_profile_image.dart';
@@ -1456,7 +1457,16 @@ String endDateString =
     return Column(
       children: [
         topRow('Experience', arrowAction: () {
-          // Navigator.push(context, NextPageRoute(Experti));
+       Navigator.push(
+                  context,
+                  PageTransition(
+                      duration: Duration(milliseconds: 600),
+                      reverseDuration: Duration(milliseconds: 600),
+                      type: PageTransitionType.bottomToTop,
+                      child: ExperienceList(
+                        baseUrl: portfolioResponse?.data.baseFileUrl,
+                        experience: experience)))
+              .then((value) => getPortfolio());
         }, addAction: () {
           Navigator.push(
                   context,

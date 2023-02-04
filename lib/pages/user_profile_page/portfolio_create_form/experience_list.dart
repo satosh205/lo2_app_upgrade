@@ -19,7 +19,7 @@ import 'package:masterg/utils/resource/colors.dart';
 
 class ExperienceList extends StatefulWidget {
 
-  final List<CommonProfession> experience;
+  final List<CommonProfession>? experience;
   final String? baseUrl;
   
   const ExperienceList({Key? key, this.baseUrl, required this.experience}) : super(key: key);
@@ -101,11 +101,11 @@ class _ExperienceListState extends State<ExperienceList> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ListView.builder(
-                              itemCount: widget.experience.length,
+                              itemCount: widget.experience?.length,
                               itemBuilder: (BuildContext context, int index) {
 
  String startDateString =
-                              "${widget.experience[index].startDate}";
+                              "${widget.experience?[index].startDate}";
                      
                           DateTime startDate =
                               DateFormat("dd/MM/yyyy").parse(startDateString);
@@ -125,7 +125,7 @@ class _ExperienceListState extends State<ExperienceList> {
                             height: width(context) * 0.2,
                             child: CachedNetworkImage(
                               imageUrl:
-                                  "${widget.baseUrl}${widget.experience[index].imageName}",
+                                  "${widget.baseUrl}${widget.experience?[index].imageName}",
                               progressIndicatorBuilder:
                                   (context, url, downloadProgress) =>
                                       CircularProgressIndicator(
@@ -146,7 +146,7 @@ class _ExperienceListState extends State<ExperienceList> {
                             width: width(context) * 0.7,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,7 +154,7 @@ class _ExperienceListState extends State<ExperienceList> {
                                     SizedBox(
                                       width: width(context) * 0.5,
                                       child: Text(
-                                        '${widget.experience[index].title}',
+                                        '${widget.experience?[index].title}',
                                         style: Styles.bold(size: 16),
                                       ),
                                     ),
@@ -162,13 +162,13 @@ class _ExperienceListState extends State<ExperienceList> {
                                                           SvgPicture.asset(
                                                               'assets/images/edit_portfolio.svg'),
                                                           SizedBox(
-                                                            width: 10,
+                                                            width: 20,
                                                           ),
                                                           InkWell(
                                                             onTap: () {
                                                               deletePortfolio(
                                                                   widget
-                                                                      .experience[
+                                                                      .experience![
                                                                           index]
                                                                       .id);
                                                             },
@@ -181,7 +181,7 @@ class _ExperienceListState extends State<ExperienceList> {
                                   height: 4,
                                 ),
                                 Text(
-                                  '${widget.experience[index].institute}',
+                                  '${widget.experience?[index].institute}',
                                   style: Styles.regular(size: 14),
                                 ),
                                 SizedBox(
@@ -191,7 +191,7 @@ class _ExperienceListState extends State<ExperienceList> {
                                           children: [
                                           
                                            
-                                Text('${widget.experience[index].curricularType} • '),
+                                Text('${widget.experience?[index].curricularType} • '),
                                   Text(
                                               '  ${startDate.day} ${listOfMonths[startDate.month - 1]} ',
                                               style: Styles.regular(size: 14),
@@ -209,10 +209,10 @@ class _ExperienceListState extends State<ExperienceList> {
                       ),
                       ReadMoreText(
                         viewMore: 'View more',
-                        text: '${widget.experience[index].description}',
+                        text: '${widget.experience?[index].description}',
                         color: Color(0xff929BA3),
                       ),
-                      if (index != widget.experience.length) Divider()
+                      if (index != widget.experience?.length) Divider()
                     ],
                   ),
                 );
