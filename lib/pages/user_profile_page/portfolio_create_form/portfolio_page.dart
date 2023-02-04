@@ -1143,14 +1143,20 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                 itemCount:
                                     portfolioResponse?.data.education.length,
                                 itemBuilder: (context, index) {
+DateTime endDate = DateTime.now();
+
+                                  if(portfolioResponse?.data.education[index].endDate != null || portfolioResponse?.data.education[index].endDate != '')   {
+String endDateString =
+                                      "${portfolioResponse?.data.education[index].endDate}";
+                                         endDate = DateFormat("yyyy-MM-dd")
+                                      .parse(endDateString);
+                                  }
                                   String startDateString =
                                       "${portfolioResponse?.data.education[index].startDate}";
-                                  String endDateString =
-                                      "${portfolioResponse?.data.education[index].endDate}";
+                                  
                                   DateTime startDate = DateFormat("yyyy-MM-dd")
                                       .parse(startDateString);
-                                  DateTime endDate = DateFormat("yyyy-MM-dd")
-                                      .parse(endDateString);
+                                
                                   return Container(
                                     width: width(context) * 0.3,
                                     margin: EdgeInsets.symmetric(
@@ -1246,11 +1252,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                 Row(
                                                   children: [
                                                     Text(
-                                                      '${startDate.day} ${listOfMonths[startDate.month]} - ',
+                                                      '${startDate.day} ${listOfMonths[startDate.month - 1]} - ',
                                                       style: Styles.regular(
                                                           size: 14),
                                                     ),
-                                                    Text(
+                                             if(portfolioResponse?.data.education[index].endDate != null || portfolioResponse?.data.education[index].endDate != '')        Text(
                                                       '${endDate.day} ${listOfMonths[endDate.month]}',
                                                       style: Styles.regular(
                                                           size: 14),
@@ -1381,7 +1387,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     return Column(
       children: [
         topRow('Certificates', arrowAction: () {
-          Navigator.push(context, NextPageRoute(CertificateList()));
+          Navigator.push(context, NextPageRoute(CertificateList(baseUrl:'${portfolioResponse?.data.baseFileUrl}', certificates: certificateList)));
         }, addAction: () async {
           await Navigator.push(
                   context,
@@ -1394,16 +1400,16 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
         }),
         Container(
           padding: EdgeInsets.all(8),
-          height: height(context) * 0.43,
+          height: height(context) * 0.38,
           child: ListView.builder(
               itemCount: certificateList?.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 String startDateString =
-                    "${portfolioResponse?.data.education[index].startDate}";
+                    "${portfolioResponse?.data.certificate[index].startDate}";
 
                 DateTime startDate =
-                    DateFormat("dd/MM/yyyy").parse(startDateString);
+                    DateFormat("yyy-MM-dd").parse(startDateString);
                 return Container(
                   margin: EdgeInsets.only(right: 10),
                   child: Column(
@@ -1433,7 +1439,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                         height: 8,
                       ),
                       Text(
-                        '${listOfMonths[startDate.month]} ${startDate.day}',
+                        '${listOfMonths[startDate.month - 1]} ${startDate.day}',
                         // '${certificateList?[index].startDate ?? 'Sep 21'}',
                         style: Styles.regular(),
                       ),
@@ -1514,7 +1520,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                   style: Styles.regular(),
                                 ),
                                 Text(
-                                  'Internship • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${startDate.day} ${listOfMonths[startDate.month].substring(0, 3)} - ${endDate.day} ${listOfMonths[endDate.month].substring(0, 3)}',
+                                  'Internship • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${startDate.day} ${listOfMonths[startDate.month - 1].substring(0, 3)} - ${endDate.day} ${listOfMonths[endDate.month - 1].substring(0, 3)}',
                                   style: Styles.regular(size: 14),
                                 )
                               ],
@@ -1572,7 +1578,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                 String startDateString = "${extraActivities?[index].startDate}";
 
                 DateTime startDate =
-                    DateFormat("dd/MM/yyyy").parse(startDateString);
+                    DateFormat("yyy-MM-dd").parse(startDateString);
 
                 return Container(
                   margin: EdgeInsets.only(right: 10),
@@ -1631,7 +1637,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                     Text(
                                         '${extraActivities?[index].curricularType} • '),
                                     Text(
-                                      '  ${startDate.day} ${listOfMonths[startDate.month]} ',
+                                      '  ${startDate.day} ${listOfMonths[startDate.month - 1]} ',
                                       style: Styles.regular(size: 14),
                                     ),
                                   ],

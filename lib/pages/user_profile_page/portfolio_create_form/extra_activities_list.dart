@@ -29,6 +29,7 @@ class ExtraActivitiesList extends StatefulWidget {
 
 class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
   bool isActivitieLoading = false;
+  List<CommonProfession>? activities;
   List<String> listOfMonths = [
     "Janaury",
     "February",
@@ -43,6 +44,14 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
     "November",
     "December"
   ];
+
+  @override
+  void initState() {
+activities = widget.activities;
+    super.initState();
+  }
+
+  
   @override
   Widget build(BuildContext context) {
     return BlocManager(
@@ -82,7 +91,7 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
                                       margin: const EdgeInsets.only(top: 10),
                                       child: AddActivities()),
                                 );
-                              });
+                              }).then((value) => updatePortfolioList());
                         },
                         icon: Icon(
                           Icons.add,
@@ -90,7 +99,21 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
                         )),
                   ],
                 ),
-                body: ScreenWithLoader(
+                body: 
+            BlocManager(
+          initState: (context) {},
+          child: BlocListener<HomeBloc, HomeState>(
+              listener: (context, state) {
+                if (state is PortfolioState) {
+                  handlePortfolioState(state);
+                }
+                if(state is SingularisDeletePortfolioState) {
+   handleSingularisDeletePortfolioState(state);
+
+                }
+              },
+              child:     
+                ScreenWithLoader(
                   isLoading: isActivitieLoading,
                   body: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -105,7 +128,7 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
                                 String startDateString =
                                     "${widget.activities[index].startDate}";
 
-                                DateTime startDate = DateFormat("dd/MM/yyyy")
+                                DateTime startDate = DateFormat("yyy-MM-dd")
                                     .parse(startDateString);
 
                                 return Container(
@@ -209,7 +232,7 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
                                                                               widget.activities[index],
                                                                         )),
                                                               );
-                                                            });
+                                                            }).then((value) => updatePortfolioList());
                                                       },
                                                       child: SvgPicture.asset(
                                                           'assets/images/edit_portfolio.svg'),
@@ -244,7 +267,7 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
                                                     Text(
                                                         '${widget.activities[index].curricularType} • '),
                                                     Text(
-                                                      '  ${startDate.day} ${listOfMonths[startDate.month]} ',
+                                                      '  ${startDate.day} ${listOfMonths[startDate.month - 1]} ',
                                                       style: Styles.regular(
                                                           size: 14),
                                                     ),
@@ -272,7 +295,7 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
                               }),
                         )),
                   ),
-                ))));
+                ))))));
   }
 
   void deletePortfolio(int id) {
@@ -292,12 +315,54 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
         case ApiStatus.SUCCESS:
           Log.v("Success Delete  Activities....................");
           isActivitieLoading = false;
+          updatePortfolioList();
 
-          Navigator.pop(context);
+          
           break;
         case ApiStatus.ERROR:
           Log.v("Error Delete Activities....................");
           isActivitieLoading = false;
+
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
+  }
+
+   void updatePortfolioList(){
+   BlocProvider.of<HomeBloc>(context)
+                                .add(PortfolioEvent());
+  }
+
+  void handlePortfolioState(PortfolioState state) {
+    var portfolioState = state;
+    setState(() async {
+      switch (portfolioState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("PortfolioState Loading....................");
+                    isActivitieLoading = false;
+
+          setState(() {});
+
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("PortfolioState Success....................");
+          activities = portfolioState.response?.data.extraActivities;
+                   isActivitieLoading = false;
+
+
+          setState(() {});
+          break;
+
+        case ApiStatus.ERROR:
+                   isActivitieLoading = false;
+
+          setState(() {});
+
+          Log.v("PortfolioState Error..........................");
+          Log.v(
+              "PortfolioState Error..........................${portfolioState.error}");
 
           break;
         case ApiStatus.INITIAL:

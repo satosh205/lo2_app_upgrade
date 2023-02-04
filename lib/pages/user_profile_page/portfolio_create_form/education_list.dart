@@ -213,12 +213,12 @@ class _EducationListState extends State<EducationList> {
                                               Row(
                                                 children: [
                                                   Text(
-                                                    '${startDate.day} ${listOfMonths[startDate.month]} - ',
+                                                    '${startDate.day} ${listOfMonths[startDate.month - 1]} - ',
                                                     style:
                                                         Styles.regular(size: 14),
                                                   ),
                                                if(education?[index].endDate != null || education?[index].endDate != '')   Text(
-                                                  '${endDate.day} ${listOfMonths[endDate.month]}',
+                                                  '${endDate.day} ${listOfMonths[endDate.month - 1]}',
                                                     style:
                                                         Styles.regular(size: 14),
                                                   ),
