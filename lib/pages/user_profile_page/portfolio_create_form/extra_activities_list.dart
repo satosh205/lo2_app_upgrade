@@ -28,7 +28,7 @@ class ExtraActivitiesList extends StatefulWidget {
 }
 
 class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
-  bool ?isActivitieLoading;
+  bool ?isActivitieLoading = false;
   List<CommonProfession>? activities;
   List<String> listOfMonths = [
     "Janaury",
