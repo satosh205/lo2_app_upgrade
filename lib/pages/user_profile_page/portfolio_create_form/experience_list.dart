@@ -191,7 +191,7 @@ class _ExperienceListState extends State<ExperienceList> {
                                           children: [
                                           
                                            
-                                Text('${widget.experience?[index].curricularType} • '),
+                                Text('${widget.experience?[index].curricularType.replaceAll('_', '')} • '),
                                   Text(
                                               '  ${startDate.day} ${listOfMonths[startDate.month - 1]} ',
                                               style: Styles.regular(size: 14),
