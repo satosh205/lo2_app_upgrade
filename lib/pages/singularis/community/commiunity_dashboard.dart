@@ -126,7 +126,7 @@ class _CommunityDashboardState extends State<CommunityDashboard> {
                         CrossAxisAlignment.start,
                         children: [
                           Container(
-                            height: 8,
+                            height: 5,
                             width:
                             MediaQuery.of(context)
                                 .size

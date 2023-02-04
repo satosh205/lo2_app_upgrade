@@ -678,13 +678,13 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                   widget.fileList![index].contains('.mov') ==
                                       true
                               ? BoxConstraints(
-                                  minHeight: 200,
-                                  //maxHeight: 420,
+                                  minHeight: 100,
+                                  //maxHeight: 120,
                                   maxHeight:   videoHeight,
                                 )
                               : BoxConstraints(
                                   minHeight: 100,
-                                  // maxHeight: 410,
+                                  //maxHeight: 410,
                                 ),
                           child: VisibilityDetector(
                             key: ObjectKey('${widget.contentId}'),

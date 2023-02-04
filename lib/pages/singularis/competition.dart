@@ -76,7 +76,8 @@ class _CompetetionState extends State<Competetion> {
             child: Container(
               color: ColorConstants.WHITE,
               child: SingleChildScrollView(
-                child: Column(children: [
+                child: Column(
+                    children: [
                   Container(
                     width: width(context),
                     height: height(context) * 0.1,
@@ -117,8 +118,8 @@ class _CompetetionState extends State<Competetion> {
                   if (widget.fromDasboard == false)
                     Container(
                       width: double.infinity,
-                      height: mobileHeight * 0.25,
-                      padding: EdgeInsets.only(top: 8),
+                      height: mobileHeight * 0.20,
+                      padding: EdgeInsets.only(top: 0),
                       decoration: BoxDecoration(
                         color: ColorConstants.WHITE,
                         gradient: LinearGradient(
@@ -132,12 +133,12 @@ class _CompetetionState extends State<Competetion> {
                       child: Stack(
                         children: [
                           Positioned(
-                              left: mobileWidth * 0.08,
+                              left: mobileWidth * 0.09,
                               top: 8,
                               child: renderProgressBar(
                                   percent, barThickness, mobileWidth)),
                           Positioned(
-                              left: mobileWidth * 0.01,
+                              left: mobileWidth * 0.02,
                               top: 30,
                               child: Text(
                                 '50 Points',
@@ -145,7 +146,7 @@ class _CompetetionState extends State<Competetion> {
                                     color: ColorConstants.WHITE, size: 12.5),
                               )),
                           Positioned(
-                            left: mobileWidth * 0.02,
+                            left: mobileWidth * 0.06,
                             child: Container(
                               width: 25,
                               height: 25,
