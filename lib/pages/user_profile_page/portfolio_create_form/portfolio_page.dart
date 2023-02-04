@@ -24,6 +24,7 @@ import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfo
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/certificate_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/education_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/extra_activities_list.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/social_page.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/view_edit_profile_image.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/view_resume.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_detail.dart';
@@ -399,30 +400,44 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                           ),
                         ),
                         Center(
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.95,
-                            height: 60,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                SvgPicture.asset('assets/images/call.svg'),
-                                SizedBox(width: 1),
-                                SvgPicture.asset('assets/images/email.svg'),
-                                VerticalDivider(
-                                  color: Color(0xffECECEC),
-                                  width: 10,
-                                  thickness: 2,
-                                  indent: 10,
-                                  endIndent: 10,
-                                ),
-                                SvgPicture.asset('assets/images/linkedin.svg'),
-                                SvgPicture.asset('assets/images/behance.svg'),
-                                SvgPicture.asset('assets/images/insta.svg'),
-                                SvgPicture.asset('assets/images/dribble.svg'),
-                                SvgPicture.asset('assets/images/pintrest.svg'),
-                                SvgPicture.asset(
-                                    'assets/images/vertical_menu.svg'),
-                              ],
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, NextPageRoute(SocialPage()));
+                            },
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.95,
+                              height: 60,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                
+                                children: [
+                                  SvgPicture.asset('assets/images/call.svg'),
+                                  SizedBox(width: 8),
+                                  SvgPicture.asset('assets/images/email.svg'),
+                                  SizedBox(width: 8),
+
+                                  VerticalDivider(
+                                    color: Color(0xffECECEC),
+                                    width: 10,
+                                    thickness: 2,
+                                    indent: 10,
+                                    endIndent: 10,
+                                  ),
+                                  SizedBox(width: 8),
+
+                                  SvgPicture.asset('assets/images/linkedin.svg'),
+                                  SizedBox(width: 8),
+                                  SvgPicture.asset('assets/images/behance.svg'),
+                                  SizedBox(width: 8),
+                                  SvgPicture.asset('assets/images/insta.svg'),
+                                  SizedBox(width: 8),
+                                  SvgPicture.asset('assets/images/dribble.svg'),
+                                  SizedBox(width: 8),
+                                  SvgPicture.asset('assets/images/pintrest.svg'),
+                                  SvgPicture.asset(
+                                      'assets/images/vertical_menu.svg'),
+                                ],
+                              ),
                             ),
                           ),
                         )
@@ -1230,8 +1245,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
            await Navigator.push(context, PageTransition(
       duration:Duration(milliseconds: 600) ,
       reverseDuration: Duration(milliseconds: 600),
-      type: PageTransitionType.bottomToTop, child: AddCertificate()))
-                                        .then((value) => getPortfolio()).then((value) => getPortfolio());
+      type: PageTransitionType.bottomToTop, child: AddCertificate())).
+                                      then((value) => getPortfolio());
           
               
           

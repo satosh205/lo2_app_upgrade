@@ -144,4 +144,5 @@ class ApiConstants {
   static const  ADD_PORTFOLIO_PROFILE = '/api/add_portfolio_profile';
   static const  ADD_RESUME = '/api/addResume';
   static const  UPDATE_PROFILE = '/api/portfolio_image_upload';
+  static const  ADD_SOCIAL = '/api/addportfoliosocial';
 }

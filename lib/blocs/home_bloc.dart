@@ -1424,6 +1424,21 @@ class UploadProfileEvent extends HomeEvent {
 
   List<Object> get props => throw UnimplementedError();
 }
+class AddSocialEvent extends HomeEvent {
+  Map<String, dynamic>? data;
+
+  AddSocialEvent({this.data}) : super([data]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+class AddSocialState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  AddPortfolioResp? response;
+  String? error;
+  AddSocialState(this.state, {this.response, this.error});
+}
 
 class PortfolioState extends HomeState {
   ApiStatus state;
@@ -1549,7 +1564,22 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc(HomeState initialState) : super(initialState);
 
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
-if(event is UploadProfileEvent){
+
+    if(event is AddSocialEvent){
+ try {
+        yield AddSocialState(ApiStatus.LOADING);
+        final response = await homeRepository.uploadProfile(data: event.data);
+        Log.v("Add Social resume DATA ::: ${response?.data}");
+
+        if (response?.data != null) {
+          yield AddSocialState(ApiStatus.SUCCESS, response: response!);
+        } else {
+          Log.v("Add social   ERROR DATA ::: $response");
+          yield AddSocialState(ApiStatus.ERROR, response: response!);
+        }
+      } catch (e) {}
+    }
+else if(event is UploadProfileEvent){
   try {
         yield UploadProfileState(ApiStatus.LOADING);
         final response = await homeRepository.uploadProfile(data: event.data);

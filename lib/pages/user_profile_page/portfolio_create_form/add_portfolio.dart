@@ -20,7 +20,8 @@ import 'package:masterg/utils/resource/colors.dart';
 class AddPortfolio extends StatefulWidget {
   final bool? editMode;
   final Portfolio? portfolio;
-  const AddPortfolio({Key? key,  this.editMode = false,  this.portfolio, }) : super(key: key);
+  final String? baseUrl;
+  const AddPortfolio({Key? key,  this.editMode = false,  this.portfolio, this.baseUrl = "", }) : super(key: key);
 
   @override
   State<AddPortfolio> createState() => _AddPortfolioState();
@@ -244,15 +245,15 @@ linkController = TextEditingController(text: widget.portfolio?.portfolioLink);
                             Map<String, dynamic> data = Map();
                             try {
 
-                                  String? portfolioImage = file?.path.split('/').last;
-                              String? portfolioFile = uploadImg?.path.split('/').last;
+                                  String? portfolioImage = uploadImg?.path.split('/').last;
+                              String? portfolioFile = file?.path.split('/').last;
                               data['portfolio_image'] =
-                                  await MultipartFile.fromFile('${file?.path}',
+                                  await MultipartFile.fromFile('${uploadImg?.path}',
                                       filename: portfolioImage);
             
                               data['portfolio_file'] =
                                   await MultipartFile.fromFile(
-                                      '${uploadImg?.path}',
+                                      '${file?.path}',
                                       filename: portfolioFile);
                               
                             
@@ -260,9 +261,7 @@ linkController = TextEditingController(text: widget.portfolio?.portfolioLink);
                              
 
                             } catch (e) {
-                               data['portfolio_image'] =null;
-            
-                              data['portfolio_file']  = null;
+
                             
                             }
 
@@ -275,12 +274,12 @@ linkController = TextEditingController(text: widget.portfolio?.portfolioLink);
                                   titleController.value.text;
                               data['portfolio_link'] = linkController.value.text;
                               data['portfolio_key'] = widget.editMode == true ? "portfolio_${widget.portfolio?.id}" :  'new_portfolio';
-                              data['edit_url_portfolio'] = widget.portfolio?.portfolioFile;
-                              data['edit_image_type'] = widget.portfolio?.imageName;
+                              data['edit_url_portfolio'] = '${widget.baseUrl}${widget.portfolio?.portfolioFile}';
+                              data['edit_image_type'] ='${widget.baseUrl}${widget.portfolio?.imageName}';
                               data['desc'] = descController.value.text;
                               print(data);
 
-                              addPortfolio(data);
+                              addPortfolio(data); 
 
                             }
                             }

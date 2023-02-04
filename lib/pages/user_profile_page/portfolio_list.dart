@@ -27,25 +27,30 @@ class PortfolioList extends StatefulWidget {
 }
 
 class _PortfolioListState extends State<PortfolioList> {
-  bool? isPortfolioLoading = false;
+  bool? isPortfolioLoading = true;
   List<Portfolio>? portfolioList;
 
   @override
   void initState() {
     updateValue();
+    updatePortfolioList();
+    
+    
     super.initState();
   }
 
   void updateValue() {
+    print('update my list');
+
+   if(portfolioList?.length == 0) {
     portfolioList = widget.portfolioList;
+   }
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return ScreenWithLoader(
-         isLoading: isPortfolioLoading,
-      body: BlocManager(
+    return BlocManager(
           initState: (context) {},
           child: BlocListener<HomeBloc, HomeState>(
               listener: (context, state) {
@@ -95,76 +100,80 @@ class _PortfolioListState extends State<PortfolioList> {
                     style: Styles.bold(),
                   ),
                 ),
-                body:  ListView.builder(
-                      key: const PageStorageKey<String>('portfolioList'),
-                      shrinkWrap: true,
-                      itemCount: portfolioList?.length,
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () async {
-    
-    
-    await Navigator.push(context, PageTransition(
-      duration:Duration(milliseconds: 600) ,
-      reverseDuration: Duration(milliseconds: 600),
-      type: PageTransitionType.bottomToTop, child: PortfolioDetail(
-                                baseUrl: widget.baseUrl,
-                                portfolio: portfolioList![index],
-                              )));
-    
-                
-                  updatePortfolioList();
-    
+                body:  ScreenWithLoader(
+         isLoading: isPortfolioLoading,
+
+                  body: ListView.builder(
+                        key: const PageStorageKey<String>('portfolioList'),
+                        shrinkWrap: true,
+                        itemCount: portfolioList?.length,
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () async {
+                    
+                    
+                    await Navigator.push(context, PageTransition(
+                      duration:Duration(milliseconds: 600) ,
+                      reverseDuration: Duration(milliseconds: 600),
+                      type: PageTransitionType.bottomToTop, child: PortfolioDetail(
+                                  baseUrl: widget.baseUrl,
+                                  portfolio: portfolioList![index],
+                                )));
+                    
+                  
+                    updatePortfolioList();
+                    
+                              
                             
-                          
-    
-                          
-                          },
-                          child: Container(
-                            margin:
-                                EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: CachedNetworkImage(
-                                    imageUrl:
-                                        '${widget.baseUrl}${portfolioList?[index].imageName}',
-                                    width: MediaQuery.of(context).size.width,
-                                    height:
-                                        MediaQuery.of(context).size.height * 0.3,
-                                    fit: BoxFit.cover,
-                                    errorWidget: (context, url, error) {
-                                      return Container(
-                                        width: MediaQuery.of(context).size.width *
-                                            0.8,
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.3,
-                                        padding: EdgeInsets.all(14),
-                                        decoration: BoxDecoration(
-                                            color: Color(0xffD5D5D5)),
-                                      );
-                                    },
+                    
+                            
+                            },
+                            child: Container(
+                              margin:
+                                  EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: CachedNetworkImage(
+                                      fadeOutDuration : Duration(seconds: 0),
+                                      imageUrl:
+                                          '${widget.baseUrl}${portfolioList?[index].imageName}',
+                                      width: MediaQuery.of(context).size.width,
+                                      height:
+                                          MediaQuery.of(context).size.height * 0.3,
+                                      fit: BoxFit.cover,
+                                      errorWidget: (context, url, error) {
+                                        return Container(
+                                          width: MediaQuery.of(context).size.width *
+                                              0.8,
+                                          height:
+                                              MediaQuery.of(context).size.height *
+                                                  0.3,
+                                          padding: EdgeInsets.all(14),
+                                          decoration: BoxDecoration(
+                                              color: Color(0xffD5D5D5)),
+                                        );
+                                      },
+                                    ),
                                   ),
-                                ),
-                                SizedBox(height: 8),
-                                Text(
-                                  '${widget.portfolioList?[index].portfolioTitle}',
-                                  style: Styles.bold(),
-                                ),
-                                Text('${widget.portfolioList?[index].desc}',
-                                    style: Styles.semibold(
-                                        size: 12, color: Color(0xff929BA3))),
-                              ],
+                                  SizedBox(height: 8),
+                                  Text(
+                                    '${portfolioList?[index].portfolioTitle ?? ""}',
+                                    style: Styles.bold(),
+                                  ),
+                                  Text('${portfolioList?[index].desc ?? ""}',
+                                      style: Styles.semibold(
+                                          size: 12, color: Color(0xff929BA3))),
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      }),
+                          );
+                        }),
                 ),
-              )),
-    );
+                ),
+              ));
   }
 
   void updatePortfolioList(){
@@ -180,6 +189,8 @@ class _PortfolioListState extends State<PortfolioList> {
         case ApiStatus.LOADING:
           Log.v("PortfolioState Loading....................");
           isPortfolioLoading = true;
+          setState(() {});
+
           break;
         case ApiStatus.SUCCESS:
           Log.v("PortfolioState Success....................");
@@ -191,6 +202,8 @@ class _PortfolioListState extends State<PortfolioList> {
 
         case ApiStatus.ERROR:
           isPortfolioLoading = false;
+          setState(() {});
+
           Log.v("PortfolioState Error..........................");
           Log.v(
               "PortfolioState Error..........................${portfolioState.error}");

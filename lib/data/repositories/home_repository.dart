@@ -612,6 +612,19 @@ class HomeRepository {
       return AddPortfolioResp.fromJson(response.body);
     }
   }
+  Future<AddPortfolioResp?> addSocial({Map<String, dynamic>? data}) async {
+    final response = await homeProvider.addSocial( data!);
+
+    if (response!.success) {
+      Log.v("Add Social Content  DATA : ${response.body}");
+      AddPortfolioResp portfolioResponse =
+          AddPortfolioResp.fromJson(response.body);
+      return portfolioResponse;
+    } else {
+      Log.v("====> ${response.body}");
+      return AddPortfolioResp.fromJson(response.body);
+    }
+  }
 
 
 

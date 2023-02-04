@@ -14,6 +14,7 @@ import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfo
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:path/path.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
@@ -49,7 +50,7 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
         type == 'png' ||
         type == 'gif') {
       urlType = 'img';
-    } else {
+    } else  if(type == 'mp4' || type == 'mov'){
       _controller = VideoPlayerController.network(url)
         ..initialize().then((_) {
           setState(() {});
@@ -111,8 +112,7 @@ if(state is SingularisDeletePortfolioState){
                     Spacer(),
                     IconButton(
                         onPressed: () {
-                          // Navigator.pop(context);
-                         Navigator.of(context, rootNavigator: true).pop();
+                          Navigator.pop(context);
                         },
                         icon: Icon(Icons.close_outlined))
                   ],
@@ -126,8 +126,12 @@ if(state is SingularisDeletePortfolioState){
                           style: Styles.bold(size: 16),
                         )),
                     InkWell(
-                      onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> AddPortfolio(editMode: true, portfolio: widget.portfolio,)));
+                      onTap: ()async{
+
+                           await Navigator.push(context, PageTransition(
+      duration:Duration(milliseconds: 300) ,
+      reverseDuration: Duration(milliseconds: 300),
+      type: PageTransitionType.bottomToTop, child:  AddPortfolio(baseUrl: '${widget.baseUrl}',editMode: true, portfolio: widget.portfolio,))).then((value) => Navigator.pop(context));
                       },
                       child: SvgPicture.asset('assets/images/edit_portfolio.svg')),
                     SizedBox(
