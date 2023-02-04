@@ -1817,7 +1817,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                       '  ${startDate
                                           .day} ${listOfMonths[startDate
                                           .month]} ',
-                                      '  ${startDate.day} ${listOfMonths[startDate.month - 1]} ',
+                                      ' ${startDate.day} ${listOfMonths[startDate.month - 1]} ',
                                       style: Styles.regular(size: 14),
                                     ),
                                   ],
