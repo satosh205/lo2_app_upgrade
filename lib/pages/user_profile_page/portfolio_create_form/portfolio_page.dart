@@ -1138,7 +1138,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                         isPortfolioLoading == false
                             ? ListView.builder(
                                 shrinkWrap: true,
-                                physics: BouncingScrollPhysics(),
+                                // physics: ScrollPhysics(),
+                                physics:ScrollPhysics(),
                                 itemCount:
                                     portfolioResponse?.data.education.length,
                                 itemBuilder: (context, index) {
@@ -1146,9 +1147,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                       "${portfolioResponse?.data.education[index].startDate}";
                                   String endDateString =
                                       "${portfolioResponse?.data.education[index].endDate}";
-                                  DateTime startDate = DateFormat("dd/MM/yyyy")
+                                  DateTime startDate = DateFormat("yyyy-MM-dd")
                                       .parse(startDateString);
-                                  DateTime endDate = DateFormat("dd/MM/yyyy")
+                                  DateTime endDate = DateFormat("yyyy-MM-dd")
                                       .parse(endDateString);
                                   return Container(
                                     width: width(context) * 0.3,
@@ -1465,7 +1466,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
           child: ListView.builder(
               itemCount: experience?.length,
               shrinkWrap: true,
-              physics: BouncingScrollPhysics(),
+              physics: ScrollPhysics(),
               itemBuilder: (context, index) {
                 String startDateString = "${experience?[index].startDate}";
                 String endDateString = "${experience?[index].endDate}";

@@ -30,6 +30,14 @@ class EducationList extends StatefulWidget {
 class _EducationListState extends State<EducationList> {
 
   bool isEducationLoading = false;
+  List<CommonProfession>? education;
+
+  @override
+  void initState() {
+    education = widget.education ;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     List<String> listOfMonths = [
@@ -52,6 +60,7 @@ class _EducationListState extends State<EducationList> {
         child: BlocListener<HomeBloc, HomeState>(
             listener: (context, state) async {
               if (state is SingularisDeletePortfolioState) handleSingularisDeletePortfolioState(state);
+              if(state is PortfolioState) handleEducatoinListState(state);
             },
             child: Scaffold(
                 appBar: AppBar(
@@ -81,7 +90,7 @@ class _EducationListState extends State<EducationList> {
                                       margin: const EdgeInsets.only(top: 10),
                                       child: AddEducation()),
                                 );
-                              });
+                              }).then((value) => updateEducationList());
                         },
                         icon: Icon(
                           Icons.add,
@@ -102,16 +111,16 @@ class _EducationListState extends State<EducationList> {
                           child: ListView.builder(
                               shrinkWrap: true,
                               physics: BouncingScrollPhysics(),
-                              itemCount: widget.education.length,
+                              itemCount: education?.length,
                               itemBuilder: (context, index) {
                                 String startDateString =
-                                    "${widget.education[index].startDate}";
+                                    "${education?[index].startDate}";
                                 String endDateString =
-                                    "${widget.education[index].endDate}";
-                                DateTime startDate = DateFormat("MM/dd/yyyy")
+                                    "${education?[index].endDate}";
+                                DateTime startDate = DateFormat("yyyy-MM-dd")
                                     .parse(startDateString);
                                 DateTime endDate =
-                                    DateFormat("MM/dd/yyyy").parse(endDateString);
+                                    DateFormat("yyyy-MM-dd").parse(endDateString);
                                 return Container(
                                   margin: EdgeInsets.symmetric(
                                     horizontal: 8,
@@ -130,7 +139,7 @@ class _EducationListState extends State<EducationList> {
                                                   BorderRadius.circular(8),
                                               child: CachedNetworkImage(
                                                 imageUrl:
-                                                    '${widget.baseUrl}${widget.education[index].imageName}',
+                                                    '${widget.baseUrl}${education?[index].imageName}',
                                                 height: width(context) * 0.3,
                                                 width: width(context) * 0.3,
                                                 fit: BoxFit.cover,
@@ -184,7 +193,7 @@ class _EducationListState extends State<EducationList> {
                                                 child: Text(
                                                     maxLines: 2,
                                                     // overflow: TextOverflow.ellipsis,
-                                                  '${widget.education[index].title}',
+                                                  '${education?[index].title}',
                                                   style: Styles.bold(size: 16),
                                                 ),
                                               ),
@@ -194,7 +203,7 @@ class _EducationListState extends State<EducationList> {
                                                 child: Text(
                                                   
           
-                                                  '${widget.education[index].institute}',
+                                                  '${education?[index].institute}',
                                                   style: Styles.regular(size: 14),
                                                   maxLines: 2,
                                                   overflow: TextOverflow.ellipsis,
@@ -208,8 +217,8 @@ class _EducationListState extends State<EducationList> {
                                                     style:
                                                         Styles.regular(size: 14),
                                                   ),
-                                                  Text(
-                                                    '${endDate.day} ${listOfMonths[endDate.month]}',
+                                               if(education?[index].endDate != null || education?[index].endDate != '')   Text(
+                                                  '${endDate.day} ${listOfMonths[endDate.month]}',
                                                     style:
                                                         Styles.regular(size: 14),
                                                   ),
@@ -243,12 +252,12 @@ class _EducationListState extends State<EducationList> {
                                                                     top: 10),
                                                             child: AddEducation(
                                                               education:
-                                                                  widget.education[
+                                                                  education?[
                                                                       index],
                                                               isEditMode: true,
                                                             )),
                                                       );
-                                                    });
+                                                    }).then((value) => updateEducationList());
                                               },
                                               child: SvgPicture.asset(
                                                   'assets/images/edit_portfolio.svg')),
@@ -257,7 +266,7 @@ class _EducationListState extends State<EducationList> {
                                           ),
                                           InkWell(
                                               onTap: () async {
-                                                deletePortfolio( widget.education[
+                                                deletePortfolio( education![
                                                                       index].id);
                                               },
                                               child: SvgPicture.asset(
@@ -271,10 +280,10 @@ class _EducationListState extends State<EducationList> {
                                       ),
                                       ReadMoreText(
                                         viewMore: 'View more',
-                                        text: '${widget.education[index].description}',
+                                        text: '${education?[index].description}',
                                         color: Color(0xff929BA3),
                                       ),
-                                      if (index != widget.education.length) Divider(),
+                                      if (index != education?.length) Divider(),
                                     ],
                                   ),
                                 );
@@ -299,7 +308,7 @@ class _EducationListState extends State<EducationList> {
         case ApiStatus.SUCCESS:
           Log.v("Success Delete  Certificate....................");
           isEducationLoading = false;
-          Navigator.pop(context);
+          updateEducationList();
           break;
         case ApiStatus.ERROR:
           Log.v("Error Delete Certificate....................");
@@ -310,5 +319,44 @@ class _EducationListState extends State<EducationList> {
       }
     });
 
+  }
+
+   void updateEducationList(){
+    print('make api call');
+   BlocProvider.of<HomeBloc>(context)
+                                .add(PortfolioEvent());
+  }
+
+  void handleEducatoinListState(PortfolioState state) {
+    var portfolioState = state;
+    setState(() async {
+      switch (portfolioState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("PortfolioState Loading....................");
+          isEducationLoading = true;
+          setState(() {});
+
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("PortfolioState Success....................");
+          education = portfolioState.response?.data.education;
+          isEducationLoading = false;
+
+          setState(() {});
+          break;
+
+        case ApiStatus.ERROR:
+          isEducationLoading = false;
+          setState(() {});
+
+          Log.v("PortfolioState Error..........................");
+          Log.v(
+              "PortfolioState Error..........................${portfolioState.error}");
+
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
   }
 }
