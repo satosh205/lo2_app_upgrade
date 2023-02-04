@@ -95,7 +95,7 @@ experience = widget.experience;
                                       margin: const EdgeInsets.only(top: 10),
                                       child: AddExperience()),
                                 );
-                              });
+                              }).then((value) =>  updatePortfolioList());
                         },
                         icon: Icon(
                           Icons.add,
@@ -120,7 +120,7 @@ experience = widget.experience;
                               "${experience?[index].startDate}";
                      
                           DateTime startDate =
-                              DateFormat("dd/MM/yyyy").parse(startDateString);
+                              DateFormat("yyyy-MM-dd").parse(startDateString);
                      
                 return Container(
                   margin: EdgeInsets.only(right: 10),
@@ -171,8 +171,28 @@ experience = widget.experience;
                                       ),
                                     ),
                                      
-                                                          SvgPicture.asset(
-                                                              'assets/images/edit_portfolio.svg'),
+                                                          InkWell(
+                                                            onTap: (){
+                                                               showModalBottomSheet(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              context: context,
+                              enableDrag: true,
+                              isScrollControlled: true,
+                              builder: (context) {
+                                return FractionallySizedBox(
+                                  heightFactor: 0.7,
+                                  child: Container(
+                                      height: height(context),
+                                      padding: const EdgeInsets.all(8.0),
+                                      margin: const EdgeInsets.only(top: 10),
+                                      child: AddExperience(isEditMode: true, experience : experience?[index])),
+                                );
+                              }).then((value) =>    updatePortfolioList());
+                                                            },
+                                                            child: SvgPicture.asset(
+                                                                'assets/images/edit_portfolio.svg'),
+                                                          ),
                                                           SizedBox(
                                                             width: 20,
                                                           ),
@@ -253,6 +273,7 @@ experience = widget.experience;
         case ApiStatus.SUCCESS:
           Log.v("Success Delete  Experience....................");
            isExperienceLoading = false;
+           updatePortfolioList();
           break;
         case ApiStatus.ERROR:
           Log.v("Error Delete Experience....................");

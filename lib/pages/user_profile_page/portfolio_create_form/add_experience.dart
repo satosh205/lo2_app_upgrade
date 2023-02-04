@@ -4,17 +4,24 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
+import 'package:masterg/data/models/response/home_response/new_portfolio_response.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
 import 'package:masterg/utils/Log.dart';
+import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
+import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 
 class AddExperience extends StatefulWidget {
-  const AddExperience({Key? key}) : super(key: key);
+  final bool? isEditMode;
+  final CommonProfession? experience;
+
+  const AddExperience({Key? key, this.isEditMode,  this.experience}) : super(key: key);
 
   @override
   State<AddExperience> createState() => _AddExperienceState();
@@ -30,9 +37,28 @@ class _AddExperienceState extends State<AddExperience> {
   TextEditingController? endDate = TextEditingController();
   DateTime selectedDate = DateTime.now();
   bool? isAddExperienceLoading = false;
+  File? uploadCerti;
+
 
   final _formKey = GlobalKey<FormState>();
   File? file;
+
+  @override
+  void initState() {
+ if(widget.isEditMode == true){
+     titleController = TextEditingController(text: '${widget.experience?.title}');
+nameController = TextEditingController(text: '${widget.experience?.institute}');
+descController = TextEditingController(text: '${widget.experience?.description}');
+startDate = TextEditingController(text: '${widget.experience?.startDate}');
+endDate = TextEditingController(text: '${widget.experience?.endDate}');
+employmentType = '${widget.experience?.employmentType}';
+   isclicked  = widget.experience?.currentlyWorkHere.length == 0 ? false : true;
+ }
+
+ 
+    
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -325,7 +351,65 @@ class _AddExperienceState extends State<AddExperience> {
                                       SizedBox(
                                         height: 20,
                                       ),
-                                      PortfolioCustomButton(
+                                      Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: InkWell(
+                                onTap: () async {
+                                  final picker = ImagePicker();
+                                  final pickedFileC =
+                                      await ImagePicker().pickImage(
+                                    source: ImageSource.gallery,
+                                    imageQuality: 100,
+                                  );
+                                  if (pickedFileC != null) {
+                                    setState(() {
+                                             
+                                      uploadCerti = File(pickedFileC.path);
+                                    });
+                                  } else if (Platform.isAndroid) {
+                                    final LostData response =
+                                        await picker.getLostData();
+                                  }
+                                },
+                                child: Row(
+                                  children: [
+                                    ShaderMask(
+                                        blendMode: BlendMode.srcIn,
+                                        shaderCallback: (Rect bounds) {
+                                          return LinearGradient(
+                                              begin: Alignment.centerLeft,
+                                              end: Alignment.centerRight,
+                                              colors: <Color>[
+                                                ColorConstants.GRADIENT_ORANGE,
+                                                ColorConstants.GRADIENT_RED
+                                              ]).createShader(bounds);
+                                        },
+                                        child: Row(
+                                          children: [
+                                            SvgPicture.asset(
+                                                'assets/images/upload_icon.svg'),
+                                            Text(
+                                              "Upload Image",
+                                              style: Styles.bold(size: 12),
+                                            ),
+                                          ],
+                                        )),
+                                    
+                                    ]))),
+
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                    Text(
+                                        uploadCerti != null
+                                            ? '${ uploadCerti?.path.split('/').last}'
+                                            : "Supported Format: .pdf, .doc, .jpeg",
+                                        style: TextStyle(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w400,
+                                            color: Color(0xff929BA3))),
+
+                                    PortfolioCustomButton(
                                         clickAction: () async {
                                           if (employmentType == "") {
                                             const SnackBar(
@@ -341,6 +425,32 @@ class _AddExperienceState extends State<AddExperience> {
                                             Map<String, dynamic> data = Map();
                                      
                                             try {
+
+                                              if (widget.isEditMode == true) {
+                                               
+                                                if ( uploadCerti?.path != null) {
+                                                
+                                                  String? fileName = uploadCerti
+                                                      ?.path
+                                                      .split('/')
+                                                      .last;
+                                                 
+                                                  data['certificate'] =
+                                                      await MultipartFile.fromFile(
+                                                          '${uploadCerti?.path}',
+                                                          filename: fileName);
+                                                }
+                                              } else {
+                                                String? fileName = uploadCerti
+                                                    ?.path
+                                                    .split('/')
+                                                    .last;
+                                                
+                                                data['certificate'] =
+                                                    await MultipartFile.fromFile(
+                                                        '${uploadCerti?.path}',
+                                                        filename: fileName);
+                                              }
                                               data["activity_type"] =
                                                   'Experience';
                                               data["title"] =
@@ -355,9 +465,10 @@ class _AddExperienceState extends State<AddExperience> {
                                                   nameController.value.text;
                                               data["professional_key"] =
                                                   'new_professional';
-                                              // data["edit_url_professional"] = '' ;
+                                              data["edit_url_professional"] = widget.isEditMode == true ? '${widget.experience?.imageName}':  '' ;
                                               data['curricular_type'] =
                                                   employmentType;
+                                                  data['currently_work_here'] = isclicked;
 
                                               addExperience(data);
                                             } catch (e) {
@@ -371,11 +482,10 @@ class _AddExperienceState extends State<AddExperience> {
                                           }
                                         },
                                       )
-                                    ])))
                           ]),
-                        )))),
+                        ))]),
               )),
-            )));
+            )))))));
   }
 
   void addExperience(Map<String, dynamic> data) {
@@ -418,7 +528,7 @@ class _AddExperienceState extends State<AddExperience> {
     if (picked != null && picked != selectedDate)
       setState(() {
         selectedDate = picked;
-        controller.text = Utility.convertDateFormat(selectedDate);
+        controller.text = Utility.convertDateFormat(selectedDate, format: 'yyyy-MM-dd');
       });
   }
 }

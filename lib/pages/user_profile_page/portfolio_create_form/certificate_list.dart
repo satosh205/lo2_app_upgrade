@@ -79,7 +79,7 @@ class _CertificateListState extends State<CertificateList> {
                               margin: const EdgeInsets.only(top: 10),
                               child: AddCertificate()),
                         );
-                      });
+                      }).then((value) => updatePortfolioList());
                  
 
 
@@ -99,6 +99,9 @@ class _CertificateListState extends State<CertificateList> {
 if(state is SingularisDeletePortfolioState){
   handleDeletePortfolio(state);
 }
+  if (state is PortfolioState) {
+                  handlePortfolioState(state);
+                }
             },
             child:    Container(
             height: height(context) * 1,
@@ -159,7 +162,7 @@ if(state is SingularisDeletePortfolioState){
                                           margin: const EdgeInsets.only(top: 10),
                                           child:      AddCertificate(isEditMode: true, cetificate: certificates?[index],)),
                                     );
-                                  });
+                                  }).then((value) => updatePortfolioList());
                                   },
                                   child: SizedBox(
                                     height: 20,
@@ -199,16 +202,55 @@ if(state is SingularisDeletePortfolioState){
         case ApiStatus.LOADING:
           Log.v("Loading Add  Certificate....................");
           deleteCertificate = true;
+          updatePortfolioList();
           break;
 
         case ApiStatus.SUCCESS:
           Log.v("Success Add  Certificate....................");
           deleteCertificate = false;
-          Navigator.pop(context);
           break;
         case ApiStatus.ERROR:
           Log.v("Error Add Certificate....................");
           deleteCertificate = false;
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
+  }
+
+   void updatePortfolioList(){
+    print('make api call');
+   BlocProvider.of<HomeBloc>(context)
+                                .add(PortfolioEvent());
+  }
+
+  void handlePortfolioState(PortfolioState state) {
+    var portfolioState = state;
+    setState(() async {
+      switch (portfolioState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("PortfolioState Loading....................");
+          deleteCertificate = true;
+          setState(() {});
+
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("PortfolioState Success....................");
+          certificates = portfolioState.response?.data.certificate;
+          deleteCertificate = false;
+
+          setState(() {});
+          break;
+
+        case ApiStatus.ERROR:
+          deleteCertificate = false;
+          setState(() {});
+
+          Log.v("PortfolioState Error..........................");
+          Log.v(
+              "PortfolioState Error..........................${portfolioState.error}");
+
           break;
         case ApiStatus.INITIAL:
           break;
