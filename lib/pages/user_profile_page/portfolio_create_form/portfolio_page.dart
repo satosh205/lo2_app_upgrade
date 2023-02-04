@@ -1965,9 +1965,6 @@ String endDateString =
         return '${startDate.difference(endDate).inDays.abs()} ${Strings.of(context)?.d}';
     }
   }
-<<<<<<< HEAD
-=======
-
 
 //TODO: Blank states and empty states Widget
   Widget portfolioListShimmer(var listLength) {
@@ -2214,5 +2211,4 @@ String endDateString =
     );
   }
 
->>>>>>> 2583c2eb120aa0c50b16ec07bb261481b802b2eb
 }
