@@ -48,7 +48,7 @@ class _ExperienceListState extends State<ExperienceList> {
 
   @override
   void initState() {
-experience = experience;
+experience = widget.experience;
    
     super.initState();
   }
