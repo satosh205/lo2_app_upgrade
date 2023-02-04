@@ -1248,7 +1248,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                         // education list
                         isPortfolioLoading == false
                             ? ListView.builder(
-<<<<<<< HEAD
                             shrinkWrap: true,
                             // physics: ScrollPhysics(),
                             physics: ScrollPhysics(),
@@ -1277,17 +1276,14 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                     Row(
                                       mainAxisAlignment:
                                       MainAxisAlignment.start,
-=======
                                 shrinkWrap: true,
                                 // physics: ScrollPhysics(),
                                 physics:ScrollPhysics(),
                                 itemCount:
                                     portfolioResponse?.data.education.length,
-                                itemBuilder: (context, index) {
-DateTime endDate = DateTime.now();
+                                itemBuilder: (context, index) {DateTime endDate = DateTime.now();
 
-                                  if(portfolioResponse?.data.education[index].endDate != null || portfolioResponse?.data.education[index].endDate != '')   {
-String endDateString =
+                                  if(portfolioResponse?.data.education[index].endDate != null || portfolioResponse?.data.education[index].endDate != '')   {String endDateString =
                                       "${portfolioResponse?.data.education[index].endDate}";
                                          endDate = DateFormat("yyyy-MM-dd")
                                       .parse(endDateString);
@@ -1304,7 +1300,6 @@ String endDateString =
                                       horizontal: 8,
                                     ),
                                     child: Column(
->>>>>>> origin/wow
                                       crossAxisAlignment:
                                       CrossAxisAlignment.start,
                                       children: [
@@ -1407,8 +1402,6 @@ String endDateString =
                                                   style: Styles.regular(
                                                       size: 14),
                                                 ),
-<<<<<<< HEAD
-=======
                                                 SizedBox(height: 4),
                                                 Row(
                                                   children: [
@@ -1424,7 +1417,6 @@ String endDateString =
                                                     ),
                                                   ],
                                                 )
->>>>>>> origin/wow
                                               ],
                                             )
                                           ],
@@ -1574,11 +1566,8 @@ String endDateString =
                     "${portfolioResponse?.data.certificate[index].startDate}";
 
                 DateTime startDate =
-<<<<<<< HEAD
                 DateFormat("dd/MM/yyyy").parse(startDateString);
-=======
                     DateFormat("yyy-MM-dd").parse(startDateString);
->>>>>>> origin/wow
                 return Container(
                   margin: EdgeInsets.only(right: 10),
                   child: Column(
@@ -1696,16 +1685,13 @@ String endDateString =
                                   style: Styles.regular(),
                                 ),
                                 Text(
-<<<<<<< HEAD
                                   'Internship • ${calculateTimeDifferenceBetween(
                                       startDate, endDate)} • ${startDate
                                       .day} ${listOfMonths[startDate.month]
                                       .substring(0, 3)} - ${endDate
                                       .day} ${listOfMonths[endDate.month]
                                       .substring(0, 3)}',
-=======
                                   'Internship • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${startDate.day} ${listOfMonths[startDate.month - 1].substring(0, 3)} - ${endDate.day} ${listOfMonths[endDate.month - 1].substring(0, 3)}',
->>>>>>> origin/wow
                                   style: Styles.regular(size: 14),
                                 )
                               ],
@@ -1763,11 +1749,8 @@ String endDateString =
                 String startDateString = "${extraActivities?[index].startDate}";
 
                 DateTime startDate =
-<<<<<<< HEAD
                 DateFormat("dd/MM/yyyy").parse(startDateString);
-=======
                     DateFormat("yyy-MM-dd").parse(startDateString);
->>>>>>> origin/wow
 
                 return Container(
                   margin: EdgeInsets.only(right: 10),
