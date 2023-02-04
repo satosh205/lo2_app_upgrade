@@ -69,6 +69,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   void getPortfolio() {
     BlocProvider.of<HomeBloc>(context).add(PortfolioEvent());
   }
+
   void getPortfolioCompetition() {
     BlocProvider.of<HomeBloc>(context).add(PortfolioCompetitoinEvent());
   }
@@ -99,7 +100,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
             if (state is PortfolioState) {
               handlePortfolioState(state);
             }
-            if(state is PortfoilioCompetitionState ){
+            if (state is PortfoilioCompetitionState) {
               handleCompetition(state);
             }
           },
@@ -805,65 +806,49 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         const EdgeInsets.symmetric(vertical: 8),
                                     child: Divider(),
                                   ),
-                                  SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.4,
-                                    child: isPortfolioLoading == false
-                                        ? ListView.builder(
-                                            controller: new ScrollController(
-                                                keepScrollOffset: true),
-                                            itemCount: portfolioResponse
-                                                ?.data.portfolio.length,
-                                            scrollDirection: Axis.horizontal,
-                                            itemBuilder: (context, index) =>
-                                                InkWell(
-                                                  onTap: () {
-                                                    Navigator.push(
-                                                        context,
-                                                        NextPageRoute(
-                                                            PortfolioDetail(
-                                                          baseUrl:
-                                                              '${portfolioResponse!.data.baseFileUrl}',
-                                                          portfolio:
-                                                              portfolioResponse!
-                                                                      .data
-                                                                      .portfolio[
-                                                                  index],
-                                                        )));
-                                                  },
-                                                  child: Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.8,
-                                                    margin:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 8,
-                                                            vertical: 4),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(12),
-                                                          child:
-                                                              CachedNetworkImage(
-                                                            progressIndicatorBuilder:
-                                                                (context, url,
-                                                                    downloadProgress) {
-                                                              return Shimmer
-                                                                  .fromColors(
-                                                                baseColor:
-                                                                    Colors.grey[
-                                                                        300]!,
-                                                                highlightColor:
-                                                                    Colors.grey[
-                                                                        100]!,
-                                                                enabled: true,
+                                  isPortfolioLoading == false
+                                      ? SizedBox(
+                                          height: portfolioResponse
+                                                      ?.data.portfolio.length !=
+                                                  0
+                                              ? MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.4
+                                              : MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.3,
+                                          child:
+                                              portfolioResponse?.data.portfolio
+                                                          .length !=
+                                                      0
+                                                  ? ListView.builder(
+                                                      controller:
+                                                          new ScrollController(
+                                                              keepScrollOffset:
+                                                                  true),
+                                                      itemCount:
+                                                          portfolioResponse
+                                                              ?.data
+                                                              .portfolio
+                                                              .length,
+                                                      scrollDirection:
+                                                          Axis.horizontal,
+                                                      itemBuilder:
+                                                          (context, index) =>
+                                                              InkWell(
+                                                                onTap: () {
+                                                                  Navigator.push(
+                                                                      context,
+                                                                      NextPageRoute(PortfolioDetail(
+                                                                        baseUrl:
+                                                                            '${portfolioResponse!.data.baseFileUrl}',
+                                                                        portfolio: portfolioResponse!
+                                                                            .data
+                                                                            .portfolio[index],
+                                                                      )));
+                                                                },
                                                                 child:
                                                                     Container(
                                                                   width: MediaQuery.of(
@@ -871,98 +856,84 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                           .size
                                                                           .width *
                                                                       0.8,
-                                                                  height: MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .height *
-                                                                      0.3,
-                                                                  color: Colors
-                                                                      .grey,
+                                                                  margin: EdgeInsets
+                                                                      .symmetric(
+                                                                          horizontal:
+                                                                              8,
+                                                                          vertical:
+                                                                              4),
+                                                                  child: Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      ClipRRect(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(12),
+                                                                        child:
+                                                                            CachedNetworkImage(
+                                                                          progressIndicatorBuilder: (context,
+                                                                              url,
+                                                                              downloadProgress) {
+                                                                            return Shimmer.fromColors(
+                                                                              baseColor: Colors.grey[300]!,
+                                                                              highlightColor: Colors.grey[100]!,
+                                                                              enabled: true,
+                                                                              child: Container(
+                                                                                width: MediaQuery.of(context).size.width * 0.8,
+                                                                                height: MediaQuery.of(context).size.height * 0.3,
+                                                                                color: Colors.grey,
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                          imageUrl:
+                                                                              '${portfolioResponse?.data.baseFileUrl}${portfolioResponse?.data.portfolio[index].imageName}',
+                                                                          width:
+                                                                              MediaQuery.of(context).size.width * 0.8,
+                                                                          height:
+                                                                              MediaQuery.of(context).size.height * 0.3,
+                                                                          fit: BoxFit
+                                                                              .cover,
+                                                                          errorWidget: (context,
+                                                                              url,
+                                                                              error) {
+                                                                            return Container(
+                                                                              width: MediaQuery.of(context).size.width * 0.8,
+                                                                              height: MediaQuery.of(context).size.height * 0.3,
+                                                                              padding: EdgeInsets.all(14),
+                                                                              decoration: BoxDecoration(color: Color(0xffD5D5D5)),
+                                                                            );
+                                                                          },
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(
+                                                                          height:
+                                                                              8),
+                                                                      Text(
+                                                                        '${portfolioResponse?.data.portfolio[index].portfolioTitle}',
+                                                                        style: Styles
+                                                                            .bold(),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width: MediaQuery.of(context).size.width *
+                                                                            0.8,
+                                                                        child: Text(
+                                                                            '${portfolioResponse?.data.portfolio[index].desc}',
+                                                                            softWrap:
+                                                                                true,
+                                                                            maxLines:
+                                                                                1,
+                                                                            overflow:
+                                                                                TextOverflow.ellipsis,
+                                                                            style: Styles.semibold(size: 12, color: Color(0xff929BA3))),
+                                                                      ),
+                                                                    ],
+                                                                  ),
                                                                 ),
-                                                              );
-                                                            },
-                                                            imageUrl:
-                                                                '${portfolioResponse?.data.baseFileUrl}${portfolioResponse?.data.portfolio[index].imageName}',
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width *
-                                                                0.8,
-                                                            height: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .height *
-                                                                0.3,
-                                                            fit: BoxFit.cover,
-                                                            errorWidget:
-                                                                (context, url,
-                                                                    error) {
-                                                              return Container(
-                                                                width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width *
-                                                                    0.8,
-                                                                height: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .height *
-                                                                    0.3,
-                                                                padding:
-                                                                    EdgeInsets
-                                                                        .all(
-                                                                            14),
-                                                                decoration: BoxDecoration(
-                                                                    color: Color(
-                                                                        0xffD5D5D5)),
-                                                              );
-                                                            },
-                                                          ),
-                                                        ),
-                                                        SizedBox(height: 8),
-                                                        Text(
-                                                          '${portfolioResponse?.data.portfolio[index].portfolioTitle}',
-                                                          style: Styles.bold(),
-                                                        ),
-                                                        SizedBox(
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width *
-                                                              0.8,
-                                                          child: Text(
-                                                              '${portfolioResponse?.data.portfolio[index].desc}',
-                                                              softWrap: true,
-                                                              maxLines: 1,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style: Styles.semibold(
-                                                                  size: 12,
-                                                                  color: Color(
-                                                                      0xff929BA3))),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ))
-                                        : Shimmer.fromColors(
-                                            baseColor: Colors.grey[300]!,
-                                            highlightColor: Colors.grey[100]!,
-                                            enabled: true,
-                                            child: Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.8,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.3,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                  ),
+                                                              ))
+                                                  : portfolioListShimmer(0),
+                                        )
+                                      : portfolioListShimmer(1),
                                   dividerLine(),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -987,105 +958,151 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         const EdgeInsets.symmetric(vertical: 4),
                                     child: Divider(),
                                   ),
-                       if(isPortfolioLoading == false)     SizedBox(
-                                    height: height(context) * 0.35,
-                                    child: ListView.builder(
-                                        itemCount: competition?.data.length,
-                                        scrollDirection: Axis.horizontal,
-                                        itemBuilder: (context, index) =>
-                                            InkWell(
-                                              onTap: (){
-                                                Navigator.push(context, NextPageRoute(CompetitionDetail(competition: Competition(id: competition?.data[index].pId, name: competition?.data[index].pName, image: competition?.data[index].pImage, gScore: competition?.data[index].gScore ?? 0, description: "", ) ,)));
-                                              },
-                                              child: Container(
-                                                width: width(context) * 0.85,
-                                                padding:
-                                                    EdgeInsets.only(bottom: 8),
-                                                margin: EdgeInsets.only(right: 8),
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(8),
-                                                    border: Border.all(
-                                                        color: ColorConstants
-                                                            .GREY_4)),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                              topLeft: Radius
-                                                                  .circular(8),
-                                                              topRight:
-                                                                  Radius.circular(
-                                                                      8)),
-                                                      child: CachedNetworkImage(
-                                                          imageUrl:
-                                                              '${competition?.data[index].pImage}',
-                                                          width:double.infinity,
-                                                          height: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height *
-                                                              0.25,
-                                                          fit: BoxFit.cover),
-                                                    ),
-                                                    SizedBox(height: 10),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 8.0),
-                                                      child: SizedBox(
-                                                width: width(context) * 0.84,
-                                            
-                                                        child: Text(
-                                                        
-                                                          '${competition?.data[index].pName}',
-                                                          softWrap: true,
-                                                          overflow: TextOverflow.ellipsis,
-                                                          style: Styles.bold(),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 8.0),
-                                                      child: Row(
-                                                        children: [
-                                                          Text('Rank : ${competition?.data[index].rank ?? 0}',
-                                                              style: Styles.semibold(
-                                                                  size: 12,
-                                                                  color: Color(
-                                                                      0xff929BA3))),
-                                                          SizedBox(width: 8),
-                                                           Text(' • ',
-                                                              style: Styles.semibold(
-                                                                  size: 12,
-                                                                  color: Color(
-                                                                      0xff929BA3))),
-                                                          SvgPicture.asset(
-                                                            'assets/images/coin.svg',
-                                                            width:
-                                                                width(context) *
-                                                                    0.04,
-                                                          ),
-                                                         
-                                                          Text(
-                                                              '${competition?.data[index].gScore ?? 0} Points Earned',
-                                                              style: Styles.semibold(
-                                                                  size: 12,
-                                                                  color: Color(
-                                                                      0xff929BA3))),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            )),
-                                  ),
+                                  isPortfolioLoading == false
+                                      ? SizedBox(
+                                          height: competition?.data.length != 0
+                                              ? height(context) * 0.35
+                                              : height(context) * 0.15,
+                                          child: competition?.data.length != 0
+                                              ? ListView.builder(
+                                                  itemCount:
+                                                      competition?.data.length,
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemBuilder:
+                                                      (context, index) =>
+                                                          InkWell(
+                                                            onTap: () {
+                                                              Navigator.push(
+                                                                  context,
+                                                                  NextPageRoute(
+                                                                      CompetitionDetail(
+                                                                    competition:
+                                                                        Competition(
+                                                                      id: competition
+                                                                          ?.data[
+                                                                              index]
+                                                                          .pId,
+                                                                      name: competition
+                                                                          ?.data[
+                                                                              index]
+                                                                          .pName,
+                                                                      image: competition
+                                                                          ?.data[
+                                                                              index]
+                                                                          .pImage,
+                                                                      gScore:
+                                                                          competition?.data[index].gScore ??
+                                                                              0,
+                                                                      description:
+                                                                          "",
+                                                                    ),
+                                                                  )));
+                                                            },
+                                                            child: Container(
+                                                              width: width(
+                                                                      context) *
+                                                                  0.85,
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      bottom:
+                                                                          8),
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      right: 8),
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8),
+                                                                  border: Border.all(
+                                                                      color: ColorConstants
+                                                                          .GREY_4)),
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  ClipRRect(
+                                                                    borderRadius: BorderRadius.only(
+                                                                        topLeft:
+                                                                            Radius.circular(
+                                                                                8),
+                                                                        topRight:
+                                                                            Radius.circular(8)),
+                                                                    child: CachedNetworkImage(
+                                                                        imageUrl:
+                                                                            '${competition?.data[index].pImage}',
+                                                                        width: double
+                                                                            .infinity,
+                                                                        height: MediaQuery.of(context).size.height *
+                                                                            0.25,
+                                                                        fit: BoxFit
+                                                                            .cover),
+                                                                  ),
+                                                                  SizedBox(
+                                                                      height:
+                                                                          10),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            8.0),
+                                                                    child:
+                                                                        SizedBox(
+                                                                      width: width(
+                                                                              context) *
+                                                                          0.84,
+                                                                      child:
+                                                                          Text(
+                                                                        '${competition?.data[index].pName}',
+                                                                        softWrap:
+                                                                            true,
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis,
+                                                                        style: Styles
+                                                                            .bold(),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            8.0),
+                                                                    child: Row(
+                                                                      children: [
+                                                                        Text(
+                                                                            'Rank : ${competition?.data[index].rank ?? 0}',
+                                                                            style:
+                                                                                Styles.semibold(size: 12, color: Color(0xff929BA3))),
+                                                                        SizedBox(
+                                                                            width:
+                                                                                8),
+                                                                        Text(
+                                                                            ' • ',
+                                                                            style:
+                                                                                Styles.semibold(size: 12, color: Color(0xff929BA3))),
+                                                                        SvgPicture
+                                                                            .asset(
+                                                                          'assets/images/coin.svg',
+                                                                          width:
+                                                                              width(context) * 0.04,
+                                                                        ),
+                                                                        Text(
+                                                                            '${competition?.data[index].gScore ?? 0} Points Earned',
+                                                                            style:
+                                                                                Styles.semibold(size: 12, color: Color(0xff929BA3))),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ))
+                                              : competitionListShimmer(0),
+                                        )
+                                      : competitionListShimmer(1),
                                   SizedBox(
                                     height: 20,
                                   ),
@@ -1130,182 +1147,198 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                       as List<CommonProfession>,
                                                 )));
                                           },
-                                          icon: Icon(
-                                              Icons.arrow_forward_ios_rounded))
+                                          icon: Icon(Icons.arrow_forward_ios_rounded))
                                     ],
                                   ),
                                 ])),
-                        // education list
-                        isPortfolioLoading == false
-                            ? ListView.builder(
-                                shrinkWrap: true,
-                                // physics: ScrollPhysics(),
-                                physics:ScrollPhysics(),
-                                itemCount:
-                                    portfolioResponse?.data.education.length,
-                                itemBuilder: (context, index) {
-DateTime endDate = DateTime.now();
 
-                                  if(portfolioResponse?.data.education[index].endDate != null || portfolioResponse?.data.education[index].endDate != '')   {
-String endDateString =
-                                      "${portfolioResponse?.data.education[index].endDate}";
-                                         endDate = DateFormat("yyyy-MM-dd")
-                                      .parse(endDateString);
-                                  }
-                                  String startDateString =
-                                      "${portfolioResponse?.data.education[index].startDate}";
-                                  
-                                  DateTime startDate = DateFormat("yyyy-MM-dd")
-                                      .parse(startDateString);
-                                
-                                  return Container(
-                                    width: width(context) * 0.3,
-                                    margin: EdgeInsets.symmetric(
-                                      horizontal: 8,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                child: CachedNetworkImage(
-                                                  imageUrl:
-                                                      '${portfolioResponse?.data.baseFileUrl}${portfolioResponse?.data.education[index].imageName}',
-                                                  height: width(context) * 0.3,
-                                                  width: width(context) * 0.3,
-                                                  fit: BoxFit.cover,
-                                                  errorWidget:
-                                                      (context, url, error) {
-                                                    return Container(
-                                                      padding:
-                                                          EdgeInsets.all(14),
-                                                      decoration: BoxDecoration(
-                                                          color: Color(
-                                                              0xffD5D5D5)),
-                                                      child: SvgPicture.asset(
-                                                        'assets/images/default_education.svg',
-                                                        height: 40,
-                                                        width: 40,
-                                                        color: ColorConstants
-                                                            .GREY_5,
-                                                        allowDrawingOutsideViewBox:
-                                                            true,
-                                                      ),
-                                                    );
-                                                  },
-                                                  placeholder:
-                                                      (BuildContext context,
-                                                          loadingProgress) {
-                                                    return Container(
-                                                      padding:
-                                                          EdgeInsets.all(14),
-                                                      decoration: BoxDecoration(
-                                                          color: Color(
-                                                              0xffD5D5D5)),
-                                                      child: SvgPicture.asset(
-                                                        'assets/images/default_education.svg',
-                                                        height: 40,
-                                                        width: 40,
-                                                        color: ColorConstants
-                                                            .GREY_5,
-                                                        allowDrawingOutsideViewBox:
-                                                            true,
-                                                      ),
-                                                    );
-                                                  },
-                                                )),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                SizedBox(
-                                                  width: width(context) * 0.5,
-                                                  child: Text(
-                                                    '${portfolioResponse?.data.education[index].title}',
-                                                    style:
-                                                        Styles.bold(size: 16),
+                        /// education list
+                        isPortfolioLoading == false
+                            ? Container(
+                              child: portfolioResponse?.data.education.length != 0 ? ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: ScrollPhysics(),
+                                  itemCount: portfolioResponse?.data.education.length,
+                                  itemBuilder: (context, index) {
+                                    DateTime endDate = DateTime.now();
+
+                                    if (portfolioResponse
+                                                ?.data.education[index].endDate !=
+                                            null ||
+                                        portfolioResponse
+                                                ?.data.education[index].endDate !=
+                                            '') {
+                                      String endDateString =
+                                          "${portfolioResponse?.data.education[index].endDate}";
+                                      endDate = DateFormat("yyyy-MM-dd")
+                                          .parse(endDateString);
+                                    }
+                                    String startDateString =
+                                        "${portfolioResponse?.data.education[index].startDate}";
+
+                                    DateTime startDate = DateFormat("yyyy-MM-dd")
+                                        .parse(startDateString);
+
+                                    return Container(
+                                      width: width(context) * 0.3,
+                                      margin: EdgeInsets.symmetric(
+                                        horizontal: 8,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  child: CachedNetworkImage(
+                                                    imageUrl:
+                                                        '${portfolioResponse?.data.baseFileUrl}${portfolioResponse?.data.education[index].imageName}',
+                                                    height: width(context) * 0.3,
+                                                    width: width(context) * 0.3,
+                                                    fit: BoxFit.cover,
+                                                    errorWidget:
+                                                        (context, url, error) {
+                                                      return Container(
+                                                        padding:
+                                                            EdgeInsets.all(14),
+                                                        decoration: BoxDecoration(
+                                                            color: Color(
+                                                                0xffD5D5D5)),
+                                                        child: SvgPicture.asset(
+                                                          'assets/images/default_education.svg',
+                                                          height: 40,
+                                                          width: 40,
+                                                          color: ColorConstants
+                                                              .GREY_5,
+                                                          allowDrawingOutsideViewBox:
+                                                              true,
+                                                        ),
+                                                      );
+                                                    },
+                                                    placeholder:
+                                                        (BuildContext context,
+                                                            loadingProgress) {
+                                                      return Container(
+                                                        padding:
+                                                            EdgeInsets.all(14),
+                                                        decoration: BoxDecoration(
+                                                            color: Color(
+                                                                0xffD5D5D5)),
+                                                        child: SvgPicture.asset(
+                                                          'assets/images/default_education.svg',
+                                                          height: 40,
+                                                          width: 40,
+                                                          color: ColorConstants
+                                                              .GREY_5,
+                                                          allowDrawingOutsideViewBox:
+                                                              true,
+                                                        ),
+                                                      );
+                                                    },
+                                                  )),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.spaceEvenly,
+                                                children: [
+                                                  SizedBox(
+                                                    width: width(context) * 0.5,
+                                                    child: Text(
+                                                      '${portfolioResponse?.data.education[index].title}',
+                                                      style:
+                                                          Styles.bold(size: 16),
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(height: 4),
-                                                SizedBox(
-                                                  width: width(context) * 0.5,
-                                                  child: Text(
-                                                    maxLines: 2,
-                                                    '${portfolioResponse?.data.education[index].institute}',
-                                                    style: Styles.regular(
-                                                        size: 14),
-                                                  ),
-                                                ),
-                                                SizedBox(height: 4),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      '${startDate.day} ${listOfMonths[startDate.month - 1]} - ',
+                                                  SizedBox(height: 4),
+                                                  SizedBox(
+                                                    width: width(context) * 0.5,
+                                                    child: Text(
+                                                      maxLines: 2,
+                                                      '${portfolioResponse?.data.education[index].institute}',
                                                       style: Styles.regular(
                                                           size: 14),
                                                     ),
-                                             if(portfolioResponse?.data.education[index].endDate != null || portfolioResponse?.data.education[index].endDate != '')        Text(
-                                                      '${endDate.day} ${listOfMonths[endDate.month]}',
-                                                      style: Styles.regular(
-                                                          size: 14),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        SizedBox(
-                                          child: ReadMoreText(
-                                            viewMore: 'View more',
-                                            text:
-                                                '${portfolioResponse?.data.education[index].description}',
-                                            color: Color(0xff929BA3),
+                                                  ),
+                                                  SizedBox(height: 4),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        '${startDate.day} ${listOfMonths[startDate.month - 1]} - ',
+                                                        style: Styles.regular(
+                                                            size: 14),
+                                                      ),
+                                                      if (portfolioResponse
+                                                                  ?.data
+                                                                  .education[
+                                                                      index]
+                                                                  .endDate !=
+                                                              null ||
+                                                          portfolioResponse
+                                                                  ?.data
+                                                                  .education[
+                                                                      index]
+                                                                  .endDate !=
+                                                              '')
+                                                        Text(
+                                                          '${endDate.day} ${listOfMonths[endDate.month]}',
+                                                          style: Styles.regular(
+                                                              size: 14),
+                                                        ),
+                                                    ],
+                                                  )
+                                                ],
+                                              )
+                                            ],
                                           ),
-                                        ),
-                                        if (index !=
-                                            portfolioResponse
-                                                ?.data.education.length)
-                                          Divider(),
-                                      ],
-                                    ),
-                                  );
-                                })
-                            : Text('no portfolio found '),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          SizedBox(
+                                            child: ReadMoreText(
+                                              viewMore: 'View more',
+                                              text:
+                                                  '${portfolioResponse?.data.education[index].description}',
+                                              color: Color(0xff929BA3),
+                                            ),
+                                          ),
+                                          if (index !=
+                                              portfolioResponse
+                                                  ?.data.education.length)
+                                            Divider(),
+                                        ],
+                                      ),
+                                    );
+                                  }):
+                              educationListShimmer(0),
+                            ) : educationListShimmer(1),
 
                         if (isPortfolioLoading == false) ...[
                           dividerLine(),
                           if (isPortfolioLoading == false)
-                            getCertificateWidget(
-                                portfolioResponse?.data.certificate, context),
+                            getCertificateWidget(portfolioResponse?.data.certificate, context),
                           dividerLine(),
-                          getExperience(
-                              portfolioResponse?.data.experience, context),
+                          getExperience(portfolioResponse?.data.experience, context),
                           dividerLine(),
                           getRecentActivites(),
                           dividerLine(),
-                          getExtraActivitesWidget(
-                              portfolioResponse?.data.extraActivities, context),
+                          getExtraActivitesWidget(portfolioResponse?.data.extraActivities, context),
                         ],
                       ])))),
     );
   }
+
+  //portfolioResponse?.data.education.length == 0
 
   Widget getRecentActivites() {
     return Column(
@@ -1388,7 +1421,11 @@ String endDateString =
     return Column(
       children: [
         topRow('Certificates', arrowAction: () {
-          Navigator.push(context, NextPageRoute(CertificateList(baseUrl:'${portfolioResponse?.data.baseFileUrl}', certificates: certificateList)));
+          Navigator.push(
+              context,
+              NextPageRoute(CertificateList(
+                  baseUrl: '${portfolioResponse?.data.baseFileUrl}',
+                  certificates: certificateList)));
         }, addAction: () async {
           await Navigator.push(
                   context,
@@ -1457,15 +1494,15 @@ String endDateString =
     return Column(
       children: [
         topRow('Experience', arrowAction: () {
-       Navigator.push(
+          Navigator.push(
                   context,
                   PageTransition(
                       duration: Duration(milliseconds: 600),
                       reverseDuration: Duration(milliseconds: 600),
                       type: PageTransitionType.bottomToTop,
                       child: ExperienceList(
-                        baseUrl: portfolioResponse?.data.baseFileUrl,
-                        experience: experience)))
+                          baseUrl: portfolioResponse?.data.baseFileUrl,
+                          experience: experience)))
               .then((value) => getPortfolio());
         }, addAction: () {
           Navigator.push(
@@ -1874,8 +1911,7 @@ String endDateString =
     });
   }
 
-
-   void handleCompetition(PortfoilioCompetitionState state) {
+  void handleCompetition(PortfoilioCompetitionState state) {
     var portfolioState = state;
     setState(() async {
       switch (portfolioState.apiState) {
@@ -1886,8 +1922,7 @@ String endDateString =
         case ApiStatus.SUCCESS:
           Log.v("PortfolioState Competition Success....................");
           competition = portfolioState.response;
-         
-         
+
           isPortfolioLoading = false;
           setState(() {});
           break;
@@ -1968,140 +2003,161 @@ String endDateString =
 
 //TODO: Blank states and empty states Widget
   Widget portfolioListShimmer(var listLength) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
-          enabled: true,
-          child: Container(
-            width: MediaQuery
-                .of(context)
-                .size
-                .width * 1.0,
-            height: MediaQuery
-                .of(context)
-                .size
-                .height * 0.3,
-            color: Colors.grey,
-          ),
-        ),
-
-        SizedBox(height: 10,),
-        Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
-          enabled: true,
-          child: Container(
-            width: MediaQuery
-                .of(context)
-                .size
-                .width * 0.7,
-            height: 13,
-            color: Colors.grey,
-          ),
-        ),
-
-        SizedBox(height: 10,),
-        Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
-          enabled: true,
-          child: Container(
-            width: MediaQuery
-                .of(context)
-                .size
-                .width * 0.9,
-            height: 13,
-            color: Colors.grey,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget competitionListShimmer (int listLength){
-    return listLength == 1 ? Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
-          enabled: true,
-          child: Container(
-            width: MediaQuery.of(context).size.width * 1.0,
-            height: MediaQuery.of(context).size.height * 0.3,
-            color: Colors.grey,
-          ),
-        ),
-
-        SizedBox(height: 10,),
-        Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
-          enabled: true,
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.7,
-            height: 13,
-            color: Colors.grey,
-          ),
-        ),
-
-        SizedBox(height: 10,),
-        Row(
-          children: [
-            Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
-              enabled: true,
-              child: Container(
-                width: 130,
-                height: 13,
-                color: Colors.grey,
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Shimmer.fromColors(
+    return listLength == 1
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Shimmer.fromColors(
                 baseColor: Colors.grey[300]!,
                 highlightColor: Colors.grey[100]!,
                 enabled: true,
                 child: Container(
-                  width: 100,
+                  width: MediaQuery.of(context).size.width * 1.0,
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                enabled: true,
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.7,
                   height: 13,
                   color: Colors.grey,
                 ),
               ),
+              SizedBox(
+                height: 10,
+              ),
+              Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                enabled: true,
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: 13,
+                  color: Colors.grey,
+                ),
+              ),
+            ],
+          )
+        : InkWell(
+            onTap: () {
+              print('portfolio List');
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/portfolio_emp_bg.png',
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/portfolio_emp.png',
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 8.0,
+                        ),
+                        child: Text('Add your portfolio, projects here'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-      ],
-    ): InkWell(
-      onTap: (){
-        print('Competitions');
-      },
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset('assets/images/comp_emp.png'),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Text('Participate in Competitions'),
-            ),
-            //Text('Competitions'),
-          ],
-        ),
-      ),
-    );
+          );
   }
 
-  Widget educationListShimmer (var listLength){
-    return Container(
+  Widget competitionListShimmer(int listLength) {
+    return listLength == 1
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                enabled: true,
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 1.0,
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                enabled: true,
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.7,
+                  height: 13,
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    enabled: true,
+                    child: Container(
+                      width: 130,
+                      height: 13,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      enabled: true,
+                      child: Container(
+                        width: 100,
+                        height: 13,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          )
+        : Container(
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/images/comp_emp.png'),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text('Participate in Competitions'),
+                ),
+                //Text('Competitions'),
+              ],
+            ),
+          );
+  }
+
+  Widget educationListShimmer(var listLength) {
+    return listLength == 1 ?
+    Container(
       //width: width(context) * 0.3,
       margin: EdgeInsets.symmetric(
         horizontal: 8,
@@ -2110,10 +2166,8 @@ String endDateString =
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment:
-            MainAxisAlignment.start,
-            crossAxisAlignment:
-            CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Shimmer.fromColors(
                 baseColor: Colors.grey[300]!,
@@ -2129,10 +2183,8 @@ String endDateString =
                 width: 10,
               ),
               Column(
-                crossAxisAlignment:
-                CrossAxisAlignment.start,
-                mainAxisAlignment:
-                MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SizedBox(
                     width: width(context) * 0.5,
@@ -2206,6 +2258,26 @@ String endDateString =
               color: Colors.grey,
             ),
           ),
+        ],
+      ),
+    ):
+    Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height * 0.2 - 20,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          InkWell(
+            onTap: (){
+              print('Add your Education');
+            },
+              child: Image.asset('assets/images/edu_empty.png')),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text('Add your Education'),
+          ),
+          //Text('Competitions'),
         ],
       ),
     );
