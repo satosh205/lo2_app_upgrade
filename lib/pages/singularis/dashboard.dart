@@ -201,19 +201,19 @@ class _DashboardPageState extends State<DashboardPage> {
                                     children: [
                                       Text('Welcome',
                                           style: Styles.regular(
-                                              color: ColorConstants.WHITE)),
+                                              color: ColorConstants.WHITE, size: 14)),
                                       Text(
                                         '${Preference.getString(Preference.FIRST_NAME)}',
                                         style: Styles.bold(
-                                            color: ColorConstants.WHITE),
+                                            color: ColorConstants.WHITE, size: 22),
                                       ),
                                     ],
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 10),
+                              SizedBox(height: 15),
                               Container(
-                                height: 8,
+                                height: 5,
                                 width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
                                     color:
@@ -272,10 +272,10 @@ class _DashboardPageState extends State<DashboardPage> {
                     ),
                     featuredJobsInternships(),
 
-                    SizedBox(
+                    /*SizedBox(
                       height: 10,
                     ),
-                    skillGapAnalysisWidgets(),
+                    skillGapAnalysisWidgets(),*/
 
                     SizedBox(
                       height: 20,
@@ -3100,7 +3100,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                     // ? CustomBetterPlayer(
                                     //     url: widget.fileList[index])
                                     ? Container(
-                                    height: 300,
+                                        height: 300,
                                         child: FlickVideoPlayer(
                                             flickManager: FlickManager(
                                           videoPlayerController:
@@ -3290,8 +3290,9 @@ class _DashboardPageState extends State<DashboardPage> {
           decorator: DotsDecorator(
             size: const Size.square(8.0),
             color: Color(0xffCCCACA),
+            spacing: const EdgeInsets.only(left: 5.0),
             activeColor: ColorConstants.GRADIENT_ORANGE,
-            activeSize: const Size(25.0, 8.0),
+            activeSize: const Size(22.0, 8.0),
             activeShape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.0)),
           ),
