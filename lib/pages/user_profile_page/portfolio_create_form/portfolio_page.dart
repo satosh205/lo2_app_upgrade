@@ -1965,4 +1965,254 @@ String endDateString =
         return '${startDate.difference(endDate).inDays.abs()} ${Strings.of(context)?.d}';
     }
   }
+<<<<<<< HEAD
+=======
+
+
+//TODO: Blank states and empty states Widget
+  Widget portfolioListShimmer(var listLength) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          enabled: true,
+          child: Container(
+            width: MediaQuery
+                .of(context)
+                .size
+                .width * 1.0,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height * 0.3,
+            color: Colors.grey,
+          ),
+        ),
+
+        SizedBox(height: 10,),
+        Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          enabled: true,
+          child: Container(
+            width: MediaQuery
+                .of(context)
+                .size
+                .width * 0.7,
+            height: 13,
+            color: Colors.grey,
+          ),
+        ),
+
+        SizedBox(height: 10,),
+        Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          enabled: true,
+          child: Container(
+            width: MediaQuery
+                .of(context)
+                .size
+                .width * 0.9,
+            height: 13,
+            color: Colors.grey,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget competitionListShimmer (int listLength){
+    return listLength == 1 ? Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          enabled: true,
+          child: Container(
+            width: MediaQuery.of(context).size.width * 1.0,
+            height: MediaQuery.of(context).size.height * 0.3,
+            color: Colors.grey,
+          ),
+        ),
+
+        SizedBox(height: 10,),
+        Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          enabled: true,
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.7,
+            height: 13,
+            color: Colors.grey,
+          ),
+        ),
+
+        SizedBox(height: 10,),
+        Row(
+          children: [
+            Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              enabled: true,
+              child: Container(
+                width: 130,
+                height: 13,
+                color: Colors.grey,
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                enabled: true,
+                child: Container(
+                  width: 100,
+                  height: 13,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    ): InkWell(
+      onTap: (){
+        print('Competitions');
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset('assets/images/comp_emp.png'),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Text('Participate in Competitions'),
+            ),
+            //Text('Competitions'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget educationListShimmer (var listLength){
+    return Container(
+      //width: width(context) * 0.3,
+      margin: EdgeInsets.symmetric(
+        horizontal: 8,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment:
+            MainAxisAlignment.start,
+            crossAxisAlignment:
+            CrossAxisAlignment.start,
+            children: [
+              Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                enabled: true,
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Column(
+                crossAxisAlignment:
+                CrossAxisAlignment.start,
+                mainAxisAlignment:
+                MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    width: width(context) * 0.5,
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      enabled: true,
+                      child: Container(
+                        width: 100,
+                        height: 13,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  SizedBox(
+                    width: width(context) * 0.4,
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      enabled: true,
+                      child: Container(
+                        width: 80,
+                        height: 13,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Shimmer.fromColors(
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
+                        enabled: true,
+                        child: Container(
+                          width: 40,
+                          height: 13,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.grey[300]!,
+                          highlightColor: Colors.grey[100]!,
+                          enabled: true,
+                          child: Container(
+                            width: 100,
+                            height: 13,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              )
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            enabled: true,
+            child: Container(
+              width: width(context) * 0.9,
+              height: 20,
+              color: Colors.grey,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+>>>>>>> 2583c2eb120aa0c50b16ec07bb261481b802b2eb
 }
