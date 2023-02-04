@@ -193,7 +193,7 @@ class _ExperienceListState extends State<ExperienceList> {
                                            
                                 Text('${widget.experience[index].curricularType} • '),
                                   Text(
-                                              '  ${startDate.day} ${listOfMonths[startDate.month]} ',
+                                              '  ${startDate.day} ${listOfMonths[startDate.month - 1]} ',
                                               style: Styles.regular(size: 14),
                                             ),
 
