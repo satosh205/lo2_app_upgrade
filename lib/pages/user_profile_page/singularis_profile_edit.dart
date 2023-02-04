@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
+import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
 import 'package:masterg/utils/Log.dart';
@@ -17,11 +18,16 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  final nameController = TextEditingController();
-  final headController = TextEditingController();
-  final countryController = TextEditingController();
-  final cityController = TextEditingController();
-  final aboutController = TextEditingController();
+  final nameController = TextEditingController(text:  Preference.getString(
+              Preference.FIRST_NAME));
+  final headController = TextEditingController(text: Preference.getString(
+              Preference.USER_HEADLINE));
+  final countryController = TextEditingController(text: Preference.getString(
+              Preference.LOCATION)?.split(',')[1]);
+  final cityController = TextEditingController(text: Preference.getString(
+              Preference.LOCATION)?.split(',').first);
+  final aboutController = TextEditingController(text: Preference.getString(
+              Preference.ABOUT_ME));
     bool addingProfile = false;
     final _formKey = GlobalKey<FormState>();
 
