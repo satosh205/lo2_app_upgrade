@@ -56,6 +56,7 @@ class NewPortfolioPage extends StatefulWidget {
 class _NewPortfolioPageState extends State<NewPortfolioPage> {
   bool editModeEnabled = true;
   bool? isPortfolioLoading = true;
+  bool? isCompetitionLoading = true;
   PortfolioResponse? portfolioResponse;
   PortfolioCompetitionResponse? competition;
   TopScoringResponse? userRank;
@@ -356,24 +357,26 @@ handletopScoring(state);
                                                                 ColorConstants
                                                                     .WHITE)),
                                                     Text(
-                                                        '${Preference.getString(Preference.USER_HEADLINE)}',
+                                                        Preference.getString(Preference.USER_HEADLINE) != null ?
+                                                        '${Preference.getString(Preference.USER_HEADLINE)}' : "",
                                                         style: Styles.regular(
                                                             size: 12,
                                                             color:
                                                                 ColorConstants
                                                                     .WHITE)),
                                                     SizedBox(height: 4),
-                                                    Row(
+                                                     Row(
                                                       children: [
+                                                        Preference.getString(Preference.LOCATION) != null ?
                                                         SvgPicture.asset(
-                                                            'assets/images/person_location.svg'),
-                                                        Text(
+                                                            'assets/images/person_location.svg'):SizedBox(),
+                                                        Preference.getString(Preference.LOCATION) != null ? Text(
                                                             '${Preference.getString(Preference.LOCATION)}',
                                                             style: Styles.regular(
                                                                 size: 12,
                                                                 color:
                                                                     ColorConstants
-                                                                        .WHITE)),
+                                                                        .WHITE)) : SizedBox(),
                                                         Spacer(),
                                                         SizedBox(
                                                             width: 18,
@@ -403,7 +406,7 @@ handletopScoring(state);
                                                                               'assets/images/edit.svg'),
                                                                     )))
                                                       ],
-                                                    )
+                                                    ),
                                                   ],
                                                 ),
                                               ),
@@ -415,14 +418,14 @@ handletopScoring(state);
                                 SizedBox(
                                   height: 50,
                                 ),
-                                Padding(
+                                Preference.getString(Preference.ABOUT_ME) != null ? Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
                                     '${Preference.getString(Preference.ABOUT_ME)}',
                                     style: Styles.regular(
                                         size: 12, color: Color(0xff5A5F73)),
                                   ),
-                                ),
+                                ):SizedBox(),
                                 Center(
                                   child: GestureDetector(
                                     onTap: () {
@@ -532,7 +535,8 @@ handletopScoring(state);
                                                         ]).createShader(bounds);
                                                   },
                                                   child: Text(
-                                                    '${userRank?.data.first.rank}',
+                                                    userRank?.data.first.rank !=null ? '${userRank?.data.first.rank}':
+                                                    '0',
                                                     style:
                                                         Styles.bold(size: 24),
                                                   ),
@@ -540,7 +544,9 @@ handletopScoring(state);
                                               ],
                                             ),
                                             Text(
-                                              'out of ${userRank?.data.first.rankOutOf} Students',
+                                              userRank?.data.first.rank !=null ?
+                                              'out of ${userRank?.data.first.rankOutOf} Students':
+                                              'out of 0 Students',
                                               style: Styles.regular(
                                                   size: 10,
                                                   color: Color(0xff5A5F73)),
@@ -588,13 +594,15 @@ handletopScoring(state);
                                                         ]).createShader(bounds);
                                                   },
                                                   child: Text(
-                                                    '${userRank?.data.first.score}',
+                                                    userRank?.data.first.score !=null ?
+                                                    '${userRank?.data.first.score}':'0',
                                                     style:
                                                         Styles.bold(size: 24),
                                                   ),
                                                 )
                                               ],
                                             ),
+
                                             Text(
                                               'gained from 5 activities',
                                               style: Styles.regular(
@@ -968,7 +976,7 @@ handletopScoring(state);
                                         const EdgeInsets.symmetric(vertical: 4),
                                     child: Divider(),
                                   ),
-                                  isPortfolioLoading == false
+                                  isCompetitionLoading == false
                                       ? SizedBox(
                                           height: competition?.data.length != 0
                                               ? height(context) * 0.35
@@ -1339,18 +1347,43 @@ print('nice ${ Preference.getString(
                               educationListShimmer(0),
                             ) : educationListShimmer(1),
 
-                        if (isPortfolioLoading == false) ...[
-                          dividerLine(),
-                          if (isPortfolioLoading == false)
+                        //if (isPortfolioLoading == false) ...[
+
+                          /*if (isPortfolioLoading == false) ...[
                             getCertificateWidget(portfolioResponse?.data.certificate, context),
                           dividerLine(),
-                          getExperience(portfolioResponse?.data.experience, context),
-                          dividerLine(),
-                          getRecentActivites(),
-                          dividerLine(),
-                          getExtraActivitesWidget(portfolioResponse?.data.extraActivities, context),
+                          ] else ...[
+                            certificatesListShimmer(1),
+                          ],
+                          if (isPortfolioLoading == false) ...[
+                            getExperience(portfolioResponse?.data.experience, context),
+                            dividerLine(),
+                          ] else ...[
+                            experienceListShimmer(1),
+                          ],
+
+                          if (isPortfolioLoading == false) ...[
+                            getRecentActivites(),
+                            dividerLine(),
+                          ] else ...[
+                            recentActivitiesListShimmer(1),
+                          ],
+
+                          if (isPortfolioLoading == false) ...[
+                            dividerLine(),
+                            getExtraActivitesWidget(portfolioResponse?.data.extraActivities, context),
+                          ] else ...[
+                            extraActivitiesListShimmer(1),
+                          ],*/
+
+                        getCertificateWidget(portfolioResponse?.data.certificate, context),
+                        getExperience(portfolioResponse?.data.experience, context),
+                        getRecentActivites(),
+                        getExtraActivitesWidget(portfolioResponse?.data.extraActivities, context),  
+                        
                         ],
-                      ])))),
+                      //]
+                  )))),
     );
   }
 
@@ -1361,7 +1394,7 @@ print('nice ${ Preference.getString(
       children: [
         topRow('Recent Activites',
             addAction: () {}, arrowAction: () {}, showAddButton: false),
-        SizedBox(
+        isPortfolioLoading == false ? SizedBox(
           height: height(context) * 0.5,
           child: ListView(
             shrinkWrap: true,
@@ -1375,7 +1408,7 @@ print('nice ${ Preference.getString(
                       'https://images.unsplash.com/photo-1661961110372-8a7682543120?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80')
             ],
           ),
-        ),
+        ):recentActivitiesListShimmer(1),
       ],
     );
   }
@@ -1432,8 +1465,7 @@ print('nice ${ Preference.getString(
     );
   }
 
-  Widget getCertificateWidget(
-      List<CommonProfession>? certificateList, context) {
+  Widget getCertificateWidget(List<CommonProfession>? certificateList, context) {
     return Column(
       children: [
         topRow('Certificates', arrowAction: () {
@@ -1452,10 +1484,10 @@ print('nice ${ Preference.getString(
                       child: AddCertificate()))
               .then((value) => getPortfolio());
         }),
-        Container(
+        isPortfolioLoading == false ? Container(
           padding: EdgeInsets.all(8),
           height: height(context) * 0.38,
-          child: ListView.builder(
+          child: certificateList != 0 ? ListView.builder(
               itemCount: certificateList?.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
@@ -1500,8 +1532,8 @@ print('nice ${ Preference.getString(
                     ],
                   ),
                 );
-              }),
-        )
+              }) : certificatesListShimmer(0),
+        ): certificatesListShimmer(1)
       ],
     );
   }
@@ -1530,9 +1562,9 @@ print('nice ${ Preference.getString(
                       child: AddExperience()))
               .then((value) => getPortfolio());
         }),
-        Container(
+        isPortfolioLoading == false ? Container(
           padding: EdgeInsets.all(8),
-          child: ListView.builder(
+          child:  experience != 0 ? ListView.builder(
               itemCount: experience?.length,
               shrinkWrap: true,
               physics: ScrollPhysics(),
@@ -1605,14 +1637,13 @@ print('nice ${ Preference.getString(
                     ],
                   ),
                 );
-              }),
-        )
+              }) :experienceListShimmer(0),
+        ) : experienceListShimmer(1)
       ],
     );
   }
 
-  Widget getExtraActivitesWidget(
-      List<CommonProfession>? extraActivities, context) {
+  Widget getExtraActivitesWidget(List<CommonProfession>? extraActivities, context) {
     return Column(
       children: [
         topRow('Extra Curricular Activities', arrowAction: () {
@@ -1632,9 +1663,9 @@ print('nice ${ Preference.getString(
                       child: AddActivities()))
               .then((value) => getPortfolio());
         }),
-        Container(
+        isPortfolioLoading == false ? Container(
           padding: EdgeInsets.symmetric(horizontal: 8),
-          child: ListView.builder(
+          child:  extraActivities != 0 ? ListView.builder(
               itemCount: extraActivities?.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
@@ -1722,8 +1753,8 @@ print('nice ${ Preference.getString(
                     ],
                   ),
                 );
-              }),
-        )
+              }) : extraActivitiesListShimmer(0),
+        ) : extraActivitiesListShimmer(1)
       ],
     );
   }
@@ -1957,26 +1988,23 @@ print('nice ${ Preference.getString(
   }
 
   void handleCompetition(PortfoilioCompetitionState state) {
-
-
-
     var portfolioState = state;
     setState(() async {
       switch (portfolioState.apiState) {
         case ApiStatus.LOADING:
           Log.v("Portfolio Competition Loading....................");
-          isPortfolioLoading = true;
+          isCompetitionLoading = true;
           break;
         case ApiStatus.SUCCESS:
           Log.v("PortfolioState Competition Success....................");
           competition = portfolioState.response;
 
-          isPortfolioLoading = false;
+          isCompetitionLoading = false;
           setState(() {});
           break;
 
         case ApiStatus.ERROR:
-          isPortfolioLoading = false;
+          isCompetitionLoading = false;
           Log.v("PortfolioState Error..........................");
           Log.v(
               "PortfolioState Error..........................${portfolioState.error}");
@@ -2331,4 +2359,414 @@ print('nice ${ Preference.getString(
     );
   }
 
+  ///add new
+  Widget certificatesListShimmer(int listLength) {
+    return listLength == 1
+        ? Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          enabled: true,
+          child: Container(
+            width: MediaQuery.of(context).size.width * 1.0,
+            height: MediaQuery.of(context).size.height * 0.3,
+            color: Colors.grey,
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          enabled: true,
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.7,
+            height: 13,
+            color: Colors.grey,
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Row(
+          children: [
+            Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              enabled: true,
+              child: Container(
+                width: 130,
+                height: 13,
+                color: Colors.grey,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                enabled: true,
+                child: Container(
+                  width: 100,
+                  height: 13,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    )
+        : Container(
+      height: MediaQuery.of(context).size.height * 0.2 - 20,
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset('assets/images/certi_emp.png'),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text('Add your Certificate'),
+          ),
+          //Text('Competitions'),
+        ],
+      ),
+    );
+  }
+
+  Widget experienceListShimmer(var listLength) {
+    return listLength == 1 ?
+    Container(
+      //width: width(context) * 0.3,
+      margin: EdgeInsets.symmetric(
+        horizontal: 8,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                enabled: true,
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    width: width(context) * 0.5,
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      enabled: true,
+                      child: Container(
+                        width: 100,
+                        height: 13,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  SizedBox(
+                    width: width(context) * 0.4,
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      enabled: true,
+                      child: Container(
+                        width: 80,
+                        height: 13,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Shimmer.fromColors(
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
+                        enabled: true,
+                        child: Container(
+                          width: 40,
+                          height: 13,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.grey[300]!,
+                          highlightColor: Colors.grey[100]!,
+                          enabled: true,
+                          child: Container(
+                            width: 100,
+                            height: 13,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              )
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            enabled: true,
+            child: Container(
+              width: width(context) * 0.9,
+              height: 20,
+              color: Colors.grey,
+            ),
+          ),
+        ],
+      ),
+    ):
+    Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height * 0.2 - 20,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          InkWell(
+              onTap: (){
+                print('Add your Education');
+              },
+              child: Image.asset('assets/images/exp_emp.png')),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text('Add your Work Experience'),
+          ),
+          //Text('Competitions'),
+        ],
+      ),
+    );
+  }
+
+  Widget recentActivitiesListShimmer(var listLength) {
+    return listLength == 1
+        ? Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          enabled: true,
+          child: Container(
+            width: MediaQuery.of(context).size.width * 1.0,
+            height: MediaQuery.of(context).size.height * 0.2,
+            color: Colors.grey,
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          enabled: true,
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.7,
+            height: 13,
+            color: Colors.grey,
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          enabled: true,
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.9,
+            height: 13,
+            color: Colors.grey,
+          ),
+        ),
+      ],
+    )
+        : InkWell(
+      onTap: () {
+        print('portfolio List');
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Image.asset(
+              'assets/images/recentactiv_bg.png',
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/recentactiv_emp.png',
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 8.0,
+                  ),
+                  child: Text('You have not done any community activity yet, Explore Community'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget extraActivitiesListShimmer(var listLength) {
+    return listLength == 1 ?
+    Container(
+      //width: width(context) * 0.3,
+      margin: EdgeInsets.symmetric(
+        horizontal: 8,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                enabled: true,
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    width: width(context) * 0.5,
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      enabled: true,
+                      child: Container(
+                        width: 100,
+                        height: 13,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  SizedBox(
+                    width: width(context) * 0.4,
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      enabled: true,
+                      child: Container(
+                        width: 80,
+                        height: 13,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Shimmer.fromColors(
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
+                        enabled: true,
+                        child: Container(
+                          width: 40,
+                          height: 13,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.grey[300]!,
+                          highlightColor: Colors.grey[100]!,
+                          enabled: true,
+                          child: Container(
+                            width: 100,
+                            height: 13,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              )
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            enabled: true,
+            child: Container(
+              width: width(context) * 0.9,
+              height: 20,
+              color: Colors.grey,
+            ),
+          ),
+        ],
+      ),
+    ):
+    Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height * 0.2 - 20,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          InkWell(
+              onTap: (){
+                print('Add your Education');
+              },
+              child: Image.asset('assets/images/extraacti_emp.png')),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text('Add extra curricular activities'),
+          ),
+          //Text('Competitions'),
+        ],
+      ),
+    );
+  }
 }

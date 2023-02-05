@@ -642,7 +642,6 @@ class HomeRepository {
   }
   Future<TopScoringResponse?> topScoringUser({int? userId}) async {
     final response = await homeProvider.topScoringUser(userId: userId);
-
     if (response!.success) {
       Log.v("top scoring response  DATA : ${response.body}");
       TopScoringResponse portfolioResponse =
