@@ -56,6 +56,7 @@ import 'package:masterg/data/models/response/home_response/submit_feedback_resp.
 import 'package:masterg/data/models/response/home_response/survey_data_resp.dart';
 import 'package:masterg/data/models/response/home_response/test_attempt_response.dart';
 import 'package:masterg/data/models/response/home_response/test_review_response.dart';
+import 'package:masterg/data/models/response/home_response/top_score.dart';
 import 'package:masterg/data/models/response/home_response/topics_resp.dart';
 import 'package:masterg/data/models/response/home_response/training_detail_response.dart';
 import 'package:masterg/data/models/response/home_response/training_module_response.dart';
@@ -637,6 +638,19 @@ class HomeRepository {
     } else {
       Log.v("====> ${response.body}");
       return PortfolioCompetitionResponse.fromJson(response.body);
+    }
+  }
+  Future<TopScoringResponse?> topScoringUser({int? userId}) async {
+    final response = await homeProvider.topScoringUser(userId: userId);
+
+    if (response!.success) {
+      Log.v("top scoring response  DATA : ${response.body}");
+      TopScoringResponse portfolioResponse =
+          TopScoringResponse.fromJson(response.body);
+      return portfolioResponse;
+    } else {
+      Log.v("====> ${response.body}");
+      return TopScoringResponse.fromJson(response.body);
     }
   }
 

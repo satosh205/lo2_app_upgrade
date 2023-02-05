@@ -66,6 +66,8 @@ experience = widget.experience;
                 }
             },
             child:Scaffold(
+                  backgroundColor: ColorConstants.WHITE,
+
                appBar: AppBar(
                   title: Text("Experience",
                       style: Styles.bold()),

@@ -11,6 +11,7 @@ import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/data/models/response/home_response/competition_response.dart';
 import 'package:masterg/data/models/response/home_response/new_portfolio_response.dart';
 import 'package:masterg/data/models/response/home_response/portfolio_competition_response.dart';
+import 'package:masterg/data/models/response/home_response/top_score.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/auth_pages/choose_language.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
@@ -57,17 +58,23 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   bool? isPortfolioLoading = true;
   PortfolioResponse? portfolioResponse;
   PortfolioCompetitionResponse? competition;
+  TopScoringResponse? userRank;
 
   @override
   void initState() {
     getPortfolio();
     getPortfolioCompetition();
+    topScoringUser();
 
     super.initState();
   }
 
   void getPortfolio() {
     BlocProvider.of<HomeBloc>(context).add(PortfolioEvent());
+  }
+  void topScoringUser() {
+    BlocProvider.of<HomeBloc>(context).add(TopScoringUserEvent(userId: Preference.getInt(
+              Preference.USER_ID)));
   }
 
   void getPortfolioCompetition() {
@@ -102,6 +109,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
             }
             if (state is PortfoilioCompetitionState) {
               handleCompetition(state);
+            }
+            if(state is TopScoringUserState){
+handletopScoring(state);
             }
           },
           child: Scaffold(
@@ -522,7 +532,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                         ]).createShader(bounds);
                                                   },
                                                   child: Text(
-                                                    '1',
+                                                    '${userRank?.data.first.rank}',
                                                     style:
                                                         Styles.bold(size: 24),
                                                   ),
@@ -530,7 +540,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                               ],
                                             ),
                                             Text(
-                                              'out of 500 Students',
+                                              'out of ${userRank?.data.first.rankOutOf} Students',
                                               style: Styles.regular(
                                                   size: 10,
                                                   color: Color(0xff5A5F73)),
@@ -578,7 +588,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                         ]).createShader(bounds);
                                                   },
                                                   child: Text(
-                                                    '50',
+                                                    '${userRank?.data.first.score}',
                                                     style:
                                                         Styles.bold(size: 24),
                                                   ),
@@ -1083,11 +1093,17 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                             ' • ',
                                                                             style:
                                                                                 Styles.semibold(size: 12, color: Color(0xff929BA3))),
-                                                                        SvgPicture
-                                                                            .asset(
-                                                                          'assets/images/coin.svg',
-                                                                          width:
-                                                                              width(context) * 0.04,
+                                                                        InkWell(
+                                                                          onTap: (){
+print('nice ${ Preference.getString(
+              Preference.FIRST_NAME)}');
+                                                                          },
+                                                                          child: SvgPicture
+                                                                              .asset(
+                                                                            'assets/images/coin.svg',
+                                                                            width:
+                                                                                width(context) * 0.04,
+                                                                          ),
                                                                         ),
                                                                         Text(
                                                                             '${competition?.data[index].gScore ?? 0} Points Earned',
@@ -1911,7 +1927,39 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     });
   }
 
+   void handletopScoring(TopScoringUserState state) {
+    var portfolioState = state;
+    setState(() async {
+      switch (portfolioState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Portfolio Competition Loading....................");
+          isPortfolioLoading = true;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("PortfolioState Competition Success....................");
+          userRank = portfolioState.response;
+
+          isPortfolioLoading = false;
+          setState(() {});
+          break;
+
+        case ApiStatus.ERROR:
+          isPortfolioLoading = false;
+          Log.v("PortfolioState Error..........................");
+          Log.v(
+              "PortfolioState Error..........................${portfolioState.error}");
+
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
+  }
+
   void handleCompetition(PortfoilioCompetitionState state) {
+
+
+
     var portfolioState = state;
     setState(() async {
       switch (portfolioState.apiState) {
