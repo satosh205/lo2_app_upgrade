@@ -369,6 +369,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                       children: [
                         selectedImage != null && selectedImage!.isNotEmpty
                             ? Container(
+                              color: Colors.grey,
                                 height: 100,
                                 width: 100,
                                 decoration: BoxDecoration(
