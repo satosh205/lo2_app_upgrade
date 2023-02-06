@@ -245,7 +245,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                                     },
                                     child: Text('View Leaderboard',
                                         style: Styles.semibold(
-                                          size: 12,
+                                            size: 12,
                                             color: Color(0xff5A5F73))),
                                   ),
                                 ],
@@ -253,7 +253,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                             ),
                           ),
                         ),
-                        Text('Activities',
+                      if(competitionDetailLoading == false && contentList?.data?.list?.length != 0)  Text('Activities',
                             style:
                                 Styles.bold(size: 14, color: Color(0xff0E1638)))
                       ],
@@ -261,36 +261,71 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                   ),
                   if (competitionDetailLoading == false) ...[
                     ListView.builder(
-                     physics: BouncingScrollPhysics(),
+                        physics: BouncingScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: contentList?.data?.list?.length,
                         itemBuilder: (context, index) {
                           return competitionCard(
                               contentList?.data?.list![index],
-                              index == (contentList!.data!.list!.length - 1), isLocked: index != 0);
+                              index == (contentList!.data!.list!.length - 1),
+                              isLocked: index != 0);
                         }),
-
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-
-                              //what's in for you
-                              Text('What’s in for you', style: Styles.bold(size: 14, color: Color(0xff5A5F73)),),
-                              ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: 3,
-                                itemBuilder: (context, int){
-                                return Text('Lorem ipsum dolor sit amet, consectetur adipiscing elit.', style:Styles.regular(color: Color(0xff5A5F73)) ,);
-                              }),
-SizedBox(height: 20,),
-                              Text('Instructions', style: Styles.bold(size: 14, color: Color(0xff5A5F73)),),
-
-                            ],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          //what's in for you
+                          Text(
+                            'What’s in for you',
+                            style:
+                                Styles.bold(size: 14, color: Color(0xff5A5F73)),
                           ),
-                        )
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                            '${contentList?.data?.competitionInstructions?.whatsIn}',
+                            style: Styles.regular(color: Color(0xff5A5F73)),
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+
+                          Text(
+                            'Instructions',
+                            style:
+                                Styles.bold(size: 14, color: Color(0xff5A5F73)),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+
+                          Text(
+                            '${contentList?.data?.competitionInstructions?.instructions}',
+                            style: Styles.regular(color: Color(0xff5A5F73)),
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+
+                          Text(
+                            'FAQs',
+                            style:
+                                Styles.bold(size: 14, color: Color(0xff5A5F73)),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+
+                          Text(
+                            '${contentList?.data?.competitionInstructions?.faq}',
+                            style: Styles.regular(color: Color(0xff5A5F73)),
+                          ),
+                        ],
+                      ),
+                    )
                   ] else
                     ListView.builder(
                         shrinkWrap: true,
@@ -313,17 +348,15 @@ SizedBox(height: 20,),
                               ),
                             )),
                 ],
-
               )),
             )));
   }
 
-  Widget competitionCard(CompetitionContent? data, bool isLast, {bool? isLocked}) {
+  Widget competitionCard(CompetitionContent? data, bool isLast,
+      {bool? isLocked}) {
     CardType? cardType;
-   
 
-    if ( data?.completionPercentage == 100 )
-      isLocked = false;
+    if (data?.completionPercentage == 100) isLocked = false;
     // if (cardType != CardType.session && data?.completionPercentage == 100)
     //   isLocked = false;
 
@@ -653,8 +686,6 @@ SizedBox(height: 20,),
     });
   }
 
-  
-
   void handleTrainingDetailState(TrainingDetailState state) {
     var competitionState = state;
     setState(() {
@@ -705,5 +736,3 @@ SizedBox(height: 20,),
     });
   }
 }
-
-
