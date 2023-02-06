@@ -58,6 +58,7 @@ import '../gcarvaan/comment/comment_view_page.dart';
 import '../reels/reels_dashboard_page.dart';
 import '../training_pages/training_detail_page.dart';
 import '../training_pages/training_service.dart';
+import 'app_drawer_page.dart';
 
 class DashboardPage extends StatefulWidget {
   final fromDashboard;
@@ -69,6 +70,7 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
+  var _scaffoldKey = new GlobalKey<ScaffoldState>();
   List<MProgram>? courseList1;
   Box? box;
   bool? dashboardIsVisibleLoading = true;
@@ -144,163 +146,187 @@ class _DashboardPageState extends State<DashboardPage> {
       "dashboard_carvan_limit": renderCarvaanPageView()
     };
 
-    return Consumer2<VideoPlayerProvider, MenuListProvider>(
-        builder: (context, value, mp, child) => BlocManager(
-              initState: (context) {},
-              child: BlocListener<HomeBloc, HomeState>(
-                listener: (context, state) async {
-                  if (state is CompetitionListState) {
-                    _handlecompetitionListResponse(state);
-                  }
-                  setState(() {
-                    menuProvider = mp;
-                  });
-                },
-                child: SingleChildScrollView(
-                    child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    RoundedAppBar(
-                        appBarHeight: height(context) * 0.16,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.push(context,
-                                          NextPageRoute(NewPortfolioPage()));
-                                    },
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(200),
-                                      child: SizedBox(
-                                        width: 40,
-                                        child: Image.network(
-                                          '${Preference.getString(Preference.PROFILE_IMAGE)}',
-                                          errorBuilder:
-                                              (context, error, stackTrace) =>
-                                                  SvgPicture.asset(
-                                            'assets/images/default_user.svg',
-                                            width: 40,
+    return Scaffold(
+      key: _scaffoldKey,
+      endDrawer: new AppDrawer(),
+      body: Consumer2<VideoPlayerProvider, MenuListProvider>(
+          builder: (context, value, mp, child) => BlocManager(
+                initState: (context) {},
+                child: BlocListener<HomeBloc, HomeState>(
+                  listener: (context, state) async {
+                    if (state is CompetitionListState) {
+                      _handlecompetitionListResponse(state);
+                    }
+                    setState(() {
+                      menuProvider = mp;
+                    });
+                  },
+                  child: SingleChildScrollView(
+                      child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RoundedAppBar(
+                          appBarHeight: height(context) * 0.16,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(height: 5.0,),
+                                    Row(
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.push(context,
+                                                NextPageRoute(NewPortfolioPage()));
+                                          },
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(200),
+                                            child: SizedBox(
+                                              width: 50,
+                                              child: Image.network(
+                                                '${Preference.getString(Preference.PROFILE_IMAGE)}',
+                                                errorBuilder:
+                                                    (context, error, stackTrace) =>
+                                                    SvgPicture.asset(
+                                                      'assets/images/default_user.svg',
+                                                      width: 50,
+                                                    ),
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
+                                        SizedBox(width: 10),
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Text('Welcome',
+                                                style: Styles.regular(
+                                                    color: ColorConstants.WHITE, size: 14)),
+                                            Text(
+                                              '${Preference.getString(Preference.FIRST_NAME)}',
+                                              style: Styles.bold(
+                                                  color: ColorConstants.WHITE, size: 22),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                  SizedBox(width: 10),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text('Welcome',
-                                          style: Styles.regular(
-                                              color: ColorConstants.WHITE, size: 14)),
-                                      Text(
-                                        '${Preference.getString(Preference.FIRST_NAME)}',
-                                        style: Styles.bold(
-                                            color: ColorConstants.WHITE, size: 22),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 15),
-                              Container(
-                                height: 5,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                    color:
-                                        ColorConstants.WHITE.withOpacity(0.2),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Stack(
-                                  children: [
-                                    Container(
-                                      height: 10,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.6 *
-                                          (30 / 100),
-                                      decoration: BoxDecoration(
-                                          color: Color(0xffFFB72F),
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
+                                    Expanded(
+                                      flex: 2,
+                                        child: Align(
+                                          alignment: Alignment.topRight,
+                                          child: InkWell(
+                                            onTap: () {
+                                              _scaffoldKey.currentState?.openEndDrawer();
+                                            },
+                                            child: SizedBox(
+                                                width: 50,
+                                                child: Icon(Icons.settings_sharp, color: Colors.white,)
+                                            ),
+                                          ),
+                                        ),
                                     ),
                                   ],
                                 ),
-                              ),
-                              SizedBox(height: 10),
-                              Text('Profile completed: 30% ',
-                                  style: Styles.semiBoldWhite())
-                            ],
-                          ),
-                        )),
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(
-                    //       horizontal: 8, vertical: 8),
-                    //   child: Column(
-                    //     crossAxisAlignment: CrossAxisAlignment.start,
-                    //     children: [
-                    //       Text(
-                    //         'Welcome',
-                    //         style: Styles.semibold(size: 14),
-                    //       ),
-                    //       Text(
-                    //         '${Preference.getString(Preference.FIRST_NAME)}',
-                    //         style: Styles.bold(size: 28),
-                    //       ),
-                    //       Text(
-                    //         'Begin your learning journey',
-                    //         style: Styles.regular(),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
+                                SizedBox(height: 15),
+                                Container(
+                                  height: 5,
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                      color:
+                                          ColorConstants.WHITE.withOpacity(0.2),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Stack(
+                                    children: [
+                                      Container(
+                                        height: 10,
+                                        width: MediaQuery.of(context).size.width *
+                                            0.6 *
+                                            (30 / 100),
+                                        decoration: BoxDecoration(
+                                            color: Color(0xffFFB72F),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text('Profile completed: 30% ',
+                                    style: Styles.semiBoldWhite())
+                              ],
+                            ),
+                          )),
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(
+                      //       horizontal: 8, vertical: 8),
+                      //   child: Column(
+                      //     crossAxisAlignment: CrossAxisAlignment.start,
+                      //     children: [
+                      //       Text(
+                      //         'Welcome',
+                      //         style: Styles.semibold(size: 14),
+                      //       ),
+                      //       Text(
+                      //         '${Preference.getString(Preference.FIRST_NAME)}',
+                      //         style: Styles.bold(size: 28),
+                      //       ),
+                      //       Text(
+                      //         'Begin your learning journey',
+                      //         style: Styles.regular(),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
 
-                    SizedBox(
-                      height: 10,
-                    ),
-                    futureTrendsList(),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      futureTrendsList(),
 
-                    SizedBox(
-                      height: 10,
-                    ),
-                    featuredJobsInternships(),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      featuredJobsInternships(),
 
-                    /*SizedBox(
-                      height: 10,
-                    ),
-                    skillGapAnalysisWidgets(),*/
+                      /*SizedBox(
+                        height: 10,
+                      ),
+                      skillGapAnalysisWidgets(),*/
 
-                    SizedBox(
-                      height: 20,
-                    ),
-                    competitionsWidgets(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      competitionsWidgets(),
 
-                    SizedBox(
-                      height: 20,
-                    ),
-                    _buildYourPortfolioCard(
-                        ColorConstants.ORANGE,
-                        'Build Your Portfolio',
-                        'Creating a Portfolio helps the recruiters to understand better about your profile and your skills.',
-                        'build_portfolio'),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      _buildYourPortfolioCard(
+                          ColorConstants.ORANGE,
+                          'Build Your Portfolio',
+                          'Creating a Portfolio helps the recruiters to understand better about your profile and your skills.',
+                          'build_portfolio'),
 
-                    SizedBox(
-                      height: 10,
-                    ),
+                      SizedBox(
+                        height: 10,
+                      ),
 
-                    ///API Data
-                    renderWidgets(pages),
-                  ],
-                )),
-              ),
-            ));
+                      ///API Data
+                      renderWidgets(pages),
+                    ],
+                  )),
+                ),
+              )),
+    );
   }
 
   ///Santosh
