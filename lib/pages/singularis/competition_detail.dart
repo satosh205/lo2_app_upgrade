@@ -615,7 +615,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('${data.title}',
+            Text('${data.contentTypeLabel ?? ''}',
                 style: Styles.regular(size: 12, color: ColorConstants.GREY_3)),
             SizedBox(height: 8),
             Text('${data.description}', style: Styles.bold(size: 12)),

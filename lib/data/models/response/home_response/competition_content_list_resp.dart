@@ -115,6 +115,7 @@ class CompetitionContent {
         this.liveclassAction,
         this.liveclassActionTitle,
         this.sessionStartingIn,
+        this.contentTypeLabel
     });
 
     dynamic image;
@@ -177,6 +178,7 @@ class CompetitionContent {
     String? liveclassAction;
     String? liveclassActionTitle;
     double? sessionStartingIn;
+    String? contentTypeLabel;
 
     factory CompetitionContent.fromJson(Map<String, dynamic> json) => CompetitionContent(
         image: json["image"],
@@ -239,6 +241,8 @@ class CompetitionContent {
         liveclassAction: json["liveclass_action"],
         liveclassActionTitle: json["liveclass_action_title"],
         sessionStartingIn: json["session_starting_in"],
+        contentTypeLabel: json["content_type_label"]
+        
     );
 
     Map<String, dynamic> toJson() => {
@@ -302,6 +306,7 @@ class CompetitionContent {
         "liveclass_action": liveclassAction,
         "liveclass_action_title": liveclassActionTitle,
         "session_starting_in": sessionStartingIn,
+        "content_type_label" : contentTypeLabel
     };
 }
 
