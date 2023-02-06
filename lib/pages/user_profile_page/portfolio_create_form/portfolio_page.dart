@@ -359,13 +359,28 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                   top: 40,
                                                   child: InkWell(
                                                     onTap: () {
-                                                if(Preference.getString(Preference.PROFILE_VIDEO) != null && Preference.getString(Preference.PROFILE_VIDEO) != '')        Navigator.push(
-                                                                          context,
-                                                                          NextPageRoute(
-                                                                              UploadProfile(playVideo: true,)));
-                                                                              else   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('No Profile video uploaded'),
-          ));
+                                                      if (Preference.getString(
+                                                                  Preference
+                                                                      .PROFILE_VIDEO) !=
+                                                              null &&
+                                                          Preference.getString(
+                                                                  Preference
+                                                                      .PROFILE_VIDEO) !=
+                                                              '')
+                                                        Navigator.push(
+                                                            context,
+                                                            NextPageRoute(
+                                                                UploadProfile(
+                                                              playVideo: true,
+                                                            )));
+                                                      else
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                                SnackBar(
+                                                          content: Text(
+                                                              'No Profile video uploaded'),
+                                                        ));
                                                     },
                                                     child: Container(
                                                       height: 30.0,
@@ -551,18 +566,19 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
 
                                         InkWell(
                                           onTap: () {
-                                      if(portfolioResponse?.data
-                                                  .portfolioSocial.length != 0)      Navigator.push(
-                                                context,
-                                                NextPageRoute(SocialPage(
-                                                    social: portfolioResponse
-                                                        ?.data
-                                                        .portfolioSocial
-                                                        .first)));
-                                      else      Navigator.push(
-                                                context,
-                                                NextPageRoute(SocialPage(
-                                                   )));
+                                            if (portfolioResponse?.data
+                                                    .portfolioSocial.length !=
+                                                0)
+                                              Navigator.push(
+                                                  context,
+                                                  NextPageRoute(SocialPage(
+                                                      social: portfolioResponse
+                                                          ?.data
+                                                          .portfolioSocial
+                                                          .first)));
+                                            else
+                                              Navigator.push(context,
+                                                  NextPageRoute(SocialPage()));
                                           },
                                           child: SvgPicture.asset(
                                               'assets/images/add_icon_gradient.svg'),
