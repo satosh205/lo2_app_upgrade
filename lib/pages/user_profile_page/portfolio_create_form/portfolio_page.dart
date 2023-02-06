@@ -23,6 +23,7 @@ import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_extra_
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfolio.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/certificate_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/education_list.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/experience_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/extra_activities_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/view_edit_profile_image.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/view_resume.dart';
@@ -89,6 +90,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
             }
           },
           child: Scaffold(
+            backgroundColor: Colors.grey,
               body: SingleChildScrollView(
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,6 +101,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
+
+
                           width: double.infinity,
                           height: MediaQuery.of(context).size.height * 0.3,
                           padding: EdgeInsets.only(top: 8),
@@ -271,6 +275,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                       NextPageRoute(ChangeImage()));*/
                                               },
                                               child: Container(
+
                                                 height: 30.0,
                                                 width: 30.0,
                                                 padding: EdgeInsets.all(2),
@@ -396,30 +401,34 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                         ),
                         
                         Center(
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.95,
-                            height: 60,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                SvgPicture.asset('assets/images/call.svg'),
-                                SizedBox(width: 1),
-                                SvgPicture.asset('assets/images/email.svg'),
-                                VerticalDivider(
-                                  color: Color(0xffECECEC),
-                                  width: 10,
-                                  thickness: 2,
-                                  indent: 10,
-                                  endIndent: 10,
-                                ),
-                                SvgPicture.asset('assets/images/linkedin.svg'),
-                                SvgPicture.asset('assets/images/behance.svg'),
-                                SvgPicture.asset('assets/images/insta.svg'),
-                                SvgPicture.asset('assets/images/dribble.svg'),
-                                SvgPicture.asset('assets/images/pintrest.svg'),
-                                SvgPicture.asset(
-                                    'assets/images/vertical_menu.svg'),
-                              ],
+                          child: Container(
+                            color: Colors.white,
+                            child: SizedBox(
+                              
+                              width: MediaQuery.of(context).size.width * 0.95,
+                              height: 60,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  SvgPicture.asset('assets/images/call.svg'),
+                                  SizedBox(width: 1),
+                                  SvgPicture.asset('assets/images/email.svg'),
+                                  VerticalDivider(
+                                    color: Color(0xffECECEC),
+                                    width: 10,
+                                    thickness: 2,
+                                    indent: 10,
+                                    endIndent: 10,
+                                  ),
+                                  SvgPicture.asset('assets/images/linkedin.svg'),
+                                  SvgPicture.asset('assets/images/behance.svg'),
+                                  SvgPicture.asset('assets/images/insta.svg'),
+                                  SvgPicture.asset('assets/images/dribble.svg'),
+                                  SvgPicture.asset('assets/images/pintrest.svg'),
+                                  SvgPicture.asset(
+                                      'assets/images/vertical_menu.svg'),
+                                ],
+                              ),
                             ),
                           ),
                         )
@@ -430,6 +439,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                         right: 25,
                         top: 170,
                         child: Container(
+
                           height: 100,
                           padding:
                               EdgeInsets.symmetric(vertical: 4, horizontal: 8),
@@ -586,8 +596,10 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                 SizedBox(
                   height: 12,
                 ),
-                dividerLine(),
+                //  dividerLine(),
+                SizedBox(height: 20,),
                 Container(
+color: Colors.white,
                     padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -603,7 +615,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                               Icon(Icons.arrow_forward_ios_rounded)
                             ],
                           ),
-                          Divider(),
+                          // Divider(),
+                          SizedBox(height: 20,),
                           SizedBox(
                             height: height(context) * 0.2,
                             width: width(context),
@@ -1288,7 +1301,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     return Column(
       children: [
         topRow('Experience',arrowAction: (){
-          // Navigator.push(context, NextPageRoute(Experti));
+          Navigator.push(context, NextPageRoute(ExperienceList(experience: [],)));
         } , addAction:  () {
                Navigator.of(context).push( PageRouteBuilder(
     transitionDuration: Duration(milliseconds: 600),
@@ -1325,6 +1338,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
         //       });
          }),
         Container(
+          color: Colors.white,
           padding: EdgeInsets.all(8),
           child: ListView.builder(
               itemCount: experience?.length,
@@ -1436,6 +1450,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
          
         }),
         Container(
+          color: Colors.white,
           padding: EdgeInsets.symmetric(horizontal: 8),
           child: ListView.builder(
               itemCount: extraActivities?.length,

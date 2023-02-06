@@ -102,6 +102,8 @@ dependencies:
   http: ^0.13.5
   material_floating_search_bar: ^0.3.7
   simple_gradient_text: ^1.2.4
+  geocoding: ^2.0.5
+  geolocator: ^9.0.2
 # dependency_overrides: null
 
 dev_dependencies:
