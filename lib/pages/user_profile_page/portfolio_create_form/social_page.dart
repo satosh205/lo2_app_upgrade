@@ -253,7 +253,6 @@ class _SocialPageState extends State<SocialPage> {
                         const SizedBox(
                           height: 15,
                         ),
-                       
                         InkWell(
                           onTap: () {
                             Map<String, dynamic> data = Map();

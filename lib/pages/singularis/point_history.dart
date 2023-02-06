@@ -17,33 +17,36 @@ class _PointHistoryState extends State<PointHistory> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Point History",style: Styles.textBold()),
-        leading: Icon(Icons.arrow_back_ios_new_outlined),
+        elevation: 0.0,
+        backgroundColor: Colors.white,
+        title: Text("Point History",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold)),
+        leading: Icon(Icons.arrow_back_ios_new_outlined,color: Colors.black,),
         
     
       ),
-    body: ListView.builder(
-      itemCount: 5,
-      itemBuilder: (context, index) {
-      return Container(
-        height: height(context)*0.7,
-        width: width(context),
-        child: SingleChildScrollView(
+    body: Container(
+      height: height(context)*0.5,
+      width: width(context),
+      child: ListView.builder(
+        itemCount: 5,
+        itemBuilder: (context, index) {
+        return SingleChildScrollView(
           child: ListTile(
-            leading: SvgPicture.asset('assets/images/coin.svg'),
+            leading: SvgPicture.asset('assets/images/coin.svg',width: 30,),
             title: Text.rich(
         TextSpan(
           text: '20',
-          style: Styles.bold(),
+          style: TextStyle(fontSize: 16,color: Colors.black,fontWeight: FontWeight.bold),
           children: [
             
               TextSpan(
-                text: 'earned from Activity',style: Styles.DMSansregular()
-          )])))));
+                text: '  earned from Activity',style: TextStyle(fontSize: 16,color: Colors.black,fontWeight: FontWeight.w300),
+          )]))));
+          
         
-      
-      
-    })
+        
+      }),
+    )
 
     );
     
