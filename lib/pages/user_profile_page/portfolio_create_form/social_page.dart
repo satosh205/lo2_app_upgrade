@@ -566,6 +566,9 @@ class _SocialPageState extends State<SocialPage> {
 
         case ApiStatus.SUCCESS:
           Log.v("Success Add Social....................");
+           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Contact and Social Updated'),
+          ));
           isAddPortfolioLoading = false;
           break;
         case ApiStatus.ERROR:
