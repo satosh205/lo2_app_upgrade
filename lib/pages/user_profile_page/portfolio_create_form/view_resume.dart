@@ -95,7 +95,7 @@ class _ViewResumeState extends State<ViewResume> {
                           result = await FilePicker.platform.pickFiles(
                               allowMultiple: false,
                               type: FileType.media,
-                              allowedExtensions: []);
+                              allowedExtensions: ['pdf']);
                         } else {
                           result = await FilePicker.platform.pickFiles(
                               allowMultiple: false,
