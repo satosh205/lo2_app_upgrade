@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -44,7 +46,11 @@ import 'package:masterg/utils/resource/colors.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
+
+import '../../../utils/utility.dart';
 
 class NewPortfolioPage extends StatefulWidget {
   const NewPortfolioPage({super.key});
@@ -60,6 +66,12 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   PortfolioResponse? portfolioResponse;
   PortfolioCompetitionResponse? competition;
   TopScoringResponse? userRank;
+  File? pickedFile;
+  List<File> pickedList = [];
+  ImageFormat _format = ImageFormat.JPEG;
+  int _quality = 10;
+  String? _tempDir;
+  String? filePath;
 
   @override
   void initState() {
@@ -275,10 +287,9 @@ handletopScoring(state);
                                                                             size:
                                                                                 14),
                                                                       ),
-                                                                      onTap:
-                                                                          () {
-                                                                        Navigator.pop(
-                                                                            context);
+                                                                      onTap: () {
+                                                                        _initFilePiker();
+                                                                        Navigator.pop(context);
                                                                       },
                                                                     ),
                                                                   ],
@@ -2769,4 +2780,49 @@ print('nice ${ Preference.getString(
       ),
     );
   }
+
+
+  void _initFilePiker() async {
+    FilePickerResult? result;
+    if (await Permission.storage.request().isGranted) {
+      if (Platform.isIOS) {
+        result = await FilePicker.platform.pickFiles(
+            allowMultiple: false,
+            type: FileType.video,
+            allowedExtensions: []);
+      } else {
+        result = await FilePicker.platform.pickFiles(
+            allowMultiple: false,
+            type: FileType.video,
+            //allowedExtensions: ['mp4']
+        );
+      }
+
+      if (result != null) {
+        if (File(result.paths[0]!).lengthSync() / 1000000 > 50.0) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content:
+            Text('${Strings.of(context)?.imageVideoSizeLarge} 50MB'),
+          ));
+        } else {
+          pickedList.add(File(result.paths[0]!));
+        }
+        pickedFile = pickedList.first;
+        print('pickedFile ==== ${pickedFile}');
+
+        if (result.paths.toString().contains('mp4')) {
+          final thumbnail = await VideoThumbnail.thumbnailFile(
+              video: result.paths[0].toString(),
+              thumbnailPath: _tempDir,
+              imageFormat: _format,
+              quality: _quality);
+          setState(() {
+            final file = File(thumbnail!);
+            filePath = file.path;
+          });
+        }
+      }
+    }
+  }
+
 }
