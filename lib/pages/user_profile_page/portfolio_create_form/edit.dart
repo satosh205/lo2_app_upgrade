@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/location.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
 import 'package:masterg/utils/constant.dart';
 
@@ -90,7 +91,11 @@ class _EditScreenState extends State<EditScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    SvgPicture.asset('assets/images/location.svg'),
+                    InkWell(
+                      onTap: (() {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>LocationPage()));
+                      }),
+                      child: SvgPicture.asset('assets/images/location.svg')),
                     SizedBox(width: 10,),
                     
                     GradientText(child: Text("Use current location",style: TextStyle(fontSize: 12),))
