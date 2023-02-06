@@ -252,35 +252,35 @@ class _SocialPageState extends State<SocialPage> {
                         //   ),
                         // ),
                         customField(
-                            imgPath: 'assets/images/web.svg',
+                            imgPath: 'assets/images/google.png',
                             hintText: 'Enter your website',
                             controller: siteController),
                         customField(
-                            imgPath: 'assets/images/linkedin.svg',
+                            imgPath: 'assets/images/linkedin.png',
                             hintText: 'linkedin/',
                             controller: linkedinController),
                         customField(
-                            imgPath: 'assets/images/behance.svg',
+                            imgPath: 'assets/images/behance.png',
                             hintText: 'behance.net/',
                             controller: behanceController),
                         customField(
-                            imgPath: 'assets/images/dribble.svg',
+                            imgPath: 'assets/images/dribble.png',
                             hintText: 'dribbble.net/',
                             controller: dribbleController),
                         customField(
-                            imgPath: 'assets/images/instagram.svg',
+                            imgPath: 'assets/images/instagram.png',
                             hintText: 'instgram.com/',
                             controller: instaController),
                         customField(
-                            imgPath: 'assets/images/facebook.svg',
+                            imgPath: 'assets/images/facebook.png',
                             hintText: 'facebook.com/',
                             controller: fbController),
                         customField(
-                            imgPath: 'assets/images/twitter.svg',
+                            imgPath: 'assets/images/twitter.png',
                             hintText: 'twitter.com/',
                             controller: twitterController),
                         customField(
-                            imgPath: 'assets/images/pintrest.svg',
+                            imgPath: 'assets/images/pinterest.png',
                             hintText: 'pintrest.com/',
                             controller: pintrestController),
                         const SizedBox(
@@ -532,12 +532,17 @@ class _SocialPageState extends State<SocialPage> {
               borderSide: BorderSide(width: 1, color: Color(0xffE5E5E5)),
               borderRadius: BorderRadius.circular(10)),
           prefixIcon: SizedBox(
-            width: 30,
+            width: 40,
             height: 1,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                SvgPicture.asset(imgPath),
+                Padding(
+                  padding: const EdgeInsets.only(left:3.0),
+                  child: Image.asset(imgPath,),
+                ),
+                // SvgPicture.asset(imgPath),
+
                 VerticalDivider(
                   thickness: 1,
                   color: Color(0xffE5E5E5),
