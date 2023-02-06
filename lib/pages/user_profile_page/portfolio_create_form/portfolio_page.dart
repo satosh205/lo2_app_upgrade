@@ -359,10 +359,13 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                   top: 40,
                                                   child: InkWell(
                                                     onTap: () {
-                                                      // showBottomSheet(context);
-                                                      /*Navigator.push(
-                                      context,
-                                      NextPageRoute(ChangeImage()));*/
+                                                if(Preference.getString(Preference.PROFILE_VIDEO) != null && Preference.getString(Preference.PROFILE_VIDEO) != '')        Navigator.push(
+                                                                          context,
+                                                                          NextPageRoute(
+                                                                              UploadProfile(playVideo: true,)));
+                                                                              else   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('No Profile video uploaded'),
+          ));
                                                     },
                                                     child: Container(
                                                       height: 30.0,

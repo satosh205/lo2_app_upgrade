@@ -28,7 +28,8 @@ import 'package:video_thumbnail/video_thumbnail.dart';
 
 class UploadProfile extends StatefulWidget {
   final bool? editVideo;
-  const UploadProfile({Key? key, this.editVideo = true,  }) : super(key: key);
+  final bool? playVideo;
+  const UploadProfile({Key? key, this.editVideo = true,  this.playVideo = false }) : super(key: key);
 
   @override
   State<UploadProfile> createState() => _UploadProfileState();
@@ -51,7 +52,7 @@ class _UploadProfileState extends State<UploadProfile> {
    super.initState();
   }
   void initVideo()async{
-    if(widget.editVideo == true){
+    if(widget.editVideo == true|| widget.playVideo == true){
   // controller = VideoPlayerController.network('${Preference.getString(Preference.PROFILE_VIDEO)}')..addListener(() {
   //     setState(() {
       
@@ -97,14 +98,14 @@ class _UploadProfileState extends State<UploadProfile> {
         
             children: [
               // Text('${Preference.getString(Preference.PROFILE_VIDEO)}'),
-              if(widget.editVideo == true )...[
+              if(widget.editVideo == true  || widget.playVideo == true)...[
                 Preference.getString(Preference.PROFILE_VIDEO) != null && Preference.getString(Preference.PROFILE_VIDEO) != "" ?  SizedBox(
                   height: height(context) * 0.8,
                   width: width(context),
                   child: VideoPlayer(controller)) : SizedBox(),
         
                 Spacer(),
-                                                          Container(
+                                       if(widget.playVideo == false)                   Container(
                     padding: EdgeInsets.zero,
         color: ColorConstants.BLACK,
                     width: width(context),
