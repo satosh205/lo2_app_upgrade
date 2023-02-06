@@ -66,16 +66,13 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   PortfolioResponse? portfolioResponse;
   PortfolioCompetitionResponse? competition;
   TopScoringResponse? userRank;
-<<<<<<< HEAD
   double dividerMarginTop = 12.0;
-=======
   File? pickedFile;
   List<File> pickedList = [];
   ImageFormat _format = ImageFormat.JPEG;
   int _quality = 10;
   String? _tempDir;
   String? filePath;
->>>>>>> d15b5426f46343e688c5f2fbd7e5f43ebca2b9d5
 
   @override
   void initState() {
@@ -293,8 +290,12 @@ handletopScoring(state);
                                                                                 14),
                                                                       ),
                                                                       onTap: () {
-                                                                        _initFilePiker();
-                                                                        Navigator.pop(context);
+                                                                        // _initFilePiker();
+                                                                        // Navigator.pop(context);
+
+                                                                          Navigator.push(
+                                                                            context,
+                                                                            NextPageRoute(UploadProfile(editVideo: true)));
                                                                       },
                                                                     ),
                                                                   ],
