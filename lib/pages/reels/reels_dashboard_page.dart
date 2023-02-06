@@ -366,7 +366,6 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
   @override
   void dispose() {
     _videoController!.dispose();
-
     super.dispose();
   }
 
