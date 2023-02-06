@@ -245,7 +245,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                                     },
                                     child: Text('View Leaderboard',
                                         style: Styles.semibold(
-                                          size: 12,
+                                            size: 12,
                                             color: Color(0xff5A5F73))),
                                   ),
                                 ],
@@ -253,7 +253,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                             ),
                           ),
                         ),
-                        Text('Activities',
+                      if(competitionDetailLoading == false && contentList?.data?.list?.length != 0)  Text('Activities',
                             style:
                                 Styles.bold(size: 14, color: Color(0xff0E1638)))
                       ],
@@ -261,14 +261,71 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                   ),
                   if (competitionDetailLoading == false) ...[
                     ListView.builder(
-                     physics: BouncingScrollPhysics(),
+                        physics: BouncingScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: contentList?.data?.list?.length,
                         itemBuilder: (context, index) {
                           return competitionCard(
                               contentList?.data?.list![index],
-                              index == (contentList!.data!.list!.length - 1));
-                        })
+                              index == (contentList!.data!.list!.length - 1),
+                              isLocked: index != 0);
+                        }),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          //what's in for you
+                          Text(
+                            'What’s in for you',
+                            style:
+                                Styles.bold(size: 14, color: Color(0xff5A5F73)),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                            '${contentList?.data?.competitionInstructions?.whatsIn}',
+                            style: Styles.regular(color: Color(0xff5A5F73)),
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+
+                          Text(
+                            'Instructions',
+                            style:
+                                Styles.bold(size: 14, color: Color(0xff5A5F73)),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+
+                          Text(
+                            '${contentList?.data?.competitionInstructions?.instructions}',
+                            style: Styles.regular(color: Color(0xff5A5F73)),
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+
+                          Text(
+                            'FAQs',
+                            style:
+                                Styles.bold(size: 14, color: Color(0xff5A5F73)),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+
+                          Text(
+                            '${contentList?.data?.competitionInstructions?.faq}',
+                            style: Styles.regular(color: Color(0xff5A5F73)),
+                          ),
+                        ],
+                      ),
+                    )
                   ] else
                     ListView.builder(
                         shrinkWrap: true,
@@ -295,12 +352,13 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
             )));
   }
 
-  Widget competitionCard(CompetitionContent? data, bool isLast) {
+  Widget competitionCard(CompetitionContent? data, bool isLast,
+      {bool? isLocked}) {
     CardType? cardType;
-    bool? isLocked = true;
 
-    if (cardType != CardType.session && data?.completionPercentage == 100)
-      isLocked = false;
+    if (data?.completionPercentage == 100) isLocked = false;
+    // if (cardType != CardType.session && data?.completionPercentage == 100)
+    //   isLocked = false;
 
     switch (data?.contentType) {
       case "video":
@@ -320,7 +378,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
         break;
       case "zoomclass":
         cardType = CardType.session;
-        isLocked = false;
+        // isLocked = false;
         break;
     }
     return Container(
@@ -335,7 +393,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgPicture.asset(
-                    isLocked
+                    isLocked == true
                         ? 'assets/images/lock_content.svg'
                         : 'assets/images/circular_border.svg',
                     width: 18,
@@ -557,7 +615,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('${data.title}',
+            Text('${data.contentTypeLabel ?? ''}',
                 style: Styles.regular(size: 12, color: ColorConstants.GREY_3)),
             SizedBox(height: 8),
             Text('${data.description}', style: Styles.bold(size: 12)),

@@ -35,16 +35,21 @@ class CompetitionContentListResponse {
 class Data {
     Data({
         this.list,
+        this.competitionInstructions,
     });
 
     List<CompetitionContent?>? list;
+    CompetitionInstructions? competitionInstructions;
+    
 
     factory Data.fromJson(Map<String, dynamic> json) => Data(
         list: json["list"] == null ? [] : List<CompetitionContent?>.from(json["list"]!.map((x) => CompetitionContent.fromJson(x))),
+        competitionInstructions: CompetitionInstructions.fromJson(json["competition_instructions"]),
     );
 
     Map<String, dynamic> toJson() => {
         "list": list == null ? [] : List<dynamic>.from(list!.map((x) => x!.toJson())),
+        "competition_instructions": competitionInstructions?.toJson(),
     };
 }
 
@@ -110,6 +115,7 @@ class CompetitionContent {
         this.liveclassAction,
         this.liveclassActionTitle,
         this.sessionStartingIn,
+        this.contentTypeLabel
     });
 
     dynamic image;
@@ -171,7 +177,8 @@ class CompetitionContent {
     String? presenter;
     String? liveclassAction;
     String? liveclassActionTitle;
-    String? sessionStartingIn;
+    double? sessionStartingIn;
+    String? contentTypeLabel;
 
     factory CompetitionContent.fromJson(Map<String, dynamic> json) => CompetitionContent(
         image: json["image"],
@@ -234,6 +241,8 @@ class CompetitionContent {
         liveclassAction: json["liveclass_action"],
         liveclassActionTitle: json["liveclass_action_title"],
         sessionStartingIn: json["session_starting_in"],
+        contentTypeLabel: json["content_type_label"]
+        
     );
 
     Map<String, dynamic> toJson() => {
@@ -297,5 +306,30 @@ class CompetitionContent {
         "liveclass_action": liveclassAction,
         "liveclass_action_title": liveclassActionTitle,
         "session_starting_in": sessionStartingIn,
+        "content_type_label" : contentTypeLabel
+    };
+}
+
+class CompetitionInstructions {
+    CompetitionInstructions({
+        this.whatsIn,
+        this.instructions,
+        this.faq,
+    });
+
+    String? whatsIn;
+    String? instructions;
+    String? faq;
+
+    factory CompetitionInstructions.fromJson(Map<String, dynamic> json) => CompetitionInstructions(
+        whatsIn: json["whats_in"],
+        instructions: json["instructions"],
+        faq: json["faq"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "whats_in": whatsIn,
+        "instructions": instructions,
+        "faq": faq,
     };
 }
