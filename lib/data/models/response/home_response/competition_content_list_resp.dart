@@ -171,7 +171,7 @@ class CompetitionContent {
     String? presenter;
     String? liveclassAction;
     String? liveclassActionTitle;
-    String? sessionStartingIn;
+    double? sessionStartingIn;
 
     factory CompetitionContent.fromJson(Map<String, dynamic> json) => CompetitionContent(
         image: json["image"],
