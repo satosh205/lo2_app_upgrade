@@ -45,7 +45,7 @@ class Datum {
     String name;
     String email;
     String profileImage;
-    int score;
+    dynamic score;
     int rank;
     int rankOutOf;
 

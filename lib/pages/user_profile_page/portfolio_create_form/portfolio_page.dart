@@ -1922,26 +1922,26 @@ print('nice ${ Preference.getString(
           isPortfolioLoading = true;
           break;
         case ApiStatus.SUCCESS:
-          Log.v("PortfolioState Success....................");
+        
           portfolioResponse = portfolioState.response;
-          Preference.setString(
+        Preference.setString(
               Preference.FIRST_NAME, '${portfolioState.response?.data.name}');
           Preference.setString(Preference.PROFILE_IMAGE,
               '${portfolioState.response?.data.image}');
           Preference.setString(Preference.PROFILE_VIDEO,
               '${portfolioState.response?.data.profileVideo}');
 
-          Preference.setString(Preference.PROFILE_VIDEO,
-              '${portfolioState.response?.data.profileVideo}');
-
-          Preference.setString(Preference.ABOUT_ME,
+      if(portfolioState.response?.data.portfolioProfile.isNotEmpty==true)    {
+        Preference.setString(Preference.ABOUT_ME,
               '${portfolioState.response?.data.portfolioProfile.first.aboutMe}');
 
           Preference.setString(Preference.USER_HEADLINE,
               '${portfolioState.response?.data.portfolioProfile.first.headline}');
           Preference.setString(Preference.LOCATION,
               '${portfolioState.response?.data.portfolioProfile.first.city}, ${portfolioState.response?.data.portfolioProfile.first.country}');
+      }
           isPortfolioLoading = false;
+            Log.v("PortfolioState Success....................");
           setState(() {});
           break;
 
@@ -1968,7 +1968,12 @@ print('nice ${ Preference.getString(
           break;
         case ApiStatus.SUCCESS:
           Log.v("PortfolioState Competition Success....................");
+         
           userRank = portfolioState.response;
+              Preference.setString(
+              Preference.FIRST_NAME, '${userRank?.data.first.name}');
+                 Preference.setString(Preference.PROFILE_IMAGE,
+              '${userRank?.data.first.profileImage}');
 
           isPortfolioLoading = false;
           setState(() {});
