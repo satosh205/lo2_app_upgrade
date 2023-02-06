@@ -74,7 +74,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   String? _tempDir;
   String? filePath;
 
-
   @override
   void initState() {
     getPortfolio();
@@ -291,8 +290,12 @@ handletopScoring(state);
                                                                                 14),
                                                                       ),
                                                                       onTap: () {
-                                                                        _initFilePiker();
-                                                                        Navigator.pop(context);
+                                                                        // _initFilePiker();
+                                                                        // Navigator.pop(context);
+
+                                                                          Navigator.push(
+                                                                            context,
+                                                                            NextPageRoute(UploadProfile(editVideo: true)));
                                                                       },
                                                                     ),
                                                                   ],
@@ -809,10 +812,9 @@ handletopScoring(state);
                                       //     ],
                                       //   ),
                                       ),
-
-                                  dividerLine(),
                                   Container(
-                                    color: ColorConstants.WHITE,
+    // margin: EdgeInsets.only(top: dividerMarginTop),
+                                                color: ColorConstants.WHITE,
                                     child: Row(
                                       children: [
                                         Text(
@@ -1414,13 +1416,9 @@ print('nice ${ Preference.getString(
                             extraActivitiesListShimmer(1),
                           ],*/
 
-                        dividerLine(),
                         getCertificateWidget(portfolioResponse?.data.certificate, context),
-                        dividerLine(),
                         getExperience(portfolioResponse?.data.experience, context),
-                        dividerLine(),
                         getRecentActivites(),
-                        dividerLine(),
                         getExtraActivitesWidget(portfolioResponse?.data.extraActivities, context),  
                         
                         ],
@@ -1432,29 +1430,26 @@ print('nice ${ Preference.getString(
   //portfolioResponse?.data.education.length == 0
 
   Widget getRecentActivites() {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        children: [
-          topRow('Recent Activites',
-              addAction: () {}, arrowAction: () {}, showAddButton: false),
-          isPortfolioLoading == false ? SizedBox(
-            height: height(context) * 0.5,
-            child: ListView(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              children: [
-                postCard(
-                    imageUrl:
-                        'https://images.unsplash.com/photo-1674708059513-5f77494844db?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1M3x8fGVufDB8fHx8&auto=format&fit=crop&w=900&q=60'),
-                postCard(
-                    imageUrl:
-                        'https://images.unsplash.com/photo-1661961110372-8a7682543120?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80')
-              ],
-            ),
-          ):recentActivitiesListShimmer(1),
-        ],
-      ),
+    return Column(
+      children: [
+        topRow('Recent Activites',
+            addAction: () {}, arrowAction: () {}, showAddButton: false),
+        isPortfolioLoading == false ? SizedBox(
+          height: height(context) * 0.5,
+          child: ListView(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            children: [
+              postCard(
+                  imageUrl:
+                      'https://images.unsplash.com/photo-1674708059513-5f77494844db?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1M3x8fGVufDB8fHx8&auto=format&fit=crop&w=900&q=60'),
+              postCard(
+                  imageUrl:
+                      'https://images.unsplash.com/photo-1661961110372-8a7682543120?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80')
+            ],
+          ),
+        ):recentActivitiesListShimmer(1),
+      ],
     );
   }
 
@@ -1511,304 +1506,296 @@ print('nice ${ Preference.getString(
   }
 
   Widget getCertificateWidget(List<CommonProfession>? certificateList, context) {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        children: [
-          topRow('Certificates', arrowAction: () {
-            Navigator.push(
-                context,
-                NextPageRoute(CertificateList(
-                    baseUrl: '${portfolioResponse?.data.baseFileUrl}',
-                    certificates: certificateList)));
-          }, addAction: () async {
-            await Navigator.push(
-                    context,
-                    PageTransition(
-                        duration: Duration(milliseconds: 600),
-                        reverseDuration: Duration(milliseconds: 600),
-                        type: PageTransitionType.bottomToTop,
-                        child: AddCertificate()))
-                .then((value) => getPortfolio());
-          }),
-          isPortfolioLoading == false ? Container(
-            padding: EdgeInsets.all(8),
-            height:certificateList?.length != 0 ? height(context) * 0.38 : height(context) * 0.15,
-            child: certificateList?.length != 0 ? ListView.builder(
-                itemCount: certificateList?.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  print('object === ${certificateList?.length}');
+    return Column(
+      children: [
+        topRow('Certificates', arrowAction: () {
+          Navigator.push(
+              context,
+              NextPageRoute(CertificateList(
+                  baseUrl: '${portfolioResponse?.data.baseFileUrl}',
+                  certificates: certificateList)));
+        }, addAction: () async {
+          await Navigator.push(
+                  context,
+                  PageTransition(
+                      duration: Duration(milliseconds: 600),
+                      reverseDuration: Duration(milliseconds: 600),
+                      type: PageTransitionType.bottomToTop,
+                      child: AddCertificate()))
+              .then((value) => getPortfolio());
+        }),
+        isPortfolioLoading == false ? Container(
+          padding: EdgeInsets.all(8),
+          height: height(context) * 0.38,
+          child: certificateList != 0 ? ListView.builder(
+              itemCount: certificateList?.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                String startDateString =
+                    "${portfolioResponse?.data.certificate[index].startDate}";
 
-                  String startDateString = "${portfolioResponse?.data.certificate[index].startDate}";
-
-                  DateTime startDate = DateFormat("yyy-MM-dd").parse(startDateString);
-                  return Container(
-                    margin: EdgeInsets.only(right: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
+                DateTime startDate =
+                    DateFormat("yyy-MM-dd").parse(startDateString);
+                return Container(
+                  margin: EdgeInsets.only(right: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: width(context) * 0.7,
+                        height: width(context) * 0.45,
+                        child: CachedNetworkImage(
                           width: width(context) * 0.7,
                           height: width(context) * 0.45,
-                          child: CachedNetworkImage(
-                            width: width(context) * 0.7,
-                            height: width(context) * 0.45,
-                            imageUrl: '${portfolioResponse?.data.baseFileUrl}${certificateList?[index].imageName}',
-                            errorWidget: (context, url, data) => Image.asset(
-                              "assets/images/certificate_dummy.png",
-                              fit: BoxFit.cover,
-                            ),
+                          imageUrl:
+                              '${portfolioResponse?.data.baseFileUrl}${certificateList?[index].imageName}',
+                          errorWidget: (context, url, data) => Image.asset(
+                            "assets/images/certificate_dummy.png",
+                            fit: BoxFit.cover,
                           ),
                         ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text('${certificateList?[index].title}',
-                            style: Styles.bold(size: 18)),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          '${listOfMonths[startDate.month - 1]} ${startDate.day}',
-                          // '${certificateList?[index].startDate ?? 'Sep 21'}',
-                          style: Styles.regular(),
-                        ),
-                      ],
-                    ),
-                  );
-                }) : certificatesListShimmer(0),
-          ): certificatesListShimmer(1)
-        ],
-      ),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text('${certificateList?[index].title}',
+                          style: Styles.bold(size: 18)),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        '${listOfMonths[startDate.month - 1]} ${startDate.day}',
+                        // '${certificateList?[index].startDate ?? 'Sep 21'}',
+                        style: Styles.regular(),
+                      ),
+                    ],
+                  ),
+                );
+              }) : certificatesListShimmer(0),
+        ): certificatesListShimmer(1)
+      ],
     );
   }
 
   Widget getExperience(List<CommonProfession>? experience, context) {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        children: [
-          topRow('Experience', arrowAction: () {
-            Navigator.push(
-                    context,
-                    PageTransition(
-                        duration: Duration(milliseconds: 600),
-                        reverseDuration: Duration(milliseconds: 600),
-                        type: PageTransitionType.bottomToTop,
-                        child: ExperienceList(
-                            baseUrl: portfolioResponse?.data.baseFileUrl,
-                            experience: experience)))
-                .then((value) => getPortfolio());
-          }, addAction: () {
-            Navigator.push(
-                    context,
-                    PageTransition(
-                        duration: Duration(milliseconds: 600),
-                        reverseDuration: Duration(milliseconds: 600),
-                        type: PageTransitionType.bottomToTop,
-                        child: AddExperience()))
-                .then((value) => getPortfolio());
-          }),
-          isPortfolioLoading == false ? Container(
-            padding: EdgeInsets.all(8),
-            child:  experience?.length != 0 ? ListView.builder(
-                itemCount: experience?.length,
-                shrinkWrap: true,
-                physics: ScrollPhysics(),
-                itemBuilder: (context, index) {
-                  String startDateString = "${experience?[index].startDate}";
-                  String endDateString = "${experience?[index].endDate}";
-                  DateTime startDate =
-                      DateFormat("yyy-MM-dd").parse(startDateString);
-                  DateTime endDate =
-                      DateFormat("yyy-MM-dd").parse(endDateString);
-                  return Container(
-                    margin: EdgeInsets.only(right: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: width(context) * 0.3,
-                              height: height(context) * 0.1,
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                    '${portfolioResponse?.data.baseFileUrl}${experience?[index].imageName}',
-                                errorWidget: (context, url, data) => Image.asset(
-                                  "assets/images/certificate_dummy.png",
-                                  fit: BoxFit.cover,
+    return Column(
+      children: [
+        topRow('Experience', arrowAction: () {
+          Navigator.push(
+                  context,
+                  PageTransition(
+                      duration: Duration(milliseconds: 600),
+                      reverseDuration: Duration(milliseconds: 600),
+                      type: PageTransitionType.bottomToTop,
+                      child: ExperienceList(
+                          baseUrl: portfolioResponse?.data.baseFileUrl,
+                          experience: experience)))
+              .then((value) => getPortfolio());
+        }, addAction: () {
+          Navigator.push(
+                  context,
+                  PageTransition(
+                      duration: Duration(milliseconds: 600),
+                      reverseDuration: Duration(milliseconds: 600),
+                      type: PageTransitionType.bottomToTop,
+                      child: AddExperience()))
+              .then((value) => getPortfolio());
+        }),
+        isPortfolioLoading == false ? Container(
+          padding: EdgeInsets.all(8),
+          child:  experience != 0 ? ListView.builder(
+              itemCount: experience?.length,
+              shrinkWrap: true,
+              physics: ScrollPhysics(),
+              itemBuilder: (context, index) {
+                String startDateString = "${experience?[index].startDate}";
+                String endDateString = "${experience?[index].endDate}";
+                DateTime startDate =
+                    DateFormat("yyy-MM-dd").parse(startDateString);
+                DateTime endDate =
+                    DateFormat("yyy-MM-dd").parse(endDateString);
+                return Container(
+                  margin: EdgeInsets.only(right: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: width(context) * 0.3,
+                            height: height(context) * 0.1,
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  '${portfolioResponse?.data.baseFileUrl}${experience?[index].imageName}',
+                              errorWidget: (context, url, data) => Image.asset(
+                                "assets/images/certificate_dummy.png",
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          SizedBox(
+                            width: width(context) * 0.6,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${experience?[index].title}',
+                                  style: Styles.bold(),
                                 ),
-                              ),
+                                Text(
+                                  '${experience?[index].institute}',
+                                  style: Styles.regular(),
+                                ),
+                                Text(
+                                  '${experience?[index].employmentType} • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${startDate.day} ${listOfMonths[startDate.month - 1].substring(0, 3)} - ${endDate.day} ${listOfMonths[endDate.month - 1].substring(0, 3)}',
+                                  style: Styles.regular(size: 14),
+                                )
+                              ],
                             ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            SizedBox(
-                              width: width(context) * 0.6,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '${experience?[index].title}',
-                                    style: Styles.bold(),
-                                  ),
-                                  Text(
-                                    '${experience?[index].institute}',
-                                    style: Styles.regular(),
-                                  ),
-                                  Text(
-                                    '${experience?[index].employmentType} • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${startDate.day} ${listOfMonths[startDate.month - 1].substring(0, 3)} - ${endDate.day} ${listOfMonths[endDate.month - 1].substring(0, 3)}',
-                                    style: Styles.regular(size: 14),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        ReadMoreText(
-                          text: '${experience?[index].description}',
-                          color: ColorConstants.GREY_3,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          child: Divider(),
-                        )
-                      ],
-                    ),
-                  );
-                }) :experienceListShimmer(0),
-          ) : experienceListShimmer(1)
-        ],
-      ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      ReadMoreText(
+                        text: '${experience?[index].description}',
+                        color: ColorConstants.GREY_3,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: Divider(),
+                      )
+                    ],
+                  ),
+                );
+              }) :experienceListShimmer(0),
+        ) : experienceListShimmer(1)
+      ],
     );
   }
 
   Widget getExtraActivitesWidget(List<CommonProfession>? extraActivities, context) {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        children: [
-          topRow('Extra Curricular Activities', arrowAction: () {
-            Navigator.push(
-                context,
-                NextPageRoute(ExtraActivitiesList(
-                  baseUrl: '${portfolioResponse?.data.baseFileUrl}',
-                  activities: extraActivities!,
-                )));
-          }, addAction: () {
-            Navigator.push(
-                    context,
-                    PageTransition(
-                        duration: Duration(milliseconds: 600),
-                        reverseDuration: Duration(milliseconds: 600),
-                        type: PageTransitionType.bottomToTop,
-                        child: AddActivities()))
-                .then((value) => getPortfolio());
-          }),
-          isPortfolioLoading == false ? Container(
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            child:  extraActivities?.length != 0 ? ListView.builder(
-                itemCount: extraActivities?.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  String startDateString = "${extraActivities?[index].startDate}";
+    return Column(
+      children: [
+        topRow('Extra Curricular Activities', arrowAction: () {
+          Navigator.push(
+              context,
+              NextPageRoute(ExtraActivitiesList(
+                baseUrl: '${portfolioResponse?.data.baseFileUrl}',
+                activities: extraActivities!,
+              )));
+        }, addAction: () {
+          Navigator.push(
+                  context,
+                  PageTransition(
+                      duration: Duration(milliseconds: 600),
+                      reverseDuration: Duration(milliseconds: 600),
+                      type: PageTransitionType.bottomToTop,
+                      child: AddActivities()))
+              .then((value) => getPortfolio());
+        }),
+        isPortfolioLoading == false ? Container(
+          padding: EdgeInsets.symmetric(horizontal: 8),
+          child:  extraActivities != 0 ? ListView.builder(
+              itemCount: extraActivities?.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                String startDateString = "${extraActivities?[index].startDate}";
 
-                  DateTime startDate =
-                      DateFormat("yyy-MM-dd").parse(startDateString);
+                DateTime startDate =
+                    DateFormat("yyy-MM-dd").parse(startDateString);
 
-                  return Container(
-                    margin: EdgeInsets.only(right: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: width(context) * 0.2,
-                              height: width(context) * 0.2,
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                    "${portfolioResponse?.data.baseFileUrl}${extraActivities?[index].imageName}",
-                                progressIndicatorBuilder:
-                                    (context, url, downloadProgress) =>
-                                        CircularProgressIndicator(
-                                            value: downloadProgress.progress),
-                                errorWidget: (context, url, error) => Container(
-                                    width: width(context) * 0.2,
-                                    height: width(context) * 0.2,
-                                    padding: EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                        color: ColorConstants.DIVIDER,
-                                        borderRadius: BorderRadius.circular(8)),
-                                    child: SvgPicture.asset(
-                                        'assets/images/extra.svg')),
-                              ),
+                return Container(
+                  margin: EdgeInsets.only(right: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: width(context) * 0.2,
+                            height: width(context) * 0.2,
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  "${portfolioResponse?.data.baseFileUrl}${extraActivities?[index].imageName}",
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) =>
+                                      CircularProgressIndicator(
+                                          value: downloadProgress.progress),
+                              errorWidget: (context, url, error) => Container(
+                                  width: width(context) * 0.2,
+                                  height: width(context) * 0.2,
+                                  padding: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                      color: ColorConstants.DIVIDER,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: SvgPicture.asset(
+                                      'assets/images/extra.svg')),
                             ),
-                            SizedBox(width: 6),
-                            SizedBox(
-                              width: width(context) * 0.7,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '${extraActivities?[index].title}',
-                                    style: Styles.bold(size: 16),
-                                  ),
-                                  SizedBox(
-                                    height: 4,
-                                  ),
-                                  Text(
-                                    '${extraActivities?[index].institute}',
-                                    style: Styles.regular(size: 14),
-                                  ),
-                                  SizedBox(
-                                    height: 4,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                          '${extraActivities?[index].curricularType} • '),
-                                      Text(
-                                        '  ${startDate.day} ${listOfMonths[startDate.month - 1]} ',
-                                        style: Styles.regular(size: 14),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        ReadMoreText(
-                          viewMore: 'View more',
-                          text: '${extraActivities?[index].description}',
-                          color: Color(0xff929BA3),
-                        ),
-                        if (index != extraActivities?.length) Divider()
-                      ],
-                    ),
-                  );
-                }) : extraActivitiesListShimmer(0),
-          ) : extraActivitiesListShimmer(1)
-        ],
-      ),
+                          ),
+                          SizedBox(width: 6),
+                          SizedBox(
+                            width: width(context) * 0.7,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${extraActivities?[index].title}',
+                                  style: Styles.bold(size: 16),
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Text(
+                                  '${extraActivities?[index].institute}',
+                                  style: Styles.regular(size: 14),
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                        '${extraActivities?[index].curricularType} • '),
+                                    Text(
+                                      '  ${startDate.day} ${listOfMonths[startDate.month - 1]} ',
+                                      style: Styles.regular(size: 14),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      ReadMoreText(
+                        viewMore: 'View more',
+                        text: '${extraActivities?[index].description}',
+                        color: Color(0xff929BA3),
+                      ),
+                      if (index != extraActivities?.length) Divider()
+                    ],
+                  ),
+                );
+              }) : extraActivitiesListShimmer(0),
+        ) : extraActivitiesListShimmer(1)
+      ],
     );
   }
 
@@ -2396,7 +2383,6 @@ print('nice ${ Preference.getString(
       ),
     ):
     Container(
-      color: Colors.white,
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.2 - 20,
       child: Column(
@@ -2480,7 +2466,6 @@ print('nice ${ Preference.getString(
       ],
     )
         : Container(
-      color: Colors.white,
       height: MediaQuery.of(context).size.height * 0.2 - 20,
       width: MediaQuery.of(context).size.width,
       child: Column(
@@ -2605,7 +2590,6 @@ print('nice ${ Preference.getString(
       ),
     ):
     Container(
-      color: Colors.white,
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.2 - 20,
       child: Column(
@@ -2675,7 +2659,6 @@ print('nice ${ Preference.getString(
         print('portfolio List');
       },
       child: Container(
-        color: Colors.white,
         width: MediaQuery.of(context).size.width,
         child: Stack(
           alignment: Alignment.center,
@@ -2811,7 +2794,6 @@ print('nice ${ Preference.getString(
       ),
     ):
     Container(
-      color: Colors.white,
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.2 - 20,
       child: Column(
