@@ -946,7 +946,7 @@ handletopScoring(state);
                                                                             );
                                                                           },
                                                                           imageUrl:
-                                                                              '${portfolioResponse?.data.baseFileUrl}${portfolioResponse?.data.portfolio[index].imageName}',
+                                                                              '${portfolioResponse?.data.baseFileUrl ?? ""}${portfolioResponse?.data.portfolio[index].imageName}',
                                                                           width:
                                                                               MediaQuery.of(context).size.width * 0.8,
                                                                           height:
@@ -1264,7 +1264,7 @@ print('nice ${ Preference.getString(
                                                       BorderRadius.circular(8),
                                                   child: CachedNetworkImage(
                                                     imageUrl:
-                                                        '${portfolioResponse?.data.baseFileUrl}${portfolioResponse?.data.education[index].imageName}',
+                                                        '${portfolioResponse?.data.baseFileUrl ?? ""}${portfolioResponse?.data.education[index].imageName}',
                                                     height: width(context) * 0.3,
                                                     width: width(context) * 0.3,
                                                     fit: BoxFit.cover,
@@ -1417,9 +1417,13 @@ print('nice ${ Preference.getString(
                             extraActivitiesListShimmer(1),
                           ],*/
 
+                        dividerLine(),
                         getCertificateWidget(portfolioResponse?.data.certificate, context),
+                        dividerLine(),
                         getExperience(portfolioResponse?.data.experience, context),
+                        dividerLine(),
                         getRecentActivites(),
+                        dividerLine(),
                         getExtraActivitesWidget(portfolioResponse?.data.extraActivities, context),  
                         
                         ],
@@ -1529,7 +1533,8 @@ print('nice ${ Preference.getString(
           }),
           isPortfolioLoading == false ? Container(
             padding: EdgeInsets.all(8),
-            height: height(context) * 0.38,
+            height: certificateList?.length != 0 ? height(context) * 0.38
+            : height(context) * 0.15,
             child: certificateList?.length != 0 ? ListView.builder(
                 itemCount: certificateList?.length,
                 scrollDirection: Axis.horizontal,
@@ -1552,7 +1557,7 @@ print('nice ${ Preference.getString(
                             width: width(context) * 0.7,
                             height: width(context) * 0.45,
                             imageUrl:
-                                '${portfolioResponse?.data.baseFileUrl}${certificateList?[index].imageName}',
+                                '${portfolioResponse?.data.baseFileUrl ?? ""}${certificateList?[index].imageName}',
                             errorWidget: (context, url, data) => Image.asset(
                               "assets/images/certificate_dummy.png",
                               fit: BoxFit.cover,
@@ -1636,7 +1641,7 @@ print('nice ${ Preference.getString(
                               height: height(context) * 0.1,
                               child: CachedNetworkImage(
                                 imageUrl:
-                                    '${portfolioResponse?.data.baseFileUrl}${experience?[index].imageName}',
+                                    '${portfolioResponse?.data.baseFileUrl ?? ""}${experience?[index].imageName}',
                                 errorWidget: (context, url, data) => Image.asset(
                                   "assets/images/certificate_dummy.png",
                                   fit: BoxFit.cover,
@@ -1738,7 +1743,7 @@ print('nice ${ Preference.getString(
                               height: width(context) * 0.2,
                               child: CachedNetworkImage(
                                 imageUrl:
-                                    "${portfolioResponse?.data.baseFileUrl}${extraActivities?[index].imageName}",
+                                    "${portfolioResponse?.data.baseFileUrl ?? ""}${extraActivities?[index].imageName}",
                                 progressIndicatorBuilder:
                                     (context, url, downloadProgress) =>
                                         CircularProgressIndicator(
@@ -2393,6 +2398,7 @@ print('nice ${ Preference.getString(
       ),
     ):
     Container(
+      color: Colors.white,
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.2 - 20,
       child: Column(
