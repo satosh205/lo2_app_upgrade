@@ -293,293 +293,196 @@ handletopScoring(state);
                                                                         // _initFilePiker();
                                                                         // Navigator.pop(context);
 
-                                                                          Navigator.push(
-                                                                            context,
-                                                                            NextPageRoute(UploadProfile(editVideo: true)));
-                                                                      },
-                                                                    ),
-                                                                  ],
-                                                                ),
+                                                                      Navigator.push(
+                                                                          context,
+                                                                          NextPageRoute(
+                                                                              UploadProfile(editVideo: true)));
+                                                                    },
+                                                                  ),
+                                                                ],
                                                               ),
-                                                            );
-                                                          });
-                                                    },
-                                                    child: ClipOval(
-                                                      child: CachedNetworkImage(
-                                                        imageUrl:
-                                                            '${Preference.getString(Preference.PROFILE_IMAGE)}',
-                                                        filterQuality:
-                                                            FilterQuality.low,
-                                                        width: 70,
-                                                        height: 70,
-                                                        fit: BoxFit.cover,
-                                                      ),
+                                                            ),
+                                                          );
+                                                        });
+                                                  },
+                                                  child: ClipOval(
+                                                    child: CachedNetworkImage(
+                                                      imageUrl:
+                                                          '${Preference.getString(Preference.PROFILE_IMAGE)}',
+                                                      filterQuality:
+                                                          FilterQuality.low,
+                                                      width: 70,
+                                                      height: 70,
+                                                      fit: BoxFit.cover,
                                                     ),
                                                   ),
-                                                  Positioned(
-                                                    left: 40,
-                                                    top: 40,
-                                                    child: InkWell(
-                                                      onTap: () {
-                                                        // showBottomSheet(context);
-                                                        /*Navigator.push(
+                                                ),
+                                                Positioned(
+                                                  left: 40,
+                                                  top: 40,
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      // showBottomSheet(context);
+                                                      /*Navigator.push(
                                       context,
                                       NextPageRoute(ChangeImage()));*/
-                                                      },
-                                                      child: Container(
-                                                        height: 30.0,
-                                                        width: 30.0,
-                                                        padding:
-                                                            EdgeInsets.all(2),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      100),
-                                                          border: Border.all(
-                                                              width: 0,
-                                                              color: Colors
-                                                                  .transparent),
-                                                          color:
-                                                              Color(0xfffc7804),
-                                                        ),
-                                                        child: SvgPicture.asset(
-                                                            'assets/images/profile_play.svg'),
+                                                    },
+                                                    child: Container(
+                                                      height: 30.0,
+                                                      width: 30.0,
+                                                      padding:
+                                                          EdgeInsets.all(2),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(100),
+                                                        border: Border.all(
+                                                            width: 0,
+                                                            color: Colors
+                                                                .transparent),
+                                                        color:
+                                                            Color(0xfffc7804),
                                                       ),
+                                                      child: SvgPicture.asset(
+                                                          'assets/images/profile_play.svg'),
                                                     ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.6,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                      '${Preference.getString(Preference.FIRST_NAME)}',
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      softWrap: false,
+                                                      style: Styles.bold(
+                                                          size: 18,
+                                                          color: ColorConstants
+                                                              .WHITE)),
+                                                  Text(
+                                                      Preference.getString(
+                                                                  Preference
+                                                                      .USER_HEADLINE) !=
+                                                              null
+                                                          ? '${Preference.getString(Preference.USER_HEADLINE)}'
+                                                          : "",
+                                                      style: Styles.regular(
+                                                          size: 12,
+                                                          color: ColorConstants
+                                                              .WHITE)),
+                                                  SizedBox(height: 4),
+                                                  Row(
+                                                    children: [
+                                                      Preference.getString(
+                                                                  Preference
+                                                                      .LOCATION) !=
+                                                              null
+                                                          ? SvgPicture.asset(
+                                                              'assets/images/person_location.svg')
+                                                          : SizedBox(),
+                                                      Preference.getString(
+                                                                  Preference
+                                                                      .LOCATION) !=
+                                                              null
+                                                          ? Text(
+                                                              '${Preference.getString(Preference.LOCATION)}',
+                                                              style: Styles.regular(
+                                                                  size: 12,
+                                                                  color:
+                                                                      ColorConstants
+                                                                          .WHITE))
+                                                          : SizedBox(),
+                                                      Spacer(),
+                                                      SizedBox(
+                                                          width: 18,
+                                                          child:
+                                                              Transform.scale(
+                                                                  scale: 1.2,
+                                                                  child:
+                                                                      InkWell(
+                                                                    onTap:
+                                                                        () async {
+                                                                      await showModalBottomSheet(
+                                                                          backgroundColor: ColorConstants
+                                                                              .WHITE,
+                                                                          shape: RoundedRectangleBorder(
+                                                                              borderRadius: BorderRadius.circular(
+                                                                                  20)),
+                                                                          context:
+                                                                              context,
+                                                                          enableDrag:
+                                                                              true,
+                                                                          isScrollControlled:
+                                                                              true,
+                                                                          builder:
+                                                                              (context) {
+                                                                            return FractionallySizedBox(
+                                                                              heightFactor: 0.7,
+                                                                              child: Container(height: height(context), color: ColorConstants.WHITE, padding: const EdgeInsets.all(8.0), margin: const EdgeInsets.only(top: 10), child: EditProfilePage()),
+                                                                            );
+                                                                          }).then((value) => getPortfolio());
+                                                                    },
+                                                                    child: SvgPicture
+                                                                        .asset(
+                                                                            'assets/images/edit.svg'),
+                                                                  )))
+                                                    ],
                                                   ),
                                                 ],
                                               ),
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.6,
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                        '${Preference.getString(Preference.FIRST_NAME)}',
-                                                        maxLines: 2,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        softWrap: false,
-                                                        style: Styles.bold(
-                                                            size: 18,
-                                                            color:
-                                                                ColorConstants
-                                                                    .WHITE)),
-                                                    Text(
-                                                        Preference.getString(Preference.USER_HEADLINE) != null ?
-                                                        '${Preference.getString(Preference.USER_HEADLINE)}' : "",
-                                                        style: Styles.regular(
-                                                            size: 12,
-                                                            color:
-                                                                ColorConstants
-                                                                    .WHITE)),
-                                                    SizedBox(height: 4),
-                                                     Row(
-                                                      children: [
-                                                        Preference.getString(Preference.LOCATION) != null ?
-                                                        SvgPicture.asset(
-                                                            'assets/images/person_location.svg'):SizedBox(),
-                                                        Preference.getString(Preference.LOCATION) != null ? Text(
-                                                            '${Preference.getString(Preference.LOCATION)}',
-                                                            style: Styles.regular(
-                                                                size: 12,
-                                                                color:
-                                                                    ColorConstants
-                                                                        .WHITE)) : SizedBox(),
-                                                        Spacer(),
-                                                        SizedBox(
-                                                            width: 18,
-                                                            child:
-                                                                Transform.scale(
-                                                                    scale: 1.2,
-                                                                    child:
-                                                                        InkWell(
-                                                                      onTap:
-                                                                          () async {
-                                                                        await showModalBottomSheet(
-                                                                            backgroundColor:
-                                                                                ColorConstants.WHITE,
-                                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                                                                            context: context,
-                                                                            enableDrag: true,
-                                                                            isScrollControlled: true,
-                                                                            builder: (context) {
-                                                                              return FractionallySizedBox(
-                                                                                heightFactor: 0.7,
-                                                                                child: Container(height: height(context), color: ColorConstants.WHITE, padding: const EdgeInsets.all(8.0), margin: const EdgeInsets.only(top: 10), child: EditProfilePage()),
-                                                                              );
-                                                                            }).then((value) => getPortfolio());
-                                                                      },
-                                                                      child: SvgPicture
-                                                                          .asset(
-                                                                              'assets/images/edit.svg'),
-                                                                    )))
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ]),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  color: ColorConstants.WHITE,
-                                  height: 50,
-                                ),
-                                Preference.getString(Preference.ABOUT_ME) != null ? Container(
-                                                color: ColorConstants.WHITE,
-
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      '${Preference.getString(Preference.ABOUT_ME)}',
-                                      style: Styles.regular(
-                                          size: 12, color: Color(0xff5A5F73)),
-                                    ),
-                                  ),
-                                ):SizedBox(),
-                                Container(
-                                                color: ColorConstants.WHITE,
-
-                                  child: Center(
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context, NextPageRoute(SocialPage(social:portfolioResponse?.data.portfolioSocial.first)));
-                                      },
-                                      child: SizedBox(
-                                        width: MediaQuery.of(context).size.width *
-                                            0.95,
-                                        height: 60,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            SvgPicture.asset(
-                                                'assets/images/call.svg'),
-                                            SizedBox(width: 8),
-                                            SvgPicture.asset(
-                                                'assets/images/email.svg'),
-                                            SizedBox(width: 8),
-                                            VerticalDivider(
-                                              color: Color(0xffECECEC),
-                                              width: 10,
-                                              thickness: 2,
-                                              indent: 10,
-                                              endIndent: 10,
                                             ),
-                                            SizedBox(width: 8),
-                                            SvgPicture.asset(
-                                                'assets/images/linkedin.svg'),
-                                            SizedBox(width: 8),
-                                            SvgPicture.asset(
-                                                'assets/images/behance.svg'),
-                                            SizedBox(width: 8),
-                                            SvgPicture.asset(
-                                                'assets/images/insta.svg'),
-                                            SizedBox(width: 8),
-                                            SvgPicture.asset(
-                                                'assets/images/dribble.svg'),
-                                            SizedBox(width: 8),
-                                            SvgPicture.asset(
-                                                'assets/images/pintrest.svg'),
-                                            SvgPicture.asset(
-                                                'assets/images/vertical_menu.svg'),
-                                          ],
+                                          ]),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                color: ColorConstants.WHITE,
+                                height: 50,
+                              ),
+                              Preference.getString(Preference.ABOUT_ME) != null
+                                  ? Container(
+                                      color: ColorConstants.WHITE,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          '${Preference.getString(Preference.ABOUT_ME)}',
+                                          style: Styles.regular(
+                                              size: 12,
+                                              color: Color(0xff5A5F73)),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Positioned(
-                                left: 25,
-                                right: 25,
-                                top: 170,
-                                child: Container(
-                                  height: 100,
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 4, horizontal: 8),
-                                  decoration: BoxDecoration(
-                                      color: ColorConstants.WHITE,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Color(0xff898989)
-                                                .withOpacity(0.1),
-                                            offset: Offset(0, 4.0),
-                                            blurRadius: 11)
-                                      ],
-                                      borderRadius: BorderRadius.circular(20)),
-                                  child: Center(
+                                    )
+                                  : SizedBox(),
+                              Container(
+                                color: ColorConstants.WHITE,
+                                child: Center(
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.95,
+                                    height: 60,
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
                                       children: [
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              'Rank',
-                                              style: Styles.regular(size: 12),
-                                            ),
-                                            Row(
-                                              children: [
-                                                SizedBox(
-                                                    height: 30,
-                                                    child: SvgPicture.asset(
-                                                        'assets/images/leaderboard.svg')),
-                                                // SizedBox(width: 2),
-                                                ShaderMask(
-                                                  blendMode: BlendMode.srcIn,
-                                                  shaderCallback:
-                                                      (Rect bounds) {
-                                                    return LinearGradient(
-                                                        begin: Alignment
-                                                            .centerLeft,
-                                                        end: Alignment
-                                                            .centerRight,
-                                                        colors: <Color>[
-                                                          Color(0xfffc7804),
-                                                          ColorConstants
-                                                              .GRADIENT_RED
-                                                        ]).createShader(bounds);
-                                                  },
-                                                  child: Text(
-                                                    userRank?.data.first.rank !=null ? '${userRank?.data.first.rank}':
-                                                    '0',
-                                                    style:
-                                                        Styles.bold(size: 24),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                            Text(
-                                              userRank?.data.first.rank !=null ?
-                                              'out of ${userRank?.data.first.rankOutOf} Students':
-                                              'out of 0 Students',
-                                              style: Styles.regular(
-                                                  size: 10,
-                                                  color: Color(0xff5A5F73)),
-                                            )
-                                          ],
-                                        ),
-                                        SizedBox(width: 20),
+                                        SvgPicture.asset(
+                                            'assets/images/call.svg'),
+                                        SizedBox(width: 14),
+                                        SvgPicture.asset(
+                                            'assets/images/email.svg'),
+                                        SizedBox(width: 14),
                                         VerticalDivider(
                                           color: Color(0xffECECEC),
                                           width: 10,
@@ -587,65 +490,191 @@ handletopScoring(state);
                                           indent: 10,
                                           endIndent: 10,
                                         ),
-                                        SizedBox(width: 20),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              'Points',
-                                              style: Styles.regular(size: 12),
-                                            ),
-                                            Row(
-                                              children: [
-                                                SizedBox(
-                                                    height: 30,
-                                                    child: SvgPicture.asset(
-                                                        'assets/images/coin.svg')),
-                                                ShaderMask(
-                                                  blendMode: BlendMode.srcIn,
-                                                  shaderCallback:
-                                                      (Rect bounds) {
-                                                    return LinearGradient(
-                                                        begin: Alignment
-                                                            .centerLeft,
-                                                        end: Alignment
-                                                            .centerRight,
-                                                        colors: <Color>[
-                                                          Color(0xfffc7804),
-                                                          ColorConstants
-                                                              .GRADIENT_RED
-                                                        ]).createShader(bounds);
-                                                  },
-                                                  child: Text(
-                                                    userRank?.data.first.score !=null ?
-                                                    '${userRank?.data.first.score}':'0',
-                                                    style:
-                                                        Styles.bold(size: 24),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
+                                        SizedBox(width: 14),
+                                        SvgPicture.asset(
+                                            'assets/images/linkedin.svg'),
+                                        SizedBox(width: 14),
+                                        SvgPicture.asset(
+                                            'assets/images/behance.svg'),
+                                        SizedBox(width: 14),
+                                        SvgPicture.asset(
+                                            'assets/images/insta.svg'),
+                                        SizedBox(width: 14),
+                                        SvgPicture.asset(
+                                            'assets/images/dribble.svg'),
+                                        SizedBox(width: 14),
+                                        SvgPicture.asset(
+                                            'assets/images/pintrest.svg'),
+                                        // SvgPicture.asset(
+                                        //     'assets/images/vertical_menu.svg'),
+                                        SizedBox(width: 14),
 
-                                            Text(
-                                              'gained from 5 activities',
-                                              style: Styles.regular(
-                                                  size: 10,
-                                                  color: Color(0xff5A5F73)),
-                                            ),
-                                          ],
+                                        InkWell(
+                                          onTap: () {
+                                      if(portfolioResponse?.data
+                                                  .portfolioSocial.length != 0)      Navigator.push(
+                                                context,
+                                                NextPageRoute(SocialPage(
+                                                    social: portfolioResponse
+                                                        ?.data
+                                                        .portfolioSocial
+                                                        .first)));
+                                      else      Navigator.push(
+                                                context,
+                                                NextPageRoute(SocialPage(
+                                                   )));
+                                          },
+                                          child: SvgPicture.asset(
+                                              'assets/images/add_icon_gradient.svg'),
                                         ),
                                       ],
                                     ),
                                   ),
-                                ))
-                          ],
-                        ),
-                        // Container(
-                        //                         color: ColorConstants.WHITE,
-                        //                         width: width(context),
+                                ),
+                              )
+                            ],
+                          ),
+                          Positioned(
+                              left: 25,
+                              right: 25,
+                              top: 170,
+                              child: Container(
+                                height: 100,
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 4, horizontal: 8),
+                                decoration: BoxDecoration(
+                                    color: ColorConstants.WHITE,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Color(0xff898989)
+                                              .withOpacity(0.1),
+                                          offset: Offset(0, 4.0),
+                                          blurRadius: 11)
+                                    ],
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Rank',
+                                            style: Styles.regular(size: 12),
+                                          ),
+                                          Row(
+                                            children: [
+                                              SizedBox(
+                                                  height: 30,
+                                                  child: SvgPicture.asset(
+                                                      'assets/images/leaderboard.svg')),
+                                              // SizedBox(width: 2),
+                                              ShaderMask(
+                                                blendMode: BlendMode.srcIn,
+                                                shaderCallback: (Rect bounds) {
+                                                  return LinearGradient(
+                                                      begin:
+                                                          Alignment.centerLeft,
+                                                      end:
+                                                          Alignment.centerRight,
+                                                      colors: <Color>[
+                                                        Color(0xfffc7804),
+                                                        ColorConstants
+                                                            .GRADIENT_RED
+                                                      ]).createShader(bounds);
+                                                },
+                                                child: Text(
+                                                  userRank?.data.first.rank !=
+                                                          null
+                                                      ? '${userRank?.data.first.rank}'
+                                                      : '0',
+                                                  style: Styles.bold(size: 24),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          Text(
+                                            userRank?.data.first.rank != null
+                                                ? 'out of ${userRank?.data.first.rankOutOf} Students'
+                                                : 'out of 0 Students',
+                                            style: Styles.regular(
+                                                size: 10,
+                                                color: Color(0xff5A5F73)),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(width: 20),
+                                      VerticalDivider(
+                                        color: Color(0xffECECEC),
+                                        width: 10,
+                                        thickness: 2,
+                                        indent: 10,
+                                        endIndent: 10,
+                                      ),
+                                      SizedBox(width: 20),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Points',
+                                            style: Styles.regular(size: 12),
+                                          ),
+                                          Row(
+                                            children: [
+                                              SizedBox(
+                                                  height: 30,
+                                                  child: SvgPicture.asset(
+                                                      'assets/images/coin.svg')),
+                                              ShaderMask(
+                                                blendMode: BlendMode.srcIn,
+                                                shaderCallback: (Rect bounds) {
+                                                  return LinearGradient(
+                                                      begin:
+                                                          Alignment.centerLeft,
+                                                      end:
+                                                          Alignment.centerRight,
+                                                      colors: <Color>[
+                                                        Color(0xfffc7804),
+                                                        ColorConstants
+                                                            .GRADIENT_RED
+                                                      ]).createShader(bounds);
+                                                },
+                                                child: Text(
+                                                  userRank?.data.first.score !=
+                                                          null
+                                                      ? '${userRank?.data.first.score}'
+                                                      : '0',
+                                                  style: Styles.bold(size: 24),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          Text(
+                                            'gained from 5 activities',
+                                            style: Styles.regular(
+                                                size: 10,
+                                                color: Color(0xff5A5F73)),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ))
+                        ],
+                      ),
+                      // Container(
+                      //                         color: ColorConstants.WHITE,
+                      //                         width: width(context),
 
                         //   child: Center(
                         //     child: SizedBox(
@@ -705,7 +734,7 @@ handletopScoring(state);
                             ),
                           ),
                         ),
-                        
+
                         Container(
                           margin: EdgeInsets.only(top: dividerMarginTop),
                                                 color: ColorConstants.WHITE,
@@ -1424,8 +1453,8 @@ print('nice ${ Preference.getString(
                         dividerLine(),
                         getRecentActivites(),
                         dividerLine(),
-                        getExtraActivitesWidget(portfolioResponse?.data.extraActivities, context),  
-                        
+                        getExtraActivitesWidget(portfolioResponse?.data.extraActivities, context),
+
                         ],
                       //]
                   )))),
@@ -1977,7 +2006,7 @@ print('nice ${ Preference.getString(
           isPortfolioLoading = true;
           break;
         case ApiStatus.SUCCESS:
-        
+
           portfolioResponse = portfolioState.response;
         Preference.setString(
               Preference.FIRST_NAME, '${portfolioState.response?.data.name}');
@@ -2023,7 +2052,7 @@ print('nice ${ Preference.getString(
           break;
         case ApiStatus.SUCCESS:
           Log.v("PortfolioState Competition Success....................");
-         
+
           userRank = portfolioState.response;
               Preference.setString(
               Preference.FIRST_NAME, '${userRank?.data.first.name}');
