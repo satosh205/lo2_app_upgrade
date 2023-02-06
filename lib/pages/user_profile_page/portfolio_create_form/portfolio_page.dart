@@ -1546,11 +1546,15 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                             extraActivitiesListShimmer(1),
                           ],*/
 
+                      dividerLine(),
                       getCertificateWidget(
                           portfolioResponse?.data.certificate, context),
+                      dividerLine(),
                       getExperience(
                           portfolioResponse?.data.experience, context),
+                      dividerLine(),
                       getRecentActivites(),
+                      dividerLine(),
                       getExtraActivitesWidget(
                           portfolioResponse?.data.extraActivities, context),
                     ],
@@ -1562,28 +1566,31 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   //portfolioResponse?.data.education.length == 0
 
   Widget getRecentActivites() {
-    return Column(
-      children: [
-        topRow('Recent Activites',
-            addAction: () {}, arrowAction: () {}, showAddButton: false),
-        isPortfolioLoading == false
-            ? SizedBox(
-                height: height(context) * 0.5,
-                child: ListView(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    postCard(
-                        imageUrl:
-                            'https://images.unsplash.com/photo-1674708059513-5f77494844db?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1M3x8fGVufDB8fHx8&auto=format&fit=crop&w=900&q=60'),
-                    postCard(
-                        imageUrl:
-                            'https://images.unsplash.com/photo-1661961110372-8a7682543120?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80')
-                  ],
-                ),
-              )
-            : recentActivitiesListShimmer(1),
-      ],
+    return Container(
+      color: Colors.white,
+      child: Column(
+        children: [
+          topRow('Recent Activites',
+              addAction: () {}, arrowAction: () {}, showAddButton: false),
+          isPortfolioLoading == false
+              ? SizedBox(
+                  height: height(context) * 0.5,
+                  child: ListView(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      postCard(
+                          imageUrl:
+                              'https://images.unsplash.com/photo-1674708059513-5f77494844db?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1M3x8fGVufDB8fHx8&auto=format&fit=crop&w=900&q=60'),
+                      postCard(
+                          imageUrl:
+                              'https://images.unsplash.com/photo-1661961110372-8a7682543120?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80')
+                    ],
+                  ),
+                )
+              : recentActivitiesListShimmer(1),
+        ],
+      ),
     );
   }
 
@@ -1664,7 +1671,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
           isPortfolioLoading == false
               ? Container(
                   padding: EdgeInsets.all(8),
-                  height: height(context) * 0.38,
+                  height: certificateList?.length != 0 ?
+                  height(context) * 0.38 : height(context) * 0.15,
                   child: certificateList?.length != 0
                       ? ListView.builder(
                           itemCount: certificateList?.length,
@@ -2560,6 +2568,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
             ),
           )
         : Container(
+      color: Colors.white,
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 0.2 - 20,
             child: Column(
