@@ -144,4 +144,7 @@ class ApiConstants {
   static const  ADD_PORTFOLIO_PROFILE = '/api/add_portfolio_profile';
   static const  ADD_RESUME = '/api/addResume';
   static const  UPDATE_PROFILE = '/api/portfolio_image_upload';
+  static const  ADD_SOCIAL = '/api/addPortfolioSocial';
+  static const  GET_PORTFOLIO_COMPETITION = '/api/competition-list-portfolio';
+  static const  TOP_SCORING_USER = '/api/top-scoring-users';
 }

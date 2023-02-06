@@ -32,7 +32,7 @@ import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:masterg/pages/user_profile_page/portfolio_page.dart';
 import '../training_pages/new_screen/courses_details_page.dart';
 import 'my_classes.dart';
 
@@ -502,73 +502,90 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
 
   Widget _customAppBar() {
     return RoundedAppBar(
-        appBarHeight: height(context) * 0.16,
+        appBarHeight: height(context) * 0.1,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+                mainAxisAlignment:
+                MainAxisAlignment.start,
+                crossAxisAlignment:
+                CrossAxisAlignment.start,
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(200),
-                    child: SizedBox(
-                      width: 40,
-                      child: Image.network(
-                          '${Preference.getString(
-                              Preference.PROFILE_IMAGE)}'),
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
+                    crossAxisAlignment:
+                    CrossAxisAlignment.center,
+                    mainAxisAlignment:
+                    MainAxisAlignment.start,
                     children: [
-                     
-                      Text(
-                        '${Preference.getString(
-                            Preference.FIRST_NAME)}',
-                        style: Styles.bold(color: ColorConstants.WHITE),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      Portfolio()));
+                        },
+                        child: ClipRRect(
+                          borderRadius:
+                          BorderRadius.circular(
+                              200),
+                          child: SizedBox(
+                            width: 40,
+                            child: Image.network(
+                                '${Preference.getString(Preference.PROFILE_IMAGE)}'),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment:
+                        CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 5,
+                            width:
+                            MediaQuery.of(context)
+                                .size
+                                .width *
+                                0.5,
+                            decoration: BoxDecoration(
+                                color: ColorConstants
+                                    .WHITE
+                                    .withOpacity(0.2),
+                                borderRadius:
+                                BorderRadius
+                                    .circular(10)),
+                            child: Stack(
+                              children: [
+                                Container(
+                                  height: 10,
+                                  width: MediaQuery.of(
+                                      context)
+                                      .size
+                                      .width *
+                                      0.6 *
+                                      (30 / 100),
+                                  decoration: BoxDecoration(
+                                      color: Color(
+                                          0xffFFB72F),
+                                      borderRadius:
+                                      BorderRadius
+                                          .circular(
+                                          10)),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                              'Profile completed: 30% ',
+                              style: Styles
+                                  .semiBoldWhite())
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
-              SizedBox(height: 10),
-              Container(
-                height: 8,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width,
-                decoration: BoxDecoration(
-                    color: ColorConstants.WHITE.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Stack(
-                  children: [
-                    Container(
-                      height: 10,
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width *
-                          0.6 *
-                          (30 / 100),
-                      decoration: BoxDecoration(
-                          color: Color(0xffFFB72F),
-                          borderRadius: BorderRadius.circular(10)),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 10),
-              Text('Profile completed: 30% ',
-                  style: Styles.semiBoldWhite())
-            ],
-          ),
-        ));
+                ])));
   }
 
   Widget _getTodayClass() {

@@ -61,6 +61,7 @@ import '../training_pages/training_service.dart';
 
 class DashboardPage extends StatefulWidget {
   final fromDashboard;
+
   const DashboardPage({Key? key, this.fromDashboard}) : super(key: key);
 
   @override
@@ -76,6 +77,7 @@ class _DashboardPageState extends State<DashboardPage> {
   DashboardContentResponse? dashboardContentResponse;
   List<DashboardFeaturedContentLimit>? featuredContentList;
   List<DashboardRecommendedCoursesLimit>? recommendedCourseList;
+
   //List<DashboardLimit>? reelsList;
   List<DashboardReelsLimit>? reelsList;
   List<DashboardCarvanLimit>? carvaanList;
@@ -86,9 +88,9 @@ class _DashboardPageState extends State<DashboardPage> {
   MenuListProvider? menuProvider;
   late int selectedPage;
   late final PageController _pageController;
-  CompetitionResponse?  competitionResponse;
-  //bool? popularCompetitionLoading;
+  CompetitionResponse? competitionResponse;
 
+  //bool? popularCompetitionLoading;
 
   @override
   void initState() {
@@ -100,10 +102,10 @@ class _DashboardPageState extends State<DashboardPage> {
     super.initState();
   }
 
-
   ///TODO: Competition List Api
   void getCompetitionList() {
-    BlocProvider.of<HomeBloc>(context).add(CompetitionListEvent(isPopular: false));
+    BlocProvider.of<HomeBloc>(context)
+        .add(CompetitionListEvent(isPopular: false));
   }
 
   void _handlecompetitionListResponse(CompetitionListState state) {
@@ -117,7 +119,6 @@ class _DashboardPageState extends State<DashboardPage> {
           break;
         case ApiStatus.SUCCESS:
           Log.v("CompetitionState....................");
-          print('competitionResponse =====${state.response}');
           competitionResponse = state.response;
 
           break;
@@ -145,18 +146,19 @@ class _DashboardPageState extends State<DashboardPage> {
 
     return Consumer2<VideoPlayerProvider, MenuListProvider>(
         builder: (context, value, mp, child) => BlocManager(
-            initState: (context) {},
-            child: BlocListener<HomeBloc, HomeState>(
-              listener: (context, state) async {
-                if (state is CompetitionListState) {
-                  _handlecompetitionListResponse(state);
-                }
-                setState(() {
-                  menuProvider = mp;
-                });
-              },
-              child:  SingleChildScrollView(
+              initState: (context) {},
+              child: BlocListener<HomeBloc, HomeState>(
+                listener: (context, state) async {
+                  if (state is CompetitionListState) {
+                    _handlecompetitionListResponse(state);
+                  }
+                  setState(() {
+                    menuProvider = mp;
+                  });
+                },
+                child: SingleChildScrollView(
                     child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     RoundedAppBar(
@@ -171,22 +173,23 @@ class _DashboardPageState extends State<DashboardPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   InkWell(
-                                    onTap: (){
-                                      Navigator.push(context, NextPageRoute(NewPortfolioPage()));
+                                    onTap: () {
+                                      Navigator.push(context,
+                                          NextPageRoute(NewPortfolioPage()));
                                     },
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(200),
                                       child: SizedBox(
                                         width: 40,
                                         child: Image.network(
-
-                                            '${Preference.getString(Preference.PROFILE_IMAGE)}',
-
-                                            errorBuilder: (context, error, stackTrace) => SvgPicture.asset('assets/images/default_user.svg'
-                                  ,           width: 40,
-
-                                            ),
-                                            ),
+                                          '${Preference.getString(Preference.PROFILE_IMAGE)}',
+                                          errorBuilder:
+                                              (context, error, stackTrace) =>
+                                                  SvgPicture.asset(
+                                            'assets/images/default_user.svg',
+                                            width: 40,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -198,19 +201,19 @@ class _DashboardPageState extends State<DashboardPage> {
                                     children: [
                                       Text('Welcome',
                                           style: Styles.regular(
-                                              color: ColorConstants.WHITE)),
+                                              color: ColorConstants.WHITE, size: 14)),
                                       Text(
                                         '${Preference.getString(Preference.FIRST_NAME)}',
                                         style: Styles.bold(
-                                            color: ColorConstants.WHITE),
+                                            color: ColorConstants.WHITE, size: 22),
                                       ),
                                     ],
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 10),
+                              SizedBox(height: 15),
                               Container(
-                                height: 8,
+                                height: 5,
                                 width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
                                     color:
@@ -259,39 +262,51 @@ class _DashboardPageState extends State<DashboardPage> {
                     //   ),
                     // ),
 
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     futureTrendsList(),
 
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     featuredJobsInternships(),
 
-                    SizedBox(height: 10,),
-                    skillGapAnalysisWidgets(),
+                    /*SizedBox(
+                      height: 10,
+                    ),
+                    skillGapAnalysisWidgets(),*/
 
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 20,
+                    ),
                     competitionsWidgets(),
 
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 20,
+                    ),
                     _buildYourPortfolioCard(
                         ColorConstants.ORANGE,
                         'Build Your Portfolio',
                         'Creating a Portfolio helps the recruiters to understand better about your profile and your skills.',
                         'build_portfolio'),
 
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
+
                     ///API Data
                     renderWidgets(pages),
                   ],
                 )),
               ),
             ));
-
   }
 
   ///Santosh
   futureTrendsList() {
     return InkWell(
-      onTap: (){
+      onTap: () {
         futureTrendsButtonSheet();
       },
       child: Container(
@@ -311,7 +326,6 @@ class _DashboardPageState extends State<DashboardPage> {
                     color: ColorConstants.GRADIENT_ORANGE,
                   ),
                 ),
-
                 Padding(
                     padding: const EdgeInsets.symmetric(
                       vertical: 8,
@@ -336,7 +350,8 @@ class _DashboardPageState extends State<DashboardPage> {
                         decoration: BoxDecoration(
                             color: ColorConstants.List_Color,
                             borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: ColorConstants.List_Color)),
+                            border:
+                                Border.all(color: ColorConstants.List_Color)),
                         margin: EdgeInsets.all(8),
                         // color: Colors.red,
                         child: Column(
@@ -353,27 +368,37 @@ class _DashboardPageState extends State<DashboardPage> {
                                   children: [
                                     Text(
                                       'Art & Design',
-                                      style: Styles.bold(color: Color(0xff0E1638), size: 13),
+                                      style: Styles.bold(
+                                          color: Color(0xff0E1638), size: 13),
                                     ),
-
-                                    SizedBox(height: 5,),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           '213 Jobs',
-                                          style: Styles.regular(color: ColorConstants.GREY_3, size: 11),
+                                          style: Styles.regular(
+                                              color: ColorConstants.GREY_3,
+                                              size: 11),
                                         ),
-
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 8.0),
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
                                           child: Text(
                                             '+30.6%',
-                                            style: Styles.regular(color: ColorConstants.GREEN, size: 11),
+                                            style: Styles.regular(
+                                                color: ColorConstants.GREEN,
+                                                size: 11),
                                           ),
                                         ),
-
-                                        Icon(Icons.arrow_drop_up_outlined, color: Colors.green,size: 20,)
+                                        Icon(
+                                          Icons.arrow_drop_up_outlined,
+                                          color: Colors.green,
+                                          size: 20,
+                                        )
                                       ],
                                     ),
                                   ],
@@ -384,14 +409,16 @@ class _DashboardPageState extends State<DashboardPage> {
                     }),
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),
     );
   }
 
-  futureTrendsButtonSheet(){
+  futureTrendsButtonSheet() {
     return showModalBottomSheet(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -410,20 +437,23 @@ class _DashboardPageState extends State<DashboardPage> {
                   padding: EdgeInsets.only(right: 20.0, top: 10.0),
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
                   child: InkWell(
-                    onTap: (){
+                    onTap: () {
                       Navigator.of(context).pop();
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Icon(Icons.close, color: Colors.black,)
+                        Icon(
+                          Icons.close,
+                          color: Colors.black,
+                        )
                       ],
                     ),
                   ),
                 ),
-
                 Container(
                   width: MediaQuery.of(context).size.width * 0.4,
                   decoration: BoxDecoration(
@@ -432,61 +462,64 @@ class _DashboardPageState extends State<DashboardPage> {
                       border: Border.all(color: ColorConstants.List_Color)),
                   //margin: EdgeInsets.all(8),
                   // color: Colors.red,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.center,
                       // mainAxisAlignment: MainAxisAlignment,
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
-                              left: 8.0,
-                              right: 8.0,
-                              top: 8.0,
-                              bottom: 8.0),
+                              left: 8.0, right: 8.0, top: 8.0, bottom: 8.0),
                           child: Column(
                             children: [
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-
                                   Padding(
                                     padding: const EdgeInsets.only(left: 8.0),
                                     child: Text(
                                       '+30.6%',
-                                      style: Styles.regular(color: ColorConstants.GREEN, size: 11),
+                                      style: Styles.regular(
+                                          color: ColorConstants.GREEN,
+                                          size: 11),
                                     ),
                                   ),
-
-                                  Icon(Icons.arrow_drop_up_outlined, color: Colors.green,size: 20,)
+                                  Icon(
+                                    Icons.arrow_drop_up_outlined,
+                                    color: Colors.green,
+                                    size: 20,
+                                  )
                                 ],
                               ),
-                              SizedBox(height: 5,),
+                              SizedBox(
+                                height: 5,
+                              ),
                               Text(
                                 'Projected Growth',
-                                style: Styles.regular(color: Color(0xff0E1638), size: 12),
+                                style: Styles.regular(
+                                    color: Color(0xff0E1638), size: 12),
                               ),
                             ],
                           ),
                         ),
                       ]),
                 ),
-                
                 Container(
                   margin: EdgeInsets.only(top: 30.0),
                   child: Image.asset('assets/images/graf_img.png'),
                 ),
-
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 Container(
                   child: Row(
                     children: [
                       Expanded(
-                          child:
-                          Container(
+                          child: Container(
                         width: MediaQuery.of(context).size.width * 0.4,
                         decoration: BoxDecoration(
                             color: ColorConstants.List_Color,
                             borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: ColorConstants.List_Color)),
+                            border:
+                                Border.all(color: ColorConstants.List_Color)),
                         margin: EdgeInsets.all(8),
                         // color: Colors.red,
                         child: Column(
@@ -503,312 +536,363 @@ class _DashboardPageState extends State<DashboardPage> {
                                   children: [
                                     Text(
                                       'Art & Design',
-                                      style: Styles.bold(color: Color(0xff0E1638), size: 12),
+                                      style: Styles.bold(
+                                          color: Color(0xff0E1638), size: 12),
                                     ),
-
-                                    SizedBox(height: 5,),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           "\$59k",
-                                          style: Styles.regular(color: ColorConstants.GREY_3, size: 11),
+                                          style: Styles.regular(
+                                              color: ColorConstants.GREY_3,
+                                              size: 11),
                                         ),
-
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 8.0),
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
                                           child: Text(
                                             '+30.6%',
-                                            style: Styles.regular(color: ColorConstants.GREEN, size: 11),
+                                            style: Styles.regular(
+                                                color: ColorConstants.GREEN,
+                                                size: 11),
                                           ),
                                         ),
-
-                                        Icon(Icons.arrow_drop_up_outlined, color: Colors.green,size: 20,)
+                                        Icon(
+                                          Icons.arrow_drop_up_outlined,
+                                          color: Colors.green,
+                                          size: 20,
+                                        )
                                       ],
                                     ),
                                   ],
                                 ),
                               ),
                             ]),
-                      )
-                      ),
-
+                      )),
                       Expanded(
-                          child:
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            decoration: BoxDecoration(
-                                color: ColorConstants.List_Color,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: ColorConstants.List_Color)),
-                            margin: EdgeInsets.all(0),
-                            // color: Colors.red,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                // mainAxisAlignment: MainAxisAlignment,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0,
-                                        right: 8.0,
-                                        top: 8.0,
-                                        bottom: 8.0),
-                                    child: Column(
+                          child: Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        decoration: BoxDecoration(
+                            color: ColorConstants.List_Color,
+                            borderRadius: BorderRadius.circular(10),
+                            border:
+                                Border.all(color: ColorConstants.List_Color)),
+                        margin: EdgeInsets.all(0),
+                        // color: Colors.red,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            // mainAxisAlignment: MainAxisAlignment,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0,
+                                    right: 8.0,
+                                    top: 8.0,
+                                    bottom: 8.0),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'Art & Design',
+                                      style: Styles.bold(
+                                          color: Color(0xff0E1638), size: 12),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'Art & Design',
-                                          style: Styles.bold(color: Color(0xff0E1638), size: 12),
+                                          "\$59k",
+                                          style: Styles.regular(
+                                              color: ColorConstants.GREY_3,
+                                              size: 12),
                                         ),
-
-                                        SizedBox(height: 5,),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "\$59k",
-                                              style: Styles.regular(color: ColorConstants.GREY_3, size: 12),
-                                            ),
-
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 8.0),
-                                              child: Text(
-                                                '+30.6%',
-                                                style: Styles.regular(color: ColorConstants.GREEN, size: 11),
-                                              ),
-                                            ),
-
-                                            Icon(Icons.arrow_drop_up_outlined, color: Colors.green,size: 20,)
-                                          ],
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
+                                          child: Text(
+                                            '+30.6%',
+                                            style: Styles.regular(
+                                                color: ColorConstants.GREEN,
+                                                size: 11),
+                                          ),
                                         ),
+                                        Icon(
+                                          Icons.arrow_drop_up_outlined,
+                                          color: Colors.green,
+                                          size: 20,
+                                        )
                                       ],
                                     ),
-                                  ),
-                                ]),
-                          )
-                      ),
-
+                                  ],
+                                ),
+                              ),
+                            ]),
+                      )),
                       Expanded(
-                          child:
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            decoration: BoxDecoration(
-                                color: ColorConstants.List_Color,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: ColorConstants.List_Color)),
-                            margin: EdgeInsets.all(8),
-                            // color: Colors.red,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                // mainAxisAlignment: MainAxisAlignment,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0,
-                                        right: 8.0,
-                                        top: 8.0,
-                                        bottom: 8.0),
-                                    child: Column(
+                          child: Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        decoration: BoxDecoration(
+                            color: ColorConstants.List_Color,
+                            borderRadius: BorderRadius.circular(10),
+                            border:
+                                Border.all(color: ColorConstants.List_Color)),
+                        margin: EdgeInsets.all(8),
+                        // color: Colors.red,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            // mainAxisAlignment: MainAxisAlignment,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0,
+                                    right: 8.0,
+                                    top: 8.0,
+                                    bottom: 8.0),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'Art & Design',
+                                      style: Styles.bold(
+                                          color: Color(0xff0E1638), size: 12),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'Art & Design',
-                                          style: Styles.bold(color: Color(0xff0E1638), size: 12),
+                                          "\$59k",
+                                          style: Styles.regular(
+                                              color: ColorConstants.GREY_3,
+                                              size: 11),
                                         ),
-
-                                        SizedBox(height: 5,),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "\$59k",
-                                              style: Styles.regular(color: ColorConstants.GREY_3, size: 11),
-                                            ),
-
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 8.0),
-                                              child: Text(
-                                                '+30.6%',
-                                                style: Styles.regular(color: ColorConstants.GREEN, size: 11),
-                                              ),
-                                            ),
-
-                                            Icon(Icons.arrow_drop_up_outlined, color: Colors.green,size: 20,)
-                                          ],
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
+                                          child: Text(
+                                            '+30.6%',
+                                            style: Styles.regular(
+                                                color: ColorConstants.GREEN,
+                                                size: 11),
+                                          ),
                                         ),
+                                        Icon(
+                                          Icons.arrow_drop_up_outlined,
+                                          color: Colors.green,
+                                          size: 20,
+                                        )
                                       ],
                                     ),
-                                  ),
-                                ]),
-                          )
-                      ),
+                                  ],
+                                ),
+                              ),
+                            ]),
+                      )),
                     ],
                   ),
                 ),
-
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 Container(
                   child: Row(
                     children: [
                       Expanded(
-                          child:
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            decoration: BoxDecoration(
-                                color: ColorConstants.List_Color,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: ColorConstants.List_Color)),
-                            margin: EdgeInsets.all(8),
-                            // color: Colors.red,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                // mainAxisAlignment: MainAxisAlignment,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0,
-                                        right: 8.0,
-                                        top: 8.0,
-                                        bottom: 8.0),
-                                    child: Column(
+                          child: Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        decoration: BoxDecoration(
+                            color: ColorConstants.List_Color,
+                            borderRadius: BorderRadius.circular(10),
+                            border:
+                                Border.all(color: ColorConstants.List_Color)),
+                        margin: EdgeInsets.all(8),
+                        // color: Colors.red,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            // mainAxisAlignment: MainAxisAlignment,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0,
+                                    right: 8.0,
+                                    top: 8.0,
+                                    bottom: 8.0),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'Art & Design',
+                                      style: Styles.bold(
+                                          color: Color(0xff0E1638), size: 12),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'Art & Design',
-                                          style: Styles.bold(color: Color(0xff0E1638), size: 12),
+                                          "\$59k",
+                                          style: Styles.regular(
+                                              color: ColorConstants.GREY_3,
+                                              size: 11),
                                         ),
-
-                                        SizedBox(height: 5,),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "\$59k",
-                                              style: Styles.regular(color: ColorConstants.GREY_3, size: 11),
-                                            ),
-
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 8.0),
-                                              child: Text(
-                                                '+30.6%',
-                                                style: Styles.regular(color: ColorConstants.GREEN, size: 11),
-                                              ),
-                                            ),
-
-                                            Icon(Icons.arrow_drop_up_outlined, color: Colors.green,size: 20,)
-                                          ],
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
+                                          child: Text(
+                                            '+30.6%',
+                                            style: Styles.regular(
+                                                color: ColorConstants.GREEN,
+                                                size: 11),
+                                          ),
                                         ),
+                                        Icon(
+                                          Icons.arrow_drop_up_outlined,
+                                          color: Colors.green,
+                                          size: 20,
+                                        )
                                       ],
                                     ),
-                                  ),
-                                ]),
-                          )
-                      ),
-
+                                  ],
+                                ),
+                              ),
+                            ]),
+                      )),
                       Expanded(
-                          child:
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            decoration: BoxDecoration(
-                                color: ColorConstants.List_Color,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: ColorConstants.List_Color)),
-                            margin: EdgeInsets.all(0),
-                            // color: Colors.red,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                // mainAxisAlignment: MainAxisAlignment,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0,
-                                        right: 8.0,
-                                        top: 8.0,
-                                        bottom: 8.0),
-                                    child: Column(
+                          child: Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        decoration: BoxDecoration(
+                            color: ColorConstants.List_Color,
+                            borderRadius: BorderRadius.circular(10),
+                            border:
+                                Border.all(color: ColorConstants.List_Color)),
+                        margin: EdgeInsets.all(0),
+                        // color: Colors.red,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            // mainAxisAlignment: MainAxisAlignment,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0,
+                                    right: 8.0,
+                                    top: 8.0,
+                                    bottom: 8.0),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'Art & Design',
+                                      style: Styles.bold(
+                                          color: Color(0xff0E1638), size: 12),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'Art & Design',
-                                          style: Styles.bold(color: Color(0xff0E1638), size: 12),
+                                          "\$59k",
+                                          style: Styles.regular(
+                                              color: ColorConstants.GREY_3,
+                                              size: 12),
                                         ),
-
-                                        SizedBox(height: 5,),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "\$59k",
-                                              style: Styles.regular(color: ColorConstants.GREY_3, size: 12),
-                                            ),
-
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 8.0),
-                                              child: Text(
-                                                '+30.6%',
-                                                style: Styles.regular(color: ColorConstants.GREEN, size: 11),
-                                              ),
-                                            ),
-
-                                            Icon(Icons.arrow_drop_up_outlined, color: Colors.green,size: 20,)
-                                          ],
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
+                                          child: Text(
+                                            '+30.6%',
+                                            style: Styles.regular(
+                                                color: ColorConstants.GREEN,
+                                                size: 11),
+                                          ),
                                         ),
+                                        Icon(
+                                          Icons.arrow_drop_up_outlined,
+                                          color: Colors.green,
+                                          size: 20,
+                                        )
                                       ],
                                     ),
-                                  ),
-                                ]),
-                          )
-                      ),
-
+                                  ],
+                                ),
+                              ),
+                            ]),
+                      )),
                       Expanded(
-                          child:
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            decoration: BoxDecoration(
-                                color: ColorConstants.List_Color,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: ColorConstants.List_Color)),
-                            margin: EdgeInsets.all(8),
-                            // color: Colors.red,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                // mainAxisAlignment: MainAxisAlignment,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0,
-                                        right: 8.0,
-                                        top: 8.0,
-                                        bottom: 8.0),
-                                    child: Column(
+                          child: Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        decoration: BoxDecoration(
+                            color: ColorConstants.List_Color,
+                            borderRadius: BorderRadius.circular(10),
+                            border:
+                                Border.all(color: ColorConstants.List_Color)),
+                        margin: EdgeInsets.all(8),
+                        // color: Colors.red,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            // mainAxisAlignment: MainAxisAlignment,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0,
+                                    right: 8.0,
+                                    top: 8.0,
+                                    bottom: 8.0),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'Art & Design',
+                                      style: Styles.bold(
+                                          color: Color(0xff0E1638), size: 12),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'Art & Design',
-                                          style: Styles.bold(color: Color(0xff0E1638), size: 12),
+                                          "\$59k",
+                                          style: Styles.regular(
+                                              color: ColorConstants.GREY_3,
+                                              size: 11),
                                         ),
-
-                                        SizedBox(height: 5,),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "\$59k",
-                                              style: Styles.regular(color: ColorConstants.GREY_3, size: 11),
-                                            ),
-
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 8.0),
-                                              child: Text(
-                                                '+30.6%',
-                                                style: Styles.regular(color: ColorConstants.GREEN, size: 11),
-                                              ),
-                                            ),
-
-                                            Icon(Icons.arrow_drop_up_outlined, color: Colors.green,size: 20,)
-                                          ],
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
+                                          child: Text(
+                                            '+30.6%',
+                                            style: Styles.regular(
+                                                color: ColorConstants.GREEN,
+                                                size: 11),
+                                          ),
                                         ),
+                                        Icon(
+                                          Icons.arrow_drop_up_outlined,
+                                          color: Colors.green,
+                                          size: 20,
+                                        )
                                       ],
                                     ),
-                                  ),
-                                ]),
-                          )
-                      ),
+                                  ],
+                                ),
+                              ),
+                            ]),
+                      )),
                     ],
                   ),
                 ),
@@ -830,7 +914,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     children: [
                       Text('View Skill Assessments', style: TextStyle(color: ColorConstants.GRADIENT_ORANGE, fontSize: 14,
                           fontWeight: FontWeight.bold),),
-                      
+
                       Padding(
                         padding: const EdgeInsets.only(left: 10.0),
                         child: Icon(Icons.arrow_forward_ios_rounded,
@@ -840,12 +924,17 @@ class _DashboardPageState extends State<DashboardPage> {
                   ),
                 ),*/
 
-                SizedBox(height: 30,),
+                SizedBox(
+                  height: 30,
+                ),
                 CustomOutlineButton(
                   strokeWidth: 2,
                   radius: 50,
                   gradient: LinearGradient(
-                    colors: [ColorConstants.GRADIENT_ORANGE, ColorConstants.GRADIENT_RED],
+                    colors: [
+                      ColorConstants.GRADIENT_ORANGE,
+                      ColorConstants.GRADIENT_RED
+                    ],
                     begin: Alignment.topLeft,
                     end: Alignment.topRight,
                   ),
@@ -878,9 +967,9 @@ class _DashboardPageState extends State<DashboardPage> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 10.0),
-                child: Icon(CupertinoIcons.star_fill, color: ColorConstants.YELLOW),
+                child: Icon(CupertinoIcons.star_fill,
+                    color: ColorConstants.YELLOW),
               ),
-
               Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: 8,
@@ -926,49 +1015,64 @@ class _DashboardPageState extends State<DashboardPage> {
                                     padding: const EdgeInsets.only(top: 10.0),
                                     child: Text(
                                       'Art & Design',
-                                      style: Styles.bold(color: Color(0xff0E1638), size: 13),
+                                      style: Styles.bold(
+                                          color: Color(0xff0E1638), size: 13),
                                     ),
                                   ),
-
-                                  SizedBox(height: 10,),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Icon(Icons.location_on_outlined, color: Colors.orange,),
-
+                                      Icon(
+                                        Icons.location_on_outlined,
+                                        color: Colors.orange,
+                                      ),
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 8.0),
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
                                         child: Text(
                                           'Bangaluru, Karnataka',
-                                          style: Styles.regular(color: ColorConstants.GREY_3, size: 11),
+                                          style: Styles.regular(
+                                              color: ColorConstants.GREY_3,
+                                              size: 11),
                                         ),
                                       ),
                                     ],
                                   ),
-
-                                  SizedBox(height: 10,),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Icon(Icons.currency_exchange_outlined, color: Colors.orange,size: 18,),
-
+                                      Icon(
+                                        Icons.currency_exchange_outlined,
+                                        color: Colors.orange,
+                                        size: 18,
+                                      ),
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 8.0),
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
                                         child: Text(
                                           '100K - 150K LPA',
-                                          style: Styles.regular(color: ColorConstants.GREY_3, size: 11),
+                                          style: Styles.regular(
+                                              color: ColorConstants.GREY_3,
+                                              size: 11),
                                         ),
                                       ),
                                     ],
                                   ),
-
                                   Container(
-                                    width: MediaQuery.of(context).size.width * 0.7,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.7,
                                     height: 100,
                                     decoration: BoxDecoration(
                                         color: ColorConstants.List_Color,
                                         borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(color: ColorConstants.List_Color)),
+                                        border: Border.all(
+                                            color: ColorConstants.List_Color)),
                                     margin: EdgeInsets.all(8),
                                     // color: Colors.red,
                                     child: Padding(
@@ -978,20 +1082,27 @@ class _DashboardPageState extends State<DashboardPage> {
                                           top: 10.0,
                                           bottom: 8.0),
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             'Skills Required',
-                                            style: Styles.bold(color: ColorConstants.GREY_3, size: 13),
+                                            style: Styles.bold(
+                                                color: ColorConstants.GREY_3,
+                                                size: 13),
                                           ),
-
-                                          SizedBox(height: 10,),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                             children: [
                                               Text(
                                                 '• Java • HTML • My Sql',
-                                                style: Styles.bold(color: ColorConstants.BLACK, size: 13),
+                                                style: Styles.bold(
+                                                    color: ColorConstants.BLACK,
+                                                    size: 13),
                                               ),
                                             ],
                                           ),
@@ -1004,16 +1115,22 @@ class _DashboardPageState extends State<DashboardPage> {
                                     width: MediaQuery.of(context).size.width,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(50),
-                                      gradient:
-                                      LinearGradient(colors: [
+                                      gradient: LinearGradient(colors: [
                                         ColorConstants.DASHBOARD_APPLY_COLOR,
-                                        ColorConstants.DASHBOARD_APPLY_COLOR,]),
+                                        ColorConstants.DASHBOARD_APPLY_COLOR,
+                                      ]),
                                     ),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
-                                        Text('Apply', style: TextStyle(color: Colors.white, fontSize: 16,
-                                            fontWeight: FontWeight.bold),),
+                                        Text(
+                                          'Apply',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -1030,7 +1147,8 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  Widget _buildYourPortfolioCard(Color colorBg, String strTitle, String strDes, String clickType) {
+  Widget _buildYourPortfolioCard(
+      Color colorBg, String strTitle, String strDes, String clickType) {
     return Container(
       height: 120,
       margin: const EdgeInsets.only(
@@ -1080,10 +1198,10 @@ class _DashboardPageState extends State<DashboardPage> {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        gradient:
-        LinearGradient(colors: [
+        gradient: LinearGradient(colors: [
           ColorConstants.GRADIENT_ORANGE,
-          ColorConstants.GRADIENT_RED,]),
+          ColorConstants.GRADIENT_RED,
+        ]),
         color: colorBg,
         boxShadow: [
           //  BoxShadow(color: Colors.white, spreadRadius: 3),
@@ -1092,7 +1210,7 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  skillGapAnalysisWidgets(){
+  skillGapAnalysisWidgets() {
     return Container(
       decoration: BoxDecoration(color: ColorConstants.WHITE),
       child: Column(
@@ -1108,7 +1226,6 @@ class _DashboardPageState extends State<DashboardPage> {
                   width: 30.0,
                 ),
               ),
-
               Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: 8,
@@ -1144,7 +1261,9 @@ class _DashboardPageState extends State<DashboardPage> {
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8.0),
-                          border: Border.all(color: ColorConstants.GREY,),
+                          border: Border.all(
+                            color: ColorConstants.GREY,
+                          ),
                         ),
                         height: height(context) * 0.15,
                         width: width(context),
@@ -1154,13 +1273,14 @@ class _DashboardPageState extends State<DashboardPage> {
                             //     height: 20, width: 20),
                             Row(
                               children: [
-                                SvgPicture.asset('assets/images/temp/ux_skill.svg'),
+                                SvgPicture.asset(
+                                    'assets/images/temp/ux_skill.svg'),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding:
-                                      const EdgeInsets.only(left: 8.0, bottom: 8),
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, bottom: 8),
                                       child: Text(
                                         "UX Research",
                                         style: TextStyle(
@@ -1173,7 +1293,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                           left: 4.0, bottom: 16),
                                       child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             "10/200 ",
@@ -1222,10 +1342,12 @@ class _DashboardPageState extends State<DashboardPage> {
                                   ),
                                   Container(
                                     height: 10,
-                                    width: MediaQuery.of(context).size.width * 0.4,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.4,
                                     decoration: BoxDecoration(
                                         color: ColorConstants.GREY,
-                                        borderRadius: BorderRadius.circular(10)),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
                                     child: Stack(
                                       children: [
                                         Container(
@@ -1241,7 +1363,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                                 0xfffc7804,
                                               ),
                                               borderRadius:
-                                              BorderRadius.circular(10)),
+                                                  BorderRadius.circular(10)),
                                         ),
                                       ],
                                     ),
@@ -1273,7 +1395,6 @@ class _DashboardPageState extends State<DashboardPage> {
                       ),
                     ),
                   ),
-
                   Card(
                     elevation: 0.0,
                     shape: RoundedRectangleBorder(
@@ -1284,7 +1405,9 @@ class _DashboardPageState extends State<DashboardPage> {
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8.0),
-                          border: Border.all(color: ColorConstants.GREY,),
+                          border: Border.all(
+                            color: ColorConstants.GREY,
+                          ),
                         ),
                         //margin: EdgeInsets.only(left: 8, right: 8),
                         height: height(context) * 0.15,
@@ -1301,8 +1424,8 @@ class _DashboardPageState extends State<DashboardPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding:
-                                      const EdgeInsets.only(left: 8.0, bottom: 8),
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, bottom: 8),
                                       child: Text(
                                         "Graphic Design",
                                         style: TextStyle(
@@ -1315,7 +1438,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                           left: 8.0, bottom: 16),
                                       child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             "0/100 ",
@@ -1364,10 +1487,12 @@ class _DashboardPageState extends State<DashboardPage> {
                                   ),
                                   Container(
                                     height: 10,
-                                    width: MediaQuery.of(context).size.width * 0.4,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.4,
                                     decoration: BoxDecoration(
                                         color: ColorConstants.GREY,
-                                        borderRadius: BorderRadius.circular(10)),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
                                     child: Stack(
                                       children: [
                                         Container(
@@ -1383,7 +1508,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                                 0xfffc7804,
                                               ),
                                               borderRadius:
-                                              BorderRadius.circular(10)),
+                                                  BorderRadius.circular(10)),
                                         ),
                                       ],
                                     ),
@@ -1415,7 +1540,6 @@ class _DashboardPageState extends State<DashboardPage> {
                       ),
                     ),
                   ),
-
                   Card(
                     elevation: 0.0,
                     shape: RoundedRectangleBorder(
@@ -1426,7 +1550,9 @@ class _DashboardPageState extends State<DashboardPage> {
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8.0),
-                          border: Border.all(color: ColorConstants.GREY,),
+                          border: Border.all(
+                            color: ColorConstants.GREY,
+                          ),
                         ),
                         //margin: EdgeInsets.only(left: 8, right: 8),
                         height: height(context) * 0.15,
@@ -1443,8 +1569,8 @@ class _DashboardPageState extends State<DashboardPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding:
-                                      const EdgeInsets.only(left: 8.0, bottom: 8),
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, bottom: 8),
                                       child: Text(
                                         "Animation",
                                         style: TextStyle(
@@ -1457,7 +1583,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                           left: 4.0, bottom: 16),
                                       child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             "4/200 ",
@@ -1506,10 +1632,12 @@ class _DashboardPageState extends State<DashboardPage> {
                                   ),
                                   Container(
                                     height: 10,
-                                    width: MediaQuery.of(context).size.width * 0.4,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.4,
                                     decoration: BoxDecoration(
                                         color: ColorConstants.GREY,
-                                        borderRadius: BorderRadius.circular(10)),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
                                     child: Stack(
                                       children: [
                                         Container(
@@ -1525,7 +1653,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                                 0xfffc7804,
                                               ),
                                               borderRadius:
-                                              BorderRadius.circular(10)),
+                                                  BorderRadius.circular(10)),
                                         ),
                                       ],
                                     ),
@@ -1561,13 +1689,17 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
             ),
           ),
-
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           CustomOutlineButton(
             strokeWidth: 2,
             radius: 50,
             gradient: LinearGradient(
-              colors: [ColorConstants.GRADIENT_ORANGE, ColorConstants.GRADIENT_RED],
+              colors: [
+                ColorConstants.GRADIENT_ORANGE,
+                ColorConstants.GRADIENT_RED
+              ],
               begin: Alignment.topLeft,
               end: Alignment.topRight,
             ),
@@ -1584,13 +1716,15 @@ class _DashboardPageState extends State<DashboardPage> {
             ),
             onPressed: () {},
           ),
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
         ],
       ),
     );
   }
 
-  competitionsWidgets(){
+  competitionsWidgets() {
     return Container(
       decoration: BoxDecoration(color: ColorConstants.WHITE),
       child: Column(
@@ -1606,7 +1740,6 @@ class _DashboardPageState extends State<DashboardPage> {
                   width: 30.0,
                 ),
               ),
-
               Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: 8,
@@ -1627,64 +1760,72 @@ class _DashboardPageState extends State<DashboardPage> {
                 'Participate and add to your portfolio Participate and add to your portfolio',
                 style: Styles.regular(color: ColorConstants.GREY_3),
               )),
-
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: competitionResponse?.data?.length != null ?
-            ListView.builder(
-                itemCount: (competitionResponse?.data?.length)! < 4 ? competitionResponse?.data?.length : 4 ,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext
-                                context) =>
-                                    CompetitionDetail(
-                                        competition:
-                                        competitionResponse
-                                            ?.data?[
-                                        index])));
-                      },
-                      child: renderCompetitionCard(
-                          '${competitionResponse?.data![index]?.image}',
-                          '${competitionResponse?.data![index]?.name}',
-                          '',
-                          '${competitionResponse?.data![index]?.competitionLevel ?? "Easy"}',
-                          '${competitionResponse?.data![index]?.gScore}',
-                          '${Utility.ordinalDate(dateVal: "${competitionResponse?.data![index]?.endDate}")}')
-
-                  );
-                }) : CompetitionBlankPage(),
+            child: competitionResponse?.data?.length != null
+                ? ListView.builder(
+                    itemCount: (competitionResponse?.data?.length)! < 4
+                        ? competitionResponse?.data?.length
+                        : 4,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (BuildContext context, int index) {
+                      return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        CompetitionDetail(
+                                            competition: competitionResponse
+                                                ?.data?[index])));
+                          },
+                          child: renderCompetitionCard(
+                              '${competitionResponse?.data![index]?.image}',
+                              '${competitionResponse?.data![index]?.name}',
+                              '',
+                              '${competitionResponse?.data![index]?.competitionLevel ?? "Easy"}',
+                              '${competitionResponse?.data![index]?.gScore}',
+                              '${Utility.ordinalDate(dateVal: "${competitionResponse?.data![index]?.endDate}")}'));
+                    })
+                : CompetitionBlankPage(),
           ),
-          SizedBox(height: 10,),
-          competitionResponse?.data?.length != null ? CustomOutlineButton(
-            strokeWidth: 2,
-            radius: 50,
-            gradient: LinearGradient(
-              colors: [ColorConstants.GRADIENT_ORANGE, ColorConstants.GRADIENT_RED],
-              begin: Alignment.topLeft,
-              end: Alignment.topRight,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 50.0, right: 50.0),
-              child: GradientText(
-                'View all Skill',
-                style: Styles.textRegular(size: 14),
-                colors: [
-                  ColorConstants.GRADIENT_ORANGE,
-                  ColorConstants.GRADIENT_RED,
-                ],
-              ),
-            ),
-            onPressed: () {
-              menuProvider?.updateCurrentIndex('/g-competitions');
-            },
-          ) : SizedBox(),
-          competitionResponse?.data?.length != null ? SizedBox(height: 20,) : SizedBox(),
+          SizedBox(
+            height: 10,
+          ),
+          competitionResponse?.data?.length != null
+              ? CustomOutlineButton(
+                  strokeWidth: 2,
+                  radius: 50,
+                  gradient: LinearGradient(
+                    colors: [
+                      ColorConstants.GRADIENT_ORANGE,
+                      ColorConstants.GRADIENT_RED
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.topRight,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 50.0, right: 50.0),
+                    child: GradientText(
+                      'View all Skill',
+                      style: Styles.textRegular(size: 14),
+                      colors: [
+                        ColorConstants.GRADIENT_ORANGE,
+                        ColorConstants.GRADIENT_RED,
+                      ],
+                    ),
+                  ),
+                  onPressed: () {
+                    menuProvider?.updateCurrentIndex('/g-competitions');
+                  },
+                )
+              : SizedBox(),
+          competitionResponse?.data?.length != null
+              ? SizedBox(
+                  height: 20,
+                )
+              : SizedBox(),
         ],
       ),
     );
@@ -1773,7 +1914,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
                 Text('•',
                     style:
-                    Styles.regular(color: ColorConstants.GREY_2, size: 12)),
+                        Styles.regular(color: ColorConstants.GREY_2, size: 12)),
                 SizedBox(
                   width: 4,
                 ),
@@ -1790,7 +1931,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
                 Text('•',
                     style:
-                    Styles.regular(color: ColorConstants.GREY_2, size: 12)),
+                        Styles.regular(color: ColorConstants.GREY_2, size: 12)),
                 SizedBox(
                   width: 4,
                 ),
@@ -1812,9 +1953,6 @@ class _DashboardPageState extends State<DashboardPage> {
       ]),
     );
   }
-
-
-
 
   //skill_gap_analysis.png
   renderWidgets(pages) {
@@ -2225,8 +2363,10 @@ class _DashboardPageState extends State<DashboardPage> {
                                 child: Container(
                                     padding: EdgeInsets.all(10),
                                     margin: EdgeInsets.only(top: 12, right: 10),
-                                    width: MediaQuery.of(context).size.width * 0.8,
-                                    height: MediaQuery.of(context).size.height * 0.15,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.8,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.15,
                                     decoration: BoxDecoration(
                                         color: ColorConstants.GREY
                                             .withOpacity(0.6),
@@ -2268,9 +2408,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                                 child: Text(
                                                     '${myCoursesList![index].name}',
                                                     maxLines: 2,
-                                                    overflow: TextOverflow.ellipsis,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                     softWrap: true,
-                                                    style: Styles.bold(size: 14)),
+                                                    style:
+                                                        Styles.bold(size: 14)),
                                               ),
                                             ],
                                           ),
@@ -2398,7 +2540,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
           reelsList = box
               .get("dashboard_reels_limit")
-              .map((e) => DashboardReelsLimit.fromJson(Map<String, dynamic>.from(e)))
+              .map((e) =>
+                  DashboardReelsLimit.fromJson(Map<String, dynamic>.from(e)))
               .cast<DashboardReelsLimit>()
               .toList();
 
@@ -2554,7 +2697,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
           carvaanList = box
               .get("dashboard_carvan_limit")
-              .map((e) => DashboardCarvanLimit.fromJson(Map<String, dynamic>.from(e)))
+              .map((e) =>
+                  DashboardCarvanLimit.fromJson(Map<String, dynamic>.from(e)))
               .cast<DashboardCarvanLimit>()
               .toList();
 
@@ -2763,7 +2907,7 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   //TODO: Now used for recent community post------
-  renderCarvaanPageView(){
+  renderCarvaanPageView() {
     return ValueListenableBuilder(
         valueListenable: Hive.box(DB.CONTENT).listenable(),
         builder: (bc, Box box, child) {
@@ -2785,7 +2929,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
           carvaanList = box
               .get("dashboard_carvan_limit")
-              .map((e) => DashboardCarvanLimit.fromJson(Map<String, dynamic>.from(e)))
+              .map((e) =>
+                  DashboardCarvanLimit.fromJson(Map<String, dynamic>.from(e)))
               .cast<DashboardCarvanLimit>()
               .toList();
 
@@ -2824,176 +2969,194 @@ class _DashboardPageState extends State<DashboardPage> {
                         setState(() {
                           selectedPage = page;
                         });
-                      }, itemBuilder: (BuildContext context, int index) {
-                      final now = DateTime.now();
+                      },
+                      itemBuilder: (BuildContext context, int index) {
+                        final now = DateTime.now();
 
-                      var millis = int.parse(
-                          carvaanList![index].createdAt.toString());
-                      DateTime date = DateTime.fromMillisecondsSinceEpoch(
-                        millis * 1000,
-                      );
-                      return Container(
-                        width: MediaQuery.of(context).size.width * 0.8,
+                        var millis =
+                            int.parse(carvaanList![index].createdAt.toString());
+                        DateTime date = DateTime.fromMillisecondsSinceEpoch(
+                          millis * 1000,
+                        );
 
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8),
-                            border:
-                            Border.all(color: ColorConstants.GREY_4)),
-                        margin: EdgeInsets.all(8),
-                        // color: Colors.red,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            // mainAxisAlignment: MainAxisAlignment,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0,
-                                    right: 8.0,
-                                    top: 15.0,
-                                    bottom: 8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.start,
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Center(
-                                      child: ClipOval(
-                                          child: Image.network(
-                                            '${carvaanList?[index].profileImage}',
-                                            height: 30,
-                                            width: 30,
-                                            fit: BoxFit.cover,
-                                            errorBuilder:
-                                                (context, url, error) {
-                                              return SvgPicture.asset(
-                                                'assets/images/default_user.svg',
-                                                height: 30,
-                                                width: 30,
-                                                allowDrawingOutsideViewBox:
-                                                true,
-                                              );
-                                            },
-                                            loadingBuilder:
-                                                (BuildContext context,
-                                                Widget child,
-                                                ImageChunkEvent?
-                                                loadingProgress) {
-                                              if (loadingProgress == null)
-                                                return child;
-                                              return Shimmer.fromColors(
-                                                baseColor: Color(0xffe6e4e6),
-                                                highlightColor:
-                                                Color(0xffeaf0f3),
-                                                child: Container(
-                                                    height: 50,
-                                                    margin: EdgeInsets.only(
-                                                        left: 2),
-                                                    width: 50,
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      shape: BoxShape.circle,
-                                                    )),
-                                              );
-                                            },
-                                          )),
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.start,
-                                        crossAxisAlignment:
+                        return Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: ColorConstants.GREY_4)),
+                          margin: EdgeInsets.all(8),
+                          // color: Colors.red,
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              // mainAxisAlignment: MainAxisAlignment,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0,
+                                      right: 8.0,
+                                      top: 15.0,
+                                      bottom: 8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 8.0,
-                                                right: 8.0,
-                                                top: 2.0),
-                                            child: Text(
-                                              carvaanList?[index].name ??
-                                                  '',
-                                              style: Styles.textRegular(
-                                                  size: 14),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 8.0),
-                                            child: Text(
-                                              Utility()
-                                                  .calculateTimeDifferenceBetween(
-                                                  DateTime.parse(date
-                                                      .toString()
-                                                      .substring(
-                                                      0, 19)),
-                                                  now,
-                                                  context),
-                                              style:
-                                              Styles.regular(size: 12),
-                                            ),
-                                          )
-                                        ],
+                                    children: <Widget>[
+                                      Center(
+                                        child: ClipOval(
+                                            child: Image.network(
+                                          '${carvaanList?[index].profileImage}',
+                                          height: 30,
+                                          width: 30,
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (context, url, error) {
+                                            return SvgPicture.asset(
+                                              'assets/images/default_user.svg',
+                                              height: 30,
+                                              width: 30,
+                                              allowDrawingOutsideViewBox: true,
+                                            );
+                                          },
+                                          loadingBuilder: (BuildContext context,
+                                              Widget child,
+                                              ImageChunkEvent?
+                                                  loadingProgress) {
+                                            if (loadingProgress == null)
+                                              return child;
+                                            return Shimmer.fromColors(
+                                              baseColor: Color(0xffe6e4e6),
+                                              highlightColor: Color(0xffeaf0f3),
+                                              child: Container(
+                                                  height: 50,
+                                                  margin:
+                                                      EdgeInsets.only(left: 2),
+                                                  width: 50,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    shape: BoxShape.circle,
+                                                  )),
+                                            );
+                                          },
+                                        )),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                  padding:
-                                  carvaanList?[index].description !=
-                                      null
-                                      ? const EdgeInsets.only(
-                                      bottom: 7, left: 10, top: 13)
-                                      : const EdgeInsets.only(
-                                      bottom: 0, left: 10, top: 0),
-                                  child: ReadMoreText(
-                                      text: '${carvaanList?[index].description ?? ''}')),
-                              Image.network('${carvaanList?[index].resourcePath}',
-                                height: 300,
-                                width: double.infinity,
-                                  fit: BoxFit.fitWidth),
-
-                              //TODO: Like Dislike
-                              SizedBox(height: 20,),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 10.0,
-                                  horizontal: 10.0,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    InkWell(
-                                      onTap: () {
-                                        setState(() {
-
-                                        });
-                                      },
-                                      child: Container(
-                                        child: Row(
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                right: 4.0,
-                                              ),
-                                              child: SvgPicture.asset(
-                                                'assets/images/like_icon.svg',
-                                                height: 18.8,
-                                                width: 17.86,
-                                                color: ColorConstants.BLACK,
+                                                  left: 8.0,
+                                                  right: 8.0,
+                                                  top: 2.0),
+                                              child: Text(
+                                                carvaanList?[index].name ?? '',
+                                                style: Styles.textRegular(
+                                                    size: 14),
                                               ),
                                             ),
-                                            Text(
-                                              carvaanList?[index].likeCount != 0
-                                                  ? '${carvaanList?[index].likeCount} ${Strings.of(context)?.Like}'
-                                                  : ' ${Strings.of(context)?.Like}',
-                                              style: Styles.regular(
-                                                  size: 12, color: ColorConstants.BLACK),
-                                            ),
-                                            /*if (widget.value?.getLikeCount(widget.index) != 0 &&
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0),
+                                              child: Text(
+                                                Utility()
+                                                    .calculateTimeDifferenceBetween(
+                                                        DateTime.parse(date
+                                                            .toString()
+                                                            .substring(0, 19)),
+                                                        now,
+                                                        context),
+                                                style: Styles.regular(size: 12),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                    padding:
+                                        carvaanList?[index].description != null
+                                            ? const EdgeInsets.only(
+                                                bottom: 7, left: 10, top: 13)
+                                            : const EdgeInsets.only(
+                                                bottom: 0, left: 10, top: 0),
+                                    child: ReadMoreText(
+                                        text:
+                                            '${carvaanList?[index].description ?? ''}')),
+
+                                carvaanList?[index]
+                                                .resourcePath
+                                                ?.contains('.mp4') ==
+                                            true ||
+                                        carvaanList?[index]
+                                                .resourcePath
+                                                ?.contains('.mov') ==
+                                            true
+                                    // ? CustomBetterPlayer(
+                                    //     url: widget.fileList[index])
+                                    ? Container(
+                                        height: 300,
+                                        child: FlickVideoPlayer(
+                                            flickManager: FlickManager(
+                                          videoPlayerController:
+                                              VideoPlayerController.network(
+                                                  '${carvaanList?[index].resourcePath}',),
+                                        )))
+
+                                    : Image.network(
+                                        '${carvaanList?[index].resourcePath}',
+                                        height: 300,
+                                        width: double.infinity,
+                                        fit: BoxFit.fitWidth),
+
+                                //TODO: Like Dislike
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 10.0,
+                                    horizontal: 10.0,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: <Widget>[
+                                      InkWell(
+                                        onTap: () {
+                                          setState(() {});
+                                        },
+                                        child: Container(
+                                          child: Row(
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  right: 4.0,
+                                                ),
+                                                child: SvgPicture.asset(
+                                                  'assets/images/like_icon.svg',
+                                                  height: 18.8,
+                                                  width: 17.86,
+                                                  color: ColorConstants.BLACK,
+                                                ),
+                                              ),
+                                              Text(
+                                                carvaanList?[index].likeCount !=
+                                                        0
+                                                    ? '${carvaanList?[index].likeCount} ${Strings.of(context)?.Like}'
+                                                    : ' ${Strings.of(context)?.Like}',
+                                                style: Styles.regular(
+                                                    size: 12,
+                                                    color:
+                                                        ColorConstants.BLACK),
+                                              ),
+                                              /*if (widget.value?.getLikeCount(widget.index) != 0 &&
                                                 widget.value?.getLikeCount(widget.index) != 1 &&
                                                 Preference.getInt(Preference.APP_LANGUAGE) == 1)
                                               Text(
@@ -3003,48 +3166,55 @@ class _DashboardPageState extends State<DashboardPage> {
                                                 style: Styles.regular(
                                                     size: 12, color: ColorConstants.BLACK),
                                               )*/
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        showModalBottomSheet(
-                                            context: context,
-                                            backgroundColor: ColorConstants.WHITE,
-                                            isScrollControlled: true,
-                                            builder: (context) {
-                                              return FractionallySizedBox(
-                                                heightFactor: 0.7,
-                                                child: CommentViewPage(
-                                                  postId: carvaanList?[index].id,
-                                                  //value: widget.value,
+                                      InkWell(
+                                        onTap: () {
+                                          showModalBottomSheet(
+                                              context: context,
+                                              backgroundColor:
+                                                  ColorConstants.WHITE,
+                                              isScrollControlled: true,
+                                              builder: (context) {
+                                                return FractionallySizedBox(
+                                                  heightFactor: 0.7,
+                                                  child: CommentViewPage(
+                                                    postId:
+                                                        carvaanList?[index].id,
+                                                    //value: widget.value,
+                                                  ),
+                                                );
+                                              });
+                                        },
+                                        child: Container(
+                                          child: Row(
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  right: 4.0,
                                                 ),
-                                              );
-                                            });
-                                      },
-                                      child: Container(
-                                        child: Row(
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                right: 4.0,
+                                                child: SvgPicture.asset(
+                                                  'assets/images/comment_icon.svg',
+                                                  height: 18.8,
+                                                  width: 17.86,
+                                                  allowDrawingOutsideViewBox:
+                                                      true,
+                                                ),
                                               ),
-                                              child: SvgPicture.asset(
-                                                'assets/images/comment_icon.svg',
-                                                height: 18.8,
-                                                width: 17.86,
-                                                allowDrawingOutsideViewBox: true,
+                                              Text(
+                                                carvaanList?[index]
+                                                            .commentCount !=
+                                                        0
+                                                    ? '${carvaanList?[index].commentCount} ${Strings.of(context)?.Comment}'
+                                                    : ' ${Strings.of(context)?.Comment}',
+                                                style: Styles.regular(
+                                                    size: 12,
+                                                    color:
+                                                        ColorConstants.BLACK),
                                               ),
-                                            ),
-                                            Text(
-                                              carvaanList?[index].commentCount != 0
-                                                  ? '${carvaanList?[index].commentCount} ${Strings.of(context)?.Comment}'
-                                                  : ' ${Strings.of(context)?.Comment}',
-                                              style: Styles.regular(
-                                                  size: 12, color: ColorConstants.BLACK),
-                                            ),
-                                            /*if (carvaanList?[index].commentCount! > 1 &&
+                                              /*if (carvaanList?[index].commentCount! > 1 &&
                                                 Preference.getInt(Preference.APP_LANGUAGE) == 1)
                                               Text(
                                                 Preference.getInt(Preference.APP_LANGUAGE) == 1
@@ -3053,71 +3223,76 @@ class _DashboardPageState extends State<DashboardPage> {
                                                 style: Styles.regular(
                                                     size: 12, color: ColorConstants.BLACK),
                                               )*/
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        //Share.share('${widget.image_path}');
-                                      },
-                                      child: Container(
-                                        child: Row(
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                right: 4.0,
+                                      InkWell(
+                                        onTap: () {
+                                          //Share.share('${widget.image_path}');
+                                        },
+                                        child: Container(
+                                          child: Row(
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  right: 4.0,
+                                                ),
+                                                child: SvgPicture.asset(
+                                                  'assets/images/share_icon.svg',
+                                                  height: 18.8,
+                                                  width: 17.86,
+                                                  allowDrawingOutsideViewBox:
+                                                      true,
+                                                ),
                                               ),
-                                              child: SvgPicture.asset(
-                                                'assets/images/share_icon.svg',
-                                                height: 18.8,
-                                                width: 17.86,
-                                                allowDrawingOutsideViewBox: true,
-                                              ),
-                                            ),
-                                            Text(
-                                              '${Strings.of(context)?.Share}',
-                                              style: Styles.regular(
-                                                  size: 12, color: ColorConstants.BLACK),
-                                            )
-                                          ],
+                                              Text(
+                                                '${Strings.of(context)?.Share}',
+                                                style: Styles.regular(
+                                                    size: 12,
+                                                    color:
+                                                        ColorConstants.BLACK),
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    )
-                                  ],
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-
-                            ]),
-                      );
-                    },
+                              ]),
+                        );
+                      },
                     ),
                   ),
                 ),
-
-                SizedBox(height: 10.0,),
-                _dots(selectedPage),
-                SizedBox(height: 20.0,)
+                SizedBox(
+                  height: 10.0,
+                ),
+                _dots(selectedPage, carvaanList?.length as int),
+                SizedBox(
+                  height: 20.0,
+                )
               ],
             ),
           );
         });
-
   }
 
-  _dots(int index) {
+  _dots(int index, int postCount) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         DotsIndicator(
-          dotsCount: 3,
+          dotsCount: postCount,
           position: index.toDouble(),
           decorator: DotsDecorator(
             size: const Size.square(8.0),
             color: Color(0xffCCCACA),
+            spacing: const EdgeInsets.only(left: 5.0),
             activeColor: ColorConstants.GRADIENT_ORANGE,
-            activeSize: const Size(25.0, 8.0),
+            activeSize: const Size(22.0, 8.0),
             activeShape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.0)),
           ),
@@ -3177,7 +3352,9 @@ class _DashboardPageState extends State<DashboardPage> {
                           builder: (context) {
                             return FractionallySizedBox(
                               heightFactor: 1.0,
-                              child: ViewWidgetDetailsPage(root: 'dashboard',),
+                              child: ViewWidgetDetailsPage(
+                                root: 'dashboard',
+                              ),
                             );
                           });
                     },
@@ -3215,8 +3392,8 @@ class _DashboardPageState extends State<DashboardPage> {
                               isScrollControlled: true,
                               builder: (context) {
                                 return FractionallySizedBox(
-                                    heightFactor: 1.0,
-                                    /*child: ViewWidgetDetailsPage(
+                                  heightFactor: 1.0,
+                                  /*child: ViewWidgetDetailsPage(
                                       joyContentList: featuredContentList
                                           as List<JoyContentListElement>,
                                       currentIndex: index,
@@ -3258,7 +3435,8 @@ class _DashboardPageState extends State<DashboardPage> {
                                             ],
                                           )),
                                           child: CachedNetworkImage(
-                                            imageUrl: '${featuredContentList![index].resourcePathThumbnail}',
+                                            imageUrl:
+                                                '${featuredContentList![index].resourcePathThumbnail}',
                                             // '${featuredContentList![index].thumbnailUrl}',
                                             imageBuilder:
                                                 (context, imageProvider) =>
@@ -3623,6 +3801,7 @@ class CreateThumnail extends StatelessWidget {
 
 class ShowImage extends StatefulWidget {
   final String? path;
+
   ShowImage({Key? key, this.path}) : super(key: key);
 
   @override
@@ -3631,6 +3810,7 @@ class ShowImage extends StatefulWidget {
 
 class _ShowImageState extends State<ShowImage> {
   Uint8List? imageFile;
+
   @override
   void initState() {
     print('creating file ${widget.path}');
@@ -3689,7 +3869,6 @@ class _ShowImageState extends State<ShowImage> {
   }
 }
 
-
 class BlankPage extends StatelessWidget {
   const BlankPage({Key? key}) : super(key: key);
 
@@ -3725,7 +3904,6 @@ class BlankPage extends StatelessWidget {
                                 color: Colors.white,
                               )),
                         ),
-
                       ],
                     ),
                   ),
@@ -3944,7 +4122,6 @@ class BlankPage extends StatelessWidget {
             ),
           ),
         ),
-
         Container(
           width: double.infinity,
           child: Padding(
@@ -3973,7 +4150,6 @@ class BlankPage extends StatelessWidget {
                                 color: Colors.white,
                               )),
                         ),
-
                       ],
                     ),
                   ),
@@ -4006,7 +4182,6 @@ class BlankPage extends StatelessWidget {
             ),
           ),
         ),
-
         Container(
           width: double.infinity,
           child: Padding(
@@ -4180,7 +4355,6 @@ class CompetitionBlankPage extends StatelessWidget {
                             color: Colors.white,
                           )),
                     ),
-
                   ],
                 ),
                 SizedBox(
@@ -4202,7 +4376,6 @@ class CompetitionBlankPage extends StatelessWidget {
                     SizedBox(
                       width: 7,
                     ),
-
                     SizedBox(
                       width: 7,
                     ),

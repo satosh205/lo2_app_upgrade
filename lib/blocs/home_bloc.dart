@@ -47,6 +47,7 @@ import 'package:masterg/data/models/response/home_response/new_portfolio_respons
 import 'package:masterg/data/models/response/home_response/notification_resp.dart';
 import 'package:masterg/data/models/response/home_response/onboard_sessions.dart';
 import 'package:masterg/data/models/response/home_response/popular_courses_response.dart';
+import 'package:masterg/data/models/response/home_response/portfolio_competition_response.dart';
 import 'package:masterg/data/models/response/home_response/post_comment_response.dart';
 import 'package:masterg/data/models/response/home_response/program_list_reponse.dart';
 import 'package:masterg/data/models/response/home_response/report_content_response.dart';
@@ -57,6 +58,7 @@ import 'package:masterg/data/models/response/home_response/submit_feedback_resp.
 import 'package:masterg/data/models/response/home_response/survey_data_resp.dart';
 import 'package:masterg/data/models/response/home_response/test_attempt_response.dart';
 import 'package:masterg/data/models/response/home_response/test_review_response.dart';
+import 'package:masterg/data/models/response/home_response/top_score.dart';
 import 'package:masterg/data/models/response/home_response/topics_resp.dart';
 import 'package:masterg/data/models/response/home_response/training_detail_response.dart';
 import 'package:masterg/data/models/response/home_response/training_module_response.dart';
@@ -1424,6 +1426,45 @@ class UploadProfileEvent extends HomeEvent {
 
   List<Object> get props => throw UnimplementedError();
 }
+class AddSocialEvent extends HomeEvent {
+  Map<String, dynamic>? data;
+
+  AddSocialEvent({this.data}) : super([data]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+class PortfolioCompetitoinEvent extends HomeEvent {
+  PortfolioCompetitoinEvent() : super([]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+class PortfoilioCompetitionState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  PortfolioCompetitionResponse? response;
+  String? error;
+  PortfoilioCompetitionState(this.state, {this.response, this.error});
+}
+
+class AddSocialState extends HomeState {
+  
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  AddPortfolioResp? response;
+  String? error;
+  AddSocialState(this.state, {this.response, this.error});
+}
+
+class TopScoringUserState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  TopScoringResponse? response;
+  String? error;
+  TopScoringUserState(this.state, {this.response, this.error});
+}
 
 class PortfolioState extends HomeState {
   ApiStatus state;
@@ -1464,6 +1505,13 @@ class AddExperienceEvent extends HomeEvent {
   Map<String, dynamic>? data;
 
   AddExperienceEvent({this.data}) : super([data]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+class TopScoringUserEvent extends HomeEvent {
+  int? userId;
+
+  TopScoringUserEvent({this.userId}) : super([userId]);
 
   List<Object> get props => throw UnimplementedError();
 }
@@ -1549,7 +1597,51 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc(HomeState initialState) : super(initialState);
 
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
-if(event is UploadProfileEvent){
+if(event is TopScoringUserEvent){
+   try {
+        yield TopScoringUserState(ApiStatus.LOADING);
+        final response = await homeRepository.topScoringUser(userId: event.userId);
+        Log.v("top scoring resume DATA ::: ${response?.data}");
+
+        if (response?.data != null) {
+          yield TopScoringUserState(ApiStatus.SUCCESS, response: response!);
+        } else {
+          Log.v("top scoring   ERROR DATA ::: $response");
+          yield TopScoringUserState(ApiStatus.ERROR, response: response!);
+        }
+      } catch (e) {}
+}
+
+    else if(event is PortfolioCompetitoinEvent){
+ try {
+        yield PortfoilioCompetitionState(ApiStatus.LOADING);
+        final response = await homeRepository.getPortfolioCompetition();
+        Log.v("Add Social resume DATA ::: ${response?.data}");
+
+        if (response?.data != null) {
+          yield PortfoilioCompetitionState(ApiStatus.SUCCESS, response: response!);
+        } else {
+          Log.v("Add social   ERROR DATA ::: $response");
+          yield PortfoilioCompetitionState(ApiStatus.ERROR, response: response!);
+        }
+      } catch (e) {}
+    }
+
+    else  if(event is AddSocialEvent){
+ try {
+        yield AddSocialState(ApiStatus.LOADING);
+        final response = await homeRepository.addSocial(data: event.data);
+        Log.v("Add Social resume DATA ::: ${response?.data}");
+
+        if (response?.data != null) {
+          yield AddSocialState(ApiStatus.SUCCESS, response: response!);
+        } else {
+          Log.v("Add social   ERROR DATA ::: $response");
+          yield AddSocialState(ApiStatus.ERROR, response: response!);
+        }
+      } catch (e) {}
+    }
+else if(event is UploadProfileEvent){
   try {
         yield UploadProfileState(ApiStatus.LOADING);
         final response = await homeRepository.uploadProfile(data: event.data);

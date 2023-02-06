@@ -19,7 +19,7 @@ import 'package:masterg/utils/resource/colors.dart';
 
 class ExperienceList extends StatefulWidget {
 
-  final List<CommonProfession> experience;
+  final List<CommonProfession>? experience;
   final String? baseUrl;
   
   const ExperienceList({Key? key, this.baseUrl, required this.experience}) : super(key: key);
@@ -30,6 +30,7 @@ class ExperienceList extends StatefulWidget {
 
 class _ExperienceListState extends State<ExperienceList> {
   bool isExperienceLoading = false;
+  List<CommonProfession>? experience;
    List<String> listOfMonths = [
     "Janaury",
     "February",
@@ -44,6 +45,13 @@ class _ExperienceListState extends State<ExperienceList> {
     "November",
     "December"
   ];
+
+  @override
+  void initState() {
+experience = widget.experience;
+   
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocManager(
@@ -52,8 +60,14 @@ class _ExperienceListState extends State<ExperienceList> {
             listener: (context, state) async {
               if (state is SingularisDeletePortfolioState)
                 handleSingularisDeletePortfolioState(state);
+
+                if (state is PortfolioState) {
+                  handlePortfolioState(state);
+                }
             },
             child:Scaffold(
+                  backgroundColor: ColorConstants.WHITE,
+
                appBar: AppBar(
                   title: Text("Experience",
                       style: Styles.bold()),
@@ -83,7 +97,7 @@ class _ExperienceListState extends State<ExperienceList> {
                                       margin: const EdgeInsets.only(top: 10),
                                       child: AddExperience()),
                                 );
-                              });
+                              }).then((value) =>  updatePortfolioList());
                         },
                         icon: Icon(
                           Icons.add,
@@ -101,14 +115,14 @@ class _ExperienceListState extends State<ExperienceList> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ListView.builder(
-                              itemCount: widget.experience.length,
+                              itemCount: experience?.length,
                               itemBuilder: (BuildContext context, int index) {
 
  String startDateString =
-                              "${widget.experience[index].startDate}";
+                              "${experience?[index].startDate}";
                      
                           DateTime startDate =
-                              DateFormat("dd/MM/yyyy").parse(startDateString);
+                              DateFormat("yyyy-MM-dd").parse(startDateString);
                      
                 return Container(
                   margin: EdgeInsets.only(right: 10),
@@ -125,7 +139,7 @@ class _ExperienceListState extends State<ExperienceList> {
                             height: width(context) * 0.2,
                             child: CachedNetworkImage(
                               imageUrl:
-                                  "${widget.baseUrl}${widget.experience[index].imageName}",
+                                  "${widget.baseUrl}${experience?[index].imageName}",
                               progressIndicatorBuilder:
                                   (context, url, downloadProgress) =>
                                       CircularProgressIndicator(
@@ -146,7 +160,7 @@ class _ExperienceListState extends State<ExperienceList> {
                             width: width(context) * 0.7,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,21 +168,41 @@ class _ExperienceListState extends State<ExperienceList> {
                                     SizedBox(
                                       width: width(context) * 0.5,
                                       child: Text(
-                                        '${widget.experience[index].title}',
+                                        '${experience?[index].title}',
                                         style: Styles.bold(size: 16),
                                       ),
                                     ),
                                      
-                                                          SvgPicture.asset(
-                                                              'assets/images/edit_portfolio.svg'),
+                                                          InkWell(
+                                                            onTap: (){
+                                                               showModalBottomSheet(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              context: context,
+                              enableDrag: true,
+                              isScrollControlled: true,
+                              builder: (context) {
+                                return FractionallySizedBox(
+                                  heightFactor: 0.7,
+                                  child: Container(
+                                      height: height(context),
+                                      padding: const EdgeInsets.all(8.0),
+                                      margin: const EdgeInsets.only(top: 10),
+                                      child: AddExperience(isEditMode: true, experience : experience?[index])),
+                                );
+                              }).then((value) =>    updatePortfolioList());
+                                                            },
+                                                            child: SvgPicture.asset(
+                                                                'assets/images/edit_portfolio.svg'),
+                                                          ),
                                                           SizedBox(
-                                                            width: 10,
+                                                            width: 20,
                                                           ),
                                                           InkWell(
                                                             onTap: () {
                                                               deletePortfolio(
                                                                   widget
-                                                                      .experience[
+                                                                      .experience![
                                                                           index]
                                                                       .id);
                                                             },
@@ -181,7 +215,7 @@ class _ExperienceListState extends State<ExperienceList> {
                                   height: 4,
                                 ),
                                 Text(
-                                  '${widget.experience[index].institute}',
+                                  '${experience?[index].institute}',
                                   style: Styles.regular(size: 14),
                                 ),
                                 SizedBox(
@@ -191,9 +225,9 @@ class _ExperienceListState extends State<ExperienceList> {
                                           children: [
                                           
                                            
-                                Text('${widget.experience[index].curricularType} • '),
+                                Text('${experience?[index].curricularType.replaceAll('_', '')} • '),
                                   Text(
-                                              '  ${startDate.day} ${listOfMonths[startDate.month]} ',
+                                              '  ${startDate.day} ${listOfMonths[startDate.month - 1]} ',
                                               style: Styles.regular(size: 14),
                                             ),
 
@@ -209,10 +243,10 @@ class _ExperienceListState extends State<ExperienceList> {
                       ),
                       ReadMoreText(
                         viewMore: 'View more',
-                        text: '${widget.experience[index].description}',
+                        text: '${experience?[index].description}',
                         color: Color(0xff929BA3),
                       ),
-                      if (index != widget.experience.length) Divider()
+                      if (index != experience?.length) Divider()
                     ],
                   ),
                 );
@@ -241,8 +275,7 @@ class _ExperienceListState extends State<ExperienceList> {
         case ApiStatus.SUCCESS:
           Log.v("Success Delete  Experience....................");
            isExperienceLoading = false;
-
-          Navigator.pop(context);
+           updatePortfolioList();
           break;
         case ApiStatus.ERROR:
           Log.v("Error Delete Experience....................");
@@ -256,5 +289,44 @@ class _ExperienceListState extends State<ExperienceList> {
 
             );
     
+  }
+
+  void updatePortfolioList(){
+    print('make api call');
+   BlocProvider.of<HomeBloc>(context)
+                                .add(PortfolioEvent());
+  }
+
+  void handlePortfolioState(PortfolioState state) {
+    var portfolioState = state;
+    setState(() async {
+      switch (portfolioState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("PortfolioState Loading....................");
+          isExperienceLoading = true;
+          setState(() {});
+
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("PortfolioState Success....................");
+          experience = portfolioState.response?.data.experience;
+          isExperienceLoading = false;
+
+          setState(() {});
+          break;
+
+        case ApiStatus.ERROR:
+          isExperienceLoading = false;
+          setState(() {});
+
+          Log.v("PortfolioState Error..........................");
+          Log.v(
+              "PortfolioState Error..........................${portfolioState.error}");
+
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
   }
 }

@@ -46,12 +46,12 @@ class _AddActivitiesState extends State<AddActivities> {
 
   void updateValue(){
     if(widget.isEditMode == true){
-      activitytitleController = 
+      
 
        activitytitleController =
           TextEditingController(text: widget.activity?.title);
    organizationController = TextEditingController(text: widget.activity?.institute);
-   activityController = TextEditingController(text: widget.activity?.activityType);
+   activityController = TextEditingController(text: widget.activity?.curricularType);
    descController = TextEditingController(text: widget.activity?.description);
    startDate = TextEditingController(text: widget.activity?.startDate);
 
@@ -320,12 +320,24 @@ class _AddActivitiesState extends State<AddActivities> {
             
                                     Map<String, dynamic> data = Map();
                                     try {
-                                      String? fileName =
+                                   if(widget.isEditMode == true){
+                                    if(uploadImg?.path != null){
+                                         String? fileName =
                                           uploadImg?.path.split('/').last;
                                       data['certificate'] =
                                           await MultipartFile.fromFile(
                                               '${uploadImg?.path}',
                                               filename: fileName);
+                                    }
+                                   }
+                                   else {
+                                       String? fileName =
+                                          uploadImg?.path.split('/').last;
+                                      data['certificate'] =
+                                          await MultipartFile.fromFile(
+                                              '${uploadImg?.path}',
+                                              filename: fileName);
+                                   }
                                     } catch (e) {
                                       print('something is wrong $e');
                                     }
@@ -340,8 +352,8 @@ class _AddActivitiesState extends State<AddActivities> {
                  ? "activity_${widget.activity?.id}"
                 : "new_professional";
             data["institute"] = organizationController.value.text;
-            data["edit_url_professional"] = widget.isEditMode == true && uploadImg?.path == null ? widget.activity?.imageName:"";
-            data['curricular_type'] =  activitytitleController.value.text;
+            data["edit_url_professional"] = widget.isEditMode == true ? widget.activity?.imageName:"";
+            data['curricular_type'] =  activityController.value.text;
             
             
             
@@ -374,9 +386,7 @@ class _AddActivitiesState extends State<AddActivities> {
         case ApiStatus.SUCCESS:
           Log.v("Success Add Activities....................");
           isAddActivitiesLoading = false;
-           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text("Activities added"),
-          ));
+          
           Navigator.pop(context);
           break;
         case ApiStatus.ERROR:
@@ -400,7 +410,7 @@ class _AddActivitiesState extends State<AddActivities> {
     if (picked != null && picked != selectedDate)
       setState(() {
         selectedDate = picked;
-        controller.text = Utility.convertDateFormat(selectedDate);
+        controller.text = Utility.convertDateFormat(selectedDate, format: 'yyyy-MM-dd');
       });
   }
 }

@@ -1006,7 +1006,7 @@ class DashboardCarvanLimit {
   int? isMultilingual;
   int? visibilityValue;
   int? visibility;
-  //Dimension? dimension;
+  Dimension? dimension;
   List<String>? multiFileUploads;
   int? viewCount;
   dynamic multipleFileUpload;
@@ -1048,7 +1048,7 @@ class DashboardCarvanLimit {
     this.isMultilingual,
     this.visibilityValue,
     this.visibility,
-    //this.dimension,
+    this.dimension,
     this.multiFileUploads,
     this.viewCount,
     this.multipleFileUpload,
@@ -1091,7 +1091,7 @@ class DashboardCarvanLimit {
     isMultilingual = json['is_multilingual'] as int?;
     visibilityValue = json['visibility_value'] as int?;
     visibility = json['visibility'] as int?;
-    //dimension = (json['dimension'] as Map<String,dynamic>?) != null ? Dimension.fromJson(json['dimension'] as Map<String,dynamic>) : null;
+    dimension = (json['dimension'] as Map<String,dynamic>?) != null ? Dimension.fromJson(json['dimension'] as Map<String,dynamic>) : null;
     multiFileUploads = (json['multi_file_uploads'] as List?)?.map((dynamic e) => e as String).toList();
     viewCount = json['view_count'] as int?;
     multipleFileUpload = json['multiple_file_upload'];
@@ -1327,7 +1327,7 @@ class DashboardMyCoursesLimit {
   String? name;
   int? hours;
   int? enrollments;
-  int? completion;
+  double? completion;
 
   DashboardMyCoursesLimit({
     this.id,
@@ -1344,7 +1344,7 @@ class DashboardMyCoursesLimit {
     name = json['name'] as String?;
     hours = json['hours'] as int?;
     enrollments = json['enrollments'] as int?;
-    completion = json['completion'] ;
+    completion = json['completion'].toDouble();
   }
 
   Map<String, dynamic> toJson() {

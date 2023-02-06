@@ -71,13 +71,13 @@ class Competition {
     String? name;
     String? description;
     String? image;
-    DateTime? startDate;
-    DateTime? endDate;
+    String? startDate;
+    String? endDate;
     dynamic duration;
     int? createdBy;
     String? status;
-    DateTime? createdAt;
-    DateTime? updatedAt;
+    String? createdAt;
+    String? updatedAt;
     int? organizationId;
     int? isGlobalProgram;
     int? registrationNeedApproval;
@@ -111,13 +111,13 @@ class Competition {
         name: json["name"],
         description: json["description"],
         image: json["image"],
-        startDate: DateTime.parse(json["start_date"]),
-        endDate: DateTime.parse(json["end_date"]),
+        startDate: json["start_date"],
+        endDate: json["end_date"],
         duration: json["duration"],
         createdBy: json["created_by"],
         status: json["status"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
+        createdAt: json["created_at"],
+        updatedAt: json["updated_at"],
         organizationId: json["organization_id"],
         isGlobalProgram: json["is_global_program"],
         registrationNeedApproval: json["registration_need_approval"],
@@ -147,13 +147,13 @@ class Competition {
         "name": name,
         "description": description,
         "image": image,
-        "start_date": startDate?.toIso8601String(),
-        "end_date": endDate?.toIso8601String(),
+        "start_date": startDate,
+        "end_date": endDate,
         "duration": duration,
         "created_by": createdBy,
         "status": status,
-        "created_at": createdAt?.toIso8601String(),
-        "updated_at": updatedAt?.toIso8601String(),
+        "created_at": createdAt,
+        "updated_at": updatedAt,
         "organization_id": organizationId,
         "is_global_program": isGlobalProgram,
         "registration_need_approval": registrationNeedApproval,

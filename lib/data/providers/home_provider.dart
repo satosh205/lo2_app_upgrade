@@ -1555,6 +1555,37 @@ class HomeProvider {
     }
     return null;
   }
+
+
+  Future<ApiResponse?> addSocial(Map<String, dynamic> data) async {
+    
+    try {
+      final response = await api.dio.post(ApiConstants.ADD_SOCIAL,
+      data: FormData.fromMap(data),
+          options: Options(
+              method: 'POST',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+    return null;
+  }
+
+
    Future<ApiResponse?> uploadProfile(Map<String, dynamic> data) async {
     
     try {
@@ -1587,6 +1618,34 @@ class HomeProvider {
     // Utility.hideKeyboard();
     try {
       final response = await api.dio.get(ApiConstants.LEARNINGSPACE_DATA,
+          options: Options(
+              method: 'GET',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+    return null;
+  }
+
+
+   Future<ApiResponse?> getPortfolioCompetition() async {
+    // Utility.hideKeyboard();
+    try {
+      final response = await api.dio.get(ApiConstants.GET_PORTFOLIO_COMPETITION,
           options: Options(
               method: 'GET',
               headers: {
@@ -2286,6 +2345,48 @@ class HomeProvider {
               contentType: "application/json",
               responseType: ResponseType.json // or ResponseType.JSON
               ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+    return null;
+  }
+
+  //
+
+  Future<ApiResponse?> topScoringUser({int? userId}) async {
+    try {
+     /* final response = await api.dio.post(ApiConstants.TOP_SCORING_USER,
+          data: FormData.fromMap(userId),
+          options: Options(
+              method: 'POST',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+          ));*/
+
+      final response = await api.dio.get(ApiConstants.TOP_SCORING_USER+'?id='+userId.toString(),
+
+          options: Options(
+              method: 'GET',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+          ));
+
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data.containsKey('error') &&
             (response.data["error"] as List).length != 0) {

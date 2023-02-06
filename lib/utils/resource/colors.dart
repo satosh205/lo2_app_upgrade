@@ -82,6 +82,7 @@ class ColorConstants {
   static const PURPLE = Color(0xff2c2738);
   static const STARCOLOUR = Color(0xfff9414d);
   static const PILL_BG = Color(0xfffff4db);
+  static const ALL_BG = Color(0xffD4D4D4);
 
   //Continue button color
   static const CONTINUE_COLOR = Color(0xff043140);

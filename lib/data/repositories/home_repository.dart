@@ -45,6 +45,7 @@ import 'package:masterg/data/models/response/home_response/new_portfolio_respons
 import 'package:masterg/data/models/response/home_response/notification_resp.dart';
 import 'package:masterg/data/models/response/home_response/onboard_sessions.dart';
 import 'package:masterg/data/models/response/home_response/popular_courses_response.dart';
+import 'package:masterg/data/models/response/home_response/portfolio_competition_response.dart';
 import 'package:masterg/data/models/response/home_response/post_comment_response.dart';
 import 'package:masterg/data/models/response/home_response/program_list_reponse.dart';
 import 'package:masterg/data/models/response/home_response/report_content_response.dart';
@@ -55,6 +56,7 @@ import 'package:masterg/data/models/response/home_response/submit_feedback_resp.
 import 'package:masterg/data/models/response/home_response/survey_data_resp.dart';
 import 'package:masterg/data/models/response/home_response/test_attempt_response.dart';
 import 'package:masterg/data/models/response/home_response/test_review_response.dart';
+import 'package:masterg/data/models/response/home_response/top_score.dart';
 import 'package:masterg/data/models/response/home_response/topics_resp.dart';
 import 'package:masterg/data/models/response/home_response/training_detail_response.dart';
 import 'package:masterg/data/models/response/home_response/training_module_response.dart';
@@ -610,6 +612,44 @@ class HomeRepository {
     } else {
       Log.v("====> ${response.body}");
       return AddPortfolioResp.fromJson(response.body);
+    }
+  }
+  Future<AddPortfolioResp?> addSocial({Map<String, dynamic>? data}) async {
+    final response = await homeProvider.addSocial( data!);
+
+    if (response!.success) {
+      Log.v("Add Social Content  DATA : ${response.body}");
+      AddPortfolioResp portfolioResponse =
+          AddPortfolioResp.fromJson(response.body);
+      return portfolioResponse;
+    } else {
+      Log.v("====> ${response.body}");
+      return AddPortfolioResp.fromJson(response.body);
+    }
+  }
+  Future<PortfolioCompetitionResponse?> getPortfolioCompetition() async {
+    final response = await homeProvider.getPortfolioCompetition();
+
+    if (response!.success) {
+      Log.v("Get portfolio competition response  DATA : ${response.body}");
+      PortfolioCompetitionResponse portfolioResponse =
+          PortfolioCompetitionResponse.fromJson(response.body);
+      return portfolioResponse;
+    } else {
+      Log.v("====> ${response.body}");
+      return PortfolioCompetitionResponse.fromJson(response.body);
+    }
+  }
+  Future<TopScoringResponse?> topScoringUser({int? userId}) async {
+    final response = await homeProvider.topScoringUser(userId: userId);
+    if (response!.success) {
+      Log.v("top scoring response  DATA : ${response.body}");
+      TopScoringResponse portfolioResponse =
+          TopScoringResponse.fromJson(response.body);
+      return portfolioResponse;
+    } else {
+      Log.v("====> ${response.body}");
+      return TopScoringResponse.fromJson(response.body);
     }
   }
 
