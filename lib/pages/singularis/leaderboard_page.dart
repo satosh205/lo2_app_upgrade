@@ -6,6 +6,7 @@ import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/leaderboard_resp.dart';
 import 'package:masterg/local/pref/Preference.dart';
+import 'package:masterg/pages/singularis/point_history.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
@@ -262,9 +263,17 @@ return Container(
                               Padding(
                                 padding: const EdgeInsets.only(
                                     right: 8.0, top: 18),
-                                child: Text(
-                                  "${coin ?? 0}",
-                                  style: TextStyle(fontSize: 15),
+                                child: InkWell(
+                                  onTap: () {
+                                   Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PointHistory()));
+                                  },
+                                  child: Text(
+                                    "${coin ?? 0}",
+                                    style: TextStyle(fontSize: 15),
+                                  ),
                                 ),
                               )
                             ],
