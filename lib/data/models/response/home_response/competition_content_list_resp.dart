@@ -35,16 +35,21 @@ class CompetitionContentListResponse {
 class Data {
     Data({
         this.list,
+        this.competitionInstructions,
     });
 
     List<CompetitionContent?>? list;
+    CompetitionInstructions? competitionInstructions;
+    
 
     factory Data.fromJson(Map<String, dynamic> json) => Data(
         list: json["list"] == null ? [] : List<CompetitionContent?>.from(json["list"]!.map((x) => CompetitionContent.fromJson(x))),
+        competitionInstructions: CompetitionInstructions.fromJson(json["competition_instructions"]),
     );
 
     Map<String, dynamic> toJson() => {
         "list": list == null ? [] : List<dynamic>.from(list!.map((x) => x!.toJson())),
+        "competition_instructions": competitionInstructions?.toJson(),
     };
 }
 
@@ -297,5 +302,29 @@ class CompetitionContent {
         "liveclass_action": liveclassAction,
         "liveclass_action_title": liveclassActionTitle,
         "session_starting_in": sessionStartingIn,
+    };
+}
+
+class CompetitionInstructions {
+    CompetitionInstructions({
+        this.whatsIn,
+        this.instructions,
+        this.faq,
+    });
+
+    String? whatsIn;
+    String? instructions;
+    String? faq;
+
+    factory CompetitionInstructions.fromJson(Map<String, dynamic> json) => CompetitionInstructions(
+        whatsIn: json["whats_in"],
+        instructions: json["instructions"],
+        faq: json["faq"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "whats_in": whatsIn,
+        "instructions": instructions,
+        "faq": faq,
     };
 }
