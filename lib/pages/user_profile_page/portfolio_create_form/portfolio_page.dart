@@ -53,6 +53,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../../../utils/utility.dart';
+import '../../singularis/recentactivities/recent_activities_page.dart';
 
 class NewPortfolioPage extends StatefulWidget {
   const NewPortfolioPage({super.key});
@@ -1571,7 +1572,14 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       child: Column(
         children: [
           topRow('Recent Activites',
-              addAction: () {}, arrowAction: () {}, showAddButton: false),
+              addAction: () {},
+              arrowAction: () {
+                Navigator.push(
+                    context,
+                    NextPageRoute(
+                        RecentActivitiesPage(), isMaintainState: false));
+              },
+              showAddButton: false),
           isPortfolioLoading == false
               ? SizedBox(
                   height: height(context) * 0.5,
