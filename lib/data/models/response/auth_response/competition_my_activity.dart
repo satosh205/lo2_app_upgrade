@@ -1,0 +1,66 @@
+
+import 'dart:convert';
+
+CompetitionMyActivityResponse competitionMyActivityResponseFromJson(String str) => CompetitionMyActivityResponse.fromJson(json.decode(str));
+
+String competitionMyActivityResponseToJson(CompetitionMyActivityResponse data) => json.encode(data.toJson());
+
+class CompetitionMyActivityResponse {
+    CompetitionMyActivityResponse({
+        required this.status,
+        required this.data,
+        required this.error,
+    });
+
+    int status;
+    List<CompetitionActivityElement> data;
+    List<dynamic> error;
+
+    factory CompetitionMyActivityResponse.fromJson(Map<String, dynamic> json) => CompetitionMyActivityResponse(
+        status: json["status"],
+        data: List<CompetitionActivityElement>.from(json["data"].map((x) => CompetitionActivityElement.fromJson(x))),
+        error: List<dynamic>.from(json["error"].map((x) => x)),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "status": status,
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "error": List<dynamic>.from(error.map((x) => x)),
+    };
+}
+
+class CompetitionActivityElement {
+    CompetitionActivityElement({
+        required this.id,
+        required this.name,
+        required this.totalActivitiesCompleted,
+        this.activityStatus,
+        required this.pImage,
+        required this.totalContents,
+    });
+
+    int id;
+    String name;
+    int totalActivitiesCompleted;
+    dynamic activityStatus;
+    String pImage;
+    int totalContents;
+
+    factory CompetitionActivityElement.fromJson(Map<String, dynamic> json) => CompetitionActivityElement(
+        id: json["id"],
+        name: json["name"],
+        totalActivitiesCompleted: json["total_activities_completed"],
+        activityStatus: json["activity_status"],
+        pImage: json["p_image"],
+        totalContents: json["total_contents"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "total_activities_completed": totalActivitiesCompleted,
+        "activity_status": activityStatus,
+        "p_image": pImage,
+        "total_contents": totalContents,
+    };
+}

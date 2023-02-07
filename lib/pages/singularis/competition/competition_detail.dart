@@ -22,7 +22,6 @@ import 'package:masterg/pages/ghome/widget/read_more.dart';
 import 'package:masterg/pages/singularis/competition/competition_navigation/competition_notes.dart';
 import 'package:masterg/pages/singularis/competition/competition_navigation/competition_session.dart';
 import 'package:masterg/pages/singularis/competition/competition_navigation/competition_youtube.dart';
-import 'package:masterg/pages/singularis/leaderboard_page.dart';
 import 'package:masterg/pages/training_pages/assessment_page.dart';
 import 'package:masterg/pages/training_pages/assignment_detail_page.dart';
 import 'package:masterg/pages/training_pages/training_service.dart';
@@ -244,10 +243,10 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                                   SizedBox(width: 8),
                                   InkWell(
                                     onTap: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  LeaderboardPage()));
+                                      // Navigator.of(context).push(
+                                      //     MaterialPageRoute(
+                                      //         builder: (context) =>
+                                      //             LeaderboardPage()));
                                     },
                                     child: Text('View Leaderboard',
                                         style: Styles.semibold(

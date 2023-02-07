@@ -10,16 +10,22 @@ import 'package:intl/intl.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
+import 'package:masterg/data/models/response/auth_response/competition_my_activity.dart';
+import 'package:masterg/data/models/response/home_response/competition_content_list_resp.dart';
 import 'package:masterg/data/models/response/home_response/competition_response.dart';
 import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
+import 'package:masterg/data/models/response/home_response/portfolio_competition_response.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/singularis/competition/competition_detail.dart';
+import 'package:masterg/pages/singularis/competition/competition_my_activity.dart';
+import 'package:masterg/pages/singularis/competition/competition_navigation/competition_my_activity.dart';
 import 'package:masterg/pages/singularis/leaderboard_page.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:shimmer/shimmer.dart';
 // import 'package:phone_verification/phone_verification.dart';
 
@@ -34,6 +40,8 @@ class Competetion extends StatefulWidget {
 class _CompetetionState extends State<Competetion> {
   // List<MProgram>? competitionList;
   CompetitionResponse? competitionResponse, popularCompetitionResponse;
+  PortfolioCompetitionResponse? completedCompetition;
+  CompetitionMyActivityResponse? myActivity;
   bool? competitionLoading;
   bool? popularCompetitionLoading;
 
@@ -50,10 +58,10 @@ class _CompetetionState extends State<Competetion> {
         .add(CompetitionListEvent(isPopular: false));
   }
 
-  void getPopularCompetitionList() {
-    BlocProvider.of<HomeBloc>(context)
-        .add(CompetitionListEvent(isPopular: true));
-  }
+  // void getPopularCompetitionList() {
+  //   BlocProvider.of<HomeBloc>(context)
+  //       .add(CompetitionListEvent(isPopular: true));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -76,12 +84,12 @@ class _CompetetionState extends State<Competetion> {
             child: Container(
               color: ColorConstants.WHITE,
               child: SingleChildScrollView(
-                child: Column(
-                    children: [
+                child: Column(children: [
                   Container(
                     width: width(context),
                     height: height(context) * 0.1,
                     decoration: BoxDecoration(
+                      color: ColorConstants.WHITE,
                       gradient: LinearGradient(
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
@@ -95,9 +103,9 @@ class _CompetetionState extends State<Competetion> {
                       child: Row(
                         children: [
                           SizedBox(
-                             width: 45,
-                                height: 45,
-                            child:ClipRRect(
+                            width: 45,
+                            height: 45,
+                            child: ClipRRect(
                               borderRadius: BorderRadius.circular(200),
                               child: CachedNetworkImage(
                                 imageUrl:
@@ -109,8 +117,14 @@ class _CompetetionState extends State<Competetion> {
                               ),
                             ),
                           ),
-                          SizedBox(width: width(context) * 0.02,),
-                          Text('${Preference.getString(Preference.FIRST_NAME)}', style: Styles.bold(size: 22, color: ColorConstants.WHITE),)
+                          SizedBox(
+                            width: width(context) * 0.02,
+                          ),
+                          Text(
+                            '${Preference.getString(Preference.FIRST_NAME)}',
+                            style: Styles.bold(
+                                size: 22, color: ColorConstants.WHITE),
+                          )
                         ],
                       ),
                     ),
@@ -194,9 +208,9 @@ class _CompetetionState extends State<Competetion> {
                               left: 10,
                               bottom: 40,
                               child: renderTopButton(
-                                'assets/images/leaderboard.png',
-                                'Your rank: ',
-                                '120')),
+                                  'assets/images/leaderboard.png',
+                                  'Your rank: ',
+                                  '120')),
                           Positioned(
                               right: 10,
                               bottom: 40,
@@ -225,12 +239,60 @@ class _CompetetionState extends State<Competetion> {
                     padding: EdgeInsets.symmetric(horizontal: 8),
                     child: Column(
                       children: [
+                        if (completedCompetition != null || myActivity != null)
+                          Column(
+                            children: [
+                              Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                                children: [
+                                  Text('My Activities',
+                                      style: Styles.regular(
+                                        size: 14,
+                                        color: ColorConstants.GREY_6,
+                                      )),
+                                  InkWell(
+                                    onTap: (){
+                                       Navigator.push(
+              context,
+              PageTransition(
+                  duration: Duration(milliseconds: 300),
+                  reverseDuration: Duration(milliseconds: 300),
+                  type: PageTransitionType.bottomToTop,
+                  child:  CompetitionMyActivity(
+               completedCompetition: completedCompetition,
+               myActivity: myActivity,
+                  )));
+                                     
+                                    },
+                                    child: Text('View all',
+                                        style: Styles.regular(
+                                          size: 12, 
+                                          color: ColorConstants.GRADIENT_RED,
+                                        )),
+                                  )
+                                ],
+                              ),
+
+                              SizedBox(
+                                height: height(context) * 0.15,
+                                child: ListView.builder(
+                                  itemCount: myActivity?.data.length,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index){
+                                  return CompetitionMyAcitivityCard(image: myActivity?.data[index].pImage, title: myActivity?.data[index].name, totalAct: myActivity?.data[index].totalContents, doneAct: myActivity?.data[index].totalActivitiesCompleted,) ;
+                                }),
+                              )
+                            ],
+                          ),
+
                         if (widget.fromDasboard == false)
                           Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text('Participate & Add to Your Portfolio',
                                     style: Styles.regular(
+                                        size: 14,
                                       color: ColorConstants.GREY_6,
                                     )),
                                 InkWell(
@@ -269,7 +331,7 @@ class _CompetetionState extends State<Competetion> {
                                                         competition:
                                                             competitionResponse
                                                                     ?.data?[
-                                                              index])));
+                                                                index])));
                                       },
                                       child: renderCompetitionCard(
                                           '${competitionResponse?.data![index]?.image ?? ''}',
@@ -479,87 +541,93 @@ class _CompetetionState extends State<Competetion> {
           ),
         ),
         SizedBox(width: 10),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: width(context) * 0.6,
-              child: Text(
-                name,
-                style: Styles.bold(size: 14),
-                maxLines: 1,
-                softWrap: true,
-                overflow: TextOverflow.ellipsis,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: width(context) * 0.6,
+                child: Text(
+                  name,
+                  style: Styles.bold(size: 14),
+                  maxLines: 1,
+                  softWrap: true,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
-            SizedBox(
-              height: 2,
-            ),
-            Row(
-              children: [
-                Text('Conducted by ',
-                    style: Styles.regular(size: 10, color: Color(0xff929BA3))),
-                Text(
-                  companyName,
-                  style: Styles.semibold(size: 12),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                ),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  color: Color(0xff0E1638),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 4,
-            ),
-            Row(
-              children: [
-                Text('Easy',
-                    style: Styles.regular(
-                        color: ColorConstants.GREEN_1, size: 12)),
-                SizedBox(
-                  width: 4,
-                ),
-                Text('•',
-                    style:
-                        Styles.regular(color: ColorConstants.GREY_2, size: 12)),
-                SizedBox(
-                  width: 4,
-                ),
-                SizedBox(
-                    height: 15, child: Image.asset('assets/images/coin.png')),
-                SizedBox(
-                  width: 4,
-                ),
-                Text('$gScore Points',
-                    style: Styles.regular(
-                        color: ColorConstants.ORANGE_4, size: 12)),
-                SizedBox(
-                  width: 4,
-                ),
-                Text('•',
-                    style:
-                        Styles.regular(color: ColorConstants.GREY_2, size: 12)),
-                SizedBox(
-                  width: 4,
-                ),
-                Icon(
-                  Icons.calendar_month,
-                  size: 20,
-                ),
-                SizedBox(
-                  width: 4,
-                ),
-                Text(
-                  date,
-                  style: Styles.regular(size: 12, color: Color(0xff5A5F73)),
-                )
-              ],
-            )
-          ],
+              SizedBox(
+                height: 2,
+              ),
+              Row(
+                children: [
+                  if (companyName != '')
+                    Text('Conducted by ',
+                        style:
+                            Styles.regular(size: 10, color: Color(0xff929BA3))),
+                  if (companyName != '')
+                    Text(
+                      companyName,
+                      style: Styles.semibold(size: 12),
+                    ),
+                  // SizedBox(
+                  //   width: MediaQuery.of(context).size.width * 0.4,
+                  // ),
+                  Spacer(),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    color: Color(0xff0E1638),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              Row(
+                children: [
+                  Text('$difficulty',
+                      style: Styles.regular(
+                          color: ColorConstants.GREEN_1, size: 12)),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Text('•',
+                      style: Styles.regular(
+                          color: ColorConstants.GREY_2, size: 12)),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  SizedBox(
+                      height: 15, child: Image.asset('assets/images/coin.png')),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Text('$gScore Points',
+                      style: Styles.regular(
+                          color: ColorConstants.ORANGE_4, size: 12)),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Text('•',
+                      style: Styles.regular(
+                          color: ColorConstants.GREY_2, size: 12)),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Icon(
+                    Icons.calendar_month,
+                    size: 20,
+                  ),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Text(
+                    date,
+                    style: Styles.regular(size: 12, color: Color(0xff5A5F73)),
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ]),
     );
@@ -568,10 +636,8 @@ class _CompetetionState extends State<Competetion> {
   renderTopButton(String img, String title, String value) {
     return InkWell(
       onTap: () {
-         Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  LeaderboardPage()));  
+        // Navigator.of(context)
+        //     .push(MaterialPageRoute(builder: (context) => LeaderboardPage()));
       },
       child: Container(
         height: 45,
@@ -747,8 +813,10 @@ class _CompetetionState extends State<Competetion> {
         case ApiStatus.SUCCESS:
           Log.v("CompetitionState....................");
           competitionResponse = state.competitonResponse;
-           popularCompetitionResponse = state.popularCompetitionResponse;
-          
+          popularCompetitionResponse = state.popularCompetitionResponse;
+          completedCompetition = state.competedCompetition;
+          myActivity = state.myActivity;
+
           competitionLoading = false;
 
           break;

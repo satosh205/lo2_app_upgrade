@@ -10,6 +10,7 @@ import 'package:masterg/data/models/request/home_request/track_announcement_requ
 import 'package:masterg/data/models/request/home_request/user_program_subscribe.dart';
 import 'package:masterg/data/models/request/save_answer_request.dart';
 import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
+import 'package:masterg/data/models/response/auth_response/competition_my_activity.dart';
 import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/data/models/response/general_resp.dart';
 import 'package:masterg/data/models/response/home_response/add_portfolio_resp.dart';
@@ -68,6 +69,7 @@ import 'package:masterg/data/models/response/home_response/user_profile_response
 import 'package:masterg/data/models/response/home_response/user_program_subscribe_reponse.dart';
 import 'package:masterg/data/providers/home_provider.dart';
 import 'package:masterg/local/pref/Preference.dart';
+import 'package:masterg/pages/singularis/competition/competition_navigation/competition_my_activity.dart';
 import 'package:masterg/pages/user_profile_page/model/MasterBrand.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_education.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_experience.dart';
@@ -640,6 +642,22 @@ class HomeRepository {
       return PortfolioCompetitionResponse.fromJson(response.body);
     }
   }
+
+   Future<CompetitionMyActivityResponse?> getCompetitionMyActivity() async {
+    final response = await homeProvider.getCompetitionMyActivity();
+
+    if (response!.success) {
+      Log.v("Get portfolio competition response  DATA : ${response.body}");
+      CompetitionMyActivityResponse portfolioResponse =
+          CompetitionMyActivityResponse.fromJson(response.body);
+      return portfolioResponse;
+    } else {
+      Log.v("====> ${response.body}");
+      return CompetitionMyActivityResponse.fromJson(response.body);
+    }
+  }
+
+  
   Future<TopScoringResponse?> topScoringUser({int? userId}) async {
     final response = await homeProvider.topScoringUser(userId: userId);
     if (response!.success) {

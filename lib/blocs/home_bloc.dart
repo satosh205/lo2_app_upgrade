@@ -12,6 +12,7 @@ import 'package:masterg/data/models/request/home_request/user_program_subscribe.
 import 'package:masterg/data/models/request/home_request/user_tracking_activity.dart';
 import 'package:masterg/data/models/request/save_answer_request.dart';
 import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
+import 'package:masterg/data/models/response/auth_response/competition_my_activity.dart';
 import 'package:masterg/data/models/response/auth_response/dashboard_content_resp.dart';
 import 'package:masterg/data/models/response/auth_response/dashboard_view_resp.dart';
 import 'package:masterg/data/models/response/general_resp.dart';
@@ -617,9 +618,11 @@ class CompetitionListState extends HomeState {
   ApiStatus state;
   ApiStatus get apiState => state;
   CompetitionResponse? competitonResponse, popularCompetitionResponse;
+  PortfolioCompetitionResponse? competedCompetition;
+  CompetitionMyActivityResponse? myActivity;
   String? error;
 
-  CompetitionListState(this.state, {this.competitonResponse, this.popularCompetitionResponse, this.error});
+  CompetitionListState(this.state, {this.competitonResponse, this.popularCompetitionResponse,this.competedCompetition,this.myActivity,  this.error});
 }
 
 class PopularCompetitionListState extends HomeState {
@@ -2458,12 +2461,14 @@ try {
       if (event.isPopular == false) {
         try {
           yield CompetitionListState(ApiStatus.LOADING);
-         final response = await  Future.wait([homeRepository.getCompetitionList(false), homeRepository.getCompetitionList(true)]);
+
+          
+         List<dynamic> response = await  Future.wait([homeRepository.getCompetitionList(false), homeRepository.getCompetitionList(true),homeRepository.getPortfolioCompetition(), homeRepository.getCompetitionMyActivity()]);
 
           // final response = await homeRepository.getCompetitionList(false);
         
 
-          yield CompetitionListState(ApiStatus.SUCCESS,competitonResponse: response[0],popularCompetitionResponse: response[1] );
+          yield CompetitionListState(ApiStatus.SUCCESS,competitonResponse: response[0],popularCompetitionResponse: response[1], competedCompetition: response[2], myActivity: response[3] );
         } catch (e) {
           Log.v("Exception : $e");
           yield CompetitionListState(ApiStatus.ERROR,
