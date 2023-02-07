@@ -44,6 +44,7 @@ import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:masterg/utils/resource/size_constants.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'package:percent_indicator/percent_indicator.dart';
@@ -116,7 +117,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
 
   @override
   Widget build(BuildContext context) {
-    String? baseUrl = portfolioResponse?.data.baseFileUrl;
+    //String? baseUrl = portfolioResponse?.data.baseFileUrl;
+    String? baseUrl = 'https://singularis.learningoxygen.com/portfolio/';
 
     return BlocManager(
       initState: (context) {},
@@ -133,7 +135,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
             }
           },
           child: Scaffold(
-              backgroundColor: Color(0xffF2F2F2),
+              //backgroundColor: Color(0xffF2F2F2),
               body: SingleChildScrollView(
                   key: const PageStorageKey<String>('portfolioList'),
                   child: Column(
@@ -343,15 +345,20 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                           );
                                                         });
                                                   },
+
+                                                  //singh
                                                   child: ClipOval(
                                                     child: CachedNetworkImage(
-                                                      imageUrl:
-                                                          '${Preference.getString(Preference.PROFILE_IMAGE)}',
-                                                      filterQuality:
-                                                          FilterQuality.low,
-                                                      width: 70,
-                                                      height: 70,
+                                                      imageUrl: '${Preference.getString(Preference.PROFILE_IMAGE)}',
+                                                      filterQuality: FilterQuality.low,
+                                                      width: SizeConstants.USER_PROFILE_IMAGE_SIZE,
+                                                      height: SizeConstants.USER_PROFILE_IMAGE_SIZE,
                                                       fit: BoxFit.cover,
+                                                      errorWidget: (context, error, stackTrace) =>
+                                                    SvgPicture.asset(
+                                                    'assets/images/default_user.svg',
+                                                    width: 50,
+                                                  ),
                                                     ),
                                                   ),
                                                 ),
@@ -404,6 +411,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                     ),
                                                   ),
                                                 ),
+
                                               ],
                                             ),
                                             SizedBox(
@@ -489,6 +497,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                               child: Container(height: height(context), color: ColorConstants.WHITE, padding: const EdgeInsets.all(8.0), margin: const EdgeInsets.only(top: 10), child: EditProfilePage()),
                                                                             );
                                                                           }).then((value) => getPortfolio());
+
                                                                     },
                                                                     child: SvgPicture
                                                                         .asset(
@@ -533,12 +542,24 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        SvgPicture.asset(
-                                            'assets/images/call.svg'),
+                                        InkWell(
+                                          onTap: (){
+                                            print('call on tab');
+                                          },
+                                          child: SvgPicture.asset(
+                                              'assets/images/call.svg'),
+                                        ),
                                         SizedBox(width: 14),
-                                        SvgPicture.asset(
-                                            'assets/images/email.svg'),
+
+                                        InkWell(
+                                          onTap: (){
+                                            print('call on tab');
+                                          },
+                                          child: SvgPicture.asset(
+                                              'assets/images/email.svg'),
+                                        ),
                                         SizedBox(width: 14),
+
                                         VerticalDivider(
                                           color: Color(0xffECECEC),
                                           width: 10,
@@ -2156,10 +2177,15 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
           break;
         case ApiStatus.SUCCESS:
           portfolioResponse = portfolioState.response;
-          Preference.setString(
-              Preference.FIRST_NAME, '${portfolioState.response?.data.name}');
-          Preference.setString(Preference.PROFILE_IMAGE,
-              '${portfolioState.response?.data.image}');
+
+          if(portfolioState.response?.data.name.contains('${Preference.getString(Preference.FIRST_NAME)}') == true){
+            Preference.setString(
+                Preference.FIRST_NAME, '${portfolioState.response?.data.name}');
+
+          } else if(portfolioState.response?.data.image.contains('${Preference.getString(Preference.PROFILE_IMAGE)}') == true){
+            Preference.setString(Preference.PROFILE_IMAGE, '${portfolioState.response?.data.image}');
+          }
+
           Preference.setString(Preference.PROFILE_VIDEO,
               '${portfolioState.response?.data.profileVideo}');
 

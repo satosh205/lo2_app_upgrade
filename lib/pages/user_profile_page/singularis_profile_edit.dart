@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/local/pref/Preference.dart';
@@ -9,6 +10,9 @@ import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dar
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
+
+import '../../utils/LocationManager.dart';
+import '../custom_pages/alert_widgets/alerts_widget.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -31,7 +35,20 @@ class _EditProfilePageState extends State<EditProfilePage> {
     bool addingProfile = false;
     final _formKey = GlobalKey<FormState>();
 
+    late double lat = 0.0;
+    late double long = 0.0;
 
+
+  @override
+  void initState() {
+    LocationManager.initLocationService().then((value) {
+      setState(() {
+        lat = value!.latitude!;
+        long = value.longitude!;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,20 +134,47 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            SvgPicture.asset('assets/images/location.svg'),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            GradientText(
-                                child: Text(
-                              "Use current location",
-                              style: TextStyle(fontSize: 12),
-                            ))
-                          ],
+
+                        InkWell(
+                          onTap: () async{
+                            try {
+                              List<Placemark> placemarks = await placemarkFromCoordinates(lat, long);
+                              print('${placemarks.first.country}');
+                              print('${placemarks.first.locality}');
+
+                              //countryController.text = placemarks.first.country.toString();
+                              //cityController.text = placemarks.first.locality.toString();
+
+                              AlertsWidget.showCustomDialog(
+                                  context: context,
+                                  title: 'Current Location',
+                                  text: 'Ues Current Location',
+                                  icon: 'assets/images/circle_alert_fill.svg',
+                                  onOkClick: () async {
+                                    countryController.text = placemarks.first.country.toString();
+                                    cityController.text = placemarks.first.locality.toString();
+                                  });
+
+                            } catch (e) {
+                              print(':::: ${e.toString()}');
+                            }
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              SvgPicture.asset('assets/images/location.svg'),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              GradientText(
+                                  child: Text(
+                                "Use current location",
+                                style: TextStyle(fontSize: 12),
+                              ))
+                            ],
+                          ),
                         ),
+
                         const Text(
                           "Country*",
                           style: TextStyle(
