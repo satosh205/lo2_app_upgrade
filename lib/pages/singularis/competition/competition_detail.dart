@@ -1,6 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
@@ -15,6 +19,9 @@ import 'package:masterg/data/providers/assessment_detail_provider.dart';
 import 'package:masterg/data/providers/assignment_detail_provider.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/ghome/widget/read_more.dart';
+import 'package:masterg/pages/singularis/competition/competition_navigation/competition_notes.dart';
+import 'package:masterg/pages/singularis/competition/competition_navigation/competition_session.dart';
+import 'package:masterg/pages/singularis/competition/competition_navigation/competition_youtube.dart';
 import 'package:masterg/pages/singularis/leaderboard_page.dart';
 import 'package:masterg/pages/training_pages/assessment_page.dart';
 import 'package:masterg/pages/training_pages/assignment_detail_page.dart';
@@ -22,18 +29,15 @@ import 'package:masterg/pages/training_pages/training_service.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import '../../utils/Log.dart';
+import '../../../../utils/Log.dart';
 
-enum CardType {
-  assignment,
-  assessment,
-  session,
-  video,
-  note,
-}
+enum CardType { assignment, assessment, session, video, note, youtube }
 
 class CompetitionDetail extends StatefulWidget {
   final Competition? competition;
@@ -131,19 +135,20 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                           '${widget.competition?.name}',
                           style: Styles.bold(color: Color(0xff0E1638)),
                         ),
-                        Row(
-                          children: [
-                            Text(
-                              'Conducted by ',
-                              style: Styles.regular(
-                                  size: 12, color: Color(0xff929BA3)),
-                            ),
-                            Text(
-                              'Google',
-                              style: Styles.semibold(size: 12),
-                            ),
-                          ],
-                        ),
+                        if (widget.competition?.organizedBy != null)
+                          Row(
+                            children: [
+                              Text(
+                                'Conducted by ',
+                                style: Styles.regular(
+                                    size: 12, color: Color(0xff929BA3)),
+                              ),
+                              Text(
+                                '${widget.competition?.organizedBy}',
+                                style: Styles.semibold(size: 12),
+                              ),
+                            ],
+                          ),
                         Row(
                           children: [
                             Container(
@@ -153,7 +158,8 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                               decoration: BoxDecoration(
                                   color: ColorConstants.WHITE,
                                   borderRadius: BorderRadius.circular(4)),
-                              child: Text('Easy',
+                              child: Text(
+                                  '${widget.competition?.competitionLevel?.capital()}',
                                   style: Styles.semibold(
                                     size: 12,
                                     color: ColorConstants.GREEN_1,
@@ -253,9 +259,11 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                             ),
                           ),
                         ),
-                      if(competitionDetailLoading == false && contentList?.data?.list?.length != 0)  Text('Activities',
-                            style:
-                                Styles.bold(size: 14, color: Color(0xff0E1638)))
+                        if (competitionDetailLoading == false &&
+                            contentList?.data?.list?.length != 0)
+                          Text('Activities',
+                              style: Styles.bold(
+                                  size: 14, color: Color(0xff0E1638)))
                       ],
                     ),
                   ),
@@ -361,6 +369,9 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
     //   isLocked = false;
 
     switch (data?.contentType) {
+      case "video_yts":
+        cardType = CardType.youtube;
+        break;
       case "video":
         cardType = CardType.video;
         break;
@@ -427,188 +438,63 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
   Widget card(CompetitionContent data, CardType? cardType) {
     return InkWell(
       onTap: () {
-        if (cardType == CardType.assignment)
-          showModalBottomSheet(
-              context: context,
-              backgroundColor: Colors.transparent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(20),
-                ),
-              ),
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              isScrollControlled: true,
-              builder: (context) {
-                return FractionallySizedBox(
-                    heightFactor: 0.5,
-                    child: ChangeNotifierProvider<AssignmentDetailProvider>(
-                        create: (c) => AssignmentDetailProvider(
-                            TrainingService(ApiService()), data,
-                            fromCompletiton: true, id: data.programContentId),
-                        child: AssignmentDetailPage(
-                          id: data.id,
-                          fromCompetition: true,
-                        )));
-              });
+        if (cardType == CardType.youtube) {
+          Navigator.push(
+              context,
+              PageTransition(
+                  duration: Duration(milliseconds: 300),
+                  reverseDuration: Duration(milliseconds: 300),
+                  type: PageTransitionType.bottomToTop,
+                  child: CompetitionYoutubePlayer(
+                    videoUrl: data.content,
+                  )));
+        } else if (cardType == CardType.note) {
+          Navigator.push(
+              context,
+              PageTransition(
+                  duration: Duration(milliseconds: 300),
+                  reverseDuration: Duration(milliseconds: 300),
+                  type: PageTransitionType.bottomToTop,
+                  child: CompetitionNotes(
+                    notesUrl: data.content,
+                  )));
+        } else if (cardType == CardType.assignment)
+          Navigator.push(
+              context,
+              PageTransition(
+                  duration: Duration(milliseconds: 300),
+                  reverseDuration: Duration(milliseconds: 300),
+                  type: PageTransitionType.bottomToTop,
+                  child: ChangeNotifierProvider<AssignmentDetailProvider>(
+                      create: (c) => AssignmentDetailProvider(
+                          TrainingService(ApiService()), data,
+                          fromCompletiton: true, id: data.programContentId),
+                      child: AssignmentDetailPage(
+                        id: data.id,
+                        fromCompetition: true,
+                      ))));
         else if (cardType == CardType.assessment) {
-          showModalBottomSheet(
-              context: context,
-              backgroundColor: Colors.transparent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(20),
-                ),
-              ),
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              isScrollControlled: true,
-              enableDrag: true,
-              builder: (context) {
-                return FractionallySizedBox(
-                    heightFactor: 0.7,
-                    child: ChangeNotifierProvider<AssessmentDetailProvider>(
+             Navigator.push(
+              context,
+              PageTransition(
+                  duration: Duration(milliseconds: 300),
+                  reverseDuration: Duration(milliseconds: 300),
+                  type: PageTransitionType.bottomToTop,
+                  child: ChangeNotifierProvider<AssessmentDetailProvider>(
                         create: (context) => AssessmentDetailProvider(
                             TrainingService(ApiService()), data,
                             fromCompletiton: true, id: data.programContentId),
-                        child: AssessmentDetailPage(fromCompetition: true)));
-              });
+                        child: AssessmentDetailPage(fromCompetition: true))));
+             
         } else if (cardType == CardType.session) {
-          showModalBottomSheet(
-              context: context,
-              backgroundColor: Colors.transparent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(20),
-                ),
-              ),
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              isScrollControlled: true,
-              enableDrag: true,
-              builder: (context) {
-                return FractionallySizedBox(
-                    heightFactor: 0.6,
-                    child: Container(
-                        color: ColorConstants.WHITE,
-                        child: Column(children: [
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                  color: Color(0xffBDBDBD),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
-
-                              // color: Color(0xffBDBDBD),
-                              width: 60,
-                              height: 5,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Schedule an Interview with',
-                              style: Styles.bold(
-                                size: 14,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Container(
-                                padding: EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                    color: Color(0xffFFF1F1),
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        CircleAvatar(
-                                          radius: 40,
-                                          backgroundImage: NetworkImage(
-                                            "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=327&q=80",
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text('Rahul Gautam',
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black)),
-                                            Text('Visual Design Expert',
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Color(0xff929BA3)))
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Due Date:',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w400,
-                                              color: Color(0xFF5A5F73)),
-                                        ),
-                                        Text(" 31st December")
-                                      ],
-                                    )
-                                  ],
-                                )),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20.0, top: 35),
-                            child: Text(
-                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam consequat in id auctor lectus semper non hendrerit. Urna, semper nulla lectus etiam egestas donec in. Ullamcorper metus, et diam mattis quis.',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(0xff5A5F73)),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          GestureDetector(
-                              onTap: () {
-                                //open session
-                              },
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.06,
-                                width: MediaQuery.of(context).size.width * 0.8,
-                                padding: const EdgeInsets.all(10.0),
-                                margin: const EdgeInsets.all(20.0),
-                                decoration: const BoxDecoration(
-                                    color: Color(0xff0E1638),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(21))),
-                                child: const Center(
-                                  child: Text(
-                                    'Join',
-                                    style: TextStyle(
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.white),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ))
-                        ])));
-              });
+            Navigator.push(
+              context,
+              PageTransition(
+                  duration: Duration(milliseconds: 300),
+                  reverseDuration: Duration(milliseconds: 300),
+                  type: PageTransitionType.bottomToTop,
+                  child: CompetitionSession(data: data,)));
+            
         }
       },
       child: Column(
@@ -622,20 +508,21 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
             SizedBox(height: 8),
             Row(
               children: [
-                Text('Easy',
+                Text('${data.difficultyLevel?.capital()}',
                     style: Styles.regular(
                         color: ColorConstants.GREEN_1, size: 12)),
                 SizedBox(
                   width: 4,
                 ),
                 Text('•',
-                    style:
-                        Styles.regular(color: ColorConstants.GREY_2, size: 12)),
+                    style: Styles.regular(
+                        color: ColorConstants.GREY_2, size: 12)),
                 SizedBox(
                   width: 4,
                 ),
                 SizedBox(
-                    height: 15, child: Image.asset('assets/images/coin.png')),
+                    height: 15,
+                    child: Image.asset('assets/images/coin.png')),
                 SizedBox(
                   width: 4,
                 ),
@@ -654,7 +541,8 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                 ),
                 Text(
                   '31st December',
-                  style: Styles.regular(size: 12, color: Color(0xff5A5F73)),
+                  style: Styles.regular(
+                      size: 12, color: Color(0xff5A5F73)),
                 )
               ],
             )
@@ -734,5 +622,12 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
           break;
       }
     });
+  }
+}
+
+
+extension on String {
+  String capital() {
+    return this[0].toUpperCase() + this.substring(1);
   }
 }
