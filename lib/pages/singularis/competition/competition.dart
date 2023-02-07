@@ -13,7 +13,7 @@ import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/competition_response.dart';
 import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
 import 'package:masterg/local/pref/Preference.dart';
-import 'package:masterg/pages/singularis/competition_detail.dart';
+import 'package:masterg/pages/singularis/competition/competition_detail.dart';
 import 'package:masterg/pages/singularis/leaderboard_page.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
@@ -40,7 +40,7 @@ class _CompetetionState extends State<Competetion> {
   @override
   void initState() {
     getCompetitionList();
-    if (widget.fromDasboard == false) getPopularCompetitionList();
+    // if (widget.fromDasboard == false) getPopularCompetitionList();
 
     super.initState();
   }
@@ -69,9 +69,9 @@ class _CompetetionState extends State<Competetion> {
               if (state is CompetitionListState) {
                 _handlecompetitionListResponse(state);
               }
-              if (state is PopularCompetitionListState) {
-                _handlePopularCompetitionListResponse(state);
-              }
+              // if (state is PopularCompetitionListState) {
+              //   _handlePopularCompetitionListResponse(state);
+              // }
             },
             child: Container(
               color: ColorConstants.WHITE,
@@ -746,7 +746,9 @@ class _CompetetionState extends State<Competetion> {
           break;
         case ApiStatus.SUCCESS:
           Log.v("CompetitionState....................");
-          competitionResponse = state.response;
+          competitionResponse = state.competitonResponse;
+           popularCompetitionResponse = state.popularCompetitionResponse;
+          
           competitionLoading = false;
 
           break;
@@ -761,28 +763,28 @@ class _CompetetionState extends State<Competetion> {
     });
   }
 
-  void _handlePopularCompetitionListResponse(PopularCompetitionListState state) {
-    var popularCompetitionState = state;
-    setState(() {
-      switch (popularCompetitionState.apiState) {
-        case ApiStatus.LOADING:
-          Log.v("Loading....................");
-          popularCompetitionLoading = true;
-          break;
-        case ApiStatus.SUCCESS:
-          Log.v("popularCompetitionState....................");
-          popularCompetitionResponse = state.response;
-          popularCompetitionLoading = false;
+  // void _handlePopularCompetitionListResponse(PopularCompetitionListState state) {
+  //   var popularCompetitionState = state;
+  //   setState(() {
+  //     switch (popularCompetitionState.apiState) {
+  //       case ApiStatus.LOADING:
+  //         Log.v("Loading....................");
+  //         popularCompetitionLoading = true;
+  //         break;
+  //       case ApiStatus.SUCCESS:
+  //         Log.v("popularCompetitionState....................");
+  //         popularCompetitionResponse = state.response;
+  //         popularCompetitionLoading = false;
 
-          break;
-        case ApiStatus.ERROR:
-          Log.v(
-              "Error Popular CompetitionListIDState ..........................${popularCompetitionState.error}");
-          popularCompetitionLoading = false;
-          break;
-        case ApiStatus.INITIAL:
-          break;
-      }
-    });
-  }
+  //         break;
+  //       case ApiStatus.ERROR:
+  //         Log.v(
+  //             "Error Popular CompetitionListIDState ..........................${popularCompetitionState.error}");
+  //         popularCompetitionLoading = false;
+  //         break;
+  //       case ApiStatus.INITIAL:
+  //         break;
+  //     }
+  //   });
+  // }
 }

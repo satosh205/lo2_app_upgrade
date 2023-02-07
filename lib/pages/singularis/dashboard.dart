@@ -22,22 +22,18 @@ import 'package:masterg/data/models/response/home_response/joy_contentList_respo
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/rounded_appbar.dart';
-import 'package:masterg/pages/gcarvaan/components/gcarvaan_card_post.dart';
 import 'package:masterg/pages/ghome/my_courses.dart';
-import 'package:masterg/pages/ghome/video_player_screen.dart';
 import 'package:masterg/pages/ghome/widget/read_more.dart';
 import 'package:masterg/pages/ghome/widget/view_widget_details_page.dart';
-import 'package:masterg/pages/singularis/competition_detail.dart';
+import 'package:masterg/pages/singularis/competition/competition_detail.dart';
 
 import 'package:masterg/pages/training_pages/new_screen/courses_details_page.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/portfolio_page.dart';
-import 'package:masterg/pages/user_profile_page/portfolio_page.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/coustom_outline_button.dart';
-import 'package:masterg/utils/custom_progress_indicator.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 import 'package:provider/provider.dart';
@@ -46,7 +42,6 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../data/models/response/auth_response/bottombar_response.dart';
 import '../../data/models/response/home_response/competition_response.dart';
@@ -121,7 +116,7 @@ class _DashboardPageState extends State<DashboardPage> {
           break;
         case ApiStatus.SUCCESS:
           Log.v("CompetitionState....................");
-          competitionResponse = state.response;
+          competitionResponse = state.competitonResponse;
 
           break;
         case ApiStatus.ERROR:

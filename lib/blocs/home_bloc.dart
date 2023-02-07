@@ -616,10 +616,10 @@ class CourseCategoryListIDState extends HomeState {
 class CompetitionListState extends HomeState {
   ApiStatus state;
   ApiStatus get apiState => state;
-  CompetitionResponse? response;
+  CompetitionResponse? competitonResponse, popularCompetitionResponse;
   String? error;
 
-  CompetitionListState(this.state, {this.response, this.error});
+  CompetitionListState(this.state, {this.competitonResponse, this.popularCompetitionResponse, this.error});
 }
 
 class PopularCompetitionListState extends HomeState {
@@ -2458,10 +2458,12 @@ try {
       if (event.isPopular == false) {
         try {
           yield CompetitionListState(ApiStatus.LOADING);
+         final response = await  Future.wait([homeRepository.getCompetitionList(false), homeRepository.getCompetitionList(true)]);
 
-          final response = await homeRepository.getCompetitionList(false);
+          // final response = await homeRepository.getCompetitionList(false);
+        
 
-          yield CompetitionListState(ApiStatus.SUCCESS, response: response);
+          yield CompetitionListState(ApiStatus.SUCCESS,competitonResponse: response[0],popularCompetitionResponse: response[1] );
         } catch (e) {
           Log.v("Exception : $e");
           yield CompetitionListState(ApiStatus.ERROR,
