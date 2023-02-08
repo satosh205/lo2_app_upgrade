@@ -520,13 +520,20 @@ class _CompetetionState extends State<Competetion> {
                                                                     CrossAxisAlignment
                                                                         .start,
                                                                 children: [
-                                                                  Text(
-                                                                    'Domain',
-                                                                    style: Styles
-                                                                        .bold(
+                                                                  Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .symmetric(
+                                                                          horizontal:
+                                                                              10,
+                                                                          vertical:
+                                                                              4),
+                                                                      child:
+                                                                          Text(
+                                                                        'Domain',
+                                                                        style: Styles.bold(
                                                                             size:
                                                                                 14),
-                                                                  ),
+                                                                      )),
                                                                   Container(
                                                                     child: Wrap(
                                                                       direction:
@@ -557,13 +564,20 @@ class _CompetetionState extends State<Competetion> {
                                                                               )),
                                                                     ),
                                                                   ),
-                                                                  Text(
-                                                                    'Job Roles',
-                                                                    style: Styles
-                                                                        .bold(
+                                                                  Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .symmetric(
+                                                                          horizontal:
+                                                                              10,
+                                                                          vertical:
+                                                                              4),
+                                                                      child:
+                                                                          Text(
+                                                                        'Job Roles',
+                                                                        style: Styles.bold(
                                                                             size:
                                                                                 14),
-                                                                  ),
+                                                                      )),
                                                                   if (domainFilterList !=
                                                                       null)
                                                                     Container(
@@ -601,13 +615,20 @@ class _CompetetionState extends State<Competetion> {
                                                                                 )),
                                                                       ),
                                                                     ),
-                                                                  Text(
-                                                                    'Difficulty',
-                                                                    style: Styles
-                                                                        .bold(
+                                                                  Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .symmetric(
+                                                                          horizontal:
+                                                                              10,
+                                                                          vertical:
+                                                                              4),
+                                                                      child:
+                                                                          Text(
+                                                                        'Difficulty',
+                                                                        style: Styles.bold(
                                                                             size:
                                                                                 14),
-                                                                  ),
+                                                                      )),
                                                                   Container(
                                                                     child: Wrap(
                                                                       direction:
@@ -616,8 +637,10 @@ class _CompetetionState extends State<Competetion> {
                                                                           difficulty.length,
                                                                           (i) => InkWell(
                                                                                 onTap: () {
-                                                                                  if(selectedDifficulty == difficulty[i])selectedDifficulty = '';
-                                                                                else   selectedDifficulty = difficulty[i];
+                                                                                  if (selectedDifficulty == difficulty[i])
+                                                                                    selectedDifficulty = '';
+                                                                                  else
+                                                                                    selectedDifficulty = difficulty[i];
                                                                                   setState(() {});
                                                                                 },
                                                                                 child: Padding(
@@ -1117,7 +1140,10 @@ class _CompetetionState extends State<Competetion> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Domain'),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('Domain'),
+                  ),
                   Container(
                     child: Wrap(
                       direction: Axis.horizontal,
