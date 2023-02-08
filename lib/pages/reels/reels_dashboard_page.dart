@@ -229,7 +229,6 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
       quarterTurns: 1,
       child: TabBarView(
         controller: _tabController,
-
         // chi
         children: List.generate(greelsList.list!.length, (index) {
           return VideoPlayerItem(

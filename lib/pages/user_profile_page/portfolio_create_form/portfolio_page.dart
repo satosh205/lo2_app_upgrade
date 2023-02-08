@@ -51,9 +51,11 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../../../utils/utility.dart';
+import '../../custom_pages/custom_widgets/CommonWebView.dart';
 import '../../singularis/recentactivities/recent_activities_page.dart';
 
 class NewPortfolioPage extends StatefulWidget {
@@ -114,6 +116,234 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     "November",
     "December"
   ];
+
+
+  void _showPopupMenu() async {
+    await showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(200, 330, 100, 0),
+      items: [
+        if(portfolioResponse?.data.portfolioSocial.first.linkedin != "") ...[
+          PopupMenuItem<String>(
+            onTap: (){
+              WidgetsBinding.instance!.addPostFrameCallback((_) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return CommonWebView(
+                        url: portfolioResponse?.data.portfolioSocial.first.linkedin,
+                      );
+                    },
+                  ),
+                );
+              });
+            },
+            child: Row(
+              children: [
+                Image.asset('assets/images/linkedin_p.png'),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: const Text('Linkedin',),
+                ),
+              ],
+            ),)
+        ],
+
+        if(portfolioResponse?.data.portfolioSocial.first.facebook != "") ...[
+          PopupMenuItem<String>(
+            onTap: (){
+              WidgetsBinding.instance!.addPostFrameCallback((_) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return CommonWebView(
+                        url: portfolioResponse?.data.portfolioSocial.first.facebook,
+                      );
+                    },
+                  ),
+                );
+              });
+            },
+            child: Row(
+              children: [
+                Image.asset('assets/images/facebook_p.png'),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: const Text('Facebook'),
+                ),
+              ],
+            ),)
+        ],
+
+        if(portfolioResponse?.data.portfolioSocial.first.bee != "") ...[
+          PopupMenuItem<String>(
+            onTap: (){
+              WidgetsBinding.instance!.addPostFrameCallback((_) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return CommonWebView(
+                        url: portfolioResponse?.data.portfolioSocial.first.bee,
+                      );
+                    },
+                  ),
+                );
+              });
+            },
+            child: Row(
+              children: [
+                Image.asset('assets/images/behance_p.png'),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: const Text('Bee'),
+                ),
+              ],
+            ),)
+        ],
+
+        if(portfolioResponse?.data.portfolioSocial.first.dribble != "") ...[
+          PopupMenuItem<String>(
+            onTap: (){
+              WidgetsBinding.instance!.addPostFrameCallback((_) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return CommonWebView(
+                        url: portfolioResponse?.data.portfolioSocial.first.dribble,
+                      );
+                    },
+                  ),
+                );
+              });
+            },
+            child: Row(
+              children: [
+                Image.asset('assets/images/linkedin_p.png'),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: const Text('Dribble'),
+                ),
+              ],
+            ),)
+        ],
+
+        if(portfolioResponse?.data.portfolioSocial.first.insta != "") ...[
+          PopupMenuItem<String>(
+            onTap: (){
+              WidgetsBinding.instance!.addPostFrameCallback((_) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return CommonWebView(
+                        url: portfolioResponse?.data.portfolioSocial.first.insta,
+                      );
+                    },
+                  ),
+                );
+              });
+            },
+            child: Row(
+              children: [
+                Image.asset('assets/images/instagram_p.png'),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: const Text('Instagram'),
+                ),
+              ],
+            ),)
+        ],
+
+        if(portfolioResponse?.data.portfolioSocial.first.twitter != "") ...[
+          PopupMenuItem<String>(
+            onTap: (){
+              WidgetsBinding.instance!.addPostFrameCallback((_) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return CommonWebView(
+                        url: portfolioResponse?.data.portfolioSocial.first.twitter,
+                      );
+                    },
+                  ),
+                );
+              });
+            },
+            child: Row(
+              children: [
+                Image.asset('assets/images/twitter_p.png'),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: const Text('Twitter'),
+                ),
+              ],
+            ),)
+        ],
+
+        if(portfolioResponse?.data.portfolioSocial.first.pinterest != "") ...[
+          PopupMenuItem<String>(
+            onTap: (){
+              WidgetsBinding.instance!.addPostFrameCallback((_) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return CommonWebView(
+                        url: portfolioResponse?.data.portfolioSocial.first.pinterest,
+                      );
+                    },
+                  ),
+                );
+              });
+            },
+            child: Row(
+              children: [
+                Image.asset('assets/images/pinterest_p.png'),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: const Text('Pinterest'),
+                ),
+              ],
+            ),)
+        ],
+
+        if(portfolioResponse?.data.portfolioSocial.first.siteUrl != "") ...[
+          PopupMenuItem<String>(
+            onTap: (){
+              WidgetsBinding.instance!.addPostFrameCallback((_) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return CommonWebView(
+                        url: portfolioResponse?.data.portfolioSocial.first.siteUrl,
+                      );
+                    },
+                  ),
+                );
+              });
+            },
+            child: Row(
+              children: [
+                Image.asset('assets/images/globe_p.png'),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: const Text('Site Url'),
+                ),
+              ],
+            ),)
+        ],
+      ],
+
+      elevation: 10.0,
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -201,7 +431,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                       )));
 
                                               Share.share(shareUrl);
-
                                               // AlertsWidget.showCustomDialog(
                                               //     context: context,
                                               //     title:
@@ -543,8 +772,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                           MainAxisAlignment.center,
                                       children: [
                                         InkWell(
-                                          onTap: (){
-                                            print('call on tab');
+                                          onTap: () async {
+                                            await launch("tel:${Preference.getString(Preference.PHONE)}");
                                           },
                                           child: SvgPicture.asset(
                                               'assets/images/call.svg'),
@@ -552,8 +781,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         SizedBox(width: 14),
 
                                         InkWell(
-                                          onTap: (){
-                                            print('call on tab');
+                                          onTap: () async {
+                                            await launch("mailto:${Preference.getString(Preference.USER_EMAIL)}");
                                           },
                                           child: SvgPicture.asset(
                                               'assets/images/email.svg'),
@@ -568,29 +797,146 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                           endIndent: 10,
                                         ),
                                         SizedBox(width: 14),
-                                        SvgPicture.asset(
-                                            'assets/images/linkedin.svg'),
-                                        SizedBox(width: 14),
-                                        SvgPicture.asset(
-                                            'assets/images/behance.svg'),
-                                        SizedBox(width: 14),
-                                        SvgPicture.asset(
-                                            'assets/images/insta.svg'),
-                                        SizedBox(width: 14),
-                                        SvgPicture.asset(
-                                            'assets/images/dribble.svg'),
-                                        SizedBox(width: 14),
-                                        SvgPicture.asset(
-                                            'assets/images/pintrest.svg'),
-                                        // SvgPicture.asset(
-                                        //     'assets/images/vertical_menu.svg'),
-                                        SizedBox(width: 14),
+
+                                        portfolioResponse?.data.portfolioSocial.length == 0 ? Row(
+                                          children: [
+                                            SvgPicture.asset(
+                                                'assets/images/linkedin_un.svg'),
+                                            SizedBox(width: 14),
+                                            SvgPicture.asset(
+                                                'assets/images/facebook_un.svg'),
+                                            SizedBox(width: 14),
+                                            SvgPicture.asset(
+                                                'assets/images/insta_un.svg'),
+                                            SizedBox(width: 14),
+                                            SvgPicture.asset(
+                                                'assets/images/twitter_un.svg'),
+                                            SizedBox(width: 14),
+                                            SvgPicture.asset(
+                                                'assets/images/behance_un.svg'),
+                                            SizedBox(width: 3),
+                                          ],
+                                        ) :
+                                        Row(
+                                          children: [
+                                            portfolioResponse?.data.portfolioSocial.first.linkedin != ""
+                                                ? InkWell(
+                                              onTap: () async {
+                                                Navigator.push(
+                                                    context,
+                                                    NextPageRoute(CommonWebView(
+                                                      url: portfolioResponse?.data.portfolioSocial.first.linkedin,
+                                                    ))).then((isSuccess) {
+                                                  if (isSuccess == true) {
+                                                    Navigator.pop(context, true);
+                                                  }
+                                                });
+                                              },
+                                                  child: SvgPicture.asset(
+                                                  'assets/images/linkedin.svg'),
+                                                )
+                                                :SvgPicture.asset(
+                                                'assets/images/linkedin_un.svg'),
+                                            SizedBox(width: 14),
+
+                                            portfolioResponse?.data.portfolioSocial.first.facebook != "" ?
+                                            InkWell(
+                                              onTap: (){
+                                                Navigator.push(
+                                                    context,
+                                                    NextPageRoute(CommonWebView(
+                                                      url: portfolioResponse?.data.portfolioSocial.first.facebook,
+                                                    ))).then((isSuccess) {
+                                                  if (isSuccess == true) {
+                                                    Navigator.pop(context, true);
+                                                  }
+                                                });
+                                              },
+                                              child: SvgPicture.asset(
+                                                  'assets/images/facebook.svg'),
+                                            )
+                                            :SvgPicture.asset(
+                                                'assets/images/facebook_un.svg'),
+                                            SizedBox(width: 14),
+
+                                            portfolioResponse?.data.portfolioSocial.first.insta != "" ?
+                                            InkWell(
+                                              onTap: (){
+                                                Navigator.push(
+                                                    context,
+                                                    NextPageRoute(CommonWebView(
+                                                      url: portfolioResponse?.data.portfolioSocial.first.insta,
+                                                    ))).then((isSuccess) {
+                                                  if (isSuccess == true) {
+                                                    Navigator.pop(context, true);
+                                                  }
+                                                });
+                                              },
+                                              child: SvgPicture.asset(
+                                                  'assets/images/insta.svg'),
+                                            )
+                                            :SvgPicture.asset(
+                                                'assets/images/insta_un.svg'),
+                                            SizedBox(width: 14),
+
+                                            portfolioResponse?.data.portfolioSocial.first.twitter != "" ?
+                                            InkWell(
+                                              onTap: (){
+                                                Navigator.push(
+                                                    context,
+                                                    NextPageRoute(CommonWebView(
+                                                      url: portfolioResponse?.data.portfolioSocial.first.twitter,
+                                                    ))).then((isSuccess) {
+                                                  if (isSuccess == true) {
+                                                    Navigator.pop(context, true);
+                                                  }
+                                                });
+                                              },
+                                              child: SvgPicture.asset(
+                                                  'assets/images/twitter.svg'),
+                                            )
+                                            :SvgPicture.asset(
+                                                'assets/images/twitter_un.svg'),
+                                            SizedBox(width: 14),
+
+                                            portfolioResponse?.data.portfolioSocial.first.dribble != "" ?
+                                            InkWell(
+                                              onTap: (){
+                                                Navigator.push(
+                                                    context,
+                                                    NextPageRoute(CommonWebView(
+                                                      url: portfolioResponse?.data.portfolioSocial.first.dribble,
+                                                    ))).then((isSuccess) {
+                                                  if (isSuccess == true) {
+                                                    Navigator.pop(context, true);
+                                                  }
+                                                });
+                                              },
+                                              child: SvgPicture.asset(
+                                                  'assets/images/behance.svg'),
+                                            )
+                                            :SvgPicture.asset(
+                                                'assets/images/behance_un.svg'),
+                                            SizedBox(width: 3),
+                                          ],
+                                        ),
+
+                                        /*SvgPicture.asset(
+                                            'assets/images/pintrest.svg'),*/
+                                        portfolioResponse?.data.portfolioSocial.length != 0 ? InkWell(
+                                          onTap: (){
+                                            print('social menu');
+                                            _showPopupMenu();
+
+                                          },
+                                          child: SvgPicture.asset(
+                                              'assets/images/vertical_menu.svg'),
+                                        ):SizedBox(),
+                                        SizedBox(width: 10),
 
                                         InkWell(
                                           onTap: () {
-                                            if (portfolioResponse?.data
-                                                    .portfolioSocial.length !=
-                                                0)
+                                            if (portfolioResponse?.data.portfolioSocial.length != 0)
                                               Navigator.push(
                                                   context,
                                                   NextPageRoute(SocialPage(
@@ -1793,14 +2139,18 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                           shrinkWrap: true,
                           physics: ScrollPhysics(),
                           itemBuilder: (context, index) {
-                            String startDateString =
-                                "${experience?[index].startDate}";
-                            String endDateString =
-                                "${experience?[index].endDate}";
-                            DateTime startDate =
-                                DateFormat("yyy-MM-dd").parse(startDateString);
-                            DateTime endDate =
-                                DateFormat("yyy-MM-dd").parse(endDateString);
+
+                            String startDateString = "${experience?[index].startDate}";
+                            print('startDateString ====${startDateString}');
+                            //String endDateString = "${experience?[index].endDate}";
+                            DateTime startDate = DateFormat("yyyy-MM-dd").parse(startDateString);
+
+                            DateTime endDate = DateTime.now();
+                            if (experience?[index].endDate != '') {
+                              String endDateString = "${experience?[index].endDate}";
+                              endDate = DateFormat("yyyy-MM-dd").parse(endDateString);
+                            }
+
                             return Container(
                               margin: EdgeInsets.only(right: 10),
                               child: Column(
@@ -2172,7 +2522,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     setState(() async {
       switch (portfolioState.apiState) {
         case ApiStatus.LOADING:
-          Log.v("PortfolioState Loading....................");
+          Log.v("PortfolioState Loading...................");
           isPortfolioLoading = true;
           break;
         case ApiStatus.SUCCESS:
@@ -3080,3 +3430,4 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     }
   }
 }
+

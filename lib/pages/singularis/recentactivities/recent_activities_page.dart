@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masterg/pages/gcarvaan/post/gcarvaan_post_page.dart';
 import 'package:masterg/pages/reels/reels_dashboard_page.dart';
+import 'package:masterg/pages/singularis/recentactivities/recent_activities_reels_page.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -59,7 +60,7 @@ class _RecentActivitiesPageState extends State<RecentActivitiesPage> {
                       child: Column(
                         children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.only(right: 150, top: 10.0, bottom: 30.0),
+                            padding: const EdgeInsets.only(right: 130, top: 10.0, bottom: 30.0),
                             child: ButtonsTabBar(
                               backgroundColor: Colors.white,
                               borderColor: ColorConstants.GRADIENT_RED,
@@ -98,7 +99,8 @@ class _RecentActivitiesPageState extends State<RecentActivitiesPage> {
                                     filesPath: null,
                                     formCreatePost: false,
                                     recentActivities: true),
-                                ReelsDashboardPage(),
+                                RecentActivitiesReelsPage(),
+                                //ReelsDashboardPage(),
                               ],
                             ),
                           ),
