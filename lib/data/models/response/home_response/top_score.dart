@@ -39,6 +39,7 @@ class Datum {
         required this.score,
         required this.rank,
         required this.rankOutOf,
+        required this.scoreRange
     });
 
     int id;
@@ -48,6 +49,7 @@ class Datum {
     dynamic score;
     int rank;
     int rankOutOf;
+    int scoreRange;
 
     factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
@@ -57,6 +59,7 @@ class Datum {
         score: json["score"],
         rank: json["rank"],
         rankOutOf: json["rank_out_of"],
+        scoreRange : json['score_range'],
     );
 
     Map<String, dynamic> toJson() => {
@@ -67,5 +70,6 @@ class Datum {
         "score": score,
         "rank": rank,
         "rank_out_of": rankOutOf,
+        'score_range' : scoreRange
     };
 }

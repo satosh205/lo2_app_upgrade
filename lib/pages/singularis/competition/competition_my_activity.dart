@@ -9,22 +9,35 @@ import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 
 class CompetitionMyAcitivityCard extends StatefulWidget {
- final String? image;
- final String? title;
- final int? totalAct;
- final int? doneAct;
+  final String? image;
+  final String? title;
+  final int? totalAct;
+  final int? doneAct;
 
- final int? id;
- final int? score;
- final String? desc;
- final String? date;
- final String? difficulty;
- final String? conductedBy;
+  final int? id;
+  final int? score;
+  final String? desc;
+  final String? date;
+  final String? difficulty;
+  final String? conductedBy;
+  final String? activityStatus;
+  final int? rank;
 
-
-
-
-  const CompetitionMyAcitivityCard({Key? key, this.image, this.title, this.totalAct, this.doneAct, this.id, this. score, this.desc, this.date, this.difficulty, this.conductedBy}) : super(key: key);
+  const CompetitionMyAcitivityCard(
+      {Key? key,
+      this.image,
+      this.title,
+      this.totalAct,
+      this.doneAct,
+      this.id,
+      this.score,
+      this.desc,
+      this.date,
+      this.difficulty,
+      this.conductedBy,
+      this.activityStatus,
+      this.rank})
+      : super(key: key);
 
   @override
   State<CompetitionMyAcitivityCard> createState() =>
@@ -35,13 +48,26 @@ class _CompetitionMyAcitivityCardState
     extends State<CompetitionMyAcitivityCard> {
   @override
   Widget build(BuildContext context) {
+    // double percent = widget.doneAct/ widget.totalAct ;
+    double percent =
+        double.parse('${widget.doneAct}') / double.parse('${widget.totalAct}');
     return InkWell(
-      onTap: (){
-        Navigator.push(context, NextPageRoute(CompetitionDetail(competition: Competition(id:widget.id,level: widget.difficulty,description: widget.desc, gScore: widget.score ?? 0, startDate: widget.date,  name: widget.title  ),)));
+      onTap: () {
+        Navigator.push(
+            context,
+            NextPageRoute(CompetitionDetail(
+              competition: Competition(
+                  id: widget.id,
+                  level: widget.difficulty,
+                  description: widget.desc,
+                  gScore: widget.score ?? 0,
+                  startDate: widget.date,
+                  name: widget.title),
+            )));
       },
       child: Container(
         width: width(context) * 0.8,
-        height: height(context) * 0.1,
+        height: height(context) * 0.12,
         margin: EdgeInsets.symmetric(vertical: 12),
         padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
@@ -65,7 +91,9 @@ class _CompetitionMyAcitivityCardState
                 ),
               ),
             ),
-            SizedBox(width: 10,),
+            SizedBox(
+              width: 10,
+            ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,14 +107,16 @@ class _CompetitionMyAcitivityCardState
                   Text.rich(
                     TextSpan(
                       children: [
-                        TextSpan(text: '${widget.doneAct}', style: Styles.bold(size: 12)),
-                       
-                        TextSpan(text: '/${widget.totalAct} Activities Done', style: Styles.regular(size: 12)),
+                        TextSpan(
+                            text: '${widget.doneAct}',
+                            style: Styles.bold(size: 12)),
+                        TextSpan(
+                            text: '/${widget.totalAct} Activities Done',
+                            style: Styles.regular(size: 12)),
                       ],
                     ),
                   ),
-                 Spacer(),
-            
+                  Spacer(),
                   Container(
                     height: 6,
                     width: MediaQuery.of(context).size.width * 0.45,
@@ -97,15 +127,43 @@ class _CompetitionMyAcitivityCardState
                       children: [
                         Container(
                           height: 10,
-                          width:
-                              MediaQuery.of(context).size.width * 0.45 * (60 / 100),
+                          width: MediaQuery.of(context).size.width *
+                              0.45 *
+                              (percent / 100),
                           decoration: BoxDecoration(
                               color: ColorConstants.PROGESSBAR_TEAL,
                               borderRadius: BorderRadius.circular(10)),
                         ),
                       ],
                     ),
-                  )
+                  ),
+                  if (widget.activityStatus != null &&
+                      widget.activityStatus != '')
+                    Text(
+                      '${widget.activityStatus}',
+                      style: Styles.regular(color: ColorConstants.GREEN_1),
+                    ),
+                  SizedBox(
+                    height: 6,
+                  ),
+                  if (widget.activityStatus == null)
+                    Row(
+                      children: [
+                        Text('Rank: ${widget.rank}',
+                            style: Styles.regular(size: 12)),
+                        SizedBox(
+                          width: 4,
+                        ),
+                        SizedBox(
+                            height: 15,
+                            child: Image.asset('assets/images/coin.png')),
+                        SizedBox(
+                          width: 4,
+                        ),
+                        Text('${widget.score ?? 0} Points',
+                            style: Styles.regular(size: 12)),
+                      ],
+                    )
                 ],
               ),
             )

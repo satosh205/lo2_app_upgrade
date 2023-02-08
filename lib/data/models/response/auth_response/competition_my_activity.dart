@@ -78,7 +78,7 @@ class CompetitionActivityElement {
           starDate: json['start_date'],
           endDate: json['end_date'],
           gscore: json['score'],
-          totalCompeleted: json['total_activities_completed']);
+          totalCompeleted:  json['total_activities_completed']);
 
   Map<String, dynamic> toJson() => {
         "id": id,

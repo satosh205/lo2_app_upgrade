@@ -21,12 +21,18 @@ class _CompetitionMyActivityState extends State<CompetitionMyActivity> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.3,
-        backgroundColor: ColorConstants.WHITE,
-        leading: IconButton(
-          onPressed: ()=> Navigator.pop(context),
-          icon: Icon(Icons.arrow_back_ios, color: ColorConstants.BLACK,)),
-        title: Text('My Activities', style: Styles.semibold(),)),
+          elevation: 0.3,
+          backgroundColor: ColorConstants.WHITE,
+          leading: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: ColorConstants.BLACK,
+              )),
+          title: Text(
+            'My Activities',
+            style: Styles.semibold(),
+          )),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 6),
         child: Column(children: [
@@ -40,14 +46,19 @@ class _CompetitionMyActivityState extends State<CompetitionMyActivity> {
                   totalAct: widget.myActivity?.data[index].totalContents,
                   doneAct:
                       widget.myActivity?.data[index].totalActivitiesCompleted,
-                       id:  widget.myActivity?.data[index].id,
-  score:  widget.myActivity?.data[index].gscore,
-  desc:  widget.myActivity?.data[index].desc,
-  date:  widget.myActivity?.data[index].starDate,
-  difficulty:  widget.myActivity?.data[index].competitionLevel,
-  conductedBy:  widget.myActivity?.data[index].organizedBy,
+                  id: widget.myActivity?.data[index].id,
+                  score: widget.myActivity?.data[index].gscore,
+                  desc: widget.myActivity?.data[index].desc,
+                  date: widget.myActivity?.data[index].starDate,
+                  difficulty: widget.myActivity?.data[index].competitionLevel,
+                  conductedBy: widget.myActivity?.data[index].organizedBy,
+                  activityStatus: widget.myActivity?.data[index].activityStatus ?? '',
+                 
+                  
                 );
               }),
+
+              //competed list
           ListView.builder(
               shrinkWrap: true,
               itemCount: widget.completedCompetition?.data.length,
@@ -55,9 +66,17 @@ class _CompetitionMyActivityState extends State<CompetitionMyActivity> {
                 return CompetitionMyAcitivityCard(
                   image: widget.completedCompetition?.data[index].pImage,
                   title: widget.completedCompetition?.data[index].name,
-                  totalAct: widget.completedCompetition?.data[index].totalActivities,
-                  doneAct:
-                      1000,
+                  totalAct:
+                      widget.completedCompetition?.data[index].totalActivities,
+                  doneAct: widget.completedCompetition?.data[index].completedActivity,
+                   id: widget.completedCompetition?.data[index].pId,
+                  score: widget.completedCompetition?.data[index].gScore,
+                  desc: widget.completedCompetition?.data[index].desc,
+                  date: widget.completedCompetition?.data[index].startDate,
+                  difficulty: widget.completedCompetition?.data[index].competitionLevel,
+                  conductedBy: widget.completedCompetition?.data[index].organizedBy,
+                   activityStatus: null,
+                    rank: widget.completedCompetition?.data[index].rank,
                 );
               })
         ]),

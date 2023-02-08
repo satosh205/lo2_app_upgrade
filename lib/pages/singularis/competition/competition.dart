@@ -1,22 +1,18 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/auth_response/competition_my_activity.dart';
-import 'package:masterg/data/models/response/home_response/competition_content_list_resp.dart';
 import 'package:masterg/data/models/response/home_response/competition_response.dart';
-import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
 import 'package:masterg/data/models/response/home_response/domain_filter_list.dart';
 import 'package:masterg/data/models/response/home_response/domain_list_response.dart';
 import 'package:masterg/data/models/response/home_response/portfolio_competition_response.dart';
+import 'package:masterg/data/models/response/home_response/top_score.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/singularis/competition/competition_detail.dart';
 import 'package:masterg/pages/singularis/competition/competition_my_activity.dart';
@@ -46,17 +42,30 @@ class _CompetetionState extends State<Competetion> {
   DomainFilterListResponse? domainFilterList;
   PortfolioCompetitionResponse? completedCompetition;
   CompetitionMyActivityResponse? myActivity;
+  TopScoringResponse? userRank;
   bool? competitionLoading;
   bool? popularCompetitionLoading;
 
+  List<String> difficulty = ['Easy', 'Medium', 'Hard'];
+  String selectedDifficulty = '';
+  int selectedIndex = 0;
+  String seletedIds = '';
+  List<int> selectedIdList = <int>[];
+
   @override
   void initState() {
+    topScoringUser();
     getCompetitionList(false, '');
     getDomainList();
 
     // if (widget.fromDasboard == false) getPopularCompetitionList();
 
     super.initState();
+  }
+
+  void topScoringUser() {
+    BlocProvider.of<HomeBloc>(context).add(
+        TopScoringUserEvent(userId: Preference.getInt(Preference.USER_ID)));
   }
 
   void getCompetitionList(bool isFilter, String? ids) {
@@ -92,6 +101,9 @@ class _CompetetionState extends State<Competetion> {
               // if (state is DomainFilterListState) {
               //   handleDomainFilterListResponse(state);
               // }
+              if (state is TopScoringUserState) {
+                handletopScoring(state);
+              }
             },
             child: Container(
               color: ColorConstants.WHITE,
@@ -167,7 +179,7 @@ class _CompetetionState extends State<Competetion> {
                               left: mobileWidth * 0.02,
                               top: 30,
                               child: Text(
-                                '50 Points',
+                                '${userRank?.data.first.rank ?? 0} Points',
                                 style: Styles.regular(
                                     color: ColorConstants.WHITE, size: 12.5),
                               )),
@@ -222,12 +234,14 @@ class _CompetetionState extends State<Competetion> {
                               child: renderTopButton(
                                   'assets/images/leaderboard.png',
                                   'Your rank: ',
-                                  '120')),
+                                  '${userRank?.data.first.rank ?? 0}')),
                           Positioned(
                               right: 10,
                               bottom: 40,
                               child: renderTopButton(
-                                  'assets/images/coin.png', 'Points: ', '50')),
+                                  'assets/images/coin.png',
+                                  'Points: ',
+                                  '${userRank?.data.first.score ?? 0}')),
                           Positioned(
                             bottom: 0,
                             left: 0,
@@ -289,25 +303,65 @@ class _CompetetionState extends State<Competetion> {
                                 ],
                               ),
                               SizedBox(
-                                height: height(context) * 0.15,
+                                height: height(context) * 0.16,
                                 child: ListView.builder(
-                                    itemCount: myActivity?.data.length,
+                                    itemCount: myActivity!.data.length +
+                                        completedCompetition!.data.length,
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, index) {
-                                      return CompetitionMyAcitivityCard(
-                                        id: myActivity?.data[index].id,
-                                        desc: myActivity?.data[index].desc,
-                                        score:  myActivity?.data[index].gscore,
-                                        date: myActivity?.data[index].starDate,
-                                        conductedBy: myActivity?.data[index].organizedBy,
-                                        image: myActivity?.data[index].pImage,
-                                        title: myActivity?.data[index].name,
-                                        totalAct: myActivity
-                                            ?.data[index].totalContents,
-                                        doneAct: myActivity?.data[index]
-                                            .totalActivitiesCompleted,
-                                            
-                                      );
+                                      if (index < myActivity!.data.length)
+                                        return CompetitionMyAcitivityCard(
+                                          id: myActivity?.data[index].id,
+                                          desc: myActivity?.data[index].desc,
+                                          score: myActivity?.data[index].gscore,
+                                          date:
+                                              myActivity?.data[index].starDate,
+                                          conductedBy: myActivity
+                                              ?.data[index].organizedBy,
+                                          image: myActivity?.data[index].pImage,
+                                          title: myActivity?.data[index].name,
+                                          totalAct: myActivity
+                                              ?.data[index].totalContents,
+                                          doneAct: myActivity?.data[index]
+                                              .totalActivitiesCompleted,
+                                          difficulty: myActivity
+                                              ?.data[index].competitionLevel,
+                                          activityStatus: myActivity
+                                                  ?.data[index]
+                                                  .activityStatus ??
+                                              '',
+                                        );
+                                      else {
+                                        index = index - myActivity!.data.length;
+                                        return Container(
+                                          margin: EdgeInsets.only(left: 8),
+                                          child: CompetitionMyAcitivityCard(
+                                            image: completedCompetition
+                                                ?.data[0].pImage,
+                                            title: completedCompetition
+                                                ?.data[0].name,
+                                            totalAct: completedCompetition
+                                                ?.data[0].totalActivities,
+                                            doneAct: completedCompetition
+                                                ?.data[0].completedActivity,
+                                            id: completedCompetition
+                                                ?.data[0].pId,
+                                            score: completedCompetition
+                                                ?.data[0].gScore,
+                                            desc: completedCompetition
+                                                ?.data[0].desc,
+                                            date: completedCompetition
+                                                ?.data[0].startDate,
+                                            difficulty: completedCompetition
+                                                ?.data[0].competitionLevel,
+                                            conductedBy: completedCompetition
+                                                ?.data[0].organizedBy,
+                                            activityStatus: null,
+                                            rank: completedCompetition
+                                                ?.data[0].rank,
+                                          ),
+                                        );
+                                      }
                                     }),
                               )
                             ],
@@ -326,9 +380,7 @@ class _CompetetionState extends State<Competetion> {
                                     onTap: () async {
                                       getFilterList(domainList!.data!.list[0].id
                                           .toString());
-                                      int selectedIndex = 0;
-                                      String seletedIds = '';
-                                      List<int> selectedIdList = <int>[];
+
                                       await showModalBottomSheet(
                                           context: context,
                                           backgroundColor: Colors.transparent,
@@ -469,8 +521,6 @@ class _CompetetionState extends State<Competetion> {
                                                                         .start,
                                                                 children: [
                                                                   Text(
-                                                                      'selected ids $seletedIds'),
-                                                                  Text(
                                                                     'Domain',
                                                                     style: Styles
                                                                         .bold(
@@ -531,9 +581,8 @@ class _CompetetionState extends State<Competetion> {
                                                                                     } else {
                                                                                       selectedIdList.add(domainFilterList!.data!.list[i].id);
                                                                                     }
-                                                                                      print(selectedIdList);
+                                                                                    print(selectedIdList);
 
-                                                                                  
                                                                                     setState(() {});
                                                                                   },
                                                                                   child: Padding(
@@ -551,7 +600,42 @@ class _CompetetionState extends State<Competetion> {
                                                                                   ),
                                                                                 )),
                                                                       ),
-                                                                    )
+                                                                    ),
+                                                                  Text(
+                                                                    'Difficulty',
+                                                                    style: Styles
+                                                                        .bold(
+                                                                            size:
+                                                                                14),
+                                                                  ),
+                                                                  Container(
+                                                                    child: Wrap(
+                                                                      direction:
+                                                                          Axis.horizontal,
+                                                                      children: List.generate(
+                                                                          difficulty.length,
+                                                                          (i) => InkWell(
+                                                                                onTap: () {
+                                                                                  if(selectedDifficulty == difficulty[i])selectedDifficulty = '';
+                                                                                else   selectedDifficulty = difficulty[i];
+                                                                                  setState(() {});
+                                                                                },
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.only(left: 10, right: 5),
+                                                                                  child: Chip(
+                                                                                    backgroundColor: selectedDifficulty == difficulty[i] ? ColorConstants.GREEN : Color(0xffF2F2F2),
+                                                                                    label: Container(
+                                                                                      child: Text('${difficulty[i]}',
+                                                                                          style: Styles.regular(
+                                                                                            size: 12,
+                                                                                            color: selectedDifficulty == difficulty[i] ? ColorConstants.WHITE : ColorConstants.BLACK,
+                                                                                          )),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              )),
+                                                                    ),
+                                                                  ),
                                                                 ],
                                                               ),
                                                             )
@@ -637,7 +721,7 @@ class _CompetetionState extends State<Competetion> {
                         //
                         if (competitionLoading == false)
                           Container(
-                            height: height(context) * 0.38,
+                            height: height(context) * 0.4,
                             // color: Colors.green,
                             padding: EdgeInsets.symmetric(vertical: 20),
 
@@ -898,8 +982,8 @@ class _CompetetionState extends State<Competetion> {
   renderTopButton(String img, String title, String value) {
     return InkWell(
       onTap: () {
-        // Navigator.of(context)
-        //     .push(MaterialPageRoute(builder: (context) => LeaderboardPage()));
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => LeaderboardPage()));
       },
       child: Container(
         height: 45,
@@ -920,8 +1004,8 @@ class _CompetetionState extends State<Competetion> {
           SizedBox(
             width: 10,
           ),
-          Text(title, style: Styles.semibold(size: 14)),
-          Text(value, style: Styles.semibold(size: 16)),
+          Text(title, style: Styles.regular(size: 14)),
+          Text(value, style: Styles.semibold(size: 14)),
         ]),
       ),
     );
@@ -1189,6 +1273,40 @@ class _CompetetionState extends State<Competetion> {
           Log.v(
               "Error Popular CompetitionListIDState ..........................${popularCompetitionState.error}");
           popularCompetitionLoading = false;
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
+  }
+
+  void handletopScoring(TopScoringUserState state) {
+    var portfolioState = state;
+    setState(() async {
+      switch (portfolioState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Portfolio Competition Loading....................");
+          popularCompetitionLoading = true;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("PortfolioState Competition Success....................");
+
+          userRank = portfolioState.response;
+          Preference.setString(
+              Preference.FIRST_NAME, '${userRank?.data.first.name}');
+          Preference.setString(
+              Preference.PROFILE_IMAGE, '${userRank?.data.first.profileImage}');
+
+          popularCompetitionLoading = false;
+          setState(() {});
+          break;
+
+        case ApiStatus.ERROR:
+          popularCompetitionLoading = false;
+          Log.v("PortfolioState Error..........................");
+          Log.v(
+              "PortfolioState Error..........................${portfolioState.error}");
+
           break;
         case ApiStatus.INITIAL:
           break;

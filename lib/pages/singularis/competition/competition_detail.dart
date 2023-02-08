@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
@@ -20,6 +21,7 @@ import 'package:masterg/pages/training_pages/assignment_detail_page.dart';
 import 'package:masterg/pages/training_pages/training_service.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:masterg/utils/utility.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -66,6 +68,10 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    String startDate =
+                                              '${widget.competition?.startDate?.split(' ').first}';
+                                DateTime start=              DateFormat("yyyy-MM-dd")
+                                              .parse(startDate);
     return BlocManager(
         initState: (BuildContext context) {},
         child: BlocListener<HomeBloc, HomeState>(
@@ -202,12 +208,17 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                                     SizedBox(
                                       width: 4,
                                     ),
+                                    Text(
+                                     '${Utility.ordinal(start.day)} ${listOfMonths[start.month - 1]}',
+                                      style: Styles.semibold(
+                                          size: 12, color: Color(0xff5A5F73)),
+                                    )
                                     // Text(
-                                    //   '${Utility.convertDateFromMillis(int.parse('${widget.competition?.endDate}'), "dd MMM yyyy")}',
+                                    //   '${Utility.convertDateFromMillis(int.parse('${widget.competition?.startDate?.split(" ")}'), "yyy-MM-dd")}',
                                     //   style: Styles.semibold(
                                     //       size: 12, color: Color(0xff5A5F73)),
                                     // )
-                                  ],
+                                  ]
                                 )),
                           ],
                         ),
@@ -215,39 +226,39 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                           text: '${widget.competition?.description}',
                           color: Color(0xff5A5F73),
                         ),
-                        Center(
-                          child: Container(
-                            width: size.width * 0.5,
-                            padding: EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 8),
-                            margin: EdgeInsets.symmetric(vertical: 10),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Color(0xffFF2452)),
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Center(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset('assets/images/leaderboard.png'),
-                                  SizedBox(width: 8),
-                                  InkWell(
-                                    onTap: () {
-                                      // Navigator.of(context).push(
-                                      //     MaterialPageRoute(
-                                      //         builder: (context) =>
-                                      //             LeaderboardPage()));
-                                    },
-                                    child: Text('View Leaderboard',
-                                        style: Styles.semibold(
-                                            size: 12,
-                                            color: Color(0xff5A5F73))),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
+                        // Center(
+                        //   child: Container(
+                        //     width: size.width * 0.5,
+                        //     padding: EdgeInsets.symmetric(
+                        //         vertical: 8, horizontal: 8),
+                        //     margin: EdgeInsets.symmetric(vertical: 10),
+                        //     decoration: BoxDecoration(
+                        //         border: Border.all(color: Color(0xffFF2452)),
+                        //         borderRadius: BorderRadius.circular(8)),
+                        //     child: Center(
+                        //       child: Row(
+                        //         crossAxisAlignment: CrossAxisAlignment.center,
+                        //         mainAxisAlignment: MainAxisAlignment.center,
+                        //         children: [
+                        //           Image.asset('assets/images/leaderboard.png'),
+                        //           SizedBox(width: 8),
+                        //           InkWell(
+                        //             onTap: () {
+                        //               // Navigator.of(context).push(
+                        //               //     MaterialPageRoute(
+                        //               //         builder: (context) =>
+                        //               //             LeaderboardPage()));
+                        //             },
+                        //             child: Text('View Leaderboard',
+                        //                 style: Styles.semibold(
+                        //                     size: 12,
+                        //                     color: Color(0xff5A5F73))),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                         if (competitionDetailLoading == false &&
                             contentList?.data?.list?.length != 0)
                           Text('Activities',
@@ -612,6 +623,21 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
       }
     });
   }
+   List<String> listOfMonths = [
+      "Janaury",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
+
 }
 
 
