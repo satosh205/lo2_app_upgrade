@@ -699,7 +699,7 @@ class _CompetetionState extends State<Competetion> {
                                     child: Icon(Icons.filter_list))
                               ]),
                         competitionLoading == false
-                            ? ListView.builder(
+                            ? competitionResponse?.data?.length != 0 ?  ListView.builder(
                                 shrinkWrap: true,
                                 physics: BouncingScrollPhysics(),
                                 itemCount: widget.fromDasboard == true
@@ -728,7 +728,11 @@ class _CompetetionState extends State<Competetion> {
                                           '${competitionResponse?.data![index]?.competitionLevel ?? 'Easy'}',
                                           '${competitionResponse?.data![index]?.gScore ?? 0}',
                                           '${Utility.ordinalDate(dateVal: "${competitionResponse?.data![index]?.startDate}")}'));
-                                })
+                                }) : Container(
+                                height: height(context) * 0.1,
+                                color:ColorConstants.WHITE,
+                                width: double.infinity,
+                                child: Center(child: Text('No Competition Available', style: Styles.regular(size: 14),)))
                             : Shimmer.fromColors(
                                 baseColor: Colors.grey[300]!,
                                 highlightColor: Colors.grey[100]!,
@@ -749,7 +753,7 @@ class _CompetetionState extends State<Competetion> {
                                   ),
                                   itemCount: 2,
                                 ),
-                              ),
+                              ) ,
                         SizedBox(height: 10),
                         Row(
                           children: [
