@@ -45,18 +45,20 @@ class _AddExperienceState extends State<AddExperience> {
 
   @override
   void initState() {
- if(widget.isEditMode == true){
-     titleController = TextEditingController(text: '${widget.experience?.title}');
-nameController = TextEditingController(text: '${widget.experience?.institute}');
-descController = TextEditingController(text: '${widget.experience?.description}');
-startDate = TextEditingController(text: '${widget.experience?.startDate}');
-endDate = TextEditingController(text: '${widget.experience?.endDate}');
-employmentType = '${widget.experience?.employmentType}';
-   isclicked  = widget.experience?.currentlyWorkHere.length == 0 ? false : true;
- }
-
- 
-    
+    if (widget.isEditMode == true) {
+      titleController =
+          TextEditingController(text: '${widget.experience?.title}');
+      nameController =
+          TextEditingController(text: '${widget.experience?.institute}');
+      descController =
+          TextEditingController(text: '${widget.experience?.description}');
+      startDate =
+          TextEditingController(text: '${widget.experience?.startDate}');
+      endDate = TextEditingController(text: '${widget.experience?.endDate}');
+      employmentType = '${widget.experience?.employmentType}';
+      isclicked =
+      widget.experience?.currentlyWorkHere.length == 0 ? false : true;
+    }
     super.initState();
   }
 
@@ -411,15 +413,25 @@ employmentType = '${widget.experience?.employmentType}';
 
                                     PortfolioCustomButton(
                                         clickAction: () async {
+
+                                          print('employmentType=== ${employmentType}');
                                           if (employmentType == "") {
-                                            const SnackBar(
-                                                content: Text(
-                                                    'Please choose employment type*'));
-                                          } else if (startDate?.value.text ==
-                                              '') {
-                                            const SnackBar(
-                                                content: Text(
-                                                    'Please choose start date'));
+                                            print('employmentType=== if');
+
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                  content: Text(
+                                                      'Please choose employment type')),
+                                            );
+
+                                          } else if (startDate?.value.text == '') {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                  content: Text(
+                                                      'Please choose start date')),
+                                            );
                                           } else if (_formKey.currentState!
                                               .validate()) {
                                             Map<String, dynamic> data = Map();
