@@ -14,6 +14,7 @@ import 'package:masterg/data/models/response/home_response/domain_list_response.
 import 'package:masterg/data/models/response/home_response/portfolio_competition_response.dart';
 import 'package:masterg/data/models/response/home_response/top_score.dart';
 import 'package:masterg/local/pref/Preference.dart';
+import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/singularis/competition/competition_detail.dart';
 import 'package:masterg/pages/singularis/competition/competition_my_activity.dart';
 import 'package:masterg/pages/singularis/competition/competition_navigation/competition_my_activity.dart';
@@ -25,6 +26,8 @@ import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shimmer/shimmer.dart';
+
+import '../../user_profile_page/portfolio_create_form/portfolio_page.dart';
 // import 'package:phone_verification/phone_verification.dart';
 
 class Competetion extends StatefulWidget {
@@ -126,18 +129,24 @@ class _CompetetionState extends State<Competetion> {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Row(
                         children: [
-                          SizedBox(
-                            width: 45,
-                            height: 45,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(200),
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                    '${Preference.getString(Preference.PROFILE_IMAGE)}',
-                                filterQuality: FilterQuality.low,
-                                width: 45,
-                                height: 45,
-                                fit: BoxFit.cover,
+                          InkWell(
+                            onTap: (){
+                               Navigator.push(context,
+                                                NextPageRoute(NewPortfolioPage()));
+                            },
+                            child: SizedBox(
+                              width: 45,
+                              height: 45,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(200),
+                                child: CachedNetworkImage(
+                                  imageUrl:
+                                      '${Preference.getString(Preference.PROFILE_IMAGE)}',
+                                  filterQuality: FilterQuality.low,
+                                  width: 45,
+                                  height: 45,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           ),

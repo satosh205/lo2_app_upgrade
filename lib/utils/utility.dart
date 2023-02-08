@@ -212,7 +212,6 @@ class Utility {
 
     DateTime date = DateTime.parse(dateVal!);
     List<String> dateList = formatter.format(date).split(' ');
-    // print('the date is $dateList');
 
     int i = int.parse('${dateList[2]}');
     var j = i % 10, k = i % 100;
@@ -225,7 +224,6 @@ class Utility {
     if (j == 3 && k != 13) {
       return "${i}rd";
     }
-    print('the date is now ${i}th ${dateList[1]}');
     return "${i}th ${dateList[1]}";
   }
   static String ordinal(int n){

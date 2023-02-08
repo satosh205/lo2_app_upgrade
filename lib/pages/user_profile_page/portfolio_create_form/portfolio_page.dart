@@ -2141,7 +2141,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                           itemBuilder: (context, index) {
 
                             String startDateString = "${experience?[index].startDate}";
-                            print('startDateString ====${startDateString}');
                             //String endDateString = "${experience?[index].endDate}";
                             DateTime startDate = DateFormat("yyyy-MM-dd").parse(startDateString);
 
