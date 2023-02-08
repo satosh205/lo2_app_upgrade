@@ -134,7 +134,7 @@ class CompetitionContent {
     int? expectedDuration;
     String? endDate;
     String? startDate;
-    int? completionPercentage;
+    dynamic completionPercentage;
     int? userId;
     dynamic gScore;
     int? programId;

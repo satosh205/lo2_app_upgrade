@@ -147,7 +147,7 @@ class _CompetetionState extends State<Competetion> {
                           Text(
                             '${Preference.getString(Preference.FIRST_NAME)}',
                             style: Styles.bold(
-                                size: 22, color: ColorConstants.WHITE),
+                                size: 18, color: ColorConstants.WHITE),
                           )
                         ],
                       ),
@@ -265,7 +265,8 @@ class _CompetetionState extends State<Competetion> {
                     padding: EdgeInsets.symmetric(horizontal: 8),
                     child: Column(
                       children: [
-                        if (completedCompetition != null || myActivity != null)
+                        if ((completedCompetition != null || myActivity != null) && myActivity!.data.length +
+                                        completedCompetition!.data.length > 0)
                           Column(
                             children: [
                               Row(
@@ -302,7 +303,8 @@ class _CompetetionState extends State<Competetion> {
                                   )
                                 ],
                               ),
-                              SizedBox(
+                      if(myActivity!.data.length +
+                                        completedCompetition!.data.length > 0)        SizedBox(
                                 height: height(context) * 0.16,
                                 child: ListView.builder(
                                     itemCount: myActivity!.data.length +
@@ -716,7 +718,7 @@ class _CompetetionState extends State<Competetion> {
                                           '${competitionResponse?.data![index]?.organizedBy ?? ''}',
                                           '${competitionResponse?.data![index]?.competitionLevel ?? 'Easy'}',
                                           '${competitionResponse?.data![index]?.gScore ?? 0}',
-                                          '${Utility.ordinalDate(dateVal: "${competitionResponse?.data![index]?.endDate}")}'));
+                                          '${Utility.ordinalDate(dateVal: "${competitionResponse?.data![index]?.startDate}")}'));
                                 })
                             : Shimmer.fromColors(
                                 baseColor: Colors.grey[300]!,
@@ -854,7 +856,7 @@ class _CompetetionState extends State<Competetion> {
                     padding: const EdgeInsets.only(
                       left: 5.0,
                     ),
-                    child: Text(difficulty,
+                    child: Text(difficulty.capital(),
                         style: Styles.regular(
                             color: ColorConstants.GREEN_1, size: 12)),
                   ),
@@ -992,10 +994,10 @@ class _CompetetionState extends State<Competetion> {
                   ),
                   Icon(
                     Icons.calendar_month,
-                    size: 20,
+                    size: 16,
                   ),
                   SizedBox(
-                    width: 4,
+                    width:2,
                   ),
                   Text(
                     date,
@@ -1366,3 +1368,10 @@ class _CompetetionState extends State<Competetion> {
 
 
 
+
+
+extension on String {
+  String capital() {
+    return this[0].toUpperCase() + this.substring(1);
+  }
+}

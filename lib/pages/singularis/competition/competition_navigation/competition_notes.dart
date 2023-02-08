@@ -1,13 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class CompetitionNotes extends StatefulWidget {
+  final int? id;
   final notesUrl;
-  const CompetitionNotes({Key? key, this.notesUrl}) : super(key: key);
+  const CompetitionNotes({Key? key, this.notesUrl, this.id}) : super(key: key);
 
   @override
   State<CompetitionNotes> createState() => _CompetitionNotesState();
@@ -15,6 +18,13 @@ class CompetitionNotes extends StatefulWidget {
 
 class _CompetitionNotesState extends State<CompetitionNotes> {
  
+  void _updateCourseCompletion(bookmark) async {
+    //change bookmark with 25
+    print("bookmarkTimer make api ${bookmark}");
+    BlocProvider.of<HomeBloc>(context).add(UpdateVideoCompletionEvent(
+        bookmark: bookmark, contentId: widget.id));
+    setState(() {});
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: Container(
@@ -23,7 +33,9 @@ class _CompetitionNotesState extends State<CompetitionNotes> {
       child: PDF(
                         //swipeHorizontal: true,
                         onPageChanged: ((page, total ) {
+                          int pageno = page! + 1;
                           print('total page $total and current page $page');
+                           _updateCourseCompletion(pageno);
                         }),
                         enableSwipe: true,
                         gestureRecognizers: [

@@ -187,11 +187,34 @@ class Utility {
   }
 
   static String ordinalDate({String? dateVal}) {
-    var formatter = new DateFormat('dd MMM');
+    // var formatter = new DateFormat('dd MMM');
+
+    // DateTime date = DateTime.parse(dateVal!);
+    // List<String> dateList = formatter.format(date).split(' ');
+    // print('the date is $dateList');
+
+    // int i = int.parse('${dateList[0]}');
+    // var j = i % 10, k = i % 100;
+    // if (j == 1 && k != 11) {
+    //   return "${i}st";
+    // }
+    // if (j == 2 && k != 12) {
+    //   return "${i}nd";
+    // }
+    // if (j == 3 && k != 13) {
+    //   return "${i}rd";
+    // }
+    // return "${i}th ${dateList[1]}";
+
+
+
+     var formatter = new DateFormat('yyy MMM dd');
 
     DateTime date = DateTime.parse(dateVal!);
     List<String> dateList = formatter.format(date).split(' ');
-    int i = int.parse('${dateList[0]}');
+    // print('the date is $dateList');
+
+    int i = int.parse('${dateList[2]}');
     var j = i % 10, k = i % 100;
     if (j == 1 && k != 11) {
       return "${i}st";
@@ -202,6 +225,7 @@ class Utility {
     if (j == 3 && k != 13) {
       return "${i}rd";
     }
+    print('the date is now ${i}th ${dateList[1]}');
     return "${i}th ${dateList[1]}";
   }
   static String ordinal(int n){

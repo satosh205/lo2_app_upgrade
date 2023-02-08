@@ -35,7 +35,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
     mContext = context;
     assessmentDetailProvider = Provider.of<AssessmentDetailProvider>(context);
     return Scaffold(
-      appBar:!widget.fromCompetition ?  AppBar(
+      appBar: AppBar(
         iconTheme: IconThemeData(
           color: Colors.black, //change your color here
         ),
@@ -45,7 +45,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
         ),
         backgroundColor: Colors.white,
         elevation: 0,
-      ) : null,
+      ) ,
       resizeToAvoidBottomInset: false,
       backgroundColor: ColorConstants.WHITE,
       body: assessmentDetailProvider.assessmentResponse != null
@@ -58,26 +58,26 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
     return Container(
       height: MediaQuery.of(mContext!).size.height,
       width: MediaQuery.of(mContext!).size.width,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding:  widget.fromCompetition?  EdgeInsets.all(8.0) : EdgeInsets.all(0),
+      child: Padding(
+        padding:  widget.fromCompetition?  EdgeInsets.all(8.0) : EdgeInsets.all(0),
+        child: Expanded(
           child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-
+        
             children: [
               if (widget.fromCompetition) ...[
-                Center(
-                      child: Container(
-                        margin: EdgeInsets.symmetric(vertical: 6),
-                        decoration: BoxDecoration(
-                            color: ColorConstants.GREY_4,
-                            borderRadius: BorderRadius.circular(6)),
-                        width: MediaQuery.of(context).size.width * 0.15,
-                        height: 6,
-                      ),
-                    ),
-                    Divider(),
-
+                // Center(
+                //       child: Container(
+                //         margin: EdgeInsets.symmetric(vertical: 6),
+                //         decoration: BoxDecoration(
+                //             color: ColorConstants.GREY_4,
+                //             borderRadius: BorderRadius.circular(6)),
+                //         width: MediaQuery.of(context).size.width * 0.15,
+                //         height: 6,
+                //       ),
+                //     ),
+                    // Divider(),
+        
                      Text(
                       '${assessmentDetailProvider.assessmentResponse?.data?.instruction?.details?.title}',
                       style: Styles.bold(size: 14),
@@ -136,8 +136,9 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                             )),
                   ),
                 ),
-                    SizedBox(height: 8),
-
+                    // SizedBox(height: 8),
+                    Spacer(),
+        
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TapWidget(
@@ -216,8 +217,8 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                       ),
                     // )
               ]
-else...[
-   Padding(
+        else...[
+           Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: Row(
                   children: [],
@@ -225,7 +226,7 @@ else...[
               ),
               _belowTitle(assessmentDetailProvider),
               _body(assessmentDetailProvider),
-]
+        ]
              
             ],
           ),
