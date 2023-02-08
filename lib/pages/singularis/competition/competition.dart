@@ -1357,6 +1357,7 @@ class _CompetetionState extends State<Competetion> {
     int h = nextValue(c, 1);
     int l = h - 50;
     double result =  ((c - l)  * 100) / 50;
+    print('Api - URL: https://singularis.lea $result');
     return result;
 
 

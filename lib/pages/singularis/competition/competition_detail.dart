@@ -68,10 +68,8 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    String startDate =
-                                              '${widget.competition?.startDate?.split(' ').first}';
-                                DateTime start=              DateFormat("yyyy-MM-dd")
-                                              .parse(startDate);
+    String startDate = '${widget.competition?.startDate?.split(' ').first}';
+    DateTime start = DateFormat("yyyy-MM-dd").parse(startDate);
     return BlocManager(
         initState: (BuildContext context) {},
         child: BlocListener<HomeBloc, HomeState>(
@@ -199,27 +197,25 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                                 decoration: BoxDecoration(
                                     color: ColorConstants.WHITE,
                                     borderRadius: BorderRadius.circular(4)),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.calendar_month,
-                                      size: 14,
-                                    ),
-                                    SizedBox(
-                                      width: 4,
-                                    ),
-                                    Text(
-                                     '${Utility.ordinal(start.day)} ${listOfMonths[start.month - 1]}',
-                                      style: Styles.semibold(
-                                          size: 12, color: Color(0xff5A5F73)),
-                                    )
-                                    // Text(
-                                    //   '${Utility.convertDateFromMillis(int.parse('${widget.competition?.startDate?.split(" ")}'), "yyy-MM-dd")}',
-                                    //   style: Styles.semibold(
-                                    //       size: 12, color: Color(0xff5A5F73)),
-                                    // )
-                                  ]
-                                )),
+                                child: Row(children: [
+                                  Icon(
+                                    Icons.calendar_month,
+                                    size: 14,
+                                  ),
+                                  SizedBox(
+                                    width: 4,
+                                  ),
+                                  Text(
+                                    '${Utility.ordinal(start.day)} ${listOfMonths[start.month - 1]}',
+                                    style: Styles.semibold(
+                                        size: 12, color: Color(0xff5A5F73)),
+                                  )
+                                  // Text(
+                                  //   '${Utility.convertDateFromMillis(int.parse('${widget.competition?.startDate?.split(" ")}'), "yyy-MM-dd")}',
+                                  //   style: Styles.semibold(
+                                  //       size: 12, color: Color(0xff5A5F73)),
+                                  // )
+                                ])),
                           ],
                         ),
                         ReadMoreText(
@@ -429,15 +425,23 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
               decoration: BoxDecoration(
                   color: ColorConstants.WHITE,
                   borderRadius: BorderRadius.circular(10)),
-              child: card(data!, cardType),
+              child: card(data!, cardType, isLocked),
             )
           ]),
     );
   }
 
-  Widget card(CompetitionContent data, CardType? cardType) {
+  Widget card(CompetitionContent data, CardType? cardType, bool? isLocked) {
+      String startDate = '${data.startDate?.split(' ').first}';
+    DateTime start = DateFormat("yyyy-MM-dd").parse(startDate);
     return InkWell(
       onTap: () {
+        if (isLocked == true) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Content Locked!'),
+          ));
+          return;
+        }
         if (cardType == CardType.youtube) {
           Navigator.push(
               context,
@@ -474,27 +478,27 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                         fromCompetition: true,
                       ))));
         else if (cardType == CardType.assessment) {
-             Navigator.push(
+          Navigator.push(
               context,
               PageTransition(
                   duration: Duration(milliseconds: 300),
                   reverseDuration: Duration(milliseconds: 300),
                   type: PageTransitionType.bottomToTop,
                   child: ChangeNotifierProvider<AssessmentDetailProvider>(
-                        create: (context) => AssessmentDetailProvider(
-                            TrainingService(ApiService()), data,
-                            fromCompletiton: true, id: data.programContentId),
-                        child: AssessmentDetailPage(fromCompetition: true))));
-             
+                      create: (context) => AssessmentDetailProvider(
+                          TrainingService(ApiService()), data,
+                          fromCompletiton: true, id: data.programContentId),
+                      child: AssessmentDetailPage(fromCompetition: true))));
         } else if (cardType == CardType.session) {
-            Navigator.push(
+          Navigator.push(
               context,
               PageTransition(
                   duration: Duration(milliseconds: 300),
                   reverseDuration: Duration(milliseconds: 300),
                   type: PageTransitionType.bottomToTop,
-                  child: CompetitionSession(data: data,)));
-            
+                  child: CompetitionSession(
+                    data: data,
+                  )));
         }
       },
       child: Column(
@@ -515,14 +519,13 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                   width: 4,
                 ),
                 Text('•',
-                    style: Styles.regular(
-                        color: ColorConstants.GREY_2, size: 12)),
+                    style:
+                        Styles.regular(color: ColorConstants.GREY_2, size: 12)),
                 SizedBox(
                   width: 4,
                 ),
                 SizedBox(
-                    height: 15,
-                    child: Image.asset('assets/images/coin.png')),
+                    height: 15, child: Image.asset('assets/images/coin.png')),
                 SizedBox(
                   width: 4,
                 ),
@@ -540,9 +543,8 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                   width: 4,
                 ),
                 Text(
-                  '31st December',
-                  style: Styles.regular(
-                      size: 12, color: Color(0xff5A5F73)),
+                  '${Utility.ordinal(start.day)} ${listOfMonths[start.month - 1]}',
+                  style: Styles.regular(size: 12, color: Color(0xff5A5F73)),
                 )
               ],
             )
@@ -623,23 +625,22 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
       }
     });
   }
-   List<String> listOfMonths = [
-      "Janaury",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"
-    ];
 
+  List<String> listOfMonths = [
+    "Janaury",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
 }
-
 
 extension on String {
   String capital() {

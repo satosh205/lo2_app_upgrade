@@ -112,6 +112,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
               Preference.USER_EMAIL, '${state.response?.data?.user?.email}');
           Preference.setString(Preference.PROFILE_IMAGE,
               '${state.response?.data?.user?.profileImage}');
+          Preference.setInt(Preference.USER_ID, int.parse('${state.response?.data?.user?.id}'));
           // Preference.setInt(Preference.USER_TYPE,
           //     int.parse('${state.response?.data?.user?.isTrainer}'));
           Preference.setString(
