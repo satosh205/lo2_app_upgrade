@@ -1526,13 +1526,10 @@ class HomeProvider {
     return null;
   }
 
-
-
-   Future<ApiResponse?> addResume(Map<String, dynamic> data) async {
-    
+  Future<ApiResponse?> addResume(Map<String, dynamic> data) async {
     try {
       final response = await api.dio.post(ApiConstants.ADD_RESUME,
-      data: FormData.fromMap(data),
+          data: FormData.fromMap(data),
           options: Options(
               method: 'POST',
               headers: {
@@ -1555,13 +1552,11 @@ class HomeProvider {
     }
     return null;
   }
-
 
   Future<ApiResponse?> addSocial(Map<String, dynamic> data) async {
-    
     try {
       final response = await api.dio.post(ApiConstants.ADD_SOCIAL,
-      data: FormData.fromMap(data),
+          data: FormData.fromMap(data),
           options: Options(
               method: 'POST',
               headers: {
@@ -1585,12 +1580,10 @@ class HomeProvider {
     return null;
   }
 
-
-   Future<ApiResponse?> uploadProfile(Map<String, dynamic> data) async {
-    
+  Future<ApiResponse?> uploadProfile(Map<String, dynamic> data) async {
     try {
       final response = await api.dio.post(ApiConstants.UPDATE_PROFILE,
-      data: FormData.fromMap(data),
+          data: FormData.fromMap(data),
           options: Options(
               method: 'POST',
               headers: {
@@ -1641,8 +1634,7 @@ class HomeProvider {
     return null;
   }
 
-
-   Future<ApiResponse?> getPortfolioCompetition() async {
+  Future<ApiResponse?> getPortfolioCompetition() async {
     // Utility.hideKeyboard();
     try {
       final response = await api.dio.get(ApiConstants.GET_PORTFOLIO_COMPETITION,
@@ -1669,8 +1661,7 @@ class HomeProvider {
     return null;
   }
 
-
-   Future<ApiResponse?> getCompetitionMyActivity() async {
+  Future<ApiResponse?> getCompetitionMyActivity() async {
     // Utility.hideKeyboard();
     try {
       final response = await api.dio.get(ApiConstants.COMPETITION_MY_ACTIVITY,
@@ -2223,6 +2214,69 @@ class HomeProvider {
     return null;
   }
 
+  Future<ApiResponse?> getFilterDomainList(String ids) async {
+    //  Utility.hideKeyboard();
+
+    try {
+      Map<String, dynamic>? data = Map();
+      data['type'] = 'job';
+      data['domain_id'] = ids;
+      final response = await api.dio.post(ApiConstants.DOMAIN_LIST,
+          data: FormData.fromMap(data),
+          options: Options(
+              method: 'POST',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+    return null;
+  }
+
+  Future<ApiResponse?> getDomainList() async {
+    //  Utility.hideKeyboard();
+
+    try {
+      Map<String, dynamic>? data = Map();
+      data['type'] = 'domain';
+      final response = await api.dio.post(ApiConstants.DOMAIN_LIST,
+          data: FormData.fromMap(data),
+          options: Options(
+              method: 'POST',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data.containsKey('error') &&
+            (response.data["error"] as List).length != 0) {
+          return ApiResponse.error(response.data);
+        } else {
+          return ApiResponse.success(response);
+        }
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+    return null;
+  }
+
   Future<ApiResponse?> getCompetitionDetail({int? moduleId}) async {
     try {
       final response =
@@ -2248,10 +2302,28 @@ class HomeProvider {
     return null;
   }
 
-  Future<ApiResponse?> getCompetitionList({bool? isPopular}) async {
+  Future<ApiResponse?> getCompetitionList(
+      {bool? isPopular, bool? isFiltter, String? jobIds}) async {
     try {
       String url = ApiConstants.COMPETITION_MODULE_DATA;
-      if (isPopular == true) url += '?is_popular=1';
+
+      // if(isFiltter = false){
+      // if (isPopular == true) url += '?is_popular=1';
+
+      // }
+      // else{
+      // if (isPopular == true) url = url + '?job_ids=$jobIds' +  '&is_popular=1';
+      // else url = url + '?job_ids=$jobIds' +  '?is_popular=1';
+
+      // }
+
+      if (isFiltter == false) {
+        if (isPopular == true) url += '?is_popular=1';
+      } else if (isFiltter == true) {
+        print('Api - URL: https:/ hello $jobIds');
+        if (isPopular == true) url =  url + '?job_ids=$jobIds' +  '&is_popular=1';
+        else url += '?job_ids=$jobIds';
+      }
       final response = await api.dio.get(url,
           options: Options(
               method: 'GET',
@@ -2391,7 +2463,7 @@ class HomeProvider {
 
   Future<ApiResponse?> topScoringUser({int? userId}) async {
     try {
-     /* final response = await api.dio.post(ApiConstants.TOP_SCORING_USER,
+      /* final response = await api.dio.post(ApiConstants.TOP_SCORING_USER,
           data: FormData.fromMap(userId),
           options: Options(
               method: 'POST',
@@ -2403,17 +2475,17 @@ class HomeProvider {
               responseType: ResponseType.json // or ResponseType.JSON
           ));*/
 
-      final response = await api.dio.get(ApiConstants.TOP_SCORING_USER+'?id='+userId.toString(),
-
-          options: Options(
-              method: 'GET',
-              headers: {
-                "Authorization": "Bearer ${UserSession.userToken}",
-                ApiConstants.API_KEY: ApiConstants().APIKeyValue()
-              },
-              contentType: "application/json",
-              responseType: ResponseType.json // or ResponseType.JSON
-          ));
+      final response = await api.dio
+          .get(ApiConstants.TOP_SCORING_USER + '?id=' + userId.toString(),
+              options: Options(
+                  method: 'GET',
+                  headers: {
+                    "Authorization": "Bearer ${UserSession.userToken}",
+                    ApiConstants.API_KEY: ApiConstants().APIKeyValue()
+                  },
+                  contentType: "application/json",
+                  responseType: ResponseType.json // or ResponseType.JSON
+                  ));
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data.containsKey('error') &&

@@ -14,6 +14,8 @@ import 'package:masterg/data/models/response/auth_response/competition_my_activi
 import 'package:masterg/data/models/response/home_response/competition_content_list_resp.dart';
 import 'package:masterg/data/models/response/home_response/competition_response.dart';
 import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
+import 'package:masterg/data/models/response/home_response/domain_filter_list.dart';
+import 'package:masterg/data/models/response/home_response/domain_list_response.dart';
 import 'package:masterg/data/models/response/home_response/portfolio_competition_response.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/singularis/competition/competition_detail.dart';
@@ -40,6 +42,8 @@ class Competetion extends StatefulWidget {
 class _CompetetionState extends State<Competetion> {
   // List<MProgram>? competitionList;
   CompetitionResponse? competitionResponse, popularCompetitionResponse;
+  DomainListResponse? domainList;
+  DomainFilterListResponse? domainFilterList;
   PortfolioCompetitionResponse? completedCompetition;
   CompetitionMyActivityResponse? myActivity;
   bool? competitionLoading;
@@ -47,21 +51,26 @@ class _CompetetionState extends State<Competetion> {
 
   @override
   void initState() {
-    getCompetitionList();
+    getCompetitionList(false, '');
+    getDomainList();
+
     // if (widget.fromDasboard == false) getPopularCompetitionList();
 
     super.initState();
   }
 
-  void getCompetitionList() {
-    BlocProvider.of<HomeBloc>(context)
-        .add(CompetitionListEvent(isPopular: false));
+  void getCompetitionList(bool isFilter, String? ids) {
+    BlocProvider.of<HomeBloc>(context).add(
+        CompetitionListEvent(isPopular: false, isFilter: isFilter, ids: ids));
   }
 
-  // void getPopularCompetitionList() {
-  //   BlocProvider.of<HomeBloc>(context)
-  //       .add(CompetitionListEvent(isPopular: true));
-  // }
+  void getDomainList() {
+    BlocProvider.of<HomeBloc>(context).add(DomainListEvent());
+  }
+
+  void getFilterList(String ids) {
+    BlocProvider.of<HomeBloc>(context).add(DomainFilterListEvent(ids: ids));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,8 +86,11 @@ class _CompetetionState extends State<Competetion> {
               if (state is CompetitionListState) {
                 _handlecompetitionListResponse(state);
               }
-              // if (state is PopularCompetitionListState) {
-              //   _handlePopularCompetitionListResponse(state);
+              if (state is DomainListState) {
+                handleDomainListResponse(state);
+              }
+              // if (state is DomainFilterListState) {
+              //   handleDomainFilterListResponse(state);
               // }
             },
             child: Container(
@@ -243,8 +255,8 @@ class _CompetetionState extends State<Competetion> {
                           Column(
                             children: [
                               Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text('My Activities',
                                       style: Styles.regular(
@@ -252,36 +264,45 @@ class _CompetetionState extends State<Competetion> {
                                         color: ColorConstants.GREY_6,
                                       )),
                                   InkWell(
-                                    onTap: (){
-                                       Navigator.push(
-              context,
-              PageTransition(
-                  duration: Duration(milliseconds: 300),
-                  reverseDuration: Duration(milliseconds: 300),
-                  type: PageTransitionType.bottomToTop,
-                  child:  CompetitionMyActivity(
-               completedCompetition: completedCompetition,
-               myActivity: myActivity,
-                  )));
-                                     
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          PageTransition(
+                                              duration:
+                                                  Duration(milliseconds: 300),
+                                              reverseDuration:
+                                                  Duration(milliseconds: 300),
+                                              type: PageTransitionType
+                                                  .bottomToTop,
+                                              child: CompetitionMyActivity(
+                                                completedCompetition:
+                                                    completedCompetition,
+                                                myActivity: myActivity,
+                                              )));
                                     },
                                     child: Text('View all',
                                         style: Styles.regular(
-                                          size: 12, 
+                                          size: 12,
                                           color: ColorConstants.GRADIENT_RED,
                                         )),
                                   )
                                 ],
                               ),
-
                               SizedBox(
                                 height: height(context) * 0.15,
                                 child: ListView.builder(
-                                  itemCount: myActivity?.data.length,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index){
-                                  return CompetitionMyAcitivityCard(image: myActivity?.data[index].pImage, title: myActivity?.data[index].name, totalAct: myActivity?.data[index].totalContents, doneAct: myActivity?.data[index].totalActivitiesCompleted,) ;
-                                }),
+                                    itemCount: myActivity?.data.length,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      return CompetitionMyAcitivityCard(
+                                        image: myActivity?.data[index].pImage,
+                                        title: myActivity?.data[index].name,
+                                        totalAct: myActivity
+                                            ?.data[index].totalContents,
+                                        doneAct: myActivity?.data[index]
+                                            .totalActivitiesCompleted,
+                                      );
+                                    }),
                               )
                             ],
                           ),
@@ -292,21 +313,256 @@ class _CompetetionState extends State<Competetion> {
                               children: [
                                 Text('Participate & Add to Your Portfolio',
                                     style: Styles.regular(
-                                        size: 14,
+                                      size: 14,
                                       color: ColorConstants.GREY_6,
                                     )),
                                 InkWell(
-                                    onTap: () {
-                                      showModalBottomSheet(
+                                    onTap: () async {
+                                      getFilterList(domainList!.data!.list[0].id
+                                          .toString());
+                                      int selectedIndex = 0;
+                                      String seletedIds = '';
+                                      List<int> selectedIdList = <int>[];
+                                      await showModalBottomSheet(
                                           context: context,
                                           backgroundColor: Colors.transparent,
                                           isScrollControlled: true,
                                           builder: (context) {
-                                            return FractionallySizedBox(
-                                              heightFactor: 0.49,
-                                              child: renderFilter(),
-                                            );
+                                            return StatefulBuilder(builder:
+                                                (BuildContext context,
+                                                    setState) {
+                                              void
+                                                  handleDomainFilterListResponse(
+                                                      DomainFilterListState
+                                                          state) {
+                                                var popularCompetitionState =
+                                                    state;
+                                                setState(() {
+                                                  switch (
+                                                      popularCompetitionState
+                                                          .apiState) {
+                                                    case ApiStatus.LOADING:
+                                                      Log.v(
+                                                          "Loading....................");
+                                                      popularCompetitionLoading =
+                                                          true;
+                                                      break;
+                                                    case ApiStatus.SUCCESS:
+                                                      Log.v(
+                                                          "Filter list State....................");
+                                                      domainFilterList =
+                                                          state.response;
+                                                      popularCompetitionLoading =
+                                                          false;
+                                                      setState(() {});
+
+                                                      break;
+                                                    case ApiStatus.ERROR:
+                                                      Log.v(
+                                                          "Filter list CompetitionListIDState ..........................${popularCompetitionState.error}");
+                                                      popularCompetitionLoading =
+                                                          false;
+                                                      break;
+                                                    case ApiStatus.INITIAL:
+                                                      break;
+                                                  }
+                                                });
+                                              }
+
+                                              return BlocListener<HomeBloc,
+                                                      HomeState>(
+                                                  listener: (context, state) {
+                                                    if (state
+                                                        is DomainFilterListState) {
+                                                      handleDomainFilterListResponse(
+                                                          state);
+                                                    }
+                                                  },
+                                                  child: FractionallySizedBox(
+                                                    heightFactor: 0.7,
+                                                    child: Container(
+                                                      height: double.infinity,
+                                                      width: double.infinity,
+                                                      decoration: BoxDecoration(
+                                                          color: ColorConstants
+                                                              .WHITE,
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                                  topLeft: Radius
+                                                                      .circular(
+                                                                          12),
+                                                                  topRight: Radius
+                                                                      .circular(
+                                                                          8))),
+                                                      child:
+                                                          SingleChildScrollView(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Center(
+                                                              child: Container(
+                                                                decoration: BoxDecoration(
+                                                                    color: ColorConstants
+                                                                        .GREY_4,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            8)),
+                                                                width: 48,
+                                                                height: 5,
+                                                                margin: EdgeInsets
+                                                                    .only(
+                                                                        top: 8),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          8,
+                                                                      vertical:
+                                                                          4),
+                                                              child: Row(
+                                                                children: [
+                                                                  Text(
+                                                                    'Filter by',
+                                                                    style: Styles
+                                                                        .semibold(
+                                                                            size:
+                                                                                16),
+                                                                  ),
+                                                                  Spacer(),
+                                                                  IconButton(
+                                                                      onPressed:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                      icon: Icon(
+                                                                          Icons
+                                                                              .close))
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            Divider(
+                                                              color:
+                                                                  ColorConstants
+                                                                      .GREY_4,
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          8,
+                                                                      vertical:
+                                                                          4),
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                      'selected ids $seletedIds'),
+                                                                  Text(
+                                                                    'Domain',
+                                                                    style: Styles
+                                                                        .bold(
+                                                                            size:
+                                                                                14),
+                                                                  ),
+                                                                  Container(
+                                                                    child: Wrap(
+                                                                      direction:
+                                                                          Axis.horizontal,
+                                                                      children: List.generate(
+                                                                          domainList!.data!.list.length,
+                                                                          (i) => InkWell(
+                                                                                onTap: () {
+                                                                                  setState(() {
+                                                                                    selectedIndex = i;
+                                                                                    seletedIds = '';
+                                                                                    selectedIdList = [];
+                                                                                  });
+                                                                                  getFilterList(domainList!.data!.list[i].id.toString());
+                                                                                },
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.only(left: 10, right: 5),
+                                                                                  child: Chip(
+                                                                                    backgroundColor: i == selectedIndex ? ColorConstants.GREEN : Color(0xffF2F2F2),
+                                                                                    label: Container(
+                                                                                      child: Text(
+                                                                                        '${domainList!.data!.list[i].name}',
+                                                                                        style: Styles.semibold(size: 12, color: i == selectedIndex ? ColorConstants.WHITE : ColorConstants.BLACK),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              )),
+                                                                    ),
+                                                                  ),
+                                                                  Text(
+                                                                    'Job Roles',
+                                                                    style: Styles
+                                                                        .bold(
+                                                                            size:
+                                                                                14),
+                                                                  ),
+                                                                  if (domainFilterList !=
+                                                                      null)
+                                                                    Container(
+                                                                      child:
+                                                                          Wrap(
+                                                                        direction:
+                                                                            Axis.horizontal,
+                                                                        children: List.generate(
+                                                                            domainFilterList!.data!.list.length,
+                                                                            (i) => InkWell(
+                                                                                  onTap: () {
+                                                                                    seletedIds += domainFilterList!.data!.list[i].id.toString() + ',';
+                                                                                    if (selectedIdList.contains(domainFilterList!.data!.list[i].id)) {
+                                                                                      selectedIdList.remove(domainFilterList!.data!.list[i].id);
+                                                                                    } else {
+                                                                                      selectedIdList.add(domainFilterList!.data!.list[i].id);
+                                                                                    }
+                                                                                      print(selectedIdList);
+
+                                                                                  
+                                                                                    setState(() {});
+                                                                                  },
+                                                                                  child: Padding(
+                                                                                    padding: const EdgeInsets.only(left: 10, right: 5),
+                                                                                    child: Chip(
+                                                                                      backgroundColor: selectedIdList.contains(domainFilterList!.data!.list[i].id) ? ColorConstants.GREEN : Color(0xffF2F2F2),
+                                                                                      label: Container(
+                                                                                        child: Text('${domainFilterList!.data!.list[i].title}',
+                                                                                            style: Styles.regular(
+                                                                                              size: 12,
+                                                                                              color: selectedIdList.contains(domainFilterList!.data!.list[i].id) ? ColorConstants.WHITE : ColorConstants.BLACK,
+                                                                                            )),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                )),
+                                                                      ),
+                                                                    )
+                                                                ],
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ));
+                                            });
                                           });
+                                      if (selectedIdList.length == 0) {
+                                        getCompetitionList(false, '');
+                                      } else
+                                        getCompetitionList(
+                                            true,
+                                            seletedIds.substring(
+                                                0, seletedIds.length - 1));
                                     },
                                     child: Icon(Icons.filter_list))
                               ]),
@@ -724,7 +980,7 @@ class _CompetetionState extends State<Competetion> {
     );
   }
 
-  renderFilter() {
+  renderFilter(int selectedIndex) {
     return Container(
       height: double.infinity,
       width: double.infinity,
@@ -748,9 +1004,19 @@ class _CompetetionState extends State<Competetion> {
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              child: Text(
-                'Filter by',
-                style: Styles.semibold(size: 16),
+              child: Row(
+                children: [
+                  Text(
+                    'Filter by',
+                    style: Styles.semibold(size: 16),
+                  ),
+                  Spacer(),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(Icons.close))
+                ],
               ),
             ),
             Divider(
@@ -759,19 +1025,66 @@ class _CompetetionState extends State<Competetion> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Text('Domain'),
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.6,
                     child: Wrap(
-                        direction: Axis.horizontal,
-                        children: shimmerChips.toList()),
+                      direction: Axis.horizontal,
+                      children: List.generate(
+                          domainList!.data!.list.length,
+                          (i) => InkWell(
+                                onTap: () {
+                                  getFilterList(
+                                      domainList!.data!.list[i].id.toString());
+                                  selectedIndex = i;
+                                  setState(() {});
+                                },
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 10, right: 5),
+                                  child: Chip(
+                                    backgroundColor: i == selectedIndex
+                                        ? ColorConstants.GREEN
+                                        : Color(0xffF2F2F2),
+                                    label: Container(
+                                      child: Text(
+                                          '${domainList!.data!.list[i].name}'),
+                                    ),
+                                  ),
+                                ),
+                              )),
+                    ),
                   ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.6,
-                    child: Wrap(
+                  Text('Job Roles'),
+                  if (domainFilterList != null)
+                    Container(
+                      // height: MediaQuery.of(context).size.height * 0.4,
+                      child: Wrap(
                         direction: Axis.horizontal,
-                        children: shimmerChips.toList()),
-                  )
+                        // children: filterChips.toList()
+                        children: List.generate(
+                            domainFilterList!.data!.list.length,
+                            (i) => InkWell(
+                                  onTap: () {
+                                    // getFilterList(domainFilterList!
+                                    //     .data!.list[i].id
+                                    //     .toString());
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, right: 5),
+                                    child: Chip(
+                                      backgroundColor: Color(0xffF2F2F2),
+                                      label: Container(
+                                        child: Text(
+                                            '${domainFilterList!.data!.list[i].title}'),
+                                      ),
+                                    ),
+                                  ),
+                                )),
+                      ),
+                    )
                 ],
               ),
             )
@@ -782,20 +1095,41 @@ class _CompetetionState extends State<Competetion> {
   }
 
   Iterable<Widget> get shimmerChips sync* {
-    for (int i = 0; i < 4; i++) {
-      yield Padding(
-        padding: const EdgeInsets.only(top: 20),
-        child: Shimmer.fromColors(
-          baseColor: Color(0xffe6e4e6),
-          highlightColor: Color(0xffeaf0f3),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 10, right: 5),
-            child: Chip(
-              // backgroundColor: Colors.transparent,
-              label:
-                  Container(width: 10, height: 10, color: ColorConstants.WHITE),
-              avatar: Container(),
+    for (int i = 0; i < domainList!.data!.list.length; i++) {
+      yield InkWell(
+        onTap: () {
+          setState(() {
+            getFilterList(domainList!.data!.list[i].id.toString());
+            Navigator.pop(context);
+          });
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10, right: 5),
+          child: Chip(
+            backgroundColor: Color(0xffF2F2F2),
+            label: Container(
+              child: Text('${domainList!.data!.list[i].name}'),
             ),
+          ),
+        ),
+      );
+    }
+  }
+
+  Iterable<Widget> get filterChips sync* {
+    for (int i = 0; i < domainFilterList!.data!.list.length; i++) {
+      yield InkWell(
+        onTap: () {
+          getFilterList(domainFilterList!.data!.list[i].id.toString());
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10, right: 5),
+          child: Chip(
+            backgroundColor: Color(0xffF2F2F2),
+            label: Container(
+              child: Text('${domainFilterList!.data!.list[i].title}'),
+            ),
+            // avatar: Container(),
           ),
         ),
       );
@@ -831,28 +1165,28 @@ class _CompetetionState extends State<Competetion> {
     });
   }
 
-  // void _handlePopularCompetitionListResponse(PopularCompetitionListState state) {
-  //   var popularCompetitionState = state;
-  //   setState(() {
-  //     switch (popularCompetitionState.apiState) {
-  //       case ApiStatus.LOADING:
-  //         Log.v("Loading....................");
-  //         popularCompetitionLoading = true;
-  //         break;
-  //       case ApiStatus.SUCCESS:
-  //         Log.v("popularCompetitionState....................");
-  //         popularCompetitionResponse = state.response;
-  //         popularCompetitionLoading = false;
+  void handleDomainListResponse(DomainListState state) {
+    var popularCompetitionState = state;
+    setState(() {
+      switch (popularCompetitionState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          popularCompetitionLoading = true;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("popularCompetitionState....................");
+          domainList = state.response;
+          popularCompetitionLoading = false;
 
-  //         break;
-  //       case ApiStatus.ERROR:
-  //         Log.v(
-  //             "Error Popular CompetitionListIDState ..........................${popularCompetitionState.error}");
-  //         popularCompetitionLoading = false;
-  //         break;
-  //       case ApiStatus.INITIAL:
-  //         break;
-  //     }
-  //   });
-  // }
+          break;
+        case ApiStatus.ERROR:
+          Log.v(
+              "Error Popular CompetitionListIDState ..........................${popularCompetitionState.error}");
+          popularCompetitionLoading = false;
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
+  }
 }

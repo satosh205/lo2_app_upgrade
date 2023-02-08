@@ -22,6 +22,8 @@ import 'package:masterg/data/models/response/home_response/content_tags_resp.dar
 import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
 import 'package:masterg/data/models/response/home_response/create_post_response.dart';
 import 'package:masterg/data/models/response/home_response/delete_post_response.dart';
+import 'package:masterg/data/models/response/home_response/domain_filter_list.dart';
+import 'package:masterg/data/models/response/home_response/domain_list_response.dart';
 import 'package:masterg/data/models/response/home_response/featured_video_response.dart';
 import 'package:masterg/data/models/response/home_response/feedback_response.dart';
 import 'package:masterg/data/models/response/home_response/gcarvaan_post_reponse.dart';
@@ -546,9 +548,9 @@ class HomeRepository {
     }
   }
 
-  Future<CompetitionResponse> getCompetitionList(bool? isPopular) async {
+  Future<CompetitionResponse> getCompetitionList(bool? isPopular, bool isFilter, String? ids) async {
     final response =
-        await homeProvider.getCompetitionList(isPopular: isPopular);
+        await homeProvider.getCompetitionList(isPopular: isPopular, isFiltter: isFilter, jobIds: ids);
     if (response!.success) {
       Log.v("Competition List  DATA : ${response.body}");
       CompetitionResponse competitionData =
@@ -557,6 +559,32 @@ class HomeRepository {
     } else {
       Log.v("====> ${response.body}");
       return CompetitionResponse();
+    }
+  }
+  Future<DomainListResponse> getDomainList() async {
+    final response =
+        await homeProvider.getDomainList();
+    if (response!.success) {
+      Log.v("Competition List  DATA : ${response.body}");
+      DomainListResponse competitionData =
+          DomainListResponse.fromJson(response.body);
+      return competitionData;
+    } else {
+      Log.v("====> ${response.body}");
+      return DomainListResponse();
+    }
+  }
+  Future<DomainFilterListResponse> getFilterDomainList(String ids) async {
+    final response =
+        await homeProvider.getFilterDomainList(ids);
+    if (response!.success) {
+      Log.v("Domain Filter  List  DATA : ${response.body}");
+      DomainFilterListResponse competitionData =
+          DomainFilterListResponse.fromJson(response.body);
+      return competitionData;
+    } else {
+      Log.v("====> ${response.body}");
+      return DomainFilterListResponse();
     }
   }
 

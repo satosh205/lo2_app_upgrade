@@ -44,14 +44,14 @@ class _CompetitionMyActivityState extends State<CompetitionMyActivity> {
               }),
           ListView.builder(
               shrinkWrap: true,
-              itemCount: widget.myActivity?.data.length,
+              itemCount: widget.completedCompetition?.data.length,
               itemBuilder: (context, index) {
                 return CompetitionMyAcitivityCard(
-                  image: widget.myActivity?.data[index].pImage,
-                  title: widget.myActivity?.data[index].name,
-                  totalAct: widget.myActivity?.data[index].totalContents,
+                  image: widget.completedCompetition?.data[index].pImage,
+                  title: widget.completedCompetition?.data[index].name,
+                  totalAct: widget.completedCompetition?.data[index].totalActivities,
                   doneAct:
-                      widget.myActivity?.data[index].totalActivitiesCompleted,
+                      1000,
                 );
               })
         ]),
