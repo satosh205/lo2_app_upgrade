@@ -126,7 +126,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
         if(portfolioResponse?.data.portfolioSocial.first.linkedin != "") ...[
           PopupMenuItem<String>(
             onTap: (){
-              WidgetsBinding.instance!.addPostFrameCallback((_) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -153,7 +153,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
         if(portfolioResponse?.data.portfolioSocial.first.facebook != "") ...[
           PopupMenuItem<String>(
             onTap: (){
-              WidgetsBinding.instance!.addPostFrameCallback((_) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -180,7 +180,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
         if(portfolioResponse?.data.portfolioSocial.first.bee != "") ...[
           PopupMenuItem<String>(
             onTap: (){
-              WidgetsBinding.instance!.addPostFrameCallback((_) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -207,7 +207,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
         if(portfolioResponse?.data.portfolioSocial.first.dribble != "") ...[
           PopupMenuItem<String>(
             onTap: (){
-              WidgetsBinding.instance!.addPostFrameCallback((_) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -234,7 +234,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
         if(portfolioResponse?.data.portfolioSocial.first.insta != "") ...[
           PopupMenuItem<String>(
             onTap: (){
-              WidgetsBinding.instance!.addPostFrameCallback((_) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -261,7 +261,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
         if(portfolioResponse?.data.portfolioSocial.first.twitter != "") ...[
           PopupMenuItem<String>(
             onTap: (){
-              WidgetsBinding.instance!.addPostFrameCallback((_) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -288,7 +288,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
         if(portfolioResponse?.data.portfolioSocial.first.pinterest != "") ...[
           PopupMenuItem<String>(
             onTap: (){
-              WidgetsBinding.instance!.addPostFrameCallback((_) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -315,7 +315,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
         if(portfolioResponse?.data.portfolioSocial.first.siteUrl != "") ...[
           PopupMenuItem<String>(
             onTap: (){
-              WidgetsBinding.instance!.addPostFrameCallback((_) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
