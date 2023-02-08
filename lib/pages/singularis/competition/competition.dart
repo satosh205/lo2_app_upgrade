@@ -669,13 +669,21 @@ class _CompetetionState extends State<Competetion> {
                                                   ));
                                             });
                                           });
-                                      if (selectedIdList.length == 0) {
-                                        getCompetitionList(false, '');
+
+                                      if (selectedIdList.length == 0 &&
+                                          selectedDifficulty != '') {
+                                        getCompetitionList(true,
+                                            '&competition_level=${selectedDifficulty.toLowerCase()}');
+                                      } else if (selectedIdList.length == 0) {
+                                        print('calling this');
+                                        getCompetitionList(false,
+                                            '&competition_level=${selectedDifficulty.toLowerCase()}');
                                       } else
                                         getCompetitionList(
                                             true,
                                             seletedIds.substring(
-                                                0, seletedIds.length - 1));
+                                                    0, seletedIds.length - 1) +
+                                                '&competition_level=${selectedDifficulty.toLowerCase()}');
                                     },
                                     child: Icon(Icons.filter_list))
                               ]),
