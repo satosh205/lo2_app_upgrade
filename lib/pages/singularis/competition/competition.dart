@@ -174,7 +174,7 @@ class _CompetetionState extends State<Competetion> {
                               left: mobileWidth * 0.09,
                               top: 8,
                               child: renderProgressBar(
-                                  percent, barThickness, mobileWidth)),
+                                  percentage(userRank?.data.first.rank ?? 0), barThickness, mobileWidth)),
                           Positioned(
                               left: mobileWidth * 0.02,
                               top: 30,
@@ -215,19 +215,19 @@ class _CompetetionState extends State<Competetion> {
                           Positioned(
                               left: mobileWidth * 0.53,
                               top: 4,
-                              child: renderEllipse('100')),
+                              child: renderEllipse('${nextValue(userRank?.data.first.rank ?? 0, 1)}')),
                           Positioned(
                               left: mobileWidth * 0.66,
                               top: 3.8,
-                              child: renderEllipse('150')),
+                              child: renderEllipse('${nextValue(userRank?.data.first.rank ?? 0, 2)}')),
                           Positioned(
                               left: mobileWidth * 0.79,
                               top: 4,
-                              child: renderEllipse('200')),
+                              child: renderEllipse('${nextValue(userRank?.data.first.rank ?? 0, 3)}')),
                           Positioned(
                               left: mobileWidth * 0.92,
                               top: 4,
-                              child: renderEllipse('250')),
+                              child: renderEllipse('${nextValue(userRank?.data.first.rank ?? 0, 4)}')),
                           Positioned(
                               left: 10,
                               bottom: 40,
@@ -1347,4 +1347,21 @@ class _CompetetionState extends State<Competetion> {
       }
     });
   }
+
+  int nextValue(int c, int n){
+    int x = 50 - (c % 50);
+    c = (x + c) * n;
+    return c;
+  }
+  double percentage(int c){
+    int h = nextValue(c, 1);
+    int l = h - 50;
+    double result =  ((c - l)  * 100) / 50;
+    return result;
+
+
+  }
 }
+
+
+
