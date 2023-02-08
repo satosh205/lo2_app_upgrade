@@ -10,6 +10,7 @@ import 'package:masterg/data/models/request/home_request/track_announcement_requ
 import 'package:masterg/data/models/request/home_request/user_program_subscribe.dart';
 import 'package:masterg/data/models/request/save_answer_request.dart';
 import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
+import 'package:masterg/data/models/response/auth_response/competition_my_activity.dart';
 import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/data/models/response/general_resp.dart';
 import 'package:masterg/data/models/response/home_response/add_portfolio_resp.dart';
@@ -21,6 +22,8 @@ import 'package:masterg/data/models/response/home_response/content_tags_resp.dar
 import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
 import 'package:masterg/data/models/response/home_response/create_post_response.dart';
 import 'package:masterg/data/models/response/home_response/delete_post_response.dart';
+import 'package:masterg/data/models/response/home_response/domain_filter_list.dart';
+import 'package:masterg/data/models/response/home_response/domain_list_response.dart';
 import 'package:masterg/data/models/response/home_response/featured_video_response.dart';
 import 'package:masterg/data/models/response/home_response/feedback_response.dart';
 import 'package:masterg/data/models/response/home_response/gcarvaan_post_reponse.dart';
@@ -68,6 +71,7 @@ import 'package:masterg/data/models/response/home_response/user_profile_response
 import 'package:masterg/data/models/response/home_response/user_program_subscribe_reponse.dart';
 import 'package:masterg/data/providers/home_provider.dart';
 import 'package:masterg/local/pref/Preference.dart';
+import 'package:masterg/pages/singularis/competition/competition_navigation/competition_my_activity.dart';
 import 'package:masterg/pages/user_profile_page/model/MasterBrand.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_education.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_experience.dart';
@@ -544,9 +548,9 @@ class HomeRepository {
     }
   }
 
-  Future<CompetitionResponse> getCompetitionList(bool? isPopular) async {
+  Future<CompetitionResponse> getCompetitionList(bool? isPopular, bool isFilter, String? ids) async {
     final response =
-        await homeProvider.getCompetitionList(isPopular: isPopular);
+        await homeProvider.getCompetitionList(isPopular: isPopular, isFiltter: isFilter, jobIds: ids);
     if (response!.success) {
       Log.v("Competition List  DATA : ${response.body}");
       CompetitionResponse competitionData =
@@ -555,6 +559,32 @@ class HomeRepository {
     } else {
       Log.v("====> ${response.body}");
       return CompetitionResponse();
+    }
+  }
+  Future<DomainListResponse> getDomainList() async {
+    final response =
+        await homeProvider.getDomainList();
+    if (response!.success) {
+      Log.v("Competition List  DATA : ${response.body}");
+      DomainListResponse competitionData =
+          DomainListResponse.fromJson(response.body);
+      return competitionData;
+    } else {
+      Log.v("====> ${response.body}");
+      return DomainListResponse();
+    }
+  }
+  Future<DomainFilterListResponse> getFilterDomainList(String ids) async {
+    final response =
+        await homeProvider.getFilterDomainList(ids);
+    if (response!.success) {
+      Log.v("Domain Filter  List  DATA : ${response.body}");
+      DomainFilterListResponse competitionData =
+          DomainFilterListResponse.fromJson(response.body);
+      return competitionData;
+    } else {
+      Log.v("====> ${response.body}");
+      return DomainFilterListResponse();
     }
   }
 
@@ -640,6 +670,22 @@ class HomeRepository {
       return PortfolioCompetitionResponse.fromJson(response.body);
     }
   }
+
+   Future<CompetitionMyActivityResponse?> getCompetitionMyActivity() async {
+    final response = await homeProvider.getCompetitionMyActivity();
+
+    if (response!.success) {
+      Log.v("Get portfolio competition response  DATA : ${response.body}");
+      CompetitionMyActivityResponse portfolioResponse =
+          CompetitionMyActivityResponse.fromJson(response.body);
+      return portfolioResponse;
+    } else {
+      Log.v("====> ${response.body}");
+      return CompetitionMyActivityResponse.fromJson(response.body);
+    }
+  }
+
+  
   Future<TopScoringResponse?> topScoringUser({int? userId}) async {
     final response = await homeProvider.topScoringUser(userId: userId);
     if (response!.success) {

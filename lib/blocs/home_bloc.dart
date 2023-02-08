@@ -12,6 +12,7 @@ import 'package:masterg/data/models/request/home_request/user_program_subscribe.
 import 'package:masterg/data/models/request/home_request/user_tracking_activity.dart';
 import 'package:masterg/data/models/request/save_answer_request.dart';
 import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
+import 'package:masterg/data/models/response/auth_response/competition_my_activity.dart';
 import 'package:masterg/data/models/response/auth_response/dashboard_content_resp.dart';
 import 'package:masterg/data/models/response/auth_response/dashboard_view_resp.dart';
 import 'package:masterg/data/models/response/general_resp.dart';
@@ -23,6 +24,8 @@ import 'package:masterg/data/models/response/home_response/content_tags_resp.dar
 import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
 import 'package:masterg/data/models/response/home_response/create_post_response.dart';
 import 'package:masterg/data/models/response/home_response/delete_post_response.dart';
+import 'package:masterg/data/models/response/home_response/domain_filter_list.dart';
+import 'package:masterg/data/models/response/home_response/domain_list_response.dart';
 import 'package:masterg/data/models/response/home_response/featured_video_response.dart';
 import 'package:masterg/data/models/response/home_response/feedback_response.dart';
 import 'package:masterg/data/models/response/home_response/gcarvaan_post_reponse.dart';
@@ -572,11 +575,50 @@ class CourseCategoryListIDEvent extends HomeEvent {
 
 class CompetitionListEvent extends HomeEvent {
   bool? isPopular;
+bool? isFilter;
+String? ids;
 
-  CompetitionListEvent({this.isPopular}) : super([isPopular]);
+  CompetitionListEvent({this.isPopular, this.isFilter = false, this.ids}) : super([isPopular, isFilter, ids]);
 
   List<Object> get props => throw UnimplementedError();
 }
+
+class DomainListEvent extends HomeEvent {
+
+  DomainListEvent() : super([]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+class DomainListState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  DomainListResponse? response;
+  String? error;
+
+  DomainListState(this.state, {this.response, this.error});
+}
+
+
+class DomainFilterListEvent extends HomeEvent {
+  String? ids;
+
+  DomainFilterListEvent({this.ids}) : super([ids]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+class DomainFilterListState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  DomainFilterListResponse? response;
+  String? error;
+
+  DomainFilterListState(this.state, {this.response, this.error});
+}
+
 
 class LeaderboardEvent extends HomeEvent {
   String? type;
@@ -617,9 +659,11 @@ class CompetitionListState extends HomeState {
   ApiStatus state;
   ApiStatus get apiState => state;
   CompetitionResponse? competitonResponse, popularCompetitionResponse;
+  PortfolioCompetitionResponse? competedCompetition;
+  CompetitionMyActivityResponse? myActivity;
   String? error;
 
-  CompetitionListState(this.state, {this.competitonResponse, this.popularCompetitionResponse, this.error});
+  CompetitionListState(this.state, {this.competitonResponse, this.popularCompetitionResponse,this.competedCompetition,this.myActivity,  this.error});
 }
 
 class PopularCompetitionListState extends HomeState {
@@ -1597,7 +1641,36 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc(HomeState initialState) : super(initialState);
 
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
-if(event is TopScoringUserEvent){
+    if(event is DomainFilterListEvent){
+        try {
+        yield DomainFilterListState(ApiStatus.LOADING);
+        final response = await homeRepository.getFilterDomainList(event.ids!);
+        Log.v(" domain filter list  DATA ::: ${response.data}");
+
+        if (response.data != null) {
+          yield DomainFilterListState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v(" domain filter   ERROR DATA ::: $response");
+          yield DomainFilterListState(ApiStatus.ERROR, response: response);
+        }
+      } catch (e) {}
+      
+    }
+  else   if(event is DomainListEvent){
+        try {
+        yield DomainListState(ApiStatus.LOADING);
+        final response = await homeRepository.getDomainList();
+        Log.v("top scoring resume DATA ::: ${response.data}");
+
+        if (response.data != null) {
+          yield DomainListState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("top scoring   ERROR DATA ::: $response");
+          yield DomainListState(ApiStatus.ERROR, response: response);
+        }
+      } catch (e) {}
+    }
+else if(event is TopScoringUserEvent){
    try {
         yield TopScoringUserState(ApiStatus.LOADING);
         final response = await homeRepository.topScoringUser(userId: event.userId);
@@ -2458,12 +2531,14 @@ try {
       if (event.isPopular == false) {
         try {
           yield CompetitionListState(ApiStatus.LOADING);
-         final response = await  Future.wait([homeRepository.getCompetitionList(false), homeRepository.getCompetitionList(true)]);
+
+          
+         List<dynamic> response = await  Future.wait([homeRepository.getCompetitionList(false, event.isFilter!, event.ids), homeRepository.getCompetitionList(true, event.isFilter!, event.ids),homeRepository.getPortfolioCompetition(), homeRepository.getCompetitionMyActivity()]);
 
           // final response = await homeRepository.getCompetitionList(false);
         
 
-          yield CompetitionListState(ApiStatus.SUCCESS,competitonResponse: response[0],popularCompetitionResponse: response[1] );
+          yield CompetitionListState(ApiStatus.SUCCESS,competitonResponse: response[0],popularCompetitionResponse: response[1], competedCompetition: response[2], myActivity: response[3] );
         } catch (e) {
           Log.v("Exception : $e");
           yield CompetitionListState(ApiStatus.ERROR,
@@ -2473,7 +2548,7 @@ try {
         try {
           yield PopularCompetitionListState(ApiStatus.LOADING);
 
-          final response = await homeRepository.getCompetitionList(true);
+          final response = await homeRepository.getCompetitionList(true, event.isFilter!, event.ids);
 
           yield PopularCompetitionListState(ApiStatus.SUCCESS,
               response: response);
