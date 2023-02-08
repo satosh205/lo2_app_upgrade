@@ -295,12 +295,18 @@ class _CompetetionState extends State<Competetion> {
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, index) {
                                       return CompetitionMyAcitivityCard(
+                                        id: myActivity?.data[index].id,
+                                        desc: myActivity?.data[index].desc,
+                                        score:  myActivity?.data[index].gscore,
+                                        date: myActivity?.data[index].starDate,
+                                        conductedBy: myActivity?.data[index].organizedBy,
                                         image: myActivity?.data[index].pImage,
                                         title: myActivity?.data[index].name,
                                         totalAct: myActivity
                                             ?.data[index].totalContents,
                                         doneAct: myActivity?.data[index]
                                             .totalActivitiesCompleted,
+                                            
                                       );
                                     }),
                               )

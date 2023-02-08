@@ -1,23 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
-import 'package:masterg/data/models/response/home_response/assignment_detail_response.dart';
 import 'package:masterg/data/models/response/home_response/competition_content_list_resp.dart';
 import 'package:masterg/data/models/response/home_response/competition_response.dart';
-import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
 import 'package:masterg/data/models/response/home_response/training_detail_response.dart';
 import 'package:masterg/data/models/response/home_response/training_module_response.dart';
 import 'package:masterg/data/providers/assessment_detail_provider.dart';
 import 'package:masterg/data/providers/assignment_detail_provider.dart';
-import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/ghome/widget/read_more.dart';
 import 'package:masterg/pages/singularis/competition/competition_navigation/competition_notes.dart';
 import 'package:masterg/pages/singularis/competition/competition_navigation/competition_session.dart';
@@ -27,12 +20,9 @@ import 'package:masterg/pages/training_pages/assignment_detail_page.dart';
 import 'package:masterg/pages/training_pages/training_service.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
-import 'package:masterg/utils/utility.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../../../utils/Log.dart';
 
@@ -158,7 +148,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                                   color: ColorConstants.WHITE,
                                   borderRadius: BorderRadius.circular(4)),
                               child: Text(
-                                  '${widget.competition?.competitionLevel?.capital()}',
+                                  '${widget.competition?.competitionLevel?.capital() ?? 'Easy'}',
                                   style: Styles.semibold(
                                     size: 12,
                                     color: ColorConstants.GREEN_1,

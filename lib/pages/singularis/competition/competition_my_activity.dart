@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:masterg/data/models/response/home_response/competition_response.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/singularis/competition/competition_detail.dart';
 import 'package:masterg/utils/Styles.dart';
@@ -13,8 +14,17 @@ class CompetitionMyAcitivityCard extends StatefulWidget {
  final int? totalAct;
  final int? doneAct;
 
+ final int? id;
+ final int? score;
+ final String? desc;
+ final String? date;
+ final String? difficulty;
+ final String? conductedBy;
 
-  const CompetitionMyAcitivityCard({Key? key, this.image, this.title, this.totalAct, this.doneAct}) : super(key: key);
+
+
+
+  const CompetitionMyAcitivityCard({Key? key, this.image, this.title, this.totalAct, this.doneAct, this.id, this. score, this.desc, this.date, this.difficulty, this.conductedBy}) : super(key: key);
 
   @override
   State<CompetitionMyAcitivityCard> createState() =>
@@ -27,7 +37,7 @@ class _CompetitionMyAcitivityCardState
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-        Navigator.push(context, NextPageRoute(CompetitionDetail()));
+        Navigator.push(context, NextPageRoute(CompetitionDetail(competition: Competition(id:widget.id,level: widget.difficulty,description: widget.desc, gScore: widget.score ?? 0, startDate: widget.date,  name: widget.title  ),)));
       },
       child: Container(
         width: width(context) * 0.8,

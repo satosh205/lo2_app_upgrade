@@ -40,6 +40,12 @@ class _CompetitionMyActivityState extends State<CompetitionMyActivity> {
                   totalAct: widget.myActivity?.data[index].totalContents,
                   doneAct:
                       widget.myActivity?.data[index].totalActivitiesCompleted,
+                       id:  widget.myActivity?.data[index].id,
+  score:  widget.myActivity?.data[index].gscore,
+  desc:  widget.myActivity?.data[index].desc,
+  date:  widget.myActivity?.data[index].starDate,
+  difficulty:  widget.myActivity?.data[index].competitionLevel,
+  conductedBy:  widget.myActivity?.data[index].organizedBy,
                 );
               }),
           ListView.builder(
