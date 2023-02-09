@@ -262,7 +262,7 @@ class _SocialPageState extends State<SocialPage> {
                             data["bee"] = behanceController.value.text;
                             data["dribbl"] = dribbleController.value.text;
                             data["insta"] = instaController.value.text;
-                            data["facebook"] = instaController.value.text;
+                            data["facebook"] = fbController.value.text;
                             data["twitter"] = twitterController.value.text;
                             data["pinterest"] = pintrestController.value.text;
                             data["other"] = "";

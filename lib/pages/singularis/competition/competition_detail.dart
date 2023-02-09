@@ -2,38 +2,33 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
-import 'package:masterg/data/models/response/home_response/assignment_detail_response.dart';
 import 'package:masterg/data/models/response/home_response/competition_content_list_resp.dart';
 import 'package:masterg/data/models/response/home_response/competition_response.dart';
-import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
 import 'package:masterg/data/models/response/home_response/training_detail_response.dart';
 import 'package:masterg/data/models/response/home_response/training_module_response.dart';
 import 'package:masterg/data/providers/assessment_detail_provider.dart';
 import 'package:masterg/data/providers/assignment_detail_provider.dart';
-import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/ghome/widget/read_more.dart';
-import 'package:masterg/pages/singularis/leaderboard_page.dart';
+import 'package:masterg/pages/singularis/competition/competition_navigation/competition_notes.dart';
+import 'package:masterg/pages/singularis/competition/competition_navigation/competition_session.dart';
+import 'package:masterg/pages/singularis/competition/competition_navigation/competition_youtube.dart';
 import 'package:masterg/pages/training_pages/assessment_page.dart';
 import 'package:masterg/pages/training_pages/assignment_detail_page.dart';
 import 'package:masterg/pages/training_pages/training_service.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../utils/Log.dart';
+import '../../../../utils/Log.dart';
 
-enum CardType {
-  assignment,
-  assessment,
-  session,
-  video,
-  note,
-}
+enum CardType { assignment, assessment, session, video, note, youtube }
 
 class CompetitionDetail extends StatefulWidget {
   final Competition? competition;
@@ -73,6 +68,8 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    String startDate = '${widget.competition?.startDate?.split(' ').first}';
+    DateTime start = DateFormat("yyyy-MM-dd").parse(startDate);
     return BlocManager(
         initState: (BuildContext context) {},
         child: BlocListener<HomeBloc, HomeState>(
@@ -108,7 +105,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                 children: [
                   SizedBox(
                     width: double.infinity,
-                    height: size.height * 0.15,
+                    height: size.height * 0.3,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: CachedNetworkImage(
@@ -118,7 +115,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                         errorWidget: (context, url, error) => SvgPicture.asset(
                           'assets/images/gscore_postnow_bg.svg',
                         ),
-                        fit: BoxFit.contain,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -131,19 +128,20 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                           '${widget.competition?.name}',
                           style: Styles.bold(color: Color(0xff0E1638)),
                         ),
-                        Row(
-                          children: [
-                            Text(
-                              'Conducted by ',
-                              style: Styles.regular(
-                                  size: 12, color: Color(0xff929BA3)),
-                            ),
-                            Text(
-                              'Google',
-                              style: Styles.semibold(size: 12),
-                            ),
-                          ],
-                        ),
+                        if (widget.competition?.organizedBy != null)
+                          Row(
+                            children: [
+                              Text(
+                                'Conducted by ',
+                                style: Styles.regular(
+                                    size: 12, color: Color(0xff929BA3)),
+                              ),
+                              Text(
+                                '${widget.competition?.organizedBy}',
+                                style: Styles.semibold(size: 12),
+                              ),
+                            ],
+                          ),
                         Row(
                           children: [
                             Container(
@@ -153,7 +151,8 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                               decoration: BoxDecoration(
                                   color: ColorConstants.WHITE,
                                   borderRadius: BorderRadius.circular(4)),
-                              child: Text('Easy',
+                              child: Text(
+                                  '${widget.competition?.competitionLevel?.capital() ?? 'Easy'}',
                                   style: Styles.semibold(
                                     size: 12,
                                     color: ColorConstants.GREEN_1,
@@ -198,77 +197,88 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                                 decoration: BoxDecoration(
                                     color: ColorConstants.WHITE,
                                     borderRadius: BorderRadius.circular(4)),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.calendar_month,
-                                      size: 14,
-                                    ),
-                                    SizedBox(
-                                      width: 4,
-                                    ),
-                                    // Text(
-                                    //   '${Utility.convertDateFromMillis(int.parse('${widget.competition?.endDate}'), "dd MMM yyyy")}',
-                                    //   style: Styles.semibold(
-                                    //       size: 12, color: Color(0xff5A5F73)),
-                                    // )
-                                  ],
-                                )),
+                                child: Row(children: [
+                                  Icon(
+                                    Icons.calendar_month,
+                                    size: 14,
+                                  ),
+                                  SizedBox(
+                                    width: 4,
+                                  ),
+                                  Text(
+                                    '${Utility.ordinal(start.day)} ${listOfMonths[start.month - 1]}',
+                                    style: Styles.semibold(
+                                        size: 12, color: Color(0xff5A5F73)),
+                                  )
+                                  // Text(
+                                  //   '${Utility.convertDateFromMillis(int.parse('${widget.competition?.startDate?.split(" ")}'), "yyy-MM-dd")}',
+                                  //   style: Styles.semibold(
+                                  //       size: 12, color: Color(0xff5A5F73)),
+                                  // )
+                                ])),
                           ],
                         ),
                         ReadMoreText(
                           text: '${widget.competition?.description}',
                           color: Color(0xff5A5F73),
                         ),
-                        Center(
-                          child: Container(
-                            width: size.width * 0.5,
-                            padding: EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 8),
-                            margin: EdgeInsets.symmetric(vertical: 10),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Color(0xffFF2452)),
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Center(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset('assets/images/leaderboard.png'),
-                                  SizedBox(width: 8),
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  LeaderboardPage()));
-                                    },
-                                    child: Text('View Leaderboard',
-                                        style: Styles.semibold(
-                                            size: 12,
-                                            color: Color(0xff5A5F73))),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      if(competitionDetailLoading == false && contentList?.data?.list?.length != 0)  Text('Activities',
-                            style:
-                                Styles.bold(size: 14, color: Color(0xff0E1638)))
+                        // Center(
+                        //   child: Container(
+                        //     width: size.width * 0.5,
+                        //     padding: EdgeInsets.symmetric(
+                        //         vertical: 8, horizontal: 8),
+                        //     margin: EdgeInsets.symmetric(vertical: 10),
+                        //     decoration: BoxDecoration(
+                        //         border: Border.all(color: Color(0xffFF2452)),
+                        //         borderRadius: BorderRadius.circular(8)),
+                        //     child: Center(
+                        //       child: Row(
+                        //         crossAxisAlignment: CrossAxisAlignment.center,
+                        //         mainAxisAlignment: MainAxisAlignment.center,
+                        //         children: [
+                        //           Image.asset('assets/images/leaderboard.png'),
+                        //           SizedBox(width: 8),
+                        //           InkWell(
+                        //             onTap: () {
+                        //               // Navigator.of(context).push(
+                        //               //     MaterialPageRoute(
+                        //               //         builder: (context) =>
+                        //               //             LeaderboardPage()));
+                        //             },
+                        //             child: Text('View Leaderboard',
+                        //                 style: Styles.semibold(
+                        //                     size: 12,
+                        //                     color: Color(0xff5A5F73))),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        if (competitionDetailLoading == false &&
+                            contentList?.data?.list?.length != 0)
+                          Text('Activities',
+                              style: Styles.bold(
+                                  size: 14, color: Color(0xff0E1638)))
                       ],
                     ),
                   ),
-                  if (competitionDetailLoading == false) ...[
+                  if (competitionDetailLoading == false ) ...[
                     ListView.builder(
                         physics: BouncingScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: contentList?.data?.list?.length,
                         itemBuilder: (context, index) {
+                          // return Text('nice');
+                          bool isLocked = index != 0;
+                          if(index != 0 && contentList?.data?.list?[index - 1]?.completionPercentage == 100.0){
+                            isLocked = false;
+                          }
+                          
                           return competitionCard(
                               contentList?.data?.list![index],
-                              index == (contentList!.data!.list!.length - 1),
-                              isLocked: index != 0);
+                              index == ((contentList?.data?.list?.length ?? 1) - 1),
+                              isLocked:  isLocked);
                         }),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -356,11 +366,14 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
       {bool? isLocked}) {
     CardType? cardType;
 
-    if (data?.completionPercentage == 100) isLocked = false;
+    if (data?.completionPercentage == 100.0) isLocked = false;
     // if (cardType != CardType.session && data?.completionPercentage == 100)
     //   isLocked = false;
 
     switch (data?.contentType) {
+      case "video_yts":
+        cardType = CardType.youtube;
+        break;
       case "video":
         cardType = CardType.video;
         break;
@@ -392,7 +405,10 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SvgPicture.asset(
+             data?.completionPercentage == 100.0   ? Container(
+              padding: EdgeInsets.all(1),
+              decoration: BoxDecoration(shape: BoxShape.circle, color: ColorConstants.GREEN_1),
+              child: Icon(Icons.done, size: 20, color: ColorConstants.WHITE,)):      SvgPicture.asset(
                     isLocked == true
                         ? 'assets/images/lock_content.svg'
                         : 'assets/images/circular_border.svg',
@@ -402,7 +418,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                   if (!isLast)
                     Container(
                       margin: EdgeInsets.only(top: 4),
-                      height: 75,
+                      height:data?.completionPercentage == 100.0  && (cardType == CardType.assignment  || cardType == CardType.assessment) ?100 : 75,
                       width: 4,
                       decoration: BoxDecoration(
                           color: Color(0xffCECECE),
@@ -418,197 +434,82 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
               decoration: BoxDecoration(
                   color: ColorConstants.WHITE,
                   borderRadius: BorderRadius.circular(10)),
-              child: card(data!, cardType),
+              child: card(data!, cardType, isLocked),
             )
           ]),
     );
   }
 
-  Widget card(CompetitionContent data, CardType? cardType) {
+  Widget card(CompetitionContent data, CardType? cardType, bool? isLocked) {
+      String startDate = '${data.startDate?.split(' ').first}';
+    DateTime start = DateFormat("yyyy-MM-dd").parse(startDate);
     return InkWell(
       onTap: () {
-        if (cardType == CardType.assignment)
-          showModalBottomSheet(
-              context: context,
-              backgroundColor: Colors.transparent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(20),
-                ),
-              ),
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              isScrollControlled: true,
-              builder: (context) {
-                return FractionallySizedBox(
-                    heightFactor: 0.5,
-                    child: ChangeNotifierProvider<AssignmentDetailProvider>(
-                        create: (c) => AssignmentDetailProvider(
-                            TrainingService(ApiService()), data,
-                            fromCompletiton: true, id: data.programContentId),
-                        child: AssignmentDetailPage(
-                          id: data.id,
-                          fromCompetition: true,
-                        )));
-              });
+        if (isLocked == true) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Content Locked!'),
+          ));
+          return;
+        }
+        if (cardType == CardType.youtube) {
+          Navigator.push(
+              context,
+              PageTransition(
+                  duration: Duration(milliseconds: 300),
+                  reverseDuration: Duration(milliseconds: 300),
+                  type: PageTransitionType.bottomToTop,
+                  child: CompetitionYoutubePlayer(
+                    id: data.id,
+                    videoUrl: data.content,
+                  )));
+        } else if (cardType == CardType.note) {
+          Navigator.push(
+              context,
+              PageTransition(
+                  duration: Duration(milliseconds: 300),
+                  reverseDuration: Duration(milliseconds: 300),
+                  type: PageTransitionType.bottomToTop,
+                  child: CompetitionNotes(
+                    id: data.id,
+                    notesUrl: data.content,
+                  )));
+        } else if (cardType == CardType.assignment)
+          Navigator.push(
+              context,
+              PageTransition(
+                  duration: Duration(milliseconds: 300),
+                  reverseDuration: Duration(milliseconds: 300),
+                  type: PageTransitionType.bottomToTop,
+                  child: ChangeNotifierProvider<AssignmentDetailProvider>(
+                      create: (c) => AssignmentDetailProvider(
+                          TrainingService(ApiService()), data,
+                          fromCompletiton: true, id: data.programContentId),
+                      child: AssignmentDetailPage(
+                        id: data.id,
+                        fromCompetition: true,
+                      ))));
         else if (cardType == CardType.assessment) {
-          showModalBottomSheet(
-              context: context,
-              backgroundColor: Colors.transparent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(20),
-                ),
-              ),
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              isScrollControlled: true,
-              enableDrag: true,
-              builder: (context) {
-                return FractionallySizedBox(
-                    heightFactor: 0.7,
-                    child: ChangeNotifierProvider<AssessmentDetailProvider>(
-                        create: (context) => AssessmentDetailProvider(
-                            TrainingService(ApiService()), data,
-                            fromCompletiton: true, id: data.programContentId),
-                        child: AssessmentDetailPage(fromCompetition: true)));
-              });
+          Navigator.push(
+              context,
+              PageTransition(
+                  duration: Duration(milliseconds: 300),
+                  reverseDuration: Duration(milliseconds: 300),
+                  type: PageTransitionType.bottomToTop,
+                  child: ChangeNotifierProvider<AssessmentDetailProvider>(
+                      create: (context) => AssessmentDetailProvider(
+                          TrainingService(ApiService()), data,
+                          fromCompletiton: true, id: data.programContentId),
+                      child: AssessmentDetailPage(fromCompetition: true))));
         } else if (cardType == CardType.session) {
-          showModalBottomSheet(
-              context: context,
-              backgroundColor: Colors.transparent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(20),
-                ),
-              ),
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              isScrollControlled: true,
-              enableDrag: true,
-              builder: (context) {
-                return FractionallySizedBox(
-                    heightFactor: 0.6,
-                    child: Container(
-                        color: ColorConstants.WHITE,
-                        child: Column(children: [
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                  color: Color(0xffBDBDBD),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
-
-                              // color: Color(0xffBDBDBD),
-                              width: 60,
-                              height: 5,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Schedule an Interview with',
-                              style: Styles.bold(
-                                size: 14,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Container(
-                                padding: EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                    color: Color(0xffFFF1F1),
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        CircleAvatar(
-                                          radius: 40,
-                                          backgroundImage: NetworkImage(
-                                            "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=327&q=80",
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text('Rahul Gautam',
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black)),
-                                            Text('Visual Design Expert',
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Color(0xff929BA3)))
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Due Date:',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w400,
-                                              color: Color(0xFF5A5F73)),
-                                        ),
-                                        Text(" 31st December")
-                                      ],
-                                    )
-                                  ],
-                                )),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20.0, top: 35),
-                            child: Text(
-                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam consequat in id auctor lectus semper non hendrerit. Urna, semper nulla lectus etiam egestas donec in. Ullamcorper metus, et diam mattis quis.',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(0xff5A5F73)),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          GestureDetector(
-                              onTap: () {
-                                //open session
-                              },
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.06,
-                                width: MediaQuery.of(context).size.width * 0.8,
-                                padding: const EdgeInsets.all(10.0),
-                                margin: const EdgeInsets.all(20.0),
-                                decoration: const BoxDecoration(
-                                    color: Color(0xff0E1638),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(21))),
-                                child: const Center(
-                                  child: Text(
-                                    'Join',
-                                    style: TextStyle(
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.white),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ))
-                        ])));
-              });
+          Navigator.push(
+              context,
+              PageTransition(
+                  duration: Duration(milliseconds: 300),
+                  reverseDuration: Duration(milliseconds: 300),
+                  type: PageTransitionType.bottomToTop,
+                  child: CompetitionSession(
+                    data: data,
+                  )));
         }
       },
       child: Column(
@@ -622,7 +523,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
             SizedBox(height: 8),
             Row(
               children: [
-                Text('Easy',
+                Text('${data.difficultyLevel?.capital()}',
                     style: Styles.regular(
                         color: ColorConstants.GREEN_1, size: 12)),
                 SizedBox(
@@ -653,11 +554,28 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                   width: 4,
                 ),
                 Text(
-                  '31st December',
+                  '${Utility.ordinal(start.day)} ${listOfMonths[start.month - 1]}',
                   style: Styles.regular(size: 12, color: Color(0xff5A5F73)),
                 )
               ],
-            )
+            ),
+
+         if( data.completionPercentage == 100.0  && (cardType == CardType.assignment  || cardType == CardType.assessment))   Divider(),
+          if( data.completionPercentage == 100.0  && (cardType == CardType.assignment  || cardType == CardType.assessment)) Text.rich(
+                    TextSpan(
+                      children: [
+                         TextSpan(
+                            text:'Report: ',
+                            style: Styles.regular(size: 12)),
+                        TextSpan(
+                            text: cardType == CardType.assignment ? '${data.marks}' : '${data.score}',
+                            style: Styles.bold(size: 12, color: ColorConstants.GRADIENT_RED)),
+                        TextSpan(
+                            text:cardType == CardType.assignment ?  '/${data.passingMarks} Score':  '/${data.maximumMarks} Score',
+                            style: Styles.regular(size: 12)),
+                      ],
+                    ),
+                  ),
           ]),
     );
   }
@@ -734,5 +652,26 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
           break;
       }
     });
+  }
+
+  List<String> listOfMonths = [
+    "Janaury",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+}
+
+extension on String {
+  String capital() {
+    return this[0].toUpperCase() + this.substring(1);
   }
 }

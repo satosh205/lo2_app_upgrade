@@ -40,6 +40,7 @@ class GCarvaanPostPage extends StatefulWidget {
   List<String?>? filesPath;
   bool? formCreatePost;
   bool fromDashboard;
+  bool recentActivities;
 
   GCarvaanPostPage(
       {Key? key,
@@ -47,7 +48,8 @@ class GCarvaanPostPage extends StatefulWidget {
       this.desc,
       this.filesPath,
       this.formCreatePost,
-      this.fromDashboard = false})
+      this.fromDashboard = false,
+      this.recentActivities = false,})
       : super(key: key);
 
   @override
@@ -103,8 +105,6 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
         print('Something went wrong while fetching data form hive: $e');
       }
     }
-
-
     BlocProvider.of<HomeBloc>(context).add(GCarvaanPostEvent(callCount: callCount, postId: postId));
   }
 
@@ -248,8 +248,9 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                               )),
 
                             if (!widget.fromDashboard)
-                              Consumer<CreatePostProvider>(
-                                builder: (context, value, child) => Container(
+                               Consumer<CreatePostProvider>(
+                                builder: (context, value, child) =>
+                                    Container(
                                   width: MediaQuery.of(context).size.width,
                                   padding: EdgeInsets.only(
                                       left: 10.0,
@@ -257,7 +258,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                       right: 10.0,
                                       bottom: 10.0),
                                   // height: 80,
-                                  child: Column(
+                                  child: widget.recentActivities == false ? Column(
                                     children: [
                                       InkWell(
                                         onTap: () {
@@ -360,6 +361,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                           ],
                                         ),
                                       ),
+
                                       //SizedBox(height: 10),
                                       // Row(
                                       //   children: [
@@ -409,10 +411,10 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                       //   ],
                                       // )
                                     ],
-                                  ),
+                                  ) : SizedBox(),
                                 ),
                               ),
-                            Container(
+                              Container(
                               margin: widget.fromDashboard == true
                                   ? null
                                   : const EdgeInsets.only(

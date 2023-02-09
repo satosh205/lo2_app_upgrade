@@ -115,7 +115,8 @@ class CompetitionContent {
         this.liveclassAction,
         this.liveclassActionTitle,
         this.sessionStartingIn,
-        this.contentTypeLabel
+        this.contentTypeLabel,
+        this.difficultyLevel
     });
 
     dynamic image;
@@ -133,7 +134,7 @@ class CompetitionContent {
     int? expectedDuration;
     String? endDate;
     String? startDate;
-    int? completionPercentage;
+    dynamic completionPercentage;
     int? userId;
     dynamic gScore;
     int? programId;
@@ -179,6 +180,7 @@ class CompetitionContent {
     String? liveclassActionTitle;
     double? sessionStartingIn;
     String? contentTypeLabel;
+    String? difficultyLevel;
 
     factory CompetitionContent.fromJson(Map<String, dynamic> json) => CompetitionContent(
         image: json["image"],
@@ -241,7 +243,8 @@ class CompetitionContent {
         liveclassAction: json["liveclass_action"],
         liveclassActionTitle: json["liveclass_action_title"],
         sessionStartingIn: json["session_starting_in"],
-        contentTypeLabel: json["content_type_label"]
+        contentTypeLabel: json["content_type_label"],
+        difficultyLevel: json['difficulty_level']
         
     );
 
@@ -306,7 +309,8 @@ class CompetitionContent {
         "liveclass_action": liveclassAction,
         "liveclass_action_title": liveclassActionTitle,
         "session_starting_in": sessionStartingIn,
-        "content_type_label" : contentTypeLabel
+        "content_type_label" : contentTypeLabel,
+        "difficulty_level" : difficultyLevel
     };
 }
 

@@ -17,7 +17,7 @@ import 'package:masterg/pages/ghome/g_school.dart';
 import 'package:masterg/pages/ghome/ghome.dart';
 import 'package:masterg/pages/reels/reels_dashboard_page.dart';
 import 'package:masterg/pages/singularis/community/commiunity_dashboard.dart';
-import 'package:masterg/pages/singularis/competition.dart';
+import 'package:masterg/pages/singularis/competition/competition.dart';
 import 'package:masterg/pages/singularis/dashboard.dart';
 import 'package:masterg/pages/singularis/dashboard_temp.dart';
 import 'package:masterg/pages/singularis/job/job_dashboard_page.dart';

@@ -147,4 +147,6 @@ class ApiConstants {
   static const  ADD_SOCIAL = '/api/addPortfolioSocial';
   static const  GET_PORTFOLIO_COMPETITION = '/api/competition-list-portfolio';
   static const  TOP_SCORING_USER = '/api/top-scoring-users';
+  static const  COMPETITION_MY_ACTIVITY = '/api/my-activities';
+  static const  DOMAIN_LIST = '/api/getDomain';
 }

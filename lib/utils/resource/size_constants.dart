@@ -49,4 +49,7 @@ class SizeConstants {
 
   static const double JOB_SEARCH_PAGE_MGN = 10;
 
+  static const double USER_PROFILE_IMAGE_SIZE= 70;
+
+
 }
