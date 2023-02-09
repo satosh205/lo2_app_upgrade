@@ -524,7 +524,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                       Navigator.push(
                                                                           context,
                                                                           NextPageRoute(
-                                                                              UploadProfile()));
+                                                                              UploadProfile(editVideo: false,)));
                                                                     },
                                                                   ),
                                                                   ListTile(
