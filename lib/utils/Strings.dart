@@ -199,6 +199,7 @@ class Strings {
   String? get no => _localizedValues[locale.languageCode]!['no'];
 
   String? get login => _localizedValues[locale.languageCode]!['login'];
+  String? get signIn => _localizedValues[locale.languageCode]!['signIn'];
 
   String? get alert => _localizedValues[locale.languageCode]!['alert'];
   String? get hello => _localizedValues[locale.languageCode]!['hello'];
