@@ -71,7 +71,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
           child: ScreenWithLoader(
             isLoading: isAddPortfolioLoading,
             body: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               child: SingleChildScrollView(
                   child: Form(
                 key: _formKey,
@@ -84,11 +84,11 @@ class _AddPortfolioState extends State<AddPortfolio> {
                             padding:
                                 EdgeInsets.only(left: width(context) * 0.34),
                             child: Text(
-                              "Add Portfolio",
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black),
+                              widget.editMode == true
+                                  ? "Edit Portfolio"
+                                  : "Add Portfolio",
+                              style: Styles.bold(
+                                  size: 14, color: Color(0xff0E1638)),
                             ),
                           ),
                           Expanded(child: SizedBox()),
@@ -97,12 +97,10 @@ class _AddPortfolioState extends State<AddPortfolio> {
                               icon: Icon(Icons.close_outlined)),
                         ],
                       ),
-                      const Text(
+                      Text(
                         "Project Title*",
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xff5A5F73)),
+                        style:
+                            Styles.regular(size: 14, color: Color(0xff0E1638)),
                       ),
                       const SizedBox(
                         height: 5,
@@ -116,12 +114,10 @@ class _AddPortfolioState extends State<AddPortfolio> {
                       const SizedBox(
                         height: 20,
                       ),
-                      const Text(
+                      Text(
                         "Project Description*",
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xff5A5F73)),
+                        style:
+                            Styles.regular(size: 14, color: Color(0xff0E1638)),
                       ),
                       const SizedBox(
                         height: 5,
@@ -136,28 +132,35 @@ class _AddPortfolioState extends State<AddPortfolio> {
                       const SizedBox(
                         height: 20,
                       ),
-                      const Text(
+                      Text(
                         "Featured image*",
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xff5A5F73)),
+                        style:
+                            Styles.regular(size: 14, color: Color(0xff0E1638)),
                       ),
                       SizedBox(height: 8),
                       InkWell(
                         onTap: () async {
-                          final picker = ImagePicker();
-                          final pickedFileC = await ImagePicker().pickImage(
-                            source: ImageSource.gallery,
-                            imageQuality: 100,
-                          );
-                          if (pickedFileC != null) {
-                            setState(() {
-                              uploadImg = File(pickedFileC.path);
-                            });
-                          } else if (Platform.isAndroid) {
-                            final LostData response =
-                                await picker.getLostData();
+                          FilePickerResult? result;
+
+                          if (Platform.isIOS) {
+                            result = await FilePicker.platform.pickFiles(
+                              allowMultiple: false,
+                              type: FileType.image,
+                            );
+                            if (result != null)
+                              setState(() {
+                                uploadImg = File(result!.files.first.path!);
+                              });
+                          } else {
+                            final pickedFileC = await ImagePicker().pickImage(
+                              source: ImageSource.gallery,
+                              imageQuality: 100,
+                            );
+                            if (pickedFileC != null) {
+                              setState(() {
+                                uploadImg = File(pickedFileC.path);
+                              });
+                            }
                           }
                         },
                         child: Row(
@@ -186,24 +189,24 @@ class _AddPortfolioState extends State<AddPortfolio> {
                             SizedBox(
                               width: 4,
                             ),
-                            Text(
-                                uploadImg != null
-                                    ? '${uploadImg?.path.split('/').last}'
-                                    : "Supported Format: .pdf, .doc, .jpeg",
-                                style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(0xff929BA3))),
+                            SizedBox(
+                              width: width(context) * 0.6,
+                              child: Text(
+                                  uploadImg != null
+                                      ? '${uploadImg?.path.split('/').last}'
+                                      :  widget.portfolio?.imageName ??  "Supported Files: .jpeg, .png, .jpg",
+                                      softWrap: true,
+                                      maxLines: 3,
+                                  style: Styles.regular(size: 12,   color: Color(0xff929BA3))),
+                            ),
                           ],
                         ),
                       ),
                       SizedBox(height: 8),
                       Text(
                         "Associated link (if any)",
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xff5A5F73)),
+                        style:
+                            Styles.regular(size: 14, color: Color(0xff0E1638)),
                       ),
                       SizedBox(
                         height: 5,
@@ -221,25 +224,45 @@ class _AddPortfolioState extends State<AddPortfolio> {
                             padding: const EdgeInsets.all(8.0),
                             child: CustomUpload(
                               onClick: () async {
-                                FilePickerResult? pickedFileC =
-                                    await FilePicker.platform.pickFiles(
-                                  type: FileType.any,
-                                 
-                                );
-                                if (pickedFileC != null) {
-                                  setState(() {
-                                    file = File(pickedFileC.files.first.path!);
-                                  });
+                                FilePickerResult? result;
+
+                                if (Platform.isIOS) {
+                                  result = await FilePicker.platform.pickFiles(
+                                    allowMultiple: false,
+                                    type: FileType.any,
+                                  );
+                                  if (result != null)
+                                    setState(() {
+                                      uploadImg =
+                                          File(result!.files.first.path!);
+                                    });
+                                } else {
+                                  FilePickerResult? pickedFileC =
+                                      await FilePicker.platform.pickFiles(
+                                    type: FileType.any,
+                                  );
+                                  if (pickedFileC != null) {
+                                    setState(() {
+                                      file =
+                                          File(pickedFileC.files.first.path!);
+                                    });
+                                  }
                                 }
                               },
                               uploadText: 'Upload File',
                             ),
                           ),
-                          Text("Supported Files: Documents, Image, Video",
-                              style: TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(0xff929BA3))),
+                          SizedBox(
+                                       width: width(context) * 0.6,
+                            child: Text(
+                                file != null
+                                    ? '${file?.path.split('/').last}'
+                                    : widget.portfolio?.portfolioFile  ??  "Supported Files: Documents, Image, Video",
+                                    maxLines: 3,
+                                style: Styles.regular(
+                                    size: 12,
+                                    color: Color(0xff929BA3))),
+                          ),
                         ],
                       ),
                       PortfolioCustomButton(clickAction: () async {
@@ -281,9 +304,10 @@ class _AddPortfolioState extends State<AddPortfolio> {
 
                           if (widget.editMode == false &&
                               (file?.path == null || uploadImg?.path == null)) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('Please upload file')));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(file?.path == null
+                                    ? 'Please upload file'
+                                    : 'Please add feature image')));
                           } else {
                             data['portfolio_title'] =
                                 titleController.value.text;
@@ -291,7 +315,8 @@ class _AddPortfolioState extends State<AddPortfolio> {
                             data['portfolio_key'] = widget.editMode == true
                                 ? "portfolio_${widget.portfolio?.id}"
                                 : 'new_portfolio';
-                            data['edit_file_portfolio'] = '${widget.portfolio?.portfolioFile}';
+                            data['edit_file_portfolio'] =
+                                '${widget.portfolio?.portfolioFile}';
                             data['edit_url_portfolio'] =
                                 '${widget.portfolio?.imageName}';
                             // data['edit_file_portfolio'] = '${widget.baseUrl}${widget.portfolio?.portfolioFile}';

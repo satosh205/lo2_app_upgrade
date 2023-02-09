@@ -34,150 +34,133 @@ class _PortfolioListState extends State<PortfolioList> {
   void initState() {
     updateValue();
     updatePortfolioList();
-    
-    
+
     super.initState();
   }
 
   void updateValue() {
     print('update my list');
 
-   if(portfolioList?.length == 0) {
-    portfolioList = widget.portfolioList;
-   }
+    if (portfolioList?.length == 0) {
+      portfolioList = widget.portfolioList;
+    }
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocManager(
-          initState: (context) {},
-          child: BlocListener<HomeBloc, HomeState>(
-              listener: (context, state) {
-                if (state is PortfolioState) {
-                  handlePortfolioState(state);
-                }
-              },
-              child: Scaffold(
-                appBar: AppBar(
-                  elevation: 0,
-                  backgroundColor: ColorConstants.WHITE,
-                  leading: IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        color: ColorConstants.BLACK,
-                      )),
-                  actions: [
-                    IconButton(
-                        onPressed: () async {
-
-                           await Navigator.push(
-                                                    context,
-                                                    PageTransition(
-                                                        duration: Duration(
-                                                            milliseconds: 600),
-                                                        reverseDuration:
-                                                            Duration(
-                                                                milliseconds:
-                                                                    600),
-                                                        type: PageTransitionType
-                                                            .bottomToTop,
-                                                        child: AddPortfolio())).then((value) =>  updatePortfolioList());
-                        
-                                 
-    
-                        },
-                        icon: Icon(
-                          Icons.add,
-                          color: ColorConstants.BLACK,
-                        ))
-                  ],
-                  title: Text(
-                    'Portfolio',
-                    style: Styles.bold(),
-                  ),
-                ),
-                body:  ScreenWithLoader(
-         isLoading: isPortfolioLoading,
-
-                  body: ListView.builder(
-                        key: const PageStorageKey<String>('portfolioList'),
-                        shrinkWrap: true,
-                        itemCount: portfolioList?.length,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () async {
-                    
-                    
-                    await Navigator.push(context, PageTransition(
-                      duration:Duration(milliseconds: 600) ,
-                      reverseDuration: Duration(milliseconds: 600),
-                      type: PageTransitionType.bottomToTop, child: PortfolioDetail(
+        initState: (context) {},
+        child: BlocListener<HomeBloc, HomeState>(
+          listener: (context, state) {
+            if (state is PortfolioState) {
+              handlePortfolioState(state);
+            }
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: ColorConstants.WHITE,
+              leading: IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: ColorConstants.BLACK,
+                  )),
+              actions: [
+                IconButton(
+                    onPressed: () async {
+                      await Navigator.push(
+                              context,
+                              PageTransition(
+                                  duration: Duration(milliseconds: 600),
+                                  reverseDuration: Duration(milliseconds: 600),
+                                  type: PageTransitionType.bottomToTop,
+                                  child: AddPortfolio()))
+                          .then((value) => updatePortfolioList());
+                    },
+                    icon: Icon(
+                      Icons.add,
+                      color: ColorConstants.BLACK,
+                    ))
+              ],
+              title: Text(
+                'Portfolio',
+                style: Styles.bold(),
+              ),
+            ),
+            body: ScreenWithLoader(
+              isLoading: isPortfolioLoading,
+              body: ListView.builder(
+                  key: const PageStorageKey<String>('portfolioList'),
+                  shrinkWrap: true,
+                  itemCount: portfolioList?.length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () async {
+                        await Navigator.push(
+                            context,
+                            PageTransition(
+                                duration: Duration(milliseconds: 600),
+                                reverseDuration: Duration(milliseconds: 600),
+                                type: PageTransitionType.bottomToTop,
+                                child: PortfolioDetail(
                                   baseUrl: widget.baseUrl,
                                   portfolio: portfolioList![index],
                                 )));
-                    
-                  
-                    updatePortfolioList();
-                    
-                              
-                            
-                    
-                            
-                            },
-                            child: Container(
-                              margin:
-                                  EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: CachedNetworkImage(
-                                      fadeOutDuration : Duration(seconds: 0),
-                                      imageUrl:
-                                          '${widget.baseUrl}${portfolioList?[index].imageName}',
-                                      width: MediaQuery.of(context).size.width,
-                                      height:
-                                          MediaQuery.of(context).size.height * 0.3,
-                                      fit: BoxFit.cover,
-                                      errorWidget: (context, url, error) {
-                                        return Container(
-                                          width: MediaQuery.of(context).size.width *
-                                              0.8,
-                                          height:
-                                              MediaQuery.of(context).size.height *
-                                                  0.3,
-                                          padding: EdgeInsets.all(14),
-                                          decoration: BoxDecoration(
-                                              color: Color(0xffD5D5D5)),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(height: 8),
-                                  Text(
-                                    '${portfolioList?[index].portfolioTitle ?? ""}',
-                                    style: Styles.bold(),
-                                  ),
-                                  Text('${portfolioList?[index].desc ?? ""}',
-                                      style: Styles.semibold(
-                                          size: 12, color: Color(0xff929BA3))),
-                                ],
+
+                        updatePortfolioList();
+                      },
+                      child: Container(
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: CachedNetworkImage(
+                                fadeOutDuration: Duration(seconds: 0),
+                                imageUrl:
+                                    '${widget.baseUrl}${portfolioList?[index].imageName}',
+                                width: MediaQuery.of(context).size.width,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.3,
+                                fit: BoxFit.cover,
+                                errorWidget: (context, url, error) {
+                                  return Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.8,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.3,
+                                    padding: EdgeInsets.all(14),
+                                    decoration:
+                                        BoxDecoration(color: Color(0xffD5D5D5)),
+                                  );
+                                },
                               ),
                             ),
-                          );
-                        }),
-                ),
-                ),
-              ));
+                            SizedBox(height: 8),
+                            Text(
+                              '${portfolioList?[index].portfolioTitle ?? ""}',
+                              style: Styles.bold(),
+                            ),
+                            Text('${portfolioList?[index].desc ?? ""}',
+                                style: Styles.semibold(
+                                    size: 12, color: Color(0xff929BA3))),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+            ),
+          ),
+        ));
   }
 
-  void updatePortfolioList(){
+  void updatePortfolioList() {
     print('make api call');
-   BlocProvider.of<HomeBloc>(context)
-                                .add(PortfolioEvent());
+    BlocProvider.of<HomeBloc>(context).add(PortfolioEvent());
   }
 
   void handlePortfolioState(PortfolioState state) {

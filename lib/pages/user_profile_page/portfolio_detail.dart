@@ -9,14 +9,12 @@ import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/new_portfolio_response.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
-import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
-import 'package:masterg/pages/ghome/video_player_screen.dart';
+import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfolio.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:path/path.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
@@ -91,6 +89,10 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
           case ApiStatus.SUCCESS:
             Log.v("Success Add  Certificate....................");
             deletePortfolio = false;
+             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content:
+                  Text('Portfolio deleted'),
+            ));
             Navigator.pop(context);
             break;
           case ApiStatus.ERROR:
@@ -113,13 +115,13 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
                 }
               },
               child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Row(
                           children: [
                             Spacer(),
                             IconButton(
@@ -129,7 +131,10 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
                                 icon: Icon(Icons.close_outlined))
                           ],
                         ),
-                        Row(
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Row(
                           children: [
                             SizedBox(
                                 width: width(context) * 0.8,
@@ -137,9 +142,17 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
                                   '${widget.portfolio.portfolioTitle}',
                                   style: Styles.bold(size: 16),
                                 )),
+                                
                             InkWell(
                                 onTap: () async {
-                                  await Navigator.push(
+
+                                  AlertsWidget.showCustomDialog(
+                      context: context,
+                      title: '',
+                      text: 'Are you sure you want to edit?',
+                      icon: 'assets/images/circle_alert_fill.svg',
+                      onOkClick: () async {
+                        await Navigator.push(
                                       context,
                                       PageTransition(
                                           duration: Duration(milliseconds: 300),
@@ -152,6 +165,8 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
                                             portfolio: widget.portfolio,
                                           ))).then(
                                       (value) => Navigator.pop(context));
+                      });
+                                 
                                 },
                                 child: SvgPicture.asset(
                                     'assets/images/edit_portfolio.svg')),
@@ -160,7 +175,15 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
                             ),
                             InkWell(
                                 onTap: () async {
-                                  deleteResume(widget.portfolio.id);
+                                      AlertsWidget.showCustomDialog(
+                      context: context,
+                      title: '',
+                      text: 'Are you sure you want to delete?',
+                      icon: 'assets/images/circle_alert_fill.svg',
+                      onOkClick: () async {
+                         deleteResume(widget.portfolio.id);
+                      });
+                               
                                 },
                                 child: SvgPicture.asset(
                                   'assets/images/delete.svg',
@@ -168,13 +191,21 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
                                 )),
                           ],
                         ),
-                        Text('${widget.portfolio.desc}',
+                      ),
+                      // SizedBox(height: 10,),
+
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('${widget.portfolio.desc}',
                             style: Styles.regular(
-                                size: 12, color: Color(0xff929BA3))),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        InkWell(
+                                size: 14, color: Color(0xff929BA3))),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
                             onTap: () {
                               launchUrl(Uri.parse(
                                   '${widget.portfolio.portfolioLink}'));
@@ -182,32 +213,34 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
                             child: Text('${widget.portfolio.portfolioLink}',
                                 style: Styles.regular(
                                     size: 12, color: Color(0xff0094FF)))),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      if (urlType == 'pdf') ...[
                         SizedBox(
-                          height: 20,
-                        ),
-                        if (urlType == 'pdf') ...[
-                          SizedBox(
-                            height: height(context) * 0.8,
-                            child: PDF(
-                              enableSwipe: true,
-                              gestureRecognizers: [
-                                Factory(() => PanGestureRecognizer()),
-                                Factory(() => VerticalDragGestureRecognizer())
-                              ].toSet(),
-                            ).cachedFromUrl(
-                              '${widget.baseUrl}${widget.portfolio.portfolioFile}',
-                              placeholder: (progress) =>
-                                  Center(child: Text('$progress %')),
-                              errorWidget: (error) =>
-                                  Center(child: Text(error.toString())),
-                            ),
-                          )
-                        ] else if (urlType == 'img') ...[
-                          Image.network(
-                              '${widget.baseUrl}${widget.portfolio.portfolioFile}'),
-                        ] else if (urlType == 'video')
-                         
-                        Text('video')
+                          height: height(context) * 0.8,
+                          child: PDF(
+                            enableSwipe: true,
+                            autoSpacing: false,
+                            gestureRecognizers: [
+                              Factory(() => PanGestureRecognizer()),
+                              Factory(() => VerticalDragGestureRecognizer())
+                            ].toSet(),
+                          ).cachedFromUrl(
+                            '${widget.baseUrl}${widget.portfolio.portfolioFile}',
+                            placeholder: (progress) =>
+                                Center(child: Text('$progress %')),
+                            errorWidget: (error) =>
+                                Center(child: Text(error.toString())),
+                          ),
+                        )
+                      ] else if (urlType == 'img') ...[
+                        Image.network(
+                            '${widget.baseUrl}${widget.portfolio.portfolioFile}'),
+                      ] else if (urlType == 'video')
+                       
+                      Text('video')
 
       //                     FutureBuilder(
       //   future: _initializeVideoPlayerFuture,
@@ -229,8 +262,7 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
       //     }
       //   },
       // )
-                      ],
-                    ),
+                    ],
                   ),
                 ),
               ),

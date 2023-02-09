@@ -1512,22 +1512,24 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                             ),
                                                           ),
                                                           SizedBox(height: 8),
-                                                      SizedBox(
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width *
-                                                                0.8,
-                                                            child:   Text(
-                                                            '${portfolioResponse?.data.portfolio[index].portfolioTitle}',
-                                                             softWrap: true,
+                                                          SizedBox(
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.8,
+                                                              child: Text(
+                                                                '${portfolioResponse?.data.portfolio[index].portfolioTitle}',
+                                                                softWrap: true,
                                                                 maxLines: 2,
                                                                 overflow:
                                                                     TextOverflow
                                                                         .ellipsis,
-                                                            style:
-                                                                Styles.bold(size: 16,color: Color(0xff0E1638)),
-                                                          )),
+                                                                style: Styles.bold(
+                                                                    size: 16,
+                                                                    color: Color(
+                                                                        0xff0E1638)),
+                                                              )),
                                                           SizedBox(
                                                             width: MediaQuery.of(
                                                                         context)
