@@ -67,272 +67,294 @@ class _AddPortfolioState extends State<AddPortfolio> {
           if (state is AddPortfolioState) handleAddPortfolio(state);
         },
         child: Scaffold(
+            appBar: AppBar(
+               backgroundColor: ColorConstants.WHITE,
+                elevation: 0,
+                leading: SizedBox(),
+              centerTitle: true,
+              title: Text(
+                widget.editMode == true ? "Edit Portfolio" : "Add Portfolio",
+                style: Styles.bold(size: 14, color: Color(0xff0E1638)),
+              ),
+              actions: [
+                IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: Icon(Icons.close_outlined, color: Color(0xff0E1638))),
+              ],
+            ),
             body: SafeArea(
-          child: ScreenWithLoader(
-            isLoading: isAddPortfolioLoading,
-            body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              child: SingleChildScrollView(
-                  child: Form(
-                key: _formKey,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
+              child: ScreenWithLoader(
+                isLoading: isAddPortfolioLoading,
+                body: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  child: SingleChildScrollView(
+                      child: Form(
+                    key: _formKey,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding:
-                                EdgeInsets.only(left: width(context) * 0.34),
-                            child: Text(
-                              widget.editMode == true
-                                  ? "Edit Portfolio"
-                                  : "Add Portfolio",
-                              style: Styles.bold(
-                                  size: 14, color: Color(0xff0E1638)),
-                            ),
-                          ),
-                          Expanded(child: SizedBox()),
-                          IconButton(
-                              onPressed: () => Navigator.pop(context),
-                              icon: Icon(Icons.close_outlined)),
-                        ],
-                      ),
-                      Text(
-                        "Project Title*",
-                        style:
-                            Styles.regular(size: 14, color: Color(0xff0E1638)),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      CustomTextField(
-                        validate: true,
-                        validationString: 'Please enter title',
-                        controller: titleController,
-                        hintText: 'Type project title here..',
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Project Description*",
-                        style:
-                            Styles.regular(size: 14, color: Color(0xff0E1638)),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      CustomTextField(
-                        validate: true,
-                        validationString: 'Please enter description',
-                        controller: descController,
-                        hintText: 'Type project description here',
-                        maxLine: 8,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Featured image*",
-                        style:
-                            Styles.regular(size: 14, color: Color(0xff0E1638)),
-                      ),
-                      SizedBox(height: 8),
-                      InkWell(
-                        onTap: () async {
-                          FilePickerResult? result;
+                          // Row(
+                          //   children: [
+                          //     Padding(
+                          //       padding: EdgeInsets.only(
+                          //           left: width(context) * 0.34),
+                          //       child: Text(
+                          //         widget.editMode == true
+                          //             ? "Edit Portfolio"
+                          //             : "Add Portfolio",
+                          //         style: Styles.bold(
+                          //             size: 14, color: Color(0xff0E1638)),
+                          //       ),
+                          //     ),
+                          //     Expanded(child: SizedBox()),
 
-                          if (Platform.isIOS) {
-                            result = await FilePicker.platform.pickFiles(
-                              allowMultiple: false,
-                              type: FileType.image,
-                            );
-                            if (result != null)
-                              setState(() {
-                                uploadImg = File(result!.files.first.path!);
-                              });
-                          } else {
-                            final pickedFileC = await ImagePicker().pickImage(
-                              source: ImageSource.gallery,
-                              imageQuality: 100,
-                            );
-                            if (pickedFileC != null) {
-                              setState(() {
-                                uploadImg = File(pickedFileC.path);
-                              });
-                            }
-                          }
-                        },
-                        child: Row(
-                          children: [
-                            ShaderMask(
-                                blendMode: BlendMode.srcIn,
-                                shaderCallback: (Rect bounds) {
-                                  return LinearGradient(
-                                      begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight,
-                                      colors: <Color>[
-                                        Color(0xfffc7804),
-                                        ColorConstants.GRADIENT_RED
-                                      ]).createShader(bounds);
-                                },
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                        'assets/images/upload_icon.svg'),
-                                    Text(
-                                      "Upload Image",
-                                      style: Styles.bold(size: 12),
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(
-                              width: 4,
-                            ),
-                            SizedBox(
-                              width: width(context) * 0.6,
-                              child: Text(
-                                  uploadImg != null
-                                      ? '${uploadImg?.path.split('/').last}'
-                                      :  widget.portfolio?.imageName ??  "Supported Files: .jpeg, .png, .jpg",
+                          //   ],
+                          // ),
+                          Text(
+                            "Project Title*",
+                            style: Styles.regular(
+                                size: 14, color: Color(0xff0E1638)),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          CustomTextField(
+                            validate: true,
+                            validationString: 'Please enter title',
+                            controller: titleController,
+                            hintText: 'Type project title here..',
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            "Project Description*",
+                            style: Styles.regular(
+                                size: 14, color: Color(0xff0E1638)),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          CustomTextField(
+                            validate: true,
+                            validationString: 'Please enter description',
+                            controller: descController,
+                            hintText: 'Type project description here',
+                            maxLine: 8,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            "Featured image*",
+                            style: Styles.regular(
+                                size: 14, color: Color(0xff0E1638)),
+                          ),
+                          SizedBox(height: 8),
+                          InkWell(
+                            onTap: () async {
+                              FilePickerResult? result;
+
+                              if (Platform.isIOS) {
+                                result = await FilePicker.platform.pickFiles(
+                                  allowMultiple: false,
+                                  type: FileType.image,
+                                );
+                                if (result != null)
+                                  setState(() {
+                                    uploadImg = File(result!.files.first.path!);
+                                  });
+                              } else {
+                                final pickedFileC =
+                                    await ImagePicker().pickImage(
+                                  source: ImageSource.gallery,
+                                  imageQuality: 100,
+                                );
+                                if (pickedFileC != null) {
+                                  setState(() {
+                                    uploadImg = File(pickedFileC.path);
+                                  });
+                                }
+                              }
+                            },
+                            child: Row(
+                              children: [
+                                ShaderMask(
+                                    blendMode: BlendMode.srcIn,
+                                    shaderCallback: (Rect bounds) {
+                                      return LinearGradient(
+                                          begin: Alignment.centerLeft,
+                                          end: Alignment.centerRight,
+                                          colors: <Color>[
+                                            Color(0xfffc7804),
+                                            ColorConstants.GRADIENT_RED
+                                          ]).createShader(bounds);
+                                    },
+                                    child: Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                            'assets/images/upload_icon.svg'),
+                                        Text(
+                                          "Upload Image",
+                                          style: Styles.bold(size: 12),
+                                        ),
+                                      ],
+                                    )),
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                SizedBox(
+                                  width: width(context) * 0.6,
+                                  child: Text(
+                                      uploadImg != null
+                                          ? '${uploadImg?.path.split('/').last}'
+                                          : widget.portfolio?.imageName ??
+                                              "Supported Files: .jpeg, .png, .jpg",
                                       softWrap: true,
                                       maxLines: 3,
-                                  style: Styles.regular(size: 12,   color: Color(0xff929BA3))),
+                                      style: Styles.regular(
+                                          size: 12, color: Color(0xff929BA3))),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        "Associated link (if any)",
-                        style:
-                            Styles.regular(size: 14, color: Color(0xff0E1638)),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      CustomTextField(
-                        controller: linkController,
-                        hintText: 'https//',
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: CustomUpload(
-                              onClick: () async {
-                                FilePickerResult? result;
-
-                                if (Platform.isIOS) {
-                                  result = await FilePicker.platform.pickFiles(
-                                    allowMultiple: false,
-                                    type: FileType.any,
-                                  );
-                                  if (result != null)
-                                    setState(() {
-                                      uploadImg =
-                                          File(result!.files.first.path!);
-                                    });
-                                } else {
-                                  FilePickerResult? pickedFileC =
-                                      await FilePicker.platform.pickFiles(
-                                    type: FileType.any,
-                                  );
-                                  if (pickedFileC != null) {
-                                    setState(() {
-                                      file =
-                                          File(pickedFileC.files.first.path!);
-                                    });
-                                  }
-                                }
-                              },
-                              uploadText: 'Upload File',
-                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            "Associated link (if any)",
+                            style: Styles.regular(
+                                size: 14, color: Color(0xff0E1638)),
                           ),
                           SizedBox(
-                                       width: width(context) * 0.6,
-                            child: Text(
-                                file != null
-                                    ? '${file?.path.split('/').last}'
-                                    : widget.portfolio?.portfolioFile  ??  "Supported Files: Documents, Image, Video",
-                                    maxLines: 3,
-                                style: Styles.regular(
-                                    size: 12,
-                                    color: Color(0xff929BA3))),
+                            height: 5,
                           ),
-                        ],
-                      ),
-                      PortfolioCustomButton(clickAction: () async {
-                        if (_formKey.currentState!.validate()) {
-                          Map<String, dynamic> data = Map();
-                          try {
-                            if (widget.editMode == true) {
-                              if (uploadImg?.path != null) {
-                                String? portfolioImage =
-                                    uploadImg?.path.split('/').last;
-                                data['portfolio_image'] =
-                                    await MultipartFile.fromFile(
-                                        '${uploadImg?.path}',
-                                        filename: portfolioImage);
-                              }
-                              if (file?.path != null) {
-                                String? portfolioFile =
-                                    file?.path.split('/').last;
-                                data['portfolio_file'] =
-                                    await MultipartFile.fromFile(
-                                        '${file?.path}',
-                                        filename: portfolioFile);
-                              }
-                            } else {
-                              String? portfolioImage =
-                                  uploadImg?.path.split('/').last;
-                              String? portfolioFile =
-                                  file?.path.split('/').last;
-                              data['portfolio_image'] =
-                                  await MultipartFile.fromFile(
-                                      '${uploadImg?.path}',
-                                      filename: portfolioImage);
+                          CustomTextField(
+                            controller: linkController,
+                            hintText: 'https//',
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: CustomUpload(
+                                  onClick: () async {
+                                    FilePickerResult? result;
 
-                              data['portfolio_file'] =
-                                  await MultipartFile.fromFile('${file?.path}',
-                                      filename: portfolioFile);
+                                    if (Platform.isIOS) {
+                                      result =
+                                          await FilePicker.platform.pickFiles(
+                                        allowMultiple: false,
+                                        type: FileType.any,
+                                      );
+                                      if (result != null)
+                                        setState(() {
+                                          uploadImg =
+                                              File(result!.files.first.path!);
+                                        });
+                                    } else {
+                                      FilePickerResult? pickedFileC =
+                                          await FilePicker.platform.pickFiles(
+                                        type: FileType.any,
+                                      );
+                                      if (pickedFileC != null) {
+                                        setState(() {
+                                          file = File(
+                                              pickedFileC.files.first.path!);
+                                        });
+                                      }
+                                    }
+                                  },
+                                  uploadText: 'Upload File',
+                                ),
+                              ),
+                              SizedBox(
+                                width: width(context) * 0.6,
+                                child: Text(
+                                    file != null
+                                        ? '${file?.path.split('/').last}'
+                                        : widget.portfolio?.portfolioFile ??
+                                            "Supported Files: Documents, Image, Video",
+                                    maxLines: 3,
+                                    style: Styles.regular(
+                                        size: 12, color: Color(0xff929BA3))),
+                              ),
+                            ],
+                          ),
+                          PortfolioCustomButton(clickAction: () async {
+                            if (_formKey.currentState!.validate()) {
+                              Map<String, dynamic> data = Map();
+                              try {
+                                if (widget.editMode == true) {
+                                  if (uploadImg?.path != null) {
+                                    String? portfolioImage =
+                                        uploadImg?.path.split('/').last;
+                                    data['portfolio_image'] =
+                                        await MultipartFile.fromFile(
+                                            '${uploadImg?.path}',
+                                            filename: portfolioImage);
+                                  }
+                                  if (file?.path != null) {
+                                    String? portfolioFile =
+                                        file?.path.split('/').last;
+                                    data['portfolio_file'] =
+                                        await MultipartFile.fromFile(
+                                            '${file?.path}',
+                                            filename: portfolioFile);
+                                  }
+                                } else {
+                                  String? portfolioImage =
+                                      uploadImg?.path.split('/').last;
+                                  String? portfolioFile =
+                                      file?.path.split('/').last;
+                                  data['portfolio_image'] =
+                                      await MultipartFile.fromFile(
+                                          '${uploadImg?.path}',
+                                          filename: portfolioImage);
+
+                                  data['portfolio_file'] =
+                                      await MultipartFile.fromFile(
+                                          '${file?.path}',
+                                          filename: portfolioFile);
+                                }
+                              } catch (e) {}
+
+                              if (widget.editMode == false &&
+                                  (file?.path == null ||
+                                      uploadImg?.path == null)) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(file?.path == null
+                                            ? 'Please upload file'
+                                            : 'Please add feature image')));
+                              } else {
+                                data['portfolio_title'] =
+                                    titleController.value.text;
+                                data['portfolio_link'] =
+                                    linkController.value.text;
+                                data['portfolio_key'] = widget.editMode == true
+                                    ? "portfolio_${widget.portfolio?.id}"
+                                    : 'new_portfolio';
+                                data['edit_file_portfolio'] =
+                                    '${widget.portfolio?.portfolioFile}';
+                                data['edit_url_portfolio'] =
+                                    '${widget.portfolio?.imageName}';
+                                // data['edit_file_portfolio'] = '${widget.baseUrl}${widget.portfolio?.portfolioFile}';
+                                // data['edit_url_portfolio'] ='${widget.baseUrl}${widget.portfolio?.imageName}';
+                                data['desc'] = descController.value.text;
+                                print(data);
+
+                                addPortfolio(data);
+                              }
                             }
-                          } catch (e) {}
-
-                          if (widget.editMode == false &&
-                              (file?.path == null || uploadImg?.path == null)) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text(file?.path == null
-                                    ? 'Please upload file'
-                                    : 'Please add feature image')));
-                          } else {
-                            data['portfolio_title'] =
-                                titleController.value.text;
-                            data['portfolio_link'] = linkController.value.text;
-                            data['portfolio_key'] = widget.editMode == true
-                                ? "portfolio_${widget.portfolio?.id}"
-                                : 'new_portfolio';
-                            data['edit_file_portfolio'] =
-                                '${widget.portfolio?.portfolioFile}';
-                            data['edit_url_portfolio'] =
-                                '${widget.portfolio?.imageName}';
-                            // data['edit_file_portfolio'] = '${widget.baseUrl}${widget.portfolio?.portfolioFile}';
-                            // data['edit_url_portfolio'] ='${widget.baseUrl}${widget.portfolio?.imageName}';
-                            data['desc'] = descController.value.text;
-                            print(data);
-
-                            addPortfolio(data);
-                          }
-                        }
-                      })
-                    ]),
-              )),
-            ),
-          ),
-        )),
+                          })
+                        ]),
+                  )),
+                ),
+              ),
+            )),
       ),
     );
   }
@@ -353,6 +375,9 @@ class _AddPortfolioState extends State<AddPortfolio> {
         case ApiStatus.SUCCESS:
           Log.v("Success Add Portfolio....................");
           isAddPortfolioLoading = false;
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(widget.editMode == true ?'Portfolio updated' : 'Portfolio created'),
+          ));
           Navigator.pop(context);
           break;
         case ApiStatus.ERROR:
