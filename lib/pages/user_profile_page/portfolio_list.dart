@@ -71,23 +71,21 @@ class _PortfolioListState extends State<PortfolioList> {
                   actions: [
                     IconButton(
                         onPressed: () async {
-                          await showModalBottomSheet(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  context: context,
-                                  enableDrag: true,
-                                  isScrollControlled: true,
-                                  builder: (context) {
-                                    return FractionallySizedBox(
-                                      heightFactor: 0.7,
-                                      child: Container(
-                                          height: height(context),
-                                          padding: const EdgeInsets.all(8.0),
-                                          margin: const EdgeInsets.only(top: 10),
-                                          child: AddPortfolio()),
-                                    );
-                                  });
-                                  updatePortfolioList();
+
+                           await Navigator.push(
+                                                    context,
+                                                    PageTransition(
+                                                        duration: Duration(
+                                                            milliseconds: 600),
+                                                        reverseDuration:
+                                                            Duration(
+                                                                milliseconds:
+                                                                    600),
+                                                        type: PageTransitionType
+                                                            .bottomToTop,
+                                                        child: AddPortfolio())).then((value) =>  updatePortfolioList());
+                        
+                                 
     
                         },
                         icon: Icon(

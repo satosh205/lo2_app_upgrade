@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -452,7 +453,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                       )));
 
                                               Share.share(shareUrl);
-                                              
                                             },
                                             icon: Icon(
                                               Icons.share,
@@ -523,8 +523,10 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                     onTap: () {
                                                                       Navigator.push(
                                                                           context,
-                                                                          NextPageRoute(
-                                                                              UploadProfile(editVideo: false,)));
+                                                                          NextPageRoute(UploadProfile(
+                                                                            editVideo:
+                                                                                false,
+                                                                          )));
                                                                     },
                                                                   ),
                                                                   ListTile(
@@ -713,7 +715,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                               EditProfilePage()))
                                                                   .then((value) =>
                                                                       getPortfolio());
-                                                            
                                                             },
                                                             child: SvgPicture.asset(
                                                                 'assets/images/edit.svg'),
@@ -1357,14 +1358,18 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                       ),
                                       IconButton(
                                           onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                NextPageRoute(PortfolioList(
-                                                    baseUrl: portfolioResponse
-                                                        ?.data.baseFileUrl,
-                                                    portfolioList:
-                                                        portfolioResponse
-                                                            ?.data.portfolio)));
+                                            if (portfolioResponse
+                                                    ?.data.portfolio.length !=
+                                                0)
+                                              Navigator.push(
+                                                  context,
+                                                  NextPageRoute(PortfolioList(
+                                                      baseUrl: portfolioResponse
+                                                          ?.data.baseFileUrl,
+                                                      portfolioList:
+                                                          portfolioResponse
+                                                              ?.data
+                                                              .portfolio)));
                                           },
                                           icon: Icon(
                                               Icons.arrow_forward_ios_rounded)),
@@ -1396,74 +1401,64 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                 controller:
                                                     new ScrollController(
                                                         keepScrollOffset: true),
-                                                itemCount: portfolioResponse
-                                                    ?.data.portfolio.length,
+                                                itemCount: min(
+                                                    4,
+                                                    portfolioResponse!
+                                                        .data.portfolio.length),
                                                 scrollDirection:
                                                     Axis.horizontal,
-                                                itemBuilder:
-                                                    (context, index) => InkWell(
-                                                          onTap: () {
-                                                            Navigator.push(
-                                                                context,
-                                                                NextPageRoute(
-                                                                    PortfolioDetail(
-                                                                  baseUrl:
-                                                                      '${portfolioResponse!.data.baseFileUrl}',
-                                                                  portfolio:
-                                                                      portfolioResponse!
-                                                                          .data
-                                                                          .portfolio[index],
-                                                                )));
-                                                          },
-                                                          child: Container(
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width *
-                                                                0.8,
-                                                            margin: EdgeInsets
-                                                                .symmetric(
-                                                                    horizontal:
-                                                                        8,
-                                                                    vertical:
-                                                                        4),
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                ClipRRect(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              12),
+                                                itemBuilder: (context, index) {
+                                                  return InkWell(
+                                                    onTap: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          NextPageRoute(
+                                                              PortfolioDetail(
+                                                            baseUrl:
+                                                                '${portfolioResponse!.data.baseFileUrl}',
+                                                            portfolio:
+                                                                portfolioResponse!
+                                                                        .data
+                                                                        .portfolio[
+                                                                    index],
+                                                          )));
+                                                    },
+                                                    child: Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.8,
+                                                      margin:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 8,
+                                                              vertical: 4),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        12),
+                                                            child:
+                                                                CachedNetworkImage(
+                                                              progressIndicatorBuilder:
+                                                                  (context, url,
+                                                                      downloadProgress) {
+                                                                return Shimmer
+                                                                    .fromColors(
+                                                                  baseColor:
+                                                                      Colors.grey[
+                                                                          300]!,
+                                                                  highlightColor:
+                                                                      Colors.grey[
+                                                                          100]!,
+                                                                  enabled: true,
                                                                   child:
-                                                                      CachedNetworkImage(
-                                                                    progressIndicatorBuilder:
-                                                                        (context,
-                                                                            url,
-                                                                            downloadProgress) {
-                                                                      return Shimmer
-                                                                          .fromColors(
-                                                                        baseColor:
-                                                                            Colors.grey[300]!,
-                                                                        highlightColor:
-                                                                            Colors.grey[100]!,
-                                                                        enabled:
-                                                                            true,
-                                                                        child:
-                                                                            Container(
-                                                                          width:
-                                                                              MediaQuery.of(context).size.width * 0.8,
-                                                                          height:
-                                                                              MediaQuery.of(context).size.height * 0.3,
-                                                                          color:
-                                                                              Colors.grey,
-                                                                        ),
-                                                                      );
-                                                                    },
-                                                                    imageUrl:
-                                                                        '${portfolioResponse?.data.baseFileUrl}${portfolioResponse?.data.portfolio[index].imageName}',
+                                                                      Container(
                                                                     width: MediaQuery.of(context)
                                                                             .size
                                                                             .width *
@@ -1472,57 +1467,90 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                             .size
                                                                             .height *
                                                                         0.3,
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                    errorWidget:
-                                                                        (context,
-                                                                            url,
-                                                                            error) {
-                                                                      return Container(
-                                                                        width: MediaQuery.of(context).size.width *
-                                                                            0.8,
-                                                                        height: MediaQuery.of(context).size.height *
-                                                                            0.3,
-                                                                        padding:
-                                                                            EdgeInsets.all(14),
-                                                                        decoration:
-                                                                            BoxDecoration(color: Color(0xffD5D5D5)),
-                                                                      );
-                                                                    },
+                                                                    color: Colors
+                                                                        .grey,
                                                                   ),
-                                                                ),
-                                                                SizedBox(
-                                                                    height: 8),
-                                                                Text(
-                                                                  '${portfolioResponse?.data.portfolio[index].portfolioTitle}',
-                                                                  style: Styles
-                                                                      .bold(),
-                                                                ),
-                                                                SizedBox(
+                                                                );
+                                                              },
+                                                              imageUrl:
+                                                                  '${portfolioResponse?.data.baseFileUrl}${portfolioResponse?.data.portfolio[index].imageName}',
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.8,
+                                                              height: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height *
+                                                                  0.3,
+                                                              fit: BoxFit.cover,
+                                                              errorWidget:
+                                                                  (context, url,
+                                                                      error) {
+                                                                return Container(
                                                                   width: MediaQuery.of(
                                                                               context)
                                                                           .size
                                                                           .width *
                                                                       0.8,
-                                                                  child: Text(
-                                                                      '${portfolioResponse?.data.portfolio[index].desc}',
-                                                                      softWrap:
-                                                                          true,
-                                                                      maxLines:
-                                                                          1,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                      style: Styles.semibold(
-                                                                          size:
-                                                                              12,
+                                                                  height: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .height *
+                                                                      0.3,
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              14),
+                                                                  decoration:
+                                                                      BoxDecoration(
                                                                           color:
-                                                                              Color(0xff929BA3))),
-                                                                ),
-                                                              ],
+                                                                              Color(0xffD5D5D5)),
+                                                                );
+                                                              },
                                                             ),
                                                           ),
-                                                        ))
+                                                          SizedBox(height: 8),
+                                                      SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.8,
+                                                            child:   Text(
+                                                            '${portfolioResponse?.data.portfolio[index].portfolioTitle}',
+                                                             softWrap: true,
+                                                                maxLines: 2,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                            style:
+                                                                Styles.bold(size: 16,color: Color(0xff0E1638)),
+                                                          )),
+                                                          SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.8,
+                                                            child: Text(
+                                                                '${portfolioResponse?.data.portfolio[index].desc}',
+                                                                softWrap: true,
+                                                                maxLines: 2,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                style: Styles.regular(
+                                                                    size: 12,
+                                                                    color: Color(
+                                                                        0xff929BA3))),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  );
+                                                })
                                             : portfolioListShimmer(0),
                                       )
                                     : portfolioListShimmer(1),
@@ -1737,15 +1765,18 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                     ),
                                     IconButton(
                                         onPressed: () {
-                                          Navigator.push(
-                                              context,
-                                              NextPageRoute(EducationList(
-                                                baseUrl: portfolioResponse
-                                                    ?.data.baseFileUrl,
-                                                education: portfolioResponse
-                                                        ?.data.education
-                                                    as List<CommonProfession>,
-                                              )));
+                                          if (portfolioResponse
+                                                  ?.data.education.length !=
+                                              0)
+                                            Navigator.push(
+                                                context,
+                                                NextPageRoute(EducationList(
+                                                  baseUrl: portfolioResponse
+                                                      ?.data.baseFileUrl,
+                                                  education: portfolioResponse
+                                                          ?.data.education
+                                                      as List<CommonProfession>,
+                                                )));
                                         },
                                         icon: Icon(
                                             Icons.arrow_forward_ios_rounded))
@@ -2084,11 +2115,12 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       child: Column(
         children: [
           topRow('Certificates', arrowAction: () {
-            Navigator.push(
-                context,
-                NextPageRoute(CertificateList(
-                    baseUrl: '${portfolioResponse?.data.baseFileUrl}',
-                    certificates: certificateList)));
+            if (certificateList?.length != 0)
+              Navigator.push(
+                  context,
+                  NextPageRoute(CertificateList(
+                      baseUrl: '${portfolioResponse?.data.baseFileUrl}',
+                      certificates: certificateList)));
           }, addAction: () async {
             await Navigator.push(
                     context,
@@ -2167,16 +2199,17 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       child: Column(
         children: [
           topRow('Experience', arrowAction: () {
-            Navigator.push(
-                    context,
-                    PageTransition(
-                        duration: Duration(milliseconds: 600),
-                        reverseDuration: Duration(milliseconds: 600),
-                        type: PageTransitionType.bottomToTop,
-                        child: ExperienceList(
-                            baseUrl: portfolioResponse?.data.baseFileUrl,
-                            experience: experience)))
-                .then((value) => getPortfolio());
+            if (experience?.length != 0)
+              Navigator.push(
+                      context,
+                      PageTransition(
+                          duration: Duration(milliseconds: 600),
+                          reverseDuration: Duration(milliseconds: 600),
+                          type: PageTransitionType.bottomToTop,
+                          child: ExperienceList(
+                              baseUrl: portfolioResponse?.data.baseFileUrl,
+                              experience: experience)))
+                  .then((value) => getPortfolio());
           }, addAction: () {
             Navigator.push(
                     context,
@@ -2294,12 +2327,13 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       child: Column(
         children: [
           topRow('Extra Curricular Activities', arrowAction: () {
-            Navigator.push(
-                context,
-                NextPageRoute(ExtraActivitiesList(
-                  baseUrl: '${portfolioResponse?.data.baseFileUrl}',
-                  activities: extraActivities!,
-                )));
+            if (extraActivities?.length != 0)
+              Navigator.push(
+                  context,
+                  NextPageRoute(ExtraActivitiesList(
+                    baseUrl: '${portfolioResponse?.data.baseFileUrl}',
+                    activities: extraActivities!,
+                  )));
           }, addAction: () {
             Navigator.push(
                     context,
@@ -2587,7 +2621,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
           break;
         case ApiStatus.SUCCESS:
           portfolioResponse = portfolioState.response;
-        
+
           if (portfolioState.response?.data.name
                   .contains('${Preference.getString(Preference.FIRST_NAME)}') ==
               true) {

@@ -72,7 +72,7 @@ class Data {
         extraActivities: List<CommonProfession>.from(json["extra_activities"].map((x) => CommonProfession.fromJson(x))),
         portfolioSocial: List<PortfolioSocial>.from(json["portfolio_social"].map((x) => PortfolioSocial.fromJson(x))),
         portfolioProfile: List<PortfolioProfile>.from(json["portfolio_profile"].map((x) => PortfolioProfile.fromJson(x))),
-        portfolio: json.containsKey("portfolio") == true ? List<Portfolio>.from(json["portfolio"].map((x) => Portfolio.fromJson(x))) : [],
+        portfolio: json.containsKey("portfolio") == true ? List<Portfolio>.from(json["portfolio"].reversed.map((x) => Portfolio.fromJson(x))) : [],
         baseFileUrl: json.containsKey("base_file_url") == true ? json["base_file_url"] : "",
     );
 
@@ -87,7 +87,7 @@ class Data {
         "extra_activities": List<dynamic>.from(extraActivities.map((x) => x.toJson())),
         "portfolio_social": List<dynamic>.from(portfolioSocial.map((x) => x.toJson())),
         "portfolio_profile": List<dynamic>.from(portfolioProfile.map((x) => x.toJson())),
-        "portfolio":  List<dynamic>.from(portfolio.map((x) => x.toJson())),
+        "portfolio":  List<dynamic>.from(portfolio.map((x) => x.toJson())).reversed,
         "base_file_url": baseFileUrl,
     };
 }

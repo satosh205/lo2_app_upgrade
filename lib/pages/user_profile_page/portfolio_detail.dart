@@ -1,3 +1,4 @@
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -31,11 +32,14 @@ class PortfolioDetail extends StatefulWidget {
 
 class _PortfolioDetailState extends State<PortfolioDetail> {
   String? urlType;
-  VideoPlayerController? _controller;
+  FlickManager? flickManager;
   bool deletePortfolio = false;
+   late VideoPlayerController _controller;
+  late Future<void> _initializeVideoPlayerFuture;
   @override
   void initState() {
     check();
+
     super.initState();
   }
 
@@ -50,151 +54,186 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
         type == 'png' ||
         type == 'gif') {
       urlType = 'img';
-    } else  if(type == 'mp4' || type == 'mov'){
-      _controller = VideoPlayerController.network(url)
-        ..initialize().then((_) {
-          setState(() {});
-        });
+    } else if (type == 'mp4' || type == 'mov') {
+      flickManager = FlickManager(
+        videoPlayerController: VideoPlayerController.network(
+            "https://singularis.learningoxygen.com/portfolio/SampleVideo_1280x720_2mb.mp4"),
+      );
+      _controller = VideoPlayerController.network(
+      'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+    );
+
+    // Initialize the controller and store the Future for later use.
+    _initializeVideoPlayerFuture = _controller.initialize();
+
+    // Use the controller to loop the video.
+    _controller.setLooping(true);
       urlType = 'video';
     }
     setState(() {});
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     void deleteResume(int id) {
-    BlocProvider.of<HomeBloc>(context)
-        .add(SingularisDeletePortfolioEvent(portfolioId: id));
-  }
+      BlocProvider.of<HomeBloc>(context)
+          .add(SingularisDeletePortfolioEvent(portfolioId: id));
+    }
 
-  void handleDeletePortfolio(SingularisDeletePortfolioState state) {
-    setState(() {
-      switch (state.apiState) {
-        case ApiStatus.LOADING:
-          Log.v("Loading Add  Certificate....................");
-          deletePortfolio = true;
-          break;
+    void handleDeletePortfolio(SingularisDeletePortfolioState state) {
+      setState(() {
+        switch (state.apiState) {
+          case ApiStatus.LOADING:
+            Log.v("Loading Add  Certificate....................");
+            deletePortfolio = true;
+            break;
 
-        case ApiStatus.SUCCESS:
-          Log.v("Success Add  Certificate....................");
-          deletePortfolio = false;
-          Navigator.pop(context);
-          break;
-        case ApiStatus.ERROR:
-          Log.v("Error Add Certificate....................");
-          deletePortfolio = false;
-          break;
-        case ApiStatus.INITIAL:
-          break;
-      }
-    });
-  }
+          case ApiStatus.SUCCESS:
+            Log.v("Success Add  Certificate....................");
+            deletePortfolio = false;
+            Navigator.pop(context);
+            break;
+          case ApiStatus.ERROR:
+            Log.v("Error Add Certificate....................");
+            deletePortfolio = false;
+            break;
+          case ApiStatus.INITIAL:
+            break;
+        }
+      });
+    }
+
     return Scaffold(
-      body: ScreenWithLoader(
-          isLoading: deletePortfolio,
-          body: BlocListener<HomeBloc, HomeState>(
-            listener: (context, state) async {
-if(state is SingularisDeletePortfolioState){
-  handleDeletePortfolio(state);
-}
-            },
-            child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Spacer(),
-                    IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(Icons.close_outlined))
-                  ],
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                        width: width(context) * 0.8,
-                        child: Text(
-                          '${widget.portfolio.portfolioTitle}',
-                          style: Styles.bold(size: 16),
-                        )),
-                    InkWell(
-                      onTap: ()async{
+        body: ScreenWithLoader(
+            isLoading: deletePortfolio,
+            body: BlocListener<HomeBloc, HomeState>(
+              listener: (context, state) async {
+                if (state is SingularisDeletePortfolioState) {
+                  handleDeletePortfolio(state);
+                }
+              },
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Spacer(),
+                            IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: Icon(Icons.close_outlined))
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            SizedBox(
+                                width: width(context) * 0.8,
+                                child: Text(
+                                  '${widget.portfolio.portfolioTitle}',
+                                  style: Styles.bold(size: 16),
+                                )),
+                            InkWell(
+                                onTap: () async {
+                                  await Navigator.push(
+                                      context,
+                                      PageTransition(
+                                          duration: Duration(milliseconds: 300),
+                                          reverseDuration:
+                                              Duration(milliseconds: 300),
+                                          type: PageTransitionType.bottomToTop,
+                                          child: AddPortfolio(
+                                            baseUrl: '${widget.baseUrl}',
+                                            editMode: true,
+                                            portfolio: widget.portfolio,
+                                          ))).then(
+                                      (value) => Navigator.pop(context));
+                                },
+                                child: SvgPicture.asset(
+                                    'assets/images/edit_portfolio.svg')),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            InkWell(
+                                onTap: () async {
+                                  deleteResume(widget.portfolio.id);
+                                },
+                                child: SvgPicture.asset(
+                                  'assets/images/delete.svg',
+                                  color: Color(0xff0E1638),
+                                )),
+                          ],
+                        ),
+                        Text('${widget.portfolio.desc}',
+                            style: Styles.regular(
+                                size: 12, color: Color(0xff929BA3))),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        InkWell(
+                            onTap: () {
+                              launchUrl(Uri.parse(
+                                  '${widget.portfolio.portfolioLink}'));
+                            },
+                            child: Text('${widget.portfolio.portfolioLink}',
+                                style: Styles.regular(
+                                    size: 12, color: Color(0xff0094FF)))),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        if (urlType == 'pdf') ...[
+                          SizedBox(
+                            height: height(context) * 0.8,
+                            child: PDF(
+                              enableSwipe: true,
+                              gestureRecognizers: [
+                                Factory(() => PanGestureRecognizer()),
+                                Factory(() => VerticalDragGestureRecognizer())
+                              ].toSet(),
+                            ).cachedFromUrl(
+                              '${widget.baseUrl}${widget.portfolio.portfolioFile}',
+                              placeholder: (progress) =>
+                                  Center(child: Text('$progress %')),
+                              errorWidget: (error) =>
+                                  Center(child: Text(error.toString())),
+                            ),
+                          )
+                        ] else if (urlType == 'img') ...[
+                          Image.network(
+                              '${widget.baseUrl}${widget.portfolio.portfolioFile}'),
+                        ] else if (urlType == 'video')
+                         
+                        Text('video')
 
-                           await Navigator.push(context, PageTransition(
-      duration:Duration(milliseconds: 300) ,
-      reverseDuration: Duration(milliseconds: 300),
-      type: PageTransitionType.bottomToTop, child:  AddPortfolio(baseUrl: '${widget.baseUrl}',editMode: true, portfolio: widget.portfolio,))).then((value) => Navigator.pop(context));
-                      },
-                      child: SvgPicture.asset('assets/images/edit_portfolio.svg')),
-                    SizedBox(
-                      width: 20,
+      //                     FutureBuilder(
+      //   future: _initializeVideoPlayerFuture,
+      //   builder: (context, snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.done) {
+      //       // If the VideoPlayerController has finished initialization, use
+      //       // the data it provides to limit the aspect ratio of the video.
+      //       return AspectRatio(
+      //         aspectRatio: _controller.value.aspectRatio,
+      //         // Use the VideoPlayer widget to display the video.
+      //         child: VideoPlayer(_controller),
+      //       );
+      //     } else {
+      //       // If the VideoPlayerController is still initializing, show a
+      //       // loading spinner.
+      //       return const Center(
+      //         child: CircularProgressIndicator(),
+      //       );
+      //     }
+      //   },
+      // )
+                      ],
                     ),
-                    InkWell(
-                        onTap: () async {
-                          deleteResume(widget.portfolio.id);
-                        },
-                        child: SvgPicture.asset(
-                          'assets/images/delete.svg',
-                          color: Color(0xff0E1638),
-                        )),
-                  ],
+                  ),
                 ),
-                Text('${widget.portfolio.desc}',
-                    style: Styles.regular(size: 12, color: Color(0xff929BA3))),
-                SizedBox(
-                  height: 20,
-                ),
-                InkWell(
-                    onTap: () {
-                      launchUrl(Uri.parse('${widget.portfolio.portfolioLink}'));
-                    },
-                    child: Text('${widget.portfolio.portfolioLink}',
-                        style: Styles.regular(
-                            size: 12, color: Color(0xff0094FF)))),
-                SizedBox(
-                  height: 20,
-                ),
-                if (urlType == 'pdf') ...[
-                  SizedBox(
-                    height: height(context) * 0.8,
-                    child: PDF(
-                      enableSwipe: true,
-                      gestureRecognizers: [
-                        Factory(() => PanGestureRecognizer()),
-                        Factory(() => VerticalDragGestureRecognizer())
-                      ].toSet(),
-                    ).cachedFromUrl(
-                      '${widget.baseUrl}${widget.portfolio.portfolioFile}',
-                      placeholder: (progress) =>
-                          Center(child: Text('$progress %')),
-                      errorWidget: (error) =>
-                          Center(child: Text(error.toString())),
-                    ),
-                  )
-                ] else if (urlType == 'img') ...[
-                  Image.network(
-                      '${widget.baseUrl}${widget.portfolio.portfolioFile}'),
-                ] else if (urlType == 'video')
-                  AspectRatio(
-                    aspectRatio: _controller!.value.aspectRatio,
-                    child: VideoPlayer(_controller!),
-                  )
-              ],
-            ),
-          ),
-        ),
-      ),
-      )));
-
-    
+              ),
+            )));
   }
-  
 }

@@ -223,14 +223,8 @@ class _AddPortfolioState extends State<AddPortfolio> {
                               onClick: () async {
                                 FilePickerResult? pickedFileC =
                                     await FilePicker.platform.pickFiles(
-                                  type: FileType.custom,
-                                  allowedExtensions: [
-                                    'pdf',
-                                    'doc',
-                                    'jpeg',
-                                    'png',
-                                    'jpg'
-                                  ],
+                                  type: FileType.any,
+                                 
                                 );
                                 if (pickedFileC != null) {
                                   setState(() {
@@ -238,10 +232,10 @@ class _AddPortfolioState extends State<AddPortfolio> {
                                   });
                                 }
                               },
-                              uploadText: 'Upload Image',
+                              uploadText: 'Upload File',
                             ),
                           ),
-                          Text("Supported Format: .pdf, .doc, .jpeg",
+                          Text("Supported Files: Documents, Image, Video",
                               style: TextStyle(
                                   fontSize: 10,
                                   fontWeight: FontWeight.w400,
