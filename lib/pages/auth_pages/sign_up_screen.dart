@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -134,50 +135,57 @@ class _SignUpScreenState extends State<SignUpScreen> {
         //mainAxisAlignment: MainAxisAlignment.center,
         // mainAxisSize: MainAxisSize.min,
         children: [
-          Column(
-            children: [
-              Transform.scale(
-                scale: 1.2,
-                child: appBarImagePath.split('.').last == 'svg'
-                    ? SvgPicture.asset(
-                        appBarImagePath,
-                        fit: BoxFit.cover,
-                      )
-                    : Image.asset(
-                        appBarImagePath,
-                        // 'assets/images/${APK_DETAILS' ,
-                        height: 150,
-                        width: 150,
-                      ),
-              ),
-              SizedBox(height: 10),
-              /*Text(
-                  '${Strings.of(context)?.GiveYourCreativityNewPath}',
-                  style: Styles.semibold()),
-              SizedBox(height: 20),*/
-              if (APK_DETAILS['theme_image_url2'] != "")
-                APK_DETAILS['theme_image_url2']?.split('.').last == 'svg'
-                    ? SvgPicture.asset(
-                        height: MediaQuery.of(context).size.height * 0.25,
-                        'assets/images/${APK_DETAILS['theme_image_url2']}',
-                        fit: BoxFit.cover,
-                      )
-                    : Image.asset(
-                        'assets/images/${APK_DETAILS['theme_image_url2']}',
-                        height: MediaQuery.of(context).size.height * 0.25,
-                        // width: 150,
-                      ),
-              // SizedBox(
-              //     height:
-              //         MediaQuery.of(context).size.height * 0.25,
-              //     child: Image.asset(
-              //         'assets/images/signupimage.gif')),
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
           Container(
+            height: height(context)*0.4,
+            child: Column(
+              
+              children: [
+                Text(
+                  "Welcome to",style: Styles.regular(size:18,color: Color(0xff5A5F73))),
+                Transform.scale(
+                  scale: 1.2,
+                  child: appBarImagePath.split('.').last == 'svg'
+                      ? SvgPicture.asset(
+                          appBarImagePath,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.asset(
+                          appBarImagePath,
+                          // 'assets/images/${APK_DETAILS' ,
+                          height: 60,
+                          width: 180,
+                        ),
+                ),
+                // SizedBox(height: 10),
+                /*Text(
+                    '${Strings.of(context)?.GiveYourCreativityNewPath}',
+                    style: Styles.semibold()),
+                SizedBox(height: 20),*/
+                if (APK_DETAILS['theme_image_url2'] != "")
+                  APK_DETAILS['theme_image_url2']?.split('.').last == 'svg'
+                      ? SvgPicture.asset(
+                          height: MediaQuery.of(context).size.height * 0.25,
+                          'assets/images/${APK_DETAILS['theme_image_url2']}',
+                          fit: BoxFit.cover,
+                        )
+                      : Image.asset(
+                          'assets/images/${APK_DETAILS['theme_image_url2']}',
+                          height: MediaQuery.of(context).size.height * 0.25,
+                          // width: 150,
+                        ),
+                // SizedBox(
+                //     height:
+                //         MediaQuery.of(context).size.height * 0.25,
+                //     child: Image.asset(
+                //         'assets/images/signupimage.gif')),
+              ],
+            ),
+          ),
+          // SizedBox(
+          //   height: 20,
+          // ),
+          Container(
+            
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               gradient: LinearGradient(colors: [
@@ -185,7 +193,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ColorConstants.GRADIENT_RED,
               ]),
             ),
-            height: height(context) * 0.5,
+            height: height(context) * 0.6,
             child: Column(
               children: [
                 SizedBox(height: 20),
@@ -331,7 +339,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: 20.0),
+                // SizedBox(height: 20.0),
                 InkWell(
                   onTap: () {
                     Navigator.push(
@@ -354,7 +362,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       height: height(context) * 0.1,
                       width: width(context),
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 60.0),
+                        padding: const EdgeInsets.only(left: 80.0),
                         child: Row(
                           children: [
                             SvgPicture.asset(
@@ -362,7 +370,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               color: ColorConstants.WHITE,
                             ),
                             SizedBox(
-                              width: 20,
+                              width: 10,
                             ),
                             Text(
                               '${Strings.of(context)?.continueStr} with ${Strings.of(context)?.email}',
@@ -401,7 +409,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             isMaintainState: false));
                   },
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
+                    padding: const EdgeInsets.only(top: 110.0),
                     child: Column(
                       children: [
                         Text('${Strings.of(context)?.byClickingContinue}',
