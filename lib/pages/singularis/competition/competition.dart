@@ -63,6 +63,8 @@ class _CompetetionState extends State<Competetion> {
 
     // if (widget.fromDasboard == false) getPopularCompetitionList();
 
+  //yyy-dd-mm yyy-mm-dd
+
     super.initState();
   }
 
@@ -321,26 +323,29 @@ class _CompetetionState extends State<Competetion> {
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, index) {
                                       if (index < myActivity!.data.length)
-                                        return CompetitionMyAcitivityCard(
-                                          id: myActivity?.data[index].id,
-                                          desc: myActivity?.data[index].desc,
-                                          score: myActivity?.data[index].gscore,
-                                          date:
-                                              myActivity?.data[index].starDate,
-                                          conductedBy: myActivity
-                                              ?.data[index].organizedBy,
-                                          image: myActivity?.data[index].pImage,
-                                          title: myActivity?.data[index].name,
-                                          totalAct: myActivity
-                                              ?.data[index].totalContents,
-                                          doneAct: myActivity?.data[index]
-                                              .totalActivitiesCompleted,
-                                          difficulty: myActivity
-                                              ?.data[index].competitionLevel,
-                                          activityStatus: myActivity
-                                                  ?.data[index]
-                                                  .activityStatus ??
-                                              '',
+                                        return Container(
+                                             margin: EdgeInsets.only(left: 8),
+                                          child: CompetitionMyAcitivityCard(
+                                            id: myActivity?.data[index].id,
+                                            desc: myActivity?.data[index].desc,
+                                            score: myActivity?.data[index].gscore,
+                                            date:
+                                                myActivity?.data[index].starDate,
+                                            conductedBy: myActivity
+                                                ?.data[index].organizedBy,
+                                            image: myActivity?.data[index].pImage,
+                                            title: myActivity?.data[index].name,
+                                            totalAct: myActivity
+                                                ?.data[index].totalContents,
+                                            doneAct: myActivity?.data[index]
+                                                .totalActivitiesCompleted,
+                                            difficulty: myActivity
+                                                ?.data[index].competitionLevel,
+                                            activityStatus: myActivity
+                                                    ?.data[index]
+                                                    .activityStatus ??
+                                                '',
+                                          ),
                                         );
                                       else {
                                         index = index - myActivity!.data.length;
