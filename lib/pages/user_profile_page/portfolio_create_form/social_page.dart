@@ -8,9 +8,11 @@ import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/new_portfolio_response.dart';
+import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
 import 'package:masterg/utils/Log.dart';
+import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 
@@ -40,8 +42,11 @@ class _SocialPageState extends State<SocialPage> {
 
   @override
   void initState() {
-    phoneController = TextEditingController(text: widget.social?.mobNum);
-    emailController = TextEditingController(text: widget.social?.email);
+    phoneController = TextEditingController(
+        text: widget.social?.mobNum ?? Preference.getString(Preference.PHONE));
+    emailController = TextEditingController(
+        text: widget.social?.email ??
+            Preference.getString(Preference.USER_EMAIL));
     linkedinController = TextEditingController(text: widget.social?.linkedin);
     behanceController = TextEditingController(text: widget.social?.bee);
     dribbleController = TextEditingController(text: widget.social?.dribble);
@@ -58,19 +63,14 @@ class _SocialPageState extends State<SocialPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            backgroundColor: ColorConstants.WHITE,
-
+        backgroundColor: ColorConstants.WHITE,
         appBar: AppBar(
             elevation: 0.0,
             backgroundColor: ColorConstants.WHITE,
-            title: const Center(
-              child: Text(
-                "Contact and Social",
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black),
-              ),
+            centerTitle: true,
+            title: Text(
+              "Contact and Social",
+              style: Styles.bold(size: 14),
             ),
             actions: [
               Padding(
@@ -124,20 +124,27 @@ class _SocialPageState extends State<SocialPage> {
                             hintText: 'Enter your mobile number',
                           ),
                         ),
-                        SizedBox(height: 12,),
-        
-                        
-         InkWell(
-          onTap: (){
-            setState(() {
-              mobileHidden = !mobileHidden;
-            });
-          },
-           child: Padding(
+                        SizedBox(
+                          height: 12,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              mobileHidden = !mobileHidden;
+                            });
+                          },
+                          child: Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: Row(
                               children: [
-                          mobileHidden ?       SvgPicture.asset('assets/images/close_eye.svg') : Icon(Icons.remove_red_eye, size: 20, color: ColorConstants.GREEN,),
+                                mobileHidden
+                                    ? SvgPicture.asset(
+                                        'assets/images/close_eye.svg')
+                                    : Icon(
+                                        Icons.remove_red_eye,
+                                        size: 20,
+                                        color: ColorConstants.GREEN,
+                                      ),
                                 VerticalDivider(),
                                 Text(
                                   "Hide contact details on portfolio",
@@ -149,7 +156,7 @@ class _SocialPageState extends State<SocialPage> {
                               ],
                             ),
                           ),
-         ),
+                        ),
                         const SizedBox(
                           height: 20,
                         ),
@@ -157,7 +164,7 @@ class _SocialPageState extends State<SocialPage> {
                           keyboardType: TextInputType.emailAddress,
                           controller: emailController,
                           decoration: InputDecoration(
-                            fillColor: Colors.grey.shade100,
+                            fillColor: ColorConstants.WHITE,
                             filled: true,
                             border: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -180,29 +187,38 @@ class _SocialPageState extends State<SocialPage> {
                             hintText: 'Enter your email address',
                           ),
                         ),
-                        SizedBox(height: 12,),
-                    InkWell(
-          onTap: (){
-            setState(() {
-              emailHidden = ! emailHidden;
-            });
-          },
-           child:    Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Row(
-                            children: [
-                          emailHidden ?     SvgPicture.asset('assets/images/close_eye.svg')  : Icon(Icons.remove_red_eye, size: 20, color: ColorConstants.GREEN,),
-                              VerticalDivider(),
-                              Text(
-                                "Hide contact details on portfolio",
-                                style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(0xff5A5F73)),
-                              )
-                            ],
-                          ),
-                        )),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        InkWell(
+                            onTap: () {
+                              setState(() {
+                                emailHidden = !emailHidden;
+                              });
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Row(
+                                children: [
+                                  emailHidden
+                                      ? SvgPicture.asset(
+                                          'assets/images/close_eye.svg')
+                                      : Icon(
+                                          Icons.remove_red_eye,
+                                          size: 20,
+                                          color: ColorConstants.GREEN,
+                                        ),
+                                  VerticalDivider(),
+                                  Text(
+                                    "Hide email address on portfolio",
+                                    style: TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w400,
+                                        color: Color(0xff5A5F73)),
+                                  )
+                                ],
+                              ),
+                            )),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
@@ -217,7 +233,6 @@ class _SocialPageState extends State<SocialPage> {
                             ],
                           ),
                         ),
-                       
                         customField(
                             imgPath: 'assets/images/google.png',
                             hintText: 'Enter your website',
@@ -255,22 +270,39 @@ class _SocialPageState extends State<SocialPage> {
                         ),
                         InkWell(
                           onTap: () {
-                            Map<String, dynamic> data = Map();
-                            data["mob_num"] = phoneController.value.text;
-                            data["email"] = emailController.value.text;
-                            data["linkedin"] = linkedinController.value.text;
-                            data["bee"] = behanceController.value.text;
-                            data["dribbl"] = dribbleController.value.text;
-                            data["insta"] = instaController.value.text;
-                            data["facebook"] = fbController.value.text;
-                            data["twitter"] = twitterController.value.text;
-                            data["pinterest"] = pintrestController.value.text;
-                            data["other"] = "";
-                            data["site_url"] = siteController.value.text;
-                            data["mob_num_hidden"] = mobileHidden;
-                            data["email_hidden"] = emailHidden;
-                            print(data);
-                            addSocail(data);
+                            if (phoneController.value.text == '') {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text('Phone no is required'),
+                              ));
+                            } else if (emailController.value.text == '') {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text('Email is required'),
+                              ));
+                            } else {
+                              Map<String, dynamic> data = Map();
+                              data["mob_num"] = phoneController.value.text;
+                              data["email"] = emailController.value.text;
+                              data["linkedin"] = linkedinController.value.text;
+                              data["bee"] = behanceController.value.text;
+                              data["dribbl"] = dribbleController.value.text;
+                              data["insta"] = instaController.value.text;
+                              data["facebook"] = fbController.value.text;
+                              data["twitter"] = twitterController.value.text;
+                              data["pinterest"] = pintrestController.value.text;
+                              data["other"] = "";
+                              data["site_url"] = siteController.value.text;
+                              data["mob_num_hidden"] = mobileHidden;
+                              data["email_hidden"] = emailHidden;
+                              print(data);
+                              Preference.setString(
+                                  Preference.PHONE, phoneController.value.text);
+                              Preference.setString(Preference.USER_EMAIL,
+                                  emailController.value.text);
+
+                              addSocail(data);
+                            }
                           },
                           child: Container(
                             height: height(context) * 0.06,
@@ -310,7 +342,7 @@ class _SocialPageState extends State<SocialPage> {
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
-          fillColor: Colors.grey.shade100,
+          fillColor: ColorConstants.WHITE,
           filled: true,
           border: OutlineInputBorder(
               borderSide: BorderSide(width: 1, color: Color(0xffE5E5E5)),
@@ -322,8 +354,10 @@ class _SocialPageState extends State<SocialPage> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left:3.0),
-                  child: Image.asset(imgPath,),
+                  padding: const EdgeInsets.only(left: 3.0),
+                  child: Image.asset(
+                    imgPath,
+                  ),
                 ),
                 // SvgPicture.asset(imgPath),
 
@@ -355,8 +389,9 @@ class _SocialPageState extends State<SocialPage> {
 
         case ApiStatus.SUCCESS:
           Log.v("Success Add Social....................");
-           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Contact and Social Updated'),
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Information Successfully Updated'),
           ));
           isAddPortfolioLoading = false;
           break;

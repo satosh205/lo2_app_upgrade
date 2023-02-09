@@ -12,11 +12,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
+import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
 import 'package:masterg/utils/Log.dart';
-import 'package:masterg/utils/Strings.dart';
+import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
+import 'package:masterg/utils/resource/colors.dart';
+import 'package:masterg/utils/utility.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:path_provider/path_provider.dart';
+
 
 class ViewResume extends StatefulWidget {
   final String? resumUrl;
@@ -28,6 +33,7 @@ class ViewResume extends StatefulWidget {
 }
 
 class _ViewResumeState extends State<ViewResume> {
+    final GlobalKey<ScaffoldState> _key = new GlobalKey<ScaffoldState>();
   bool? updateResume = false;
   @override
   Widget build(BuildContext context) {
@@ -38,16 +44,13 @@ class _ViewResumeState extends State<ViewResume> {
             centerTitle: true,
             title: Text(
               "Resume",
-              style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black),
+              style: Styles.bold(size: 14),
             ),
             actions: [
-              if (widget.resumUrl != '')
+              if (!(widget.resumUrl == '' || widget.resumUrl == null))
                 InkWell(
                     onTap: () {
-                      print('downlaod file');
+                  download(widget.resumUrl);
                     },
                     child: SvgPicture.asset(
                       'assets/images/download.svg',
@@ -55,10 +58,19 @@ class _ViewResumeState extends State<ViewResume> {
               SizedBox(
                 width: 20,
               ),
-              if (widget.resumUrl != '')
+           if (!(widget.resumUrl == '' || widget.resumUrl == null))
                 InkWell(
                     onTap: () {
-                      deleteResume(widget.resumeId!);
+
+                        AlertsWidget.showCustomDialog(
+                      context: context,
+                      title: '',
+                      text: 'Are you sure you want to delete the resume?',
+                      icon: 'assets/images/circle_alert_fill.svg',
+                      onOkClick: () async {
+                        deleteResume(widget.resumeId!);
+                      });
+                      
                     },
                     child: SvgPicture.asset(
                       'assets/images/delete.svg',
@@ -131,7 +143,7 @@ class _ViewResumeState extends State<ViewResume> {
                     ),
                   ),
                 ),
-                Text("Supported Format: .pdf, .doc, .jpeg",
+                Text("Supported Format: .pdf",
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
@@ -164,7 +176,7 @@ class _ViewResumeState extends State<ViewResume> {
               }
             },
             child: Container(
-              color: Colors.white,
+              color: Colors.green,
               height: height(context) * 0.8,
               width: width(context),
               child: widget.resumUrl == '' || widget.resumUrl == null
@@ -179,31 +191,34 @@ class _ViewResumeState extends State<ViewResume> {
                           height: 20,
                         ),
                         Text(
-                          "You have not uploaded your resume yet! ${widget.resumUrl}",
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Color(0xff929BA3)),
+                          "You have not uploaded your resume yet!",
+                          style: Styles.regular(size: 14),
                         ),
                       ],
                     ) 
                     
                     // : Text('${widget.resumUrl}')
-                  : PDF(
-                      //swipeHorizontal: true,
-                      enableSwipe: true,
-                      gestureRecognizers: [
-                        Factory(() => PanGestureRecognizer()),
-                        Factory(() => VerticalDragGestureRecognizer())
-                      ].toSet(),
-                    ).cachedFromUrl(
-                      //ApiConstants.IMAGE_BASE_URL + url,
-                      widget.resumUrl!,
-                      placeholder: (progress) =>
-                          Center(child: Text('$progress %')),
-                      errorWidget: (error) =>
-                          Center(child: Text(error.toString())),
-                    ),
+                  : Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: PDF(
+                        //swipeHorizontal: true,
+                        autoSpacing: false,
+fitPolicy: FitPolicy.BOTH,
+                        enableSwipe: true,
+                        gestureRecognizers: [
+                          Factory(() => PanGestureRecognizer()),
+                          Factory(() => VerticalDragGestureRecognizer())
+                        ].toSet(),
+                      ).cachedFromUrl(
+                        //ApiConstants.IMAGE_BASE_URL + url,
+                        widget.resumUrl!,
+                        placeholder: (progress) =>
+                            Center(child: Text('$progress %')),
+                        errorWidget: (error) =>
+                            Center(child: Text(error.toString())),
+                      ),
+                  ),
             ),
           ),
         ));
@@ -240,4 +255,73 @@ class _ViewResumeState extends State<ViewResume> {
       }
     });
   }
+
+   void download(String? usersFile) async {
+    print('downloading');
+    if (await Permission.storage.request().isGranted) {
+      // var tempDir = await getApplicationDocumentsDirectory();
+      String localPath = "";
+      if (Platform.isAndroid) {
+       
+        localPath = "/sdcard/download/";
+  
+   
+
+        //check if file exists
+        final file = File(localPath + "/" + usersFile!.split('/').last);
+        if (file.existsSync()) {
+          print("FILE EXISTS");
+          Utility.showSnackBar(
+              scaffoldContext: context, message: "File already exists");
+
+          await FlutterDownloader.open(taskId: usersFile.split('/').last);
+          return;
+        }
+      } else {
+
+        localPath = (await getApplicationDocumentsDirectory()).path;
+      }
+      //String localPath = (tempDir.path) + Platform.pathSeparator + 'MyCoach';
+      var savedDir = Directory(localPath);
+      bool hasExisted = await savedDir.exists();
+      if (!hasExisted) {
+        savedDir = await savedDir.create();
+      }
+      download2(usersFile!, localPath);
+    } else {
+      Utility.showSnackBar(
+          scaffoldContext: context,
+          message: "Please enable storage permission");
+    }
+  }
+
+  Future download2(String url, String savePath) async {
+    try {
+      // _key.currentState!.showSnackBar(
+      //   SnackBar(
+      //     content: Text(
+      //       "Downloading start.",
+      //       style: Styles.boldWhite(),
+      //     ),
+      //     backgroundColor: ColorConstants.BLACK,
+      //     duration: Duration(seconds: 2),
+      //   ),
+      // );
+
+ ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(' Downloading start.'),
+          ));
+     
+      final taskId = await FlutterDownloader.enqueue(
+        url: url,
+        savedDir: savePath,
+        showNotification: true,
+        openFileFromNotification: true,
+      );
+      print(taskId);
+    } catch (e) {
+      print(e);
+    }
+  }
+
 }
