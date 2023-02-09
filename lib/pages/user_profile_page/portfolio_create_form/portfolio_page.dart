@@ -117,22 +117,32 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     "December"
   ];
 
-
-  void _showPopupMenu() async {
+  void _showPopupMenu(Offset offset) async {
+    final screenSize = MediaQuery.of(context).size;
+    double left = offset.dx;
+    double top = offset.dy;
+    double right = screenSize.width - offset.dx;
+    double bottom = screenSize.height - offset.dy;
     await showMenu(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(20.0),
+        ),
+      ),
       context: context,
-      position: RelativeRect.fromLTRB(200, 330, 100, 0),
+      position: RelativeRect.fromLTRB(left, top, right, bottom),
       items: [
-        if(portfolioResponse?.data.portfolioSocial.first.linkedin != "") ...[
+        if (portfolioResponse?.data.portfolioSocial.first.linkedin != "") ...[
           PopupMenuItem<String>(
-            onTap: (){
+            onTap: () {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) {
                       return CommonWebView(
-                        url: portfolioResponse?.data.portfolioSocial.first.linkedin,
+                        url: portfolioResponse
+                            ?.data.portfolioSocial.first.linkedin,
                       );
                     },
                   ),
@@ -144,22 +154,25 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                 Image.asset('assets/images/linkedin_p.png'),
                 Padding(
                   padding: const EdgeInsets.only(left: 10.0),
-                  child: const Text('Linkedin',),
+                  child: const Text(
+                    'Linkedin',
+                  ),
                 ),
               ],
-            ),)
+            ),
+          )
         ],
-
-        if(portfolioResponse?.data.portfolioSocial.first.facebook != "") ...[
+        if (portfolioResponse?.data.portfolioSocial.first.facebook != "") ...[
           PopupMenuItem<String>(
-            onTap: (){
+            onTap: () {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) {
                       return CommonWebView(
-                        url: portfolioResponse?.data.portfolioSocial.first.facebook,
+                        url: portfolioResponse
+                            ?.data.portfolioSocial.first.facebook,
                       );
                     },
                   ),
@@ -174,12 +187,12 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                   child: const Text('Facebook'),
                 ),
               ],
-            ),)
+            ),
+          )
         ],
-
-        if(portfolioResponse?.data.portfolioSocial.first.bee != "") ...[
+        if (portfolioResponse?.data.portfolioSocial.first.bee != "") ...[
           PopupMenuItem<String>(
-            onTap: (){
+            onTap: () {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.push(
                   context,
@@ -201,19 +214,20 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                   child: const Text('Bee'),
                 ),
               ],
-            ),)
+            ),
+          )
         ],
-
-        if(portfolioResponse?.data.portfolioSocial.first.dribble != "") ...[
+        if (portfolioResponse?.data.portfolioSocial.first.dribble != "") ...[
           PopupMenuItem<String>(
-            onTap: (){
+            onTap: () {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) {
                       return CommonWebView(
-                        url: portfolioResponse?.data.portfolioSocial.first.dribble,
+                        url: portfolioResponse
+                            ?.data.portfolioSocial.first.dribble,
                       );
                     },
                   ),
@@ -228,19 +242,20 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                   child: const Text('Dribble'),
                 ),
               ],
-            ),)
+            ),
+          )
         ],
-
-        if(portfolioResponse?.data.portfolioSocial.first.insta != "") ...[
+        if (portfolioResponse?.data.portfolioSocial.first.insta != "") ...[
           PopupMenuItem<String>(
-            onTap: (){
+            onTap: () {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) {
                       return CommonWebView(
-                        url: portfolioResponse?.data.portfolioSocial.first.insta,
+                        url:
+                            portfolioResponse?.data.portfolioSocial.first.insta,
                       );
                     },
                   ),
@@ -255,19 +270,20 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                   child: const Text('Instagram'),
                 ),
               ],
-            ),)
+            ),
+          )
         ],
-
-        if(portfolioResponse?.data.portfolioSocial.first.twitter != "") ...[
+        if (portfolioResponse?.data.portfolioSocial.first.twitter != "") ...[
           PopupMenuItem<String>(
-            onTap: (){
+            onTap: () {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) {
                       return CommonWebView(
-                        url: portfolioResponse?.data.portfolioSocial.first.twitter,
+                        url: portfolioResponse
+                            ?.data.portfolioSocial.first.twitter,
                       );
                     },
                   ),
@@ -282,19 +298,20 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                   child: const Text('Twitter'),
                 ),
               ],
-            ),)
+            ),
+          )
         ],
-
-        if(portfolioResponse?.data.portfolioSocial.first.pinterest != "") ...[
+        if (portfolioResponse?.data.portfolioSocial.first.pinterest != "") ...[
           PopupMenuItem<String>(
-            onTap: (){
+            onTap: () {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) {
                       return CommonWebView(
-                        url: portfolioResponse?.data.portfolioSocial.first.pinterest,
+                        url: portfolioResponse
+                            ?.data.portfolioSocial.first.pinterest,
                       );
                     },
                   ),
@@ -309,19 +326,20 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                   child: const Text('Pinterest'),
                 ),
               ],
-            ),)
+            ),
+          )
         ],
-
-        if(portfolioResponse?.data.portfolioSocial.first.siteUrl != "") ...[
+        if (portfolioResponse?.data.portfolioSocial.first.siteUrl != "") ...[
           PopupMenuItem<String>(
-            onTap: (){
+            onTap: () {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) {
                       return CommonWebView(
-                        url: portfolioResponse?.data.portfolioSocial.first.siteUrl,
+                        url: portfolioResponse
+                            ?.data.portfolioSocial.first.siteUrl,
                       );
                     },
                   ),
@@ -336,14 +354,13 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                   child: const Text('Site Url'),
                 ),
               ],
-            ),)
+            ),
+          )
         ],
       ],
-
       elevation: 10.0,
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -378,8 +395,12 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                             children: [
                               Container(
                                 width: double.infinity,
-                                height:
-                                Preference.getString(Preference.FIRST_NAME)!.length > 8 ?     MediaQuery.of(context).size.height * 0.35 : MediaQuery.of(context).size.height * 0.3,
+                                height: Preference.getString(
+                                                Preference.FIRST_NAME)!
+                                            .length >
+                                        8
+                                    ? MediaQuery.of(context).size.height * 0.35
+                                    : MediaQuery.of(context).size.height * 0.3,
                                 padding: EdgeInsets.only(top: 8),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.only(
@@ -431,48 +452,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                       )));
 
                                               Share.share(shareUrl);
-                                              // AlertsWidget.showCustomDialog(
-                                              //     context: context,
-                                              //     title:
-                                              //         '${Strings.of(context)?.leavingSoSoon}',
-                                              //     text:
-                                              //         '${Strings.of(context)?.areYouSureYouWantToExit}',
-                                              //     icon:
-                                              //         'assets/images/circle_alert_fill.svg',
-                                              //     onOkClick: () async {
-                                              //       String shareUrl = '$baseUrl' +
-                                              //           '/user-portfolio-webview?email=' +
-                                              //           '${Preference.getString(Preference.USER_EMAIL)}}';
-                                              //       await Clipboard.setData(
-                                              //               ClipboardData(
-                                              //                   text: shareUrl))
-                                              //           .then((value) =>
-                                              //               ScaffoldMessenger
-                                              //                       .of(context)
-                                              //                   .showSnackBar(
-                                              //                       SnackBar(
-                                              //                 content: Text(
-                                              //                     "Profile link copied"),
-                                              //               )));
-
-                                              //       Share.share(shareUrl);
-                                              //     });
-                                              // UserSession
-                                              //     .clearSession();
-                                              // await Hive
-                                              //     .deleteFromDisk();
-                                              // Preference.clearPref()
-                                              //     .then((value) {
-                                              //   Navigator
-                                              //       .pushAndRemoveUntil(
-                                              //           context,
-                                              //           NextPageRoute(
-                                              //               ChooseLanguage(
-                                              //             showEdulystLogo:
-                                              //                 true,
-                                              //           )),
-                                              //           (route) =>
-                                              //               false);
+                                              
                                             },
                                             icon: Icon(
                                               Icons.share,
@@ -544,7 +524,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                       Navigator.push(
                                                                           context,
                                                                           NextPageRoute(
-                                                                              UploadProfile()));
+                                                                              UploadProfile(editVideo: false,)));
                                                                     },
                                                                   ),
                                                                   ListTile(
@@ -578,16 +558,22 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                   //singh
                                                   child: ClipOval(
                                                     child: CachedNetworkImage(
-                                                      imageUrl: '${Preference.getString(Preference.PROFILE_IMAGE)}',
-                                                      filterQuality: FilterQuality.low,
-                                                      width: SizeConstants.USER_PROFILE_IMAGE_SIZE,
-                                                      height: SizeConstants.USER_PROFILE_IMAGE_SIZE,
+                                                      imageUrl:
+                                                          '${Preference.getString(Preference.PROFILE_IMAGE)}',
+                                                      filterQuality:
+                                                          FilterQuality.low,
+                                                      width: SizeConstants
+                                                          .USER_PROFILE_IMAGE_SIZE,
+                                                      height: SizeConstants
+                                                          .USER_PROFILE_IMAGE_SIZE,
                                                       fit: BoxFit.cover,
-                                                      errorWidget: (context, error, stackTrace) =>
-                                                    SvgPicture.asset(
-                                                    'assets/images/default_user.svg',
-                                                    width: 50,
-                                                  ),
+                                                      errorWidget: (context,
+                                                              error,
+                                                              stackTrace) =>
+                                                          SvgPicture.asset(
+                                                        'assets/images/default_user.svg',
+                                                        width: 50,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -640,10 +626,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                     ),
                                                   ),
                                                 ),
-
                                               ],
                                             ),
-                                            SizedBox(width: 14,),
+                                            SizedBox(
+                                              width: 14,
+                                            ),
                                             SizedBox(
                                               width: MediaQuery.of(context)
                                                       .size
@@ -679,7 +666,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                   SizedBox(height: 4),
                                                   Row(
                                                     // mainAxisAlignment: MainAxisAlignment.start,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Preference.getString(
                                                                   Preference
@@ -693,63 +682,41 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                       .LOCATION) !=
                                                               null
                                                           ? SizedBox(
-                                                            width: width(context) * 0.6,
-                                                            child: Text(
-                                                                '${Preference.getString(Preference.LOCATION)}',
-                                                                style: Styles.regular(
-                                                                    size: 12,
-                                                                    color:
-                                                                        ColorConstants
-                                                                            .WHITE)),
-                                                          )
+                                                              width: width(
+                                                                      context) *
+                                                                  0.6,
+                                                              child: Text(
+                                                                  '${Preference.getString(Preference.LOCATION)}',
+                                                                  style: Styles.regular(
+                                                                      size: 12,
+                                                                      color: ColorConstants
+                                                                          .WHITE)),
+                                                            )
                                                           : SizedBox(),
                                                       Spacer(),
                                                       Transform.scale(
                                                           scale: 1.2,
-                                                          child:
-                                                              InkWell(
-                                                            onTap:
-                                                                () async {
-
-
-                                                                   await Navigator.push(
-                                                    context,
-                                                    PageTransition(
-                                                        duration: Duration(
-                                                            milliseconds: 600),
-                                                        reverseDuration:
-                                                            Duration(
-                                                        milliseconds:
-                                                            600),
-                                                        type: PageTransitionType
-                                                            .bottomToTop,
-                                                        child: EditProfilePage()))
-                                                .then(
-                                                    (value) => getPortfolio());
-                                                              // await showModalBottomSheet(
-                                                              //     backgroundColor: ColorConstants
-                                                              //         .WHITE,
-                                                              //     shape: RoundedRectangleBorder(
-                                                              //         borderRadius: BorderRadius.circular(
-                                                              //             20)),
-                                                              //     context:
-                                                              //         context,
-                                                              //     enableDrag:
-                                                              //         true,
-                                                              //     isScrollControlled:
-                                                              //         true,
-                                                              //     builder:
-                                                              //         (context) {
-                                                              //       return FractionallySizedBox(
-                                                              //         heightFactor: 0.7,
-                                                              //         child: Container(height: height(context), color: ColorConstants.WHITE, padding: const EdgeInsets.all(8.0), margin: const EdgeInsets.only(top: 10), child: EditProfilePage()),
-                                                              //       );
-                                                              //     }).then((value) => getPortfolio());
-
+                                                          child: InkWell(
+                                                            onTap: () async {
+                                                              await Navigator.push(
+                                                                      context,
+                                                                      PageTransition(
+                                                                          duration: Duration(
+                                                                              milliseconds:
+                                                                                  600),
+                                                                          reverseDuration: Duration(
+                                                                              milliseconds:
+                                                                                  600),
+                                                                          type: PageTransitionType
+                                                                              .bottomToTop,
+                                                                          child:
+                                                                              EditProfilePage()))
+                                                                  .then((value) =>
+                                                                      getPortfolio());
+                                                            
                                                             },
-                                                            child: SvgPicture
-                                                                .asset(
-                                                                    'assets/images/edit.svg'),
+                                                            child: SvgPicture.asset(
+                                                                'assets/images/edit.svg'),
                                                           ))
                                                     ],
                                                   ),
@@ -773,7 +740,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
                                           '${Preference.getString(Preference.ABOUT_ME)}',
-                                          textAlign:TextAlign.center,
+                                          textAlign: TextAlign.center,
                                           style: Styles.regular(
                                               size: 12,
                                               color: Color(0xff5A5F73)),
@@ -794,22 +761,22 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                       children: [
                                         InkWell(
                                           onTap: () async {
-                                            await launch("tel:${Preference.getString(Preference.PHONE)}");
+                                            await launch(
+                                                "tel:${Preference.getString(Preference.PHONE)}");
                                           },
                                           child: SvgPicture.asset(
                                               'assets/images/call.svg'),
                                         ),
                                         SizedBox(width: 14),
-
                                         InkWell(
                                           onTap: () async {
-                                            await launch("mailto:${Preference.getString(Preference.USER_EMAIL)}");
+                                            await launch(
+                                                "mailto:${Preference.getString(Preference.USER_EMAIL)}");
                                           },
                                           child: SvgPicture.asset(
                                               'assets/images/email.svg'),
                                         ),
                                         SizedBox(width: 14),
-
                                         VerticalDivider(
                                           color: Color(0xffECECEC),
                                           width: 10,
@@ -818,146 +785,205 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                           endIndent: 10,
                                         ),
                                         SizedBox(width: 14),
+                                        portfolioResponse?.data.portfolioSocial
+                                                    .length ==
+                                                0
+                                            ? Row(
+                                                children: [
+                                                  SvgPicture.asset(
+                                                      'assets/images/linkedin_un.svg'),
+                                                  SizedBox(width: 14),
+                                                  SvgPicture.asset(
+                                                      'assets/images/facebook_un.svg'),
+                                                  SizedBox(width: 14),
+                                                  SvgPicture.asset(
+                                                      'assets/images/insta_un.svg'),
+                                                  SizedBox(width: 14),
+                                                  SvgPicture.asset(
+                                                      'assets/images/twitter_un.svg'),
+                                                  SizedBox(width: 14),
+                                                  SvgPicture.asset(
+                                                      'assets/images/behance_un.svg'),
+                                                  SizedBox(width: 3),
+                                                ],
+                                              )
+                                            : Row(
+                                                children: [
+                                                  portfolioResponse
+                                                              ?.data
+                                                              .portfolioSocial
+                                                              .first
+                                                              .linkedin !=
+                                                          ""
+                                                      ? InkWell(
+                                                          onTap: () async {
+                                                            Navigator.push(
+                                                                context,
+                                                                NextPageRoute(
+                                                                    CommonWebView(
+                                                                  url: portfolioResponse
+                                                                      ?.data
+                                                                      .portfolioSocial
+                                                                      .first
+                                                                      .linkedin,
+                                                                ))).then((isSuccess) {
+                                                              if (isSuccess ==
+                                                                  true) {
+                                                                Navigator.pop(
+                                                                    context,
+                                                                    true);
+                                                              }
+                                                            });
+                                                          },
+                                                          child: SvgPicture.asset(
+                                                              'assets/images/linkedin.svg'),
+                                                        )
+                                                      : SvgPicture.asset(
+                                                          'assets/images/linkedin_un.svg'),
+                                                  // SizedBox(width: 14),
 
-                                        portfolioResponse?.data.portfolioSocial.length == 0 ? Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                                'assets/images/linkedin_un.svg'),
-                                            SizedBox(width: 14),
-                                            SvgPicture.asset(
-                                                'assets/images/facebook_un.svg'),
-                                            SizedBox(width: 14),
-                                            SvgPicture.asset(
-                                                'assets/images/insta_un.svg'),
-                                            SizedBox(width: 14),
-                                            SvgPicture.asset(
-                                                'assets/images/twitter_un.svg'),
-                                            SizedBox(width: 14),
-                                            SvgPicture.asset(
-                                                'assets/images/behance_un.svg'),
-                                            SizedBox(width: 3),
-                                          ],
-                                        ) :
-                                        Row(
-                                          children: [
-                                            portfolioResponse?.data.portfolioSocial.first.linkedin != ""
-                                                ? InkWell(
-                                              onTap: () async {
-                                                Navigator.push(
-                                                    context,
-                                                    NextPageRoute(CommonWebView(
-                                                      url: portfolioResponse?.data.portfolioSocial.first.linkedin,
-                                                    ))).then((isSuccess) {
-                                                  if (isSuccess == true) {
-                                                    Navigator.pop(context, true);
-                                                  }
-                                                });
-                                              },
-                                                  child: SvgPicture.asset(
-                                                  'assets/images/linkedin.svg'),
-                                                )
-                                                :SvgPicture.asset(
-                                                'assets/images/linkedin_un.svg'),
-                                            SizedBox(width: 14),
+                                                  // portfolioResponse?.data.portfolioSocial.first.facebook != "" ?
+                                                  // InkWell(
+                                                  //   onTap: (){
+                                                  //     Navigator.push(
+                                                  //         context,
+                                                  //         NextPageRoute(CommonWebView(
+                                                  //           url: portfolioResponse?.data.portfolioSocial.first.facebook,
+                                                  //         ))).then((isSuccess) {
+                                                  //       if (isSuccess == true) {
+                                                  //         Navigator.pop(context, true);
+                                                  //       }
+                                                  //     });
+                                                  //   },
+                                                  //   child: SvgPicture.asset(
+                                                  //       'assets/images/facebook.svg'),
+                                                  // )
+                                                  // :SvgPicture.asset(
+                                                  //     'assets/images/facebook_un.svg'),
+                                                  SizedBox(width: 10),
 
-                                            portfolioResponse?.data.portfolioSocial.first.facebook != "" ?
-                                            InkWell(
-                                              onTap: (){
-                                                Navigator.push(
-                                                    context,
-                                                    NextPageRoute(CommonWebView(
-                                                      url: portfolioResponse?.data.portfolioSocial.first.facebook,
-                                                    ))).then((isSuccess) {
-                                                  if (isSuccess == true) {
-                                                    Navigator.pop(context, true);
-                                                  }
-                                                });
-                                              },
-                                              child: SvgPicture.asset(
-                                                  'assets/images/facebook.svg'),
-                                            )
-                                            :SvgPicture.asset(
-                                                'assets/images/facebook_un.svg'),
-                                            SizedBox(width: 14),
+                                                  portfolioResponse
+                                                              ?.data
+                                                              .portfolioSocial
+                                                              .first
+                                                              .insta !=
+                                                          ""
+                                                      ? InkWell(
+                                                          onTap: () {
+                                                            Navigator.push(
+                                                                context,
+                                                                NextPageRoute(
+                                                                    CommonWebView(
+                                                                  url: portfolioResponse
+                                                                      ?.data
+                                                                      .portfolioSocial
+                                                                      .first
+                                                                      .insta,
+                                                                ))).then((isSuccess) {
+                                                              if (isSuccess ==
+                                                                  true) {
+                                                                Navigator.pop(
+                                                                    context,
+                                                                    true);
+                                                              }
+                                                            });
+                                                          },
+                                                          child: SvgPicture.asset(
+                                                              'assets/images/insta.svg'),
+                                                        )
+                                                      : SvgPicture.asset(
+                                                          'assets/images/insta_un.svg'),
+                                                  SizedBox(width: 14),
 
-                                            portfolioResponse?.data.portfolioSocial.first.insta != "" ?
-                                            InkWell(
-                                              onTap: (){
-                                                Navigator.push(
-                                                    context,
-                                                    NextPageRoute(CommonWebView(
-                                                      url: portfolioResponse?.data.portfolioSocial.first.insta,
-                                                    ))).then((isSuccess) {
-                                                  if (isSuccess == true) {
-                                                    Navigator.pop(context, true);
-                                                  }
-                                                });
-                                              },
-                                              child: SvgPicture.asset(
-                                                  'assets/images/insta.svg'),
-                                            )
-                                            :SvgPicture.asset(
-                                                'assets/images/insta_un.svg'),
-                                            SizedBox(width: 14),
+                                                  portfolioResponse
+                                                              ?.data
+                                                              .portfolioSocial
+                                                              .first
+                                                              .twitter !=
+                                                          ""
+                                                      ? InkWell(
+                                                          onTap: () {
+                                                            Navigator.push(
+                                                                context,
+                                                                NextPageRoute(
+                                                                    CommonWebView(
+                                                                  url: portfolioResponse
+                                                                      ?.data
+                                                                      .portfolioSocial
+                                                                      .first
+                                                                      .twitter,
+                                                                ))).then((isSuccess) {
+                                                              if (isSuccess ==
+                                                                  true) {
+                                                                Navigator.pop(
+                                                                    context,
+                                                                    true);
+                                                              }
+                                                            });
+                                                          },
+                                                          child: SvgPicture.asset(
+                                                              'assets/images/twitter.svg'),
+                                                        )
+                                                      : SvgPicture.asset(
+                                                          'assets/images/twitter_un.svg'),
+                                                  SizedBox(width: 14),
 
-                                            portfolioResponse?.data.portfolioSocial.first.twitter != "" ?
-                                            InkWell(
-                                              onTap: (){
-                                                Navigator.push(
-                                                    context,
-                                                    NextPageRoute(CommonWebView(
-                                                      url: portfolioResponse?.data.portfolioSocial.first.twitter,
-                                                    ))).then((isSuccess) {
-                                                  if (isSuccess == true) {
-                                                    Navigator.pop(context, true);
-                                                  }
-                                                });
-                                              },
-                                              child: SvgPicture.asset(
-                                                  'assets/images/twitter.svg'),
-                                            )
-                                            :SvgPicture.asset(
-                                                'assets/images/twitter_un.svg'),
-                                            SizedBox(width: 14),
-
-                                            portfolioResponse?.data.portfolioSocial.first.dribble != "" ?
-                                            InkWell(
-                                              onTap: (){
-                                                Navigator.push(
-                                                    context,
-                                                    NextPageRoute(CommonWebView(
-                                                      url: portfolioResponse?.data.portfolioSocial.first.dribble,
-                                                    ))).then((isSuccess) {
-                                                  if (isSuccess == true) {
-                                                    Navigator.pop(context, true);
-                                                  }
-                                                });
-                                              },
-                                              child: SvgPicture.asset(
-                                                  'assets/images/behance.svg'),
-                                            )
-                                            :SvgPicture.asset(
-                                                'assets/images/behance_un.svg'),
-                                            SizedBox(width: 3),
-                                          ],
-                                        ),
+                                                  portfolioResponse
+                                                              ?.data
+                                                              .portfolioSocial
+                                                              .first
+                                                              .dribble !=
+                                                          ""
+                                                      ? InkWell(
+                                                          onTap: () {
+                                                            Navigator.push(
+                                                                context,
+                                                                NextPageRoute(
+                                                                    CommonWebView(
+                                                                  url: portfolioResponse
+                                                                      ?.data
+                                                                      .portfolioSocial
+                                                                      .first
+                                                                      .dribble,
+                                                                ))).then((isSuccess) {
+                                                              if (isSuccess ==
+                                                                  true) {
+                                                                Navigator.pop(
+                                                                    context,
+                                                                    true);
+                                                              }
+                                                            });
+                                                          },
+                                                          child: SvgPicture.asset(
+                                                              'assets/images/behance.svg'),
+                                                        )
+                                                      : SvgPicture.asset(
+                                                          'assets/images/behance_un.svg'),
+                                                  SizedBox(width: 3),
+                                                ],
+                                              ),
 
                                         /*SvgPicture.asset(
                                             'assets/images/pintrest.svg'),*/
-                                        portfolioResponse?.data.portfolioSocial.length != 0 ? InkWell(
-                                          onTap: (){
-                                            print('social menu');
-                                            _showPopupMenu();
-
-                                          },
-                                          child: SvgPicture.asset(
-                                              'assets/images/vertical_menu.svg'),
-                                        ):SizedBox(),
+                                        portfolioResponse?.data.portfolioSocial
+                                                    .length !=
+                                                0
+                                            ? GestureDetector(
+                                                onTapDown:
+                                                    (TapDownDetails detail) {
+                                                  _showPopupMenu(
+                                                      detail.globalPosition);
+                                                },
+                                                child: SvgPicture.asset(
+                                                    'assets/images/vertical_menu.svg'),
+                                              )
+                                            : SizedBox(),
                                         SizedBox(width: 10),
-
                                         InkWell(
                                           onTap: () {
-                                            if (portfolioResponse?.data.portfolioSocial.length != 0)
+                                            if (portfolioResponse?.data
+                                                    .portfolioSocial.length !=
+                                                0)
                                               Navigator.push(
                                                   context,
                                                   NextPageRoute(SocialPage(
@@ -982,7 +1008,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                           Positioned(
                               left: 25,
                               right: 25,
-                              top:  Preference.getString(Preference.FIRST_NAME)!.length > 8 ?  200 :  170,
+                              top: Preference.getString(Preference.FIRST_NAME)!
+                                          .length >
+                                      8
+                                  ? 200
+                                  : 170,
                               child: Container(
                                 height: 100,
                                 padding: EdgeInsets.symmetric(
@@ -1014,11 +1044,13 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                             style: Styles.semibold(size: 12),
                                           ),
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                             children: [
                                               SizedBox(
-                                                height: 28,
+                                                  height: 28,
                                                   width: 28,
                                                   child: SvgPicture.asset(
                                                       'assets/images/leaderboard.svg')),
@@ -1077,15 +1109,16 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                             style: Styles.semibold(size: 12),
                                           ),
                                           Row(
-                                             mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                             children: [
-                                             SizedBox(
+                                              SizedBox(
                                                   height: 28,
                                                   width: 28,
                                                   child: SvgPicture.asset(
                                                       'assets/images/coin.svg')),
-                                                
                                               ShaderMask(
                                                 blendMode: BlendMode.srcIn,
                                                 shaderCallback: (Rect bounds) {
@@ -1134,7 +1167,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                       //         child: Divider()),
                       //   ),
                       // ),
-
 
                       Container(
                         color: ColorConstants.WHITE,
@@ -1967,15 +1999,10 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       color: Colors.white,
       child: Column(
         children: [
-          topRow('Recent Activites',
-              addAction: () {},
-              arrowAction: () {
-                Navigator.push(
-                    context,
-                    NextPageRoute(
-                        RecentActivitiesPage(), isMaintainState: false));
-              },
-              showAddButton: false),
+          topRow('Recent Activites', addAction: () {}, arrowAction: () {
+            Navigator.push(context,
+                NextPageRoute(RecentActivitiesPage(), isMaintainState: false));
+          }, showAddButton: false),
           isPortfolioLoading == false
               ? SizedBox(
                   height: height(context) * 0.5,
@@ -2075,8 +2102,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
           isPortfolioLoading == false
               ? Container(
                   padding: EdgeInsets.all(8),
-                  height: certificateList?.length != 0 ?
-                  height(context) * 0.38 : height(context) * 0.15,
+                  height: certificateList?.length != 0
+                      ? height(context) * 0.38
+                      : height(context) * 0.15,
                   child: certificateList?.length != 0
                       ? ListView.builder(
                           itemCount: certificateList?.length,
@@ -2168,16 +2196,19 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                           shrinkWrap: true,
                           physics: ScrollPhysics(),
                           itemBuilder: (context, index) {
-
-                            String startDateString = "${experience?[index].startDate}";
+                            String startDateString =
+                                "${experience?[index].startDate}";
                             print('startDateString ====${startDateString}');
                             //String endDateString = "${experience?[index].endDate}";
-                            DateTime startDate = DateFormat("yyyy-MM-dd").parse(startDateString);
+                            DateTime startDate =
+                                DateFormat("yyyy-MM-dd").parse(startDateString);
 
                             DateTime endDate = DateTime.now();
                             if (experience?[index].endDate != '') {
-                              String endDateString = "${experience?[index].endDate}";
-                              endDate = DateFormat("yyyy-MM-dd").parse(endDateString);
+                              String endDateString =
+                                  "${experience?[index].endDate}";
+                              endDate =
+                                  DateFormat("yyyy-MM-dd").parse(endDateString);
                             }
 
                             return Container(
@@ -2556,13 +2587,17 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
           break;
         case ApiStatus.SUCCESS:
           portfolioResponse = portfolioState.response;
-
-          if(portfolioState.response?.data.name.contains('${Preference.getString(Preference.FIRST_NAME)}') == true){
+        
+          if (portfolioState.response?.data.name
+                  .contains('${Preference.getString(Preference.FIRST_NAME)}') ==
+              true) {
             Preference.setString(
                 Preference.FIRST_NAME, '${portfolioState.response?.data.name}');
-
-          } else if(portfolioState.response?.data.image.contains('${Preference.getString(Preference.PROFILE_IMAGE)}') == true){
-            Preference.setString(Preference.PROFILE_IMAGE, '${portfolioState.response?.data.image}');
+          } else if (portfolioState.response?.data.image.contains(
+                  '${Preference.getString(Preference.PROFILE_IMAGE)}') ==
+              true) {
+            Preference.setString(Preference.PROFILE_IMAGE,
+                '${portfolioState.response?.data.image}');
           }
 
           Preference.setString(Preference.PROFILE_VIDEO,
@@ -2981,7 +3016,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
             ),
           )
         : Container(
-      color: Colors.white,
+            color: Colors.white,
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 0.2 - 20,
             child: Column(
@@ -3459,4 +3494,3 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     }
   }
 }
-
