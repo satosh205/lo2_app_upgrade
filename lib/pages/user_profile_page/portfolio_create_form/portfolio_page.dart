@@ -379,7 +379,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                               Container(
                                 width: double.infinity,
                                 height:
-                                    MediaQuery.of(context).size.height * 0.3,
+                                Preference.getString(Preference.FIRST_NAME)!.length > 8 ?     MediaQuery.of(context).size.height * 0.35 : MediaQuery.of(context).size.height * 0.3,
                                 padding: EdgeInsets.only(top: 8),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.only(
@@ -643,11 +643,12 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
 
                                               ],
                                             ),
+                                            SizedBox(width: 14,),
                                             SizedBox(
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.6,
+                                                  0.7,
                                               child: Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -669,7 +670,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                   Preference
                                                                       .USER_HEADLINE) !=
                                                               null
-                                                          ? '${Preference.getString(Preference.USER_HEADLINE)}'
+                                                          ? '${Preference.getString(Preference.USER_HEADLINE)} '
                                                           : "",
                                                       style: Styles.regular(
                                                           size: 12,
@@ -677,6 +678,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                               .WHITE)),
                                                   SizedBox(height: 4),
                                                   Row(
+                                                    // mainAxisAlignment: MainAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Preference.getString(
                                                                   Preference
@@ -689,49 +692,65 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                   Preference
                                                                       .LOCATION) !=
                                                               null
-                                                          ? Text(
-                                                              '${Preference.getString(Preference.LOCATION)}',
-                                                              style: Styles.regular(
-                                                                  size: 12,
-                                                                  color:
-                                                                      ColorConstants
-                                                                          .WHITE))
+                                                          ? SizedBox(
+                                                            width: width(context) * 0.6,
+                                                            child: Text(
+                                                                '${Preference.getString(Preference.LOCATION)}',
+                                                                style: Styles.regular(
+                                                                    size: 12,
+                                                                    color:
+                                                                        ColorConstants
+                                                                            .WHITE)),
+                                                          )
                                                           : SizedBox(),
                                                       Spacer(),
-                                                      SizedBox(
-                                                          width: 18,
+                                                      Transform.scale(
+                                                          scale: 1.2,
                                                           child:
-                                                              Transform.scale(
-                                                                  scale: 1.2,
-                                                                  child:
-                                                                      InkWell(
-                                                                    onTap:
-                                                                        () async {
-                                                                      await showModalBottomSheet(
-                                                                          backgroundColor: ColorConstants
-                                                                              .WHITE,
-                                                                          shape: RoundedRectangleBorder(
-                                                                              borderRadius: BorderRadius.circular(
-                                                                                  20)),
-                                                                          context:
-                                                                              context,
-                                                                          enableDrag:
-                                                                              true,
-                                                                          isScrollControlled:
-                                                                              true,
-                                                                          builder:
-                                                                              (context) {
-                                                                            return FractionallySizedBox(
-                                                                              heightFactor: 0.7,
-                                                                              child: Container(height: height(context), color: ColorConstants.WHITE, padding: const EdgeInsets.all(8.0), margin: const EdgeInsets.only(top: 10), child: EditProfilePage()),
-                                                                            );
-                                                                          }).then((value) => getPortfolio());
+                                                              InkWell(
+                                                            onTap:
+                                                                () async {
 
-                                                                    },
-                                                                    child: SvgPicture
-                                                                        .asset(
-                                                                            'assets/images/edit.svg'),
-                                                                  )))
+
+                                                                   await Navigator.push(
+                                                    context,
+                                                    PageTransition(
+                                                        duration: Duration(
+                                                            milliseconds: 600),
+                                                        reverseDuration:
+                                                            Duration(
+                                                        milliseconds:
+                                                            600),
+                                                        type: PageTransitionType
+                                                            .bottomToTop,
+                                                        child: EditProfilePage()))
+                                                .then(
+                                                    (value) => getPortfolio());
+                                                              // await showModalBottomSheet(
+                                                              //     backgroundColor: ColorConstants
+                                                              //         .WHITE,
+                                                              //     shape: RoundedRectangleBorder(
+                                                              //         borderRadius: BorderRadius.circular(
+                                                              //             20)),
+                                                              //     context:
+                                                              //         context,
+                                                              //     enableDrag:
+                                                              //         true,
+                                                              //     isScrollControlled:
+                                                              //         true,
+                                                              //     builder:
+                                                              //         (context) {
+                                                              //       return FractionallySizedBox(
+                                                              //         heightFactor: 0.7,
+                                                              //         child: Container(height: height(context), color: ColorConstants.WHITE, padding: const EdgeInsets.all(8.0), margin: const EdgeInsets.only(top: 10), child: EditProfilePage()),
+                                                              //       );
+                                                              //     }).then((value) => getPortfolio());
+
+                                                            },
+                                                            child: SvgPicture
+                                                                .asset(
+                                                                    'assets/images/edit.svg'),
+                                                          ))
                                                     ],
                                                   ),
                                                 ],
@@ -749,10 +768,12 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                               Preference.getString(Preference.ABOUT_ME) != null
                                   ? Container(
                                       color: ColorConstants.WHITE,
+                                      width: double.infinity,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
                                           '${Preference.getString(Preference.ABOUT_ME)}',
+                                          textAlign:TextAlign.center,
                                           style: Styles.regular(
                                               size: 12,
                                               color: Color(0xff5A5F73)),
@@ -961,7 +982,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                           Positioned(
                               left: 25,
                               right: 25,
-                              top: 170,
+                              top:  Preference.getString(Preference.FIRST_NAME)!.length > 8 ?  200 :  170,
                               child: Container(
                                 height: 100,
                                 padding: EdgeInsets.symmetric(
@@ -990,12 +1011,15 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         children: [
                                           Text(
                                             'Rank',
-                                            style: Styles.regular(size: 12),
+                                            style: Styles.semibold(size: 12),
                                           ),
                                           Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
                                               SizedBox(
-                                                  height: 30,
+                                                height: 28,
+                                                  width: 28,
                                                   child: SvgPicture.asset(
                                                       'assets/images/leaderboard.svg')),
                                               // SizedBox(width: 2),
@@ -1018,7 +1042,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                           null
                                                       ? '${userRank?.data.first.rank}'
                                                       : '0',
-                                                  style: Styles.bold(size: 24),
+                                                  style: Styles.bold(size: 26),
                                                 ),
                                               )
                                             ],
@@ -1050,14 +1074,18 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         children: [
                                           Text(
                                             'Points',
-                                            style: Styles.regular(size: 12),
+                                            style: Styles.semibold(size: 12),
                                           ),
                                           Row(
+                                             mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
-                                              SizedBox(
-                                                  height: 30,
+                                             SizedBox(
+                                                  height: 28,
+                                                  width: 28,
                                                   child: SvgPicture.asset(
                                                       'assets/images/coin.svg')),
+                                                
                                               ShaderMask(
                                                 blendMode: BlendMode.srcIn,
                                                 shaderCallback: (Rect bounds) {
@@ -1106,6 +1134,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                       //         child: Divider()),
                       //   ),
                       // ),
+
 
                       Container(
                         color: ColorConstants.WHITE,
@@ -1627,7 +1656,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                             .asset(
                                                                           'assets/images/coin.svg',
                                                                           width:
-                                                                              width(context) * 0.04,
+                                                                              width(context) * 0.02,
                                                                         ),
                                                                       ),
                                                                       Text(
@@ -2141,6 +2170,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                           itemBuilder: (context, index) {
 
                             String startDateString = "${experience?[index].startDate}";
+                            print('startDateString ====${startDateString}');
                             //String endDateString = "${experience?[index].endDate}";
                             DateTime startDate = DateFormat("yyyy-MM-dd").parse(startDateString);
 

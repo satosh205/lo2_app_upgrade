@@ -63,185 +63,171 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   handleAddProfileResponse(state);
                 }
               },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SingleChildScrollView(
-                    child: Form(
-                  key: _formKey,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Spacer(),
-                            Text(
-                              "Edit Profile",
-                              style:
-                                  Styles.bold(size: 14, color: Color(0xff0E1638)),
-                            ),
-                            Spacer(),
-                            InkWell(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Icon(
-                                Icons.close,
-                                color: Colors.black,
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          "Full Name*",
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xff5A5F73)),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        CustomTextField(
-                            validate: true,
-                            validationString: 'Please enter full name',
-                            controller: nameController,
-                            hintText: 'Full Name'),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const Text(
-                          "Headline*",
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xff5A5F73)),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        CustomTextField(
-                            validate: true,
-                            validationString: 'Please enter headline',
-                            maxChar: 20,
-                            controller: headController,
-                            hintText: 'Write your headlline'),
-                        const Text(
-                          "Location",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-
-                        InkWell(
-                          onTap: () async{
-                            try {
-                              List<Placemark> placemarks = await placemarkFromCoordinates(lat, long);
-                              print('${placemarks.first.country}');
-                              print('${placemarks.first.locality}');
-
-                              //countryController.text = placemarks.first.country.toString();
-                              //cityController.text = placemarks.first.locality.toString();
-
-                              AlertsWidget.showCustomDialog(
-                                  context: context,
-                                  title: 'Current Location',
-                                  text: 'Ues Current Location',
-                                  icon: 'assets/images/circle_alert_fill.svg',
-                                  onOkClick: () async {
-                                    countryController.text = placemarks.first.country.toString();
-                                    cityController.text = placemarks.first.locality.toString();
-                                  });
-
-                            } catch (e) {
-                              print(':::: ${e.toString()}');
-                            }
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SingleChildScrollView(
+                      child: Form(
+                    key: _formKey,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
                             children: [
-                              SvgPicture.asset('assets/images/location.svg'),
-                              SizedBox(
-                                width: 10,
+                              Spacer(),
+                              Text(
+                                "Edit Profile",
+                                style:
+                                    Styles.bold(size: 14, color: Color(0xff0E1638)),
                               ),
-                              GradientText(
-                                  child: Text(
-                                "Use current location",
-                                style: TextStyle(fontSize: 12),
-                              ))
+                              Spacer(),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.black,
+                                ),
+                              )
                             ],
                           ),
-                        ),
-
-                        const Text(
-                          "Country*",
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xff5A5F73)),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        CustomTextField(
-                            validate: true,
-                            validationString: 'Please enter country',
-                            controller: countryController,
-                            hintText: 'Enter your Country'),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const Text(
-                          "City*",
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xff5A5F73)),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        CustomTextField(
-                            validate: true,
-                            validationString: 'Please enter city',
-                            controller: cityController,
-                            hintText: 'Enter your City'),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        const Text(
-                          "About me*",
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xff5A5F73)),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        CustomTextField(
-                            validate: true,
-                            validationString: 'Please enter about yourself',
-                            controller: aboutController,
-                            maxLine: 10,
-                            maxChar: 220,
-                            hintText: 'Tell everyone something about yourself'),
-                        PortfolioCustomButton(clickAction: () {
-                          if (_formKey.currentState!.validate()) {
-                            Map<String, dynamic> data = Map();
-                            data['name'] = nameController.value.text;
-                            data['headline'] = headController.value.text;
-                            data['country'] = countryController.value.text;
-                            data['city'] = cityController.value.text;
-                            data['about_me'] = aboutController.value.text;
-                            print(data);
-                            addProfile(data);
-                          }
-                        })
-                      ]),
-                )),
+                          SizedBox(height: 8),
+ Text(
+                            "Full Name*",
+                            style: Styles.regular(size: 12),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CustomTextField(
+                              validate: true,
+                              validationString: 'Please enter full name',
+                              controller: nameController,
+                              hintText: 'Full Name'),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                           Text(
+                            "Headline*",
+                            style: Styles.regular(size: 12),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          CustomTextField(
+                              validate: true,
+                              validationString: 'Please enter headline',
+                              maxChar: 30,
+                              controller: headController,
+                              hintText: 'Write your headlline'),
+ Text(
+                            "Location",
+                            style: Styles.bold(size: 14),
+                          ),
+              
+                          InkWell(
+                            onTap: () async{
+                              try {
+                                List<Placemark> placemarks = await placemarkFromCoordinates(lat, long);
+                                print('${placemarks.first.country}');
+                                print('${placemarks.first.locality}');
+              
+                                //countryController.text = placemarks.first.country.toString();
+                                //cityController.text = placemarks.first.locality.toString();
+              
+                                AlertsWidget.showCustomDialog(
+                                    context: context,
+                                    title: 'Current Location',
+                                    text: 'Ues Current Location',
+                                    icon: 'assets/images/circle_alert_fill.svg',
+                                    onOkClick: () async {
+                                      countryController.text = placemarks.first.country.toString();
+                                      cityController.text = placemarks.first.locality.toString();
+                                    });
+              
+                              } catch (e) {
+                                print(':::: ${e.toString()}');
+                              }
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                SvgPicture.asset('assets/images/location.svg'),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                GradientText(
+                                    child: Text(
+                                  "Use current location",
+                                  style: TextStyle(fontSize: 12),
+                                ))
+                              ],
+                            ),
+                          ),
+              
+                           Text(
+                            "Country*",
+                            style: Styles.regular(size: 12),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          CustomTextField(
+                              validate: true,
+                              validationString: 'Please enter country',
+                              controller: countryController,
+                              hintText: 'Enter your Country'),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                           Text(
+                            "City*",
+                            style: Styles.regular(size: 12),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          CustomTextField(
+                              validate: true,
+                              validationString: 'Please enter city',
+                              controller: cityController,
+                              hintText: 'Enter your City'),
+                          SizedBox(
+                            height: 20,
+                          ),
+                           Text(
+                            "About me*",
+                            style: Styles.regular(size: 12),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          CustomTextField(
+                              validate: true,
+                              validationString: 'Please enter about yourself',
+                              controller: aboutController,
+                              maxLine: 10,
+                              maxChar: 220,
+                              hintText: 'Tell something about yourself'),
+                          PortfolioCustomButton(clickAction: () {
+                            if (_formKey.currentState!.validate()) {
+                              Map<String, dynamic> data = Map();
+                              data['name'] = nameController.value.text;
+                              data['headline'] = headController.value.text;
+                              data['country'] = countryController.value.text;
+                              data['city'] = cityController.value.text;
+                              data['about_me'] = aboutController.value.text;
+                              print(data);
+                              addProfile(data);
+                            }
+                          })
+                        ]),
+                  )),
+                ),
               )),
         ));
   }
@@ -263,6 +249,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
         case ApiStatus.SUCCESS:
           Log.v("Add Profile State....................");
           addingProfile = false;
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content:
+                  Text('Profile updated Successfully '),
+            ));
+          
           Navigator.pop(context);
            
 

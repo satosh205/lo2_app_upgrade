@@ -39,6 +39,7 @@ class CustomTextField extends StatelessWidget {
   },
         maxLines: maxLine,
         decoration: InputDecoration(
+          
           border: OutlineInputBorder(
             
               borderSide: const BorderSide(width: 1, color: Color(0xffE5E5E5)),

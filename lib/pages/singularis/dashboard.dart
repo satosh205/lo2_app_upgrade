@@ -184,15 +184,26 @@ class _DashboardPageState extends State<DashboardPage> {
                                             borderRadius: BorderRadius.circular(200),
                                             child: SizedBox(
                                               width: 50,
-                                              child: Image.network(
-                                                '${Preference.getString(Preference.PROFILE_IMAGE)}',
-                                                errorBuilder:
-                                                    (context, error, stackTrace) =>
-                                                    SvgPicture.asset(
+                                              child: CachedNetworkImage(
+   imageUrl:      '${Preference.getString(Preference.PROFILE_IMAGE)}',
+   placeholder: (context, url) => SvgPicture.asset(
                                                       'assets/images/default_user.svg',
                                                       width: 50,
                                                     ),
-                                              ),
+   errorWidget: (context, url, error) => SvgPicture.asset(
+                                                      'assets/images/default_user.svg',
+                                                      width: 50,
+                                                    ),
+ ),
+                                              // child: Image.network(
+                                              //   '${Preference.getString(Preference.PROFILE_IMAGE)}',
+                                              //   errorBuilder:
+                                              //       (context, error, stackTrace) =>
+                                              //       SvgPicture.asset(
+                                              //         'assets/images/default_user.svg',
+                                              //         width: 50,
+                                              //       ),
+                                              // ),
                                             ),
                                           ),
                                         ),
