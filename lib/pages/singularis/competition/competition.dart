@@ -190,7 +190,7 @@ class _CompetetionState extends State<Competetion> {
                               left: mobileWidth * 0.02,
                               top: 30,
                               child: Text(
-                                '${userRank?.data.first.rank ?? 0} Points',
+                                '${userRank?.data.first.score ?? 0} Points',
                                 style: Styles.regular(
                                     color: ColorConstants.WHITE, size: 12.5),
                               )),
