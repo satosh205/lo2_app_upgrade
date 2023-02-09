@@ -216,6 +216,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Stack(
                     children: [
                       TextFormField(
+                        
+                        cursorColor: ColorConstants.WHITE,
                         autofocus: false,
                         focusNode: phoneFocus,
                         controller: phoneController,
@@ -229,7 +231,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ],
                         maxLength: 10,
                         decoration: InputDecoration(
+                          
                           focusedBorder: OutlineInputBorder(
+                            
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
                               color: ColorConstants.WHITE,
