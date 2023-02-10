@@ -7,6 +7,7 @@ import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
+import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/ghome/widget/read_more.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_education.dart';
@@ -14,6 +15,7 @@ import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../../../data/models/response/home_response/new_portfolio_response.dart';
 
@@ -28,13 +30,13 @@ class EducationList extends StatefulWidget {
 }
 
 class _EducationListState extends State<EducationList> {
-
   bool isEducationLoading = false;
-  List<CommonProfession>? education;
+  List<CommonProfession>? education = [];
 
   @override
   void initState() {
-    education = widget.education ;
+    education = widget.education;
+    education?.sort((a, b) => b.endDate.compareTo(a.endDate));
     super.initState();
   }
 
@@ -59,8 +61,9 @@ class _EducationListState extends State<EducationList> {
         initState: (value) {},
         child: BlocListener<HomeBloc, HomeState>(
             listener: (context, state) async {
-              if (state is SingularisDeletePortfolioState) handleSingularisDeletePortfolioState(state);
-              if(state is PortfolioState) handleEducatoinListState(state);
+              if (state is SingularisDeletePortfolioState)
+                handleSingularisDeletePortfolioState(state);
+              if (state is PortfolioState) handleEducatoinListState(state);
             },
             child: Scaffold(
                 appBar: AppBar(
@@ -75,22 +78,15 @@ class _EducationListState extends State<EducationList> {
                   actions: [
                     IconButton(
                         onPressed: () async {
-                          await showModalBottomSheet(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              context: context,
-                              enableDrag: true,
-                              isScrollControlled: true,
-                              builder: (context) {
-                                return FractionallySizedBox(
-                                  heightFactor: 0.7,
-                                  child: Container(
-                                      height: height(context),
-                                      padding: const EdgeInsets.all(8.0),
-                                      margin: const EdgeInsets.only(top: 10),
-                                      child: AddEducation()),
-                                );
-                              }).then((value) => updateEducationList());
+                          await Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      duration: Duration(milliseconds: 600),
+                                      reverseDuration:
+                                          Duration(milliseconds: 600),
+                                      type: PageTransitionType.bottomToTop,
+                                      child: AddEducation()))
+                              .then((value) => updateEducationList());
                         },
                         icon: Icon(
                           Icons.add,
@@ -119,15 +115,80 @@ class _EducationListState extends State<EducationList> {
                                     "${education?[index].endDate}";
                                 DateTime startDate = DateFormat("yyyy-MM-dd")
                                     .parse(startDateString);
-                                DateTime endDate =
-                                    DateFormat("yyyy-MM-dd").parse(endDateString);
+                                DateTime endDate = DateFormat("yyyy-mm-dd")
+                                    .parse(endDateString);
                                 return Container(
                                   margin: EdgeInsets.symmetric(
                                     horizontal: 8,
                                   ),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
+                                      Row(
+                                        children: [
+                                          Spacer(),
+                                          InkWell(
+                                              onTap: () async {
+                                                AlertsWidget.showCustomDialog(
+                                                    context: context,
+                                                    title: '',
+                                                    text:
+                                                        'Are you sure you want to edit?',
+                                                    icon:
+                                                        'assets/images/circle_alert_fill.svg',
+                                                    onOkClick: () async {
+                                                      await Navigator.push(
+                                                          context,
+                                                          PageTransition(
+                                                              duration: Duration(
+                                                                  milliseconds:
+                                                                      300),
+                                                              reverseDuration:
+                                                                  Duration(
+                                                                      milliseconds:
+                                                                          300),
+                                                              type: PageTransitionType
+                                                                  .bottomToTop,
+                                                              child:
+                                                                  AddEducation(
+                                                                education:
+                                                                    education?[
+                                                                        index],
+                                                                isEditMode:
+                                                                    true,
+                                                              ))).then((value) =>
+                                                          updateEducationList());
+                                                    });
+                                              },
+                                              child: SvgPicture.asset(
+                                                  'assets/images/edit_portfolio.svg')),
+                                          SizedBox(
+                                            width: 14,
+                                          ),
+                                          InkWell(
+                                              onTap: () async {
+
+
+                                                 AlertsWidget.showCustomDialog(
+                                                    context: context,
+                                                    title: '',
+                                                    text:
+                                                        'Are you sure you want to delete?',
+                                                    icon:
+                                                        'assets/images/circle_alert_fill.svg',
+                                                    onOkClick: () async {
+                                                      deletePortfolio(
+                                                    education![index].id);
+                                                    });
+                                               
+                                              },
+                                              child: SvgPicture.asset(
+                                                'assets/images/delete.svg',
+                                                color: Color(0xff0E1638),
+                                              )),
+                                        ],
+                                      ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
@@ -140,15 +201,16 @@ class _EducationListState extends State<EducationList> {
                                               child: CachedNetworkImage(
                                                 imageUrl:
                                                     '${widget.baseUrl}${education?[index].imageName}',
-                                                height: width(context) * 0.3,
-                                                width: width(context) * 0.3,
+                                                height: width(context) * 0.2,
+                                                width: width(context) * 0.2,
                                                 fit: BoxFit.cover,
                                                 errorWidget:
                                                     (context, url, error) {
                                                   return Container(
                                                     padding: EdgeInsets.all(14),
                                                     decoration: BoxDecoration(
-                                                        color: Color(0xffD5D5D5)),
+                                                        color:
+                                                            Color(0xffD5D5D5)),
                                                     child: SvgPicture.asset(
                                                       'assets/images/default_education.svg',
                                                       height: 40,
@@ -166,7 +228,8 @@ class _EducationListState extends State<EducationList> {
                                                   return Container(
                                                     padding: EdgeInsets.all(14),
                                                     decoration: BoxDecoration(
-                                                        color: Color(0xffD5D5D5)),
+                                                        color:
+                                                            Color(0xffD5D5D5)),
                                                     child: SvgPicture.asset(
                                                       'assets/images/default_education.svg',
                                                       height: 40,
@@ -189,90 +252,49 @@ class _EducationListState extends State<EducationList> {
                                                 MainAxisAlignment.spaceEvenly,
                                             children: [
                                               SizedBox(
-                                                width: width(context)*0.5,
+                                                width: width(context) * 0.72,
                                                 child: Text(
-                                                    maxLines: 2,
-                                                    // overflow: TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                  // overflow: TextOverflow.ellipsis,
                                                   '${education?[index].title}',
-                                                  style: Styles.bold(size: 16),
+                                                  style: Styles.bold(size: 14),
                                                 ),
                                               ),
                                               SizedBox(height: 4),
                                               SizedBox(
-                                                width: width(context) * 0.5,
+                                                width: width(context) * 0.72,
                                                 child: Text(
-                                                  
-          
                                                   '${education?[index].institute}',
-                                                  style: Styles.regular(size: 14),
+                                                  style:
+                                                      Styles.regular(size: 12),
                                                   maxLines: 2,
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                 ),
                                               ),
                                               SizedBox(height: 4),
                                               Row(
                                                 children: [
                                                   Text(
-                                                    '${startDate.day} ${listOfMonths[startDate.month - 1]} - ',
-                                                    style:
-                                                        Styles.regular(size: 14),
+                                                    '${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day} - ',
+                                                    style: Styles.regular(
+                                                        size: 14),
                                                   ),
-                                               if(education?[index].endDate != null || education?[index].endDate != '')   Text(
-                                                  '${endDate.day} ${listOfMonths[endDate.month - 1]}',
-                                                    style:
-                                                        Styles.regular(size: 14),
-                                                  ),
+                                                  if (education?[index]
+                                                              .endDate !=
+                                                          null ||
+                                                      education?[index]
+                                                              .endDate !=
+                                                          '')
+                                                    Text(
+                                                      '${listOfMonths[endDate.month].substring(0, 3)} ${endDate.day}',
+                                                      style: Styles.regular(
+                                                          size: 14),
+                                                    ),
                                                 ],
                                               )
                                             ],
                                           ),
-                                          Spacer(),
-                                          InkWell(
-                                              onTap: () async {
-                                                await showModalBottomSheet(
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                20)),
-                                                    context: context,
-                                                    enableDrag: true,
-                                                    isScrollControlled: true,
-                                                    builder: (context) {
-                                                      return FractionallySizedBox(
-                                                        heightFactor: 0.7,
-                                                        child: Container(
-                                                            height:
-                                                                height(context),
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8.0),
-                                                            margin:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    top: 10),
-                                                            child: AddEducation(
-                                                              education:
-                                                                  education?[
-                                                                      index],
-                                                              isEditMode: true,
-                                                            )),
-                                                      );
-                                                    }).then((value) => updateEducationList());
-                                              },
-                                              child: SvgPicture.asset(
-                                                  'assets/images/edit_portfolio.svg')),
-                                          SizedBox(
-                                            width: 14,
-                                          ),
-                                          InkWell(
-                                              onTap: () async {
-                                                deletePortfolio( education![
-                                                                      index].id);
-                                              },
-                                              child: SvgPicture.asset(
-                                                'assets/images/delete.svg',
-                                                color: Color(0xff0E1638),
-                                              )),
                                         ],
                                       ),
                                       SizedBox(
@@ -280,7 +302,8 @@ class _EducationListState extends State<EducationList> {
                                       ),
                                       ReadMoreText(
                                         viewMore: 'View more',
-                                        text: '${education?[index].description}',
+                                        text:
+                                            '${education?[index].description}',
                                         color: Color(0xff929BA3),
                                       ),
                                       if (index != education?.length) Divider(),
@@ -291,13 +314,13 @@ class _EducationListState extends State<EducationList> {
                 ))));
   }
 
-   void deletePortfolio(int id) {
-    BlocProvider.of<HomeBloc>(context).add(SingularisDeletePortfolioEvent(portfolioId: id));
+  void deletePortfolio(int id) {
+    BlocProvider.of<HomeBloc>(context)
+        .add(SingularisDeletePortfolioEvent(portfolioId: id));
   }
 
- void handleSingularisDeletePortfolioState(SingularisDeletePortfolioState state){
-
-   
+  void handleSingularisDeletePortfolioState(
+      SingularisDeletePortfolioState state) {
     setState(() {
       switch (state.apiState) {
         case ApiStatus.LOADING:
@@ -308,6 +331,10 @@ class _EducationListState extends State<EducationList> {
         case ApiStatus.SUCCESS:
           Log.v("Success Delete  Certificate....................");
           isEducationLoading = false;
+           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content:
+                  Text('Education deleted'),
+            ));
           updateEducationList();
           break;
         case ApiStatus.ERROR:
@@ -318,13 +345,11 @@ class _EducationListState extends State<EducationList> {
           break;
       }
     });
-
   }
 
-   void updateEducationList(){
+  void updateEducationList() {
     print('make api call');
-   BlocProvider.of<HomeBloc>(context)
-                                .add(PortfolioEvent());
+    BlocProvider.of<HomeBloc>(context).add(PortfolioEvent());
   }
 
   void handleEducatoinListState(PortfolioState state) {
@@ -340,6 +365,7 @@ class _EducationListState extends State<EducationList> {
         case ApiStatus.SUCCESS:
           Log.v("PortfolioState Success....................");
           education = portfolioState.response?.data.education;
+          education?.sort((a, b) => b.endDate.compareTo(a.endDate));
           isEducationLoading = false;
 
           setState(() {});

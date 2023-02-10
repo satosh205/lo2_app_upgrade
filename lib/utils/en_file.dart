@@ -258,7 +258,7 @@ const EN_TEXT = {
   'your_mobile_number': 'Enter mobile number',
   'continue': 'Continue',
   'by_clicking_continue': 'By continuing, you agree to our ',
-  'by_clicking_continue_underline': ' Terms and Conditions •Privacy Policy',
+  'by_clicking_continue_underline': ' Terms and Conditions   • Privacy Policy',
   'having_trouble': 'Having trouble logging in? Contact us +91 9315407337',
   'change_phone_number': 'Go back',
   'select_categories': 'Select Categories',
