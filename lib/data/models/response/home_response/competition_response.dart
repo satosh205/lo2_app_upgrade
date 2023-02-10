@@ -60,7 +60,14 @@ class Competition {
         this.isStructured,
         this.isCompetition,
         this.terminationDays,
-        this.organizedBy,this.competitionLevel, this.isPopular
+        this.organizedBy,
+        this.competitionLevel,
+        this.isPopular,
+        this.jobStatus,
+        this.domainName,
+        this.location,
+        this.experience,
+        this.skillNames,
     });
 
     int? id;
@@ -96,6 +103,11 @@ class Competition {
     String? organizedBy;
     String? competitionLevel;
     int? isPopular;
+    String? jobStatus;
+    String? domainName;
+    String? location;
+    String? experience;
+    String? skillNames;
 
 
 
@@ -134,8 +146,13 @@ class Competition {
         isCompetition: json["is_competition"],
         terminationDays: json["termination_days"],
         organizedBy: json['organized_by'],
-      competitionLevel: json['competition_level'],
-      isPopular:  json['is_popular']
+        competitionLevel: json['competition_level'],
+        isPopular:  json['is_popular'],
+        domainName:  json['domain_name'],
+        location:  json['location'],
+        experience:  json['experience'],
+        skillNames:  json['skill_names'],
+        jobStatus:  json['job_status'] != null ? json['job_status'] : null,
     );
 
     Map<String, dynamic> toJson() => {
@@ -171,6 +188,13 @@ class Competition {
         "termination_days": terminationDays,
         "organized_by" : organizedBy,
         "competition_level" : competitionLevel,
-        "is_popular" : isPopular
+        "is_popular" : isPopular,
+        "job_status" : jobStatus,
+
+        "domain_name" : domainName,
+        "location" : location,
+        "experience" : experience,
+        "skill_names" : skillNames,
+
     };
 }

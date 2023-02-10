@@ -116,7 +116,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
                     color: Color(0xffE5E5E5),
                     width: 1.5,
                   ),
-                ),
+                ),   
                 fillColor: Color(0xffE5E5E5),
                 hintText: '•      •      •      •',
                 hintStyle: TextStyle(
