@@ -12,7 +12,9 @@ import 'package:masterg/data/models/response/home_response/new_portfolio_respons
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
 import 'package:masterg/utils/Log.dart';
+import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
+import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 
 class AddCertificate extends StatefulWidget {
@@ -59,6 +61,23 @@ class _AddCertificateState extends State<AddCertificate> {
             },
             child: SafeArea(
               child: Scaffold(
+               backgroundColor: ColorConstants.WHITE,
+
+                 appBar: AppBar(
+               backgroundColor: ColorConstants.WHITE,
+                elevation: 0,
+                leading: SizedBox(),
+              centerTitle: true,
+              title: Text(
+                widget.isEditMode == true ? "Edit Certificate" : "Add Certificate",
+                style: Styles.bold(size: 14, color: Color(0xff0E1638)),
+              ),
+              actions: [
+                IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: Icon(Icons.close_outlined, color: Color(0xff0E1638))),
+              ],
+            ),
                   body: ScreenWithLoader(
                 isLoading: isAddCertificateLoading,
                 body: Padding(
@@ -70,26 +89,26 @@ class _AddCertificateState extends State<AddCertificate> {
                         key: _formKey,
                         child: Column(
                           children: [
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 130.0),
-                                  child: Text(
-                                    "Add Certificate",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black),
-                                  ),
-                                ),
-                                Spacer(),
-                                IconButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    icon: Icon(Icons.close)),
-                              ],
-                            ),
+                            // Row(
+                            //   children: [
+                            //     Padding(
+                            //       padding: const EdgeInsets.only(left: 130.0),
+                            //       child: Text(
+                            //         "",
+                            //         style: TextStyle(
+                            //             fontSize: 14,
+                            //             fontWeight: FontWeight.w600,
+                            //             color: Colors.black),
+                            //       ),
+                            //     ),
+                            //     Spacer(),
+                            //     IconButton(
+                            //         onPressed: () {
+                            //           Navigator.pop(context);
+                            //         },
+                            //         icon: Icon(Icons.close)),
+                            //   ],
+                            // ),
                             Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: SingleChildScrollView(
@@ -97,12 +116,10 @@ class _AddCertificateState extends State<AddCertificate> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                      const Text(
+                                       Text(
                                         "Certificate Title*",
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            color: Color(0xff5A5F73)),
+                                        style: Styles.regular(
+                                size: 14, color: Color(0xff0E1638)),
                                       ),
                                       const SizedBox(
                                         height: 5,
@@ -117,10 +134,8 @@ class _AddCertificateState extends State<AddCertificate> {
                                       ),
                                       Text(
                                         "Start Date*",
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            color: Color(0xff5A5F73)),
+                                      style: Styles.regular(
+                                size: 14, color: Color(0xff0E1638)),
                                       ),
                                       const SizedBox(
                                         height: 5,
@@ -161,7 +176,7 @@ class _AddCertificateState extends State<AddCertificate> {
                                                       fontSize: 14,
                                                       fontWeight:
                                                           FontWeight.w400,
-                                                      color: Color(0xff929BA3)),
+                                                      color:  startDate.value.text != "" ? ColorConstants.BLACK:  Color(0xff929BA3)),
                                                 ),
                                               ),
                                               Padding(
@@ -202,7 +217,7 @@ class _AddCertificateState extends State<AddCertificate> {
                                           child: Text(
                                               uploadCerti != null
                                                   ? '${uploadCerti?.path.split('/').last}'
-                                                  : "Supported Files: .jpeg, .png",
+                                                  :widget.cetificate?.imageName ?? "Supported Files: .jpeg, .png",
                                               style: TextStyle(
                                                   fontSize: 10,
                                                   fontWeight: FontWeight.w400,
@@ -211,15 +226,17 @@ class _AddCertificateState extends State<AddCertificate> {
                                       ),
                                       PortfolioCustomButton(
                                         clickAction: () async {
-                                          if (startDate.value.text == '') {
+                                       if (_formKey.currentState!
+                                              .validate()) {
+                                                 if (startDate.value.text == '') {
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(
                                               const SnackBar(
                                                   content: Text(
                                                       'Please choose start date')),
                                             );
-                                          } else if (_formKey.currentState!
-                                              .validate()) {
+                                            return;
+                                          } 
                                             Map<String, dynamic> data = Map();
                                             try {
                                                data["activity_type"] =
@@ -269,7 +286,7 @@ class _AddCertificateState extends State<AddCertificate> {
                                                   .showSnackBar(
                                                 const SnackBar(
                                                     content: Text(
-                                                        'Please upload file')),
+                                                        'Please upload certificate')),
                                               );
                                             }
                                           }
@@ -302,6 +319,12 @@ class _AddCertificateState extends State<AddCertificate> {
         case ApiStatus.SUCCESS:
           Log.v("Success Add  Certificate....................");
           isAddCertificateLoading = false;
+            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                     SnackBar(
+                                                  content: Text(
+                                                    widget.isEditMode == true ? 'Certificate edited' :  'Certificate added')),
+                                            );
           Navigator.pop(context);
           break;
         case ApiStatus.ERROR:

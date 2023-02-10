@@ -204,32 +204,27 @@ class _ExperienceListState extends State<ExperienceList> {
                                                       ),
                                                     ),
                                                     InkWell(
-                                                      onTap: () async{
-
-  AlertsWidget.showCustomDialog(
-                                      context: context,
-                                      title: '',
-                                      text: 'Are you sure you want to edit?',
-                                      icon:
-                                          'assets/images/circle_alert_fill.svg',
-                                      onOkClick: () async {
-                                        await Navigator.push(
-                                            context,
-                                            PageTransition(
-                                                duration:
-                                                    Duration(milliseconds: 300),
-                                                reverseDuration:
-                                                    Duration(milliseconds: 300),
-                                                type: PageTransitionType
-                                                    .bottomToTop,
-                                                child: AddExperience(
-                                                                        isEditMode:
-                                                                            true,
-                                                                        experience:
-                                                                            experience?[index]))).then(
-                                            (value) => updatePortfolioList());
-                                      });
-
+                                                      onTap: () async {
+                                                        AlertsWidget
+                                                            .showCustomDialog(
+                                                                context:
+                                                                    context,
+                                                                title: '',
+                                                                text:
+                                                                    'Are you sure you want to edit?',
+                                                                icon:
+                                                                    'assets/images/circle_alert_fill.svg',
+                                                                onOkClick:
+                                                                    () async {
+                                                                  await Navigator.push(
+                                                                          context,
+                                                                          PageTransition(
+                                                                              duration: Duration(milliseconds: 300),
+                                                                              reverseDuration: Duration(milliseconds: 300),
+                                                                              type: PageTransitionType.bottomToTop,
+                                                                              child: AddExperience(isEditMode: true, experience: experience?[index])))
+                                                                      .then((value) => updatePortfolioList());
+                                                                });
 
                                                         // showModalBottomSheet(
                                                         //     shape: RoundedRectangleBorder(
@@ -271,19 +266,22 @@ class _ExperienceListState extends State<ExperienceList> {
                                                     ),
                                                     InkWell(
                                                       onTap: () {
-
-                                                         AlertsWidget.showCustomDialog(
-                                      context: context,
-                                      title: '',
-                                      text: 'Are you sure you want to delete?',
-                                      icon:
-                                          'assets/images/circle_alert_fill.svg',
-                                      onOkClick: () async {
-                                        deletePortfolio(widget
-                                                            .experience![index]
-                                                            .id);
-                                      });
-                                                      
+                                                        AlertsWidget
+                                                            .showCustomDialog(
+                                                                context:
+                                                                    context,
+                                                                title: '',
+                                                                text:
+                                                                    'Are you sure you want to delete?',
+                                                                icon:
+                                                                    'assets/images/circle_alert_fill.svg',
+                                                                onOkClick:
+                                                                    () async {
+                                                                  deletePortfolio(widget
+                                                                      .experience![
+                                                                          index]
+                                                                      .id);
+                                                                });
                                                       },
                                                       child: SvgPicture.asset(
                                                           'assets/images/delete.svg'),
@@ -301,18 +299,19 @@ class _ExperienceListState extends State<ExperienceList> {
                                                 SizedBox(
                                                   height: 4,
                                                 ),
-                                            experience?[index]
-                                                          .currentlyWorkHere ==
-                                                      'true'
-                                                  ?       Text(
-                                                  '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day}  -  ${listOfMonths[endDate.month - 1].substring(0, 3)} ${endDate.day}',
-                                                  style:
-                                                      Styles.regular(size: 12),
-                                                ) : Text(
-                                                  '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day} - Present',
-                                                  style:
-                                                      Styles.regular(size: 12),
-                                                )
+                                                experience?[index]
+                                                            .currentlyWorkHere ==
+                                                        'true'
+                                                    ? Text(
+                                                        '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day}  -  ${listOfMonths[endDate.month - 1].substring(0, 3)} ${endDate.day}',
+                                                        style: Styles.regular(
+                                                            size: 12),
+                                                      )
+                                                    : Text(
+                                                        '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day} - Present',
+                                                        style: Styles.regular(
+                                                            size: 12),
+                                                      )
                                               ],
                                             ),
                                           )

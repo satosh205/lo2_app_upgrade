@@ -456,7 +456,7 @@ class _AddExperienceState extends State<AddExperience> {
                                   Text(
                                       uploadCerti != null
                                           ? '${ uploadCerti?.path.split('/').last}'
-                                          : "Supported Files: .jpeg, .png, .jpg",
+                                          :widget.experience?.imageName ?? "Supported Files: .jpeg, .png, .jpg",
                                       style:  Styles.regular(
                                 size: 10, color: Color(0xff0E1638)),),
 
