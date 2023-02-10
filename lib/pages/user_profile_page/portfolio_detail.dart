@@ -32,7 +32,7 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
   String? urlType;
   FlickManager? flickManager;
   bool deletePortfolio = false;
-   late VideoPlayerController _controller;
+  late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
   @override
   void initState() {
@@ -58,14 +58,14 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
             "https://singularis.learningoxygen.com/portfolio/SampleVideo_1280x720_2mb.mp4"),
       );
       _controller = VideoPlayerController.network(
-      'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
-    );
+        'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+      );
 
-    // Initialize the controller and store the Future for later use.
-    _initializeVideoPlayerFuture = _controller.initialize();
+      // Initialize the controller and store the Future for later use.
+      _initializeVideoPlayerFuture = _controller.initialize();
 
-    // Use the controller to loop the video.
-    _controller.setLooping(true);
+      // Use the controller to loop the video.
+      _controller.setLooping(true);
       urlType = 'video';
     }
     setState(() {});
@@ -89,9 +89,8 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
           case ApiStatus.SUCCESS:
             Log.v("Success Add  Certificate....................");
             deletePortfolio = false;
-             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content:
-                  Text('Portfolio deleted'),
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Portfolio deleted'),
             ));
             Navigator.pop(context);
             break;
@@ -142,31 +141,31 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
                                   '${widget.portfolio.portfolioTitle}',
                                   style: Styles.bold(size: 16),
                                 )),
-                                
                             InkWell(
                                 onTap: () async {
-
                                   AlertsWidget.showCustomDialog(
-                      context: context,
-                      title: '',
-                      text: 'Are you sure you want to edit?',
-                      icon: 'assets/images/circle_alert_fill.svg',
-                      onOkClick: () async {
-                        await Navigator.push(
-                                      context,
-                                      PageTransition(
-                                          duration: Duration(milliseconds: 300),
-                                          reverseDuration:
-                                              Duration(milliseconds: 300),
-                                          type: PageTransitionType.bottomToTop,
-                                          child: AddPortfolio(
-                                            baseUrl: '${widget.baseUrl}',
-                                            editMode: true,
-                                            portfolio: widget.portfolio,
-                                          ))).then(
-                                      (value) => Navigator.pop(context));
-                      });
-                                 
+                                      context: context,
+                                      title: '',
+                                      text: 'Are you sure you want to edit?',
+                                      icon:
+                                          'assets/images/circle_alert_fill.svg',
+                                      onOkClick: () async {
+                                        await Navigator.push(
+                                            context,
+                                            PageTransition(
+                                                duration:
+                                                    Duration(milliseconds: 300),
+                                                reverseDuration:
+                                                    Duration(milliseconds: 300),
+                                                type: PageTransitionType
+                                                    .bottomToTop,
+                                                child: AddPortfolio(
+                                                  baseUrl: '${widget.baseUrl}',
+                                                  editMode: true,
+                                                  portfolio: widget.portfolio,
+                                                ))).then(
+                                            (value) => Navigator.pop(context));
+                                      });
                                 },
                                 child: SvgPicture.asset(
                                     'assets/images/edit_portfolio.svg')),
@@ -175,15 +174,15 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
                             ),
                             InkWell(
                                 onTap: () async {
-                                      AlertsWidget.showCustomDialog(
-                      context: context,
-                      title: '',
-                      text: 'Are you sure you want to delete?',
-                      icon: 'assets/images/circle_alert_fill.svg',
-                      onOkClick: () async {
-                         deleteResume(widget.portfolio.id);
-                      });
-                               
+                                  AlertsWidget.showCustomDialog(
+                                      context: context,
+                                      title: '',
+                                      text: 'Are you sure you want to delete?',
+                                      icon:
+                                          'assets/images/circle_alert_fill.svg',
+                                      onOkClick: () async {
+                                        deleteResume(widget.portfolio.id);
+                                      });
                                 },
                                 child: SvgPicture.asset(
                                   'assets/images/delete.svg',
@@ -239,29 +238,28 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
                         Image.network(
                             '${widget.baseUrl}${widget.portfolio.portfolioFile}'),
                       ] else if (urlType == 'video')
-                       
-                      Text('video')
+                        Text('video')
 
-      //                     FutureBuilder(
-      //   future: _initializeVideoPlayerFuture,
-      //   builder: (context, snapshot) {
-      //     if (snapshot.connectionState == ConnectionState.done) {
-      //       // If the VideoPlayerController has finished initialization, use
-      //       // the data it provides to limit the aspect ratio of the video.
-      //       return AspectRatio(
-      //         aspectRatio: _controller.value.aspectRatio,
-      //         // Use the VideoPlayer widget to display the video.
-      //         child: VideoPlayer(_controller),
-      //       );
-      //     } else {
-      //       // If the VideoPlayerController is still initializing, show a
-      //       // loading spinner.
-      //       return const Center(
-      //         child: CircularProgressIndicator(),
-      //       );
-      //     }
-      //   },
-      // )
+                      //                     FutureBuilder(
+                      //   future: _initializeVideoPlayerFuture,
+                      //   builder: (context, snapshot) {
+                      //     if (snapshot.connectionState == ConnectionState.done) {
+                      //       // If the VideoPlayerController has finished initialization, use
+                      //       // the data it provides to limit the aspect ratio of the video.
+                      //       return AspectRatio(
+                      //         aspectRatio: _controller.value.aspectRatio,
+                      //         // Use the VideoPlayer widget to display the video.
+                      //         child: VideoPlayer(_controller),
+                      //       );
+                      //     } else {
+                      //       // If the VideoPlayerController is still initializing, show a
+                      //       // loading spinner.
+                      //       return const Center(
+                      //         child: CircularProgressIndicator(),
+                      //       );
+                      //     }
+                      //   },
+                      // )
                     ],
                   ),
                 ),

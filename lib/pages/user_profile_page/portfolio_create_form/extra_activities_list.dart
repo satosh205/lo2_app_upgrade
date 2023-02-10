@@ -58,6 +58,8 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+          backgroundColor: ColorConstants.WHITE,
+
         appBar: AppBar(
           title: Text("Extra currricular Activities", style: Styles.bold()),
           elevation: 0,

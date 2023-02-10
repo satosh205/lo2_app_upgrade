@@ -46,6 +46,7 @@ class Data {
         required this.portfolioProfile,
         required this.portfolio,
         required this.baseFileUrl,
+         required this.recentActivity,
     });
 
     String image;
@@ -60,6 +61,7 @@ class Data {
     List<PortfolioProfile> portfolioProfile;
     List<Portfolio> portfolio;
     String baseFileUrl;
+    List<RecentActivity> recentActivity;
 
     factory Data.fromJson(Map<String, dynamic> json) => Data(
         image: json["image"],
@@ -67,13 +69,14 @@ class Data {
         resume: List<Resume>.from(json["resume"].map((x) => Resume.fromJson(x))),
         profileVideo: json["profile_video"],
         education: List<CommonProfession>.from(json["Education"].map((x) => CommonProfession.fromJson(x))),
-        experience: List<CommonProfession>.from(json["Experience"].map((x) => CommonProfession.fromJson(x))),
+        experience: List<CommonProfession>.from(json["Experience"].reversed.map((x) => CommonProfession.fromJson(x))),
         certificate: List<CommonProfession>.from(json["Certificate"].map((x) => CommonProfession.fromJson(x))),
         extraActivities: List<CommonProfession>.from(json["extra_activities"].map((x) => CommonProfession.fromJson(x))),
         portfolioSocial: List<PortfolioSocial>.from(json["portfolio_social"].map((x) => PortfolioSocial.fromJson(x))),
         portfolioProfile: List<PortfolioProfile>.from(json["portfolio_profile"].map((x) => PortfolioProfile.fromJson(x))),
         portfolio: json.containsKey("portfolio") == true ? List<Portfolio>.from(json["portfolio"].reversed.map((x) => Portfolio.fromJson(x))) : [],
         baseFileUrl: json.containsKey("base_file_url") == true ? json["base_file_url"] : "",
+          recentActivity: List<RecentActivity>.from(json["recent_activity"].map((x) => RecentActivity.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -82,13 +85,14 @@ class Data {
         "resume": List<dynamic>.from(resume.map((x) => x.toJson())),
         "profile_video": profileVideo,
         "Education": List<dynamic>.from(education.map((x) => x.toJson())),
-        "Experience": List<dynamic>.from(experience.map((x) => x.toJson())),
+        "Experience": List<dynamic>.from(experience.map((x) => x.toJson())).reversed,
         "Certificate": List<dynamic>.from(certificate.map((x) => x.toJson())),
         "extra_activities": List<dynamic>.from(extraActivities.map((x) => x.toJson())),
         "portfolio_social": List<dynamic>.from(portfolioSocial.map((x) => x.toJson())),
         "portfolio_profile": List<dynamic>.from(portfolioProfile.map((x) => x.toJson())),
         "portfolio":  List<dynamic>.from(portfolio.map((x) => x.toJson())).reversed,
         "base_file_url": baseFileUrl,
+        "recent_activity": List<dynamic>.from(recentActivity.map((x) => x.toJson())),
     };
 }
 
@@ -333,5 +337,61 @@ class Resume {
     Map<String, dynamic> toJson() => {
         "url": url,
         "id": id,
+    };
+}
+
+
+class RecentActivity {
+    RecentActivity({
+        required this.id,
+        required this.viewCount,
+        required this.title,
+        required this.description,
+        required this.resourcePath,
+        required this.resourcePathThumbnail,
+        required this.contentType,
+        required this.categoryId,
+        required this.profileImage,
+        required this.name,
+        required this.createdAt
+    });
+
+    int id;
+    int viewCount;
+    String title;
+    String description;
+    String resourcePath;
+    String resourcePathThumbnail;
+    String contentType;
+    int categoryId;
+    String profileImage;
+    String name;
+    String createdAt;
+
+    factory RecentActivity.fromJson(Map<String, dynamic> json) => RecentActivity(
+        id: json["id"],
+        viewCount: json["view_count"],
+        title: json["title"],
+        description: json["description"],
+        resourcePath: json["resource_path"],
+        resourcePathThumbnail: json["resource_path_thumbnail"],
+        contentType: json["content_type"],
+        categoryId: json["category_id"],
+        profileImage: json["profile_image"],
+        name: json["name"], createdAt: json['created_at'],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "view_count": viewCount,
+        "title": title,
+        "description": description,
+        "resource_path": resourcePath,
+        "resource_path_thumbnail": resourcePathThumbnail,
+        "content_type": contentType,
+        "category_id": categoryId,
+        "profile_image": profileImage,
+        "name": name,
+        "created_at" : createdAt
     };
 }

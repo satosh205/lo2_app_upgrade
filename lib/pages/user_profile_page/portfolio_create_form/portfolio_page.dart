@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,6 +23,7 @@ import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/pdf_view_page.dart';
+import 'package:masterg/pages/ghome/video_player_screen.dart';
 import 'package:masterg/pages/ghome/widget/read_more.dart';
 import 'package:masterg/pages/singularis/competition/competition_detail.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_certificate.dart';
@@ -53,6 +55,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../../../utils/utility.dart';
@@ -2030,7 +2033,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                       getExperience(
                           portfolioResponse?.data.experience, context),
                       dividerLine(),
-                      getRecentActivites(),
+                      getRecentActivites(
+                          portfolioResponse?.data.recentActivity, context),
                       dividerLine(),
                       getExtraActivitesWidget(
                           portfolioResponse?.data.extraActivities, context),
@@ -2042,38 +2046,54 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
 
   //portfolioResponse?.data.education.length == 0
 
-  Widget getRecentActivites() {
+  Widget getRecentActivites(List<RecentActivity>? recentActivites, context) {
     return Container(
       color: Colors.white,
       child: Column(
         children: [
           topRow('Recent Activites', addAction: () {}, arrowAction: () {
-            Navigator.push(context,
-                NextPageRoute(RecentActivitiesPage(), isMaintainState: false));
+            if (recentActivites?.length != 0)
+              Navigator.push(
+                  context,
+                  NextPageRoute(RecentActivitiesPage(),
+                      isMaintainState: false));
           }, showAddButton: false),
           isPortfolioLoading == false
-              ? SizedBox(
-                  height: height(context) * 0.5,
-                  child: ListView(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      postCard(
-                          imageUrl:
-                              'https://images.unsplash.com/photo-1674708059513-5f77494844db?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1M3x8fGVufDB8fHx8&auto=format&fit=crop&w=900&q=60'),
-                      postCard(
-                          imageUrl:
-                              'https://images.unsplash.com/photo-1661961110372-8a7682543120?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80')
-                    ],
-                  ),
-                )
+              ? recentActivites?.length != 0
+                  ? SizedBox(
+                      height: height(context) * 0.5,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: min(3, recentActivites!.length),
+                          itemBuilder: (context, index) {
+                            return postCard(recentActivites[index]);
+                          }),
+                      // child: ListView(
+                      //   shrinkWrap: true,
+
+                      //   scrollDirection: Axis.horizontal,
+                      //   children: [
+                      //     postCard(
+                      //         imageUrl:
+                      //             'https://images.unsplash.com/photo-1674708059513-5f77494844db?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1M3x8fGVufDB8fHx8&auto=format&fit=crop&w=900&q=60'),
+                      //     postCard(
+                      //         imageUrl:
+                      //             'https://images.unsplash.com/photo-1661961110372-8a7682543120?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80')
+                      //   ],
+                      // ),
+                    )
+                  : recentActivitiesListShimmer(0)
               : recentActivitiesListShimmer(1),
         ],
       ),
     );
   }
 
-  Widget postCard({imageUrl}) {
+  Widget postCard(RecentActivity recentActivites) {
+    var now = DateTime.now();
+    var past = DateTime.parse("${recentActivites.createdAt}");
+
+    var difference = now.difference(past);
     return Container(
       width: width(context) * 0.75,
       height: height(context) * 0.35,
@@ -2083,45 +2103,100 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
           border: Border.all(color: ColorConstants.DIVIDER),
           borderRadius: BorderRadius.circular(8),
           color: ColorConstants.WHITE),
-      child: Column(children: [
-        SizedBox(
-          height: 20,
-        ),
-        Row(
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipOval(
-              child: Image.network(
-                'https://lh5.googleusercontent.com/aRaK_2uiz9r1mk7xAIPIAqK3BEQkrRwMOwSybswjXVZpFWsAuMfpWzDEw2QmzurGHpo7Rs-oHyNlt40KQe3Xu-xjqRrdP3rG9A1cJbAUmIE_XmYAJumf-mDI62cRf9mgcHG6T4OH',
-                width: width(context) * 0.13,
-                height: width(context) * 0.13,
-              ),
+            SizedBox(
+              height: 20,
             ),
-            SizedBox(width: 12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [Text('Annie Richards'), Text('1 hr')],
+            Row(
+              children: [
+                ClipOval(
+                  child: Image.network(
+                    '${recentActivites.profileImage}',
+                    width: width(context) * 0.13,
+                    height: width(context) * 0.13,
+                  ),
+                ),
+                SizedBox(width: 12),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${recentActivites.name}',
+                    ),
+                    Text('${calculateTimeDifferenceBetween(past, now)}')
+                    // Text('${difference.inDays}')
+                  ],
+                ),
+              ],
             ),
-          ],
-        ),
-        SizedBox(
-          height: 6,
-        ),
-        ReadMoreText(
-            text:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sitstas vat at egestas venenatis ut.'),
-        SizedBox(
-          height: 20,
-        ),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Image.network(
-            '$imageUrl',
-            width: width(context) * 0.65,
-            height: height(context) * 0.25,
-            fit: BoxFit.cover,
-          ),
-        )
-      ]),
+            SizedBox(
+              height: 6,
+            ),
+            ReadMoreText(
+              text: '${recentActivites.description}',
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            recentActivites.resourcePath.contains('.png') ||
+                    recentActivites.resourcePath.contains('jpeg')
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.network(
+                      '${recentActivites.resourcePath}',
+                      width: width(context) * 0.65,
+                      height: height(context) * 0.3,
+                      fit: BoxFit.cover,
+                    ))
+                : ClipRect(
+                    child: AspectRatio(
+                      aspectRatio: 4 / 4,
+                      child: FlickVideoPlayer(
+                          // flickVideoWithControls: FlickPortraitControls(),
+                          flickManager: FlickManager(
+                        autoPlay: false,
+                        videoPlayerController: VideoPlayerController.network(
+                          '${recentActivites.resourcePath}',
+                        ),
+                      )),
+                    ),
+                  )
+
+            // CustomVideoPlayer(
+            //                                     // sendflickManager:
+            //                                     //     (FlickManager value) {},
+            //                                     url: recentActivites.resourcePath,
+            //                                     isLocalVideo: false,
+            //                                     likeCount:0,
+            //                                     viewCount: 0,
+            //                                     commentCount:
+            //                                         0,
+            //                                     //height:  videoHeight,
+            //                                     height: min(
+            //                                         height(context) * 0.3,
+            //                                         MediaQuery.of(context)
+            //                                                 .size
+            //                                                 .height -
+            //                                             MediaQuery.of(context)
+            //                                                     .size
+            //                                                     .height *
+            //                                                 0.25),
+            //                                     index: 0,
+            //                                     desc: recentActivites.description,
+            //                                     userName: recentActivites.name,
+            //                                     profilePath: recentActivites.profileImage,
+            //                                     time:"nice"
+            //                                         // calculateTimeDifferenceBetween(
+            //                                         //     DateTime.parse(date
+            //                                         //         .toString()
+            //                                         //         .substring(0, 19)),
+            //                                         //     now),
+
+            //                                   ),
+          ]),
     );
   }
 
@@ -2260,72 +2335,101 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                               endDate =
                                   DateFormat("yyyy-MM-dd").parse(endDateString);
                             }
+                            String type =
+                                '${experience?[index].curricularType.replaceAll('_', '')}';
+                            type = type[0].toUpperCase() + type.substring(1);
 
-                            return Container(
-                              margin: EdgeInsets.only(right: 10),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: width(context) * 0.3,
-                                        height: height(context) * 0.1,
-                                        child: CachedNetworkImage(
-                                          imageUrl:
-                                              '${portfolioResponse?.data.baseFileUrl}${experience?[index].imageName}',
-                                          errorWidget: (context, url, data) =>
-                                              Image.asset(
-                                            "assets/images/certificate_dummy.png",
-                                            fit: BoxFit.cover,
+                            return Transform.translate(
+                              offset: Offset(0, -20),
+                              child: Container(
+                                margin: EdgeInsets.only(right: 10),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: SizedBox(
+                                            width: width(context) * 0.2,
+                                            height: width(context) * 0.2,
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                                  '${portfolioResponse?.data.baseFileUrl}${experience?[index].imageName}',
+                                              fit: BoxFit.cover,
+                                              errorWidget:
+                                                  (context, url, data) =>
+                                                      Image.asset(
+                                                "assets/images/certificate_dummy.png",
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      SizedBox(
-                                        width: width(context) * 0.6,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              '${experience?[index].title}',
-                                              style: Styles.bold(),
-                                            ),
-                                            Text(
-                                              '${experience?[index].institute}',
-                                              style: Styles.regular(),
-                                            ),
-                                            Text(
-                                              '${experience?[index].employmentType} • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${startDate.day} ${listOfMonths[startDate.month - 1].substring(0, 3)} - ${endDate.day} ${listOfMonths[endDate.month - 1].substring(0, 3)}',
-                                              style: Styles.regular(size: 14),
-                                            )
-                                          ],
+                                        SizedBox(
+                                          width: 10,
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  ReadMoreText(
-                                    text: '${experience?[index].description}',
-                                    color: ColorConstants.GREY_3,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 12),
-                                    child: Divider(),
-                                  )
-                                ],
+                                        SizedBox(
+                                          width: width(context) * 0.6,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '${experience?[index].title}',
+                                                style: Styles.bold(size: 14),
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text(
+                                                '${experience?[index].institute}',
+                                                style: Styles.regular(size: 12),
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              experience?[index]
+                                                          .currentlyWorkHere ==
+                                                      'true'
+                                                  ? Text(
+                                                      '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day}  -  Present',
+                                                      style: Styles.regular(
+                                                          size: 12),
+                                                    )
+                                                  : Text(
+                                                      '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day}  -  ' +
+                                                          ' ${listOfMonths[endDate.month - 1].substring(0, 3)} ${endDate.day}',
+                                                      style: Styles.regular(
+                                                          size: 12),
+                                                    )
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    ReadMoreText(
+                                      text: '${experience?[index].description}',
+                                      color: ColorConstants.GREY_3,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 12),
+                                      child: Divider(),
+                                    )
+                                  ],
+                                ),
                               ),
                             );
                           })
@@ -2385,7 +2489,10 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                        if(index != 0) SizedBox(height: 10,),
+                                      if (index != 0)
+                                        SizedBox(
+                                          height: 10,
+                                        ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
@@ -2396,11 +2503,12 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                             width: width(context) * 0.2,
                                             height: width(context) * 0.2,
                                             child: ClipRRect(
-                                              borderRadius: BorderRadius.circular(8),
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
                                               child: CachedNetworkImage(
                                                 imageUrl:
                                                     "${portfolioResponse?.data.baseFileUrl}${extraActivities[index].imageName}",
-                                                    fit: BoxFit.cover,
+                                                fit: BoxFit.cover,
                                                 progressIndicatorBuilder:
                                                     (context, url,
                                                             downloadProgress) =>
@@ -2411,25 +2519,28 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                   enabled: true,
                                                   child: Container(
                                                     width: width(context) * 0.2,
-                                                    height: width(context) * 0.2,
+                                                    height:
+                                                        width(context) * 0.2,
                                                     color: Colors.grey,
                                                   ),
                                                 ),
                                                 errorWidget: (context, url,
                                                         error) =>
                                                     Container(
-                                                        width:
-                                                            width(context) * 0.2,
-                                                        height:
-                                                            width(context) * 0.2,
+                                                        width: width(context) *
+                                                            0.2,
+                                                        height: width(context) *
+                                                            0.2,
                                                         padding:
                                                             EdgeInsets.all(8),
                                                         decoration: BoxDecoration(
-                                                            color: ColorConstants
-                                                                .DIVIDER,
+                                                            color:
+                                                                ColorConstants
+                                                                    .DIVIDER,
                                                             borderRadius:
                                                                 BorderRadius
-                                                                    .circular(8)),
+                                                                    .circular(
+                                                                        8)),
                                                         child: SvgPicture.asset(
                                                             'assets/images/extra.svg')),
                                               ),
@@ -2437,7 +2548,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                           ),
                                           SizedBox(width: 6),
                                           Container(
-                                         
                                             width: width(context) * 0.7,
                                             child: Column(
                                               crossAxisAlignment:
@@ -2449,7 +2559,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                   offset: Offset(0, -3),
                                                   child: Text(
                                                     '${extraActivities[index].title}',
-                                                    style: Styles.bold(size: 14),
+                                                    style:
+                                                        Styles.bold(size: 14),
                                                   ),
                                                 ),
                                                 SizedBox(
@@ -2491,11 +2602,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                             '${extraActivities[index].description}',
                                         color: Color(0xff929BA3),
                                       ),
-                                       SizedBox(height: 10,),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
                                       if (index != extraActivities.length)
                                         Divider()
-
-                                       
                                     ],
                                   ),
                                 );
