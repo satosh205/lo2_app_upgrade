@@ -10,6 +10,7 @@ import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/new_portfolio_response.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
+import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/ghome/widget/read_more.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_extra_act.dart';
 import 'package:masterg/utils/Log.dart';
@@ -17,6 +18,7 @@ import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ExtraActivitiesList extends StatefulWidget {
@@ -128,7 +130,10 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      if(index != 0) SizedBox(height: 10,),
+                                      if (index != 0)
+                                        SizedBox(
+                                          height: 10,
+                                        ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
@@ -139,11 +144,12 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
                                             width: width(context) * 0.2,
                                             height: width(context) * 0.2,
                                             child: ClipRRect(
-                                               borderRadius: BorderRadius.circular(8),
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
                                               child: CachedNetworkImage(
                                                 imageUrl:
                                                     "${widget.baseUrl}${activities?[index].imageName}",
-                                                    fit: BoxFit.cover,
+                                                fit: BoxFit.cover,
                                                 progressIndicatorBuilder:
                                                     (context, url,
                                                             downloadProgress) =>
@@ -154,25 +160,28 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
                                                   enabled: true,
                                                   child: Container(
                                                     width: width(context) * 0.2,
-                                                    height: width(context) * 0.2,
+                                                    height:
+                                                        width(context) * 0.2,
                                                     color: Colors.grey,
                                                   ),
                                                 ),
                                                 errorWidget: (context, url,
                                                         error) =>
                                                     Container(
-                                                        width:
-                                                            width(context) * 0.2,
-                                                        height:
-                                                            width(context) * 0.2,
+                                                        width: width(context) *
+                                                            0.2,
+                                                        height: width(context) *
+                                                            0.2,
                                                         padding:
                                                             EdgeInsets.all(8),
                                                         decoration: BoxDecoration(
-                                                            color: ColorConstants
-                                                                .DIVIDER,
+                                                            color:
+                                                                ColorConstants
+                                                                    .DIVIDER,
                                                             borderRadius:
                                                                 BorderRadius
-                                                                    .circular(8)),
+                                                                    .circular(
+                                                                        8)),
                                                         child: SvgPicture.asset(
                                                             'assets/images/extra.svg')),
                                               ),
@@ -195,8 +204,9 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
                                                     SizedBox(
                                                       width:
                                                           width(context) * 0.55,
-                                                      child:      Transform.translate(
-                                                  offset: Offset(0, -3),
+                                                      child:
+                                                          Transform.translate(
+                                                        offset: Offset(0, -3),
                                                         child: Text(
                                                           '${activities?[index].title}',
                                                           style: Styles.bold(
@@ -206,39 +216,64 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
                                                     ),
                                                     InkWell(
                                                       onTap: () async {
-                                                        await showModalBottomSheet(
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            20)),
-                                                            context: context,
-                                                            enableDrag: true,
-                                                            isScrollControlled:
-                                                                true,
-                                                            builder: (context) {
-                                                              return FractionallySizedBox(
-                                                                heightFactor:
-                                                                    0.7,
-                                                                child:
-                                                                    Container(
-                                                                        height: height(
-                                                                            context),
-                                                                        padding:
-                                                                            const EdgeInsets.all(
-                                                                                8.0),
-                                                                        margin: const EdgeInsets.only(
-                                                                            top:
-                                                                                10),
-                                                                        child:
-                                                                            AddActivities(
-                                                                          isEditMode:
-                                                                              true,
-                                                                          activity:
-                                                                              activities?[index],
-                                                                        )),
-                                                              );
-                                                            }).then((value) => updatePortfolioList());
+                                                        // await showModalBottomSheet(
+                                                        //     shape: RoundedRectangleBorder(
+                                                        //         borderRadius:
+                                                        //             BorderRadius
+                                                        //                 .circular(
+                                                        //                     20)),
+                                                        //     context: context,
+                                                        //     enableDrag: true,
+                                                        //     isScrollControlled:
+                                                        //         true,
+                                                        //     builder: (context) {
+                                                        //   return FractionallySizedBox(
+                                                        //     heightFactor:
+                                                        //         0.7,
+                                                        //     child:
+                                                        //         Container(
+                                                        //             height: height(
+                                                        //                 context),
+                                                        //             padding:
+                                                        //                 const EdgeInsets.all(
+                                                        //                     8.0),
+                                                        //             margin: const EdgeInsets.only(
+                                                        //                 top:
+                                                        //                     10),
+                                                        //             child:
+                                                        //                 AddActivities(
+                                                        //               isEditMode:
+                                                        //                   true,
+                                                        //               activity:
+                                                        //                   activities?[index],
+                                                        //             )),
+                                                        //   );
+                                                        // }).then((value) => updatePortfolioList());
+
+                                                        AlertsWidget
+                                                            .showCustomDialog(
+                                                                context:
+                                                                    context,
+                                                                title: '',
+                                                                text:
+                                                                    'Are you sure you want to edit?',
+                                                                icon:
+                                                                    'assets/images/circle_alert_fill.svg',
+                                                                onOkClick:
+                                                                    () async {
+                                                                  await Navigator.push(
+                                                                      context,
+                                                                      PageTransition(
+                                                                          duration: Duration(milliseconds: 300),
+                                                                          reverseDuration: Duration(milliseconds: 300),
+                                                                          type: PageTransitionType.bottomToTop,
+                                                                          child: AddActivities(
+                                                                            isEditMode:
+                                                                                true,
+                                                                            activity:
+                                                                                activities?[index],
+                                                                          ))).then((value) => updatePortfolioList());
+                                                                });
                                                       },
                                                       child: SvgPicture.asset(
                                                           'assets/images/edit_portfolio.svg'),
@@ -248,9 +283,22 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
                                                     ),
                                                     InkWell(
                                                       onTap: () {
-                                                        deletePortfolio(widget
-                                                            .activities[index]
-                                                            .id);
+                                                        AlertsWidget
+                                                            .showCustomDialog(
+                                                                context:
+                                                                    context,
+                                                                title: '',
+                                                                text:
+                                                                    'Are you sure you want to delete?',
+                                                                icon:
+                                                                    'assets/images/circle_alert_fill.svg',
+                                                                onOkClick:
+                                                                    () async {
+                                                                  deletePortfolio(widget
+                                                                      .activities[
+                                                                          index]
+                                                                      .id);
+                                                                });
                                                       },
                                                       child: SvgPicture.asset(
                                                           'assets/images/delete.svg'),
@@ -274,14 +322,17 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
                                                   height: 4,
                                                 ),
                                                 Row(
-                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
                                                   children: [
                                                     // Text(
                                                     //     '${activities?[index].curricularType} • '),
                                                     Text(
                                                       '${Utility.ordinal(startDate.day)} ${listOfMonths[startDate.month - 1]} ${startDate.year}',
                                                       style: Styles.regular(
-                                                          size: 12, color: Color(0xff929BA3)),
+                                                          size: 12,
+                                                          color: Color(
+                                                              0xff929BA3)),
                                                     ),
                                                   ],
                                                 )
@@ -293,7 +344,9 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
                                       SizedBox(
                                         height: 4,
                                       ),
-                                      SizedBox(height: 10,),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
                                       ReadMoreText(
                                         viewMore: 'View more',
                                         text:
@@ -327,6 +380,8 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
         case ApiStatus.SUCCESS:
           Log.v("Success Delete  Activities....................");
           isActivitieLoading = false;
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('Activity deleted')));
           updatePortfolioList();
 
           break;
