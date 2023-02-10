@@ -358,10 +358,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                           onTap: () {
                                             _scaffoldKey.currentState?.openEndDrawer();
                                           },
-                                          child: SizedBox(
-                                              width: 50,
-                                              child: Icon(Icons.settings_sharp, color: Colors.white,)
-                                          ),
+                                          child: SvgPicture.asset('assets/images/hamburger_menu.svg'),
                                         ),
                                       ),
                                     ),
