@@ -48,7 +48,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top:16.0, left: 16),
+                      padding: const EdgeInsets.only(top:16.0, left: 20),
                       child: Row(
                         children: [
                           ShaderMask(
@@ -77,7 +77,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
 
                      textFieldStackWidget(),
                      Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
+                      padding: const EdgeInsets.only(left: 20.0),
                       child: Text(
                         "Enter code received on your email ",
                         style: Styles.textRegular(),
@@ -118,7 +118,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
                   ),
                 ),
                 fillColor: Color(0xffE5E5E5),
-                hintText: 'example@mail.com',
+                hintText: '•      •      •      •',
                 hintStyle: TextStyle(
                   color: Color(0xffE5E5E5),
                 ),
@@ -200,10 +200,28 @@ class _ForgetScreenState extends State<ForgetScreen> {
                     
                    
                     Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: Text(
-                        "New Password ",
-                        style: Styles.textRegular(),
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Row(
+                        children: [
+                          ShaderMask(
+                            blendMode: BlendMode.srcIn,
+                            shaderCallback: (Rect bounds) {
+                              return LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  colors: <Color>[
+                                    ColorConstants.GRADIENT_ORANGE,
+                                    ColorConstants.GRADIENT_RED
+                                  ]).createShader(bounds);
+                            },
+
+                        child:  Image.asset('assets/images/lock.png'),),
+                        SizedBox(width: 10,),
+                          Text(
+                            "New Password ",
+                            style: Styles.textRegular(),
+                          ),
+                        ],
                       ),
                     ),
                     Padding(
@@ -276,10 +294,28 @@ class _ForgetScreenState extends State<ForgetScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: Text(
-                        "Confirm Password ",
-                        style: Styles.textRegular(),
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Row(
+                        children: [
+                          ShaderMask(
+                            blendMode: BlendMode.srcIn,
+                            shaderCallback: (Rect bounds) {
+                              return LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  colors: <Color>[
+                                    ColorConstants.GRADIENT_ORANGE,
+                                    ColorConstants.GRADIENT_RED
+                                  ]).createShader(bounds);
+                            },
+
+                        child:  Image.asset('assets/images/lock.png'),),
+                        SizedBox(width: 10,),
+                          Text(
+                            "Confirm Password ",
+                            style: Styles.textRegular(),
+                          ),
+                        ],
                       ),
                     ),
                     Padding(

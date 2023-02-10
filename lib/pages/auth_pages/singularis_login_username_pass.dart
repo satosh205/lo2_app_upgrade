@@ -480,18 +480,18 @@ class _SingularisLoginState extends State<SingularisLogin> {
                           //   },
                           // ),
                           
-                        RichText(
-              text: new TextSpan(
-                text: 'Not registered?',
-                style: Styles.semibold(size: 14,color: Color(0xff0E1638)),
-                children: <TextSpan>[
-                  new TextSpan(
-                      text: '  Register now',
-                      style: Styles.regularWhite(size: 14)),
+            //             RichText(
+            //   text: new TextSpan(
+            //     text: 'Not registered?',
+            //     style: Styles.semibold(size: 14,color: Color(0xff0E1638)),
+            //     children: <TextSpan>[
+            //       new TextSpan(
+            //           text: '  Register now',
+            //           style: Styles.regularWhite(size: 14)),
                  
-                ],
-              ),
-            ),
+            //     ],
+            //   ),
+            // ),
                    ] ),
                     ),
                     // TapWidget(
