@@ -561,6 +561,22 @@ class HomeRepository {
       return CompetitionResponse();
     }
   }
+
+  Future<CompetitionResponse> getJobCompApiList(bool? isPopular, bool isFilter, String? ids, int? isJob, int? myJob, String? widgetType) async {
+    final response =
+    await homeProvider.getJobCompApiList(isPopular: isPopular, isFiltter: isFilter, jobIds: ids, isJob: isJob, myJob: myJob, widgetType: widgetType);
+    if (response!.success) {
+      Log.v("Competition List  DATA : ${response.body}");
+      CompetitionResponse competitionData =
+      CompetitionResponse.fromJson(response.body);
+      return competitionData;
+    } else {
+      Log.v("====> ${response.body}");
+      return CompetitionResponse();
+    }
+  }
+
+
   Future<DomainListResponse> getDomainList() async {
     final response =
         await homeProvider.getDomainList();
@@ -589,9 +605,9 @@ class HomeRepository {
   }
 
   Future<CompetitionContentListResponse> getCompetitionContentList(
-      int? competitionId) async {
+      int? competitionId, int? isApplied) async {
     final response = await homeProvider.getCompetitionContentList(
-        competitionId: competitionId);
+        competitionId: competitionId, isApplied: isApplied);
     if (response!.success) {
       Log.v("Competition Content List  DATA : ${response.body}");
       CompetitionContentListResponse competitionData =

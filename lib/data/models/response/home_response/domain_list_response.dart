@@ -60,6 +60,7 @@ class ListElement {
         required this.growth,
         required this.growthType,
         this.skillId,
+        this.jobCount,
     });
 
     int id;
@@ -74,6 +75,7 @@ class ListElement {
     String growth;
     String growthType;
     dynamic skillId;
+    int? jobCount;
 
     factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
         id: json["id"],
@@ -88,6 +90,7 @@ class ListElement {
         growth: json["growth"],
         growthType: json["growth_type"],
         skillId: json["skill_id"],
+        jobCount: json["job_count"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -103,5 +106,6 @@ class ListElement {
         "growth": growth,
         "growth_type": growthType,
         "skill_id": skillId,
+        "job_count": jobCount,
     };
 }

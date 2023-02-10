@@ -583,6 +583,19 @@ String? ids;
   List<Object> get props => throw UnimplementedError();
 }
 
+class JobCompListEvent extends HomeEvent {
+  bool? isPopular;
+  bool? isFilter;
+  String? ids;
+  int? isJob;
+  int? myJob;
+
+  JobCompListEvent({this.isPopular, this.isFilter = false, this.ids, this.isJob, this.myJob}) : super([isPopular, isFilter, ids, isJob, myJob]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+
 class DomainListEvent extends HomeEvent {
 
   DomainListEvent() : super([]);
@@ -666,6 +679,18 @@ class CompetitionListState extends HomeState {
   CompetitionListState(this.state, {this.competitonResponse, this.popularCompetitionResponse,this.competedCompetition,this.myActivity,  this.error});
 }
 
+
+class JobCompListState extends HomeState {
+  ApiStatus state;
+  ApiStatus get apiState => state;
+  CompetitionResponse? jobListResponse, myJobListResponse;
+  String? error;
+
+  JobCompListState(this.state, {this.jobListResponse, this.myJobListResponse, this.error});
+}
+
+
+
 class PopularCompetitionListState extends HomeState {
   ApiStatus state;
 
@@ -686,8 +711,9 @@ class CourseCategoryList2IDEvent extends HomeEvent {
 
 class CompetitionContentListEvent extends HomeEvent {
   int? competitionId;
+  int? isApplied;
 
-  CompetitionContentListEvent({this.competitionId}) : super([competitionId]);
+  CompetitionContentListEvent({this.competitionId, this.isApplied}) : super([competitionId, isApplied]);
 
   List<Object> get props => throw UnimplementedError();
 }
@@ -1822,7 +1848,7 @@ try {
      try {
         yield CompetitionContentListState(ApiStatus.LOADING);
         final response =
-            await homeRepository.getCompetitionContentList(event.competitionId);
+            await homeRepository.getCompetitionContentList(event.competitionId, event.isApplied);
         Log.v("MY DA DATA ::: ${response.data}");
 
         if (response.data != null) {
@@ -2558,7 +2584,62 @@ try {
               error: 'Something went wrong');
         }
       }
-    } else if (event is CourseCategoryList2IDEvent) {
+    }
+
+    ///For Job -============
+    else if (event is JobCompListEvent) {
+      if (event.isPopular == false) {
+        try {
+          yield JobCompListState(ApiStatus.LOADING);
+
+          List<dynamic> response = await  Future.wait(
+              [homeRepository.getJobCompApiList(false, event.isFilter!, event.ids, event.isJob, event.myJob, 'allJob'),
+               homeRepository.getJobCompApiList(false, event.isFilter!, event.ids, event.isJob, event.myJob, 'myJob')]);
+
+          //final response = await homeRepository.getCompetitionList(false);
+
+          yield JobCompListState(
+              ApiStatus.SUCCESS, jobListResponse: response[0],
+              myJobListResponse: response[1],);
+        } catch (e) {
+          Log.v("Exception : $e");
+          yield JobCompListState(ApiStatus.ERROR,
+              error: 'Something went wrong');
+        }
+
+      } else{
+        try {
+          yield JobCompListState(ApiStatus.LOADING);
+          List<dynamic> response = await  Future.wait(
+              [homeRepository.getJobCompApiList(true, event.isFilter!, event.ids, event.isJob, event.myJob, 'dashboard')]);
+
+          yield JobCompListState(
+            ApiStatus.SUCCESS,myJobListResponse: response[0],);
+        } catch (e) {
+          Log.v("Exception : $e");
+          yield JobCompListState(ApiStatus.ERROR,
+              error: 'Something went wrong');
+        }
+      }
+
+
+      /*else {
+        try {
+          yield PopularCompetitionListState(ApiStatus.LOADING);
+
+          final response = await homeRepository.getCompetitionList(true, event.isFilter!, event.ids);
+
+          yield PopularCompetitionListState(ApiStatus.SUCCESS,
+              response: response);
+        } catch (e) {
+          Log.v("Exception : $e");
+          yield PopularCompetitionListState(ApiStatus.ERROR,
+              error: 'Something went wrong');
+        }
+      }*/
+    }
+
+    else if (event is CourseCategoryList2IDEvent) {
       try {
         yield CourseCategoryList2IDState(ApiStatus.LOADING);
 

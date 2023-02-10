@@ -26,6 +26,7 @@ import 'package:masterg/pages/ghome/my_courses.dart';
 import 'package:masterg/pages/ghome/widget/read_more.dart';
 import 'package:masterg/pages/ghome/widget/view_widget_details_page.dart';
 import 'package:masterg/pages/singularis/competition/competition_detail.dart';
+import 'package:masterg/pages/singularis/job/job_details_page.dart';
 
 import 'package:masterg/pages/training_pages/new_screen/courses_details_page.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/portfolio_page.dart';
@@ -45,9 +46,11 @@ import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../../data/models/response/auth_response/bottombar_response.dart';
 import '../../data/models/response/home_response/competition_response.dart';
+import '../../data/models/response/home_response/domain_list_response.dart';
 import '../../data/providers/training_detail_provider.dart';
 import '../../data/providers/video_player_provider.dart';
 import '../../utils/resource/size_constants.dart';
+import '../custom_pages/alert_widgets/alerts_widget.dart';
 import '../custom_pages/custom_widgets/CommonWebView.dart';
 import '../gcarvaan/comment/comment_view_page.dart';
 import '../reels/reels_dashboard_page.dart';
@@ -70,6 +73,9 @@ class _DashboardPageState extends State<DashboardPage> {
   Box? box;
   bool? dashboardIsVisibleLoading = true;
   bool? dasboardListLoading = true;
+  bool? domainLoading = true;
+  bool? featuredInternshipsLoading = true;
+  bool? jobApplyLoading = true;
 
   DashboardContentResponse? dashboardContentResponse;
   List<DashboardFeaturedContentLimit>? featuredContentList;
@@ -85,25 +91,48 @@ class _DashboardPageState extends State<DashboardPage> {
   MenuListProvider? menuProvider;
   late int selectedPage;
   late final PageController _pageController;
-  CompetitionResponse? competitionResponse;
+  CompetitionResponse? competitionResponse, featuredInternshipsResponse;
+  DomainListResponse? domainList;
 
-  //bool? popularCompetitionLoading;
 
   @override
   void initState() {
     selectedPage = 0;
     _pageController = PageController(initialPage: selectedPage);
+    getDomainList();
+    getMyJobList();
+    getCompetitionList();
     getDashboardIsVisible();
     getDasboardList();
-    getCompetitionList();
     super.initState();
   }
 
-  ///TODO: Competition List Api
+
+  ///TODO: get Featured Jobs & Internships
+  void getMyJobList() {
+    BlocProvider.of<HomeBloc>(context).add(
+        JobCompListEvent(isPopular: true, isFilter: false, isJob: 1, myJob: 0));
+  }
+
+  ///TODO: get Competition List
   void getCompetitionList() {
     BlocProvider.of<HomeBloc>(context)
         .add(CompetitionListEvent(isPopular: false));
   }
+
+  void getDomainList() {
+    BlocProvider.of<HomeBloc>(context).add(DomainListEvent());
+  }
+
+  //TODO: Job Apply API Call
+  ///TODO: Job get progress and competition instructions Or Job Apply for same API call
+  ///pass key for job apply case is_applied=1
+  void jobApply(int jobId, int? isApplied) {
+    BlocProvider.of<HomeBloc>(context).add(
+        CompetitionContentListEvent(competitionId: jobId, isApplied: isApplied));
+  }
+
+
 
   void _handlecompetitionListResponse(CompetitionListState state) {
     print('_handlecompetitionListResponse');
@@ -112,16 +141,103 @@ class _DashboardPageState extends State<DashboardPage> {
       switch (competitionState.apiState) {
         case ApiStatus.LOADING:
           Log.v("Loading....................");
-
           break;
         case ApiStatus.SUCCESS:
           Log.v("CompetitionState....................");
           competitionResponse = state.competitonResponse;
-
           break;
         case ApiStatus.ERROR:
           Log.v(
               "Error CompetitionListIDState ..........................${competitionState.error}");
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
+  }
+
+  void handleDomainListResponse(DomainListState state) {
+    var popularCompetitionState = state;
+    setState(() {
+      switch (popularCompetitionState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          domainLoading = true;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("popularCompetitionState....................");
+          domainList = state.response;
+          print('domainList =======');
+          print('UserID ======= ${Preference.getInt(Preference.USER_ID)}');
+          print(domainList!.data!.list.length);
+          print(domainList!.data!.list[0].name);
+
+          domainLoading = false;
+          break;
+        case ApiStatus.ERROR:
+          Log.v("Error Popular CompetitionListIDState ..........................${popularCompetitionState.error}");
+          domainLoading = false;
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
+  }
+
+  void _handleFeaturedInternshipsListResponse(JobCompListState state) {
+    print('_handleFeaturedInternshipsListResponse singh');
+    var jobCompState = state;
+    setState(() {
+      switch (jobCompState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          featuredInternshipsLoading = true;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("CompetitionState....................");
+          featuredInternshipsResponse = state.myJobListResponse;
+          featuredInternshipsLoading = false;
+          break;
+        case ApiStatus.ERROR:
+          Log.v("Error CompetitionListIDState .....................${jobCompState.error}");
+          featuredInternshipsLoading = false;
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
+  }
+
+  //TODO: Job Apply
+  void handleJobApplyState(CompetitionContentListState state) {
+    var competitionState = state;
+    setState(() {
+      switch (competitionState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          jobApplyLoading = true;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("Competition Content List State....................");
+          //contentList = competitionState.response;
+          jobApplyLoading = false;
+          getMyJobList();
+          /*AlertsWidget.showCustomDialog(
+              context: context,
+              title: '${'Job Apply'}',
+              text: '${'Your application is successfully submitted'}',
+              icon: 'assets/images/circle_alert_fill.svg',
+              showCancel: false,
+              oKText: 'OK',
+              onOkClick: () async {
+              });*/
+          Utility.showSnackBar(
+              scaffoldContext: context, message: 'Your application is successfully submitted.');
+          break;
+        case ApiStatus.ERROR:
+          Log.v(
+              "Error Competition Content ..........................${competitionState.response?.error}");
+          jobApplyLoading = false;
           break;
         case ApiStatus.INITIAL:
           break;
@@ -146,18 +262,27 @@ class _DashboardPageState extends State<DashboardPage> {
       endDrawer: new AppDrawer(),
       body: Consumer2<VideoPlayerProvider, MenuListProvider>(
           builder: (context, value, mp, child) => BlocManager(
-                initState: (context) {},
-                child: BlocListener<HomeBloc, HomeState>(
-                  listener: (context, state) async {
-                    if (state is CompetitionListState) {
-                      _handlecompetitionListResponse(state);
-                    }
-                    setState(() {
-                      menuProvider = mp;
-                    });
-                  },
-                  child: SingleChildScrollView(
-                      child: Column(
+            initState: (context) {},
+            child: BlocListener<HomeBloc, HomeState>(
+              listener: (context, state) async {
+                if (state is CompetitionListState) {
+                  _handlecompetitionListResponse(state);
+                }
+                if (state is DomainListState) {
+                  handleDomainListResponse(state);
+                }
+                if (state is JobCompListState) {
+                  _handleFeaturedInternshipsListResponse(state);
+                }
+                if (state is CompetitionContentListState)
+                  handleJobApplyState(state);
+
+                setState(() {
+                  menuProvider = mp;
+                });
+              },
+              child: SingleChildScrollView(
+                  child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -216,18 +341,18 @@ class _DashboardPageState extends State<DashboardPage> {
                                     ),
                                     Expanded(
                                       flex: 2,
-                                        child: Align(
-                                          alignment: Alignment.topRight,
-                                          child: InkWell(
-                                            onTap: () {
-                                              _scaffoldKey.currentState?.openEndDrawer();
-                                            },
-                                            child: SizedBox(
-                                                width: 50,
-                                                child: Icon(Icons.settings_sharp, color: Colors.white,)
-                                            ),
+                                      child: Align(
+                                        alignment: Alignment.topRight,
+                                        child: InkWell(
+                                          onTap: () {
+                                            _scaffoldKey.currentState?.openEndDrawer();
+                                          },
+                                          child: SizedBox(
+                                              width: 50,
+                                              child: Icon(Icons.settings_sharp, color: Colors.white,)
                                           ),
                                         ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -237,7 +362,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                   width: MediaQuery.of(context).size.width,
                                   decoration: BoxDecoration(
                                       color:
-                                          ColorConstants.WHITE.withOpacity(0.2),
+                                      ColorConstants.WHITE.withOpacity(0.2),
                                       borderRadius: BorderRadius.circular(10)),
                                   child: Stack(
                                     children: [
@@ -249,7 +374,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                         decoration: BoxDecoration(
                                             color: Color(0xffFFB72F),
                                             borderRadius:
-                                                BorderRadius.circular(10)),
+                                            BorderRadius.circular(10)),
                                       ),
                                     ],
                                   ),
@@ -285,12 +410,12 @@ class _DashboardPageState extends State<DashboardPage> {
                       SizedBox(
                         height: 10,
                       ),
-                      futureTrendsList(),
+                      domainLoading == false ? futureTrendsList(): SizedBox(),
 
                       SizedBox(
                         height: 10,
                       ),
-                      featuredJobsInternships(),
+                      featuredInternshipsLoading == false ? featuredJobsInternships(): SizedBox(),
 
                       /*SizedBox(
                         height: 10,
@@ -319,60 +444,62 @@ class _DashboardPageState extends State<DashboardPage> {
                       renderWidgets(pages),
                     ],
                   )),
-                ),
-              )),
+            ),
+          )),
     );
   }
 
   ///Santosh
   futureTrendsList() {
-    return InkWell(
-      onTap: () {
-        futureTrendsButtonSheet();
-      },
-      child: Container(
-        decoration: BoxDecoration(color: ColorConstants.WHITE),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: SvgPicture.asset(
-                    'assets/images/grf_job.svg',
-                    height: 30.0,
-                    width: 30.0,
-                    allowDrawingOutsideViewBox: true,
-                    color: ColorConstants.GRADIENT_ORANGE,
-                  ),
+    return Container(
+      decoration: BoxDecoration(color: ColorConstants.WHITE),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: SvgPicture.asset(
+                  'assets/images/grf_job.svg',
+                  height: 30.0,
+                  width: 30.0,
+                  allowDrawingOutsideViewBox: true,
+                  color: ColorConstants.GRADIENT_ORANGE,
                 ),
-                Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8,
-                      horizontal: 10,
-                    ),
-                    child: Text(
-                      'Future Trends',
-                      style: Styles.bold(color: Color(0xff0E1638)),
-                    )),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Container(
-                height: 90,
-                child: ListView.builder(
-                    itemCount: 4,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
+              ),
+              Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 10,
+                  ),
+                  child: Text(
+                    'Future Trends',
+                    style: Styles.bold(color: Color(0xff0E1638)),
+                  )),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Container(
+              height: 90,
+              child: ListView.builder(
+                  itemCount: domainList!.data!.list.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    return InkWell(
+                      onTap: (){
+                        futureTrendsButtonSheet(
+                            domainList!.data!.list[index].growthType,
+                            domainList!.data!.list[index].growth);
+                      },
+                      child: Container(
                         width: MediaQuery.of(context).size.width * 0.4,
                         decoration: BoxDecoration(
                             color: ColorConstants.List_Color,
                             borderRadius: BorderRadius.circular(10),
                             border:
-                                Border.all(color: ColorConstants.List_Color)),
+                            Border.all(color: ColorConstants.List_Color)),
                         margin: EdgeInsets.all(8),
                         // color: Colors.red,
                         child: Column(
@@ -388,58 +515,66 @@ class _DashboardPageState extends State<DashboardPage> {
                                 child: Column(
                                   children: [
                                     Text(
-                                      'Art & Design',
+                                      '${domainList!.data!.list[index].name}',
                                       style: Styles.bold(
                                           color: Color(0xff0E1638), size: 13),
+                                      softWrap: true,
+                                      maxLines: 1,
                                     ),
                                     SizedBox(
                                       height: 5,
                                     ),
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          '213 Jobs',
+                                          '${domainList!.data!.list[index].jobCount} Jobs',
                                           style: Styles.regular(
                                               color: ColorConstants.GREY_3,
                                               size: 11),
                                         ),
                                         Padding(
                                           padding:
-                                              const EdgeInsets.only(left: 8.0),
+                                          const EdgeInsets.only(left: 8.0),
                                           child: Text(
-                                            '+30.6%',
+                                            '+${domainList!.data!.list[index].growth}%',
                                             style: Styles.regular(
-                                                color: ColorConstants.GREEN,
+                                                color: domainList!.data!.list[index].growthType == 'up' ?
+                                                ColorConstants.GREEN : ColorConstants.RED,
                                                 size: 11),
                                           ),
                                         ),
-                                        Icon(
+                                        domainList!.data!.list[index].growthType == 'up' ? Icon(
                                           Icons.arrow_drop_up_outlined,
                                           color: Colors.green,
                                           size: 20,
-                                        )
+                                        ):
+                                        Icon(
+                                          Icons.arrow_drop_down,
+                                          color: Colors.red,
+                                          size: 20,
+                                        ),
                                       ],
                                     ),
                                   ],
                                 ),
                               ),
                             ]),
-                      );
-                    }),
-              ),
+                      ),
+                    );
+                  }),
             ),
-            SizedBox(
-              height: 20,
-            ),
-          ],
-        ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+        ],
       ),
     );
   }
 
-  futureTrendsButtonSheet() {
+  futureTrendsButtonSheet(String growthType, String growth) {
     return showModalBottomSheet(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -497,17 +632,24 @@ class _DashboardPageState extends State<DashboardPage> {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 8.0),
                                     child: Text(
-                                      '+30.6%',
+                                      '+${growth}%',
                                       style: Styles.regular(
-                                          color: ColorConstants.GREEN,
+                                          color: growthType == 'up' ?
+                                          ColorConstants.GREEN:
+                                          ColorConstants.RED,
                                           size: 11),
                                     ),
                                   ),
-                                  Icon(
+                                  growthType == 'up' ? Icon(
                                     Icons.arrow_drop_up_outlined,
                                     color: Colors.green,
                                     size: 20,
-                                  )
+                                  ):
+                                  Icon(
+                                    Icons.arrow_drop_down,
+                                    color: Colors.red,
+                                    size: 20,
+                                  ),
                                 ],
                               ),
                               SizedBox(
@@ -535,190 +677,190 @@ class _DashboardPageState extends State<DashboardPage> {
                     children: [
                       Expanded(
                           child: Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        decoration: BoxDecoration(
-                            color: ColorConstants.List_Color,
-                            borderRadius: BorderRadius.circular(10),
-                            border:
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            decoration: BoxDecoration(
+                                color: ColorConstants.List_Color,
+                                borderRadius: BorderRadius.circular(10),
+                                border:
                                 Border.all(color: ColorConstants.List_Color)),
-                        margin: EdgeInsets.all(8),
-                        // color: Colors.red,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            // mainAxisAlignment: MainAxisAlignment,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0,
-                                    right: 8.0,
-                                    top: 8.0,
-                                    bottom: 8.0),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      'Art & Design',
-                                      style: Styles.bold(
-                                          color: Color(0xff0E1638), size: 12),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                            margin: EdgeInsets.all(8),
+                            // color: Colors.red,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                // mainAxisAlignment: MainAxisAlignment,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0,
+                                        right: 8.0,
+                                        top: 8.0,
+                                        bottom: 8.0),
+                                    child: Column(
                                       children: [
                                         Text(
-                                          "\$59k",
-                                          style: Styles.regular(
-                                              color: ColorConstants.GREY_3,
-                                              size: 11),
+                                          'Art & Design',
+                                          style: Styles.bold(
+                                              color: Color(0xff0E1638), size: 12),
                                         ),
-                                        Padding(
-                                          padding:
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "\$59k",
+                                              style: Styles.regular(
+                                                  color: ColorConstants.GREY_3,
+                                                  size: 11),
+                                            ),
+                                            Padding(
+                                              padding:
                                               const EdgeInsets.only(left: 8.0),
-                                          child: Text(
-                                            '+30.6%',
-                                            style: Styles.regular(
-                                                color: ColorConstants.GREEN,
-                                                size: 11),
-                                          ),
+                                              child: Text(
+                                                '+30.6%',
+                                                style: Styles.regular(
+                                                    color: ColorConstants.GREEN,
+                                                    size: 11),
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.arrow_drop_up_outlined,
+                                              color: Colors.green,
+                                              size: 20,
+                                            )
+                                          ],
                                         ),
-                                        Icon(
-                                          Icons.arrow_drop_up_outlined,
-                                          color: Colors.green,
-                                          size: 20,
-                                        )
                                       ],
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ]),
-                      )),
+                                  ),
+                                ]),
+                          )),
                       Expanded(
                           child: Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        decoration: BoxDecoration(
-                            color: ColorConstants.List_Color,
-                            borderRadius: BorderRadius.circular(10),
-                            border:
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            decoration: BoxDecoration(
+                                color: ColorConstants.List_Color,
+                                borderRadius: BorderRadius.circular(10),
+                                border:
                                 Border.all(color: ColorConstants.List_Color)),
-                        margin: EdgeInsets.all(0),
-                        // color: Colors.red,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            // mainAxisAlignment: MainAxisAlignment,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0,
-                                    right: 8.0,
-                                    top: 8.0,
-                                    bottom: 8.0),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      'Art & Design',
-                                      style: Styles.bold(
-                                          color: Color(0xff0E1638), size: 12),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                            margin: EdgeInsets.all(0),
+                            // color: Colors.red,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                // mainAxisAlignment: MainAxisAlignment,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0,
+                                        right: 8.0,
+                                        top: 8.0,
+                                        bottom: 8.0),
+                                    child: Column(
                                       children: [
                                         Text(
-                                          "\$59k",
-                                          style: Styles.regular(
-                                              color: ColorConstants.GREY_3,
-                                              size: 12),
+                                          'Art & Design',
+                                          style: Styles.bold(
+                                              color: Color(0xff0E1638), size: 12),
                                         ),
-                                        Padding(
-                                          padding:
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "\$59k",
+                                              style: Styles.regular(
+                                                  color: ColorConstants.GREY_3,
+                                                  size: 12),
+                                            ),
+                                            Padding(
+                                              padding:
                                               const EdgeInsets.only(left: 8.0),
-                                          child: Text(
-                                            '+30.6%',
-                                            style: Styles.regular(
-                                                color: ColorConstants.GREEN,
-                                                size: 11),
-                                          ),
+                                              child: Text(
+                                                '+30.6%',
+                                                style: Styles.regular(
+                                                    color: ColorConstants.GREEN,
+                                                    size: 11),
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.arrow_drop_up_outlined,
+                                              color: Colors.green,
+                                              size: 20,
+                                            )
+                                          ],
                                         ),
-                                        Icon(
-                                          Icons.arrow_drop_up_outlined,
-                                          color: Colors.green,
-                                          size: 20,
-                                        )
                                       ],
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ]),
-                      )),
+                                  ),
+                                ]),
+                          )),
                       Expanded(
                           child: Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        decoration: BoxDecoration(
-                            color: ColorConstants.List_Color,
-                            borderRadius: BorderRadius.circular(10),
-                            border:
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            decoration: BoxDecoration(
+                                color: ColorConstants.List_Color,
+                                borderRadius: BorderRadius.circular(10),
+                                border:
                                 Border.all(color: ColorConstants.List_Color)),
-                        margin: EdgeInsets.all(8),
-                        // color: Colors.red,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            // mainAxisAlignment: MainAxisAlignment,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0,
-                                    right: 8.0,
-                                    top: 8.0,
-                                    bottom: 8.0),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      'Art & Design',
-                                      style: Styles.bold(
-                                          color: Color(0xff0E1638), size: 12),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                            margin: EdgeInsets.all(8),
+                            // color: Colors.red,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                // mainAxisAlignment: MainAxisAlignment,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0,
+                                        right: 8.0,
+                                        top: 8.0,
+                                        bottom: 8.0),
+                                    child: Column(
                                       children: [
                                         Text(
-                                          "\$59k",
-                                          style: Styles.regular(
-                                              color: ColorConstants.GREY_3,
-                                              size: 11),
+                                          'Art & Design',
+                                          style: Styles.bold(
+                                              color: Color(0xff0E1638), size: 12),
                                         ),
-                                        Padding(
-                                          padding:
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "\$59k",
+                                              style: Styles.regular(
+                                                  color: ColorConstants.GREY_3,
+                                                  size: 11),
+                                            ),
+                                            Padding(
+                                              padding:
                                               const EdgeInsets.only(left: 8.0),
-                                          child: Text(
-                                            '+30.6%',
-                                            style: Styles.regular(
-                                                color: ColorConstants.GREEN,
-                                                size: 11),
-                                          ),
+                                              child: Text(
+                                                '+30.6%',
+                                                style: Styles.regular(
+                                                    color: ColorConstants.GREEN,
+                                                    size: 11),
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.arrow_drop_up_outlined,
+                                              color: Colors.green,
+                                              size: 20,
+                                            )
+                                          ],
                                         ),
-                                        Icon(
-                                          Icons.arrow_drop_up_outlined,
-                                          color: Colors.green,
-                                          size: 20,
-                                        )
                                       ],
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ]),
-                      )),
+                                  ),
+                                ]),
+                          )),
                     ],
                   ),
                 ),
@@ -730,190 +872,190 @@ class _DashboardPageState extends State<DashboardPage> {
                     children: [
                       Expanded(
                           child: Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        decoration: BoxDecoration(
-                            color: ColorConstants.List_Color,
-                            borderRadius: BorderRadius.circular(10),
-                            border:
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            decoration: BoxDecoration(
+                                color: ColorConstants.List_Color,
+                                borderRadius: BorderRadius.circular(10),
+                                border:
                                 Border.all(color: ColorConstants.List_Color)),
-                        margin: EdgeInsets.all(8),
-                        // color: Colors.red,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            // mainAxisAlignment: MainAxisAlignment,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0,
-                                    right: 8.0,
-                                    top: 8.0,
-                                    bottom: 8.0),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      'Art & Design',
-                                      style: Styles.bold(
-                                          color: Color(0xff0E1638), size: 12),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                            margin: EdgeInsets.all(8),
+                            // color: Colors.red,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                // mainAxisAlignment: MainAxisAlignment,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0,
+                                        right: 8.0,
+                                        top: 8.0,
+                                        bottom: 8.0),
+                                    child: Column(
                                       children: [
                                         Text(
-                                          "\$59k",
-                                          style: Styles.regular(
-                                              color: ColorConstants.GREY_3,
-                                              size: 11),
+                                          'Art & Design',
+                                          style: Styles.bold(
+                                              color: Color(0xff0E1638), size: 12),
                                         ),
-                                        Padding(
-                                          padding:
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "\$59k",
+                                              style: Styles.regular(
+                                                  color: ColorConstants.GREY_3,
+                                                  size: 11),
+                                            ),
+                                            Padding(
+                                              padding:
                                               const EdgeInsets.only(left: 8.0),
-                                          child: Text(
-                                            '+30.6%',
-                                            style: Styles.regular(
-                                                color: ColorConstants.GREEN,
-                                                size: 11),
-                                          ),
+                                              child: Text(
+                                                '+30.6%',
+                                                style: Styles.regular(
+                                                    color: ColorConstants.GREEN,
+                                                    size: 11),
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.arrow_drop_up_outlined,
+                                              color: Colors.green,
+                                              size: 20,
+                                            )
+                                          ],
                                         ),
-                                        Icon(
-                                          Icons.arrow_drop_up_outlined,
-                                          color: Colors.green,
-                                          size: 20,
-                                        )
                                       ],
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ]),
-                      )),
+                                  ),
+                                ]),
+                          )),
                       Expanded(
                           child: Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        decoration: BoxDecoration(
-                            color: ColorConstants.List_Color,
-                            borderRadius: BorderRadius.circular(10),
-                            border:
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            decoration: BoxDecoration(
+                                color: ColorConstants.List_Color,
+                                borderRadius: BorderRadius.circular(10),
+                                border:
                                 Border.all(color: ColorConstants.List_Color)),
-                        margin: EdgeInsets.all(0),
-                        // color: Colors.red,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            // mainAxisAlignment: MainAxisAlignment,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0,
-                                    right: 8.0,
-                                    top: 8.0,
-                                    bottom: 8.0),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      'Art & Design',
-                                      style: Styles.bold(
-                                          color: Color(0xff0E1638), size: 12),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                            margin: EdgeInsets.all(0),
+                            // color: Colors.red,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                // mainAxisAlignment: MainAxisAlignment,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0,
+                                        right: 8.0,
+                                        top: 8.0,
+                                        bottom: 8.0),
+                                    child: Column(
                                       children: [
                                         Text(
-                                          "\$59k",
-                                          style: Styles.regular(
-                                              color: ColorConstants.GREY_3,
-                                              size: 12),
+                                          'Art & Design',
+                                          style: Styles.bold(
+                                              color: Color(0xff0E1638), size: 12),
                                         ),
-                                        Padding(
-                                          padding:
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "\$59k",
+                                              style: Styles.regular(
+                                                  color: ColorConstants.GREY_3,
+                                                  size: 12),
+                                            ),
+                                            Padding(
+                                              padding:
                                               const EdgeInsets.only(left: 8.0),
-                                          child: Text(
-                                            '+30.6%',
-                                            style: Styles.regular(
-                                                color: ColorConstants.GREEN,
-                                                size: 11),
-                                          ),
+                                              child: Text(
+                                                '+30.6%',
+                                                style: Styles.regular(
+                                                    color: ColorConstants.GREEN,
+                                                    size: 11),
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.arrow_drop_up_outlined,
+                                              color: Colors.green,
+                                              size: 20,
+                                            )
+                                          ],
                                         ),
-                                        Icon(
-                                          Icons.arrow_drop_up_outlined,
-                                          color: Colors.green,
-                                          size: 20,
-                                        )
                                       ],
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ]),
-                      )),
+                                  ),
+                                ]),
+                          )),
                       Expanded(
                           child: Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        decoration: BoxDecoration(
-                            color: ColorConstants.List_Color,
-                            borderRadius: BorderRadius.circular(10),
-                            border:
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            decoration: BoxDecoration(
+                                color: ColorConstants.List_Color,
+                                borderRadius: BorderRadius.circular(10),
+                                border:
                                 Border.all(color: ColorConstants.List_Color)),
-                        margin: EdgeInsets.all(8),
-                        // color: Colors.red,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            // mainAxisAlignment: MainAxisAlignment,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0,
-                                    right: 8.0,
-                                    top: 8.0,
-                                    bottom: 8.0),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      'Art & Design',
-                                      style: Styles.bold(
-                                          color: Color(0xff0E1638), size: 12),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                            margin: EdgeInsets.all(8),
+                            // color: Colors.red,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                // mainAxisAlignment: MainAxisAlignment,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0,
+                                        right: 8.0,
+                                        top: 8.0,
+                                        bottom: 8.0),
+                                    child: Column(
                                       children: [
                                         Text(
-                                          "\$59k",
-                                          style: Styles.regular(
-                                              color: ColorConstants.GREY_3,
-                                              size: 11),
+                                          'Art & Design',
+                                          style: Styles.bold(
+                                              color: Color(0xff0E1638), size: 12),
                                         ),
-                                        Padding(
-                                          padding:
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "\$59k",
+                                              style: Styles.regular(
+                                                  color: ColorConstants.GREY_3,
+                                                  size: 11),
+                                            ),
+                                            Padding(
+                                              padding:
                                               const EdgeInsets.only(left: 8.0),
-                                          child: Text(
-                                            '+30.6%',
-                                            style: Styles.regular(
-                                                color: ColorConstants.GREEN,
-                                                size: 11),
-                                          ),
+                                              child: Text(
+                                                '+30.6%',
+                                                style: Styles.regular(
+                                                    color: ColorConstants.GREEN,
+                                                    size: 11),
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.arrow_drop_up_outlined,
+                                              color: Colors.green,
+                                              size: 20,
+                                            )
+                                          ],
                                         ),
-                                        Icon(
-                                          Icons.arrow_drop_up_outlined,
-                                          color: Colors.green,
-                                          size: 20,
-                                        )
                                       ],
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ]),
-                      )),
+                                  ),
+                                ]),
+                          )),
                     ],
                   ),
                 ),
@@ -1005,67 +1147,94 @@ class _DashboardPageState extends State<DashboardPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Container(
-              height: 340,
-              child: ListView.builder(
-                  itemCount: 3,
+              height: 360,
+              child: featuredInternshipsResponse?.data!.length != 0 ?
+              ListView.builder(
+                  itemCount: featuredInternshipsResponse?.data!.length ,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      decoration: BoxDecoration(
-                          color: ColorConstants.WHITE,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: ColorConstants.List_Color)),
-                      margin: EdgeInsets.all(8),
-                      // color: Colors.red,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 8.0,
-                                  right: 8.0,
-                                  top: 15.0,
-                                  bottom: 8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Image.asset('assets/images/google.png'),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 10.0),
-                                    child: Text(
-                                      'Art & Design',
-                                      style: Styles.bold(
-                                          color: Color(0xff0E1638), size: 13),
+                    return InkWell(
+                      onTap: (){
+                        Navigator.push(
+                            context,
+                            NextPageRoute(JobDetailsPage(
+                              title: featuredInternshipsResponse?.data![index]!.name,
+                              description: featuredInternshipsResponse?.data![index]!.description,
+                              location: featuredInternshipsResponse?.data![index]!.location,
+                              skillNames: featuredInternshipsResponse?.data![index]!.skillNames,
+                              companyName: featuredInternshipsResponse?.data![index]!.organizedBy,
+                              domain: featuredInternshipsResponse?.data![index]!.domainName,
+                              companyThumbnail: featuredInternshipsResponse?.data![index]!.image,
+                              experience: featuredInternshipsResponse?.data![index]!.experience,
+                              //jobListDetails: jobList,
+                              id: featuredInternshipsResponse?.data![index]!.id,
+                              jobStatus: featuredInternshipsResponse?.data![index]!.jobStatus,
+                            )));
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        decoration: BoxDecoration(
+                            color: ColorConstants.WHITE,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: ColorConstants.List_Color)),
+                        margin: EdgeInsets.all(8),
+                        // color: Colors.red,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0,
+                                    right: 8.0,
+                                    top: 15.0,
+                                    bottom: 8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CachedNetworkImage(
+                                      imageUrl: '${featuredInternshipsResponse?.data![index]!.image}',
+                                      width: 100,
+                                      height: 50,
+                                      errorWidget: (context, url, error) => SvgPicture.asset(
+                                        'assets/images/gscore_postnow_bg.svg',
+                                      ),
+                                      fit: BoxFit.cover,
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Icon(
-                                        Icons.location_on_outlined,
-                                        color: Colors.orange,
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Text(
+                                        '${featuredInternshipsResponse?.data![index]!.name}',
+                                        style: Styles.bold(
+                                            color: Color(0xff0E1638), size: 13),
                                       ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 8.0),
-                                        child: Text(
-                                          'Bangaluru, Karnataka',
-                                          style: Styles.regular(
-                                              color: ColorConstants.GREY_3,
-                                              size: 11),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Icon(
+                                          Icons.location_on_outlined,
+                                          color: Colors.orange,
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
+                                        Padding(
+                                          padding:
+                                          const EdgeInsets.only(left: 8.0),
+                                          child: Text(
+                                            '${featuredInternshipsResponse?.data![index]!.location}',
+                                            style: Styles.regular(
+                                                color: ColorConstants.GREY_3,
+                                                size: 11),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    /*Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Icon(
@@ -1075,7 +1244,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                       ),
                                       Padding(
                                         padding:
-                                            const EdgeInsets.only(left: 8.0),
+                                        const EdgeInsets.only(left: 8.0),
                                         child: Text(
                                           '100K - 150K LPA',
                                           style: Styles.regular(
@@ -1084,83 +1253,96 @@ class _DashboardPageState extends State<DashboardPage> {
                                         ),
                                       ),
                                     ],
-                                  ),
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.7,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                        color: ColorConstants.List_Color,
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: ColorConstants.List_Color)),
-                                    margin: EdgeInsets.all(8),
-                                    // color: Colors.red,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 8.0,
-                                          right: 8.0,
-                                          top: 10.0,
-                                          bottom: 8.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Skills Required',
-                                            style: Styles.bold(
-                                                color: ColorConstants.GREY_3,
-                                                size: 13),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                '• Java • HTML • My Sql',
-                                                style: Styles.bold(
-                                                    color: ColorConstants.BLACK,
-                                                    size: 13),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                  ),*/
+                                    Container(
+                                      width:
+                                      MediaQuery.of(context).size.width * 0.7,
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                          color: ColorConstants.List_Color,
+                                          borderRadius: BorderRadius.circular(10),
+                                          border: Border.all(
+                                              color: ColorConstants.List_Color)),
+                                      margin: EdgeInsets.all(8),
+                                      // color: Colors.red,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 8.0,
+                                            right: 8.0,
+                                            top: 10.0,
+                                            bottom: 8.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Skills Required',
+                                              style: Styles.bold(
+                                                  color: ColorConstants.GREY_3,
+                                                  size: 13),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              children: [
+                                                Flexible(
+                                                  child: Text(
+                                                    '${featuredInternshipsResponse?.data![index]!.skillNames}',
+                                                    maxLines: 2,
+                                                    softWrap: true,
+                                                    style: Styles.bold(
+                                                        color: ColorConstants.BLACK,
+                                                        size: 13),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Container(
-                                    height: 50,
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50),
-                                      gradient: LinearGradient(colors: [
-                                        ColorConstants.DASHBOARD_APPLY_COLOR,
-                                        ColorConstants.DASHBOARD_APPLY_COLOR,
-                                      ]),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Apply',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
+                                    featuredInternshipsResponse?.data![index]!.jobStatus == null || featuredInternshipsResponse?.data![index]!.jobStatus == "" ? InkWell(
+                                      onTap: (){
+                                       jobApply(int.parse('${featuredInternshipsResponse?.data![index]!.id}'), 1);
+                                       _onLoadingForJob();
+                                      },
+                                      child: Container(
+                                        height: 50,
+                                        width: MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(50),
+                                          gradient: LinearGradient(colors: [
+                                            ColorConstants.DASHBOARD_APPLY_COLOR,
+                                            ColorConstants.DASHBOARD_APPLY_COLOR,
+                                          ]),
                                         ),
-                                      ],
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          children: [
+                                            Text('Apply',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ): Padding(
+                                      padding: const EdgeInsets.only(bottom: 20.0),
+                                      child: Text('${featuredInternshipsResponse?.data![index]!.jobStatus}', style: Styles.bold(color: Colors.green, size: 14),),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          ]),
+                            ]),
+                      ),
                     );
-                  }),
+                  }): SizedBox(),
             ),
           )
         ],
@@ -1168,8 +1350,41 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  Widget _buildYourPortfolioCard(
-      Color colorBg, String strTitle, String strDes, String clickType) {
+  void _onLoadingForJob() {
+     showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Container(
+            padding: EdgeInsets.only(left: 20, right: 10),
+            height: 100,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: new Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                new CircularProgressIndicator(
+                  color: Colors.blue,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: new Text("Job Apply..."),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+    new Future.delayed(new Duration(seconds: 2), () {
+      Navigator.pop(context); //pop dialog
+    });
+  }
+
+  Widget _buildYourPortfolioCard(Color colorBg, String strTitle, String strDes, String clickType) {
     return Container(
       height: 120,
       margin: const EdgeInsets.only(
@@ -1314,7 +1529,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                           left: 4.0, bottom: 16),
                                       child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             "10/200 ",
@@ -1364,11 +1579,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                   Container(
                                     height: 10,
                                     width:
-                                        MediaQuery.of(context).size.width * 0.4,
+                                    MediaQuery.of(context).size.width * 0.4,
                                     decoration: BoxDecoration(
                                         color: ColorConstants.GREY,
                                         borderRadius:
-                                            BorderRadius.circular(10)),
+                                        BorderRadius.circular(10)),
                                     child: Stack(
                                       children: [
                                         Container(
@@ -1384,7 +1599,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                                 0xfffc7804,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(10)),
+                                              BorderRadius.circular(10)),
                                         ),
                                       ],
                                     ),
@@ -1459,7 +1674,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                           left: 8.0, bottom: 16),
                                       child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             "0/100 ",
@@ -1509,11 +1724,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                   Container(
                                     height: 10,
                                     width:
-                                        MediaQuery.of(context).size.width * 0.4,
+                                    MediaQuery.of(context).size.width * 0.4,
                                     decoration: BoxDecoration(
                                         color: ColorConstants.GREY,
                                         borderRadius:
-                                            BorderRadius.circular(10)),
+                                        BorderRadius.circular(10)),
                                     child: Stack(
                                       children: [
                                         Container(
@@ -1529,7 +1744,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                                 0xfffc7804,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(10)),
+                                              BorderRadius.circular(10)),
                                         ),
                                       ],
                                     ),
@@ -1604,7 +1819,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                           left: 4.0, bottom: 16),
                                       child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             "4/200 ",
@@ -1654,11 +1869,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                   Container(
                                     height: 10,
                                     width:
-                                        MediaQuery.of(context).size.width * 0.4,
+                                    MediaQuery.of(context).size.width * 0.4,
                                     decoration: BoxDecoration(
                                         color: ColorConstants.GREY,
                                         borderRadius:
-                                            BorderRadius.circular(10)),
+                                        BorderRadius.circular(10)),
                                     child: Stack(
                                       children: [
                                         Container(
@@ -1674,7 +1889,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                                 0xfffc7804,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(10)),
+                                              BorderRadius.circular(10)),
                                         ),
                                       ],
                                     ),
@@ -1785,30 +2000,30 @@ class _DashboardPageState extends State<DashboardPage> {
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: competitionResponse?.data?.length != null
                 ? ListView.builder(
-                    itemCount: (competitionResponse?.data?.length)! < 4
-                        ? competitionResponse?.data?.length
-                        : 4,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (BuildContext context, int index) {
-                      return InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        CompetitionDetail(
-                                            competition: competitionResponse
-                                                ?.data?[index])));
-                          },
-                          child: renderCompetitionCard(
-                              '${competitionResponse?.data![index]?.image}',
-                              '${competitionResponse?.data![index]?.name}',
-                              '',
-                              '${competitionResponse?.data![index]?.competitionLevel ?? "Easy"}',
-                              '${competitionResponse?.data![index]?.gScore}',
-                              '${Utility.ordinalDate(dateVal: "${competitionResponse?.data![index]?.endDate}")}'));
-                    })
+                itemCount: (competitionResponse?.data?.length)! < 4
+                    ? competitionResponse?.data?.length
+                    : 4,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    CompetitionDetail(
+                                        competition: competitionResponse
+                                            ?.data?[index])));
+                      },
+                      child: renderCompetitionCard(
+                          '${competitionResponse?.data![index]?.image}',
+                          '${competitionResponse?.data![index]?.name}',
+                          '',
+                          '${competitionResponse?.data![index]?.competitionLevel ?? "Easy"}',
+                          '${competitionResponse?.data![index]?.gScore}',
+                          '${Utility.ordinalDate(dateVal: "${competitionResponse?.data![index]?.endDate}")}'));
+                })
                 : CompetitionBlankPage(),
           ),
           SizedBox(
@@ -1816,36 +2031,36 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
           competitionResponse?.data?.length != null
               ? CustomOutlineButton(
-                  strokeWidth: 2,
-                  radius: 50,
-                  gradient: LinearGradient(
-                    colors: [
-                      ColorConstants.GRADIENT_ORANGE,
-                      ColorConstants.GRADIENT_RED
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.topRight,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 50.0, right: 50.0),
-                    child: GradientText(
-                      'View all Skill',
-                      style: Styles.textRegular(size: 14),
-                      colors: [
-                        ColorConstants.GRADIENT_ORANGE,
-                        ColorConstants.GRADIENT_RED,
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    menuProvider?.updateCurrentIndex('/g-competitions');
-                  },
-                )
+            strokeWidth: 2,
+            radius: 50,
+            gradient: LinearGradient(
+              colors: [
+                ColorConstants.GRADIENT_ORANGE,
+                ColorConstants.GRADIENT_RED
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.topRight,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 50.0, right: 50.0),
+              child: GradientText(
+                'View all Skill',
+                style: Styles.textRegular(size: 14),
+                colors: [
+                  ColorConstants.GRADIENT_ORANGE,
+                  ColorConstants.GRADIENT_RED,
+                ],
+              ),
+            ),
+            onPressed: () {
+              menuProvider?.updateCurrentIndex('/g-competitions');
+            },
+          )
               : SizedBox(),
           competitionResponse?.data?.length != null
               ? SizedBox(
-                  height: 20,
-                )
+            height: 20,
+          )
               : SizedBox(),
         ],
       ),
@@ -1935,7 +2150,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
                 Text('•',
                     style:
-                        Styles.regular(color: ColorConstants.GREY_2, size: 12)),
+                    Styles.regular(color: ColorConstants.GREY_2, size: 12)),
                 SizedBox(
                   width: 4,
                 ),
@@ -1952,7 +2167,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
                 Text('•',
                     style:
-                        Styles.regular(color: ColorConstants.GREY_2, size: 12)),
+                    Styles.regular(color: ColorConstants.GREY_2, size: 12)),
                 SizedBox(
                   width: 4,
                 ),
@@ -2047,7 +2262,7 @@ class _DashboardPageState extends State<DashboardPage> {
           sessionList = box
               .get("dashboard_sessions_limit")
               .map((e) =>
-                  DashboardSessionsLimit.fromJson(Map<String, dynamic>.from(e)))
+              DashboardSessionsLimit.fromJson(Map<String, dynamic>.from(e)))
               .cast<DashboardSessionsLimit>()
               .toList();
 
@@ -2078,209 +2293,209 @@ class _DashboardPageState extends State<DashboardPage> {
                     itemBuilder: (BuildContext context, int index) {
                       return sessionList!.length > 0
                           ? Container(
-                              padding: EdgeInsets.all(10),
-                              margin: EdgeInsets.symmetric(vertical: 10),
-                              decoration: BoxDecoration(
-                                  color: ColorConstants.WHITE,
-                                  border: Border.all(
-                                      color: Colors.grey[350]!, width: 1),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                          padding: EdgeInsets.all(10),
+                          margin: EdgeInsets.symmetric(vertical: 10),
+                          decoration: BoxDecoration(
+                              color: ColorConstants.WHITE,
+                              border: Border.all(
+                                  color: Colors.grey[350]!, width: 1),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                sessionList![index]
+                                    .liveclassStatus!
+                                    .toLowerCase() ==
+                                    'live'
+                                    ? Row(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.center,
                                   children: [
                                     sessionList![index]
-                                                .liveclassStatus!
-                                                .toLowerCase() ==
-                                            'live'
-                                        ? Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              sessionList![index]
-                                                          .contentType!
-                                                          .toLowerCase() !=
-                                                      'offlineclass'
-                                                  ? SvgPicture.asset(
-                                                      'assets/images/live_icon.svg',
-                                                      width: 25,
-                                                      height: 25,
-                                                      allowDrawingOutsideViewBox:
-                                                          true,
-                                                    )
-                                                  : SvgPicture.asset(
-                                                      'assets/images/offline_live.svg',
-                                                      allowDrawingOutsideViewBox:
-                                                          true,
-                                                    ),
-                                              SizedBox(width: 5),
-                                              Text(
-                                                  sessionList![index]
-                                                              .contentType!
-                                                              .toLowerCase() ==
-                                                          'offlineclass'
-                                                      ? 'Ongoing'
-                                                      : "${Strings.of(context)?.liveNow}",
-                                                  style: Styles.regular(
-                                                      size: 12,
-                                                      color: ColorConstants()
-                                                          .primaryColor())),
-                                              Expanded(child: SizedBox()),
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    color:
-                                                        ColorConstants.BG_GREY),
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 8,
-                                                    horizontal: 18),
-                                                child: Text(
-                                                    sessionList![index]
-                                                                    .contentType!
-                                                                    .toLowerCase() ==
-                                                                'liveclass' ||
-                                                            sessionList![index]
-                                                                    .contentType!
-                                                                    .toLowerCase() ==
-                                                                'zoomclass'
-                                                        ? "Live"
-                                                        : 'Classroom',
-                                                    style: Styles.regular(
-                                                        size: 10,
-                                                        color: ColorConstants
-                                                            .BLACK)),
-                                              ),
-                                            ],
-                                          )
-                                        : sessionList![index]
-                                                    .liveclassStatus!
-                                                    .toLowerCase() ==
-                                                'upcoming'
-                                            ? Row(children: [
-                                                SvgPicture.asset(
-                                                  'assets/images/upcoming_live.svg',
-                                                  allowDrawingOutsideViewBox:
-                                                      true,
-                                                ),
-                                                SizedBox(width: 5),
-                                                Text(
-                                                    '${sessionList![index].startTime} - ${sessionList![index].endTime} |${DateFormat('d').format(DateTime.fromMillisecondsSinceEpoch(sessionList![index].fromDate! * 1000))} ${months[int.parse(DateFormat('M').format(DateTime.fromMillisecondsSinceEpoch(sessionList![index].fromDate! * 1000))) - 1]}',
-                                                    style: Styles.regular(
-                                                        size: 12)),
-                                                Expanded(child: SizedBox()),
-                                                Container(
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: ColorConstants
-                                                          .BG_GREY),
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 8,
-                                                      horizontal: 18),
-                                                  child: Text(
-                                                      sessionList![index]
-                                                                  .contentType!
-                                                                  .toLowerCase() ==
-                                                              'offlineclass'
-                                                          ? "Classroom"
-                                                          : "Live",
-                                                      style: Styles.regular(
-                                                          size: 10,
-                                                          color: ColorConstants
-                                                              .BLACK)),
-                                                ),
-                                              ])
-                                            : SizedBox(),
-                                    SizedBox(height: 10),
-                                    Text('${sessionList![index].name}',
-                                        style: Styles.semibold(size: 16)),
-                                    SizedBox(height: 9),
-                                    Text(
-                                      '${sessionList![index].description}',
-                                      style: Styles.regular(size: 14),
+                                        .contentType!
+                                        .toLowerCase() !=
+                                        'offlineclass'
+                                        ? SvgPicture.asset(
+                                      'assets/images/live_icon.svg',
+                                      width: 25,
+                                      height: 25,
+                                      allowDrawingOutsideViewBox:
+                                      true,
+                                    )
+                                        : SvgPicture.asset(
+                                      'assets/images/offline_live.svg',
+                                      allowDrawingOutsideViewBox:
+                                      true,
                                     ),
-                                    SizedBox(height: 15),
-                                    Row(
-                                      children: [
-                                        sessionList![index].trainerName !=
-                                                    null &&
-                                                sessionList![index]
-                                                        .trainerName !=
-                                                    ''
-                                            ? Text(
-                                                'by ${sessionList![index].trainerName} ',
-                                                style: Styles.regular(size: 12))
-                                            : Text(''),
-                                        Expanded(child: SizedBox()),
-                                        if (sessionList![index]
-                                                .liveclassStatus!
-                                                .toLowerCase() ==
-                                            'live')
-                                          InkWell(
-                                              onTap: () {
-                                                launch(
-                                                    sessionList![index].url!);
-                                              },
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: ColorConstants()
-                                                      .primaryColor(),
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                ),
-                                                child: Padding(
-                                                    child: Text(
-                                                        sessionList![index]
-                                                                        .contentType!
-                                                                        .toLowerCase() ==
-                                                                    "liveclass" ||
-                                                                sessionList![
-                                                                            index]
-                                                                        .contentType!
-                                                                        .toLowerCase() ==
-                                                                    "zoomclass"
-                                                            ? "Join Now"
-                                                            : "Mark your attendance",
-                                                        style: Styles.regular(
-                                                            size: 12,
-                                                            color: ColorConstants()
-                                                                .primaryForgroundColor())),
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 18,
-                                                            vertical: 8)),
-                                              )),
-                                        if (sessionList![index]
-                                                .liveclassStatus!
-                                                .toLowerCase() ==
-                                            'upcoming')
-                                          Text('Upcoming',
-                                              style: Styles.regular(size: 12)),
-                                        Visibility(
+                                    SizedBox(width: 5),
+                                    Text(
+                                        sessionList![index]
+                                            .contentType!
+                                            .toLowerCase() ==
+                                            'offlineclass'
+                                            ? 'Ongoing'
+                                            : "${Strings.of(context)?.liveNow}",
+                                        style: Styles.regular(
+                                            size: 12,
+                                            color: ColorConstants()
+                                                .primaryColor())),
+                                    Expanded(child: SizedBox()),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.circular(
+                                              10),
+                                          color:
+                                          ColorConstants.BG_GREY),
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 8,
+                                          horizontal: 18),
+                                      child: Text(
+                                          sessionList![index]
+                                              .contentType!
+                                              .toLowerCase() ==
+                                              'liveclass' ||
+                                              sessionList![index]
+                                                  .contentType!
+                                                  .toLowerCase() ==
+                                                  'zoomclass'
+                                              ? "Live"
+                                              : 'Classroom',
+                                          style: Styles.regular(
+                                              size: 10,
+                                              color: ColorConstants
+                                                  .BLACK)),
+                                    ),
+                                  ],
+                                )
+                                    : sessionList![index]
+                                    .liveclassStatus!
+                                    .toLowerCase() ==
+                                    'upcoming'
+                                    ? Row(children: [
+                                  SvgPicture.asset(
+                                    'assets/images/upcoming_live.svg',
+                                    allowDrawingOutsideViewBox:
+                                    true,
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text(
+                                      '${sessionList![index].startTime} - ${sessionList![index].endTime} |${DateFormat('d').format(DateTime.fromMillisecondsSinceEpoch(sessionList![index].fromDate! * 1000))} ${months[int.parse(DateFormat('M').format(DateTime.fromMillisecondsSinceEpoch(sessionList![index].fromDate! * 1000))) - 1]}',
+                                      style: Styles.regular(
+                                          size: 12)),
+                                  Expanded(child: SizedBox()),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.circular(
+                                            10),
+                                        color: ColorConstants
+                                            .BG_GREY),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 8,
+                                        horizontal: 18),
+                                    child: Text(
+                                        sessionList![index]
+                                            .contentType!
+                                            .toLowerCase() ==
+                                            'offlineclass'
+                                            ? "Classroom"
+                                            : "Live",
+                                        style: Styles.regular(
+                                            size: 10,
+                                            color: ColorConstants
+                                                .BLACK)),
+                                  ),
+                                ])
+                                    : SizedBox(),
+                                SizedBox(height: 10),
+                                Text('${sessionList![index].name}',
+                                    style: Styles.semibold(size: 16)),
+                                SizedBox(height: 9),
+                                Text(
+                                  '${sessionList![index].description}',
+                                  style: Styles.regular(size: 14),
+                                ),
+                                SizedBox(height: 15),
+                                Row(
+                                  children: [
+                                    sessionList![index].trainerName !=
+                                        null &&
+                                        sessionList![index]
+                                            .trainerName !=
+                                            ''
+                                        ? Text(
+                                        'by ${sessionList![index].trainerName} ',
+                                        style: Styles.regular(size: 12))
+                                        : Text(''),
+                                    Expanded(child: SizedBox()),
+                                    if (sessionList![index]
+                                        .liveclassStatus!
+                                        .toLowerCase() ==
+                                        'live')
+                                      InkWell(
+                                          onTap: () {
+                                            launch(
+                                                sessionList![index].url!);
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: ColorConstants()
+                                                  .primaryColor(),
+                                              borderRadius:
+                                              BorderRadius.circular(8),
+                                            ),
                                             child: Padding(
                                                 child: Text(
-                                                  "Concluded",
-                                                  style: Styles.regular(
-                                                      size: 12,
-                                                      color:
-                                                          ColorConstants.BLACK),
-                                                ),
-                                                padding: EdgeInsets.all(10)),
-                                            visible: sessionList![index]
-                                                    .liveclassStatus!
-                                                    .toLowerCase() ==
-                                                'completed')
-                                      ],
-                                    )
-                                  ]))
+                                                    sessionList![index]
+                                                        .contentType!
+                                                        .toLowerCase() ==
+                                                        "liveclass" ||
+                                                        sessionList![
+                                                        index]
+                                                            .contentType!
+                                                            .toLowerCase() ==
+                                                            "zoomclass"
+                                                        ? "Join Now"
+                                                        : "Mark your attendance",
+                                                    style: Styles.regular(
+                                                        size: 12,
+                                                        color: ColorConstants()
+                                                            .primaryForgroundColor())),
+                                                padding:
+                                                EdgeInsets.symmetric(
+                                                    horizontal: 18,
+                                                    vertical: 8)),
+                                          )),
+                                    if (sessionList![index]
+                                        .liveclassStatus!
+                                        .toLowerCase() ==
+                                        'upcoming')
+                                      Text('Upcoming',
+                                          style: Styles.regular(size: 12)),
+                                    Visibility(
+                                        child: Padding(
+                                            child: Text(
+                                              "Concluded",
+                                              style: Styles.regular(
+                                                  size: 12,
+                                                  color:
+                                                  ColorConstants.BLACK),
+                                            ),
+                                            padding: EdgeInsets.all(10)),
+                                        visible: sessionList![index]
+                                            .liveclassStatus!
+                                            .toLowerCase() ==
+                                            'completed')
+                                  ],
+                                )
+                              ]))
                           : Container(child: Text(""));
                     },
                     itemCount: sessionList?.length != 0
                         ? sessionList!.length >= 2
-                            ? 2
-                            : sessionList?.length
+                        ? 2
+                        : sessionList?.length
                         : 0,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
@@ -2313,7 +2528,7 @@ class _DashboardPageState extends State<DashboardPage> {
           myCoursesList = box
               .get("dashboard_my_courses_limit")
               .map((e) => DashboardMyCoursesLimit.fromJson(
-                  Map<String, dynamic>.from(e)))
+              Map<String, dynamic>.from(e)))
               .cast<DashboardMyCoursesLimit>()
               .toList();
 
@@ -2369,14 +2584,14 @@ class _DashboardPageState extends State<DashboardPage> {
                                       context,
                                       NextPageRoute(
                                           ChangeNotifierProvider<
-                                                  TrainingDetailProvider>(
+                                              TrainingDetailProvider>(
                                               create: (context) =>
                                                   TrainingDetailProvider(
                                                       TrainingService(
                                                           ApiService()),
                                                       MProgram(
                                                           id: myCoursesList![
-                                                                  index]
+                                                          index]
                                                               .id)),
                                               child: TrainingDetailPage()),
                                           isMaintainState: true));
@@ -2385,39 +2600,39 @@ class _DashboardPageState extends State<DashboardPage> {
                                     padding: EdgeInsets.all(10),
                                     margin: EdgeInsets.only(top: 12, right: 10),
                                     width:
-                                        MediaQuery.of(context).size.width * 0.8,
+                                    MediaQuery.of(context).size.width * 0.8,
                                     height: MediaQuery.of(context).size.height *
                                         0.15,
                                     decoration: BoxDecoration(
                                         color: ColorConstants.GREY
                                             .withOpacity(0.6),
                                         borderRadius:
-                                            BorderRadius.circular(15)),
+                                        BorderRadius.circular(15)),
                                     child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.end,
+                                        CrossAxisAlignment.end,
                                         // mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.start,
+                                            MainAxisAlignment.start,
                                             children: [
                                               SizedBox(
                                                 width: 60,
                                                 height: 60,
                                                 child: ClipRRect(
                                                   borderRadius:
-                                                      BorderRadius.circular(8),
+                                                  BorderRadius.circular(8),
                                                   child: CachedNetworkImage(
                                                     imageUrl:
-                                                        '${courseList1?[index].image}',
+                                                    '${courseList1?[index].image}',
                                                     width: 60,
                                                     height: 60,
                                                     errorWidget:
                                                         (context, url, error) =>
-                                                            SvgPicture.asset(
-                                                      'assets/images/gscore_postnow_bg.svg',
-                                                    ),
+                                                        SvgPicture.asset(
+                                                          'assets/images/gscore_postnow_bg.svg',
+                                                        ),
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
@@ -2430,54 +2645,54 @@ class _DashboardPageState extends State<DashboardPage> {
                                                     '${myCoursesList![index].name}',
                                                     maxLines: 2,
                                                     overflow:
-                                                        TextOverflow.ellipsis,
+                                                    TextOverflow.ellipsis,
                                                     softWrap: true,
                                                     style:
-                                                        Styles.bold(size: 14)),
+                                                    Styles.bold(size: 14)),
                                               ),
                                             ],
                                           ),
                                           Column(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                   '${myCoursesList![index].completion.toString().split('.').first}% ${Strings.of(context)?.Completed}',
                                                   style:
-                                                      Styles.regular(size: 12)),
+                                                  Styles.regular(size: 12)),
                                               SizedBox(
                                                 height: 4,
                                               ),
                                               Container(
                                                 height: 10,
                                                 width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
+                                                    .size
+                                                    .width *
                                                     0.57,
                                                 decoration: BoxDecoration(
                                                     color: ColorConstants.GREY,
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
+                                                    BorderRadius.circular(
+                                                        10)),
                                                 child: Stack(
                                                   children: [
                                                     Container(
                                                       height: 10,
                                                       width: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .width *
+                                                          context)
+                                                          .size
+                                                          .width *
                                                           0.8 *
                                                           (myCoursesList![index]
-                                                                  .completion! /
+                                                              .completion! /
                                                               100),
                                                       decoration: BoxDecoration(
                                                           color: ColorConstants
                                                               .PROGESSBAR_TEAL,
                                                           borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      10)),
+                                                          BorderRadius
+                                                              .circular(
+                                                              10)),
                                                     ),
                                                   ],
                                                 ),
@@ -2562,7 +2777,7 @@ class _DashboardPageState extends State<DashboardPage> {
           reelsList = box
               .get("dashboard_reels_limit")
               .map((e) =>
-                  DashboardReelsLimit.fromJson(Map<String, dynamic>.from(e)))
+              DashboardReelsLimit.fromJson(Map<String, dynamic>.from(e)))
               .cast<DashboardReelsLimit>()
               .toList();
 
@@ -2643,7 +2858,7 @@ class _DashboardPageState extends State<DashboardPage> {
           recommendedCourseList = box
               .get("dashboard_recommended_courses_limit")
               .map((e) => DashboardRecommendedCoursesLimit.fromJson(
-                  Map<String, dynamic>.from(e)))
+              Map<String, dynamic>.from(e)))
               .cast<DashboardRecommendedCoursesLimit>()
               .toList();
 
@@ -2719,7 +2934,7 @@ class _DashboardPageState extends State<DashboardPage> {
           carvaanList = box
               .get("dashboard_carvan_limit")
               .map((e) =>
-                  DashboardCarvanLimit.fromJson(Map<String, dynamic>.from(e)))
+              DashboardCarvanLimit.fromJson(Map<String, dynamic>.from(e)))
               .cast<DashboardCarvanLimit>()
               .toList();
 
@@ -2783,7 +2998,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(8),
                                 border:
-                                    Border.all(color: ColorConstants.GREY_4)),
+                                Border.all(color: ColorConstants.GREY_4)),
                             margin: EdgeInsets.all(8),
                             // color: Colors.red,
                             child: Column(
@@ -2798,57 +3013,57 @@ class _DashboardPageState extends State<DashboardPage> {
                                         bottom: 8.0),
                                     child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                      MainAxisAlignment.start,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Center(
                                           child: ClipOval(
                                               child: Image.network(
-                                            '${carvaanList?[index].profileImage}',
-                                            height: 30,
-                                            width: 30,
-                                            fit: BoxFit.cover,
-                                            errorBuilder:
-                                                (context, url, error) {
-                                              return SvgPicture.asset(
-                                                'assets/images/default_user.svg',
+                                                '${carvaanList?[index].profileImage}',
                                                 height: 30,
                                                 width: 30,
-                                                allowDrawingOutsideViewBox:
+                                                fit: BoxFit.cover,
+                                                errorBuilder:
+                                                    (context, url, error) {
+                                                  return SvgPicture.asset(
+                                                    'assets/images/default_user.svg',
+                                                    height: 30,
+                                                    width: 30,
+                                                    allowDrawingOutsideViewBox:
                                                     true,
-                                              );
-                                            },
-                                            loadingBuilder:
-                                                (BuildContext context,
+                                                  );
+                                                },
+                                                loadingBuilder:
+                                                    (BuildContext context,
                                                     Widget child,
                                                     ImageChunkEvent?
-                                                        loadingProgress) {
-                                              if (loadingProgress == null)
-                                                return child;
-                                              return Shimmer.fromColors(
-                                                baseColor: Color(0xffe6e4e6),
-                                                highlightColor:
+                                                    loadingProgress) {
+                                                  if (loadingProgress == null)
+                                                    return child;
+                                                  return Shimmer.fromColors(
+                                                    baseColor: Color(0xffe6e4e6),
+                                                    highlightColor:
                                                     Color(0xffeaf0f3),
-                                                child: Container(
-                                                    height: 50,
-                                                    margin: EdgeInsets.only(
-                                                        left: 2),
-                                                    width: 50,
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      shape: BoxShape.circle,
-                                                    )),
-                                              );
-                                            },
-                                          )),
+                                                    child: Container(
+                                                        height: 50,
+                                                        margin: EdgeInsets.only(
+                                                            left: 2),
+                                                        width: 50,
+                                                        decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          shape: BoxShape.circle,
+                                                        )),
+                                                  );
+                                                },
+                                              )),
                                         ),
                                         Expanded(
                                           child: Column(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.start,
+                                            MainAxisAlignment.start,
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                             children: <Widget>[
                                               Padding(
                                                 padding: const EdgeInsets.only(
@@ -2868,14 +3083,14 @@ class _DashboardPageState extends State<DashboardPage> {
                                                 child: Text(
                                                   Utility()
                                                       .calculateTimeDifferenceBetween(
-                                                          DateTime.parse(date
-                                                              .toString()
-                                                              .substring(
-                                                                  0, 19)),
-                                                          now,
-                                                          context),
+                                                      DateTime.parse(date
+                                                          .toString()
+                                                          .substring(
+                                                          0, 19)),
+                                                      now,
+                                                      context),
                                                   style:
-                                                      Styles.regular(size: 12),
+                                                  Styles.regular(size: 12),
                                                 ),
                                               )
                                             ],
@@ -2887,15 +3102,15 @@ class _DashboardPageState extends State<DashboardPage> {
 
                                   Padding(
                                       padding:
-                                          carvaanList?[index].description !=
-                                                  null
-                                              ? const EdgeInsets.only(
-                                                  bottom: 7, left: 10, top: 13)
-                                              : const EdgeInsets.only(
-                                                  bottom: 0, left: 10, top: 0),
+                                      carvaanList?[index].description !=
+                                          null
+                                          ? const EdgeInsets.only(
+                                          bottom: 7, left: 10, top: 13)
+                                          : const EdgeInsets.only(
+                                          bottom: 0, left: 10, top: 0),
                                       child: ReadMoreText(
                                           text:
-                                              '${carvaanList?[index].description ?? ''}')),
+                                          '${carvaanList?[index].description ?? ''}')),
 
                                   //                                    carvaanList?[index].resourcePath
                                   //                                               ?.contains('.mp4')  == true||
@@ -2951,7 +3166,7 @@ class _DashboardPageState extends State<DashboardPage> {
           carvaanList = box
               .get("dashboard_carvan_limit")
               .map((e) =>
-                  DashboardCarvanLimit.fromJson(Map<String, dynamic>.from(e)))
+              DashboardCarvanLimit.fromJson(Map<String, dynamic>.from(e)))
               .cast<DashboardCarvanLimit>()
               .toList();
 
@@ -2995,7 +3210,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         final now = DateTime.now();
 
                         var millis =
-                            int.parse(carvaanList![index].createdAt.toString());
+                        int.parse(carvaanList![index].createdAt.toString());
                         DateTime date = DateTime.fromMillisecondsSinceEpoch(
                           millis * 1000,
                         );
@@ -3022,51 +3237,51 @@ class _DashboardPageState extends State<DashboardPage> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Center(
                                         child: ClipOval(
                                             child: Image.network(
-                                          '${carvaanList?[index].profileImage}',
-                                          height: 30,
-                                          width: 30,
-                                          fit: BoxFit.cover,
-                                          errorBuilder: (context, url, error) {
-                                            return SvgPicture.asset(
-                                              'assets/images/default_user.svg',
+                                              '${carvaanList?[index].profileImage}',
                                               height: 30,
                                               width: 30,
-                                              allowDrawingOutsideViewBox: true,
-                                            );
-                                          },
-                                          loadingBuilder: (BuildContext context,
-                                              Widget child,
-                                              ImageChunkEvent?
+                                              fit: BoxFit.cover,
+                                              errorBuilder: (context, url, error) {
+                                                return SvgPicture.asset(
+                                                  'assets/images/default_user.svg',
+                                                  height: 30,
+                                                  width: 30,
+                                                  allowDrawingOutsideViewBox: true,
+                                                );
+                                              },
+                                              loadingBuilder: (BuildContext context,
+                                                  Widget child,
+                                                  ImageChunkEvent?
                                                   loadingProgress) {
-                                            if (loadingProgress == null)
-                                              return child;
-                                            return Shimmer.fromColors(
-                                              baseColor: Color(0xffe6e4e6),
-                                              highlightColor: Color(0xffeaf0f3),
-                                              child: Container(
-                                                  height: 50,
-                                                  margin:
+                                                if (loadingProgress == null)
+                                                  return child;
+                                                return Shimmer.fromColors(
+                                                  baseColor: Color(0xffe6e4e6),
+                                                  highlightColor: Color(0xffeaf0f3),
+                                                  child: Container(
+                                                      height: 50,
+                                                      margin:
                                                       EdgeInsets.only(left: 2),
-                                                  width: 50,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    shape: BoxShape.circle,
-                                                  )),
-                                            );
-                                          },
-                                        )),
+                                                      width: 50,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        shape: BoxShape.circle,
+                                                      )),
+                                                );
+                                              },
+                                            )),
                                       ),
                                       Expanded(
                                         child: Column(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                          MainAxisAlignment.start,
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Padding(
                                               padding: const EdgeInsets.only(
@@ -3085,11 +3300,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                               child: Text(
                                                 Utility()
                                                     .calculateTimeDifferenceBetween(
-                                                        DateTime.parse(date
-                                                            .toString()
-                                                            .substring(0, 19)),
-                                                        now,
-                                                        context),
+                                                    DateTime.parse(date
+                                                        .toString()
+                                                        .substring(0, 19)),
+                                                    now,
+                                                    context),
                                                 style: Styles.regular(size: 12),
                                               ),
                                             )
@@ -3101,39 +3316,39 @@ class _DashboardPageState extends State<DashboardPage> {
                                 ),
                                 Padding(
                                     padding:
-                                        carvaanList?[index].description != null
-                                            ? const EdgeInsets.only(
-                                                bottom: 7, left: 10, top: 13)
-                                            : const EdgeInsets.only(
-                                                bottom: 0, left: 10, top: 0),
+                                    carvaanList?[index].description != null
+                                        ? const EdgeInsets.only(
+                                        bottom: 7, left: 10, top: 13)
+                                        : const EdgeInsets.only(
+                                        bottom: 0, left: 10, top: 0),
                                     child: ReadMoreText(
                                         text:
-                                            '${carvaanList?[index].description ?? ''}')),
+                                        '${carvaanList?[index].description ?? ''}')),
 
                                 carvaanList?[index]
-                                                .resourcePath
-                                                ?.contains('.mp4') ==
-                                            true ||
-                                        carvaanList?[index]
-                                                .resourcePath
-                                                ?.contains('.mov') ==
-                                            true
-                                    // ? CustomBetterPlayer(
-                                    //     url: widget.fileList[index])
+                                    .resourcePath
+                                    ?.contains('.mp4') ==
+                                    true ||
+                                    carvaanList?[index]
+                                        .resourcePath
+                                        ?.contains('.mov') ==
+                                        true
+                                // ? CustomBetterPlayer(
+                                //     url: widget.fileList[index])
                                     ? Container(
-                                        height: 300,
-                                        child: FlickVideoPlayer(
-                                            flickManager: FlickManager(
+                                    height: 300,
+                                    child: FlickVideoPlayer(
+                                        flickManager: FlickManager(
                                           videoPlayerController:
-                                              VideoPlayerController.network(
-                                                  '${carvaanList?[index].resourcePath}',),
+                                          VideoPlayerController.network(
+                                            '${carvaanList?[index].resourcePath}',),
                                         )))
 
                                     : Image.network(
-                                        '${carvaanList?[index].resourcePath}',
-                                        height: 300,
-                                        width: double.infinity,
-                                        fit: BoxFit.fitWidth),
+                                    '${carvaanList?[index].resourcePath}',
+                                    height: 300,
+                                    width: double.infinity,
+                                    fit: BoxFit.fitWidth),
 
                                 //TODO: Like Dislike
                                 SizedBox(
@@ -3146,7 +3361,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                   ),
                                   child: Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     mainAxisSize: MainAxisSize.max,
                                     children: <Widget>[
                                       InkWell(
@@ -3169,13 +3384,13 @@ class _DashboardPageState extends State<DashboardPage> {
                                               ),
                                               Text(
                                                 carvaanList?[index].likeCount !=
-                                                        0
+                                                    0
                                                     ? '${carvaanList?[index].likeCount} ${Strings.of(context)?.Like}'
                                                     : ' ${Strings.of(context)?.Like}',
                                                 style: Styles.regular(
                                                     size: 12,
                                                     color:
-                                                        ColorConstants.BLACK),
+                                                    ColorConstants.BLACK),
                                               ),
                                               /*if (widget.value?.getLikeCount(widget.index) != 0 &&
                                                 widget.value?.getLikeCount(widget.index) != 1 &&
@@ -3196,14 +3411,14 @@ class _DashboardPageState extends State<DashboardPage> {
                                           showModalBottomSheet(
                                               context: context,
                                               backgroundColor:
-                                                  ColorConstants.WHITE,
+                                              ColorConstants.WHITE,
                                               isScrollControlled: true,
                                               builder: (context) {
                                                 return FractionallySizedBox(
                                                   heightFactor: 0.7,
                                                   child: CommentViewPage(
                                                     postId:
-                                                        carvaanList?[index].id,
+                                                    carvaanList?[index].id,
                                                     //value: widget.value,
                                                   ),
                                                 );
@@ -3221,19 +3436,19 @@ class _DashboardPageState extends State<DashboardPage> {
                                                   height: 18.8,
                                                   width: 17.86,
                                                   allowDrawingOutsideViewBox:
-                                                      true,
+                                                  true,
                                                 ),
                                               ),
                                               Text(
                                                 carvaanList?[index]
-                                                            .commentCount !=
-                                                        0
+                                                    .commentCount !=
+                                                    0
                                                     ? '${carvaanList?[index].commentCount} ${Strings.of(context)?.Comment}'
                                                     : ' ${Strings.of(context)?.Comment}',
                                                 style: Styles.regular(
                                                     size: 12,
                                                     color:
-                                                        ColorConstants.BLACK),
+                                                    ColorConstants.BLACK),
                                               ),
                                               /*if (carvaanList?[index].commentCount! > 1 &&
                                                 Preference.getInt(Preference.APP_LANGUAGE) == 1)
@@ -3264,7 +3479,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                                   height: 18.8,
                                                   width: 17.86,
                                                   allowDrawingOutsideViewBox:
-                                                      true,
+                                                  true,
                                                 ),
                                               ),
                                               Text(
@@ -3272,7 +3487,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                                 style: Styles.regular(
                                                     size: 12,
                                                     color:
-                                                        ColorConstants.BLACK),
+                                                    ColorConstants.BLACK),
                                               )
                                             ],
                                           ),
@@ -3346,7 +3561,7 @@ class _DashboardPageState extends State<DashboardPage> {
         featuredContentList = box
             .get("dashboard_featured_content_limit")
             .map((e) => DashboardFeaturedContentLimit.fromJson(
-                Map<String, dynamic>.from(e)))
+            Map<String, dynamic>.from(e)))
             .cast<DashboardFeaturedContentLimit>()
             .toList();
 
@@ -3402,7 +3617,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         crossAxisSpacing: 20,
                         childAspectRatio: 2 / 3,
                         mainAxisExtent:
-                            MediaQuery.of(context).size.height * 0.34,
+                        MediaQuery.of(context).size.height * 0.34,
                         crossAxisCount: 2),
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
@@ -3437,48 +3652,48 @@ class _DashboardPageState extends State<DashboardPage> {
                                       borderRadius: BorderRadius.circular(10),
                                       child: Container(
                                           height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
+                                              .size
+                                              .height *
                                               0.25,
                                           width:
-                                              MediaQuery.of(context).size.width,
+                                          MediaQuery.of(context).size.width,
                                           decoration: BoxDecoration(
                                               borderRadius:
-                                                  BorderRadius.circular(10)),
+                                              BorderRadius.circular(10)),
                                           foregroundDecoration: BoxDecoration(
                                               gradient: LinearGradient(
-                                            end: const Alignment(0.0, -1),
-                                            begin: const Alignment(0.0, 0.8),
-                                            colors: [
-                                              const Color(0x8A000000)
-                                                  .withOpacity(0.4),
-                                              Colors.black12.withOpacity(0.0)
-                                            ],
-                                          )),
+                                                end: const Alignment(0.0, -1),
+                                                begin: const Alignment(0.0, 0.8),
+                                                colors: [
+                                                  const Color(0x8A000000)
+                                                      .withOpacity(0.4),
+                                                  Colors.black12.withOpacity(0.0)
+                                                ],
+                                              )),
                                           child: CachedNetworkImage(
                                             imageUrl:
-                                                '${featuredContentList![index].resourcePathThumbnail}',
+                                            '${featuredContentList![index].resourcePathThumbnail}',
                                             // '${featuredContentList![index].thumbnailUrl}',
                                             imageBuilder:
                                                 (context, imageProvider) =>
-                                                    Container(
-                                              decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                image: imageProvider,
-                                                fit: BoxFit.fill,
-                                              )),
-                                            ),
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                      image: DecorationImage(
+                                                        image: imageProvider,
+                                                        fit: BoxFit.fill,
+                                                      )),
+                                                ),
                                             placeholder: (context, url) =>
                                                 Image.asset(
-                                              'assets/images/placeholder.png',
-                                              fit: BoxFit.fill,
-                                            ),
+                                                  'assets/images/placeholder.png',
+                                                  fit: BoxFit.fill,
+                                                ),
                                             errorWidget:
                                                 (context, url, error) =>
-                                                    Image.asset(
-                                              'assets/images/placeholder.png',
-                                              fit: BoxFit.fill,
-                                            ),
+                                                Image.asset(
+                                                  'assets/images/placeholder.png',
+                                                  fit: BoxFit.fill,
+                                                ),
                                           )),
                                     ),
                                     if (featuredContentList![index]
@@ -3689,7 +3904,7 @@ class _DashboardPageState extends State<DashboardPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
                 child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
@@ -3856,37 +4071,37 @@ class _ShowImageState extends State<ShowImage> {
   Widget build(BuildContext context) {
     return imageFile != null
         ? Stack(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.memory(
-                  imageFile!,
-                  fit: BoxFit.cover,
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                ),
-              ),
-              Center(
-                child: SvgPicture.asset(
-                  'assets/images/play.svg',
-                  height: 40.0,
-                  width: 40.0,
-                  allowDrawingOutsideViewBox: true,
-                ),
-              ),
-            ],
-          )
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Image.memory(
+            imageFile!,
+            fit: BoxFit.cover,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+          ),
+        ),
+        Center(
+          child: SvgPicture.asset(
+            'assets/images/play.svg',
+            height: 40.0,
+            width: 40.0,
+            allowDrawingOutsideViewBox: true,
+          ),
+        ),
+      ],
+    )
         : Shimmer.fromColors(
-            baseColor: Color(0xffe6e4e6),
-            highlightColor: Color(0xffeaf0f3),
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.2,
-              margin: EdgeInsets.symmetric(horizontal: 10),
-              width: MediaQuery.of(context).size.width * 0.4,
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(6)),
-            ),
-          );
+      baseColor: Color(0xffe6e4e6),
+      highlightColor: Color(0xffeaf0f3),
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.2,
+        margin: EdgeInsets.symmetric(horizontal: 10),
+        width: MediaQuery.of(context).size.width * 0.4,
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(6)),
+      ),
+    );
   }
 }
 
