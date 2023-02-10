@@ -16,6 +16,8 @@ import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:masterg/utils/utility.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ExtraActivitiesList extends StatefulWidget {
   final List<CommonProfession> activities;
@@ -28,7 +30,7 @@ class ExtraActivitiesList extends StatefulWidget {
 }
 
 class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
-  bool ?isActivitieLoading = false;
+  bool? isActivitieLoading = false;
   List<CommonProfession>? activities;
   List<String> listOfMonths = [
     "Janaury",
@@ -47,66 +49,61 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
 
   @override
   void initState() {
-activities = widget.activities;
+    activities = widget.activities;
     super.initState();
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-                appBar: AppBar(
-                  title: Text("Extra currricular Activities",
-                      style: Styles.bold()),
-                  elevation: 0,
-                  backgroundColor: ColorConstants.WHITE,
-                  leading: IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        color: ColorConstants.BLACK,
-                      )),
-                  actions: [
-                    IconButton(
-                        onPressed: () async {
-                          await showModalBottomSheet(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              context: context,
-                              enableDrag: true,
-                              isScrollControlled: true,
-                              builder: (context) {
-                                return FractionallySizedBox(
-                                  heightFactor: 0.7,
-                                  child: Container(
-                                      height: height(context),
-                                      padding: const EdgeInsets.all(8.0),
-                                      margin: const EdgeInsets.only(top: 10),
-                                      child: AddActivities()),
-                                );
-                              }).then((value) => updatePortfolioList());
-                        },
-                        icon: Icon(
-                          Icons.add,
-                          color: ColorConstants.BLACK,
-                        )),
-                  ],
-                ),
-                body: 
-            BlocManager(
-          initState: (context) {},
-          child: BlocListener<HomeBloc, HomeState>(
-              listener: (context, state) {
-                if (state is PortfolioState) {
-                  handlePortfolioState(state);
-                }
-                if(state is SingularisDeletePortfolioState) {
-   handleSingularisDeletePortfolioState(state);
-
-                }
-              },
-              child:     
-                ScreenWithLoader(
+        appBar: AppBar(
+          title: Text("Extra currricular Activities", style: Styles.bold()),
+          elevation: 0,
+          backgroundColor: ColorConstants.WHITE,
+          leading: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: ColorConstants.BLACK,
+              )),
+          actions: [
+            IconButton(
+                onPressed: () async {
+                  await showModalBottomSheet(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      context: context,
+                      enableDrag: true,
+                      isScrollControlled: true,
+                      builder: (context) {
+                        return FractionallySizedBox(
+                          heightFactor: 0.7,
+                          child: Container(
+                              height: height(context),
+                              padding: const EdgeInsets.all(8.0),
+                              margin: const EdgeInsets.only(top: 10),
+                              child: AddActivities()),
+                        );
+                      }).then((value) => updatePortfolioList());
+                },
+                icon: Icon(
+                  Icons.add,
+                  color: ColorConstants.BLACK,
+                )),
+          ],
+        ),
+        body: BlocManager(
+            initState: (context) {},
+            child: BlocListener<HomeBloc, HomeState>(
+                listener: (context, state) {
+                  if (state is PortfolioState) {
+                    handlePortfolioState(state);
+                  }
+                  if (state is SingularisDeletePortfolioState) {
+                    handleSingularisDeletePortfolioState(state);
+                  }
+                },
+                child: ScreenWithLoader(
                   isLoading: isActivitieLoading,
                   body: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -125,12 +122,13 @@ activities = widget.activities;
                                     .parse(startDateString);
 
                                 return Container(
-                                  margin: EdgeInsets.only(right: 10),
+                                  // margin: EdgeInsets.only(right: 10),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
+                                      if(index != 0) SizedBox(height: 10,),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
@@ -140,37 +138,49 @@ activities = widget.activities;
                                           SizedBox(
                                             width: width(context) * 0.2,
                                             height: width(context) * 0.2,
-                                            child: CachedNetworkImage(
-                                              imageUrl:
-                                                  "${widget.baseUrl}${activities?[index].imageName}",
-                                              progressIndicatorBuilder:
-                                                  (context, url,
-                                                          downloadProgress) =>
-                                                      CircularProgressIndicator(
-                                                          value:
-                                                              downloadProgress
-                                                                  .progress),
-                                              errorWidget: (context, url,
-                                                      error) =>
-                                                  Container(
-                                                      width:
-                                                          width(context) * 0.2,
-                                                      height:
-                                                          width(context) * 0.2,
-                                                      padding:
-                                                          EdgeInsets.all(8),
-                                                      decoration: BoxDecoration(
-                                                          color: ColorConstants
-                                                              .DIVIDER,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(8)),
-                                                      child: SvgPicture.asset(
-                                                          'assets/images/extra.svg')),
+                                            child: ClipRRect(
+                                               borderRadius: BorderRadius.circular(8),
+                                              child: CachedNetworkImage(
+                                                imageUrl:
+                                                    "${widget.baseUrl}${activities?[index].imageName}",
+                                                    fit: BoxFit.cover,
+                                                progressIndicatorBuilder:
+                                                    (context, url,
+                                                            downloadProgress) =>
+                                                        Shimmer.fromColors(
+                                                  baseColor: Colors.grey[300]!,
+                                                  highlightColor:
+                                                      Colors.grey[100]!,
+                                                  enabled: true,
+                                                  child: Container(
+                                                    width: width(context) * 0.2,
+                                                    height: width(context) * 0.2,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                                errorWidget: (context, url,
+                                                        error) =>
+                                                    Container(
+                                                        width:
+                                                            width(context) * 0.2,
+                                                        height:
+                                                            width(context) * 0.2,
+                                                        padding:
+                                                            EdgeInsets.all(8),
+                                                        decoration: BoxDecoration(
+                                                            color: ColorConstants
+                                                                .DIVIDER,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(8)),
+                                                        child: SvgPicture.asset(
+                                                            'assets/images/extra.svg')),
+                                              ),
                                             ),
                                           ),
                                           SizedBox(width: 6),
-                                          SizedBox(
+                                          Container(
+                                            // color: Colors.red,
                                             width: width(context) * 0.7,
                                             child: Column(
                                               crossAxisAlignment:
@@ -184,11 +194,14 @@ activities = widget.activities;
                                                   children: [
                                                     SizedBox(
                                                       width:
-                                                          width(context) * 0.5,
-                                                      child: Text(
-                                                        '${activities?[index].title}',
-                                                        style: Styles.bold(
-                                                            size: 16),
+                                                          width(context) * 0.55,
+                                                      child:      Transform.translate(
+                                                  offset: Offset(0, -3),
+                                                        child: Text(
+                                                          '${activities?[index].title}',
+                                                          style: Styles.bold(
+                                                              size: 14),
+                                                        ),
                                                       ),
                                                     ),
                                                     InkWell(
@@ -247,22 +260,28 @@ activities = widget.activities;
                                                 SizedBox(
                                                   height: 4,
                                                 ),
+                                                // Text(
+                                                //   '${activities?[index].institute}',
+                                                //   style:
+                                                //       Styles.regular(size: 14),
+                                                // ),
                                                 Text(
-                                                  '${activities?[index].institute}',
+                                                  '${activities?[index].curricularType}',
                                                   style:
-                                                      Styles.regular(size: 14),
+                                                      Styles.regular(size: 12),
                                                 ),
                                                 SizedBox(
                                                   height: 4,
                                                 ),
                                                 Row(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
                                                   children: [
+                                                    // Text(
+                                                    //     '${activities?[index].curricularType} • '),
                                                     Text(
-                                                        '${activities?[index].curricularType} • '),
-                                                    Text(
-                                                      '  ${startDate.day} ${listOfMonths[startDate.month - 1]} ',
+                                                      '${Utility.ordinal(startDate.day)} ${listOfMonths[startDate.month - 1]} ${startDate.year}',
                                                       style: Styles.regular(
-                                                          size: 14),
+                                                          size: 12, color: Color(0xff929BA3)),
                                                     ),
                                                   ],
                                                 )
@@ -274,14 +293,14 @@ activities = widget.activities;
                                       SizedBox(
                                         height: 4,
                                       ),
+                                      SizedBox(height: 10,),
                                       ReadMoreText(
                                         viewMore: 'View more',
                                         text:
                                             '${activities?[index].description}',
                                         color: Color(0xff929BA3),
                                       ),
-                                      if (index != activities?.length)
-                                        Divider()
+                                      if (index != activities?.length) Divider()
                                     ],
                                   ),
                                 );
@@ -310,7 +329,6 @@ activities = widget.activities;
           isActivitieLoading = false;
           updatePortfolioList();
 
-          
           break;
         case ApiStatus.ERROR:
           Log.v("Error Delete Activities....................");
@@ -323,9 +341,8 @@ activities = widget.activities;
     });
   }
 
-   void updatePortfolioList(){
-   BlocProvider.of<HomeBloc>(context)
-                                .add(PortfolioEvent());
+  void updatePortfolioList() {
+    BlocProvider.of<HomeBloc>(context).add(PortfolioEvent());
   }
 
   void handlePortfolioState(PortfolioState state) {
@@ -334,7 +351,7 @@ activities = widget.activities;
       switch (portfolioState.apiState) {
         case ApiStatus.LOADING:
           Log.v("PortfolioState Loading....................");
-                    isActivitieLoading = false;
+          isActivitieLoading = false;
 
           setState(() {});
 
@@ -342,14 +359,13 @@ activities = widget.activities;
         case ApiStatus.SUCCESS:
           Log.v("PortfolioState Success....................");
           activities = portfolioState.response?.data.extraActivities;
-                   isActivitieLoading = false;
-
+          isActivitieLoading = false;
 
           setState(() {});
           break;
 
         case ApiStatus.ERROR:
-                   isActivitieLoading = false;
+          isActivitieLoading = false;
 
           setState(() {});
 

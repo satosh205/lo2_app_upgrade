@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive/hive.dart';
+import 'package:masterg/utils/constant.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../data/models/response/auth_response/user_session.dart';
@@ -81,10 +82,14 @@ class _AppDrawerState extends State<AppDrawer> {
                               style: Styles.bold(
                                   color: ColorConstants.WHITE, size: 22),
                             ),
-                            Text(
-                              '${Preference.getString(Preference.USER_EMAIL)}',
-                              style: Styles.bold(
-                                  color: ColorConstants.WHITE, size: 14),
+                            SizedBox(
+                              width: width(context) * 0.5,
+                              child: Text(
+                                '${Preference.getString(Preference.USER_EMAIL)}',
+                                maxLines: 2,
+                                style: Styles.semibold(
+                                    color: ColorConstants.WHITE, size: 12),
+                              ),
                             ),
                           ],
                         ),

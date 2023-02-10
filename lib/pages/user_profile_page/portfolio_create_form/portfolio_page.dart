@@ -2368,6 +2368,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                       ? Transform.translate(
                           offset: Offset(0, -20),
                           child: ListView.builder(
+                              physics: ScrollPhysics(),
                               itemCount: min(2, extraActivities!.length),
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
@@ -2384,46 +2385,59 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
+                                        if(index != 0) SizedBox(height: 10,),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          SizedBox(
+                                          Container(
                                             width: width(context) * 0.2,
                                             height: width(context) * 0.2,
-                                            child: CachedNetworkImage(
-                                              imageUrl:
-                                                  "${portfolioResponse?.data.baseFileUrl}${extraActivities[index].imageName}",
-                                              progressIndicatorBuilder:
-                                                  (context, url,
-                                                          downloadProgress) =>
-                                                      CircularProgressIndicator(
-                                                          value:
-                                                              downloadProgress
-                                                                  .progress),
-                                              errorWidget: (context, url,
-                                                      error) =>
-                                                  Container(
-                                                      width:
-                                                          width(context) * 0.2,
-                                                      height:
-                                                          width(context) * 0.2,
-                                                      padding:
-                                                          EdgeInsets.all(8),
-                                                      decoration: BoxDecoration(
-                                                          color: ColorConstants
-                                                              .DIVIDER,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(8)),
-                                                      child: SvgPicture.asset(
-                                                          'assets/images/extra.svg')),
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(8),
+                                              child: CachedNetworkImage(
+                                                imageUrl:
+                                                    "${portfolioResponse?.data.baseFileUrl}${extraActivities[index].imageName}",
+                                                    fit: BoxFit.cover,
+                                                progressIndicatorBuilder:
+                                                    (context, url,
+                                                            downloadProgress) =>
+                                                        Shimmer.fromColors(
+                                                  baseColor: Colors.grey[300]!,
+                                                  highlightColor:
+                                                      Colors.grey[100]!,
+                                                  enabled: true,
+                                                  child: Container(
+                                                    width: width(context) * 0.2,
+                                                    height: width(context) * 0.2,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                                errorWidget: (context, url,
+                                                        error) =>
+                                                    Container(
+                                                        width:
+                                                            width(context) * 0.2,
+                                                        height:
+                                                            width(context) * 0.2,
+                                                        padding:
+                                                            EdgeInsets.all(8),
+                                                        decoration: BoxDecoration(
+                                                            color: ColorConstants
+                                                                .DIVIDER,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(8)),
+                                                        child: SvgPicture.asset(
+                                                            'assets/images/extra.svg')),
+                                              ),
                                             ),
                                           ),
                                           SizedBox(width: 6),
-                                          SizedBox(
+                                          Container(
+                                         
                                             width: width(context) * 0.7,
                                             child: Column(
                                               crossAxisAlignment:
@@ -2431,9 +2445,12 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               children: [
-                                                Text(
-                                                  '${extraActivities[index].title}',
-                                                  style: Styles.bold(size: 14),
+                                                Transform.translate(
+                                                  offset: Offset(0, -3),
+                                                  child: Text(
+                                                    '${extraActivities[index].title}',
+                                                    style: Styles.bold(size: 14),
+                                                  ),
                                                 ),
                                                 SizedBox(
                                                   height: 4,
@@ -2449,9 +2466,12 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                 Row(
                                                   children: [
                                                     Text(
-                                                        '${extraActivities[index].curricularType} • '),
+                                                      '${extraActivities[index].curricularType} • ',
+                                                      style: Styles.regular(
+                                                          size: 14),
+                                                    ),
                                                     Text(
-                                                      '  ${startDate.day} ${listOfMonths[startDate.month - 1]} ',
+                                                      '  ${Utility.ordinal(startDate.day)} ${listOfMonths[startDate.month - 1]} ${startDate.year}',
                                                       style: Styles.regular(
                                                           size: 14),
                                                     ),
@@ -2471,8 +2491,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                             '${extraActivities[index].description}',
                                         color: Color(0xff929BA3),
                                       ),
+                                       SizedBox(height: 10,),
                                       if (index != extraActivities.length)
                                         Divider()
+
+                                       
                                     ],
                                   ),
                                 );
