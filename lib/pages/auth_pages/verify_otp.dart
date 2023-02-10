@@ -25,6 +25,7 @@ import 'package:masterg/pages/ghome/home_page.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
+import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 import 'package:otp_autofill/otp_autofill.dart';
@@ -315,15 +316,17 @@ class _VerifyOtpState extends State<VerifyOtp> {
         ),
         body: ScreenWithLoader(
           isLoading: _isLoading,
-          body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            child: SingleChildScrollView(
+          body: SingleChildScrollView(
           physics: isFocused ? BouncingScrollPhysics():  NeverScrollableScrollPhysics(),
 
+            child: Container(
+               height: height(context)*2,
               child: Column(
                 // crossAxisAlignment: CrossAxisAlignment.start,
-            
+          
                 children: [
+                  Text(
+                  "Welcome to",style: Styles.regular(size:18,color: Color(0xff5A5F73))),
                   Center(
                     child: Column(
                       children: [
@@ -336,8 +339,8 @@ class _VerifyOtpState extends State<VerifyOtp> {
                               )
                             : Image.asset(
                                 appBarImagePath,
-                                height: 150,
-                                width: 150,
+                                height: 60,
+                                width: 180,
                               )),
                         // SvgPicture.asset(
                         //   'assets/images/masterg_logo.svg',
@@ -370,7 +373,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
+                 SizedBox(height: 20),
                   Center(
                     child: Text(
                       '${Strings.of(context)?.verificationTitle} +91 ${widget.username}',
@@ -378,17 +381,32 @@ class _VerifyOtpState extends State<VerifyOtp> {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  _size(height: 10),
-                  Center(
-                    child: Text(
-                      '${Strings.of(context)?.verify_your_mobile}',
-                      style: Styles.bold(),
-                      textAlign: TextAlign.center,
+                  _size(height: 20),
+                  Container(
+                    decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              gradient: LinearGradient(colors: [
+                ColorConstants.GRADIENT_ORANGE,
+                ColorConstants.GRADIENT_RED,
+              ]),
+          ),
+          height: height(context) * 0.7,
+                    child: Column(children: [
+                     Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top:16.0),
+                      child: Text(
+                        '${Strings.of(context)?.verify_your_mobile}',
+                        style: Styles.bold(color: ColorConstants.WHITE),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
+                    
                   ),
+                  
                   _size(height: 15),
                   // _otpVerificationPart(),
-            
+          
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 45),
@@ -422,7 +440,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                               _pin = pin;
                             });
                           }),*/
-            
+          
                       child: Pinput(
                         defaultPinTheme: defaultPinTheme,
                         length: 4,
@@ -439,7 +457,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                           });
                         },
                       ),
-            
+          
                       /*child: TextField(
                         textAlign: TextAlign.center,
                         keyboardType: TextInputType.number,
@@ -447,7 +465,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                       ),*/
                     ),
                   ),
-            
+          
                   //_size(height: 30),
                   /*Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -456,55 +474,9 @@ class _VerifyOtpState extends State<VerifyOtp> {
                         color: ColorConstants.SELECTED_PAGE,
                         thickness: 1.2),
                   ),*/
-            
+          
                   _size(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text(
-                            '${Strings.of(context)?.changePhoneNumber}',
-                            style: Styles.regular(
-                                size: 12, color: ColorConstants.BLACK),
-                          ),
-                        ),
-                        Expanded(child: SizedBox(),),
-                        CountdownTimer(
-                          endTime: endTime,
-                          widgetBuilder: (_, CurrentRemainingTime? time) {
-                            return RichText(
-                              text: TextSpan(
-                                  text: 'nice',
-                                  style: TextStyle(
-                                    fontSize: 3,
-                                  ),
-                                  children: <TextSpan>[
-                                    time == null
-                                        ? TextSpan(
-                                            text:
-                                                '${Strings.of(context)?.resend}',
-                                            recognizer: TapGestureRecognizer()
-                                              ..onTap = () {
-                                                resendOTP();
-                                              },
-                                            style: Styles.regular(
-                                                size: 12,
-                                                color: ColorConstants.BLACK))
-                                        : TextSpan(text: 'Resend in ${time.sec} secs', style:Styles.regular(
-                                                size: 12,
-                                                color: ColorConstants.BLACK) ),
-                                  ]),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
+                  
                   _size(height: 30),
                   InkWell(
                       onTap: () {
@@ -522,24 +494,97 @@ class _VerifyOtpState extends State<VerifyOtp> {
                         }
                       },
                       child: Container(
+                        
                         margin: EdgeInsets.all(12),
                         width: double.infinity,
                         height: MediaQuery.of(context).size.height * 0.08,
                         decoration: BoxDecoration(
                             color: _pin.length != 4
-                                ? ColorConstants()
-                                    .buttonColor()
+                                ? ColorConstants.WHITE
+                  
                                     .withOpacity(0.5)
-                                : ColorConstants().buttonColor(),
+                                : ColorConstants.WHITE,
                             borderRadius: BorderRadius.circular(10)),
-                        child: Center(
-                            child: Text(
-                          '${Strings.of(context)?.continueStr}',
-                          style: Styles.regular(
+                        child: ShaderMask(
+                                blendMode: BlendMode.srcIn,
+                                shaderCallback: (Rect bounds) {
+                                  return LinearGradient(
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                      colors: <Color>[
+                                        ColorConstants.GRADIENT_ORANGE,
+                                        ColorConstants.GRADIENT_RED
+                                      ]).createShader(bounds);
+                                },
+                                child: Center(
+                                  child: Text(
+                          '${Strings.of(context)?.signIn}',
+                          style: Styles.regular(size: 16,
                             color: ColorConstants.WHITE,
                           ),
-                        )),
+                               
+                              ),
+                                ),
+                          
+                        //     child: Text(
+                        //   '${Strings.of(context)?.signIn}',
+                        //   style: Styles.regular(
+                        //     color: ColorConstants.WHITE,
+                        //   ),
+                        // )),
                       )),
+              ),
+              Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                          Icon(Icons.arrow_back_ios_new,color: Colors.white,size: 15,),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                         
+                      child:    Text(
+                            '${Strings.of(context)?.changePhoneNumber}',
+                            style: Styles.regular(
+                                size: 12, color: ColorConstants.WHITE),
+                          ),
+                        ),
+                        Expanded(child: SizedBox(),),
+                        CountdownTimer(
+                          endTime: endTime,
+                          widgetBuilder: (_, CurrentRemainingTime? time) {
+                            return RichText(
+                              text: TextSpan(
+                                  text: '',
+                                  style: TextStyle(
+                                    fontSize: 3,
+                                  ),
+                                  children: <TextSpan>[
+                                    time == null
+                                        ? TextSpan(
+                                            text:
+                                                '${Strings.of(context)?.resend}',
+                                            recognizer: TapGestureRecognizer()
+                                              ..onTap = () {
+                                                resendOTP();
+                                              },
+                                            style: Styles.regular(
+                                                size: 12,
+                                                color: ColorConstants.WHITE))
+                                        : TextSpan(text: 'Resend in ${time.sec} secs', style:Styles.regular(
+                                                size: 12,
+                                                color: ColorConstants.WHITE) ),
+                                  ]),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+              ],),),
+                 
                 ],
               ),
             ),

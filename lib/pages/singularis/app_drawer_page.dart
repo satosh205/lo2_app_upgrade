@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive/hive.dart';
+import 'package:masterg/utils/constant.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../data/models/response/auth_response/user_session.dart';
@@ -59,7 +60,7 @@ class _AppDrawerState extends State<AppDrawer> {
                           borderRadius: BorderRadius.circular(100),
                           child: SizedBox(
                             child: Image.network(
-                              '${Preference.getString(Preference.PROFILE_IMAGE)}', height: 70, width: 70,
+                              '${Preference.getString(Preference.PROFILE_IMAGE)}', height: 50, width: 50,
                               errorBuilder:
                                   (context, error, stackTrace) =>
                                   SvgPicture.asset(
@@ -77,14 +78,20 @@ class _AppDrawerState extends State<AppDrawer> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${Preference.getString(Preference.FIRST_NAME)}',
-                              style: Styles.bold(
-                                  color: ColorConstants.WHITE, size: 22),
+                              'Welcome',
+                              // '${Preference.getString(Preference.We)}',
+                              style: Styles.regular(color: ColorConstants.WHITE,
+                                   size: 16),
                             ),
-                            Text(
-                              '${Preference.getString(Preference.USER_EMAIL)}',
-                              style: Styles.bold(
-                                  color: ColorConstants.WHITE, size: 14),
+                            SizedBox(
+                              width: width(context) * 0.6,
+                              child: Text(
+                                '${Preference.getString(Preference.FIRST_NAME)}',
+                                maxLines: 2,
+
+                                style: Styles.bold(
+                                    color: ColorConstants.WHITE, size: 18),
+                              ),
                             ),
                           ],
                         ),
@@ -96,15 +103,44 @@ class _AppDrawerState extends State<AppDrawer> {
           ),
 
           SizedBox(height: 40,),
+           ListTile(
+            hoverColor: Colors.blue,
+            dense: true,
+            visualDensity: VisualDensity(vertical: -4),
+            leading: Icon(
+              Icons.share_outlined,
+              color: Colors.black,
+            ),
+            title: Text('Shareapp'),
+            onTap: () {},
+          ),
+           SizedBox(height: 20,),
           ListTile(
             hoverColor: Colors.blue,
             dense: true,
             visualDensity: VisualDensity(vertical: -4),
             leading: Icon(
-              Icons.book,
+              Icons.lock_outline_rounded,
               color: Colors.black,
             ),
-            title: Text('About Singularis'),
+            title: Text('Change Password'),
+            onTap: () {},
+          ),
+          SizedBox(height: 20,),
+           ListTile(
+            hoverColor: Colors.blue,
+            dense: true,
+            visualDensity: VisualDensity(vertical: -4),
+            leading:SvgPicture.asset('assets/images/terms.svg',
+            color: Colors.black ,
+            
+            
+            ),
+            // leading: Icon(
+            //   Icons.privacy_tip_outlined,
+            //   color: Colors.black,
+            // ),
+            title: Text('Terms and Conditions'),
             onTap: () {},
           ),
           SizedBox(height: 20,),
@@ -112,13 +148,12 @@ class _AppDrawerState extends State<AppDrawer> {
             hoverColor: Colors.blue,
             dense: true,
             visualDensity: VisualDensity(vertical: -4),
-            leading: Icon(
-              Icons.language,
-              color: Colors.black,
-            ),
-            title: Text('Language: English'),
+            leading:SvgPicture.asset('assets/images/about.svg'),
+            title: Text('About Singularis'),
             onTap: () {},
           ),
+          SizedBox(height: 200,),
+          Divider(),
           Expanded(
             child: Align(
               alignment: FractionalOffset.bottomCenter,

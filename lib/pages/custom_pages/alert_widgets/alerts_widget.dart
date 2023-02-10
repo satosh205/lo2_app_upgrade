@@ -168,11 +168,22 @@ class AlertsWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SvgPicture.asset(
+                ShaderMask(
+                                blendMode: BlendMode.srcIn,
+                                shaderCallback: (Rect bounds) {
+                                  return LinearGradient(
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                      colors: <Color>[
+                                        ColorConstants.GRADIENT_ORANGE,
+                                        ColorConstants.GRADIENT_RED
+                                      ]).createShader(bounds);
+                                },
+                                child:    SvgPicture.asset(
                       icon!,
                       color: ColorConstants().primaryColor(),
                       allowDrawingOutsideViewBox: true,
-                    ),
+                    )),
                     SizedBox(
                       height: 10.0,
                     ),
@@ -238,11 +249,17 @@ class AlertsWidget {
                                 },
                                 child: Container(
                                   height: 50.0,
-                                  decoration: BoxDecoration(
-                                    color: ColorConstants().primaryColor(),
+
+                                   decoration: BoxDecoration(
+             color: ColorConstants.RED,
                                     borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Align(
+              gradient: LinearGradient(colors: [
+                ColorConstants.GRADIENT_ORANGE,
+                ColorConstants.GRADIENT_RED,
+              ]),
+          )
+                                 
+                     ,             child: Align(
                                       alignment: Alignment.center,
                                       child: Text(
                                         '$oKText',

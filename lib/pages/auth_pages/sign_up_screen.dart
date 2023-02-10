@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -124,209 +125,328 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   _makeBody() {
     String appBarImagePath = 'assets/images/${APK_DETAILS['theme_image_url']}';
-    return Padding(
-      padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-      child: Form(
-        key: _formKey,
-        child: Padding(
-          padding: EdgeInsets.only(bottom: 10, left: 6, right: 6),
-          
-          child: ListView(
-            // crossAxisAlignment: CrossAxisAlignment.start,
-            physics: isFocused
-                ? BouncingScrollPhysics()
-                : NeverScrollableScrollPhysics(),
-            //mainAxisAlignment: MainAxisAlignment.center,
-            // mainAxisSize: MainAxisSize.min,
-            children: [
-              Column(
-                children: [
-                  Transform.scale(
-                    scale: 1.2,
-                    child: appBarImagePath.split('.').last == 'svg'
-                        ? SvgPicture.asset(
-                            appBarImagePath,
-                            fit: BoxFit.cover,
-                          )
-                        : Image.asset(
-                            appBarImagePath,
-                            // 'assets/images/${APK_DETAILS' ,
-                            height: 150,
-                            width: 150,
-                          ),
-                  ),
-                  SizedBox(height: 10),
-                  /*Text(
-                      '${Strings.of(context)?.GiveYourCreativityNewPath}',
-                      style: Styles.semibold()),
-                  SizedBox(height: 20),*/
-                  if (APK_DETAILS['theme_image_url2'] != "")
-                    APK_DETAILS['theme_image_url2']?.split('.').last == 'svg'
-                        ? SvgPicture.asset(
-                            height: MediaQuery.of(context).size.height * 0.25,
-                            'assets/images/${APK_DETAILS['theme_image_url2']}',
-                            fit: BoxFit.cover,
-                          )
-                        : Image.asset(
-                            'assets/images/${APK_DETAILS['theme_image_url2']}',
-                            height: MediaQuery.of(context).size.height * 0.25,
-                            // width: 150,
-                          ),
-                  // SizedBox(
-                  //     height:
-                  //         MediaQuery.of(context).size.height * 0.25,
-                  //     child: Image.asset(
-                  //         'assets/images/signupimage.gif')),
-                ],
-              ),
-              SizedBox(height: 20),
-              Text('${Strings.of(context)?.LetsStartYourJourney}',
-                  style: Styles.bold()),
-              SizedBox(
-                height: 2,
-              ),
-              Text('${Strings.of(context)?.loginCreateAccount}',
-                  style: Styles.regular(size: 12)),
-              SizedBox(height: 20),
-              Text('${Strings.of(context)?.phoneNumber}',
-                  style: Styles.regular(size: 16)),
-              SizedBox(
-                height: 1,
-              ),
-              TextFormField(
-                autofocus: false,
-                focusNode: phoneFocus,
-                controller: phoneController,
-                keyboardType: TextInputType.number,
-                style: Styles.bold(
-                  size: 14,
+    return Form(
+      key: _formKey,
+      child: ListView(
+        // crossAxisAlignment: CrossAxisAlignment.start,
+        physics: isFocused
+            ? BouncingScrollPhysics()
+            : NeverScrollableScrollPhysics(),
+        //mainAxisAlignment: MainAxisAlignment.center,
+        // mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            height: height(context)*0.4,
+            child: Column(
+              
+              children: [
+                Text(
+                  "Welcome to",style: Styles.regular(size:18,color: Color(0xff5A5F73))),
+                Transform.scale(
+                  scale: 1.2,
+                  child: appBarImagePath.split('.').last == 'svg'
+                      ? SvgPicture.asset(
+                          appBarImagePath,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.asset(
+                          appBarImagePath,
+                          // 'assets/images/${APK_DETAILS' ,
+                          height: 60,
+                          width: 180,
+                        ),
                 ),
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                ],
-                maxLength: 10,
-                decoration: InputDecoration(
-                  hintText: '${Strings.of(context)?.yourMobileNumber}',
-                  isDense: true,
-                  prefixIconConstraints:
-                      BoxConstraints(minWidth: 0, minHeight: 0),
-                  prefixIcon: Text(
-                    "+91 ",
-                    style: Styles.bold(
-                      size: 14,
-                    ),
-                  ),
-                  helperStyle: Styles.regular(
-                      size: 14, color: ColorConstants.GREY_3.withOpacity(0.1)),
-                  counterText: "",
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                        color: ColorConstants().primaryColor(), width: 1.5),
+                // SizedBox(height: 10),
+                /*Text(
+                    '${Strings.of(context)?.GiveYourCreativityNewPath}',
+                    style: Styles.semibold()),
+                SizedBox(height: 20),*/
+                if (APK_DETAILS['theme_image_url2'] != "")
+                  APK_DETAILS['theme_image_url2']?.split('.').last == 'svg'
+                      ? SvgPicture.asset(
+                          height: MediaQuery.of(context).size.height * 0.25,
+                          'assets/images/${APK_DETAILS['theme_image_url2']}',
+                          fit: BoxFit.cover,
+                        )
+                      : Image.asset(
+                          'assets/images/${APK_DETAILS['theme_image_url2']}',
+                          height: MediaQuery.of(context).size.height * 0.25,
+                          // width: 150,
+                        ),
+                // SizedBox(
+                //     height:
+                //         MediaQuery.of(context).size.height * 0.25,
+                //     child: Image.asset(
+                //         'assets/images/signupimage.gif')),
+              ],
+            ),
+          ),
+          // SizedBox(
+          //   height: 20,
+          // ),
+          Container(
+            
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              gradient: LinearGradient(colors: [
+                ColorConstants.GRADIENT_ORANGE,
+                ColorConstants.GRADIENT_RED,
+              ]),
+            ),
+            height: height(context) * 0.6,
+            child: Column(
+              children: [
+                SizedBox(height: 20),
+                Text('${Strings.of(context)?.login}',
+                    style: Styles.bold(size: 18, color: ColorConstants.WHITE)),
+                SizedBox(
+                  height: 2,
+                ),
+                Text('${Strings.of(context)?.loginCreateAccount}',
+                    style:
+                        Styles.regular(size: 16, color: ColorConstants.WHITE)),
+
+                // Text('${Strings.of(context)?.phoneNumber}',
+                //     style: Styles.regular(size: 16)),
+                SizedBox(
+                  height: 40,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Stack(
+                    children: [
+                      TextFormField(
+                        
+                        cursorColor: ColorConstants.WHITE,
+                        autofocus: false,
+                        focusNode: phoneFocus,
+                        controller: phoneController,
+                        keyboardType: TextInputType.number,
+                        style: Styles.bold(
+                          color: ColorConstants.WHITE,
+                          size: 14,
+                        ),
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                        ],
+                        maxLength: 10,
+                        decoration: InputDecoration(
+                          
+                          focusedBorder: OutlineInputBorder(
+                            
+                            borderRadius: BorderRadius.circular(15.0),
+                            borderSide: BorderSide(
+                              color: ColorConstants.WHITE,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                            borderSide: BorderSide(
+                              color: ColorConstants.WHITE,
+                              width: 1.5,
+                            ),
+                          ),
+                          fillColor: ColorConstants.WHITE,
+                          hintText: '${Strings.of(context)?.yourMobileNumber}',
+                          hintStyle: TextStyle(color: ColorConstants.WHITE),
+                          isDense: true,
+                          prefixIconConstraints:
+                              BoxConstraints(minWidth: 0, minHeight: 0),
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              "+91 ",
+                              style: Styles.bold(
+                                color: ColorConstants.WHITE,
+                                size: 14,
+                              ),
+                            ),
+                            
+                          ),
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  width: 1, color: ColorConstants.WHITE),
+                              borderRadius: BorderRadius.circular(10)),
+
+                          helperStyle: Styles.regular(
+                              size: 14,
+                              color: ColorConstants.GREY_3.withOpacity(0.1)),
+                          counterText: "",
+                          // enabledBorder: UnderlineInputBorder(
+                          //   borderSide: BorderSide(
+                          //       color: ColorConstants.WHITE, width: 1.5),
+                          // ),
+                        ),
+                        onChanged: (value) {
+                          setState(() {});
+                        },
+                        validator: (value) {
+                          if (value == null) return 'Enter phone number';
+                          if (value.length != 10) {
+                            return "Enter valid phone number.";
+                          }
+                          return null;
+                        },
+                      ),
+                    
+                      Positioned(
+                          right: 0,
+                          
+                          child: InkWell(
+                            onTap: () {
+                              if (phoneController.text
+                                  .toString()
+                                  .trim()
+                                  .isNotEmpty) {
+                                if (phoneController.text.toString().length ==
+                                    10) {
+                                  doLogin();
+                                } else {
+                                  Utility.showSnackBar(
+                                      scaffoldContext: context,
+                                      message: 'Enter valid phone number.');
+                                }
+                              } else {
+                                Utility.showSnackBar(
+                                    scaffoldContext: context,
+                                    message: 'Enter phone number.');
+                              }
+                            },
+                            child: Container(
+                              height: height(context) * 0.07,
+                              width: width(context) * 0.28,
+                              decoration: const BoxDecoration(
+                                  color: ColorConstants.WHITE,
+                                  borderRadius:
+                                      BorderRadius.only(topLeft: Radius.circular(15),bottomLeft: Radius.circular(15),topRight: Radius.circular(10),bottomRight: Radius.circular(10))),
+                              // child: Text('Get OTP'),
+                              child: ShaderMask(
+                                blendMode: BlendMode.srcIn,
+                                shaderCallback: (Rect bounds) {
+                                  return LinearGradient(
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                      colors: <Color>[
+                                        ColorConstants.GRADIENT_ORANGE,
+                                        ColorConstants.GRADIENT_RED
+                                      ]).createShader(bounds);
+                                },
+                                child: Center(
+                                  child: Text(
+                                    "GET OTP",
+                                    style: Styles.semibold(
+                                      size: 14,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ))
+                    ],
                   ),
                 ),
-                onChanged: (value) {
-                  setState(() {});
-                },
-                validator: (value) {
-                  if (value == null) return 'Enter phone number';
-                  if (value.length != 10) {
-                    return "Enter valid phone number.";
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 20.0),
-              InkWell(
+                // SizedBox(height: 20.0),
+                InkWell(
                   onTap: () {
-                    if (phoneController.text.toString().trim().isNotEmpty) {
-                      if (phoneController.text.toString().length == 10) {
-                        doLogin();
-                      } else {
-                        Utility.showSnackBar(
-                            scaffoldContext: context,
-                            message: 'Enter valid phone number.');
-                      }
-                    } else {
-                      Utility.showSnackBar(
-                          scaffoldContext: context,
-                          message: 'Enter phone number.');
-                    }
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SingularisLogin()));
                   },
                   child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 12),
+                    // margin: EdgeInsets.symmetric(vertical: 12),
                     width: double.infinity,
                     height: MediaQuery.of(context).size.height *
                         WidgetSize.AUTH_BUTTON_SIZE,
-                    decoration: BoxDecoration(
-                        color: phoneController.value.text.length != 10
-                            ? ColorConstants().buttonColor().withOpacity(0.5)
-                            : ColorConstants().buttonColor(),
-                        borderRadius: BorderRadius.circular(10)),
+                    // decoration: BoxDecoration(
+                    //     color: phoneController.value.text.length != 10
+                    //         ? ColorConstants().buttonColor().withOpacity(0.5)
+                    //         : ColorConstants().buttonColor(),
+                    //     borderRadius: BorderRadius.circular(10)),
                     child: Center(
-                        child: Text(
-                      '${Strings.of(context)?.continueStr}',
-                      style: Styles.regular(
-                        color: ColorConstants.WHITE,
+                        child: SizedBox(
+                      height: height(context) * 0.1,
+                      width: width(context),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 80.0),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              'assets/images/email.svg',
+                              color: ColorConstants.WHITE,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              '${Strings.of(context)?.continueStr} with ${Strings.of(context)?.email}',
+                              style: Styles.bold(
+                                color: ColorConstants.WHITE,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     )),
-                  )),
-              Center(
-                  child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SingularisLogin()));
-                },
-                child: Text('Login using username and password',
-                    style: Styles.textExtraBoldUnderline(
-                      color: ColorConstants().primaryColor(),
-                    )),
-              )),
-              SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      NextPageRoute(
-                          TermsAndCondition(url: APK_DETAILS['policy_url']),
-                          isMaintainState: false));
-                },
-                child: Text.rich(
-                    TextSpan(
+                  ),
+                ),
+                // Center(
+                //     child: InkWell(
+                //   onTap: () {
+                //     Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: (context) => SingularisLogin()));
+                //   },
+                //   // child: Text('Login using username and password',
+                //   //     style: Styles.textExtraBoldUnderline(
+                //   //       color: ColorConstants().primaryColor(),
+                //   //     )),
+                // )),
+                // SizedBox(
+                //   height: 10,
+                // ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        NextPageRoute(
+                            TermsAndCondition(url: APK_DETAILS['policy_url']),
+                            isMaintainState: false));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 110.0),
+                    child: Column(
                       children: [
-                        TextSpan(
-                            text: '${Strings.of(context)?.byClickingContinue}',
-                            style: Styles.regular(size: 10)),
-                        TextSpan(
-                          text:
-                              '${Strings.of(context)?.byClickingContinueUnderline}',
-                          style: Styles.bold(
-                              size: 10, color: ColorConstants.GREY_2),
+                        Text('${Strings.of(context)?.byClickingContinue}',
+                            style:
+                                Styles.regular(size: 10, color: Colors.white)),
+                        Text(
+                          '${Strings.of(context)?.byClickingContinueUnderline}',
+                          style: Styles.regular(
+                              size: 12, color: ColorConstants.WHITE),
                         ),
                       ],
                     ),
-                    textAlign: TextAlign.center),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Text(
-                    '${Strings.of(context)?.havingTrouble}',
-                    style:
-                        Styles.regular(size: 10, color: ColorConstants.GREY_2),
-                    textAlign: TextAlign.center,
                   ),
                 ),
-              ),
 
-             
-            ],
+                // Align(
+                //   alignment: Alignment.bottomCenter,
+                //   child: Padding(
+                //     padding: const EdgeInsets.only(top: 10),
+                //     child: Text(
+                //       '${Strings.of(context)?.havingTrouble}',
+                //       style:
+                //           Styles.regular(size: 10, color: ColorConstants.GREY_2),
+                //       textAlign: TextAlign.center,
+                //     ),
+                //   ),
+                // ),
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

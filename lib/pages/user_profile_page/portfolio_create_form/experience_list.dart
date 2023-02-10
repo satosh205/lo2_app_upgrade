@@ -10,19 +10,22 @@ import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/new_portfolio_response.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
+import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/ghome/widget/read_more.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_experience.dart';
 import 'package:masterg/utils/Log.dart';
+import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:page_transition/page_transition.dart';
 
 class ExperienceList extends StatefulWidget {
-
   final List<CommonProfession>? experience;
   final String? baseUrl;
-  
-  const ExperienceList({Key? key, this.baseUrl, required this.experience}) : super(key: key);
+
+  const ExperienceList({Key? key, this.baseUrl, required this.experience})
+      : super(key: key);
 
   @override
   State<ExperienceList> createState() => _ExperienceListState();
@@ -31,7 +34,7 @@ class ExperienceList extends StatefulWidget {
 class _ExperienceListState extends State<ExperienceList> {
   bool isExperienceLoading = false;
   List<CommonProfession>? experience;
-   List<String> listOfMonths = [
+  List<String> listOfMonths = [
     "Janaury",
     "February",
     "March",
@@ -48,10 +51,11 @@ class _ExperienceListState extends State<ExperienceList> {
 
   @override
   void initState() {
-experience = widget.experience;
-   
+    experience = widget.experience;
+
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocManager(
@@ -61,16 +65,14 @@ experience = widget.experience;
               if (state is SingularisDeletePortfolioState)
                 handleSingularisDeletePortfolioState(state);
 
-                if (state is PortfolioState) {
-                  handlePortfolioState(state);
-                }
+              if (state is PortfolioState) {
+                handlePortfolioState(state);
+              }
             },
-            child:Scaffold(
-                  backgroundColor: ColorConstants.WHITE,
-
-               appBar: AppBar(
-                  title: Text("Experience",
-                      style: Styles.bold()),
+            child: Scaffold(
+                backgroundColor: ColorConstants.WHITE,
+                appBar: AppBar(
+                  title: Text("Experience", style: Styles.bold()),
                   elevation: 0,
                   backgroundColor: ColorConstants.WHITE,
                   leading: IconButton(
@@ -82,22 +84,15 @@ experience = widget.experience;
                   actions: [
                     IconButton(
                         onPressed: () async {
-                          await showModalBottomSheet(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              context: context,
-                              enableDrag: true,
-                              isScrollControlled: true,
-                              builder: (context) {
-                                return FractionallySizedBox(
-                                  heightFactor: 0.7,
-                                  child: Container(
-                                      height: height(context),
-                                      padding: const EdgeInsets.all(8.0),
-                                      margin: const EdgeInsets.only(top: 10),
-                                      child: AddExperience()),
-                                );
-                              }).then((value) =>  updatePortfolioList());
+                          Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      duration: Duration(milliseconds: 600),
+                                      reverseDuration:
+                                          Duration(milliseconds: 600),
+                                      type: PageTransitionType.bottomToTop,
+                                      child: AddExperience()))
+                              .then((value) => updatePortfolioList());
                         },
                         icon: Icon(
                           Icons.add,
@@ -117,141 +112,225 @@ experience = widget.experience;
                           child: ListView.builder(
                               itemCount: experience?.length,
                               itemBuilder: (BuildContext context, int index) {
+                                String startDateString =
+                                    "${experience?[index].startDate}";
 
- String startDateString =
-                              "${experience?[index].startDate}";
-                     
-                          DateTime startDate =
-                              DateFormat("yyyy-MM-dd").parse(startDateString);
-                     
-                return Container(
-                  margin: EdgeInsets.only(right: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: width(context) * 0.2,
-                            height: width(context) * 0.2,
-                            child: CachedNetworkImage(
-                              imageUrl:
-                                  "${widget.baseUrl}${experience?[index].imageName}",
-                              progressIndicatorBuilder:
-                                  (context, url, downloadProgress) =>
-                                      CircularProgressIndicator(
-                                          value: downloadProgress.progress),
-                              errorWidget: (context, url, error) => Container(
-                                  width: width(context) * 0.2,
-                                  height: width(context) * 0.2,
-                                  padding: EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                      color: ColorConstants.DIVIDER,
-                                      borderRadius: BorderRadius.circular(8)),
-                                  child: SvgPicture.asset(
-                                      'assets/images/extra.svg')),
-                            ),
-                          ),
-                          SizedBox(width: 6),
-                          SizedBox(
-                            width: width(context) * 0.7,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      width: width(context) * 0.5,
-                                      child: Text(
-                                        '${experience?[index].title}',
-                                        style: Styles.bold(size: 16),
-                                      ),
-                                    ),
-                                     
-                                                          InkWell(
-                                                            onTap: (){
-                                                               showModalBottomSheet(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              context: context,
-                              enableDrag: true,
-                              isScrollControlled: true,
-                              builder: (context) {
-                                return FractionallySizedBox(
-                                  heightFactor: 0.7,
-                                  child: Container(
-                                      height: height(context),
-                                      padding: const EdgeInsets.all(8.0),
-                                      margin: const EdgeInsets.only(top: 10),
-                                      child: AddExperience(isEditMode: true, experience : experience?[index])),
-                                );
-                              }).then((value) =>    updatePortfolioList());
-                                                            },
-                                                            child: SvgPicture.asset(
-                                                                'assets/images/edit_portfolio.svg'),
-                                                          ),
-                                                          SizedBox(
-                                                            width: 20,
-                                                          ),
-                                                          InkWell(
-                                                            onTap: () {
-                                                              deletePortfolio(
-                                                                  widget
-                                                                      .experience![
-                                                                          index]
-                                                                      .id);
-                                                            },
-                                                            child: SvgPicture.asset(
-                                                                'assets/images/delete.svg'),
-                                                          ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Text(
-                                  '${experience?[index].institute}',
-                                  style: Styles.regular(size: 14),
-                                ),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Row(
-                                          children: [
-                                          
-                                           
-                                Text('${experience?[index].curricularType.replaceAll('_', '')} • '),
-                                  Text(
-                                              '  ${startDate.day} ${listOfMonths[startDate.month - 1]} ',
-                                              style: Styles.regular(size: 14),
+                                DateTime startDate = DateFormat("yyyy-MM-dd")
+                                    .parse(startDateString);
+
+                                DateTime endDate = DateTime.now();
+                                if (experience?[index].endDate != '') {
+                                  String endDateString =
+                                      "${experience?[index].endDate}";
+                                  endDate = DateFormat("yyyy-MM-dd")
+                                      .parse(endDateString);
+                                }
+                                String type =
+                                    '${experience?[index].curricularType.replaceAll('_', '')}';
+                                type =
+                                    type[0].toUpperCase() + type.substring(1);
+
+                                return Container(
+                                  margin: EdgeInsets.only(right: 10),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: SizedBox(
+                                                width: width(context) * 0.2,
+                                                height: width(context) * 0.2,
+                                                child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      "${widget.baseUrl}${experience?[index].imageName}",
+                                                  fit: BoxFit.cover,
+                                                  progressIndicatorBuilder: (context,
+                                                          url,
+                                                          downloadProgress) =>
+                                                      CircularProgressIndicator(
+                                                          value:
+                                                              downloadProgress
+                                                                  .progress),
+                                                  errorWidget: (context, url,
+                                                          error) =>
+                                                      Container(
+                                                          width: width(context) *
+                                                              0.2,
+                                                          height: width(context) *
+                                                              0.2,
+                                                          padding:
+                                                              EdgeInsets.all(8),
+                                                          decoration: BoxDecoration(
+                                                              color:
+                                                                  ColorConstants
+                                                                      .DIVIDER,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8)),
+                                                          child: SvgPicture.asset(
+                                                              'assets/images/extra.svg')),
+                                                ),
+                                              )),
+                                          SizedBox(width: 6),
+                                          SizedBox(
+                                            width: width(context) * 0.7,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      width:
+                                                          width(context) * 0.5,
+                                                      child: Text(
+                                                        '${experience?[index].title}',
+                                                        style: Styles.bold(
+                                                            size: 16),
+                                                      ),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () async{
+
+  AlertsWidget.showCustomDialog(
+                                      context: context,
+                                      title: '',
+                                      text: 'Are you sure you want to edit?',
+                                      icon:
+                                          'assets/images/circle_alert_fill.svg',
+                                      onOkClick: () async {
+                                        await Navigator.push(
+                                            context,
+                                            PageTransition(
+                                                duration:
+                                                    Duration(milliseconds: 300),
+                                                reverseDuration:
+                                                    Duration(milliseconds: 300),
+                                                type: PageTransitionType
+                                                    .bottomToTop,
+                                                child: AddExperience(
+                                                                        isEditMode:
+                                                                            true,
+                                                                        experience:
+                                                                            experience?[index]))).then(
+                                            (value) => updatePortfolioList());
+                                      });
+
+
+                                                        // showModalBottomSheet(
+                                                        //     shape: RoundedRectangleBorder(
+                                                        //         borderRadius:
+                                                        //             BorderRadius
+                                                        //                 .circular(
+                                                        //                     20)),
+                                                        //     context: context,
+                                                        //     enableDrag: true,
+                                                        //     isScrollControlled:
+                                                        //         true,
+                                                        //     builder: (context) {
+                                                        //       return FractionallySizedBox(
+                                                        //         heightFactor:
+                                                        //             0.7,
+                                                        //         child: Container(
+                                                        //             height: height(
+                                                        //                 context),
+                                                        //             padding:
+                                                        //                 const EdgeInsets.all(
+                                                        //                     8.0),
+                                                        //             margin: const EdgeInsets
+                                                        //                     .only(
+                                                        //                 top:
+                                                        //                     10),
+                                                        //             child: AddExperience(
+                                                        //                 isEditMode:
+                                                        //                     true,
+                                                        //                 experience:
+                                                        //                     experience?[index])),
+                                                        //       );
+                                                        //     }).then((value) => updatePortfolioList());
+                                                      },
+                                                      child: SvgPicture.asset(
+                                                          'assets/images/edit_portfolio.svg'),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 20,
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+
+                                                         AlertsWidget.showCustomDialog(
+                                      context: context,
+                                      title: '',
+                                      text: 'Are you sure you want to delete?',
+                                      icon:
+                                          'assets/images/circle_alert_fill.svg',
+                                      onOkClick: () async {
+                                        deletePortfolio(widget
+                                                            .experience![index]
+                                                            .id);
+                                      });
+                                                      
+                                                      },
+                                                      child: SvgPicture.asset(
+                                                          'assets/images/delete.svg'),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 4,
+                                                ),
+                                                Text(
+                                                  '${experience?[index].institute}',
+                                                  style:
+                                                      Styles.regular(size: 14),
+                                                ),
+                                                SizedBox(
+                                                  height: 4,
+                                                ),
+                                            experience?[index]
+                                                          .currentlyWorkHere ==
+                                                      'true'
+                                                  ?       Text(
+                                                  '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day}  -  ${listOfMonths[endDate.month - 1].substring(0, 3)} ${endDate.day}',
+                                                  style:
+                                                      Styles.regular(size: 12),
+                                                ) : Text(
+                                                  '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day} - Present',
+                                                  style:
+                                                      Styles.regular(size: 12),
+                                                )
+                                              ],
                                             ),
-
-                                          ],
-                                        )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      ReadMoreText(
-                        viewMore: 'View more',
-                        text: '${experience?[index].description}',
-                        color: Color(0xff929BA3),
-                      ),
-                      if (index != experience?.length) Divider()
-                    ],
-                  ),
-                );
-
-                         
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 4,
+                                      ),
+                                      ReadMoreText(
+                                        viewMore: 'View more',
+                                        text:
+                                            '${experience?[index].description}',
+                                        color: Color(0xff929BA3),
+                                      ),
+                                      if (index != experience?.length) Divider()
+                                    ],
+                                  ),
+                                );
                               }),
                         )),
                   ),
@@ -274,27 +353,26 @@ experience = widget.experience;
 
         case ApiStatus.SUCCESS:
           Log.v("Success Delete  Experience....................");
-           isExperienceLoading = false;
-           updatePortfolioList();
+          isExperienceLoading = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Experience deleted')),
+          );
+          updatePortfolioList();
           break;
         case ApiStatus.ERROR:
           Log.v("Error Delete Experience....................");
-         isExperienceLoading= false;
+          isExperienceLoading = false;
 
           break;
         case ApiStatus.INITIAL:
           break;
       }
-    }
-
-            );
-    
+    });
   }
 
-  void updatePortfolioList(){
+  void updatePortfolioList() {
     print('make api call');
-   BlocProvider.of<HomeBloc>(context)
-                                .add(PortfolioEvent());
+    BlocProvider.of<HomeBloc>(context).add(PortfolioEvent());
   }
 
   void handlePortfolioState(PortfolioState state) {
@@ -328,5 +406,28 @@ experience = widget.experience;
           break;
       }
     });
+  }
+
+  String calculateTimeDifferenceBetween(DateTime startDate, DateTime endDate) {
+    int seconds = endDate.difference(startDate).inSeconds;
+    if (seconds < 60) {
+      if (seconds.abs() < 4) return '${Strings.of(context)?.justNow}';
+      return '${seconds.abs()} ${Strings.of(context)?.s}';
+    } else if (seconds >= 60 && seconds < 3600)
+      return '${startDate.difference(endDate).inMinutes.abs()} ${Strings.of(context)?.m}';
+    else if (seconds >= 3600 && seconds < 86400)
+      return '${startDate.difference(endDate).inHours.abs()} ${Strings.of(context)?.h}';
+    else {
+      // convert day to month
+      int days = startDate.difference(endDate).inDays.abs();
+      if (days < 30 && days > 7) {
+        return '${(startDate.difference(endDate).inDays ~/ 7).abs()} ${Strings.of(context)?.w}';
+      }
+      if (days > 30) {
+        int month = (startDate.difference(endDate).inDays ~/ 30).abs();
+        return '$month ${Strings.of(context)?.mos}';
+      } else
+        return '${startDate.difference(endDate).inDays.abs()} ${Strings.of(context)?.d}';
+    }
   }
 }

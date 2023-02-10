@@ -105,7 +105,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                 children: [
                   SizedBox(
                     width: double.infinity,
-                    height: size.height * 0.15,
+                    height: size.height * 0.3,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: CachedNetworkImage(
@@ -115,7 +115,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                         errorWidget: (context, url, error) => SvgPicture.asset(
                           'assets/images/gscore_postnow_bg.svg',
                         ),
-                        fit: BoxFit.contain,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
