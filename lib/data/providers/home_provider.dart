@@ -2360,7 +2360,11 @@ class HomeProvider {
 
           }else if(widgetType == 'myJob'){
             url += '?is_job=$isJob' +'&my_jobs=$myJob';
+
+          }else if(widgetType == 'recomJob'){
+            url += '?is_recommended=1';
           }
+
           //url += '?is_popular='+'&is_job=$isJob' +'&my_jobs=$myJob';
         }
 

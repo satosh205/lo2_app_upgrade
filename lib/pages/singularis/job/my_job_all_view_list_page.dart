@@ -42,118 +42,100 @@ class _MyJobAllViewListPageState extends State<MyJobAllViewListPage> {
             title: Text('My Jobs', style: TextStyle(color: Colors.black),),
           ),
           backgroundColor: ColorConstants.JOB_BG_COLOR,
-          //body: _makeBody(),
-          body: _makeBody(),
-        ),
-      ),
-    );
-  }
-
-  Widget _makeBody() {
-    return SingleChildScrollView(
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          children: [
-            ///Job List
-            widget.myJobResponse?.data!.length != 0 ? _myJobSectionCard() : BlankWidgetPage(),
-          ],
+          body: _myJobSectionCard(),
         ),
       ),
     );
   }
 
   Widget _myJobSectionCard() {
-    return Column(
-      children: [
-        Container(
-            padding: EdgeInsets.all(10),
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-                //color: ColorConstants.WHITE
-            ),
-            child: ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemCount: widget.myJobResponse?.data!.length,
-              itemBuilder: (BuildContext context, int index) {
-                return InkWell(
-                  onTap: (){
-                    Navigator.push(
-                        context,
-                        NextPageRoute(JobDetailsPage(
-                          title: widget.myJobResponse?.data![index]!.name,
-                          description: widget.myJobResponse?.data![index]!.description,
-                          location: widget.myJobResponse?.data![index]!.location,
-                          skillNames: widget.myJobResponse?.data![index]!.skillNames,
-                          companyName: widget.myJobResponse?.data![index]!.organizedBy,
-                          domain: widget.myJobResponse?.data![index]!.domainName,
-                          companyThumbnail: widget.myJobResponse?.data![index]!.image,
-                          experience: widget.myJobResponse?.data![index]!.experience,
-                          //jobListDetails: jobList,
-                          id: widget.myJobResponse?.data![index]!.id,
-                          jobStatus: widget.myJobResponse?.data![index]!.jobStatus,
-                        )));
-                  },
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 120,
-                        width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: ColorConstants.WHITE),
-                          color: ColorConstants.WHITE,
-                        ),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 7.0, top: 15.0, right: 7.0, bottom: 15.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                      padding: EdgeInsets.only(
-                                        right: 10.0,
-                                      ),
-                                      child: widget.myJobResponse?.data![index]!.image != null
-                                          ? Image.network('${widget.myJobResponse?.data![index]!.image}', height: 60, width: 80,)
-                                          : Image.asset('assets/images/pb_2.png')),
-
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text('${widget.myJobResponse?.data![index]!.name}'),
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 8.0),
-                                          child: Text('${widget.myJobResponse?.data![index]!.organizedBy}'),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-
-                                ],
-                              ),
-                            ),
-
-                            widget.myJobResponse?.data![index]!.jobStatus != null ? Padding(
-                              padding: const EdgeInsets.only(top: 0.0),
-                              child: Text('${widget.myJobResponse?.data![index]!.jobStatus}', style: TextStyle(color: Colors.green),),
-                            ):Text(''),
-                          ],
-                        ),
+    return SingleChildScrollView(
+      physics: ScrollPhysics(),
+      child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.all(10),
+          child: ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: widget.myJobResponse?.data!.length,
+            itemBuilder: (BuildContext context, int index) {
+              return InkWell(
+                onTap: (){
+                  Navigator.push(
+                      context,
+                      NextPageRoute(JobDetailsPage(
+                        title: widget.myJobResponse?.data![index]!.name,
+                        description: widget.myJobResponse?.data![index]!.description,
+                        location: widget.myJobResponse?.data![index]!.location,
+                        skillNames: widget.myJobResponse?.data![index]!.skillNames,
+                        companyName: widget.myJobResponse?.data![index]!.organizedBy,
+                        domain: widget.myJobResponse?.data![index]!.domainName,
+                        companyThumbnail: widget.myJobResponse?.data![index]!.image,
+                        experience: widget.myJobResponse?.data![index]!.experience,
+                        //jobListDetails: jobList,
+                        id: widget.myJobResponse?.data![index]!.id,
+                        jobStatus: widget.myJobResponse?.data![index]!.jobStatus,
+                      )));
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 120,
+                      width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: ColorConstants.WHITE),
+                        color: ColorConstants.WHITE,
                       ),
-                    ],
-                  ),
-                );
-              },
-            ))
-      ],
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 7.0, top: 15.0, right: 7.0, bottom: 15.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                    padding: EdgeInsets.only(
+                                      right: 10.0,
+                                    ),
+                                    child: widget.myJobResponse?.data![index]!.image != null
+                                        ? Image.network('${widget.myJobResponse?.data![index]!.image}', height: 60, width: 80,)
+                                        : Image.asset('assets/images/pb_2.png')),
+
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('${widget.myJobResponse?.data![index]!.name}'),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 8.0),
+                                        child: Text('${widget.myJobResponse?.data![index]!.organizedBy}'),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                              ],
+                            ),
+                          ),
+
+                          widget.myJobResponse?.data![index]!.jobStatus != null ? Padding(
+                            padding: const EdgeInsets.only(top: 0.0),
+                            child: Text('${widget.myJobResponse?.data![index]!.jobStatus}', style: TextStyle(color: Colors.green),),
+                          ):Text(''),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          )),
     );
   }
 

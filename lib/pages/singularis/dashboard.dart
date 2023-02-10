@@ -2211,7 +2211,7 @@ class _DashboardPageState extends State<DashboardPage> {
             //return Text('lading');
             return BlankPage();
           } else if (box.get("getDashboardIsVisible").isEmpty) {
-            return Container(
+            /*return Container(
               height: 290,
               width: MediaQuery.of(context).size.width,
               child: Center(
@@ -2220,7 +2220,8 @@ class _DashboardPageState extends State<DashboardPage> {
                   style: Styles.textBold(),
                 ),
               ),
-            );
+            );*/
+            return Text('');
           }
 
           dynamic content = box.get("getDashboardIsVisible") as Map;
@@ -2257,7 +2258,7 @@ class _DashboardPageState extends State<DashboardPage> {
             //return Text('Loading singh');
             return BlankPage();
           } else if (box.get("dashboard_sessions_limit").isEmpty) {
-            return Container(
+            /*return Container(
               // height: 290,
               padding: EdgeInsets.only(bottom: 12),
               width: MediaQuery.of(context).size.width,
@@ -2267,7 +2268,8 @@ class _DashboardPageState extends State<DashboardPage> {
                   style: Styles.textBold(),
                 ),
               ),
-            );
+            );*/
+            return Text('');
           }
 
           sessionList = box
@@ -2524,7 +2526,7 @@ class _DashboardPageState extends State<DashboardPage> {
             //return Text('lading');
             return BlankPage();
           } else if (box.get("dashboard_my_courses_limit").isEmpty) {
-            return Container(
+            /*return Container(
               height: 290,
               width: MediaQuery.of(context).size.width,
               child: Center(
@@ -2533,7 +2535,8 @@ class _DashboardPageState extends State<DashboardPage> {
                   style: Styles.textBold(),
                 ),
               ),
-            );
+            );*/
+            return Text('');
           }
 
           myCoursesList = box
@@ -2773,7 +2776,7 @@ class _DashboardPageState extends State<DashboardPage> {
             //return Text('lading');
             return BlankPage();
           } else if (box.get("dashboard_reels_limit").isEmpty) {
-            return Container(
+            /*return Container(
               height: 290,
               width: MediaQuery.of(context).size.width,
               child: Center(
@@ -2782,7 +2785,8 @@ class _DashboardPageState extends State<DashboardPage> {
                   style: Styles.textBold(),
                 ),
               ),
-            );
+            );*/
+            return Text('');
           }
 
           reelsList = box
@@ -2814,8 +2818,6 @@ class _DashboardPageState extends State<DashboardPage> {
                       icon: Icon(Icons.arrow_forward_ios))
                 ],
               ),
-
-              //show courses list
 
               Container(
                   height: 250,
@@ -2850,11 +2852,9 @@ class _DashboardPageState extends State<DashboardPage> {
         valueListenable: Hive.box(DB.CONTENT).listenable(),
         builder: (bc, Box box, child) {
           if (box.get("dashboard_recommended_courses_limit") == null) {
-            // return CustomProgressIndicator(true, Colors.white);
-            //return Text('lading');
             return BlankPage();
           } else if (box.get("dashboard_recommended_courses_limit").isEmpty) {
-            return Container(
+            /*return Container(
               height: 290,
               width: MediaQuery.of(context).size.width,
               child: Center(
@@ -2863,7 +2863,8 @@ class _DashboardPageState extends State<DashboardPage> {
                   style: Styles.textBold(),
                 ),
               ),
-            );
+            );*/
+            return Text('');
           }
 
           recommendedCourseList = box
@@ -2930,7 +2931,7 @@ class _DashboardPageState extends State<DashboardPage> {
             //return Text('lading');
             return BlankPage();
           } else if (box.get("dashboard_carvan_limit").isEmpty) {
-            return Container(
+            /*return Container(
               height: 290,
               width: MediaQuery.of(context).size.width,
               child: Center(
@@ -2939,7 +2940,8 @@ class _DashboardPageState extends State<DashboardPage> {
                   style: Styles.textBold(),
                 ),
               ),
-            );
+            );*/
+            return Text('');
           }
 
           carvaanList = box
@@ -3162,7 +3164,7 @@ class _DashboardPageState extends State<DashboardPage> {
             //return Text('lading');
             return BlankPage();
           } else if (box.get("dashboard_carvan_limit").isEmpty) {
-            return Container(
+            /*return Container(
               height: 290,
               width: MediaQuery.of(context).size.width,
               child: Center(
@@ -3171,7 +3173,8 @@ class _DashboardPageState extends State<DashboardPage> {
                   style: Styles.textBold(),
                 ),
               ),
-            );
+            );*/
+            return Text('');
           }
 
           carvaanList = box
@@ -3557,7 +3560,7 @@ class _DashboardPageState extends State<DashboardPage> {
           //return Text('lading');
           return BlankPage();
         } else if (box.get("dashboard_featured_content_limit").isEmpty) {
-          return Container(
+          /*return Container(
             height: 290,
             width: MediaQuery.of(context).size.width,
             child: Center(
@@ -3566,7 +3569,8 @@ class _DashboardPageState extends State<DashboardPage> {
                 style: Styles.textBold(),
               ),
             ),
-          );
+          );*/
+          return Text('');
         }
 
         featuredContentList = box
@@ -3628,7 +3632,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         crossAxisSpacing: 20,
                         childAspectRatio: 2 / 3,
                         mainAxisExtent:
-                        MediaQuery.of(context).size.height * 0.34,
+                        MediaQuery.of(context).size.height * 0.31,
                         crossAxisCount: 2),
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
@@ -3724,7 +3728,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                   ],
                                 )),
                             Container(
-                              height: 60,
+                              height: 40,
                               margin: EdgeInsets.only(top: 4),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -3775,7 +3779,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                   ),
                                 ],
                               ),
-                            )
+                            ),
                           ],
                         ),
                       );

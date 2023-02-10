@@ -40,9 +40,9 @@ class JobDetailsPage extends StatefulWidget {
   final String? experience;
   final List<ListElement>? jobListDetails;
   final int? id;
-  final String? jobStatus;
+  String? jobStatus = '';
 
-  const JobDetailsPage({Key? key,
+   JobDetailsPage({Key? key,
     this.title,
     this.description,
     this.location,
@@ -154,8 +154,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
   Widget _makeBody() {
     return SingleChildScrollView(
       child: Container(
-        margin: EdgeInsets.only(
-            bottom: SizeConstants.JOB_BOTTOM_SCREEN_MGN),
+        margin: EdgeInsets.only(bottom: SizeConstants.JOB_BOTTOM_SCREEN_MGN),
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
@@ -255,13 +254,6 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                 ],
               ),
             ),
-            /*decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: ColorConstants.WHITE,
-                  boxShadow: [
-                    BoxShadow(color: Colors.white, spreadRadius: 3),
-                  ],
-                ),*/
           ),
 
           Container(
@@ -277,6 +269,10 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
              applied = 1;
              getCompetitionContentList(1);
              _onLoadingForJob();
+
+             this.setState(() {
+               widget.jobStatus = 'under_review';
+             });
            },
            child: Container(
               height: 40,
@@ -497,6 +493,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
 
           //TODO:Progress List
           if (competitionDetailLoading == false ) ...[
+            widget.jobStatus == 'shortlisted' || widget.jobStatus == 'placed' ?
             ListView.builder(
                 physics: BouncingScrollPhysics(),
                 shrinkWrap: true,
@@ -512,7 +509,8 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                       contentList?.data?.list![index],
                       index == ((contentList?.data?.list?.length ?? 1) - 1),
                       isLocked:  isLocked);
-                }),
+                }): SizedBox(),
+
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(

@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -41,7 +43,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
   bool? domainListLoading = true;
   bool? jobApplyLoading = true;
   //List<ListElement>? jobList;
-  CompetitionResponse? myJobResponse, allJobListResponse;
+  CompetitionResponse? myJobResponse, allJobListResponse, recommendedJobOpportunities;
   TrainingModuleResponse? competitionDetail;
   DomainListResponse? domainList;
   DomainFilterListResponse? domainFilterList;
@@ -102,6 +104,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
           Log.v("CompetitionState....................");
           myJobResponse = state.myJobListResponse;
           allJobListResponse = state.jobListResponse;
+          recommendedJobOpportunities = state.recommendedJobOpportunities;
           myJobLoading = false;
           break;
         case ApiStatus.ERROR:
@@ -175,12 +178,11 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
         case ApiStatus.SUCCESS:
           Log.v("Competition Content List State....................");
           //contentList = competitionState.response;
-          if(applied != null){
+          /*if(jobApplyLoading == true){
             Utility.showSnackBar(
                 scaffoldContext: context, message: 'Your application is successfully submitted.');
-          }
+          }*/
           jobApplyLoading = false;
-
           break;
         case ApiStatus.ERROR:
           Log.v(
@@ -254,10 +256,11 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
             ),
 
             ///My Job Section
-            SizedBox(
+            myJobResponse?.data != null ? SizedBox(
               height: 30,
-            ),
-           myJobLoading == false ? _myJobSectionCard() : SizedBox(),
+            ):SizedBox(),
+           //myJobLoading == false ? _myJobSectionCard() : SizedBox(),
+            myJobResponse?.data != null ? _myJobSectionCard() : SizedBox(),
             //_myJobListList();
 
             ///Complete Profile
@@ -277,6 +280,21 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
             //jobList != null ? _jobBasedYourListCard() : BlankPage(),
             myJobLoading == false ? _jobBasedYourListCard() : BlankPage(),
 
+            ///Recommended Opportunities
+            SizedBox(
+              height: 30,
+            ),
+            recommendedJobOpportunities?.data != null ?
+            _recommendedOpportunitiesListCard(): BlankPage(),
+
+
+            SizedBox(
+              height: 30,
+            ),
+            allJobListResponse?.data != null ?
+            _step2Card()
+                : BlankPage(),
+
             ///Build Your Portfolio
             SizedBox(
               height: 30,
@@ -292,7 +310,10 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
               height: 30,
             ),
             //myJobLoading == false ? _recommendedJobsListCard() : BlankPage(),
-            allJobListResponse?.data != null ? _recommendedJobsListCard() : BlankPage(),
+            //allJobListResponse?.data != null ? _recommendedJobsListCard() : BlankPage(),
+            allJobListResponse?.data != null ?
+            _step3Card() : BlankPage(),
+
           ],
         ),
       ),
@@ -891,19 +912,23 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                       ),
                                       child: myJobResponse?.data![index]!.image != null
                                           ? Image.network('${myJobResponse?.data![index]!.image}', height: 60, width: 80,)
-                                          : Image.asset('assets/images/pb_2.png')),
+                                          : Image.asset('assets/images/pb_2.png'), height: 60, width: 80,),
 
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text('${myJobResponse?.data![index]!.name}'),
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 8.0),
-                                          child: Text('${myJobResponse?.data![index]!.organizedBy}'),
-                                        ),
-                                      ],
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 0.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('${myJobResponse?.data![index]!.name}',
+                                          style: Styles.bold(size: 14),),
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 8.0),
+                                            child: Text('${myJobResponse?.data![index]!.organizedBy}',
+                                              style: TextStyle(color: ColorConstants.GREY_3),),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
 
@@ -911,10 +936,10 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                               ),
                             ),
 
-                            Padding(
+                            myJobResponse?.data![index]!.jobStatus != null ? Padding(
                               padding: const EdgeInsets.only(top: 0.0),
                               child: Text('${myJobResponse?.data![index]!.jobStatus}', style: TextStyle(color: Colors.green),),
-                            ),
+                            ):SizedBox(),
                           ],
                         ),
                       ),
@@ -944,7 +969,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
           ),
 
           allJobListResponse?.data != null ?
-          renderJobList(2):SizedBox(),
+          renderJobList(4):SizedBox(),
 
         /*  InkWell(
             onTap: () {
@@ -977,50 +1002,31 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
     );
   }
 
-  Widget _recommendedJobsListCard() {
+  Widget _step2Card() {
     return Container(
       color: ColorConstants.WHITE,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(13.0),
-            child: Text('Recommended Jobs',
-                style: Styles.regular(size: 16, color: ColorConstants.BLACK)),
-          ),
-          Divider(
-            height: 1,
-            color: ColorConstants.GREY_3,
-          ),
-          //if (isJobLoading == false)
-           /* renderJobList(jobList
-                ?.where((element) => element.isRecommended == 1)
-                .toList()),
-          jobList != null
-              ? InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        NextPageRoute(
-                            JobSearchViewPage(
-                              appBarTitle: 'Job Portfolio',
-                              isSearchMode: false,
-                            ),
-                            isMaintainState: true));
-                  },
-                  child: Container(
-                    height: 70,
-                    child: Center(
-                      child: Text('View all Job',
-                          style:
-                              Styles.bold(size: 14, color: ColorConstants.RED)),
-                    ),
-                  ),
-                )
-              : SizedBox(),*/
+          //< 4
+          if(int.parse('${allJobListResponse?.data?.length}')  > 4) ...[
+            renderJobSecondPositionList((allJobListResponse?.data!.length)!-4),
+          ],
+        ],
+      ),
+    );
+  }
 
-          //renderJobSecondPositionList((allJobListResponse?.data!.length)!-4),
-          renderJobSecondPositionList((allJobListResponse?.data!.length)!-2),
+  Widget _step3Card() {
+    return Container(
+      color: ColorConstants.WHITE,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if(int.parse('${allJobListResponse?.data?.length}') > 8) ...[
+            renderJobThirdPositionList((allJobListResponse?.data!.length)!-8),
+          ],
+
         ],
       ),
     );
@@ -1028,7 +1034,231 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
 
   Widget _recommendedOpportunitiesListCard() {
     return Container(
-      child: Text('Recommended Opportunities'),
+      //decoration: BoxDecoration(color: ColorConstants.WHITE),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Icon(CupertinoIcons.star_fill,
+                    color: ColorConstants.YELLOW),
+              ),
+              Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 10,
+                  ),
+                  child: Text(
+                    'Recommended Opportunities',
+                    style: Styles.bold(color: Color(0xff0E1638)),
+                  )),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Container(
+              height: 360,
+              child: recommendedJobOpportunities?.data!.length != 0 ?
+              ListView.builder(
+                  itemCount: recommendedJobOpportunities?.data!.length ,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    return InkWell(
+                      onTap: (){
+                        Navigator.push(
+                            context,
+                            NextPageRoute(JobDetailsPage(
+                              title: recommendedJobOpportunities?.data![index]!.name,
+                              description: recommendedJobOpportunities?.data![index]!.description,
+                              location: recommendedJobOpportunities?.data![index]!.location,
+                              skillNames: recommendedJobOpportunities?.data![index]!.skillNames,
+                              companyName: recommendedJobOpportunities?.data![index]!.organizedBy,
+                              domain: recommendedJobOpportunities?.data![index]!.domainName,
+                              companyThumbnail: recommendedJobOpportunities?.data![index]!.image,
+                              experience: recommendedJobOpportunities?.data![index]!.experience,
+                              //jobListDetails: jobList,
+                              id: recommendedJobOpportunities?.data![index]!.id,
+                              jobStatus: recommendedJobOpportunities?.data![index]!.jobStatus,
+                            )));
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        decoration: BoxDecoration(
+                            color: ColorConstants.WHITE,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: ColorConstants.List_Color)),
+                        margin: EdgeInsets.all(8),
+                        // color: Colors.red,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0,
+                                    right: 8.0,
+                                    top: 15.0,
+                                    bottom: 8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CachedNetworkImage(
+                                      imageUrl: '${recommendedJobOpportunities?.data![index]!.image}',
+                                      width: 100,
+                                      height: 50,
+                                      errorWidget: (context, url, error) => SvgPicture.asset(
+                                        'assets/images/gscore_postnow_bg.svg',
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Text(
+                                        '${recommendedJobOpportunities?.data![index]!.name}',
+                                        style: Styles.bold(
+                                            color: Color(0xff0E1638), size: 13),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Icon(
+                                          Icons.location_on_outlined,
+                                          color: Colors.orange,
+                                        ),
+                                        Padding(
+                                          padding:
+                                          const EdgeInsets.only(left: 8.0),
+                                          child: Text(
+                                            '${recommendedJobOpportunities?.data![index]!.location}',
+                                            style: Styles.regular(
+                                                color: ColorConstants.GREY_3,
+                                                size: 11),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    /*Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        Icons.currency_exchange_outlined,
+                                        color: Colors.orange,
+                                        size: 18,
+                                      ),
+                                      Padding(
+                                        padding:
+                                        const EdgeInsets.only(left: 8.0),
+                                        child: Text(
+                                          '100K - 150K LPA',
+                                          style: Styles.regular(
+                                              color: ColorConstants.GREY_3,
+                                              size: 11),
+                                        ),
+                                      ),
+                                    ],
+                                  ),*/
+                                    Container(
+                                      width:
+                                      MediaQuery.of(context).size.width * 0.7,
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                          color: ColorConstants.List_Color,
+                                          borderRadius: BorderRadius.circular(10),
+                                          border: Border.all(
+                                              color: ColorConstants.List_Color)),
+                                      margin: EdgeInsets.all(8),
+                                      // color: Colors.red,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 8.0,
+                                            right: 8.0,
+                                            top: 10.0,
+                                            bottom: 8.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Skills Required',
+                                              style: Styles.bold(
+                                                  color: ColorConstants.GREY_3,
+                                                  size: 13),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              children: [
+                                                Flexible(
+                                                  child: Text(
+                                                    '${recommendedJobOpportunities?.data![index]!.skillNames}',
+                                                    maxLines: 2,
+                                                    softWrap: true,
+                                                    style: Styles.bold(
+                                                        color: ColorConstants.BLACK,
+                                                        size: 13),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    recommendedJobOpportunities?.data![index]!.jobStatus == null || recommendedJobOpportunities?.data![index]!.jobStatus == "" ? InkWell(
+                                      onTap: (){
+                                        jobApply(int.parse('${recommendedJobOpportunities?.data![index]!.id}'), 1);
+                                        _onLoadingForJob();
+                                      },
+                                      child: Container(
+                                        height: 50,
+                                        width: MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(50),
+                                          gradient: LinearGradient(colors: [
+                                            ColorConstants.DASHBOARD_APPLY_COLOR,
+                                            ColorConstants.DASHBOARD_APPLY_COLOR,
+                                          ]),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          children: [
+                                            Text('Apply',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ): Padding(
+                                      padding: const EdgeInsets.only(bottom: 20.0),
+                                      child: Text('${recommendedJobOpportunities?.data![index]!.jobStatus}', style: Styles.bold(color: Colors.green, size: 14),),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ]),
+                      ),
+                    );
+                  }): SizedBox(),
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -1080,7 +1310,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                   experience: allJobListResponse?.data![index]!.experience,
                                   //jobListDetails: jobList,
                                   id: allJobListResponse?.data![index]!.id,
-                                  jobStatus: allJobListResponse?.data![index]!.jobStatus,
+                                  jobStatus: applied == index ? 'under_review' : allJobListResponse?.data![index]!.jobStatus,
                                 )));
 
                           },
@@ -1182,16 +1412,16 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
   Widget renderJobSecondPositionList(int position) {
     return ListView.builder(
        //itemCount: allJobListResponse?.data!.length,
-      /*itemCount: (allJobListResponse?.data?.length)! < position
-          ? allJobListResponse?.data?.length
-          : position,*/
-        itemCount: position,
+      itemCount: position! < 4
+          ? position
+          : 4,
+        //itemCount: position,
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
 
           print('position2===== ${position}');
-          int newIndex = index + 2;
+          int newIndex = index + 4;
           print(newIndex);
 
           return Column(
@@ -1233,7 +1463,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                   experience: allJobListResponse?.data![newIndex]!.experience,
                                   //jobListDetails: jobList,
                                   id: allJobListResponse?.data![newIndex]!.id,
-                                  jobStatus: allJobListResponse?.data![newIndex]!.jobStatus,
+                                  jobStatus: applied == index ? 'under_review' : allJobListResponse?.data![newIndex]!.jobStatus,
                                 )));
 
                           },
@@ -1332,6 +1562,161 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
           );
         });
   }
+
+  Widget renderJobThirdPositionList(int position) {
+    return ListView.builder(
+      //itemCount: allJobListResponse?.data!.length,
+      /*itemCount: (allJobListResponse?.data?.length)! < position
+          ? allJobListResponse?.data?.length
+          : position,*/
+        itemCount: position,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (BuildContext context, int index) {
+
+          print('position2===== ${position}');
+          int newIndex = index + 8;
+          print(newIndex);
+
+          return Column(
+            children: [
+              Container(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 10.0, top: 15.0, right: 10.0, bottom: 15.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                            padding: EdgeInsets.only(
+                              right: 10.0,
+                            ),
+                            //child: Image.asset('assets/images/google.png'),
+                            child: allJobListResponse?.data![newIndex]!.image != null
+                                ? Image.network('${allJobListResponse?.data![newIndex]!.image}',
+                              height: 80, width: 80,)
+                                : Image.asset('assets/images/pb_2.png')),
+                      ),
+                      Expanded(
+                        flex: 9,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                NextPageRoute(JobDetailsPage(
+                                  title: allJobListResponse?.data![newIndex]!.name,
+                                  description: allJobListResponse?.data![newIndex]!.description,
+                                  location: allJobListResponse?.data![newIndex]!.location,
+                                  skillNames: allJobListResponse?.data![newIndex]!.skillNames,
+                                  companyName: allJobListResponse?.data![newIndex]!.organizedBy,
+                                  domain: allJobListResponse?.data![newIndex]!.domainName,
+                                  companyThumbnail: allJobListResponse?.data![newIndex]!.image,
+                                  experience: allJobListResponse?.data![newIndex]!.experience,
+                                  //jobListDetails: jobList,
+                                  id: allJobListResponse?.data![newIndex]!.id,
+                                  jobStatus: applied == index ? 'under_review' : allJobListResponse?.data![newIndex]!.jobStatus,
+                                )));
+
+                          },
+                          child: Container(
+                            padding: EdgeInsets.only(
+                              left: 5.0,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('${allJobListResponse?.data![newIndex]!.name}',
+                                    style: Styles.bold(
+                                        size: 14, color: ColorConstants.BLACK)),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 6.0),
+                                  child: Text('${allJobListResponse?.data![newIndex]!.organizedBy}',
+                                      style: Styles.regular(
+                                          size: 12, color: Color(0xff3E4245))),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5.0),
+                                  child: Row(
+                                    children: [
+                                      Image.asset('assets/images/jobicon.png'),
+                                      Padding(
+                                        padding:
+                                        const EdgeInsets.only(left: 5.0),
+                                        child: Text('Exp: ',
+                                            style: Styles.regular(
+                                                size: 12,
+                                                color: ColorConstants.GREY_6)),
+                                      ),
+                                      Text('${allJobListResponse?.data![newIndex]!.experience} Yrs',
+                                          style: Styles.regular(
+                                              size: 12,
+                                              color: ColorConstants.GREY_6)),
+                                      Padding(
+                                        padding:
+                                        const EdgeInsets.only(left: 20.0),
+                                        child: Icon(
+                                          Icons.location_on_outlined,
+                                          size: 16,
+                                          color: ColorConstants.GREY_3,
+                                        ),
+                                      ),
+                                      Text('${allJobListResponse?.data![newIndex]!.location}',
+                                          style: Styles.regular(
+                                              size: 12,
+                                              color: ColorConstants.GREY_3)),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: allJobListResponse?.data![newIndex]!.jobStatus == null || allJobListResponse?.data![newIndex]!.jobStatus == "" ?
+                        InkWell(
+                          onTap: (){
+                            print('jobApply');
+                            applied = index;
+                            jobApply(int.parse('${allJobListResponse?.data![newIndex]!.id}'), 1);
+                            _onLoadingForJob();
+                          },
+                          child: Container(
+                            padding: EdgeInsets.only(left: 5.0),
+                            child: Text(applied == null || applied != index ?'Apply':'',
+                                style: Styles.bold(
+                                    size: 12, color: ColorConstants.ORANGE)),
+                          ),
+                        ) :
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 20.0),
+                          child: Text('', style: Styles.bold(color: Colors.green, size: 14),),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                /*decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: ColorConstants.WHITE,
+                  boxShadow: [
+                    BoxShadow(color: Colors.white, spreadRadius: 3),
+                  ],
+                ),*/
+              ),
+              Divider(
+                height: 1,
+                color: ColorConstants.GREY_3,
+              ),
+            ],
+          );
+        });
+  }
+
 
   void showBottomSheetJobFilter() {
     showModalBottomSheet(
