@@ -185,15 +185,23 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                             Navigator.pop(context);
                         },
                         child: Container(
+                          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              gradient: LinearGradient(colors: [
+                ColorConstants.GRADIENT_ORANGE,
+                ColorConstants.GRADIENT_RED,
+              ]),
+          ),
                           margin:
                               EdgeInsets.only(left: 12.0, right: 12.0, top: 10),
                           width: double.infinity,
                           height: MediaQuery.of(context).size.height *
                               WidgetSize.AUTH_BUTTON_SIZE,
-                          decoration: BoxDecoration(
-                              color: ColorConstants().primaryColor(),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Center(
+                          // decoration: BoxDecoration(
+                          //     color: ColorConstants().primaryColor(),
+                          //     borderRadius: BorderRadius.circular(10)),
+                          child: 
+                          Center(
                               child: Text(
                             '${Strings.of(context)?.continueStr}',
                             style: Styles.regular(

@@ -234,13 +234,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           
                           focusedBorder: OutlineInputBorder(
                             
-                            borderRadius: BorderRadius.circular(10.0),
+                            borderRadius: BorderRadius.circular(15.0),
                             borderSide: BorderSide(
                               color: ColorConstants.WHITE,
                             ),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+                            borderRadius: BorderRadius.circular(15.0),
                             borderSide: BorderSide(
                               color: ColorConstants.WHITE,
                               width: 1.5,
@@ -261,6 +261,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 size: 14,
                               ),
                             ),
+                            
                           ),
                           border: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -287,8 +288,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           return null;
                         },
                       ),
+                    
                       Positioned(
                           right: 0,
+                          
                           child: InkWell(
                             onTap: () {
                               if (phoneController.text
@@ -311,11 +314,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             },
                             child: Container(
                               height: height(context) * 0.07,
-                              width: width(context) * 0.3,
+                              width: width(context) * 0.28,
                               decoration: const BoxDecoration(
                                   color: ColorConstants.WHITE,
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(15))),
+                                      BorderRadius.only(topLeft: Radius.circular(15),bottomLeft: Radius.circular(15),topRight: Radius.circular(10),bottomRight: Radius.circular(10))),
                               // child: Text('Get OTP'),
                               child: ShaderMask(
                                 blendMode: BlendMode.srcIn,
@@ -328,11 +331,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         ColorConstants.GRADIENT_RED
                                       ]).createShader(bounds);
                                 },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
+                                child: Center(
                                   child: Text(
                                     "GET OTP",
-                                    style: Styles.regular(
+                                    style: Styles.semibold(
                                       size: 14,
                                     ),
                                   ),
