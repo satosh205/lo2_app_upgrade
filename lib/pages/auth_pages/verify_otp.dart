@@ -557,7 +557,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                           widgetBuilder: (_, CurrentRemainingTime? time) {
                             return RichText(
                               text: TextSpan(
-                                  text: 'nice',
+                                  text: '',
                                   style: TextStyle(
                                     fontSize: 3,
                                   ),

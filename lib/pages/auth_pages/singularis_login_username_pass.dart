@@ -16,6 +16,7 @@ import 'package:masterg/data/models/response/auth_response/bottombar_response.da
 import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/main.dart';
+import 'package:masterg/pages/auth_pages/forget_password.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/custom_pages/TapWidget.dart';
 import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
@@ -351,7 +352,11 @@ class _SingularisLoginState extends State<SingularisLogin> {
                     }),
                     Padding(
                       padding: const EdgeInsets.only(left:200.0),
-                      child: Text("Forget Password?",style: Styles.regularWhite(),),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ForgetScreen()));
+                        },
+                        child: Text("Forget Password?",style: Styles.regularWhite(),)),
                     ),
                 _size(height: 20),
                 Column(
