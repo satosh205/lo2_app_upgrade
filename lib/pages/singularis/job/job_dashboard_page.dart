@@ -175,8 +175,10 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
         case ApiStatus.SUCCESS:
           Log.v("Competition Content List State....................");
           //contentList = competitionState.response;
-          Utility.showSnackBar(
-              scaffoldContext: context, message: 'Your application is successfully submitted.');
+          if(applied != null){
+            Utility.showSnackBar(
+                scaffoldContext: context, message: 'Your application is successfully submitted.');
+          }
           jobApplyLoading = false;
 
           break;

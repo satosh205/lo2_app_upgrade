@@ -141,10 +141,10 @@ class _MyJobAllViewListPageState extends State<MyJobAllViewListPage> {
                               ),
                             ),
 
-                            Padding(
+                            widget.myJobResponse?.data![index]!.jobStatus != null ? Padding(
                               padding: const EdgeInsets.only(top: 0.0),
                               child: Text('${widget.myJobResponse?.data![index]!.jobStatus}', style: TextStyle(color: Colors.green),),
-                            ),
+                            ):Text(''),
                           ],
                         ),
                       ),

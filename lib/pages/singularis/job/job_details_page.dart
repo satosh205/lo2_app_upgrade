@@ -64,7 +64,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
 
   bool? competitionDetailLoading = true;
   CompetitionContentListResponse? contentList;
-
+  int? applied = 0;
 
   @override
   void initState() {
@@ -90,7 +90,10 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
           Log.v("Competition Content List State....................");
           contentList = competitionState.response;
           competitionDetailLoading = false;
-
+          if(applied != 0){
+            Utility.showSnackBar(
+                scaffoldContext: context, message: 'Your application is successfully submitted.');
+          }
           break;
         case ApiStatus.ERROR:
           Log.v(
@@ -271,7 +274,9 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
 
          widget.jobStatus == null || widget.jobStatus == "" ? InkWell(
            onTap: (){
+             applied = 1;
              getCompetitionContentList(1);
+             _onLoadingForJob();
            },
            child: Container(
               height: 40,
@@ -801,6 +806,40 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
     );
   }
 
+
+  void _onLoadingForJob() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Container(
+            padding: EdgeInsets.only(left: 20, right: 10),
+            height: 100,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: new Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                new CircularProgressIndicator(
+                  color: Colors.blue,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: new Text("Job Apply..."),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+    new Future.delayed(new Duration(seconds: 2), () {
+      Navigator.pop(context); //pop dialog
+    });
+  }
 
   //TODO:What is questions qqqqqq
   Widget _questionsSection() {
