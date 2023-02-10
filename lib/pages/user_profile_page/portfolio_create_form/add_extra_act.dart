@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -231,9 +232,16 @@ class _AddActivitiesState extends State<AddActivities> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
-                                    height: 10,
+                                 
+                                   Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Description",
+                                     style: Styles.regular(
+                                size: 14, color: Color(0xff0E1638)),
+                                    ),
                                   ),
+                                  
                                   Padding(
                                      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
                                     child: CustomTextField(
@@ -276,21 +284,47 @@ class _AddActivitiesState extends State<AddActivities> {
                                       },
                                       child: InkWell(
                                         onTap: () async {
-                                          final picker = ImagePicker();
-                                          final pickedFileC =
-                                              await ImagePicker().pickImage(
-                                            source: ImageSource.gallery,
-                                            imageQuality: 100,
-                                          );
-                                          if (pickedFileC != null) {
-                                            setState(() {
-                                              uploadImg =
-                                                  File(pickedFileC.path);
-                                            });
-                                          } else if (Platform.isAndroid) {
-                                            final LostData response =
-                                                await picker.getLostData();
-                                          }
+
+                                          FilePickerResult? result;
+
+                                    if (Platform.isIOS) {
+                                      result =
+                                          await FilePicker.platform.pickFiles(
+                                        allowMultiple: false,
+                                        type: FileType.any,
+                                      );
+                                      if (result != null)
+                                        setState(() {
+                                          uploadImg =
+                                              File(result!.files.first.path!);
+                                        });
+                                    } else {
+                                      FilePickerResult? pickedFileC =
+                                          await FilePicker.platform.pickFiles(
+                                        type: FileType.any,
+                                      );
+                                      if (pickedFileC != null) {
+                                        setState(() {
+                                          uploadImg = File(
+                                              pickedFileC.files.first.path!);
+                                        });
+                                      }
+                                    }
+                                          // final picker = ImagePicker();
+                                          // final pickedFileC =
+                                          //     await ImagePicker().pickImage(
+                                          //   source: ImageSource.gallery,
+                                          //   imageQuality: 100,
+                                          // );
+                                          // if (pickedFileC != null) {
+                                          //   setState(() {
+                                          //     uploadImg =
+                                          //         File(pickedFileC.path);
+                                          //   });
+                                          // } else if (Platform.isAndroid) {
+                                          //   final LostData response =
+                                          //       await picker.getLostData();
+                                          // }
                                         },
                                         child: Row(
                                           children: [
@@ -325,7 +359,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                             Text(
                                                 uploadImg != null
                                                     ? '${uploadImg?.path.split('/').last}'
-                                                    : "Supported Format: .pdf, .doc, .jpeg",
+                                                    : "Supported Files: .jpeg, .png, .jpg",
                                                 style: TextStyle(
                                                     fontSize: 10,
                                                     fontWeight: FontWeight.w400,
@@ -345,6 +379,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                             ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                         content: Text('Please choose start date')));
+                                        return;
                                         }
                                         Map<String, dynamic> data = Map();
                                         try {
@@ -367,6 +402,9 @@ class _AddActivitiesState extends State<AddActivities> {
                                                     filename: fileName);
                                           }
                                         } catch (e) {
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text('Please upload image')));
                                           print('something is wrong $e');
                                         }
 
