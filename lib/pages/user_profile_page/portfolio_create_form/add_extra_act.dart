@@ -392,7 +392,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                                   child: Text(
                                                       uploadImg != null
                                                           ? '${uploadImg?.path.split('/').last}'
-                                                          : "Supported Files: .jpeg, .png, .jpg",
+                                                          :widget.activity?.imageName ?? "Supported Files: .jpeg, .png, .jpg",
                                                       style: TextStyle(
                                                           fontSize: 10,
                                                           fontWeight:

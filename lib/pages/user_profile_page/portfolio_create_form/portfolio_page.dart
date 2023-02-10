@@ -387,6 +387,24 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
           },
           child: Scaffold(
               //backgroundColor: Color(0xffF2F2F2),
+              appBar: PreferredSize(
+                preferredSize: Size.fromHeight(0),
+                child: AppBar(
+                    automaticallyImplyLeading: false,
+                    elevation: 0,
+                    flexibleSpace: Container(
+                      decoration: const BoxDecoration(
+                        color: ColorConstants.WHITE,
+                        gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: <Color>[
+                              ColorConstants.GRADIENT_ORANGE,
+                              ColorConstants.GRADIENT_RED
+                            ]),
+                      ),
+                    )),
+              ),
               body: SingleChildScrollView(
                   key: const PageStorageKey<String>('portfolioList'),
                   child: Column(
@@ -2226,6 +2244,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
           isPortfolioLoading == false
               ? Container(
                   padding: EdgeInsets.all(8),
+                  margin: EdgeInsets.only(right: 10),
                   height: certificateList?.length != 0
                       ? height(context) * 0.38
                       : height(context) * 0.15,
@@ -2239,41 +2258,74 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
 
                             DateTime startDate =
                                 DateFormat("yyy-MM-dd").parse(startDateString);
-                            return Container(
-                              margin: EdgeInsets.only(right: 10),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: width(context) * 0.7,
-                                    height: width(context) * 0.45,
-                                    child: CachedNetworkImage(
-                                      width: width(context) * 0.7,
-                                      height: width(context) * 0.45,
-                                      imageUrl:
-                                          '${portfolioResponse?.data.baseFileUrl}${certificateList?[index].imageName}',
-                                      errorWidget: (context, url, data) =>
-                                          Image.asset(
-                                        "assets/images/certificate_dummy.png",
-                                        fit: BoxFit.cover,
+                            return InkWell(
+                              onTap: () {
+                                showModalBottomSheet(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    context: context,
+                                    enableDrag: true,
+                                    isScrollControlled: true,
+                                    builder: (context) {
+                                      return FractionallySizedBox(
+                                        heightFactor: 0.9,
+                                        child: CachedNetworkImage(
+                                          imageUrl:
+                                              '${portfolioResponse?.data.baseFileUrl}${certificateList?[index].imageName}',
+                                          width: double.infinity,
+                                          height: double.infinity,
+                                          errorWidget: (context, url, data) =>
+                                              Image.asset(
+                                            "assets/images/certificate_dummy.png",
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      );
+                                    });
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(right: 10),
+                                width: width(context) * 0.7,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: SizedBox(
+                                        width: width(context) * 0.7,
+                                        height: width(context) * 0.45,
+                                        child: CachedNetworkImage(
+                                          width: width(context) * 0.7,
+                                          height: width(context) * 0.45,
+                                          imageUrl:
+                                              '${portfolioResponse?.data.baseFileUrl}${certificateList?[index].imageName}',
+                                          fit: BoxFit.cover,
+                                          errorWidget: (context, url, data) =>
+                                              Image.asset(
+                                            "assets/images/certificate_dummy.png",
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  Text('${certificateList?[index].title}',
-                                      style: Styles.bold(size: 18)),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  Text(
-                                    '${listOfMonths[startDate.month - 1]} ${startDate.day}',
-                                    // '${certificateList?[index].startDate ?? 'Sep 21'}',
-                                    style: Styles.regular(),
-                                  ),
-                                ],
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Text('${certificateList?[index].title}',
+                                        maxLines: 2,
+                                        style: Styles.bold(size: 14)),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Text(
+                                      '${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day}',
+                                      // '${certificateList?[index].startDate ?? 'Sep 21'}',
+                                      style: Styles.regular(),
+                                    ),
+                                  ],
+                                ),
                               ),
                             );
                           })
@@ -2340,7 +2392,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                             type = type[0].toUpperCase() + type.substring(1);
 
                             return Transform.translate(
-                              offset: Offset(0, -20),
+                              offset: Offset(0, -10),
                               child: Container(
                                 margin: EdgeInsets.only(right: 10),
                                 child: Column(

@@ -17,6 +17,24 @@ class _PortfolioState extends State<Portfolio> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       appBar: PreferredSize(
+        preferredSize: Size.fromHeight(0),
+        child: AppBar(
+            automaticallyImplyLeading: false,
+            elevation: 0,
+            flexibleSpace: Container(
+              decoration: const BoxDecoration(
+                color: ColorConstants.WHITE,
+                gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: <Color>[
+                      ColorConstants.GRADIENT_ORANGE,
+                      ColorConstants.GRADIENT_RED
+                    ]),
+              ),
+            )),
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
