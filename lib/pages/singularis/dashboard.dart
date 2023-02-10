@@ -27,6 +27,7 @@ import 'package:masterg/pages/ghome/widget/read_more.dart';
 import 'package:masterg/pages/ghome/widget/view_widget_details_page.dart';
 import 'package:masterg/pages/singularis/competition/competition_detail.dart';
 import 'package:masterg/pages/singularis/job/job_details_page.dart';
+import 'package:masterg/pages/singularis/job_graph.dart';
 
 import 'package:masterg/pages/training_pages/new_screen/courses_details_page.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/portfolio_page.dart';
@@ -497,9 +498,22 @@ class _DashboardPageState extends State<DashboardPage> {
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
                       onTap: (){
-                        futureTrendsButtonSheet(
-                            domainList!.data!.list[index].growthType,
-                            domainList!.data!.list[index].growth);
+                        // futureTrendsButtonSheet(
+                        //     domainList!.data!.list[index].growthType,
+                        //     domainList!.data!.list[index].growth);
+
+
+                            showModalBottomSheet(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+        backgroundColor: Colors.white,
+        context: context,
+        useRootNavigator: true,
+        isScrollControlled: true,
+        builder: (context) {
+          return JobGrowth();
+        });
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.4,
@@ -581,6 +595,9 @@ class _DashboardPageState extends State<DashboardPage> {
       ),
     );
   }
+
+
+
 
   futureTrendsButtonSheet(String growthType, String growth) {
     return showModalBottomSheet(
@@ -1115,7 +1132,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       'View Skill Assessments',
                       style: Styles.textRegular(size: 14),
                       colors: [
-                        ColorConstants.GRADIENT_ORANGE,
+                         ColorConstants.GRADIENT_ORANGE,
                         ColorConstants.GRADIENT_RED,
                       ],
                     ),

@@ -185,7 +185,7 @@ class _CompetetionState extends State<Competetion> {
                               left: mobileWidth * 0.09,
                               top: 8,
                               child: renderProgressBar(
-                                  percentage(userRank?.data.first.rank ?? 0), barThickness, mobileWidth)),
+                                  percentage(userRank?.data.first.score ?? 0), barThickness, mobileWidth)),
                           Positioned(
                               left: mobileWidth * 0.02,
                               top: 30,
@@ -226,19 +226,19 @@ class _CompetetionState extends State<Competetion> {
                           Positioned(
                               left: mobileWidth * 0.53,
                               top: 4,
-                              child: renderEllipse('${nextValue(userRank?.data.first.rank ?? 0, 1)}')),
+                              child: renderEllipse('${nextValue(userRank?.data.first.score ?? 0, 1)}')),
                           Positioned(
                               left: mobileWidth * 0.66,
                               top: 3.8,
-                              child: renderEllipse('${nextValue(userRank?.data.first.rank ?? 0, 2)}')),
+                              child: renderEllipse('${nextValue(userRank?.data.first.score ?? 0, 2)}')),
                           Positioned(
                               left: mobileWidth * 0.79,
                               top: 4,
-                              child: renderEllipse('${nextValue(userRank?.data.first.rank ?? 0, 3)}')),
+                              child: renderEllipse('${nextValue(userRank?.data.first.score ?? 0, 3)}')),
                           Positioned(
                               left: mobileWidth * 0.92,
                               top: 4,
-                              child: renderEllipse('${nextValue(userRank?.data.first.rank ?? 0, 4)}')),
+                              child: renderEllipse('${nextValue(userRank?.data.first.score ?? 0, 4)}')),
                           Positioned(
                               left: 10,
                               bottom: 40,
@@ -962,9 +962,14 @@ class _CompetetionState extends State<Competetion> {
                         style:
                             Styles.regular(size: 10, color: Color(0xff929BA3))),
                   if (companyName != '')
-                    Text(
-                      companyName,
-                      style: Styles.semibold(size: 12),
+                    SizedBox(
+                      width: width(context) * 0.4,
+                      child: Text(
+                        companyName,
+                        style: Styles.semibold(size: 12),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   // SizedBox(
                   //   width: MediaQuery.of(context).size.width * 0.4,
@@ -981,7 +986,7 @@ class _CompetetionState extends State<Competetion> {
               ),
               Row(
                 children: [
-                  Text('$difficulty',
+                  Text('${difficulty.capital()}',
                       style: Styles.regular(
                           color: ColorConstants.GREEN_1, size: 12)),
                   SizedBox(
@@ -1370,12 +1375,15 @@ class _CompetetionState extends State<Competetion> {
 
   int nextValue(int c, int n){
     int x = 50 - (c % 50);
-    c = (x + c) * n;
+    c = (x + c) +( 50 * (n - 1));
     return c;
   }
   double percentage(int c){
+    // c =c -1;
     int h = nextValue(c, 1);
     int l = h - 50;
+    print('Api - URL: https://singularis.lea $c and $l and h is $h');
+
     double result =  ((c - l)  * 100) / 50;
     print('Api - URL: https://singularis.lea $result');
     return result;

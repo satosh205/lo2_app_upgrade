@@ -129,16 +129,18 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                           style: Styles.bold(color: Color(0xff0E1638)),
                         ),
                         if (widget.competition?.organizedBy != null)
-                          Row(
+                          Wrap(
                             children: [
                               Text(
                                 'Conducted by ',
                                 style: Styles.regular(
                                     size: 12, color: Color(0xff929BA3)),
                               ),
-                              Text(
-                                '${widget.competition?.organizedBy}',
-                                style: Styles.semibold(size: 12),
+                              SizedBox(
+                                child: Text(
+                                  '${widget.competition?.organizedBy}',
+                                  style: Styles.semibold(size: 12),
+                                ),
                               ),
                             ],
                           ),
@@ -263,22 +265,62 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                       ],
                     ),
                   ),
-                  if (competitionDetailLoading == false ) ...[
+                  if (competitionDetailLoading == false) ...[
                     ListView.builder(
                         physics: BouncingScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: contentList?.data?.list?.length,
                         itemBuilder: (context, index) {
                           // return Text('nice');
-                          bool isLocked = index != 0;
-                          if(index != 0 && contentList?.data?.list?[index - 1]?.completionPercentage == 100.0){
-                            isLocked = false;
-                          }
                           
+                          bool isLocked = index != 0;
+                          if (index != 0) {
+                            CompetitionContent? data =
+                              contentList?.data?.list?[index-1];
+                            // if (data?.completionPercentage != null &&
+                            //     (data?.contentType == 'assignment' ||
+                            //         data?.contentType == 'assessment') &&
+                            //    double.parse('${data?.overallScore ?? 0}') >=
+                            //         data?.perCompletion) {
+                            //   isLocked = false;
+                            // } 
+                            // else if (data?.completionPercentage != null &&
+                            //     int.parse('${data?.completionPercentage ?? 0}') >=
+                            //         int.parse('${data?.perCompletion}')) {
+                            //   isLocked = false;
+                            // }
+                            // if (data?.activityStatus == 2) {
+                            //   isLocked = false;
+                            // }
+                          }
+
+// <?php
+//      $is_lock = 1;
+//   if(!empty($competitionVal['per_completion']) && in_array($competitionVal['content_type'], array('assignment','assessment')) && $competitionVal['overall_score'] >= $competitionVal['per_completion']){
+//      $is_lock = 0;
+//   }elseif(!empty($competitionVal['per_completion']) && $competitionVal['completion_percentage'] >= $competitionVal['per_completion']){
+//      $is_lock = 0;
+//   }
+//   if($competitionVal['activity_status'] == 2){
+//      $is_lock = 0;
+//   }
+//   ?>
+
+//                           if(per_completion != null (content_type == 'assignment' || assesment)  && overall_score > per_completion){
+// $is_lock = 0;
+// }
+// else if(per_completion != null && completion_percentage >= per_completion ){
+
+// }
+// if(activity_status == 2){
+//    islocked = 0;
+// }
+
                           return competitionCard(
                               contentList?.data?.list![index],
-                              index == ((contentList?.data?.list?.length ?? 1) - 1),
-                              isLocked:  isLocked);
+                              index ==
+                                  ((contentList?.data?.list?.length ?? 1) - 1),
+                              isLocked: isLocked);
                         }),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -366,7 +408,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
       {bool? isLocked}) {
     CardType? cardType;
 
-    if (data?.completionPercentage == 100.0) isLocked = false;
+    // if (data?.perCompletion== 100.0) isLocked = false;
     // if (cardType != CardType.session && data?.completionPercentage == 100)
     //   isLocked = false;
 
@@ -405,20 +447,32 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-             data?.completionPercentage == 100.0   ? Container(
-              padding: EdgeInsets.all(1),
-              decoration: BoxDecoration(shape: BoxShape.circle, color: ColorConstants.GREEN_1),
-              child: Icon(Icons.done, size: 20, color: ColorConstants.WHITE,)):      SvgPicture.asset(
-                    isLocked == true
-                        ? 'assets/images/lock_content.svg'
-                        : 'assets/images/circular_border.svg',
-                    width: 18,
-                    height: 18,
-                  ),
+                  data?.completionPercentage == 100.0
+                      ? Container(
+                          padding: EdgeInsets.all(1),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: ColorConstants.GREEN_1),
+                          child: Icon(
+                            Icons.done,
+                            size: 20,
+                            color: ColorConstants.WHITE,
+                          ))
+                      : SvgPicture.asset(
+                          isLocked == true
+                              ? 'assets/images/lock_content.svg'
+                              : 'assets/images/circular_border.svg',
+                          width: 18,
+                          height: 18,
+                        ),
                   if (!isLast)
                     Container(
                       margin: EdgeInsets.only(top: 4),
-                      height:data?.completionPercentage == 100.0  && (cardType == CardType.assignment  || cardType == CardType.assessment) ?100 : 75,
+                      height: data?.completionPercentage == 100.0 &&
+                              (cardType == CardType.assignment ||
+                                  cardType == CardType.assessment)
+                          ? 100
+                          : 75,
                       width: 4,
                       decoration: BoxDecoration(
                           color: Color(0xffCECECE),
@@ -441,7 +495,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
   }
 
   Widget card(CompetitionContent data, CardType? cardType, bool? isLocked) {
-      String startDate = '${data.startDate?.split(' ').first}';
+    String startDate = '${data.startDate?.split(' ').first}';
     DateTime start = DateFormat("yyyy-MM-dd").parse(startDate);
     return InkWell(
       onTap: () {
@@ -523,7 +577,12 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
             SizedBox(height: 8),
             Row(
               children: [
-                Text('${data.difficultyLevel?.capital()}',
+                Text(
+                    cardType == CardType.note
+                        ? '${data.pageCount ?? ''} pages'
+                        : cardType == CardType.video
+                            ? '${data.duration ?? ''} mins'
+                            : '${data.difficultyLevel?.capital()}',
                     style: Styles.regular(
                         color: ColorConstants.GREEN_1, size: 12)),
                 SizedBox(
@@ -559,23 +618,31 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                 )
               ],
             ),
-
-         if( data.completionPercentage == 100.0  && (cardType == CardType.assignment  || cardType == CardType.assessment))   Divider(),
-          if( data.completionPercentage == 100.0  && (cardType == CardType.assignment  || cardType == CardType.assessment)) Text.rich(
+            if (data.completionPercentage == 100.0 &&
+                (cardType == CardType.assignment ||
+                    cardType == CardType.assessment))
+              Divider(),
+            if (data.completionPercentage == 100.0 &&
+                (cardType == CardType.assignment ||
+                    cardType == CardType.assessment))
+              Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(text: 'Report: ', style: Styles.regular(size: 12)),
                     TextSpan(
-                      children: [
-                         TextSpan(
-                            text:'Report: ',
-                            style: Styles.regular(size: 12)),
-                        TextSpan(
-                            text: cardType == CardType.assignment ? '${data.marks}' : '${data.score}',
-                            style: Styles.bold(size: 12, color: ColorConstants.GRADIENT_RED)),
-                        TextSpan(
-                            text:cardType == CardType.assignment ?  '/${data.passingMarks} Score':  '/${data.maximumMarks} Score',
-                            style: Styles.regular(size: 12)),
-                      ],
-                    ),
-                  ),
+                        text: cardType == CardType.assignment
+                            ? '${data.marks}'
+                            : '${data.score}',
+                        style: Styles.bold(
+                            size: 12, color: ColorConstants.GRADIENT_RED)),
+                    TextSpan(
+                        text: cardType == CardType.assignment
+                            ? '/${data.passingMarks} Score'
+                            : '/${data.maximumMarks} Score',
+                        style: Styles.regular(size: 12)),
+                  ],
+                ),
+              ),
           ]),
     );
   }

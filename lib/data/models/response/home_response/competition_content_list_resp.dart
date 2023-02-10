@@ -116,7 +116,9 @@ class CompetitionContent {
         this.liveclassActionTitle,
         this.sessionStartingIn,
         this.contentTypeLabel,
-        this.difficultyLevel
+        this.difficultyLevel,
+        this.perCompletion,
+        this.activityStatus
     });
 
     dynamic image;
@@ -134,7 +136,11 @@ class CompetitionContent {
     int? expectedDuration;
     String? endDate;
     String? startDate;
+    double? perCompletion;
     dynamic completionPercentage;
+    dynamic activityStatus;
+
+
     int? userId;
     dynamic gScore;
     int? programId;
@@ -198,7 +204,8 @@ class CompetitionContent {
         expectedDuration: json["expected_duration"],
         endDate: json["end_date"],
         startDate: json["start_date"],
-        completionPercentage: json["completion_percentage"],
+        perCompletion: double.parse(json["per_completion"]),
+        completionPercentage:  json[ "completion_percentage"],
         userId: json["user_id"],
         gScore: json["g_score"],
         programId: json["program_id"],
@@ -244,7 +251,9 @@ class CompetitionContent {
         liveclassActionTitle: json["liveclass_action_title"],
         sessionStartingIn: json["session_starting_in"],
         contentTypeLabel: json["content_type_label"],
-        difficultyLevel: json['difficulty_level']
+        difficultyLevel: json['difficulty_level'],
+        activityStatus: json['activity_status']
+
         
     );
 
@@ -264,7 +273,8 @@ class CompetitionContent {
         "expected_duration": expectedDuration,
         "end_date": endDate,
         "start_date": startDate,
-        "completion_percentage": completionPercentage,
+        "per_completion": perCompletion,
+        "completion_percentage" : completionPercentage,
         "user_id": userId,
         "g_score": gScore,
         "program_id": programId,
@@ -310,7 +320,8 @@ class CompetitionContent {
         "liveclass_action_title": liveclassActionTitle,
         "session_starting_in": sessionStartingIn,
         "content_type_label" : contentTypeLabel,
-        "difficulty_level" : difficultyLevel
+        "difficulty_level" : difficultyLevel,
+        'activity_status' : activityStatus
     };
 }
 
