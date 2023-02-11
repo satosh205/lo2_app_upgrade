@@ -83,10 +83,10 @@ class _EditSelfDetailsPageState extends State<EditSelfDetailsPage> {
                           UserSession.clearSession();
                           await Hive.deleteFromDisk();
                           Preference.clearPref().then((value) {
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                NextPageRoute(ChooseLanguage(showEdulystLogo: true,)),
-                                    (route) => false);
+                            // Navigator.pushAndRemoveUntil(
+                            //     context,
+                            //     NextPageRoute(ChooseLanguage(showEdulystLogo: true,)),
+                            //         (route) => false);
                           });
                         });
                   },

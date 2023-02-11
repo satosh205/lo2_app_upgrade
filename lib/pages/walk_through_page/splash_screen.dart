@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive/hive.dart';
 import 'package:masterg/blocs/auth_bloc.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
+import 'package:masterg/pages/auth_pages/sign_up_screen.dart';
 import 'package:masterg/pages/swayam_pages/login_screen.dart';
 import 'package:masterg/utils/check_connection.dart';
 import 'package:masterg/utils/config.dart';
@@ -278,17 +279,25 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
       }
     } else {
       if (APK_DETAILS["enable_boarding_screen"] == "0") {
+        
         await Future.delayed(Duration(seconds: 2));
-        if (APK_DETAILS["package_name"] == 'com.at.perfetti_swayam')
-          Navigator.pushAndRemoveUntil(
-              context, NextPageRoute(LoginScreen()), (route) => false);
-        else
-          Navigator.pushAndRemoveUntil(
-              context,
-              NextPageRoute(ChooseLanguage(
-                showEdulystLogo: true,
-              )),
-              (route) => false);
+
+         Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SignUpScreen()));
+
+
+        // if (APK_DETAILS["package_name"] == 'com.at.perfetti_swayam')
+        //   Navigator.pushAndRemoveUntil(
+        //       context, NextPageRoute(LoginScreen()), (route) => false);
+        // else
+        //   Navigator.pushAndRemoveUntil(
+        //       context,
+        //       NextPageRoute(ChooseLanguage(
+        //         showEdulystLogo: true,
+        //       )),
+        //       (route) => false);
       } else {
         await Future.delayed(Duration(seconds: 2));
         Navigator.pushAndRemoveUntil(

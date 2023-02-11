@@ -69,11 +69,11 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
             SizedBox(height: 30,),
             TapWidget(
               onTap: () {
-                Navigator.push(
-                    context,
-                    NextPageRoute(ChooseLanguage(
-                      showEdulystLogo: true,
-                    )));
+                // Navigator.push(
+                //     context,
+                //     NextPageRoute(ChooseLanguage(
+                //       showEdulystLogo: true,
+                //     )));
               },
               /*child: Image.asset(
                 "assets/images/next.png",

@@ -306,12 +306,12 @@ class _UserProfilePageState extends State<UserProfilePage>
                           UserSession.clearSession();
                           await Hive.deleteFromDisk();
                           Preference.clearPref().then((value) {
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                NextPageRoute(ChooseLanguage(
-                                  showEdulystLogo: true,
-                                )),
-                                (route) => false);
+                            // Navigator.pushAndRemoveUntil(
+                            //     context,
+                            //     NextPageRoute(ChooseLanguage(
+                            //       showEdulystLogo: true,
+                            //     )),
+                            //     (route) => false);
                           });
                         });
                   },

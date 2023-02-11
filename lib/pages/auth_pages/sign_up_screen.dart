@@ -101,19 +101,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
               toolbarHeight: 22,
               backgroundColor: ColorConstants.WHITE,
               elevation: 0,
-              leading: IconButton(
-                  padding: const EdgeInsets.all(0),
-                  onPressed: () => Navigator.pushReplacement(
-                      context,
-                      NextPageRoute(
-                          ChooseLanguage(
-                            showEdulystLogo: true,
-                          ),
-                          isMaintainState: false)),
-                  icon: Icon(
-                    CupertinoIcons.back,
-                    color: ColorConstants.BLACK,
-                  )),
+              // leading: IconButton(
+              //     padding: const EdgeInsets.all(0),
+              //     onPressed: () => Navigator.pushReplacement(
+              //         context,
+              //         NextPageRoute(
+              //             ChooseLanguage(
+              //               showEdulystLogo: true,
+              //             ),
+              //             isMaintainState: false)),
+              //     icon: Icon(
+              //       CupertinoIcons.back,
+              //       color: ColorConstants.BLACK,
+              //     )),
             ),
             body: ScreenWithLoader(
               isLoading: _isLoading,
@@ -187,7 +187,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           Container(
             
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
               gradient: LinearGradient(colors: [
                 ColorConstants.GRADIENT_ORANGE,
                 ColorConstants.GRADIENT_RED,
@@ -234,21 +234,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           
                           focusedBorder: OutlineInputBorder(
                             
-                            borderRadius: BorderRadius.circular(15.0),
+                            borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
                               color: ColorConstants.WHITE,
                             ),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15.0),
+                            borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
                               color: ColorConstants.WHITE,
-                              width: 1.5,
+                              width: 0.7,
                             ),
                           ),
                           fillColor: ColorConstants.WHITE,
                           hintText: '${Strings.of(context)?.yourMobileNumber}',
-                          hintStyle: TextStyle(color: ColorConstants.WHITE),
+                          hintStyle:  Styles.regular(
+                                color: ColorConstants.WHITE,
+                                size: 14,
+                              ),
                           isDense: true,
                           prefixIconConstraints:
                               BoxConstraints(minWidth: 0, minHeight: 0),
@@ -256,7 +259,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             padding: const EdgeInsets.only(left: 8.0),
                             child: Text(
                               "+91 ",
-                              style: Styles.bold(
+                              style: Styles.regular(
                                 color: ColorConstants.WHITE,
                                 size: 14,
                               ),
@@ -265,7 +268,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           border: OutlineInputBorder(
                               borderSide: BorderSide(
-                                  width: 1, color: ColorConstants.WHITE),
+                                  width: 0.7, color: ColorConstants.WHITE),
                               borderRadius: BorderRadius.circular(10)),
 
                           helperStyle: Styles.regular(
@@ -318,7 +321,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               decoration: const BoxDecoration(
                                   color: ColorConstants.WHITE,
                                   borderRadius:
-                                      BorderRadius.only(topLeft: Radius.circular(15),bottomLeft: Radius.circular(15),topRight: Radius.circular(10),bottomRight: Radius.circular(10))),
+                                      BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10),topRight: Radius.circular(10),bottomRight: Radius.circular(10))),
                               // child: Text('Get OTP'),
                               child: ShaderMask(
                                 blendMode: BlendMode.srcIn,
@@ -334,7 +337,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 child: Center(
                                   child: Text(
                                     "GET OTP",
-                                    style: Styles.semibold(
+                                    style: Styles.regular(
                                       size: 14,
                                     ),
                                   ),
@@ -358,36 +361,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     width: double.infinity,
                     height: MediaQuery.of(context).size.height *
                         WidgetSize.AUTH_BUTTON_SIZE,
-                    // decoration: BoxDecoration(
-                    //     color: phoneController.value.text.length != 10
-                    //         ? ColorConstants().buttonColor().withOpacity(0.5)
-                    //         : ColorConstants().buttonColor(),
-                    //     borderRadius: BorderRadius.circular(10)),
-                    child: Center(
-                        child: SizedBox(
-                      height: height(context) * 0.1,
-                      width: width(context),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 80.0),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              'assets/images/email.svg',
-                              color: ColorConstants.WHITE,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              '${Strings.of(context)?.continueStr} with ${Strings.of(context)?.email}',
-                              style: Styles.bold(
-                                color: ColorConstants.WHITE,
-                              ),
-                            ),
-                          ],
+                  
+                    child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/images/email.svg',
+                        color: ColorConstants.WHITE,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        '${Strings.of(context)?.continueStr} with ${Strings.of(context)?.email}',
+                        style: Styles.semibold(
+                          size: 14, 
+                          color: ColorConstants.WHITE,
                         ),
                       ),
-                    )),
+                    ],
+                    ),
                   ),
                 ),
                 // Center(
@@ -519,7 +513,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
+                borderRadius: BorderRadius.all(Radius.circular(18)),
                 color: ColorConstants().primaryColor(),
               ),
               child: Column(

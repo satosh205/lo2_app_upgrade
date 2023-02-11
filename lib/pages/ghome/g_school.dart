@@ -24,6 +24,7 @@ import 'package:masterg/pages/custom_pages/custom_widgets/rounded_appbar.dart';
 import 'package:masterg/pages/ghome/my_assessments.dart';
 import 'package:masterg/pages/ghome/my_assignments.dart';
 import 'package:masterg/pages/ghome/my_courses.dart';
+import 'package:masterg/pages/singularis/app_drawer_page.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
@@ -65,6 +66,8 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
   List<HighlyRated>? highlyRated = [];
   List<MostViewed>? mostViewed = [];
   AnimationController? controller;
+  var _scaffoldKey = new GlobalKey<ScaffoldState>();
+
 
   Box? box;
 
@@ -83,107 +86,111 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
   }
 
   Widget build(BuildContext context) {
-    return BlocManager(
-      initState: (context) {},
-      child: BlocListener<HomeBloc, HomeState>(
-          listener: (context, state) async {
-            if (state is getLiveClassState) _handleLiveClassResponse(state);
-            if (state is PopularCoursesState)
-              _handlePopularCoursesStateResponse(state);
-            if (state is FilteredPopularCoursesState)
-              _handlePopularFilteredCourses(state);
-            if (state is CourseCategoryListIDState) {
-              _handleCourseList1Response(state);
-            }
-            if (state is MyAssignmentState) _handleAnnouncmentData(state);
-            if (state is UserAnalyticsState) _handleUserAnalyticsData(state);
-            if (state is LearningSpaceState) _handleLearningSpaceData(state);
-          },
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _customAppBar(),
-                liveclassList != null && liveclassList!.length > 0
-                    ? _getTodayClass()
-                    : isNotLiveclass == true
-                        ? Container()
-                        : Container(),
-                //_getRecentActivities(),
-                // _getResumeLerarning(),
-                //_getCourses(),
-                // _getDashboard(context),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                  child: Row(children: [
-                    Text(
-                      'My Courses',
-                      style: Styles.bold(size: 16),
-                    ),
-                    Spacer(),
-                    InkWell(
-                      child: Text(
-                        'View All',
-                        style: Styles.regular(color: Color(0xfffF2452)),
+    return Scaffold(
+        key: _scaffoldKey,
+      endDrawer: new AppDrawer(),
+      body: BlocManager(
+        initState: (context) {},
+        child: BlocListener<HomeBloc, HomeState>(
+            listener: (context, state) async {
+              if (state is getLiveClassState) _handleLiveClassResponse(state);
+              if (state is PopularCoursesState)
+                _handlePopularCoursesStateResponse(state);
+              if (state is FilteredPopularCoursesState)
+                _handlePopularFilteredCourses(state);
+              if (state is CourseCategoryListIDState) {
+                _handleCourseList1Response(state);
+              }
+              if (state is MyAssignmentState) _handleAnnouncmentData(state);
+              if (state is UserAnalyticsState) _handleUserAnalyticsData(state);
+              if (state is LearningSpaceState) _handleLearningSpaceData(state);
+            },
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _customAppBar(),
+                  liveclassList != null && liveclassList!.length > 0
+                      ? _getTodayClass()
+                      : isNotLiveclass == true
+                          ? Container()
+                          : Container(),
+                  //_getRecentActivities(),
+                  // _getResumeLerarning(),
+                  //_getCourses(),
+                  // _getDashboard(context),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    child: Row(children: [
+                      Text(
+                        'My Courses',
+                        style: Styles.bold(size: 16),
                       ),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            NextPageRoute(MyCourses(
-                              fromDashboard: false,
-                            )));
-                      },
-                    )
-                  ]),
-                ),
-                Container(
-                    height: 160,
-                    width: width(context),
-                    child: MyCourses(
-                      fromDashboard: true,
-                    )),
-
-                Container(
-                  padding: EdgeInsets.all(10),
-                  height: height(context) * 0.22,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    children: [
-                      topRoundedCard('Classes', () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MyClasses()));
-                      }),
-                      topRoundedCard('Assignments', () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MyAssignmentPage()));
-                      }),
-                      topRoundedCard('Quizes', () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MyAssessmentPage()));
-                      }),
-                    ],
+                      Spacer(),
+                      InkWell(
+                        child: Text(
+                          'View All',
+                          style: Styles.regular(color: Color(0xfffF2452)),
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              NextPageRoute(MyCourses(
+                                fromDashboard: false,
+                              )));
+                        },
+                      )
+                    ]),
                   ),
-                ),
-
-                //_getCategories(context),
-                //_getLearnNewEveryday(context),
-                _getRecommendedCourses(context),
-                _getOtherLearnerTopics(context),
-                // _getTopPicksCourses(context),
-                //_getShortCourses(context),
-                // _getHighlyRatedCourses(context),
-                // _getMostViewedCourses(context),
-              ],
-            ),
-          )),
+                  Container(
+                      height: 160,
+                      width: width(context),
+                      child: MyCourses(
+                        fromDashboard: true,
+                      )),
+    
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    height: height(context) * 0.22,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      children: [
+                        topRoundedCard('Classes', () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyClasses()));
+                        }),
+                        topRoundedCard('Assignments', () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyAssignmentPage()));
+                        }),
+                        topRoundedCard('Quizes', () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyAssessmentPage()));
+                        }),
+                      ],
+                    ),
+                  ),
+    
+                  //_getCategories(context),
+                  //_getLearnNewEveryday(context),
+                  _getRecommendedCourses(context),
+                  _getOtherLearnerTopics(context),
+                  // _getTopPicksCourses(context),
+                  //_getShortCourses(context),
+                  // _getHighlyRatedCourses(context),
+                  // _getMostViewedCourses(context),
+                ],
+              ),
+            )),
+      ),
     );
   }
 
@@ -536,53 +543,63 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 5,
-                            width:
-                            MediaQuery.of(context)
-                                .size
-                                .width *
-                                0.5,
-                            decoration: BoxDecoration(
-                                color: ColorConstants
-                                    .WHITE
-                                    .withOpacity(0.2),
-                                borderRadius:
-                                BorderRadius
-                                    .circular(10)),
-                            child: Stack(
-                              children: [
-                                Container(
-                                  height: 10,
-                                  width: MediaQuery.of(
-                                      context)
-                                      .size
-                                      .width *
-                                      0.6 *
-                                      (30 / 100),
-                                  decoration: BoxDecoration(
-                                      color: Color(
-                                          0xffFFB72F),
-                                      borderRadius:
-                                      BorderRadius
-                                          .circular(
-                                          10)),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                              'Profile completed: 30% ',
-                              style: Styles
-                                  .semiBoldWhite())
-                        ],
-                      ),
+
+                      
+                      // SizedBox(width: 10),
+                      // Column(
+                      //   crossAxisAlignment:
+                      //   CrossAxisAlignment.start,
+                      //   children: [
+                      //     Container(
+                      //       height: 5,
+                      //       width:
+                      //       MediaQuery.of(context)
+                      //           .size
+                      //           .width *
+                      //           0.5,
+                      //       decoration: BoxDecoration(
+                      //           color: ColorConstants
+                      //               .WHITE
+                      //               .withOpacity(0.2),
+                      //           borderRadius:
+                      //           BorderRadius
+                      //               .circular(10)),
+                      //       child: Stack(
+                      //         children: [
+                      //           Container(
+                      //             height: 10,
+                      //             width: MediaQuery.of(
+                      //                 context)
+                      //                 .size
+                      //                 .width *
+                      //                 0.6 *
+                      //                 (30 / 100),
+                      //             decoration: BoxDecoration(
+                      //                 color: Color(
+                      //                     0xffFFB72F),
+                      //                 borderRadius:
+                      //                 BorderRadius
+                      //                     .circular(
+                      //                     10)),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //     SizedBox(height: 8),
+                      //     Text(
+                      //         'Profile completed: 30% ',
+                      //         style: Styles
+                      //             .semiBoldWhite())
+                      //   ],
+                      // ),
+                       Spacer(),
+                            InkWell(
+                              onTap: () {
+                                _scaffoldKey.currentState?.openEndDrawer();
+                              },
+                              child: SvgPicture.asset(
+                                  'assets/images/hamburger_menu.svg'),
+                            )
                     ],
                   ),
                 ])));

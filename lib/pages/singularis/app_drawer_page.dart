@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive/hive.dart';
+import 'package:masterg/blocs/auth_bloc.dart';
 import 'package:masterg/data/models/request/auth_request/change_password_request.dart';
 import 'package:masterg/pages/auth_pages/forget_password.dart';
+import 'package:masterg/pages/auth_pages/sign_up_screen.dart';
 import 'package:masterg/pages/auth_pages/singularis_login_username_pass.dart';
 import 'package:masterg/pages/auth_pages/terms_and_condition_page.dart';
 import 'package:masterg/utils/config.dart';
@@ -164,7 +166,8 @@ class _AppDrawerState extends State<AppDrawer> {
             title: Text('About Singularis'),
             onTap: () {},
           ),
-          SizedBox(height: 200,),
+          Spacer(),
+          // SizedBox(height: 200,),
           Divider(),
           Expanded(
             child: Align(
@@ -190,9 +193,13 @@ class _AppDrawerState extends State<AppDrawer> {
                         Preference.clearPref().then((value) {
                           Navigator.pushAndRemoveUntil(
                               context,
-                              NextPageRoute(ChooseLanguage(
-                                showEdulystLogo: true,
-                              )),
+                              NextPageRoute(
+                               SignUpScreen()
+                              //   ChooseLanguage(
+                              //   showEdulystLogo: true,
+                              // )
+                              
+                              ),
                                   (route) => false);
                         });
                       });

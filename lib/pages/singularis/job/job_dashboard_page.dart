@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/user_jobs_list_response.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/rounded_appbar.dart';
+import 'package:masterg/pages/singularis/app_drawer_page.dart';
 import 'package:masterg/pages/singularis/job/job_search_view_page.dart';
 import 'package:masterg/pages/singularis/job/my_job_all_view_list_page.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/portfolio_page.dart';
@@ -52,6 +53,8 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
   String seletedIds = '';
   List<int> selectedIdList = <int>[];
   int? applied;
+  var _scaffoldKey = new GlobalKey<ScaffoldState>();
+
 
   @override
   void initState() {
@@ -216,6 +219,9 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
             handleJobApplyState(state);
         },
         child: Scaffold(
+          key:  _scaffoldKey,
+      endDrawer: new AppDrawer(),
+
           backgroundColor: ColorConstants.JOB_BG_COLOR,
           body: _makeBody(),
         ),
@@ -357,52 +363,60 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                         ),
                       ),
                       SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 5,
-                            width:
-                            MediaQuery.of(context)
-                                .size
-                                .width *
-                                0.5,
-                            decoration: BoxDecoration(
-                                color: ColorConstants
-                                    .WHITE
-                                    .withOpacity(0.2),
-                                borderRadius:
-                                BorderRadius
-                                    .circular(10)),
-                            child: Stack(
-                              children: [
-                                Container(
-                                  height: 10,
-                                  width: MediaQuery.of(
-                                      context)
-                                      .size
-                                      .width *
-                                      0.6 *
-                                      (30 / 100),
-                                  decoration: BoxDecoration(
-                                      color: Color(
-                                          0xffFFB72F),
-                                      borderRadius:
-                                      BorderRadius
-                                          .circular(
-                                          10)),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                              'Profile completed: 30% ',
-                              style: Styles
-                                  .semiBoldWhite())
-                        ],
-                      ),
+                       Spacer(),
+                            InkWell(
+                              onTap: () {
+                                _scaffoldKey.currentState?.openEndDrawer();
+                              },
+                              child: SvgPicture.asset(
+                                  'assets/images/hamburger_menu.svg'),
+                            )
+                      // Column(
+                      //   crossAxisAlignment:
+                      //   CrossAxisAlignment.start,
+                      //   children: [
+                      //     Container(
+                      //       height: 5,
+                      //       width:
+                      //       MediaQuery.of(context)
+                      //           .size
+                      //           .width *
+                      //           0.5,
+                      //       decoration: BoxDecoration(
+                      //           color: ColorConstants
+                      //               .WHITE
+                      //               .withOpacity(0.2),
+                      //           borderRadius:
+                      //           BorderRadius
+                      //               .circular(10)),
+                      //       child: Stack(
+                      //         children: [
+                      //           Container(
+                      //             height: 10,
+                      //             width: MediaQuery.of(
+                      //                 context)
+                      //                 .size
+                      //                 .width *
+                      //                 0.6 *
+                      //                 (30 / 100),
+                      //             decoration: BoxDecoration(
+                      //                 color: Color(
+                      //                     0xffFFB72F),
+                      //                 borderRadius:
+                      //                 BorderRadius
+                      //                     .circular(
+                      //                     10)),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //     SizedBox(height: 8),
+                      //     Text(
+                      //         'Profile completed: 30% ',
+                      //         style: Styles
+                      //             .semiBoldWhite())
+                        // ],
+                      // ),
                     ],
                   ),
                 ])));

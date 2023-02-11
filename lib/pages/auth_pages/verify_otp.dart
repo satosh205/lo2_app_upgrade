@@ -373,14 +373,14 @@ class _VerifyOtpState extends State<VerifyOtp> {
                       ],
                     ),
                   ),
-                 SizedBox(height: 20),
-                  Center(
-                    child: Text(
-                      '${Strings.of(context)?.verificationTitle} +91 ${widget.username}',
-                      style: Styles.regular(size: 15),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
+                //  SizedBox(height: 20),
+                //   Center(
+                //     child: Text(
+                //       '${Strings.of(context)?.verificationTitle} +91 ${widget.username}',
+                //       style: Styles.regular(size: 15),
+                //       textAlign: TextAlign.center,
+                //     ),
+                //   ),
                   _size(height: 20),
                   Container(
                     decoration: BoxDecoration(
@@ -477,7 +477,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
           
                   _size(height: 10),
                   
-                  _size(height: 30),
+                  _size(height: height(context) * 0.16),
                   InkWell(
                       onTap: () {
                         if (_pin.isNotEmpty) {
@@ -497,7 +497,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                         
                         margin: EdgeInsets.all(12),
                         width: double.infinity,
-                        height: MediaQuery.of(context).size.height * 0.08,
+                        height: MediaQuery.of(context).size.height * 0.06,
                         decoration: BoxDecoration(
                             color: _pin.length != 4
                                 ? ColorConstants.WHITE
