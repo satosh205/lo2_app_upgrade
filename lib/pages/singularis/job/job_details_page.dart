@@ -271,7 +271,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
              _onLoadingForJob();
 
              this.setState(() {
-               widget.jobStatus = 'under_review';
+               widget.jobStatus = 'Application under process';
              });
            },
            child: Container(
@@ -297,7 +297,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
          ):
          Padding(
            padding: const EdgeInsets.only(bottom: 20.0),
-           child: Text('${widget.jobStatus}', style: Styles.bold(color: Colors.green, size: 14),),
+           child: Text('${widget.jobStatus == 'under_review' ? 'Application under process' : widget.jobStatus}', style: Styles.bold(color: Colors.green, size: 14),),
          ),
         ],
       ),
@@ -481,15 +481,15 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
 
       child: Column(
         children: [
-          if (competitionDetailLoading == false &&
-              contentList?.data?.list?.length != 0)
+          if (competitionDetailLoading == false ) ...[
+            widget.jobStatus == 'shortlisted' || widget.jobStatus == 'placed' ?
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Align(
-                alignment: Alignment.topLeft,
+                  alignment: Alignment.topLeft,
                   child: Text('Progress', style: Styles.bold(size: 16, color: Color(0xff0E1638)))),
-            ),
-
+            ):SizedBox(),
+          ],
 
           //TODO:Progress List
           if (competitionDetailLoading == false ) ...[

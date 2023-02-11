@@ -590,8 +590,9 @@ class JobCompListEvent extends HomeEvent {
   String? ids;
   int? isJob;
   int? myJob;
+  bool? jobTypeMyJob;
 
-  JobCompListEvent({this.isPopular, this.isFilter = false, this.ids, this.isJob, this.myJob}) : super([isPopular, isFilter, ids, isJob, myJob]);
+  JobCompListEvent({this.isPopular, this.isFilter = false, this.ids, this.isJob, this.myJob, this.jobTypeMyJob = false}) : super([isPopular, isFilter, ids, isJob, myJob, jobTypeMyJob]);
 
   List<Object> get props => throw UnimplementedError();
 }
@@ -2655,16 +2656,39 @@ try {
         try {
           yield JobCompListState(ApiStatus.LOADING);
 
-          List<dynamic> response = await  Future.wait(
-              [homeRepository.getJobCompApiList(false, event.isFilter!, event.ids, event.isJob, event.myJob, 'allJob'),
-               homeRepository.getJobCompApiList(false, event.isFilter!, event.ids, event.isJob, event.myJob, 'myJob'),
-                homeRepository.getJobCompApiList(false, event.isFilter!, event.ids, event.isJob, event.myJob, 'recomJob'),
-              ]);
+          if(event.jobTypeMyJob == false) {
+            List<dynamic> response = await Future.wait(
+                [
+                  homeRepository.getJobCompApiList(
+                      false, event.isFilter!, event.ids, event.isJob,
+                      event.myJob, 'allJob'),
+                  homeRepository.getJobCompApiList(
+                      false, event.isFilter!, event.ids, event.isJob,
+                      event.myJob, 'myJob'),
+                  homeRepository.getJobCompApiList(
+                      false, event.isFilter!, event.ids, event.isJob,
+                      event.myJob, 'recomJob'),
+                ]);
+
+            yield JobCompListState(
+                ApiStatus.SUCCESS, jobListResponse: response[0],
+                myJobListResponse: response[1], recommendedJobOpportunities: response[2]);
+
+          }else{
+            List<dynamic> response = await Future.wait(
+                [
+                  homeRepository.getJobCompApiList(
+                      false, event.isFilter!, event.ids, event.isJob,
+                      event.myJob, 'myJob'),
+                ]);
+
+            yield JobCompListState(
+                ApiStatus.SUCCESS, myJobListResponse: response[0],);
+
+          }
 
           //final response = await homeRepository.getCompetitionList(false);
-          yield JobCompListState(
-              ApiStatus.SUCCESS, jobListResponse: response[0],
-              myJobListResponse: response[1], recommendedJobOpportunities: response[2]);
+
         } catch (e) {
           Log.v("Exception : $e");
           yield JobCompListState(ApiStatus.ERROR,

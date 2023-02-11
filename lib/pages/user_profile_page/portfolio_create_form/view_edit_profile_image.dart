@@ -1,13 +1,15 @@
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:masterg/blocs/home_bloc.dart';
@@ -25,6 +27,10 @@ import 'package:masterg/utils/resource/colors.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
+import 'package:path_provider/path_provider.dart';
+import '../../../utils/utility.dart';
+
+
 
 class UploadProfile extends StatefulWidget {
   final bool? editVideo;
@@ -64,8 +70,9 @@ class _UploadProfileState extends State<UploadProfile> {
         //   = controller!.initialize();
         //  controller?.play();
 
-      controller = VideoPlayerController.network(
-          'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4');
+      //controller = VideoPlayerController.network('http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4');
+      controller = VideoPlayerController.network('${ Preference.getString(Preference.PROFILE_VIDEO)}');
+
       controller.addListener(() {
         print('listining to ');
         setState(() {});
@@ -108,7 +115,7 @@ class _UploadProfileState extends State<UploadProfile> {
                         width: width(context),
                         child: VideoPlayer(controller))
                     : SizedBox(),
-                    Text('${Preference.getString(Preference.PROFILE_VIDEO)}'),
+                    //Text('${Preference.getString(Preference.PROFILE_VIDEO)}'),
                 Spacer(),
                 if (widget.playVideo == false)
                   Container(
@@ -118,15 +125,15 @@ class _UploadProfileState extends State<UploadProfile> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        icon('Edit ', 'assets/images/edit.svg', () {}),
-                        icon('Upload ', 'assets/images/camera.svg', () async {
+                        //icon('Edit', 'assets/images/edit.svg', () {}),
+                        icon('Upload', widget.editVideo == true ?
+                        'assets/images/video.svg' : 'assets/images/image.svg', () async {
                           _initFilePiker()?.then((value) async {
                             Map<String, dynamic> data = Map();
                             data['video'] = await MultipartFile.fromFile(
                                 '${value?.path}',
                                 filename: '${value?.path.split('/').last}');
-                            BlocProvider.of<HomeBloc>(context)
-                                .add(UploadProfileEvent(data: data));
+                            BlocProvider.of<HomeBloc>(context).add(UploadProfileEvent(data: data));
                           });
                         }),
                         icon('Remove ', 'assets/images/delete.svg', () {}),
@@ -154,8 +161,7 @@ class _UploadProfileState extends State<UploadProfile> {
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  icon(
-                                      'Edit ', 'assets/images/edit.svg', () {}),
+                                  //icon('Edit ', 'assets/images/edit.svg', () async{}),
                                   icon('Upload ', 'assets/images/camera.svg',
                                       () async {
                                     FilePickerResult? result;
@@ -249,7 +255,9 @@ class _UploadProfileState extends State<UploadProfile> {
   }
 
   Future<String> _cropImage(_pickedFile) async {
+    print('_cropImage ==== ${_pickedFile}');
     if (_pickedFile != null) {
+      print('_cropImage if---' );
       final croppedFile = await ImageCropper().cropImage(
         sourcePath: _pickedFile,
         compressFormat: ImageCompressFormat.jpg,
@@ -336,4 +344,6 @@ class _UploadProfileState extends State<UploadProfile> {
       }
     });
   }
+
+
 }

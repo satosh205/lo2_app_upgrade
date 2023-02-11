@@ -54,13 +54,13 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
   List<int> selectedIdList = <int>[];
   int? applied;
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  bool myJobRecall = false;
 
   @override
   void initState() {
     super.initState();
     //getJobList();
-    getMyJobList();
+    getMyJobList(false);
     getDomainList();
   }
 
@@ -69,9 +69,9 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
     BlocProvider.of<HomeBloc>(context).add(UserJobsListEvent());
   }*/
 
-  void getMyJobList() {
+  void getMyJobList(bool jobType) {
     BlocProvider.of<HomeBloc>(context).add(
-        JobCompListEvent(isPopular: false, isFilter: false, isJob: 1, myJob: 1));
+        JobCompListEvent(isPopular: false, isFilter: false, isJob: 1, myJob: 1, jobTypeMyJob: jobType));
   }
 
 
@@ -105,9 +105,14 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
           break;
         case ApiStatus.SUCCESS:
           Log.v("CompetitionState....................");
-          myJobResponse = state.myJobListResponse;
-          allJobListResponse = state.jobListResponse;
-          recommendedJobOpportunities = state.recommendedJobOpportunities;
+          if(myJobRecall == false){
+            myJobResponse = state.myJobListResponse;
+            allJobListResponse = state.jobListResponse;
+            recommendedJobOpportunities = state.recommendedJobOpportunities;
+          }else{
+            myJobResponse = state.myJobListResponse;
+          }
+
           myJobLoading = false;
           break;
         case ApiStatus.ERROR:
@@ -180,6 +185,9 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
           break;
         case ApiStatus.SUCCESS:
           Log.v("Competition Content List State....................");
+          myJobRecall = true;
+          getMyJobList(true);
+
           //contentList = competitionState.response;
           /*if(jobApplyLoading == true){
             Utility.showSnackBar(
@@ -265,9 +273,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
             myJobResponse?.data != null ? SizedBox(
               height: 30,
             ):SizedBox(),
-           //myJobLoading == false ? _myJobSectionCard() : SizedBox(),
             myJobResponse?.data != null ? _myJobSectionCard() : SizedBox(),
-            //_myJobListList();
 
             ///Complete Profile
             SizedBox(
@@ -349,7 +355,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      Portfolio()));
+                                      NewPortfolioPage()));
                         },
                         child: ClipRRect(
                           borderRadius:
@@ -770,23 +776,8 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
           if (clickType == 'build_portfolio') {
           Navigator.push(context, NextPageRoute(NewPortfolioPage()));
 
-            // print('object');
-
-            // print('Email == ${Preference.getString(Preference.USER_EMAIL)}');
-
-            // if (Preference.getString(Preference.USER_EMAIL) != null) {
-            //   String portfolioUrl =
-            //       'https://singularis.learningoxygen.com/user-portfolio-webview?email=${Preference.getString(Preference.USER_EMAIL)}';
-            //   Navigator.push(
-            //       context,
-            //       NextPageRoute(CommonWebView(
-            //         url: portfolioUrl,
-            //       ))).then((isSuccess) {
-            //     if (isSuccess == true) {
-            //       Navigator.pop(context, true);
-            //     }
-            //   });
-            // }
+          }else if(clickType == 'complete_profile'){
+            Navigator.push(context, NextPageRoute(NewPortfolioPage()));
           }
         },
         child: Padding(
@@ -875,7 +866,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
         Container(
             padding: EdgeInsets.all(10),
             //height: MediaQuery.of(context).size.height * 0.35,
-            height: 190,
+            height: 170,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(color: ColorConstants.WHITE),
             child: ListView.builder(
@@ -885,20 +876,21 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
                   onTap: (){
+                    print('jobStatus==== ${myJobResponse?.data![index]!.jobStatus}');
                     Navigator.push(
                         context,
                         NextPageRoute(JobDetailsPage(
-                          title: allJobListResponse?.data![index]!.name,
-                          description: allJobListResponse?.data![index]!.description,
-                          location: allJobListResponse?.data![index]!.location,
-                          skillNames: allJobListResponse?.data![index]!.skillNames,
-                          companyName: allJobListResponse?.data![index]!.organizedBy,
-                          domain: allJobListResponse?.data![index]!.domainName,
-                          companyThumbnail: allJobListResponse?.data![index]!.image,
-                          experience: allJobListResponse?.data![index]!.experience,
+                          title: myJobResponse?.data![index]!.name,
+                          description: myJobResponse?.data![index]!.description,
+                          location: myJobResponse?.data![index]!.location,
+                          skillNames: myJobResponse?.data![index]!.skillNames,
+                          companyName: myJobResponse?.data![index]!.organizedBy,
+                          domain: myJobResponse?.data![index]!.domainName,
+                          companyThumbnail: myJobResponse?.data![index]!.image,
+                          experience: myJobResponse?.data![index]!.experience,
                           //jobListDetails: jobList,
-                          id: allJobListResponse?.data![index]!.id,
-                          jobStatus: allJobListResponse?.data![index]!.jobStatus,
+                          id: myJobResponse?.data![index]!.id,
+                          jobStatus: myJobResponse?.data![index]!.jobStatus,
                         )));
                   },
                   child: Column(
@@ -952,7 +944,8 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
 
                             myJobResponse?.data![index]!.jobStatus != null ? Padding(
                               padding: const EdgeInsets.only(top: 0.0),
-                              child: Text('${myJobResponse?.data![index]!.jobStatus}', style: TextStyle(color: Colors.green),),
+                              child: Text('${myJobResponse?.data![index]!.jobStatus == 'under_review' ? 'Application under process' :
+                              myJobResponse?.data![index]!.jobStatus}', style: TextStyle(color: Colors.green),),
                             ):SizedBox(),
                           ],
                         ),
@@ -1324,7 +1317,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                   experience: allJobListResponse?.data![index]!.experience,
                                   //jobListDetails: jobList,
                                   id: allJobListResponse?.data![index]!.id,
-                                  jobStatus: applied == index ? 'under_review' : allJobListResponse?.data![index]!.jobStatus,
+                                  jobStatus: applied == index ? 'Application under process' : allJobListResponse?.data![index]!.jobStatus,
                                 )));
 
                           },
@@ -1477,7 +1470,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                   experience: allJobListResponse?.data![newIndex]!.experience,
                                   //jobListDetails: jobList,
                                   id: allJobListResponse?.data![newIndex]!.id,
-                                  jobStatus: applied == index ? 'under_review' : allJobListResponse?.data![newIndex]!.jobStatus,
+                                  jobStatus: applied == index ? 'Application under process' : allJobListResponse?.data![newIndex]!.jobStatus,
                                 )));
 
                           },
@@ -1631,7 +1624,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                   experience: allJobListResponse?.data![newIndex]!.experience,
                                   //jobListDetails: jobList,
                                   id: allJobListResponse?.data![newIndex]!.id,
-                                  jobStatus: applied == index ? 'under_review' : allJobListResponse?.data![newIndex]!.jobStatus,
+                                  jobStatus: applied == index ? 'Application under process' : allJobListResponse?.data![newIndex]!.jobStatus,
                                 )));
 
                           },

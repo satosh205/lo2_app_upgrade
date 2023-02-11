@@ -967,8 +967,8 @@ class _CompetetionState extends State<Competetion> {
                   imageUrl: competitionImg,
                   width: 100,
                   height: 120,
-                  errorWidget: (context, url, error) => SvgPicture.asset(
-                    'assets/images/gscore_postnow_bg.svg',
+                  errorWidget: (context, url, error) => Image.asset(
+                    'assets/images/comp_emp.png',
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -1049,8 +1049,8 @@ class _CompetetionState extends State<Competetion> {
               imageUrl: competitionImg,
               width: 100,
               height: 120,
-              errorWidget: (context, url, error) => SvgPicture.asset(
-                'assets/images/gscore_postnow_bg.svg',
+              errorWidget: (context, url, error) => Image.asset(
+                'assets/images/comp_emp.png',
               ),
               fit: BoxFit.cover,
             ),

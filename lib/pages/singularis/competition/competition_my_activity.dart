@@ -82,13 +82,11 @@ class _CompetitionMyAcitivityCardState
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: CachedNetworkImage(
-                  
                   imageUrl: '${widget.image}',
                   // width: 100,
                   // height: 120,
-                  
-                  errorWidget: (context, url, error) => SvgPicture.asset(
-                    'assets/images/gscore_postnow_bg.svg',
+                  errorWidget: (context, url, error) => Image.asset(
+                    'assets/images/comp_emp.png',
                     fit: BoxFit.cover,
                   ),
                   fit: BoxFit.cover,

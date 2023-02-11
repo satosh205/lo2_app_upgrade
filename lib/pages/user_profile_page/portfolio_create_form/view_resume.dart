@@ -61,7 +61,6 @@ class _ViewResumeState extends State<ViewResume> {
            if (!(widget.resumUrl == '' || widget.resumUrl == null))
                 InkWell(
                     onTap: () {
-
                         AlertsWidget.showCustomDialog(
                       context: context,
                       title: '',
@@ -262,11 +261,7 @@ fitPolicy: FitPolicy.BOTH,
       // var tempDir = await getApplicationDocumentsDirectory();
       String localPath = "";
       if (Platform.isAndroid) {
-       
         localPath = "/sdcard/download/";
-  
-   
-
         //check if file exists
         final file = File(localPath + "/" + usersFile!.split('/').last);
         if (file.existsSync()) {

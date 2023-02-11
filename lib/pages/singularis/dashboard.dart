@@ -1254,7 +1254,7 @@ class _DashboardPageState extends State<DashboardPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Container(
-              height: 360,
+              height: 340,
               child: featuredInternshipsResponse?.data!.length != 0
                   ? ListView.builder(
                       itemCount: featuredInternshipsResponse?.data!.length,
@@ -1337,11 +1337,35 @@ class _DashboardPageState extends State<DashboardPage> {
                                         ),
                                         Row(
                                           mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                          children: [
+                                            Flexible(
+                                              child: Text(
+                                                '${featuredInternshipsResponse?.data![index]!.skillNames}',
+                                                maxLines: 2,
+                                                softWrap: true,
+                                                style: Styles.regular(
+                                                    color:
+                                                    ColorConstants
+                                                        .GREY_3,
+                                                    size: 13),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+
+                                        Row(
+                                          mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
-                                            Icon(
+                                             Icon(
                                               Icons.location_on_outlined,
-                                              color: Colors.orange,
+                                              size: 16,
+                                              color: ColorConstants.GREY_3,
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(
@@ -1359,27 +1383,25 @@ class _DashboardPageState extends State<DashboardPage> {
                                         SizedBox(
                                           height: 10,
                                         ),
-                                        /*Row(
+                                        Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Icon(
-                                        Icons.currency_exchange_outlined,
-                                        color: Colors.orange,
-                                        size: 18,
-                                      ),
+                                      Image.asset('assets/images/jobicon.png', height: 20, width: 20,),
                                       Padding(
                                         padding:
-                                        const EdgeInsets.only(left: 8.0),
-                                        child: Text(
-                                          '100K - 150K LPA',
-                                          style: Styles.regular(
-                                              color: ColorConstants.GREY_3,
-                                              size: 11),
-                                        ),
+                                        const EdgeInsets.only(left: 5.0),
+                                        child: Text('Exp: ',
+                                            style: Styles.regular(
+                                                size: 12,
+                                                color: ColorConstants.GREY_6)),
                                       ),
+                                      Text('${featuredInternshipsResponse?.data![index]!.experience} Yrs',
+                                          style: Styles.regular(
+                                              size: 12,
+                                              color: ColorConstants.GREY_6)),
                                     ],
-                                  ),*/
-                                        Container(
+                                  ),
+                                        /*Container(
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
@@ -1435,7 +1457,9 @@ class _DashboardPageState extends State<DashboardPage> {
                                               ],
                                             ),
                                           ),
-                                        ),
+                                        ),*/
+
+                                        SizedBox(height: 50,),
                                         featuredInternshipsResponse
                                                         ?.data![index]!
                                                         .jobStatus ==
@@ -1453,7 +1477,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                                   _onLoadingForJob();
                                                 },
                                                 child: Container(
-                                                  height: 50,
+                                                  height: 45,
                                                   width: MediaQuery.of(context)
                                                       .size
                                                       .width,

@@ -542,6 +542,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                               14),
                                                                     ),
                                                                     onTap: () {
+                                                                      Navigator.pop(context);
                                                                       Navigator.push(
                                                                           context,
                                                                           NextPageRoute(UploadProfile(
@@ -563,8 +564,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                     ),
                                                                     onTap: () {
                                                                       // _initFilePiker();
-                                                                      // Navigator.pop(context);
-
+                                                                      Navigator.pop(context);
                                                                       Navigator.push(
                                                                           context,
                                                                           NextPageRoute(
@@ -578,7 +578,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                         });
                                                   },
 
-                                                  //singh
+                                                  //singh11
                                                   child: ClipOval(
                                                     child: CachedNetworkImage(
                                                       imageUrl:
@@ -609,10 +609,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                   Preference
                                                                       .PROFILE_VIDEO) !=
                                                               null &&
-                                                          Preference.getString(
-                                                                  Preference
-                                                                      .PROFILE_VIDEO) !=
-                                                              '')
+                                                          Preference.getString(Preference.PROFILE_VIDEO) != '')
                                                         Navigator.push(
                                                             context,
                                                             NextPageRoute(
@@ -807,9 +804,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                           endIndent: 10,
                                         ),
                                         SizedBox(width: 14),
-                                        portfolioResponse?.data.portfolioSocial
-                                                    .length ==
-                                                0
+                                        portfolioResponse?.data.portfolioSocial.length == 0
                                             ? Row(
                                                 children: [
                                                   SvgPicture.asset(
@@ -1241,7 +1236,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                         ),
                       ),
 
-                      Container(
+                      //TODO: Skills Level Badges
+                      /*Container(
                           margin: EdgeInsets.only(top: dividerMarginTop),
                           color: ColorConstants.WHITE,
                           padding: EdgeInsets.symmetric(
@@ -1770,7 +1766,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                   height: 20,
                                 ),
                                 dividerLine(),
-                              ])),
+                              ])),*/
+
+                      SizedBox(height: 20,),
                       topRow('Education', arrowAction: () {
                         if (portfolioResponse?.data.education.length != 0)
                           Navigator.push(
@@ -2838,12 +2836,12 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
           portfolioResponse = portfolioState.response;
 
           if (portfolioState.response?.data.name
-                  .contains('${Preference.getString(Preference.FIRST_NAME)}') ==
+                  .contains('${Preference.getString(Preference.FIRST_NAME)}') !=
               true) {
             Preference.setString(
                 Preference.FIRST_NAME, '${portfolioState.response?.data.name}');
           } else if (portfolioState.response?.data.image.contains(
-                  '${Preference.getString(Preference.PROFILE_IMAGE)}') ==
+                  '${Preference.getString(Preference.PROFILE_IMAGE)}') !=
               true) {
             Preference.setString(Preference.PROFILE_IMAGE,
                 '${portfolioState.response?.data.image}');
@@ -3745,4 +3743,10 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       }
     }
   }
+
+
+  /*void callBackUpdateFunction(String ){
+
+  }*/
+
 }
