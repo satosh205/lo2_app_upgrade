@@ -221,8 +221,10 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                           ],
                         ),
                         ReadMoreText(
+                          
                           text: '${widget.competition?.description}',
                           color: Color(0xff5A5F73),
+                          viewMore: 'view more',
                         ),
                         // Center(
                         //   child: Container(
@@ -277,22 +279,28 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                           if (index != 0) {
                             CompetitionContent? data =
                               contentList?.data?.list?[index-1];
-                            // if (data?.completionPercentage != null &&
-                            //     (data?.contentType == 'assignment' ||
-                            //         data?.contentType == 'assessment') &&
-                            //    double.parse('${data?.overallScore ?? 0}') >=
-                            //         data?.perCompletion) {
-                            //   isLocked = false;
-                            // } 
-                            // else if (data?.completionPercentage != null &&
-                            //     int.parse('${data?.completionPercentage ?? 0}') >=
-                            //         int.parse('${data?.perCompletion}')) {
-                            //   isLocked = false;
-                            // }
-                            // if (data?.activityStatus == 2) {
-                            //   isLocked = false;
-                            // }
+                            if (data?.completionPercentage != null &&
+                                (data?.contentType == 'assignment' ||
+                                    data?.contentType == 'assessment') &&
+                               double.parse('${data?.overallScore ?? 0}') >=
+                                    double.parse('${data?.perCompletion}')) {
+                              isLocked = false;
+                            } 
+                            else if (data?.completionPercentage != null &&
+                                 double.parse('${data?.completionPercentage}') >=
+                                     double.parse('${data?.perCompletion}')) {
+                              isLocked = false;
+                            }
+                            if (data?.activityStatus == 2) {
+                              isLocked = false;
+                            }
+
+                             if(index == 1){
+                            print(' and the dats is ${data?.completionPercentage } and ${data?.perCompletion}');
                           }
+                          }
+
+                         
 
 // <?php
 //      $is_lock = 1;
@@ -329,7 +337,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           //what's in for you
-                          Text(
+                      if(contentList?.data?.competitionInstructions?.whatsIn != null)    Text(
                             'What’s in for you',
                             style:
                                 Styles.bold(size: 14, color: Color(0xff5A5F73)),
@@ -339,41 +347,41 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                           ),
                           Text(
                             '${contentList?.data?.competitionInstructions?.whatsIn}',
-                            style: Styles.regular(color: Color(0xff5A5F73)),
+                            style: Styles.regular(size: 14, color: Color(0xff5A5F73)),
                           ),
                           SizedBox(
-                            height: 40,
+                            height: 20,
                           ),
 
-                          Text(
+                       if(contentList?.data?.competitionInstructions?.instructions != null)   Text(
                             'Instructions',
                             style:
                                 Styles.bold(size: 14, color: Color(0xff5A5F73)),
                           ),
                           SizedBox(
-                            height: 8,
+                            height: 4,
                           ),
 
                           Text(
                             '${contentList?.data?.competitionInstructions?.instructions}',
-                            style: Styles.regular(color: Color(0xff5A5F73)),
+                            style: Styles.regular(size: 14, color: Color(0xff5A5F73)),
                           ),
                           SizedBox(
-                            height: 40,
+                            height: 20,
                           ),
 
-                          Text(
+                      if(contentList?.data?.competitionInstructions?.faq != null)    Text(
                             'FAQs',
                             style:
                                 Styles.bold(size: 14, color: Color(0xff5A5F73)),
                           ),
                           SizedBox(
-                            height: 8,
+                            height: 4,
                           ),
 
                           Text(
                             '${contentList?.data?.competitionInstructions?.faq}',
-                            style: Styles.regular(color: Color(0xff5A5F73)),
+                            style: Styles.regular(size: 14, color: Color(0xff5A5F73)),
                           ),
                         ],
                       ),
@@ -408,7 +416,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
       {bool? isLocked}) {
     CardType? cardType;
 
-    // if (data?.perCompletion== 100.0) isLocked = false;
+    if (data?.perCompletion== 100.0) isLocked = false;
     // if (cardType != CardType.session && data?.completionPercentage == 100)
     //   isLocked = false;
 
@@ -573,7 +581,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
             Text('${data.contentTypeLabel ?? ''}',
                 style: Styles.regular(size: 12, color: ColorConstants.GREY_3)),
             SizedBox(height: 8),
-            Text('${data.description}', style: Styles.bold(size: 12)),
+            Text('${data.title}', style: Styles.bold(size: 12)),
             SizedBox(height: 8),
             Row(
               children: [

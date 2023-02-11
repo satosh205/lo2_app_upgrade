@@ -208,7 +208,7 @@ class Utility {
 
 
 
-     var formatter = new DateFormat('yyy MMM dd');
+     var formatter = new DateFormat('yyy MMMM dd');
 
     DateTime date = DateTime.parse(dateVal!);
     List<String> dateList = formatter.format(date).split(' ');

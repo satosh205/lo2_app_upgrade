@@ -137,7 +137,7 @@ class CompetitionContent {
     String? endDate;
     String? startDate;
     double? perCompletion;
-    dynamic completionPercentage;
+    double? completionPercentage;
     dynamic activityStatus;
 
 
@@ -204,8 +204,8 @@ class CompetitionContent {
         expectedDuration: json["expected_duration"],
         endDate: json["end_date"],
         startDate: json["start_date"],
-        perCompletion: double.parse(json["per_completion"]),
-        completionPercentage:  json[ "completion_percentage"],
+        perCompletion:json["per_completion"] != null ?  double.parse('${json["per_completion"]}') : 0.0,
+        completionPercentage:json[ "completion_percentage"] != null ?   double.parse('${json[ "completion_percentage"]}') : 0.0,
         userId: json["user_id"],
         gScore: json["g_score"],
         programId: json["program_id"],

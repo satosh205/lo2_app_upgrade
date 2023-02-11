@@ -41,6 +41,7 @@ class _CompetitionYoutubePlayerState extends State<CompetitionYoutubePlayer> {
 
   @override
   void initState() {
+     _updateCourseCompletion(0);
 
     _videoPlayerController = YoutubePlayerController(
               initialVideoId:
