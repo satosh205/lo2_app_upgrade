@@ -164,7 +164,7 @@ class _CommunityDashboardState extends State<CommunityDashboard> {
                           SizedBox(width: 14),
                         InkWell(
                               onTap: () {
-                                 Navigator.push(context, NextPageRoute(ReelsDashboardPage()));
+                                 Navigator.push(context, NextPageRoute(ReelsDashboardPage(), isMaintainState: true));
                               },
                               child:   SvgPicture.asset('assets/images/open_reel.svg')),
                           SizedBox(width: 14),
