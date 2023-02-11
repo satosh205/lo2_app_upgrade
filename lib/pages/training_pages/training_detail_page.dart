@@ -177,12 +177,13 @@ class _TrainingDetailPageState extends State<TrainingDetailPage> {
   }
 
   void openAssignment(dynamic data) {
+    print('the is id ${data.programContentId}');
     Navigator.push(
       context,
       NextPageRoute(
           ChangeNotifierProvider<AssignmentDetailProvider>(
               create: (c) =>
-                  AssignmentDetailProvider(TrainingService(ApiService()), data),
+                  AssignmentDetailProvider(TrainingService(ApiService()), data, fromCompletiton: true, id: data.programContentId),
               child: AssignmentDetailPage(
                 id: data.programContentId,
               )),

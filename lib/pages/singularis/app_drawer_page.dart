@@ -119,7 +119,7 @@ class _AppDrawerState extends State<AppDrawer> {
               Icons.share_outlined,
               color: Colors.black,
             ),
-            title: Text('Shareapp'),
+            title: Text('ShareApp'),
             onTap: () {},
           ),
            SizedBox(height: 20,),

@@ -118,7 +118,8 @@ class _SingularisLoginState extends State<SingularisLogin> {
               Preference.USER_EMAIL, '${state.response?.data?.user?.email}');
           Preference.setString(Preference.PROFILE_IMAGE,
               '${state.response?.data?.user?.profileImage}');
-          Preference.setInt(Preference.USER_ID, int.parse('${state.response?.data?.user?.id}'));
+          Preference.setInt(Preference.USER_ID,
+              int.parse('${state.response?.data?.user?.id}'));
           // Preference.setInt(Preference.USER_TYPE,
           //     int.parse('${state.response?.data?.user?.isTrainer}'));
           Preference.setString(
@@ -282,8 +283,8 @@ class _SingularisLoginState extends State<SingularisLogin> {
               SizedBox(
                 height: 30,
               ),
-              Text(
-                  "Welcome to",style: Styles.regular(size:18,color: Color(0xff5A5F73))),
+              Text("Welcome to",
+                  style: Styles.regular(size: 18, color: Color(0xff5A5F73))),
               Transform.scale(
                 scale: 1.2,
                 child: appBarImagePath.split('.').last == 'svg'
@@ -312,70 +313,122 @@ class _SingularisLoginState extends State<SingularisLogin> {
                         // width: 150,
                       ),
               _size(height: 20),
-             Container(
-              decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              gradient: LinearGradient(colors: [
-                ColorConstants.GRADIENT_ORANGE,
-                ColorConstants.GRADIENT_RED,
-              ]),
-            ),
-            height: height(context) * 0.6,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(children: [
-                  Text('${Strings.of(context)?.login}',
-                      style: Styles.bold(size: 18, color: ColorConstants.WHITE)),
-                _size(),
-                Text('${Strings.of(context)?.loginCreateAccount}',
-                      style:
-                          Styles.regular(size: 16, color: ColorConstants.WHITE)),
-                _size(height: 20),
-                _textField(
-                  isEmail: true,
-                  controller: _emailController,
-                  hintText: 'Username',
-                  prefixImage: 'assets/images/email_icon.png',
-                  validation: validateEmail,
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                  gradient: LinearGradient(colors: [
+                    ColorConstants.GRADIENT_ORANGE,
+                    ColorConstants.GRADIENT_RED,
+                  ]),
                 ),
-                _size(height: 10),
-                _textField(
-                    controller: _passController,
-                    hintText: 'Password',
-                    prefixImage: 'assets/images/lock.png',
-                    obscureText: _isObscure,
-                    validation: validatePassword1,
-                    onEyePress: () {
-                      setState(() {
-                        _isObscure = !_isObscure;
-                      });
-                    }),
-                    Padding(
-                      padding: const EdgeInsets.only(left:200.0),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ForgetScreen()));
-                        },
-                        child: Text("Forget Password?",style: Styles.regularWhite(),)),
-                    ),
-                _size(height: 20),
-                Column(
-                  children: [
-                    // _loginButton(),
-                    Container(
-                          
-                          margin: EdgeInsets.all(12),
-                          width: double.infinity,
-                          height: MediaQuery.of(context).size.height * 0.06,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                              // color: _pin.length != 4
-                              //     ? ColorConstants.WHITE
-                    
-                              //         .withOpacity(0.5)
-                              //     : ColorConstants.WHITE,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: ShaderMask(
+                height: height(context) * 0.6,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      Text('${Strings.of(context)?.login}',
+                          style: Styles.bold(
+                              size: 18, color: ColorConstants.WHITE)),
+                      _size(),
+                      Text('${Strings.of(context)?.loginCreateAccount}',
+                          style: Styles.regular(
+                              size: 16, color: ColorConstants.WHITE)),
+                      _size(height: 20),
+                      _textField(
+                        isEmail: true,
+                        controller: _emailController,
+                        hintText: 'Username',
+                        prefixImage: 'assets/images/email_icon.png',
+                        validation: validateEmail,
+                      ),
+                      _size(height: 10),
+                      _textField(
+                          controller: _passController,
+                          hintText: 'Password',
+                          prefixImage: 'assets/images/lock.png',
+                          obscureText: _isObscure,
+                          validation: validatePassword1,
+                          onEyePress: () {
+                            setState(() {
+                              _isObscure = !_isObscure;
+                            });
+                          }),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 200.0),
+                        child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ForgetScreen()));
+                            },
+                            child: Text(
+                              "Forget Password?",
+                              style: Styles.regularWhite(),
+                            )),
+                      ),
+                      _size(height: 20),
+                      Column(
+                        children: [
+                          // _loginButton(),
+                          InkWell(
+                            onTap: () {
+                              String? value = validateEmail(
+                                  _emailController.text.toString().trim());
+                              String? pass = validatePassword(
+                                  _passController.text.toString().trim());
+                              if (value != null) {
+                                AlertsWidget.showCustomDialog(
+                                    context: context,
+                                    title: value,
+                                    text: "",
+                                    icon: 'assets/images/circle_alert_fill.svg',
+                                    showCancel: false,
+                                    oKText: "Ok",
+                                    onOkClick: () async {
+                                      // Navigator.pop(context);
+                                    });
+                              } else if (pass != null) {
+                                AlertsWidget.showCustomDialog(
+                                    context: context,
+                                    title: pass,
+                                    text: "",
+                                    icon: 'assets/images/circle_alert_fill.svg',
+                                    showCancel: false,
+                                    oKText: "Ok",
+                                    onOkClick: () async {
+                                      // Navigator.pop(context);
+                                    });
+                              } else
+                                BlocProvider.of<AuthBloc>(context).add(
+                                    PvmSwayamLogin(
+                                        request: SwayamLoginRequest(
+                                            deviceToken:
+                                                UserSession.firebaseToken,
+                                            device_id: "31232131231231",
+                                            deviceType:
+                                                Platform.isAndroid ? "1" : "2",
+                                            userName: _emailController.text
+                                                .toString()
+                                                .trim(),
+                                            password: _passController.text
+                                                .toString()
+                                                .trim())));
+                            },
+                            child: Container(
+                                margin: EdgeInsets.all(12),
+                                width: double.infinity,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.06,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    // color: _pin.length != 4
+                                    //     ? ColorConstants.WHITE
+
+                                    //         .withOpacity(0.5)
+                                    //     : ColorConstants.WHITE,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: ShaderMask(
                                   blendMode: BlendMode.srcIn,
                                   shaderCallback: (Rect bounds) {
                                     return LinearGradient(
@@ -388,142 +441,153 @@ class _SingularisLoginState extends State<SingularisLogin> {
                                   },
                                   child: Center(
                                     child: Text(
-                            '${Strings.of(context)?.signIn}',
-                            style: Styles.regular(size: 16,
-                              color: ColorConstants.WHITE,
-                            ),
-                                 
-                                ),
+                                      '${Strings.of(context)?.signIn}',
+                                      style: Styles.regular(
+                                        size: 16,
+                                        color: ColorConstants.WHITE,
+                                      ),
+                                    ),
                                   ),
-                            
-                          //     child: Text(
-                          //   '${Strings.of(context)?.signIn}',
-                          //   style: Styles.regular(
-                          //     color: ColorConstants.WHITE,
-                          //   ),
-                          // )),
-                        )),
-                    _size(),
-                    // Row(
-                    //   children: [
-                    //     Text(
-                    //       Strings.of(context).dontHaveAnAccount,
-                    //       style: Styles.boldBlack(size: 16),
-                    //     ),
-                    //     TapWidget(
-                    //       onTap: () {
-                    //         Navigator.push(
-                    //             context, NextPageRoute(RegistrationPage()));
-                    //       },
-                    //       child: Text(
-                    //         Strings.of(context).signUp,
-                    //         style: Styles.boldGreen(size: 20),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // )
-                    // TapWidget(
-                    //   onTap: () {
-                    //     // Navigator.push(_scaffoldContext,
-                    //     //     NextPageRoute(ForgotPasswordPage()));
-                    //   },
-                    //   child: Text(
-                    //     Strings.of(_scaffoldContext).forgotPasswordQuestion,
-                    //     style: Styles.regularBlack(size: 18),
-                    //   ),
-                    // ),
-                    _size(height: 5),
-                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                            Icon(Icons.arrow_back_ios_new,color: Colors.white,size: 15,),
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                            },
-                           
-                        child:    Text(
-                              '${Strings.of(context)?.changePhoneNumber}',
-                              style: Styles.regular(
-                                  size: 14, color: ColorConstants.WHITE),
-                            ),
+
+                                  //     child: Text(
+                                  //   '${Strings.of(context)?.signIn}',
+                                  //   style: Styles.regular(
+                                  //     color: ColorConstants.WHITE,
+                                  //   ),
+                                  // )),
+                                )),
                           ),
-                          Expanded(child: SizedBox(),),
-                          // CountdownTimer(
-                          //   endTime: endTime,
-                          //   widgetBuilder: (_, CurrentRemainingTime? time) {
-                          //     return RichText(
-                          //       text: TextSpan(
-                          //           text: 'nice',
-                          //           style: TextStyle(
-                          //             fontSize: 3,
-                          //           ),
-                          //           children: <TextSpan>[
-                          //             time == null
-                          //                 ? TextSpan(
-                          //                     text:
-                          //                         '${Strings.of(context)?.resend}',
-                          //                     recognizer: TapGestureRecognizer()
-                          //                       ..onTap = () {
-                          //                         resendOTP();
-                          //                       },
-                          //                     style: Styles.regular(
-                          //                         size: 12,
-                          //                         color: ColorConstants.WHITE))
-                          //                 : TextSpan(text: 'Resend in ${time.sec} secs', style:Styles.regular(
-                          //                         size: 12,
-                          //                         color: ColorConstants.WHITE) ),
-                          //           ]),
-                          //     );
+                          // _size(),
+                          // Row(
+                          //   children: [
+                          //     Text(
+                          //       Strings.of(context).dontHaveAnAccount,
+                          //       style: Styles.boldBlack(size: 16),
+                          //     ),
+                          //     TapWidget(
+                          //       onTap: () {
+                          //         Navigator.push(
+                          //             context, NextPageRoute(RegistrationPage()));
+                          //       },
+                          //       child: Text(
+                          //         Strings.of(context).signUp,
+                          //         style: Styles.boldGreen(size: 20),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // )
+                          // TapWidget(
+                          //   onTap: () {
+                          //     // Navigator.push(_scaffoldContext,
+                          //     //     NextPageRoute(ForgotPasswordPage()));
                           //   },
+                          //   child: Text(
+                          //     Strings.of(_scaffoldContext).forgotPasswordQuestion,
+                          //     style: Styles.regularBlack(size: 18),
+                          //   ),
                           // ),
-                          
-            //             RichText(
-            //   text: new TextSpan(
-            //     text: 'Not registered?',
-            //     style: Styles.semibold(size: 14,color: Color(0xff0E1638)),
-            //     children: <TextSpan>[
-            //       new TextSpan(
-            //           text: '  Register now',
-            //           style: Styles.regularWhite(size: 14)),
-                 
-            //     ],
-            //   ),
-            // ),
-                   ] ),
-                    ),
-                    // TapWidget(
-                    //   onTap: () {
-                    //     Navigator.pop(context);
-                    //   },
-                    //   // child: Text(
-                    //   //   'Login using OTP',
-                    //   //   style: Styles.textExtraBoldUnderline(
-                    //   //       size: 16, color: ColorConstants.WHITE),
-                    //   // ),
-                    // ),
-                    Padding(
-                      padding: const EdgeInsets.only(top:30.0),
-                      child: Column(
-                        children: [
-                          Text('${Strings.of(context)?.byClickingContinue}',
-                              style:
-                                  Styles.regular(size: 10, color: Colors.white)),
-                                  SizedBox(width:10),
-                          Text(
-                            '${Strings.of(context)?.byClickingContinueUnderline}',
-                            style: Styles.regular(
-                                size: 12, color: ColorConstants.WHITE),
+                          // _size(height: 5),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            child: Row(
+                                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Icon(
+                                    Icons.arrow_back_ios_new,
+                                    color: Colors.white,
+                                    size: 15,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text(
+                                      '${Strings.of(context)?.changePhoneNumber}',
+                                      style: Styles.regular(
+                                          size: 14,
+                                          color: ColorConstants.WHITE),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: SizedBox(),
+                                  ),
+                                  // CountdownTimer(
+                                  //   endTime: endTime,
+                                  //   widgetBuilder: (_, CurrentRemainingTime? time) {
+                                  //     return RichText(
+                                  //       text: TextSpan(
+                                  //           text: 'nice',
+                                  //           style: TextStyle(
+                                  //             fontSize: 3,
+                                  //           ),
+                                  //           children: <TextSpan>[
+                                  //             time == null
+                                  //                 ? TextSpan(
+                                  //                     text:
+                                  //                         '${Strings.of(context)?.resend}',
+                                  //                     recognizer: TapGestureRecognizer()
+                                  //                       ..onTap = () {
+                                  //                         resendOTP();
+                                  //                       },
+                                  //                     style: Styles.regular(
+                                  //                         size: 12,
+                                  //                         color: ColorConstants.WHITE))
+                                  //                 : TextSpan(text: 'Resend in ${time.sec} secs', style:Styles.regular(
+                                  //                         size: 12,
+                                  //                         color: ColorConstants.WHITE) ),
+                                  //           ]),
+                                  //     );
+                                  //   },
+                                  // ),
+
+                                  //             RichText(
+                                  //   text: new TextSpan(
+                                  //     text: 'Not registered?',
+                                  //     style: Styles.semibold(size: 14,color: Color(0xff0E1638)),
+                                  //     children: <TextSpan>[
+                                  //       new TextSpan(
+                                  //           text: '  Register now',
+                                  //           style: Styles.regularWhite(size: 14)),
+
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                ]),
+                          ),
+                          // TapWidget(
+                          //   onTap: () {
+                          //     Navigator.pop(context);
+                          //   },
+                          //   // child: Text(
+                          //   //   'Login using OTP',
+                          //   //   style: Styles.textExtraBoldUnderline(
+                          //   //       size: 16, color: ColorConstants.WHITE),
+                          //   // ),
+                          // ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 30.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                    '${Strings.of(context)?.byClickingContinue}',
+                                    style: Styles.regular(
+                                        size: 10, color: Colors.white)),
+                                SizedBox(width: 10),
+                                Text(
+                                  '${Strings.of(context)?.byClickingContinueUnderline}',
+                                  style: Styles.regular(
+                                      size: 12, color: ColorConstants.WHITE),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-             ],),
-              ),)
+              )
               // _size(height: 20),
               // Text(
               //   Strings.of(context).dontHaveAnAccount,
@@ -566,8 +630,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
     return SizedBox(
       height: 60,
       child: TextFormField(
-        
-        cursorColor:ColorConstants.WHITE,
+        cursorColor: ColorConstants.WHITE,
         style: Styles.regularWhite(),
         controller: controller,
         validator: (String? vla) {
@@ -579,12 +642,13 @@ class _SingularisLoginState extends State<SingularisLogin> {
           prefixIcon: Padding(
             padding: const EdgeInsets.all(5),
             child: isEmail == true
-                ? 
+                ?
                 //SvgPicture.asset('assets/images/email.svg',color: ColorConstants.WHITE)
-                 Icon(Icons.email_outlined,color: ColorConstants.WHITE,
+                Icon(
+                    Icons.email_outlined, color: ColorConstants.WHITE,
                     // size: 30,
                     // color: ColorConstants.GREY,
-                    )
+                  )
                 : Image.asset(
                     prefixImage,
                     height: 32,
@@ -602,11 +666,15 @@ class _SingularisLoginState extends State<SingularisLogin> {
                   padding: const EdgeInsets.only(right: 5),
                   child: !obscureText
                       ? Icon(
-                          Icons.remove_red_eye_outlined,color: ColorConstants.WHITE,
+                          Icons.remove_red_eye_outlined,
+                          color: ColorConstants.WHITE,
                           // size: 30,
                           // color: ColorConstants.GREY,
                         )
-                      : Icon(Icons.visibility_off,color: ColorConstants.WHITE,)),
+                      : Icon(
+                          Icons.visibility_off,
+                          color: ColorConstants.WHITE,
+                        )),
             ),
           ),
           hintStyle: Styles.regular(size: 18, color: ColorConstants.WHITE),
@@ -614,20 +682,16 @@ class _SingularisLoginState extends State<SingularisLogin> {
               const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
-              borderSide:
-                  BorderSide(color: ColorConstants.WHITE, width: 1)),
+              borderSide: BorderSide(color: ColorConstants.WHITE, width: 1)),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
-              borderSide:
-                  BorderSide(color: ColorConstants.WHITE, width: 1)),
+              borderSide: BorderSide(color: ColorConstants.WHITE, width: 1)),
           disabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
-              borderSide:
-                  BorderSide(color: ColorConstants.WHITE, width: 1)),
+              borderSide: BorderSide(color: ColorConstants.WHITE, width: 1)),
           errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
-              borderSide:
-                  BorderSide(color: ColorConstants.WHITE, width: 1)),
+              borderSide: BorderSide(color: ColorConstants.WHITE, width: 1)),
         ),
       ),
     );

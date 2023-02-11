@@ -75,63 +75,64 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
     return BlocManager(
         initState: (BuildContext context) {},
         child: BlocListener<AuthBloc, AuthState>(
-          listener: (context, state) {
-            if (state is SignUpState) _handleResponse(state);
-            // if (state is LoginByIDState) _handleLoginResponse(state);
-          },
-          child: WillPopScope(
-            onWillPop: () async => false,
-            child: Scaffold(
-              backgroundColor: ColorConstants.WHITE,
-              body: SafeArea(
-                  child: ScreenWithLoader(
-                isLoading: _isLoading,
-                body: _makeBody(),
-              )),
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.centerFloat,
-              floatingActionButton: Visibility(
-                visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
-                child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  InkWell(
-                      onTap: () {
-                        if (checkedValue == true) saveChanges();
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              gradient: LinearGradient(colors: [
-                ColorConstants.GRADIENT_ORANGE,
-                ColorConstants.GRADIENT_RED,
-              ]),
-            ),
-                        width: double.infinity,
-                        height: MediaQuery.of(context).size.height *
-                            WidgetSize.AUTH_BUTTON_SIZE,
-                        margin:
-                            EdgeInsets.symmetric(vertical: 2, horizontal: 16),
-                        // decoration: BoxDecoration(
-                        //     color: checkedValue == false
-                        //         ? ColorConstants()
-                        //             .buttonColor()
-                        //             .withOpacity(0.5)
-                        //         : ColorConstants().buttonColor(),
-                        //     borderRadius: BorderRadius.circular(10)),
-                        child: Center(
-                            child: Text(
-                          '${Strings.of(context)?.continueStr}',
-                          style: Styles.regular(
-                            color: ColorConstants.BLACK,
-                          ),
-                        )),
-                      )),
-                ],
+            listener: (context, state) {
+              if (state is SignUpState) _handleResponse(state);
+              // if (state is LoginByIDState) _handleLoginResponse(state);
+            },
+            child: WillPopScope(
+              onWillPop: () async => false,
+              child: Scaffold(
+                backgroundColor: ColorConstants.WHITE,
+                body: SafeArea(
+                    child: ScreenWithLoader(
+                  isLoading: _isLoading,
+                  body: _makeBody(),
+                )),
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.centerFloat,
+                floatingActionButton: Visibility(
+                  visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      InkWell(
+                          onTap: () {
+                            if (checkedValue == true) saveChanges();
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              gradient: LinearGradient(colors: [
+                                ColorConstants.GRADIENT_ORANGE,
+                                ColorConstants.GRADIENT_RED,
+                              ]),
+                            ),
+                            width: double.infinity,
+                            height: MediaQuery.of(context).size.height *
+                                WidgetSize.AUTH_BUTTON_SIZE,
+                            margin: EdgeInsets.symmetric(
+                                vertical: 2, horizontal: 16),
+                            // decoration: BoxDecoration(
+                            //     color: checkedValue == false
+                            //         ? ColorConstants()
+                            //             .buttonColor()
+                            //             .withOpacity(0.5)
+                            //         : ColorConstants().buttonColor(),
+                            //     borderRadius: BorderRadius.circular(10)),
+                            child: Center(
+                                child: Text(
+                              '${Strings.of(context)?.continueStr}',
+                              style: Styles.semibold(
+                                
+                                color: ColorConstants.WHITE,
+                              ),
+                            )),
+                          )),
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ),
-        )));
+            )));
   }
 
   _makeBody() {
@@ -148,6 +149,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
               Center(
                 child: Column(
                   children: [
+                    
                     SizedBox(
                       height: 10,
                     ),
@@ -212,6 +214,10 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
               SizedBox(
                 height: 20,
               ),
+              Text('Full Name*', style: Styles.regular(size: 12)),
+              SizedBox(
+                height: 6,
+              ),
               Center(
                   child: Column(children: [
                 TextFormField(
@@ -219,6 +225,10 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                   style: Styles.regular(),
                   maxLength: 100,
                   decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                            width: 1, color: Color(0xffE5E5E5)),
+                        borderRadius: BorderRadius.circular(10)),
                     hintText: '${Strings.of(context)?.EnterFullName}*',
                     helperStyle: Styles.regular(color: ColorConstants.GREY_4),
                     counterText: "",
@@ -227,10 +237,10 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                     //   fullNameController.value.text.length > 0 ? '' : "*",
                     //   style: Styles.regular(color: ColorConstants.RED_BG),
                     // ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          color: ColorConstants.RED, width: 1.5),
-                    ),
+                    // enabledBorder: UnderlineInputBorder(
+                    //   borderSide: BorderSide(
+                    //       color: ColorConstants.RED, width: 1.5),
+                    // ),
                   ),
                   onChanged: (value) {
                     setState(() {});
@@ -242,25 +252,37 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                     return null;
                   },
                 ),
-                SizedBox(height: 30),
-                TextFormField(
+         
+              ])),  SizedBox(
+                height: 10,
+              ),
+
+ Text('Email*', style: Styles.regular(size: 12)),
+              SizedBox(
+                height: 6,
+              ),
+              TextFormField(
                   controller: emailController,
                   style: Styles.regular(),
                   decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                            width: 1, color: Color(0xffE5E5E5)),
+                        borderRadius: BorderRadius.circular(10)),
                     hintText: '${Strings.of(context)?.emailAddress}',
                     helperStyle: Styles.regular(color: ColorConstants.GREY_4),
                     counterText: "",
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          color: ColorConstants.RED, width: 1.5),
-                    ),
+                    // enabledBorder: UnderlineInputBorder(
+                    //   borderSide: BorderSide(
+                    //       color: ColorConstants.RED, width: 1.5),
+                    // ),
                   ),
                   onChanged: (value) {
                     setState(() {});
                   },
                   validator: (value) {
                     if (value == '')
-                      return APK_DETAILS['package_name'] == 'com.learn_build'
+                      return APK_DETAILS['package_name'] == 'com.learn_build' || APK_DETAILS['package_name'] == 'com.singulariswow'
                           ? 'Email is required'
                           : null;
                     int index = value?.length as int;
@@ -276,7 +298,6 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                     return null;
                   },
                 ),
-              ])),
               SizedBox(height: 20),
               Transform.translate(
                 offset: Offset(-28, 0.0),
@@ -363,7 +384,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
           UserSession.email = state.response!.data!.user!.email;
           UserSession.userImageUrl = state.response!.data!.user!.profileImage;
           UserSession.socialEmail = state.response!.data!.user!.email;
-            Preference.setString(
+          Preference.setString(
               Preference.USER_EMAIL, '${state.response!.data!.user!.email}');
           Navigator.push(context, NextPageRoute(InterestPage()));
           // doLogin();
@@ -486,28 +507,26 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
               ),
               Container(
                 child: ListTile(
-                  leading: new 
-                  ShaderMask(
-                                blendMode: BlendMode.srcIn,
-                                shaderCallback: (Rect bounds) {
-                                  return LinearGradient(
-                                      begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight,
-                                      colors: <Color>[
-                                        ColorConstants.GRADIENT_ORANGE,
-                                        ColorConstants.GRADIENT_RED
-                                      ]).createShader(bounds);
-                                },child:Icon(
-                    Icons.image,
-                    
-                  ),),
+                  leading: new ShaderMask(
+                    blendMode: BlendMode.srcIn,
+                    shaderCallback: (Rect bounds) {
+                      return LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: <Color>[
+                            ColorConstants.GRADIENT_ORANGE,
+                            ColorConstants.GRADIENT_RED
+                          ]).createShader(bounds);
+                    },
+                    child: Icon(
+                      Icons.image,
+                    ),
+                  ),
                   title: new Text(
                     '${Strings.of(context)?.Gallery}',
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () async {
-
-
                     FilePickerResult? result;
                     try {
                       if (await Permission.storage.request().isGranted) {
@@ -527,12 +546,12 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                       print('the expection is $e');
                     }
 
-                     String? value = result?.paths.first;
-                      if (value != null) {
-                        selectedImage = value;
-                        selectedImage = await _cropImage(value);
-                      }
-                      setState(() {});
+                    String? value = result?.paths.first;
+                    if (value != null) {
+                      selectedImage = value;
+                      selectedImage = await _cropImage(value);
+                    }
+                    setState(() {});
                     Navigator.pop(context);
                   },
                 ),
@@ -543,22 +562,21 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
               ),
               Container(
                 child: ListTile(
-                  leading: new 
-                  ShaderMask(
-                                blendMode: BlendMode.srcIn,
-                                shaderCallback: (Rect bounds) {
-                                  return LinearGradient(
-                                      begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight,
-                                      colors: <Color>[
-                                        ColorConstants.GRADIENT_ORANGE,
-                                        ColorConstants.GRADIENT_RED
-                                      ]).createShader(bounds);
-                                },
-                                child:Icon(
-                    Icons.camera_alt_outlined,
-                    
-                  ),),
+                  leading: new ShaderMask(
+                    blendMode: BlendMode.srcIn,
+                    shaderCallback: (Rect bounds) {
+                      return LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: <Color>[
+                            ColorConstants.GRADIENT_ORANGE,
+                            ColorConstants.GRADIENT_RED
+                          ]).createShader(bounds);
+                    },
+                    child: Icon(
+                      Icons.camera_alt_outlined,
+                    ),
+                  ),
                   title: new Text(
                     '${Strings.of(context)?.camera}',
                     style: TextStyle(color: Colors.white),

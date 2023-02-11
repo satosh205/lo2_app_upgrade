@@ -157,19 +157,25 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       children: [
-                        topRoundedCard('Classes', () {
+                        topRoundedCard(
+                    'assets/images/my_classes.svg',
+                          'Classes', () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => MyClasses()));
                         }),
-                        topRoundedCard('Assignments', () {
+                        topRoundedCard(
+                          'assets/images/my_assignment_card.svg',
+                          'Assignments', () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => MyAssignmentPage()));
                         }),
-                        topRoundedCard('Quizes', () {
+                        topRoundedCard(
+                          'assets/images/my_quiz_card.svg',
+                          'Quizes', () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -194,7 +200,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
     );
   }
 
-  Widget topRoundedCard(String name, Function action) {
+  Widget topRoundedCard(String img, String name, Function action) {
     return Container(
       height: 50,
       width: width(context) * 0.3,
@@ -226,7 +232,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                     shape: BoxShape.circle),
                 child: Center(
                     child: SvgPicture.asset(
-                  'assets/images/my_classes.svg',
+                 img,
                   width: width(context) * 0.07,
                 )),
               )),
@@ -1088,11 +1094,11 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
   }
 
   Widget _getOtherLearnerTopics(context) {
-    var title = APK_DETAILS['package_name'] == 'com.at.masterg'
-        ? Strings.of(context)!.otherLearnerCoursesMasterG
-        : Strings.of(context)!.otherLearnerCourses;
+    // var title = APK_DETAILS['package_name'] == 'com.at.masterg'
+    //     ? Strings.of(context)!.otherLearnerCoursesMasterG
+    //     : Strings.of(context)!.otherLearnerCourses;
 
-    print('the title is $title');
+    // print('the title is $title');
     return box != null
         ? ValueListenableBuilder(
             valueListenable: box!.listenable(),
@@ -1159,10 +1165,10 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Text(title!,
-                                style: Styles.DMSansbold(size: 18))),
+                        // Padding(
+                        //     padding: EdgeInsets.only(left: 10),
+                        //     child: Text(title!,
+                        //         style: Styles.DMSansbold(size: 18))),
                         ListView.builder(
                           itemBuilder: (BuildContext context, int index) {
                             return otherLearners!.length > 0
@@ -1270,7 +1276,8 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
   }
 
   Widget _getRecommendedCourses(context) {
-    var title = Strings.of(context)!.recommendedCourses;
+    var title = 'Explore more Courses';
+    // var title = Strings.of(context)!.recommendedCourses;
     return ValueListenableBuilder(
       valueListenable: box!.listenable(),
       builder: (bc, Box box, child) {
@@ -1330,7 +1337,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Padding(
                   padding: EdgeInsets.only(left: 10, top: 10),
-                  child: Text(title!, style: Styles.DMSansbold(size: 18))),
+                  child: Text(title, style: Styles.DMSansbold(size: 18))),
               ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
                   return Column(

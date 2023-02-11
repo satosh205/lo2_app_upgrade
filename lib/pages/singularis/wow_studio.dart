@@ -73,7 +73,9 @@ class _WowStudioState extends State<WowStudio> {
                   Container(
                     width: width(context) * 0.1,
                     child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
                         icon: Icon(
                           Icons.arrow_back_ios,
                           color: ColorConstants.WHITE,

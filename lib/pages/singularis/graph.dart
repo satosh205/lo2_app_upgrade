@@ -65,19 +65,24 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                             maxY: maxY,
                             baselineX: 200,
                             titlesData: FlTitlesData(
+                                topTitles: AxisTitles(),
+                                rightTitles: AxisTitles(
+                                    sideTitles: SideTitles(showTitles: false)),
                                 show: true,
                                 leftTitles: AxisTitles(
+                                    sideTitles: SideTitles(showTitles: false, interval: 100),
                                     axisNameWidget: Text(
-                                  'No. of jobs',
-                                  style: Styles.regular(size: 12),
-                                )),
+                                      'No. of jobs',
+                                      style: Styles.regular(size: 12),
+                                    )),
                                 bottomTitles: AxisTitles(
+                                  sideTitles: SideTitles(showTitles: false),
                                   axisNameWidget: Text(
                                       '${domainData?.data?.graphText}',
                                       style: Styles.regular(size: 12)),
                                 )),
                             gridData: FlGridData(
-                              verticalInterval: 10,
+                              // verticalInterval: 10,
                               show: true,
                               getDrawingHorizontalLine: (value) {
                                 return FlLine(
@@ -115,7 +120,9 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Table(
                         children: [
                           TableRow(children: [
@@ -158,22 +165,19 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                                   ),
                                   Padding(
                                       padding: const EdgeInsets.symmetric(
-                                        vertical: 6,
-                                        horizontal: 25
-                                      ),
+                                          vertical: 6, horizontal: 25),
                                       child: Text(
                                         '${e.salary}',
                                         style: Styles.regular(size: 12),
                                       )),
                                   Padding(
                                       padding: const EdgeInsets.symmetric(
-                                        vertical: 6,
-                                        horizontal:25
-                                      ),
+                                          vertical: 6, horizontal: 25),
                                       child: Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
-                                            mainAxisAlignment: MainAxisAlignment.end,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
                                         children: [
                                           Text(
                                               e.growthType != 'up'

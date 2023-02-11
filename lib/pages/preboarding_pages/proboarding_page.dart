@@ -4,6 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/main.dart';
 import 'package:masterg/pages/auth_pages/choose_language.dart';
+import 'package:masterg/pages/auth_pages/sign_up_screen.dart';
 import 'package:masterg/pages/custom_pages/TapWidget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/utils/Styles.dart';
@@ -69,11 +70,16 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
             SizedBox(height: 30,),
             TapWidget(
               onTap: () {
-                // Navigator.push(
-                //     context,
-                //     NextPageRoute(ChooseLanguage(
-                //       showEdulystLogo: true,
-                //     )));
+                Navigator.push(
+                    context,
+                    NextPageRoute(
+                      SignUpScreen()
+                      
+                    //   ChooseLanguage(
+                    //   showEdulystLogo: true,
+                    // )
+                    
+                    ));
               },
               /*child: Image.asset(
                 "assets/images/next.png",

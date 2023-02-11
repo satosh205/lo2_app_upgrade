@@ -319,48 +319,48 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
                                         ),
                                       ),
 
-                                      InkWell(
-                                        onTap: (){
-                                          Navigator.push(
-                                              context,
-                                              NextPageRoute(DiscoverCommunitiesPage()));
-                                        },
-                                        child: Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                                'assets/images/discover.svg'),
-                                            ShaderMask(
-                                              blendMode: BlendMode.srcIn,
-                                              shaderCallback: (Rect bounds) {
-                                                return LinearGradient(
-                                                    begin: Alignment.centerLeft,
-                                                    end: Alignment.centerRight,
-                                                    colors: <Color>[
-                                                      Color(0xfffc7804),
-                                                      ColorConstants.GRADIENT_RED
-                                                    ]).createShader(bounds);
-                                              },
+                                      // InkWell(
+                                      //   onTap: (){
+                                      //     Navigator.push(
+                                      //         context,
+                                      //         NextPageRoute(DiscoverCommunitiesPage()));
+                                      //   },
+                                      //   child: Row(
+                                      //     children: [
+                                      //       SvgPicture.asset(
+                                      //           'assets/images/discover.svg'),
+                                      //       ShaderMask(
+                                      //         blendMode: BlendMode.srcIn,
+                                      //         shaderCallback: (Rect bounds) {
+                                      //           return LinearGradient(
+                                      //               begin: Alignment.centerLeft,
+                                      //               end: Alignment.centerRight,
+                                      //               colors: <Color>[
+                                      //                 Color(0xfffc7804),
+                                      //                 ColorConstants.GRADIENT_RED
+                                      //               ]).createShader(bounds);
+                                      //         },
 
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                                                child: GradientText(
-                                                  'Discover Communities',
-                                                  style: Styles.bold(size: 14),
-                                                  colors: [
-                                                    ColorConstants.GRADIENT_ORANGE,
-                                                    ColorConstants.GRADIENT_RED,
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
+                                      //         child: Padding(
+                                      //           padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                                      //           child: GradientText(
+                                      //             'Discover Communities',
+                                      //             style: Styles.bold(size: 14),
+                                      //             colors: [
+                                      //               ColorConstants.GRADIENT_ORANGE,
+                                      //               ColorConstants.GRADIENT_RED,
+                                      //             ],
+                                      //           ),
+                                      //         ),
+                                      //       ),
 
-                                            Text(
-                                              '“Technology”',
-                                              style: Styles.bold(size: 14, color: ColorConstants.GREY_3),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
+                                      //       Text(
+                                      //         '“Technology”',
+                                      //         style: Styles.bold(size: 14, color: ColorConstants.GREY_3),
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      // ),
 
                                       //SizedBox(height: 10),
                                       // Row(

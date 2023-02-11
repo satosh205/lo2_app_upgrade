@@ -30,6 +30,7 @@ import 'package:masterg/pages/singularis/competition/competition_detail.dart';
 import 'package:masterg/pages/singularis/graph.dart';
 import 'package:masterg/pages/singularis/job/job_details_page.dart';
 import 'package:masterg/pages/singularis/job_graph.dart';
+import 'package:masterg/pages/singularis/wow_studio.dart';
 
 import 'package:masterg/pages/training_pages/new_screen/courses_details_page.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/portfolio_page.dart';
@@ -97,7 +98,6 @@ class _DashboardPageState extends State<DashboardPage> {
   CompetitionResponse? competitionResponse, featuredInternshipsResponse;
   DomainListResponse? domainList;
 
-
   @override
   void initState() {
     selectedPage = 0;
@@ -109,7 +109,6 @@ class _DashboardPageState extends State<DashboardPage> {
     getDasboardList();
     super.initState();
   }
-
 
   ///TODO: get Featured Jobs & Internships
   void getMyJobList() {
@@ -131,11 +130,9 @@ class _DashboardPageState extends State<DashboardPage> {
   ///TODO: Job get progress and competition instructions Or Job Apply for same API call
   ///pass key for job apply case is_applied=1
   void jobApply(int jobId, int? isApplied) {
-    BlocProvider.of<HomeBloc>(context).add(
-        CompetitionContentListEvent(competitionId: jobId, isApplied: isApplied));
+    BlocProvider.of<HomeBloc>(context).add(CompetitionContentListEvent(
+        competitionId: jobId, isApplied: isApplied));
   }
-
-
 
   void _handlecompetitionListResponse(CompetitionListState state) {
     print('_handlecompetitionListResponse');
@@ -178,7 +175,8 @@ class _DashboardPageState extends State<DashboardPage> {
           domainLoading = false;
           break;
         case ApiStatus.ERROR:
-          Log.v("Error Popular CompetitionListIDState ..........................${popularCompetitionState.error}");
+          Log.v(
+              "Error Popular CompetitionListIDState ..........................${popularCompetitionState.error}");
           domainLoading = false;
           break;
         case ApiStatus.INITIAL:
@@ -202,7 +200,8 @@ class _DashboardPageState extends State<DashboardPage> {
           featuredInternshipsLoading = false;
           break;
         case ApiStatus.ERROR:
-          Log.v("Error CompetitionListIDState .....................${jobCompState.error}");
+          Log.v(
+              "Error CompetitionListIDState .....................${jobCompState.error}");
           featuredInternshipsLoading = false;
           break;
         case ApiStatus.INITIAL:
@@ -235,7 +234,8 @@ class _DashboardPageState extends State<DashboardPage> {
               onOkClick: () async {
               });*/
           Utility.showSnackBar(
-              scaffoldContext: context, message: 'Your application is successfully submitted.');
+              scaffoldContext: context,
+              message: 'Your application is successfully submitted.');
           break;
         case ApiStatus.ERROR:
           Log.v(
@@ -265,27 +265,27 @@ class _DashboardPageState extends State<DashboardPage> {
       endDrawer: new AppDrawer(),
       body: Consumer2<VideoPlayerProvider, MenuListProvider>(
           builder: (context, value, mp, child) => BlocManager(
-            initState: (context) {},
-            child: BlocListener<HomeBloc, HomeState>(
-              listener: (context, state) async {
-                if (state is CompetitionListState) {
-                  _handlecompetitionListResponse(state);
-                }
-                if (state is DomainListState) {
-                  handleDomainListResponse(state);
-                }
-                if (state is JobCompListState) {
-                  _handleFeaturedInternshipsListResponse(state);
-                }
-                if (state is CompetitionContentListState)
-                  handleJobApplyState(state);
+                initState: (context) {},
+                child: BlocListener<HomeBloc, HomeState>(
+                  listener: (context, state) async {
+                    if (state is CompetitionListState) {
+                      _handlecompetitionListResponse(state);
+                    }
+                    if (state is DomainListState) {
+                      handleDomainListResponse(state);
+                    }
+                    if (state is JobCompListState) {
+                      _handleFeaturedInternshipsListResponse(state);
+                    }
+                    if (state is CompetitionContentListState)
+                      handleJobApplyState(state);
 
-                setState(() {
-                  menuProvider = mp;
-                });
-              },
-              child: SingleChildScrollView(
-                  child: Column(
+                    setState(() {
+                      menuProvider = mp;
+                    });
+                  },
+                  child: SingleChildScrollView(
+                      child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -300,29 +300,38 @@ class _DashboardPageState extends State<DashboardPage> {
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    SizedBox(height: 5.0,),
+                                    SizedBox(
+                                      height: 5.0,
+                                    ),
                                     Row(
                                       children: [
                                         InkWell(
                                           onTap: () {
-                                            Navigator.push(context,
-                                                NextPageRoute(NewPortfolioPage()));
+                                            Navigator.push(
+                                                context,
+                                                NextPageRoute(
+                                                    NewPortfolioPage()));
                                           },
                                           child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(200),
+                                            borderRadius:
+                                                BorderRadius.circular(200),
                                             child: SizedBox(
                                               width: 50,
                                               child: CachedNetworkImage(
-   imageUrl:      '${Preference.getString(Preference.PROFILE_IMAGE)}',
-   placeholder: (context, url) => SvgPicture.asset(
-                                                      'assets/images/default_user.svg',
-                                                      width: 50,
-                                                    ),
-   errorWidget: (context, url, error) => SvgPicture.asset(
-                                                      'assets/images/default_user.svg',
-                                                      width: 50,
-                                                    ),
- ),
+                                                imageUrl:
+                                                    '${Preference.getString(Preference.PROFILE_IMAGE)}',
+                                                placeholder: (context, url) =>
+                                                    SvgPicture.asset(
+                                                  'assets/images/default_user.svg',
+                                                  width: 50,
+                                                ),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        SvgPicture.asset(
+                                                  'assets/images/default_user.svg',
+                                                  width: 50,
+                                                ),
+                                              ),
                                               // child: Image.network(
                                               //   '${Preference.getString(Preference.PROFILE_IMAGE)}',
                                               //   errorBuilder:
@@ -337,17 +346,20 @@ class _DashboardPageState extends State<DashboardPage> {
                                         ),
                                         SizedBox(width: 10),
                                         Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text('Welcome',
                                                 style: Styles.regular(
-                                                    color: ColorConstants.WHITE, size: 14)),
+                                                    color: ColorConstants.WHITE,
+                                                    size: 14)),
                                             Text(
                                               '${Preference.getString(Preference.FIRST_NAME)}',
                                               style: Styles.bold(
-                                                  color: ColorConstants.WHITE, size: 22),
+                                                  color: ColorConstants.WHITE,
+                                                  size: 22),
                                             ),
                                           ],
                                         ),
@@ -359,9 +371,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                         alignment: Alignment.topRight,
                                         child: InkWell(
                                           onTap: () {
-                                            _scaffoldKey.currentState?.openEndDrawer();
+                                            _scaffoldKey.currentState
+                                                ?.openEndDrawer();
                                           },
-                                          child: SvgPicture.asset('assets/images/hamburger_menu.svg'),
+                                          child: SvgPicture.asset(
+                                              'assets/images/hamburger_menu.svg'),
                                         ),
                                       ),
                                     ),
@@ -373,26 +387,27 @@ class _DashboardPageState extends State<DashboardPage> {
                                   width: MediaQuery.of(context).size.width,
                                   decoration: BoxDecoration(
                                       color:
-                                      ColorConstants.WHITE.withOpacity(0.2),
+                                          ColorConstants.WHITE.withOpacity(0.2),
                                       borderRadius: BorderRadius.circular(10)),
                                   child: Stack(
                                     children: [
                                       Container(
                                         height: 10,
-                                        width: MediaQuery.of(context).size.width *
-                                            0.6 *
-                                            (30 / 100),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.6 *
+                                                (30 / 100),
                                         decoration: BoxDecoration(
                                             color: Color(0xffFFB72F),
                                             borderRadius:
-                                            BorderRadius.circular(10)),
+                                                BorderRadius.circular(10)),
                                       ),
                                     ],
                                   ),
                                 ),
                                 SizedBox(height: 10),
-                                Text('Profile completed: 30% ',
-                                    style: Styles.semiBoldWhite())
+                                // Text('Profile completed: 30% ',
+                                //     style: Styles.semiBoldWhite())
                               ],
                             ),
                           )),
@@ -421,12 +436,14 @@ class _DashboardPageState extends State<DashboardPage> {
                       SizedBox(
                         height: 10,
                       ),
-                      domainLoading == false ? futureTrendsList(): SizedBox(),
+                      domainLoading == false ? futureTrendsList() : SizedBox(),
 
                       SizedBox(
                         height: 10,
                       ),
-                      featuredInternshipsLoading == false ? featuredJobsInternships(): SizedBox(),
+                      featuredInternshipsLoading == false
+                          ? featuredJobsInternships()
+                          : SizedBox(),
 
                       /*SizedBox(
                         height: 10,
@@ -455,8 +472,8 @@ class _DashboardPageState extends State<DashboardPage> {
                       renderWidgets(pages),
                     ],
                   )),
-            ),
-          )),
+                ),
+              )),
     );
   }
 
@@ -499,23 +516,25 @@ class _DashboardPageState extends State<DashboardPage> {
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
-                      onTap: (){
-                        futureTrendsButtonSheet(domainList!.data!.list[index].name, domainList!.data!.list[index].jobCount.toString(),
+                      onTap: () {
+                        futureTrendsButtonSheet(
+                            domainList!.data!.list[index].name,
+                            domainList!.data!.list[index].jobCount.toString(),
                             domainList!.data!.list[index].growthType,
-                            domainList!.data!.list[index].growth,  domainList!.data!.list[index].id);
+                            domainList!.data!.list[index].growth,
+                            domainList!.data!.list[index].id);
 
-
-        //                     showModalBottomSheet(
-        // shape: const RoundedRectangleBorder(
-        //     borderRadius: BorderRadius.only(
-        //         topLeft: Radius.circular(30), topRight: Radius.circular(30))),
-        // backgroundColor: Colors.white,
-        // context: context,
-        // useRootNavigator: true,
-        // isScrollControlled: true,
-        // builder: (context) {
-        //   return JobGrowth();
-        // });
+                        //                     showModalBottomSheet(
+                        // shape: const RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.only(
+                        //         topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+                        // backgroundColor: Colors.white,
+                        // context: context,
+                        // useRootNavigator: true,
+                        // isScrollControlled: true,
+                        // builder: (context) {
+                        //   return JobGrowth();
+                        // });
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.4,
@@ -523,7 +542,7 @@ class _DashboardPageState extends State<DashboardPage> {
                             color: ColorConstants.List_Color,
                             borderRadius: BorderRadius.circular(10),
                             border:
-                            Border.all(color: ColorConstants.List_Color)),
+                                Border.all(color: ColorConstants.List_Color)),
                         margin: EdgeInsets.all(8),
                         // color: Colors.red,
                         child: Column(
@@ -550,7 +569,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                     ),
                                     Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           '${domainList!.data!.list[index].jobCount} Jobs',
@@ -560,25 +579,37 @@ class _DashboardPageState extends State<DashboardPage> {
                                         ),
                                         Padding(
                                           padding:
-                                          const EdgeInsets.only(left: 8.0),
+                                              const EdgeInsets.only(left: 8.0),
                                           child: Text(
-                                            '+${domainList!.data!.list[index].growth}%',
+                                            domainList!.data!.list[index]
+                                                        .growthType ==
+                                                    'up'
+                                                ? '+${domainList!.data!.list[index].growth}%'
+                                                : '-${domainList!.data!.list[index].growth}%',
                                             style: Styles.regular(
-                                                color: domainList!.data!.list[index].growthType == 'up' ?
-                                                ColorConstants.GREEN : ColorConstants.RED,
+                                                color: domainList!
+                                                            .data!
+                                                            .list[index]
+                                                            .growthType ==
+                                                        'up'
+                                                    ? ColorConstants.GREEN
+                                                    : ColorConstants.RED,
                                                 size: 11),
                                           ),
                                         ),
-                                        domainList!.data!.list[index].growthType == 'up' ? Icon(
-                                          Icons.arrow_drop_up_outlined,
-                                          color: Colors.green,
-                                          size: 20,
-                                        ):
-                                        Icon(
-                                          Icons.arrow_drop_down,
-                                          color: Colors.red,
-                                          size: 20,
-                                        ),
+                                        domainList!.data!.list[index]
+                                                    .growthType ==
+                                                'up'
+                                            ? Icon(
+                                                Icons.arrow_drop_up_outlined,
+                                                color: Colors.green,
+                                                size: 20,
+                                              )
+                                            : Icon(
+                                                Icons.arrow_drop_down,
+                                                color: Colors.red,
+                                                size: 20,
+                                              ),
                                       ],
                                     ),
                                   ],
@@ -598,10 +629,8 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-
-
-
-  futureTrendsButtonSheet(String title, String jobsCount,String growthType, String growth, int domainId) {
+  futureTrendsButtonSheet(String title, String jobsCount, String growthType,
+      String growth, int domainId) {
     return showModalBottomSheet(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -613,586 +642,585 @@ class _DashboardPageState extends State<DashboardPage> {
         builder: (context) {
           return Container(
             height: MediaQuery.of(context).size.height - 60,
-            child: Column(children: [
-            Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        decoration: BoxDecoration(
-                            color: ColorConstants.List_Color,
-                            borderRadius: BorderRadius.circular(10),
-                            border:
-                            Border.all(color: ColorConstants.List_Color)),
-                        margin: EdgeInsets.all(8),
-                        // color: Colors.red,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            // mainAxisAlignment: MainAxisAlignment,
+            child: Column(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  decoration: BoxDecoration(
+                      color: ColorConstants.List_Color,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: ColorConstants.List_Color)),
+                  margin: EdgeInsets.all(8),
+                  // color: Colors.red,
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                      // mainAxisAlignment: MainAxisAlignment,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 8.0, right: 8.0, top: 8.0, bottom: 8.0),
+                          child: Column(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0,
-                                    right: 8.0,
-                                    top: 8.0,
-                                    bottom: 8.0),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      '$title',
-                                      style: Styles.bold(
-                                          color: Color(0xff0E1638), size: 13),
-                                      softWrap: true,
-                                      maxLines: 1,
+                              Text(
+                                '$title',
+                                style: Styles.bold(
+                                    color: Color(0xff0E1638), size: 13),
+                                softWrap: true,
+                                maxLines: 1,
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    '$jobsCount Jobs',
+                                    style: Styles.regular(
+                                        color: ColorConstants.GREY_3, size: 11),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: Text(
+                                      '+ $growth%',
+                                      style: Styles.regular(
+                                          color: growthType == 'up'
+                                              ? ColorConstants.GREEN
+                                              : ColorConstants.RED,
+                                          size: 11),
                                     ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          '$jobsCount Jobs',
-                                          style: Styles.regular(
-                                              color: ColorConstants.GREY_3,
-                                              size: 11),
-                                        ),
-                                        Padding(
-                                          padding:
-                                          const EdgeInsets.only(left: 8.0),
-                                          child: Text(
-                                            '+ $growth%',
-                                            style: Styles.regular(
-                                                color: growthType == 'up' ?
-                                                ColorConstants.GREEN : ColorConstants.RED,
-                                                size: 11),
-                                          ),
-                                        ),
-                                       growthType == 'up' ? Icon(
+                                  ),
+                                  growthType == 'up'
+                                      ? Icon(
                                           Icons.arrow_drop_up_outlined,
                                           color: Colors.green,
                                           size: 20,
-                                        ):
-                                        Icon(
+                                        )
+                                      : Icon(
                                           Icons.arrow_drop_down,
                                           color: Colors.red,
                                           size: 20,
                                         ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                ],
                               ),
-                            ]),
-                      ),
-              Expanded(child: LineChartWidget(domainid: domainId,))
-            ],),
-            
+                            ],
+                          ),
+                        ),
+                      ]),
+                ),
+                Expanded(
+                    child: LineChartWidget(
+                  domainid: domainId,
+                ))
+              ],
+            ),
+
             // Column(
             //   children: [
             //     LineChartWidget(domainid: domainId,),
-        
-                // Container(
-                //   height: 35,
-                //   padding: EdgeInsets.only(right: 20.0, top: 10.0),
-                //   width: MediaQuery.of(context).size.width,
-                //   decoration: BoxDecoration(
-                //     borderRadius: BorderRadius.circular(30),
-                //   ),
-                //   child: InkWell(
-                //     onTap: () {
-                //       Navigator.of(context).pop();
-                //     },
-                //     child: Column(
-                //       crossAxisAlignment: CrossAxisAlignment.end,
-                //       children: [
-                //         Icon(
-                //           Icons.close,
-                //           color: Colors.black,
-                //         )
-                //       ],
-                //     ),
-                //   ),
-                // ),
-                // Container(
-                //   width: MediaQuery.of(context).size.width * 0.4,
-                //   decoration: BoxDecoration(
-                //       color: ColorConstants.List_Color,
-                //       borderRadius: BorderRadius.circular(10),
-                //       border: Border.all(color: ColorConstants.List_Color)),
-                //   //margin: EdgeInsets.all(8),
-                //   // color: Colors.red,
-                //   child: Column(crossAxisAlignment: CrossAxisAlignment.center,
-                //       // mainAxisAlignment: MainAxisAlignment,
-                //       children: [
-                //         Padding(
-                //           padding: const EdgeInsets.only(
-                //               left: 8.0, right: 8.0, top: 8.0, bottom: 8.0),
-                //           child: Column(
-                //             children: [
-                //               Row(
-                //                 mainAxisAlignment: MainAxisAlignment.center,
-                //                 children: [
-                //                   Padding(
-                //                     padding: const EdgeInsets.only(left: 8.0),
-                //                     child: Text(
-                //                       '+${growth}%',
-                //                       style: Styles.regular(
-                //                           color: growthType == 'up' ?
-                //                           ColorConstants.GREEN:
-                //                           ColorConstants.RED,
-                //                           size: 11),
-                //                     ),
-                //                   ),
-                //                   growthType == 'up' ? Icon(
-                //                     Icons.arrow_drop_up_outlined,
-                //                     color: Colors.green,
-                //                     size: 20,
-                //                   ):
-                //                   Icon(
-                //                     Icons.arrow_drop_down,
-                //                     color: Colors.red,
-                //                     size: 20,
-                //                   ),
-                //                 ],
-                //               ),
-                //               SizedBox(
-                //                 height: 5,
-                //               ),
-                //               Text(
-                //                 'Projected Growth',
-                //                 style: Styles.regular(
-                //                     color: Color(0xff0E1638), size: 12),
-                //               ),
-                //             ],
-                //           ),
-                //         ),
-                //       ]),
-                // ),
-                // // Container(
-                // //   margin: EdgeInsets.only(top: 30.0),
-                // //   child: Image.asset('assets/images/graf_img.png'),
-                // // ),
-                // // SizedBox(
-                // //   height: 20,
-                // // ),
-                // Container(
-                //   child: Row(
-                //     children: [
-                //       Expanded(
-                //           child: Container(
-                //             width: MediaQuery.of(context).size.width * 0.4,
-                //             decoration: BoxDecoration(
-                //                 color: ColorConstants.List_Color,
-                //                 borderRadius: BorderRadius.circular(10),
-                //                 border:
-                //                 Border.all(color: ColorConstants.List_Color)),
-                //             margin: EdgeInsets.all(8),
-                //             // color: Colors.red,
-                //             child: Column(
-                //                 crossAxisAlignment: CrossAxisAlignment.center,
-                //                 // mainAxisAlignment: MainAxisAlignment,
-                //                 children: [
-                //                   Padding(
-                //                     padding: const EdgeInsets.only(
-                //                         left: 8.0,
-                //                         right: 8.0,
-                //                         top: 8.0,
-                //                         bottom: 8.0),
-                //                     child: Column(
-                //                       children: [
-                //                         Text(
-                //                           'Art & Design',
-                //                           style: Styles.bold(
-                //                               color: Color(0xff0E1638), size: 12),
-                //                         ),
-                //                         SizedBox(
-                //                           height: 5,
-                //                         ),
-                //                         Row(
-                //                           mainAxisAlignment:
-                //                           MainAxisAlignment.center,
-                //                           children: [
-                //                             Text(
-                //                               "\$59k",
-                //                               style: Styles.regular(
-                //                                   color: ColorConstants.GREY_3,
-                //                                   size: 11),
-                //                             ),
-                //                             Padding(
-                //                               padding:
-                //                               const EdgeInsets.only(left: 8.0),
-                //                               child: Text(
-                //                                 '+30.6%',
-                //                                 style: Styles.regular(
-                //                                     color: ColorConstants.GREEN,
-                //                                     size: 11),
-                //                               ),
-                //                             ),
-                //                             Icon(
-                //                               Icons.arrow_drop_up_outlined,
-                //                               color: Colors.green,
-                //                               size: 20,
-                //                             )
-                //                           ],
-                //                         ),
-                //                       ],
-                //                     ),
-                //                   ),
-                //                 ]),
-                //           )),
-                //       Expanded(
-                //           child: Container(
-                //             width: MediaQuery.of(context).size.width * 0.4,
-                //             decoration: BoxDecoration(
-                //                 color: ColorConstants.List_Color,
-                //                 borderRadius: BorderRadius.circular(10),
-                //                 border:
-                //                 Border.all(color: ColorConstants.List_Color)),
-                //             margin: EdgeInsets.all(0),
-                //             // color: Colors.red,
-                //             child: Column(
-                //                 crossAxisAlignment: CrossAxisAlignment.center,
-                //                 // mainAxisAlignment: MainAxisAlignment,
-                //                 children: [
-                //                   Padding(
-                //                     padding: const EdgeInsets.only(
-                //                         left: 8.0,
-                //                         right: 8.0,
-                //                         top: 8.0,
-                //                         bottom: 8.0),
-                //                     child: Column(
-                //                       children: [
-                //                         Text(
-                //                           'Art & Design',
-                //                           style: Styles.bold(
-                //                               color: Color(0xff0E1638), size: 12),
-                //                         ),
-                //                         SizedBox(
-                //                           height: 5,
-                //                         ),
-                //                         Row(
-                //                           mainAxisAlignment:
-                //                           MainAxisAlignment.center,
-                //                           children: [
-                //                             Text(
-                //                               "\$59k",
-                //                               style: Styles.regular(
-                //                                   color: ColorConstants.GREY_3,
-                //                                   size: 12),
-                //                             ),
-                //                             Padding(
-                //                               padding:
-                //                               const EdgeInsets.only(left: 8.0),
-                //                               child: Text(
-                //                                 '+30.6%',
-                //                                 style: Styles.regular(
-                //                                     color: ColorConstants.GREEN,
-                //                                     size: 11),
-                //                               ),
-                //                             ),
-                //                             Icon(
-                //                               Icons.arrow_drop_up_outlined,
-                //                               color: Colors.green,
-                //                               size: 20,
-                //                             )
-                //                           ],
-                //                         ),
-                //                       ],
-                //                     ),
-                //                   ),
-                //                 ]),
-                //           )),
-                //       Expanded(
-                //           child: Container(
-                //             width: MediaQuery.of(context).size.width * 0.4,
-                //             decoration: BoxDecoration(
-                //                 color: ColorConstants.List_Color,
-                //                 borderRadius: BorderRadius.circular(10),
-                //                 border:
-                //                 Border.all(color: ColorConstants.List_Color)),
-                //             margin: EdgeInsets.all(8),
-                //             // color: Colors.red,
-                //             child: Column(
-                //                 crossAxisAlignment: CrossAxisAlignment.center,
-                //                 // mainAxisAlignment: MainAxisAlignment,
-                //                 children: [
-                //                   Padding(
-                //                     padding: const EdgeInsets.only(
-                //                         left: 8.0,
-                //                         right: 8.0,
-                //                         top: 8.0,
-                //                         bottom: 8.0),
-                //                     child: Column(
-                //                       children: [
-                //                         Text(
-                //                           'Art & Design',
-                //                           style: Styles.bold(
-                //                               color: Color(0xff0E1638), size: 12),
-                //                         ),
-                //                         SizedBox(
-                //                           height: 5,
-                //                         ),
-                //                         Row(
-                //                           mainAxisAlignment:
-                //                           MainAxisAlignment.center,
-                //                           children: [
-                //                             Text(
-                //                               "\$59k",
-                //                               style: Styles.regular(
-                //                                   color: ColorConstants.GREY_3,
-                //                                   size: 11),
-                //                             ),
-                //                             Padding(
-                //                               padding:
-                //                               const EdgeInsets.only(left: 8.0),
-                //                               child: Text(
-                //                                 '+30.6%',
-                //                                 style: Styles.regular(
-                //                                     color: ColorConstants.GREEN,
-                //                                     size: 11),
-                //                               ),
-                //                             ),
-                //                             Icon(
-                //                               Icons.arrow_drop_up_outlined,
-                //                               color: Colors.green,
-                //                               size: 20,
-                //                             )
-                //                           ],
-                //                         ),
-                //                       ],
-                //                     ),
-                //                   ),
-                //                 ]),
-                //           )),
-                //     ],
-                //   ),
-                // ),
-                // SizedBox(
-                //   height: 10,
-                // ),
-                // Container(
-                //   child: Row(
-                //     children: [
-                //       Expanded(
-                //           child: Container(
-                //             width: MediaQuery.of(context).size.width * 0.4,
-                //             decoration: BoxDecoration(
-                //                 color: ColorConstants.List_Color,
-                //                 borderRadius: BorderRadius.circular(10),
-                //                 border:
-                //                 Border.all(color: ColorConstants.List_Color)),
-                //             margin: EdgeInsets.all(8),
-                //             // color: Colors.red,
-                //             child: Column(
-                //                 crossAxisAlignment: CrossAxisAlignment.center,
-                //                 // mainAxisAlignment: MainAxisAlignment,
-                //                 children: [
-                //                   Padding(
-                //                     padding: const EdgeInsets.only(
-                //                         left: 8.0,
-                //                         right: 8.0,
-                //                         top: 8.0,
-                //                         bottom: 8.0),
-                //                     child: Column(
-                //                       children: [
-                //                         Text(
-                //                           'Art & Design',
-                //                           style: Styles.bold(
-                //                               color: Color(0xff0E1638), size: 12),
-                //                         ),
-                //                         SizedBox(
-                //                           height: 5,
-                //                         ),
-                //                         Row(
-                //                           mainAxisAlignment:
-                //                           MainAxisAlignment.center,
-                //                           children: [
-                //                             Text(
-                //                               "\$59k",
-                //                               style: Styles.regular(
-                //                                   color: ColorConstants.GREY_3,
-                //                                   size: 11),
-                //                             ),
-                //                             Padding(
-                //                               padding:
-                //                               const EdgeInsets.only(left: 8.0),
-                //                               child: Text(
-                //                                 '+30.6%',
-                //                                 style: Styles.regular(
-                //                                     color: ColorConstants.GREEN,
-                //                                     size: 11),
-                //                               ),
-                //                             ),
-                //                             Icon(
-                //                               Icons.arrow_drop_up_outlined,
-                //                               color: Colors.green,
-                //                               size: 20,
-                //                             )
-                //                           ],
-                //                         ),
-                //                       ],
-                //                     ),
-                //                   ),
-                //                 ]),
-                //           )),
-                //       Expanded(
-                //           child: Container(
-                //             width: MediaQuery.of(context).size.width * 0.4,
-                //             decoration: BoxDecoration(
-                //                 color: ColorConstants.List_Color,
-                //                 borderRadius: BorderRadius.circular(10),
-                //                 border:
-                //                 Border.all(color: ColorConstants.List_Color)),
-                //             margin: EdgeInsets.all(0),
-                //             // color: Colors.red,
-                //             child: Column(
-                //                 crossAxisAlignment: CrossAxisAlignment.center,
-                //                 // mainAxisAlignment: MainAxisAlignment,
-                //                 children: [
-                //                   Padding(
-                //                     padding: const EdgeInsets.only(
-                //                         left: 8.0,
-                //                         right: 8.0,
-                //                         top: 8.0,
-                //                         bottom: 8.0),
-                //                     child: Column(
-                //                       children: [
-                //                         Text(
-                //                           'Art & Design',
-                //                           style: Styles.bold(
-                //                               color: Color(0xff0E1638), size: 12),
-                //                         ),
-                //                         SizedBox(
-                //                           height: 5,
-                //                         ),
-                //                         Row(
-                //                           mainAxisAlignment:
-                //                           MainAxisAlignment.center,
-                //                           children: [
-                //                             Text(
-                //                               "\$59k",
-                //                               style: Styles.regular(
-                //                                   color: ColorConstants.GREY_3,
-                //                                   size: 12),
-                //                             ),
-                //                             Padding(
-                //                               padding:
-                //                               const EdgeInsets.only(left: 8.0),
-                //                               child: Text(
-                //                                 '+30.6%',
-                //                                 style: Styles.regular(
-                //                                     color: ColorConstants.GREEN,
-                //                                     size: 11),
-                //                               ),
-                //                             ),
-                //                             Icon(
-                //                               Icons.arrow_drop_up_outlined,
-                //                               color: Colors.green,
-                //                               size: 20,
-                //                             )
-                //                           ],
-                //                         ),
-                //                       ],
-                //                     ),
-                //                   ),
-                //                 ]),
-                //           )),
-                //       Expanded(
-                //           child: Container(
-                //             width: MediaQuery.of(context).size.width * 0.4,
-                //             decoration: BoxDecoration(
-                //                 color: ColorConstants.List_Color,
-                //                 borderRadius: BorderRadius.circular(10),
-                //                 border:
-                //                 Border.all(color: ColorConstants.List_Color)),
-                //             margin: EdgeInsets.all(8),
-                //             // color: Colors.red,
-                //             child: Column(
-                //                 crossAxisAlignment: CrossAxisAlignment.center,
-                //                 // mainAxisAlignment: MainAxisAlignment,
-                //                 children: [
-                //                   Padding(
-                //                     padding: const EdgeInsets.only(
-                //                         left: 8.0,
-                //                         right: 8.0,
-                //                         top: 8.0,
-                //                         bottom: 8.0),
-                //                     child: Column(
-                //                       children: [
-                //                         Text(
-                //                           'Art & Design',
-                //                           style: Styles.bold(
-                //                               color: Color(0xff0E1638), size: 12),
-                //                         ),
-                //                         SizedBox(
-                //                           height: 5,
-                //                         ),
-                //                         Row(
-                //                           mainAxisAlignment:
-                //                           MainAxisAlignment.center,
-                //                           children: [
-                //                             Text(
-                //                               "\$59k",
-                //                               style: Styles.regular(
-                //                                   color: ColorConstants.GREY_3,
-                //                                   size: 11),
-                //                             ),
-                //                             Padding(
-                //                               padding:
-                //                               const EdgeInsets.only(left: 8.0),
-                //                               child: Text(
-                //                                 '+30.6%',
-                //                                 style: Styles.regular(
-                //                                     color: ColorConstants.GREEN,
-                //                                     size: 11),
-                //                               ),
-                //                             ),
-                //                             Icon(
-                //                               Icons.arrow_drop_up_outlined,
-                //                               color: Colors.green,
-                //                               size: 20,
-                //                             )
-                //                           ],
-                //                         ),
-                //                       ],
-                //                     ),
-                //                   ),
-                //                 ]),
-                //           )),
-                //     ],
-                //   ),
-                // ),
 
-                // /*Container(
-                //   height: 50,
-                //   margin: EdgeInsets.only(left: 50.0, right: 50.0, top: 20.0, bottom: 10.0),
-                //   width: MediaQuery.of(context).size.width,
-                //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),
-                //     gradient:
-                //     LinearGradient(colors: [
-                //       ColorConstants.WHITE,
-                //       ColorConstants.WHITE,]),
-                //     border: Border.all(color: ColorConstants.GRADIENT_ORANGE),
-                //   ),
+            // Container(
+            //   height: 35,
+            //   padding: EdgeInsets.only(right: 20.0, top: 10.0),
+            //   width: MediaQuery.of(context).size.width,
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(30),
+            //   ),
+            //   child: InkWell(
+            //     onTap: () {
+            //       Navigator.of(context).pop();
+            //     },
+            //     child: Column(
+            //       crossAxisAlignment: CrossAxisAlignment.end,
+            //       children: [
+            //         Icon(
+            //           Icons.close,
+            //           color: Colors.black,
+            //         )
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            // Container(
+            //   width: MediaQuery.of(context).size.width * 0.4,
+            //   decoration: BoxDecoration(
+            //       color: ColorConstants.List_Color,
+            //       borderRadius: BorderRadius.circular(10),
+            //       border: Border.all(color: ColorConstants.List_Color)),
+            //   //margin: EdgeInsets.all(8),
+            //   // color: Colors.red,
+            //   child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+            //       // mainAxisAlignment: MainAxisAlignment,
+            //       children: [
+            //         Padding(
+            //           padding: const EdgeInsets.only(
+            //               left: 8.0, right: 8.0, top: 8.0, bottom: 8.0),
+            //           child: Column(
+            //             children: [
+            //               Row(
+            //                 mainAxisAlignment: MainAxisAlignment.center,
+            //                 children: [
+            //                   Padding(
+            //                     padding: const EdgeInsets.only(left: 8.0),
+            //                     child: Text(
+            //                       '+${growth}%',
+            //                       style: Styles.regular(
+            //                           color: growthType == 'up' ?
+            //                           ColorConstants.GREEN:
+            //                           ColorConstants.RED,
+            //                           size: 11),
+            //                     ),
+            //                   ),
+            //                   growthType == 'up' ? Icon(
+            //                     Icons.arrow_drop_up_outlined,
+            //                     color: Colors.green,
+            //                     size: 20,
+            //                   ):
+            //                   Icon(
+            //                     Icons.arrow_drop_down,
+            //                     color: Colors.red,
+            //                     size: 20,
+            //                   ),
+            //                 ],
+            //               ),
+            //               SizedBox(
+            //                 height: 5,
+            //               ),
+            //               Text(
+            //                 'Projected Growth',
+            //                 style: Styles.regular(
+            //                     color: Color(0xff0E1638), size: 12),
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //       ]),
+            // ),
+            // // Container(
+            // //   margin: EdgeInsets.only(top: 30.0),
+            // //   child: Image.asset('assets/images/graf_img.png'),
+            // // ),
+            // // SizedBox(
+            // //   height: 20,
+            // // ),
+            // Container(
+            //   child: Row(
+            //     children: [
+            //       Expanded(
+            //           child: Container(
+            //             width: MediaQuery.of(context).size.width * 0.4,
+            //             decoration: BoxDecoration(
+            //                 color: ColorConstants.List_Color,
+            //                 borderRadius: BorderRadius.circular(10),
+            //                 border:
+            //                 Border.all(color: ColorConstants.List_Color)),
+            //             margin: EdgeInsets.all(8),
+            //             // color: Colors.red,
+            //             child: Column(
+            //                 crossAxisAlignment: CrossAxisAlignment.center,
+            //                 // mainAxisAlignment: MainAxisAlignment,
+            //                 children: [
+            //                   Padding(
+            //                     padding: const EdgeInsets.only(
+            //                         left: 8.0,
+            //                         right: 8.0,
+            //                         top: 8.0,
+            //                         bottom: 8.0),
+            //                     child: Column(
+            //                       children: [
+            //                         Text(
+            //                           'Art & Design',
+            //                           style: Styles.bold(
+            //                               color: Color(0xff0E1638), size: 12),
+            //                         ),
+            //                         SizedBox(
+            //                           height: 5,
+            //                         ),
+            //                         Row(
+            //                           mainAxisAlignment:
+            //                           MainAxisAlignment.center,
+            //                           children: [
+            //                             Text(
+            //                               "\$59k",
+            //                               style: Styles.regular(
+            //                                   color: ColorConstants.GREY_3,
+            //                                   size: 11),
+            //                             ),
+            //                             Padding(
+            //                               padding:
+            //                               const EdgeInsets.only(left: 8.0),
+            //                               child: Text(
+            //                                 '+30.6%',
+            //                                 style: Styles.regular(
+            //                                     color: ColorConstants.GREEN,
+            //                                     size: 11),
+            //                               ),
+            //                             ),
+            //                             Icon(
+            //                               Icons.arrow_drop_up_outlined,
+            //                               color: Colors.green,
+            //                               size: 20,
+            //                             )
+            //                           ],
+            //                         ),
+            //                       ],
+            //                     ),
+            //                   ),
+            //                 ]),
+            //           )),
+            //       Expanded(
+            //           child: Container(
+            //             width: MediaQuery.of(context).size.width * 0.4,
+            //             decoration: BoxDecoration(
+            //                 color: ColorConstants.List_Color,
+            //                 borderRadius: BorderRadius.circular(10),
+            //                 border:
+            //                 Border.all(color: ColorConstants.List_Color)),
+            //             margin: EdgeInsets.all(0),
+            //             // color: Colors.red,
+            //             child: Column(
+            //                 crossAxisAlignment: CrossAxisAlignment.center,
+            //                 // mainAxisAlignment: MainAxisAlignment,
+            //                 children: [
+            //                   Padding(
+            //                     padding: const EdgeInsets.only(
+            //                         left: 8.0,
+            //                         right: 8.0,
+            //                         top: 8.0,
+            //                         bottom: 8.0),
+            //                     child: Column(
+            //                       children: [
+            //                         Text(
+            //                           'Art & Design',
+            //                           style: Styles.bold(
+            //                               color: Color(0xff0E1638), size: 12),
+            //                         ),
+            //                         SizedBox(
+            //                           height: 5,
+            //                         ),
+            //                         Row(
+            //                           mainAxisAlignment:
+            //                           MainAxisAlignment.center,
+            //                           children: [
+            //                             Text(
+            //                               "\$59k",
+            //                               style: Styles.regular(
+            //                                   color: ColorConstants.GREY_3,
+            //                                   size: 12),
+            //                             ),
+            //                             Padding(
+            //                               padding:
+            //                               const EdgeInsets.only(left: 8.0),
+            //                               child: Text(
+            //                                 '+30.6%',
+            //                                 style: Styles.regular(
+            //                                     color: ColorConstants.GREEN,
+            //                                     size: 11),
+            //                               ),
+            //                             ),
+            //                             Icon(
+            //                               Icons.arrow_drop_up_outlined,
+            //                               color: Colors.green,
+            //                               size: 20,
+            //                             )
+            //                           ],
+            //                         ),
+            //                       ],
+            //                     ),
+            //                   ),
+            //                 ]),
+            //           )),
+            //       Expanded(
+            //           child: Container(
+            //             width: MediaQuery.of(context).size.width * 0.4,
+            //             decoration: BoxDecoration(
+            //                 color: ColorConstants.List_Color,
+            //                 borderRadius: BorderRadius.circular(10),
+            //                 border:
+            //                 Border.all(color: ColorConstants.List_Color)),
+            //             margin: EdgeInsets.all(8),
+            //             // color: Colors.red,
+            //             child: Column(
+            //                 crossAxisAlignment: CrossAxisAlignment.center,
+            //                 // mainAxisAlignment: MainAxisAlignment,
+            //                 children: [
+            //                   Padding(
+            //                     padding: const EdgeInsets.only(
+            //                         left: 8.0,
+            //                         right: 8.0,
+            //                         top: 8.0,
+            //                         bottom: 8.0),
+            //                     child: Column(
+            //                       children: [
+            //                         Text(
+            //                           'Art & Design',
+            //                           style: Styles.bold(
+            //                               color: Color(0xff0E1638), size: 12),
+            //                         ),
+            //                         SizedBox(
+            //                           height: 5,
+            //                         ),
+            //                         Row(
+            //                           mainAxisAlignment:
+            //                           MainAxisAlignment.center,
+            //                           children: [
+            //                             Text(
+            //                               "\$59k",
+            //                               style: Styles.regular(
+            //                                   color: ColorConstants.GREY_3,
+            //                                   size: 11),
+            //                             ),
+            //                             Padding(
+            //                               padding:
+            //                               const EdgeInsets.only(left: 8.0),
+            //                               child: Text(
+            //                                 '+30.6%',
+            //                                 style: Styles.regular(
+            //                                     color: ColorConstants.GREEN,
+            //                                     size: 11),
+            //                               ),
+            //                             ),
+            //                             Icon(
+            //                               Icons.arrow_drop_up_outlined,
+            //                               color: Colors.green,
+            //                               size: 20,
+            //                             )
+            //                           ],
+            //                         ),
+            //                       ],
+            //                     ),
+            //                   ),
+            //                 ]),
+            //           )),
+            //     ],
+            //   ),
+            // ),
+            // SizedBox(
+            //   height: 10,
+            // ),
+            // Container(
+            //   child: Row(
+            //     children: [
+            //       Expanded(
+            //           child: Container(
+            //             width: MediaQuery.of(context).size.width * 0.4,
+            //             decoration: BoxDecoration(
+            //                 color: ColorConstants.List_Color,
+            //                 borderRadius: BorderRadius.circular(10),
+            //                 border:
+            //                 Border.all(color: ColorConstants.List_Color)),
+            //             margin: EdgeInsets.all(8),
+            //             // color: Colors.red,
+            //             child: Column(
+            //                 crossAxisAlignment: CrossAxisAlignment.center,
+            //                 // mainAxisAlignment: MainAxisAlignment,
+            //                 children: [
+            //                   Padding(
+            //                     padding: const EdgeInsets.only(
+            //                         left: 8.0,
+            //                         right: 8.0,
+            //                         top: 8.0,
+            //                         bottom: 8.0),
+            //                     child: Column(
+            //                       children: [
+            //                         Text(
+            //                           'Art & Design',
+            //                           style: Styles.bold(
+            //                               color: Color(0xff0E1638), size: 12),
+            //                         ),
+            //                         SizedBox(
+            //                           height: 5,
+            //                         ),
+            //                         Row(
+            //                           mainAxisAlignment:
+            //                           MainAxisAlignment.center,
+            //                           children: [
+            //                             Text(
+            //                               "\$59k",
+            //                               style: Styles.regular(
+            //                                   color: ColorConstants.GREY_3,
+            //                                   size: 11),
+            //                             ),
+            //                             Padding(
+            //                               padding:
+            //                               const EdgeInsets.only(left: 8.0),
+            //                               child: Text(
+            //                                 '+30.6%',
+            //                                 style: Styles.regular(
+            //                                     color: ColorConstants.GREEN,
+            //                                     size: 11),
+            //                               ),
+            //                             ),
+            //                             Icon(
+            //                               Icons.arrow_drop_up_outlined,
+            //                               color: Colors.green,
+            //                               size: 20,
+            //                             )
+            //                           ],
+            //                         ),
+            //                       ],
+            //                     ),
+            //                   ),
+            //                 ]),
+            //           )),
+            //       Expanded(
+            //           child: Container(
+            //             width: MediaQuery.of(context).size.width * 0.4,
+            //             decoration: BoxDecoration(
+            //                 color: ColorConstants.List_Color,
+            //                 borderRadius: BorderRadius.circular(10),
+            //                 border:
+            //                 Border.all(color: ColorConstants.List_Color)),
+            //             margin: EdgeInsets.all(0),
+            //             // color: Colors.red,
+            //             child: Column(
+            //                 crossAxisAlignment: CrossAxisAlignment.center,
+            //                 // mainAxisAlignment: MainAxisAlignment,
+            //                 children: [
+            //                   Padding(
+            //                     padding: const EdgeInsets.only(
+            //                         left: 8.0,
+            //                         right: 8.0,
+            //                         top: 8.0,
+            //                         bottom: 8.0),
+            //                     child: Column(
+            //                       children: [
+            //                         Text(
+            //                           'Art & Design',
+            //                           style: Styles.bold(
+            //                               color: Color(0xff0E1638), size: 12),
+            //                         ),
+            //                         SizedBox(
+            //                           height: 5,
+            //                         ),
+            //                         Row(
+            //                           mainAxisAlignment:
+            //                           MainAxisAlignment.center,
+            //                           children: [
+            //                             Text(
+            //                               "\$59k",
+            //                               style: Styles.regular(
+            //                                   color: ColorConstants.GREY_3,
+            //                                   size: 12),
+            //                             ),
+            //                             Padding(
+            //                               padding:
+            //                               const EdgeInsets.only(left: 8.0),
+            //                               child: Text(
+            //                                 '+30.6%',
+            //                                 style: Styles.regular(
+            //                                     color: ColorConstants.GREEN,
+            //                                     size: 11),
+            //                               ),
+            //                             ),
+            //                             Icon(
+            //                               Icons.arrow_drop_up_outlined,
+            //                               color: Colors.green,
+            //                               size: 20,
+            //                             )
+            //                           ],
+            //                         ),
+            //                       ],
+            //                     ),
+            //                   ),
+            //                 ]),
+            //           )),
+            //       Expanded(
+            //           child: Container(
+            //             width: MediaQuery.of(context).size.width * 0.4,
+            //             decoration: BoxDecoration(
+            //                 color: ColorConstants.List_Color,
+            //                 borderRadius: BorderRadius.circular(10),
+            //                 border:
+            //                 Border.all(color: ColorConstants.List_Color)),
+            //             margin: EdgeInsets.all(8),
+            //             // color: Colors.red,
+            //             child: Column(
+            //                 crossAxisAlignment: CrossAxisAlignment.center,
+            //                 // mainAxisAlignment: MainAxisAlignment,
+            //                 children: [
+            //                   Padding(
+            //                     padding: const EdgeInsets.only(
+            //                         left: 8.0,
+            //                         right: 8.0,
+            //                         top: 8.0,
+            //                         bottom: 8.0),
+            //                     child: Column(
+            //                       children: [
+            //                         Text(
+            //                           'Art & Design',
+            //                           style: Styles.bold(
+            //                               color: Color(0xff0E1638), size: 12),
+            //                         ),
+            //                         SizedBox(
+            //                           height: 5,
+            //                         ),
+            //                         Row(
+            //                           mainAxisAlignment:
+            //                           MainAxisAlignment.center,
+            //                           children: [
+            //                             Text(
+            //                               "\$59k",
+            //                               style: Styles.regular(
+            //                                   color: ColorConstants.GREY_3,
+            //                                   size: 11),
+            //                             ),
+            //                             Padding(
+            //                               padding:
+            //                               const EdgeInsets.only(left: 8.0),
+            //                               child: Text(
+            //                                 '+30.6%',
+            //                                 style: Styles.regular(
+            //                                     color: ColorConstants.GREEN,
+            //                                     size: 11),
+            //                               ),
+            //                             ),
+            //                             Icon(
+            //                               Icons.arrow_drop_up_outlined,
+            //                               color: Colors.green,
+            //                               size: 20,
+            //                             )
+            //                           ],
+            //                         ),
+            //                       ],
+            //                     ),
+            //                   ),
+            //                 ]),
+            //           )),
+            //     ],
+            //   ),
+            // ),
 
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     children: [
-                //       Text('View Skill Assessments', style: TextStyle(color: ColorConstants.GRADIENT_ORANGE, fontSize: 14,
-                //           fontWeight: FontWeight.bold),),
+            // /*Container(
+            //   height: 50,
+            //   margin: EdgeInsets.only(left: 50.0, right: 50.0, top: 20.0, bottom: 10.0),
+            //   width: MediaQuery.of(context).size.width,
+            //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),
+            //     gradient:
+            //     LinearGradient(colors: [
+            //       ColorConstants.WHITE,
+            //       ColorConstants.WHITE,]),
+            //     border: Border.all(color: ColorConstants.GRADIENT_ORANGE),
+            //   ),
 
-                //       Padding(
-                //         padding: const EdgeInsets.only(left: 10.0),
-                //         child: Icon(Icons.arrow_forward_ios_rounded,
-                //           color: ColorConstants.GRADIENT_ORANGE,),
-                //       )
-                //     ],
-                //   ),
-                // ),*/
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       Text('View Skill Assessments', style: TextStyle(color: ColorConstants.GRADIENT_ORANGE, fontSize: 14,
+            //           fontWeight: FontWeight.bold),),
 
-                // SizedBox(
-                //   height: 30,
-                // ),
-                
+            //       Padding(
+            //         padding: const EdgeInsets.only(left: 10.0),
+            //         child: Icon(Icons.arrow_forward_ios_rounded,
+            //           color: ColorConstants.GRADIENT_ORANGE,),
+            //       )
+            //     ],
+            //   ),
+            // ),*/
+
+            // SizedBox(
+            //   height: 30,
+            // ),
+
             //   ],
             // ),
           );
@@ -1219,7 +1247,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   ),
                   child: Text(
                     'Featured Jobs & Internships',
-                    style: Styles.bold(color: Color(0xff0E1638)),
+                    style: Styles.bold(size: 14, color: Color(0xff0E1638)),
                   )),
             ],
           ),
@@ -1227,93 +1255,111 @@ class _DashboardPageState extends State<DashboardPage> {
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Container(
               height: 360,
-              child: featuredInternshipsResponse?.data!.length != 0 ?
-              ListView.builder(
-                  itemCount: featuredInternshipsResponse?.data!.length ,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (BuildContext context, int index) {
-                    return InkWell(
-                      onTap: (){
-                        Navigator.push(
-                            context,
-                            NextPageRoute(JobDetailsPage(
-                              title: featuredInternshipsResponse?.data![index]!.name,
-                              description: featuredInternshipsResponse?.data![index]!.description,
-                              location: featuredInternshipsResponse?.data![index]!.location,
-                              skillNames: featuredInternshipsResponse?.data![index]!.skillNames,
-                              companyName: featuredInternshipsResponse?.data![index]!.organizedBy,
-                              domain: featuredInternshipsResponse?.data![index]!.domainName,
-                              companyThumbnail: featuredInternshipsResponse?.data![index]!.image,
-                              experience: featuredInternshipsResponse?.data![index]!.experience,
-                              //jobListDetails: jobList,
-                              id: featuredInternshipsResponse?.data![index]!.id,
-                              jobStatus: featuredInternshipsResponse?.data![index]!.jobStatus,
-                            )));
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        decoration: BoxDecoration(
-                            color: ColorConstants.WHITE,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: ColorConstants.List_Color)),
-                        margin: EdgeInsets.all(8),
-                        // color: Colors.red,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0,
-                                    right: 8.0,
-                                    top: 15.0,
-                                    bottom: 8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CachedNetworkImage(
-                                      imageUrl: '${featuredInternshipsResponse?.data![index]!.image}',
-                                      width: 100,
-                                      height: 50,
-                                      errorWidget: (context, url, error) => SvgPicture.asset(
-                                        'assets/images/gscore_postnow_bg.svg',
-                                      ),
-                                      fit: BoxFit.cover,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10.0),
-                                      child: Text(
-                                        '${featuredInternshipsResponse?.data![index]!.name}',
-                                        style: Styles.bold(
-                                            color: Color(0xff0E1638), size: 13),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+              child: featuredInternshipsResponse?.data!.length != 0
+                  ? ListView.builder(
+                      itemCount: featuredInternshipsResponse?.data!.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (BuildContext context, int index) {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                NextPageRoute(JobDetailsPage(
+                                  title: featuredInternshipsResponse
+                                      ?.data![index]!.name,
+                                  description: featuredInternshipsResponse
+                                      ?.data![index]!.description,
+                                  location: featuredInternshipsResponse
+                                      ?.data![index]!.location,
+                                  skillNames: featuredInternshipsResponse
+                                      ?.data![index]!.skillNames,
+                                  companyName: featuredInternshipsResponse
+                                      ?.data![index]!.organizedBy,
+                                  domain: featuredInternshipsResponse
+                                      ?.data![index]!.domainName,
+                                  companyThumbnail: featuredInternshipsResponse
+                                      ?.data![index]!.image,
+                                  experience: featuredInternshipsResponse
+                                      ?.data![index]!.experience,
+                                  //jobListDetails: jobList,
+                                  id: featuredInternshipsResponse
+                                      ?.data![index]!.id,
+                                  jobStatus: featuredInternshipsResponse
+                                      ?.data![index]!.jobStatus,
+                                )));
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            decoration: BoxDecoration(
+                                color: ColorConstants.WHITE,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                    color: ColorConstants.List_Color)),
+                            margin: EdgeInsets.all(8),
+                            // color: Colors.red,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0,
+                                        right: 8.0,
+                                        top: 15.0,
+                                        bottom: 8.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Icon(
-                                          Icons.location_on_outlined,
-                                          color: Colors.orange,
+                                        CachedNetworkImage(
+                                          imageUrl:
+                                              '${featuredInternshipsResponse?.data![index]!.image}',
+                                          width: 100,
+                                          height: 50,
+                                          errorWidget: (context, url, error) =>
+                                              SvgPicture.asset(
+                                            'assets/images/gscore_postnow_bg.svg',
+                                          ),
+                                          fit: BoxFit.cover,
                                         ),
                                         Padding(
                                           padding:
-                                          const EdgeInsets.only(left: 8.0),
+                                              const EdgeInsets.only(top: 10.0),
                                           child: Text(
-                                            '${featuredInternshipsResponse?.data![index]!.location}',
-                                            style: Styles.regular(
-                                                color: ColorConstants.GREY_3,
-                                                size: 11),
+                                            '${featuredInternshipsResponse?.data![index]!.name}',
+                                            style: Styles.bold(
+                                                color: Color(0xff0E1638),
+                                                size: 13),
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    /*Row(
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Icon(
+                                              Icons.location_on_outlined,
+                                              color: Colors.orange,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0),
+                                              child: Text(
+                                                '${featuredInternshipsResponse?.data![index]!.location}',
+                                                style: Styles.regular(
+                                                    color:
+                                                        ColorConstants.GREY_3,
+                                                    size: 11),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        /*Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Icon(
@@ -1333,95 +1379,132 @@ class _DashboardPageState extends State<DashboardPage> {
                                       ),
                                     ],
                                   ),*/
-                                    Container(
-                                      width:
-                                      MediaQuery.of(context).size.width * 0.7,
-                                      height: 100,
-                                      decoration: BoxDecoration(
-                                          color: ColorConstants.List_Color,
-                                          borderRadius: BorderRadius.circular(10),
-                                          border: Border.all(
-                                              color: ColorConstants.List_Color)),
-                                      margin: EdgeInsets.all(8),
-                                      // color: Colors.red,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 8.0,
-                                            right: 8.0,
-                                            top: 10.0,
-                                            bottom: 8.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Skills Required',
-                                              style: Styles.bold(
-                                                  color: ColorConstants.GREY_3,
-                                                  size: 13),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.7,
+                                          height: 100,
+                                          decoration: BoxDecoration(
+                                              color: ColorConstants.List_Color,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              border: Border.all(
+                                                  color: ColorConstants
+                                                      .List_Color)),
+                                          margin: EdgeInsets.all(8),
+                                          // color: Colors.red,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0,
+                                                right: 8.0,
+                                                top: 10.0,
+                                                bottom: 8.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                Flexible(
-                                                  child: Text(
-                                                    '${featuredInternshipsResponse?.data![index]!.skillNames}',
-                                                    maxLines: 2,
-                                                    softWrap: true,
-                                                    style: Styles.bold(
-                                                        color: ColorConstants.BLACK,
-                                                        size: 13),
-                                                  ),
+                                                Text(
+                                                  'Skills Required',
+                                                  style: Styles.bold(
+                                                      color:
+                                                          ColorConstants.GREY_3,
+                                                      size: 13),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Flexible(
+                                                      child: Text(
+                                                        '${featuredInternshipsResponse?.data![index]!.skillNames}',
+                                                        maxLines: 2,
+                                                        softWrap: true,
+                                                        style: Styles.bold(
+                                                            color:
+                                                                ColorConstants
+                                                                    .BLACK,
+                                                            size: 13),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ],
                                             ),
-                                          ],
+                                          ),
                                         ),
-                                      ),
+                                        featuredInternshipsResponse
+                                                        ?.data![index]!
+                                                        .jobStatus ==
+                                                    null ||
+                                                featuredInternshipsResponse
+                                                        ?.data![index]!
+                                                        .jobStatus ==
+                                                    ""
+                                            ? InkWell(
+                                                onTap: () {
+                                                  jobApply(
+                                                      int.parse(
+                                                          '${featuredInternshipsResponse?.data![index]!.id}'),
+                                                      1);
+                                                  _onLoadingForJob();
+                                                },
+                                                child: Container(
+                                                  height: 50,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50),
+                                                    gradient:
+                                                        LinearGradient(colors: [
+                                                      ColorConstants
+                                                          .DASHBOARD_APPLY_COLOR,
+                                                      ColorConstants
+                                                          .DASHBOARD_APPLY_COLOR,
+                                                    ]),
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        'Apply',
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
+                                            : Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 20.0),
+                                                child: Text(
+                                                  '${featuredInternshipsResponse?.data![index]!.jobStatus}',
+                                                  style: Styles.bold(
+                                                      color: Colors.green,
+                                                      size: 14),
+                                                ),
+                                              ),
+                                      ],
                                     ),
-                                    featuredInternshipsResponse?.data![index]!.jobStatus == null || featuredInternshipsResponse?.data![index]!.jobStatus == "" ? InkWell(
-                                      onTap: (){
-                                       jobApply(int.parse('${featuredInternshipsResponse?.data![index]!.id}'), 1);
-                                       _onLoadingForJob();
-                                      },
-                                      child: Container(
-                                        height: 50,
-                                        width: MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(50),
-                                          gradient: LinearGradient(colors: [
-                                            ColorConstants.DASHBOARD_APPLY_COLOR,
-                                            ColorConstants.DASHBOARD_APPLY_COLOR,
-                                          ]),
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                          children: [
-                                            Text('Apply',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ): Padding(
-                                      padding: const EdgeInsets.only(bottom: 20.0),
-                                      child: Text('${featuredInternshipsResponse?.data![index]!.jobStatus}', style: Styles.bold(color: Colors.green, size: 14),),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ]),
-                      ),
-                    );
-                  }): SizedBox(),
+                                  ),
+                                ]),
+                          ),
+                        );
+                      })
+                  : SizedBox(),
             ),
           )
         ],
@@ -1430,7 +1513,7 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   void _onLoadingForJob() {
-     showDialog(
+    showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
@@ -1463,7 +1546,8 @@ class _DashboardPageState extends State<DashboardPage> {
     });
   }
 
-  Widget _buildYourPortfolioCard(Color colorBg, String strTitle, String strDes, String clickType) {
+  Widget _buildYourPortfolioCard(
+      Color colorBg, String strTitle, String strDes, String clickType) {
     return Container(
       height: 120,
       margin: const EdgeInsets.only(
@@ -1478,12 +1562,18 @@ class _DashboardPageState extends State<DashboardPage> {
           padding: const EdgeInsets.all(8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              SvgPicture.asset('assets/images/build_portfolio.svg'),
+              SizedBox(
+                width: 20,
+              ),
               Expanded(
                 flex: 9,
                 child: Container(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text('$strTitle',
                           style: Styles.bold(
@@ -1506,6 +1596,9 @@ class _DashboardPageState extends State<DashboardPage> {
                     size: 28,
                   ),
                 ),
+              ),
+              SizedBox(
+                width: 20,
               ),
             ],
           ),
@@ -1608,7 +1701,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                           left: 4.0, bottom: 16),
                                       child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             "10/200 ",
@@ -1658,11 +1751,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                   Container(
                                     height: 10,
                                     width:
-                                    MediaQuery.of(context).size.width * 0.4,
+                                        MediaQuery.of(context).size.width * 0.4,
                                     decoration: BoxDecoration(
                                         color: ColorConstants.GREY,
                                         borderRadius:
-                                        BorderRadius.circular(10)),
+                                            BorderRadius.circular(10)),
                                     child: Stack(
                                       children: [
                                         Container(
@@ -1678,7 +1771,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                                 0xfffc7804,
                                               ),
                                               borderRadius:
-                                              BorderRadius.circular(10)),
+                                                  BorderRadius.circular(10)),
                                         ),
                                       ],
                                     ),
@@ -1753,7 +1846,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                           left: 8.0, bottom: 16),
                                       child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             "0/100 ",
@@ -1803,11 +1896,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                   Container(
                                     height: 10,
                                     width:
-                                    MediaQuery.of(context).size.width * 0.4,
+                                        MediaQuery.of(context).size.width * 0.4,
                                     decoration: BoxDecoration(
                                         color: ColorConstants.GREY,
                                         borderRadius:
-                                        BorderRadius.circular(10)),
+                                            BorderRadius.circular(10)),
                                     child: Stack(
                                       children: [
                                         Container(
@@ -1823,7 +1916,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                                 0xfffc7804,
                                               ),
                                               borderRadius:
-                                              BorderRadius.circular(10)),
+                                                  BorderRadius.circular(10)),
                                         ),
                                       ],
                                     ),
@@ -1898,7 +1991,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                           left: 4.0, bottom: 16),
                                       child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             "4/200 ",
@@ -1948,11 +2041,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                   Container(
                                     height: 10,
                                     width:
-                                    MediaQuery.of(context).size.width * 0.4,
+                                        MediaQuery.of(context).size.width * 0.4,
                                     decoration: BoxDecoration(
                                         color: ColorConstants.GREY,
                                         borderRadius:
-                                        BorderRadius.circular(10)),
+                                            BorderRadius.circular(10)),
                                     child: Stack(
                                       children: [
                                         Container(
@@ -1968,7 +2061,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                                 0xfffc7804,
                                               ),
                                               borderRadius:
-                                              BorderRadius.circular(10)),
+                                                  BorderRadius.circular(10)),
                                         ),
                                       ],
                                     ),
@@ -2044,8 +2137,7 @@ class _DashboardPageState extends State<DashboardPage> {
       decoration: BoxDecoration(color: ColorConstants.WHITE),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -2071,10 +2163,7 @@ class _DashboardPageState extends State<DashboardPage> {
             ],
           ),
           Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 8,
-             horizontal: 8
-              ),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
               child: Text(
                 'Participate and add to your portfolio',
                 style: Styles.regular(size: 12, color: ColorConstants.GREY_3),
@@ -2083,30 +2172,30 @@ class _DashboardPageState extends State<DashboardPage> {
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: competitionResponse?.data?.length != null
                 ? ListView.builder(
-                itemCount: (competitionResponse?.data?.length)! < 4
-                    ? competitionResponse?.data?.length
-                    : 4,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    CompetitionDetail(
-                                        competition: competitionResponse
-                                            ?.data?[index])));
-                      },
-                      child: renderCompetitionCard(
-                          '${competitionResponse?.data![index]?.image}',
-                          '${competitionResponse?.data![index]?.name}',
-                          '',
-                          '${competitionResponse?.data![index]?.competitionLevel ?? "Easy"}',
-                          '${competitionResponse?.data![index]?.gScore}',
-                          '${Utility.ordinalDate(dateVal: "${competitionResponse?.data![index]?.endDate}")}'));
-                })
+                    itemCount: (competitionResponse?.data?.length)! < 4
+                        ? competitionResponse?.data?.length
+                        : 4,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (BuildContext context, int index) {
+                      return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        CompetitionDetail(
+                                            competition: competitionResponse
+                                                ?.data?[index])));
+                          },
+                          child: renderCompetitionCard(
+                              '${competitionResponse?.data![index]?.image}',
+                              '${competitionResponse?.data![index]?.name}',
+                              '',
+                              '${competitionResponse?.data![index]?.competitionLevel ?? "Easy"}',
+                              '${competitionResponse?.data![index]?.gScore}',
+                              '${Utility.ordinalDate(dateVal: "${competitionResponse?.data![index]?.endDate}")}'));
+                    })
                 : CompetitionBlankPage(),
           ),
           SizedBox(
@@ -2114,38 +2203,38 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
           competitionResponse?.data?.length != null
               ? Center(
-                child: CustomOutlineButton(
-            strokeWidth: 1,
-            radius: 50,
-            gradient: LinearGradient(
-                colors: [
-                  ColorConstants.GRADIENT_ORANGE,
-                  ColorConstants.GRADIENT_RED
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.topRight,
-            ),
-            child: Padding(
-                padding: const EdgeInsets.only(left: 50.0, right: 50.0),
-                child: GradientText(
-                  'View all Competitions',
-                  style: Styles.regular(size: 14),
-                  colors: [
-                    ColorConstants.GRADIENT_ORANGE,
-                    ColorConstants.GRADIENT_RED,
-                  ],
-                ),
-            ),
-            onPressed: () {
-                menuProvider?.updateCurrentIndex('/g-competitions');
-            },
-          ),
-              )
+                  child: CustomOutlineButton(
+                    strokeWidth: 1,
+                    radius: 50,
+                    gradient: LinearGradient(
+                      colors: [
+                        ColorConstants.GRADIENT_ORANGE,
+                        ColorConstants.GRADIENT_RED
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.topRight,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 50.0, right: 50.0),
+                      child: GradientText(
+                        'View all Competitions',
+                        style: Styles.regular(size: 14),
+                        colors: [
+                          ColorConstants.GRADIENT_ORANGE,
+                          ColorConstants.GRADIENT_RED,
+                        ],
+                      ),
+                    ),
+                    onPressed: () {
+                      menuProvider?.updateCurrentIndex('/g-competitions');
+                    },
+                  ),
+                )
               : SizedBox(),
           competitionResponse?.data?.length != null
               ? SizedBox(
-            height: 20,
-          )
+                  height: 20,
+                )
               : SizedBox(),
         ],
       ),
@@ -2235,7 +2324,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
                 Text('•',
                     style:
-                    Styles.regular(color: ColorConstants.GREY_2, size: 12)),
+                        Styles.regular(color: ColorConstants.GREY_2, size: 12)),
                 SizedBox(
                   width: 4,
                 ),
@@ -2252,7 +2341,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
                 Text('•',
                     style:
-                    Styles.regular(color: ColorConstants.GREY_2, size: 12)),
+                        Styles.regular(color: ColorConstants.GREY_2, size: 12)),
                 SizedBox(
                   width: 4,
                 ),
@@ -2349,7 +2438,7 @@ class _DashboardPageState extends State<DashboardPage> {
           sessionList = box
               .get("dashboard_sessions_limit")
               .map((e) =>
-              DashboardSessionsLimit.fromJson(Map<String, dynamic>.from(e)))
+                  DashboardSessionsLimit.fromJson(Map<String, dynamic>.from(e)))
               .cast<DashboardSessionsLimit>()
               .toList();
 
@@ -2380,209 +2469,209 @@ class _DashboardPageState extends State<DashboardPage> {
                     itemBuilder: (BuildContext context, int index) {
                       return sessionList!.length > 0
                           ? Container(
-                          padding: EdgeInsets.all(10),
-                          margin: EdgeInsets.symmetric(vertical: 10),
-                          decoration: BoxDecoration(
-                              color: ColorConstants.WHITE,
-                              border: Border.all(
-                                  color: Colors.grey[350]!, width: 1),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                sessionList![index]
-                                    .liveclassStatus!
-                                    .toLowerCase() ==
-                                    'live'
-                                    ? Row(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.center,
+                              padding: EdgeInsets.all(10),
+                              margin: EdgeInsets.symmetric(vertical: 10),
+                              decoration: BoxDecoration(
+                                  color: ColorConstants.WHITE,
+                                  border: Border.all(
+                                      color: Colors.grey[350]!, width: 1),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     sessionList![index]
-                                        .contentType!
-                                        .toLowerCase() !=
-                                        'offlineclass'
-                                        ? SvgPicture.asset(
-                                      'assets/images/live_icon.svg',
-                                      width: 25,
-                                      height: 25,
-                                      allowDrawingOutsideViewBox:
-                                      true,
-                                    )
-                                        : SvgPicture.asset(
-                                      'assets/images/offline_live.svg',
-                                      allowDrawingOutsideViewBox:
-                                      true,
-                                    ),
-                                    SizedBox(width: 5),
-                                    Text(
-                                        sessionList![index]
-                                            .contentType!
-                                            .toLowerCase() ==
-                                            'offlineclass'
-                                            ? 'Ongoing'
-                                            : "${Strings.of(context)?.liveNow}",
-                                        style: Styles.regular(
-                                            size: 12,
-                                            color: ColorConstants()
-                                                .primaryColor())),
-                                    Expanded(child: SizedBox()),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.circular(
-                                              10),
-                                          color:
-                                          ColorConstants.BG_GREY),
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 8,
-                                          horizontal: 18),
-                                      child: Text(
-                                          sessionList![index]
-                                              .contentType!
-                                              .toLowerCase() ==
-                                              'liveclass' ||
+                                                .liveclassStatus!
+                                                .toLowerCase() ==
+                                            'live'
+                                        ? Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
                                               sessionList![index]
-                                                  .contentType!
-                                                  .toLowerCase() ==
-                                                  'zoomclass'
-                                              ? "Live"
-                                              : 'Classroom',
-                                          style: Styles.regular(
-                                              size: 10,
-                                              color: ColorConstants
-                                                  .BLACK)),
-                                    ),
-                                  ],
-                                )
-                                    : sessionList![index]
-                                    .liveclassStatus!
-                                    .toLowerCase() ==
-                                    'upcoming'
-                                    ? Row(children: [
-                                  SvgPicture.asset(
-                                    'assets/images/upcoming_live.svg',
-                                    allowDrawingOutsideViewBox:
-                                    true,
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                      '${sessionList![index].startTime} - ${sessionList![index].endTime} |${DateFormat('d').format(DateTime.fromMillisecondsSinceEpoch(sessionList![index].fromDate! * 1000))} ${months[int.parse(DateFormat('M').format(DateTime.fromMillisecondsSinceEpoch(sessionList![index].fromDate! * 1000))) - 1]}',
-                                      style: Styles.regular(
-                                          size: 12)),
-                                  Expanded(child: SizedBox()),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.circular(
-                                            10),
-                                        color: ColorConstants
-                                            .BG_GREY),
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 8,
-                                        horizontal: 18),
-                                    child: Text(
-                                        sessionList![index]
-                                            .contentType!
-                                            .toLowerCase() ==
-                                            'offlineclass'
-                                            ? "Classroom"
-                                            : "Live",
-                                        style: Styles.regular(
-                                            size: 10,
-                                            color: ColorConstants
-                                                .BLACK)),
-                                  ),
-                                ])
-                                    : SizedBox(),
-                                SizedBox(height: 10),
-                                Text('${sessionList![index].name}',
-                                    style: Styles.semibold(size: 16)),
-                                SizedBox(height: 9),
-                                Text(
-                                  '${sessionList![index].description}',
-                                  style: Styles.regular(size: 14),
-                                ),
-                                SizedBox(height: 15),
-                                Row(
-                                  children: [
-                                    sessionList![index].trainerName !=
-                                        null &&
-                                        sessionList![index]
-                                            .trainerName !=
-                                            ''
-                                        ? Text(
-                                        'by ${sessionList![index].trainerName} ',
-                                        style: Styles.regular(size: 12))
-                                        : Text(''),
-                                    Expanded(child: SizedBox()),
-                                    if (sessionList![index]
-                                        .liveclassStatus!
-                                        .toLowerCase() ==
-                                        'live')
-                                      InkWell(
-                                          onTap: () {
-                                            launch(
-                                                sessionList![index].url!);
-                                          },
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: ColorConstants()
-                                                  .primaryColor(),
-                                              borderRadius:
-                                              BorderRadius.circular(8),
-                                            ),
-                                            child: Padding(
+                                                          .contentType!
+                                                          .toLowerCase() !=
+                                                      'offlineclass'
+                                                  ? SvgPicture.asset(
+                                                      'assets/images/live_icon.svg',
+                                                      width: 25,
+                                                      height: 25,
+                                                      allowDrawingOutsideViewBox:
+                                                          true,
+                                                    )
+                                                  : SvgPicture.asset(
+                                                      'assets/images/offline_live.svg',
+                                                      allowDrawingOutsideViewBox:
+                                                          true,
+                                                    ),
+                                              SizedBox(width: 5),
+                                              Text(
+                                                  sessionList![index]
+                                                              .contentType!
+                                                              .toLowerCase() ==
+                                                          'offlineclass'
+                                                      ? 'Ongoing'
+                                                      : "${Strings.of(context)?.liveNow}",
+                                                  style: Styles.regular(
+                                                      size: 12,
+                                                      color: ColorConstants()
+                                                          .primaryColor())),
+                                              Expanded(child: SizedBox()),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color:
+                                                        ColorConstants.BG_GREY),
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 8,
+                                                    horizontal: 18),
                                                 child: Text(
                                                     sessionList![index]
-                                                        .contentType!
-                                                        .toLowerCase() ==
-                                                        "liveclass" ||
-                                                        sessionList![
-                                                        index]
-                                                            .contentType!
-                                                            .toLowerCase() ==
-                                                            "zoomclass"
-                                                        ? "Join Now"
-                                                        : "Mark your attendance",
+                                                                    .contentType!
+                                                                    .toLowerCase() ==
+                                                                'liveclass' ||
+                                                            sessionList![index]
+                                                                    .contentType!
+                                                                    .toLowerCase() ==
+                                                                'zoomclass'
+                                                        ? "Live"
+                                                        : 'Classroom',
                                                     style: Styles.regular(
-                                                        size: 12,
-                                                        color: ColorConstants()
-                                                            .primaryForgroundColor())),
-                                                padding:
-                                                EdgeInsets.symmetric(
-                                                    horizontal: 18,
-                                                    vertical: 8)),
-                                          )),
-                                    if (sessionList![index]
-                                        .liveclassStatus!
-                                        .toLowerCase() ==
-                                        'upcoming')
-                                      Text('Upcoming',
-                                          style: Styles.regular(size: 12)),
-                                    Visibility(
-                                        child: Padding(
-                                            child: Text(
-                                              "Concluded",
-                                              style: Styles.regular(
-                                                  size: 12,
-                                                  color:
-                                                  ColorConstants.BLACK),
-                                            ),
-                                            padding: EdgeInsets.all(10)),
-                                        visible: sessionList![index]
-                                            .liveclassStatus!
-                                            .toLowerCase() ==
-                                            'completed')
-                                  ],
-                                )
-                              ]))
+                                                        size: 10,
+                                                        color: ColorConstants
+                                                            .BLACK)),
+                                              ),
+                                            ],
+                                          )
+                                        : sessionList![index]
+                                                    .liveclassStatus!
+                                                    .toLowerCase() ==
+                                                'upcoming'
+                                            ? Row(children: [
+                                                SvgPicture.asset(
+                                                  'assets/images/upcoming_live.svg',
+                                                  allowDrawingOutsideViewBox:
+                                                      true,
+                                                ),
+                                                SizedBox(width: 5),
+                                                Text(
+                                                    '${sessionList![index].startTime} - ${sessionList![index].endTime} |${DateFormat('d').format(DateTime.fromMillisecondsSinceEpoch(sessionList![index].fromDate! * 1000))} ${months[int.parse(DateFormat('M').format(DateTime.fromMillisecondsSinceEpoch(sessionList![index].fromDate! * 1000))) - 1]}',
+                                                    style: Styles.regular(
+                                                        size: 12)),
+                                                Expanded(child: SizedBox()),
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color: ColorConstants
+                                                          .BG_GREY),
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 8,
+                                                      horizontal: 18),
+                                                  child: Text(
+                                                      sessionList![index]
+                                                                  .contentType!
+                                                                  .toLowerCase() ==
+                                                              'offlineclass'
+                                                          ? "Classroom"
+                                                          : "Live",
+                                                      style: Styles.regular(
+                                                          size: 10,
+                                                          color: ColorConstants
+                                                              .BLACK)),
+                                                ),
+                                              ])
+                                            : SizedBox(),
+                                    SizedBox(height: 10),
+                                    Text('${sessionList![index].name}',
+                                        style: Styles.semibold(size: 16)),
+                                    SizedBox(height: 9),
+                                    Text(
+                                      '${sessionList![index].description}',
+                                      style: Styles.regular(size: 14),
+                                    ),
+                                    SizedBox(height: 15),
+                                    Row(
+                                      children: [
+                                        sessionList![index].trainerName !=
+                                                    null &&
+                                                sessionList![index]
+                                                        .trainerName !=
+                                                    ''
+                                            ? Text(
+                                                'by ${sessionList![index].trainerName} ',
+                                                style: Styles.regular(size: 12))
+                                            : Text(''),
+                                        Expanded(child: SizedBox()),
+                                        if (sessionList![index]
+                                                .liveclassStatus!
+                                                .toLowerCase() ==
+                                            'live')
+                                          InkWell(
+                                              onTap: () {
+                                                launch(
+                                                    sessionList![index].url!);
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: ColorConstants()
+                                                      .primaryColor(),
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                ),
+                                                child: Padding(
+                                                    child: Text(
+                                                        sessionList![index]
+                                                                        .contentType!
+                                                                        .toLowerCase() ==
+                                                                    "liveclass" ||
+                                                                sessionList![
+                                                                            index]
+                                                                        .contentType!
+                                                                        .toLowerCase() ==
+                                                                    "zoomclass"
+                                                            ? "Join Now"
+                                                            : "Mark your attendance",
+                                                        style: Styles.regular(
+                                                            size: 12,
+                                                            color: ColorConstants()
+                                                                .primaryForgroundColor())),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 18,
+                                                            vertical: 8)),
+                                              )),
+                                        if (sessionList![index]
+                                                .liveclassStatus!
+                                                .toLowerCase() ==
+                                            'upcoming')
+                                          Text('Upcoming',
+                                              style: Styles.regular(size: 12)),
+                                        Visibility(
+                                            child: Padding(
+                                                child: Text(
+                                                  "Concluded",
+                                                  style: Styles.regular(
+                                                      size: 12,
+                                                      color:
+                                                          ColorConstants.BLACK),
+                                                ),
+                                                padding: EdgeInsets.all(10)),
+                                            visible: sessionList![index]
+                                                    .liveclassStatus!
+                                                    .toLowerCase() ==
+                                                'completed')
+                                      ],
+                                    )
+                                  ]))
                           : Container(child: Text(""));
                     },
                     itemCount: sessionList?.length != 0
                         ? sessionList!.length >= 2
-                        ? 2
-                        : sessionList?.length
+                            ? 2
+                            : sessionList?.length
                         : 0,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
@@ -2616,7 +2705,7 @@ class _DashboardPageState extends State<DashboardPage> {
           myCoursesList = box
               .get("dashboard_my_courses_limit")
               .map((e) => DashboardMyCoursesLimit.fromJson(
-              Map<String, dynamic>.from(e)))
+                  Map<String, dynamic>.from(e)))
               .cast<DashboardMyCoursesLimit>()
               .toList();
 
@@ -2672,14 +2761,14 @@ class _DashboardPageState extends State<DashboardPage> {
                                       context,
                                       NextPageRoute(
                                           ChangeNotifierProvider<
-                                              TrainingDetailProvider>(
+                                                  TrainingDetailProvider>(
                                               create: (context) =>
                                                   TrainingDetailProvider(
                                                       TrainingService(
                                                           ApiService()),
                                                       MProgram(
                                                           id: myCoursesList![
-                                                          index]
+                                                                  index]
                                                               .id)),
                                               child: TrainingDetailPage()),
                                           isMaintainState: true));
@@ -2688,39 +2777,39 @@ class _DashboardPageState extends State<DashboardPage> {
                                     padding: EdgeInsets.all(10),
                                     margin: EdgeInsets.only(top: 12, right: 10),
                                     width:
-                                    MediaQuery.of(context).size.width * 0.8,
+                                        MediaQuery.of(context).size.width * 0.8,
                                     height: MediaQuery.of(context).size.height *
                                         0.15,
                                     decoration: BoxDecoration(
                                         color: ColorConstants.GREY
                                             .withOpacity(0.6),
                                         borderRadius:
-                                        BorderRadius.circular(15)),
+                                            BorderRadius.circular(15)),
                                     child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.end,
+                                            CrossAxisAlignment.end,
                                         // mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Row(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                                MainAxisAlignment.start,
                                             children: [
                                               SizedBox(
                                                 width: 60,
                                                 height: 60,
                                                 child: ClipRRect(
                                                   borderRadius:
-                                                  BorderRadius.circular(8),
+                                                      BorderRadius.circular(8),
                                                   child: CachedNetworkImage(
                                                     imageUrl:
-                                                    '${courseList1?[index].image}',
+                                                        '${courseList1?[index].image}',
                                                     width: 60,
                                                     height: 60,
                                                     errorWidget:
                                                         (context, url, error) =>
-                                                        SvgPicture.asset(
-                                                          'assets/images/gscore_postnow_bg.svg',
-                                                        ),
+                                                            SvgPicture.asset(
+                                                      'assets/images/gscore_postnow_bg.svg',
+                                                    ),
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
@@ -2733,54 +2822,54 @@ class _DashboardPageState extends State<DashboardPage> {
                                                     '${myCoursesList![index].name}',
                                                     maxLines: 2,
                                                     overflow:
-                                                    TextOverflow.ellipsis,
+                                                        TextOverflow.ellipsis,
                                                     softWrap: true,
                                                     style:
-                                                    Styles.bold(size: 14)),
+                                                        Styles.bold(size: 14)),
                                               ),
                                             ],
                                           ),
                                           Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                   '${myCoursesList![index].completion.toString().split('.').first}% ${Strings.of(context)?.Completed}',
                                                   style:
-                                                  Styles.regular(size: 12)),
+                                                      Styles.regular(size: 12)),
                                               SizedBox(
                                                 height: 4,
                                               ),
                                               Container(
                                                 height: 10,
                                                 width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
+                                                        .size
+                                                        .width *
                                                     0.57,
                                                 decoration: BoxDecoration(
                                                     color: ColorConstants.GREY,
                                                     borderRadius:
-                                                    BorderRadius.circular(
-                                                        10)),
+                                                        BorderRadius.circular(
+                                                            10)),
                                                 child: Stack(
                                                   children: [
                                                     Container(
                                                       height: 10,
                                                       width: MediaQuery.of(
-                                                          context)
-                                                          .size
-                                                          .width *
+                                                                  context)
+                                                              .size
+                                                              .width *
                                                           0.8 *
                                                           (myCoursesList![index]
-                                                              .completion! /
+                                                                  .completion! /
                                                               100),
                                                       decoration: BoxDecoration(
                                                           color: ColorConstants
                                                               .PROGESSBAR_TEAL,
                                                           borderRadius:
-                                                          BorderRadius
-                                                              .circular(
-                                                              10)),
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10)),
                                                     ),
                                                   ],
                                                 ),
@@ -2866,7 +2955,7 @@ class _DashboardPageState extends State<DashboardPage> {
           reelsList = box
               .get("dashboard_reels_limit")
               .map((e) =>
-              DashboardReelsLimit.fromJson(Map<String, dynamic>.from(e)))
+                  DashboardReelsLimit.fromJson(Map<String, dynamic>.from(e)))
               .cast<DashboardReelsLimit>()
               .toList();
 
@@ -2881,7 +2970,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         horizontal: 10,
                       ),
                       child: Text(
-                        'Latest Trends',
+                        'Latest Reels',
                         style: Styles.bold(color: Color(0xff0E1638)),
                       )),
                   Expanded(child: SizedBox()),
@@ -2892,7 +2981,6 @@ class _DashboardPageState extends State<DashboardPage> {
                       icon: Icon(Icons.arrow_forward_ios))
                 ],
               ),
-
               Container(
                   height: 250,
                   child: ListView.builder(
@@ -2944,7 +3032,7 @@ class _DashboardPageState extends State<DashboardPage> {
           recommendedCourseList = box
               .get("dashboard_recommended_courses_limit")
               .map((e) => DashboardRecommendedCoursesLimit.fromJson(
-              Map<String, dynamic>.from(e)))
+                  Map<String, dynamic>.from(e)))
               .cast<DashboardRecommendedCoursesLimit>()
               .toList();
 
@@ -2959,7 +3047,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         horizontal: 10,
                       ),
                       child: Text(
-                        'Recommended Courses',
+                        'Explore more Courses',
                         style: Styles.bold(color: Color(0xff0E1638)),
                       )),
                   Expanded(child: SizedBox()),
@@ -3021,7 +3109,7 @@ class _DashboardPageState extends State<DashboardPage> {
           carvaanList = box
               .get("dashboard_carvan_limit")
               .map((e) =>
-              DashboardCarvanLimit.fromJson(Map<String, dynamic>.from(e)))
+                  DashboardCarvanLimit.fromJson(Map<String, dynamic>.from(e)))
               .cast<DashboardCarvanLimit>()
               .toList();
 
@@ -3085,7 +3173,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(8),
                                 border:
-                                Border.all(color: ColorConstants.GREY_4)),
+                                    Border.all(color: ColorConstants.GREY_4)),
                             margin: EdgeInsets.all(8),
                             // color: Colors.red,
                             child: Column(
@@ -3100,57 +3188,57 @@ class _DashboardPageState extends State<DashboardPage> {
                                         bottom: 8.0),
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.start,
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Center(
                                           child: ClipOval(
                                               child: Image.network(
-                                                '${carvaanList?[index].profileImage}',
+                                            '${carvaanList?[index].profileImage}',
+                                            height: 30,
+                                            width: 30,
+                                            fit: BoxFit.cover,
+                                            errorBuilder:
+                                                (context, url, error) {
+                                              return SvgPicture.asset(
+                                                'assets/images/default_user.svg',
                                                 height: 30,
                                                 width: 30,
-                                                fit: BoxFit.cover,
-                                                errorBuilder:
-                                                    (context, url, error) {
-                                                  return SvgPicture.asset(
-                                                    'assets/images/default_user.svg',
-                                                    height: 30,
-                                                    width: 30,
-                                                    allowDrawingOutsideViewBox:
+                                                allowDrawingOutsideViewBox:
                                                     true,
-                                                  );
-                                                },
-                                                loadingBuilder:
-                                                    (BuildContext context,
+                                              );
+                                            },
+                                            loadingBuilder:
+                                                (BuildContext context,
                                                     Widget child,
                                                     ImageChunkEvent?
-                                                    loadingProgress) {
-                                                  if (loadingProgress == null)
-                                                    return child;
-                                                  return Shimmer.fromColors(
-                                                    baseColor: Color(0xffe6e4e6),
-                                                    highlightColor:
+                                                        loadingProgress) {
+                                              if (loadingProgress == null)
+                                                return child;
+                                              return Shimmer.fromColors(
+                                                baseColor: Color(0xffe6e4e6),
+                                                highlightColor:
                                                     Color(0xffeaf0f3),
-                                                    child: Container(
-                                                        height: 50,
-                                                        margin: EdgeInsets.only(
-                                                            left: 2),
-                                                        width: 50,
-                                                        decoration: BoxDecoration(
-                                                          color: Colors.white,
-                                                          shape: BoxShape.circle,
-                                                        )),
-                                                  );
-                                                },
-                                              )),
+                                                child: Container(
+                                                    height: 50,
+                                                    margin: EdgeInsets.only(
+                                                        left: 2),
+                                                    width: 50,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      shape: BoxShape.circle,
+                                                    )),
+                                              );
+                                            },
+                                          )),
                                         ),
                                         Expanded(
                                           child: Column(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                                MainAxisAlignment.start,
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: <Widget>[
                                               Padding(
                                                 padding: const EdgeInsets.only(
@@ -3170,14 +3258,14 @@ class _DashboardPageState extends State<DashboardPage> {
                                                 child: Text(
                                                   Utility()
                                                       .calculateTimeDifferenceBetween(
-                                                      DateTime.parse(date
-                                                          .toString()
-                                                          .substring(
-                                                          0, 19)),
-                                                      now,
-                                                      context),
+                                                          DateTime.parse(date
+                                                              .toString()
+                                                              .substring(
+                                                                  0, 19)),
+                                                          now,
+                                                          context),
                                                   style:
-                                                  Styles.regular(size: 12),
+                                                      Styles.regular(size: 12),
                                                 ),
                                               )
                                             ],
@@ -3189,15 +3277,15 @@ class _DashboardPageState extends State<DashboardPage> {
 
                                   Padding(
                                       padding:
-                                      carvaanList?[index].description !=
-                                          null
-                                          ? const EdgeInsets.only(
-                                          bottom: 7, left: 10, top: 13)
-                                          : const EdgeInsets.only(
-                                          bottom: 0, left: 10, top: 0),
+                                          carvaanList?[index].description !=
+                                                  null
+                                              ? const EdgeInsets.only(
+                                                  bottom: 7, left: 10, top: 13)
+                                              : const EdgeInsets.only(
+                                                  bottom: 0, left: 10, top: 0),
                                       child: ReadMoreText(
                                           text:
-                                          '${carvaanList?[index].description ?? ''}')),
+                                              '${carvaanList?[index].description ?? ''}')),
 
                                   //                                    carvaanList?[index].resourcePath
                                   //                                               ?.contains('.mp4')  == true||
@@ -3254,7 +3342,7 @@ class _DashboardPageState extends State<DashboardPage> {
           carvaanList = box
               .get("dashboard_carvan_limit")
               .map((e) =>
-              DashboardCarvanLimit.fromJson(Map<String, dynamic>.from(e)))
+                  DashboardCarvanLimit.fromJson(Map<String, dynamic>.from(e)))
               .cast<DashboardCarvanLimit>()
               .toList();
 
@@ -3298,7 +3386,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         final now = DateTime.now();
 
                         var millis =
-                        int.parse(carvaanList![index].createdAt.toString());
+                            int.parse(carvaanList![index].createdAt.toString());
                         DateTime date = DateTime.fromMillisecondsSinceEpoch(
                           millis * 1000,
                         );
@@ -3325,51 +3413,51 @@ class _DashboardPageState extends State<DashboardPage> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Center(
                                         child: ClipOval(
                                             child: Image.network(
-                                              '${carvaanList?[index].profileImage}',
+                                          '${carvaanList?[index].profileImage}',
+                                          height: 30,
+                                          width: 30,
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (context, url, error) {
+                                            return SvgPicture.asset(
+                                              'assets/images/default_user.svg',
                                               height: 30,
                                               width: 30,
-                                              fit: BoxFit.cover,
-                                              errorBuilder: (context, url, error) {
-                                                return SvgPicture.asset(
-                                                  'assets/images/default_user.svg',
-                                                  height: 30,
-                                                  width: 30,
-                                                  allowDrawingOutsideViewBox: true,
-                                                );
-                                              },
-                                              loadingBuilder: (BuildContext context,
-                                                  Widget child,
-                                                  ImageChunkEvent?
+                                              allowDrawingOutsideViewBox: true,
+                                            );
+                                          },
+                                          loadingBuilder: (BuildContext context,
+                                              Widget child,
+                                              ImageChunkEvent?
                                                   loadingProgress) {
-                                                if (loadingProgress == null)
-                                                  return child;
-                                                return Shimmer.fromColors(
-                                                  baseColor: Color(0xffe6e4e6),
-                                                  highlightColor: Color(0xffeaf0f3),
-                                                  child: Container(
-                                                      height: 50,
-                                                      margin:
+                                            if (loadingProgress == null)
+                                              return child;
+                                            return Shimmer.fromColors(
+                                              baseColor: Color(0xffe6e4e6),
+                                              highlightColor: Color(0xffeaf0f3),
+                                              child: Container(
+                                                  height: 50,
+                                                  margin:
                                                       EdgeInsets.only(left: 2),
-                                                      width: 50,
-                                                      decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        shape: BoxShape.circle,
-                                                      )),
-                                                );
-                                              },
-                                            )),
+                                                  width: 50,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    shape: BoxShape.circle,
+                                                  )),
+                                            );
+                                          },
+                                        )),
                                       ),
                                       Expanded(
                                         child: Column(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                              MainAxisAlignment.start,
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Padding(
                                               padding: const EdgeInsets.only(
@@ -3388,11 +3476,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                               child: Text(
                                                 Utility()
                                                     .calculateTimeDifferenceBetween(
-                                                    DateTime.parse(date
-                                                        .toString()
-                                                        .substring(0, 19)),
-                                                    now,
-                                                    context),
+                                                        DateTime.parse(date
+                                                            .toString()
+                                                            .substring(0, 19)),
+                                                        now,
+                                                        context),
                                                 style: Styles.regular(size: 12),
                                               ),
                                             )
@@ -3404,39 +3492,39 @@ class _DashboardPageState extends State<DashboardPage> {
                                 ),
                                 Padding(
                                     padding:
-                                    carvaanList?[index].description != null
-                                        ? const EdgeInsets.only(
-                                        bottom: 7, left: 10, top: 13)
-                                        : const EdgeInsets.only(
-                                        bottom: 0, left: 10, top: 0),
+                                        carvaanList?[index].description != null
+                                            ? const EdgeInsets.only(
+                                                bottom: 7, left: 10, top: 13)
+                                            : const EdgeInsets.only(
+                                                bottom: 0, left: 10, top: 0),
                                     child: ReadMoreText(
                                         text:
-                                        '${carvaanList?[index].description ?? ''}')),
+                                            '${carvaanList?[index].description ?? ''}')),
 
                                 carvaanList?[index]
-                                    .resourcePath
-                                    ?.contains('.mp4') ==
-                                    true ||
-                                    carvaanList?[index]
-                                        .resourcePath
-                                        ?.contains('.mov') ==
-                                        true
-                                // ? CustomBetterPlayer(
-                                //     url: widget.fileList[index])
+                                                .resourcePath
+                                                ?.contains('.mp4') ==
+                                            true ||
+                                        carvaanList?[index]
+                                                .resourcePath
+                                                ?.contains('.mov') ==
+                                            true
+                                    // ? CustomBetterPlayer(
+                                    //     url: widget.fileList[index])
                                     ? Container(
-                                    height: 300,
-                                    child: FlickVideoPlayer(
-                                        flickManager: FlickManager(
+                                        height: 300,
+                                        child: FlickVideoPlayer(
+                                            flickManager: FlickManager(
                                           videoPlayerController:
-                                          VideoPlayerController.network(
-                                            '${carvaanList?[index].resourcePath}',),
+                                              VideoPlayerController.network(
+                                            '${carvaanList?[index].resourcePath}',
+                                          ),
                                         )))
-
                                     : Image.network(
-                                    '${carvaanList?[index].resourcePath}',
-                                    height: 300,
-                                    width: double.infinity,
-                                    fit: BoxFit.fitWidth),
+                                        '${carvaanList?[index].resourcePath}',
+                                        height: 300,
+                                        width: double.infinity,
+                                        fit: BoxFit.fitWidth),
 
                                 //TODO: Like Dislike
                                 SizedBox(
@@ -3449,7 +3537,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                   ),
                                   child: Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     mainAxisSize: MainAxisSize.max,
                                     children: <Widget>[
                                       InkWell(
@@ -3472,13 +3560,13 @@ class _DashboardPageState extends State<DashboardPage> {
                                               ),
                                               Text(
                                                 carvaanList?[index].likeCount !=
-                                                    0
+                                                        0
                                                     ? '${carvaanList?[index].likeCount} ${Strings.of(context)?.Like}'
                                                     : ' ${Strings.of(context)?.Like}',
                                                 style: Styles.regular(
                                                     size: 12,
                                                     color:
-                                                    ColorConstants.BLACK),
+                                                        ColorConstants.BLACK),
                                               ),
                                               /*if (widget.value?.getLikeCount(widget.index) != 0 &&
                                                 widget.value?.getLikeCount(widget.index) != 1 &&
@@ -3499,14 +3587,14 @@ class _DashboardPageState extends State<DashboardPage> {
                                           showModalBottomSheet(
                                               context: context,
                                               backgroundColor:
-                                              ColorConstants.WHITE,
+                                                  ColorConstants.WHITE,
                                               isScrollControlled: true,
                                               builder: (context) {
                                                 return FractionallySizedBox(
                                                   heightFactor: 0.7,
                                                   child: CommentViewPage(
                                                     postId:
-                                                    carvaanList?[index].id,
+                                                        carvaanList?[index].id,
                                                     //value: widget.value,
                                                   ),
                                                 );
@@ -3524,19 +3612,19 @@ class _DashboardPageState extends State<DashboardPage> {
                                                   height: 18.8,
                                                   width: 17.86,
                                                   allowDrawingOutsideViewBox:
-                                                  true,
+                                                      true,
                                                 ),
                                               ),
                                               Text(
                                                 carvaanList?[index]
-                                                    .commentCount !=
-                                                    0
+                                                            .commentCount !=
+                                                        0
                                                     ? '${carvaanList?[index].commentCount} ${Strings.of(context)?.Comment}'
                                                     : ' ${Strings.of(context)?.Comment}',
                                                 style: Styles.regular(
                                                     size: 12,
                                                     color:
-                                                    ColorConstants.BLACK),
+                                                        ColorConstants.BLACK),
                                               ),
                                               /*if (carvaanList?[index].commentCount! > 1 &&
                                                 Preference.getInt(Preference.APP_LANGUAGE) == 1)
@@ -3567,7 +3655,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                                   height: 18.8,
                                                   width: 17.86,
                                                   allowDrawingOutsideViewBox:
-                                                  true,
+                                                      true,
                                                 ),
                                               ),
                                               Text(
@@ -3575,7 +3663,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                                 style: Styles.regular(
                                                     size: 12,
                                                     color:
-                                                    ColorConstants.BLACK),
+                                                        ColorConstants.BLACK),
                                               )
                                             ],
                                           ),
@@ -3650,7 +3738,7 @@ class _DashboardPageState extends State<DashboardPage> {
         featuredContentList = box
             .get("dashboard_featured_content_limit")
             .map((e) => DashboardFeaturedContentLimit.fromJson(
-            Map<String, dynamic>.from(e)))
+                Map<String, dynamic>.from(e)))
             .cast<DashboardFeaturedContentLimit>()
             .toList();
 
@@ -3662,7 +3750,7 @@ class _DashboardPageState extends State<DashboardPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                 SvgPicture.asset('assets/images/wow_studio_gradient.svg'),
+                  SvgPicture.asset('assets/images/wow_studio_gradient.svg'),
                   SizedBox(width: 8),
                   Text('Wow Studio',
                       style: Styles.bold(color: Color(0xff0E1638))),
@@ -3670,18 +3758,20 @@ class _DashboardPageState extends State<DashboardPage> {
                   InkWell(
                     onTap: () {
                       //menuProvider?.updateCurrentIndex('1'); //Gcarva page
-                      showModalBottomSheet(
-                          context: context,
-                          backgroundColor: ColorConstants.WHITE,
-                          isScrollControlled: true,
-                          builder: (context) {
-                            return FractionallySizedBox(
-                              heightFactor: 1.0,
-                              child: ViewWidgetDetailsPage(
-                                root: 'dashboard',
-                              ),
-                            );
-                          });
+                      // showModalBottomSheet(
+                      //     context: context,
+                      //     backgroundColor: ColorConstants.WHITE,
+                      //     isScrollControlled: true,
+                      //     builder: (context) {
+                      //       return FractionallySizedBox(
+                      //         heightFactor: 1.0,
+                      //         child: ViewWidgetDetailsPage(
+                      //           root: 'dashboard',
+                      //         ),
+                      //       );
+                      //     });
+
+                      Navigator.push(context, NextPageRoute(WowStudio()));
                     },
                     child: Text('View all',
                         style: Styles.regular(
@@ -3706,7 +3796,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         crossAxisSpacing: 20,
                         childAspectRatio: 2 / 3,
                         mainAxisExtent:
-                        MediaQuery.of(context).size.height * 0.31,
+                            MediaQuery.of(context).size.height * 0.31,
                         crossAxisCount: 2),
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
@@ -3741,48 +3831,48 @@ class _DashboardPageState extends State<DashboardPage> {
                                       borderRadius: BorderRadius.circular(10),
                                       child: Container(
                                           height: MediaQuery.of(context)
-                                              .size
-                                              .height *
+                                                  .size
+                                                  .height *
                                               0.25,
                                           width:
-                                          MediaQuery.of(context).size.width,
+                                              MediaQuery.of(context).size.width,
                                           decoration: BoxDecoration(
                                               borderRadius:
-                                              BorderRadius.circular(10)),
+                                                  BorderRadius.circular(10)),
                                           foregroundDecoration: BoxDecoration(
                                               gradient: LinearGradient(
-                                                end: const Alignment(0.0, -1),
-                                                begin: const Alignment(0.0, 0.8),
-                                                colors: [
-                                                  const Color(0x8A000000)
-                                                      .withOpacity(0.4),
-                                                  Colors.black12.withOpacity(0.0)
-                                                ],
-                                              )),
+                                            end: const Alignment(0.0, -1),
+                                            begin: const Alignment(0.0, 0.8),
+                                            colors: [
+                                              const Color(0x8A000000)
+                                                  .withOpacity(0.4),
+                                              Colors.black12.withOpacity(0.0)
+                                            ],
+                                          )),
                                           child: CachedNetworkImage(
                                             imageUrl:
-                                            '${featuredContentList![index].resourcePathThumbnail}',
+                                                '${featuredContentList![index].resourcePathThumbnail}',
                                             // '${featuredContentList![index].thumbnailUrl}',
                                             imageBuilder:
                                                 (context, imageProvider) =>
-                                                Container(
-                                                  decoration: BoxDecoration(
-                                                      image: DecorationImage(
-                                                        image: imageProvider,
-                                                        fit: BoxFit.fill,
-                                                      )),
-                                                ),
+                                                    Container(
+                                              decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                image: imageProvider,
+                                                fit: BoxFit.fill,
+                                              )),
+                                            ),
                                             placeholder: (context, url) =>
                                                 Image.asset(
-                                                  'assets/images/placeholder.png',
-                                                  fit: BoxFit.fill,
-                                                ),
+                                              'assets/images/placeholder.png',
+                                              fit: BoxFit.fill,
+                                            ),
                                             errorWidget:
                                                 (context, url, error) =>
-                                                Image.asset(
-                                                  'assets/images/placeholder.png',
-                                                  fit: BoxFit.fill,
-                                                ),
+                                                    Image.asset(
+                                              'assets/images/placeholder.png',
+                                              fit: BoxFit.fill,
+                                            ),
                                           )),
                                     ),
                                     if (featuredContentList![index]
@@ -3993,7 +4083,7 @@ class _DashboardPageState extends State<DashboardPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
                 child: Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
@@ -4160,37 +4250,37 @@ class _ShowImageState extends State<ShowImage> {
   Widget build(BuildContext context) {
     return imageFile != null
         ? Stack(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Image.memory(
-            imageFile!,
-            fit: BoxFit.cover,
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-          ),
-        ),
-        Center(
-          child: SvgPicture.asset(
-            'assets/images/play.svg',
-            height: 40.0,
-            width: 40.0,
-            allowDrawingOutsideViewBox: true,
-          ),
-        ),
-      ],
-    )
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.memory(
+                  imageFile!,
+                  fit: BoxFit.cover,
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                ),
+              ),
+              Center(
+                child: SvgPicture.asset(
+                  'assets/images/play.svg',
+                  height: 40.0,
+                  width: 40.0,
+                  allowDrawingOutsideViewBox: true,
+                ),
+              ),
+            ],
+          )
         : Shimmer.fromColors(
-      baseColor: Color(0xffe6e4e6),
-      highlightColor: Color(0xffeaf0f3),
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.2,
-        margin: EdgeInsets.symmetric(horizontal: 10),
-        width: MediaQuery.of(context).size.width * 0.4,
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(6)),
-      ),
-    );
+            baseColor: Color(0xffe6e4e6),
+            highlightColor: Color(0xffeaf0f3),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.2,
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              width: MediaQuery.of(context).size.width * 0.4,
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(6)),
+            ),
+          );
   }
 }
 

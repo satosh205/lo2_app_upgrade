@@ -146,6 +146,7 @@ class _MyCoursesState extends State<MyCourses> {
                     ? ColorConstants.WHITE
                     : ColorConstants.GREY),
             child: ListView.builder(
+              
                 itemBuilder: (
                   BuildContext context,
                   int index,
@@ -315,7 +316,7 @@ class _MyCoursesState extends State<MyCourses> {
                 },
                 itemCount: courseList1?.length ?? 0,
                 scrollDirection:
-                    widget.fromDashboard ? Axis.horizontal : Axis.horizontal),
+                    widget.fromDashboard == true  ? Axis.horizontal : Axis.vertical),
           )
         : _isCourseList1Loading == true
             ? widget.fromDashboard
