@@ -62,6 +62,7 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
 
   @override
   void initState() {
+    print('create post now');
     super.initState();
   }
 
@@ -333,8 +334,8 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                             if (firstExtension == 'mp4' ||
                                 firstExtension == 'mov') isVideo = true;
                             createPost(menuProvider, isVideo);
-                            value.postStatus(true);
-                            Navigator.pop(context);
+                            // value.postStatus(true);
+                            // Navigator.pop(context);
                           } else {
                             AlertsWidget.showCustomDialog(
                                 context: context,
@@ -355,6 +356,10 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                           decoration: BoxDecoration(
                             color: ColorConstants().buttonColor(),
                             borderRadius: BorderRadius.circular(10),
+                              gradient: LinearGradient(colors: [
+                ColorConstants.GRADIENT_ORANGE,
+                ColorConstants.GRADIENT_RED,
+              ]),
                           ),
                           child: Center(
                             child: Text('${Strings.of(context)?.Share} ',
