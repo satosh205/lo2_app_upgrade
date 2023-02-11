@@ -38,6 +38,11 @@ class Competetion extends StatefulWidget {
   @override
   _CompetetionState createState() => _CompetetionState();
 }
+  List<int> selectedIdList = <int>[];
+  String seletedIds = '';
+  String selectedDifficulty = '';
+
+
 
 class _CompetetionState extends State<Competetion> {
   // List<MProgram>? competitionList;
@@ -51,10 +56,7 @@ class _CompetetionState extends State<Competetion> {
   bool? popularCompetitionLoading;
 
   List<String> difficulty = ['Easy', 'Medium', 'Hard'];
-  String selectedDifficulty = '';
   int selectedIndex = 0;
-  String seletedIds = '';
-  List<int> selectedIdList = <int>[];
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -341,7 +343,7 @@ class _CompetetionState extends State<Competetion> {
                                         completedCompetition!.data.length >
                                     0)
                                   SizedBox(
-                                    height: height(context) * 0.16,
+                                    height: height(context) * 0.165,
                                     child: ListView.builder(
                                         itemCount: myActivity!.data.length +
                                             completedCompetition!.data.length,
@@ -419,8 +421,7 @@ class _CompetetionState extends State<Competetion> {
                               ],
                             ),
 
-                          if (widget.fromDasboard == false &&
-                              popularCompetitionResponse?.data?.length != 0)
+                          if (widget.fromDasboard == false )
                             Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,

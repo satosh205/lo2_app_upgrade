@@ -473,10 +473,10 @@ class _DashboardPageState extends State<DashboardPage> {
                 padding: const EdgeInsets.only(left: 10.0),
                 child: SvgPicture.asset(
                   'assets/images/grf_job.svg',
-                  height: 30.0,
-                  width: 30.0,
+                  height: 22,
+                  width: 22,
                   allowDrawingOutsideViewBox: true,
-                  color: ColorConstants.GRADIENT_ORANGE,
+                  // color: ColorConstants.GRADIENT_ORANGE,
                 ),
               ),
               Padding(
@@ -493,7 +493,7 @@ class _DashboardPageState extends State<DashboardPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Container(
-              height: 90,
+              height: 80,
               child: ListView.builder(
                   itemCount: domainList!.data!.list.length,
                   scrollDirection: Axis.horizontal,
@@ -2008,7 +2008,7 @@ class _DashboardPageState extends State<DashboardPage> {
             height: 10,
           ),
           CustomOutlineButton(
-            strokeWidth: 2,
+            strokeWidth: 1,
             radius: 50,
             gradient: LinearGradient(
               colors: [
@@ -2022,7 +2022,7 @@ class _DashboardPageState extends State<DashboardPage> {
               padding: const EdgeInsets.only(left: 50.0, right: 50.0),
               child: GradientText(
                 'View all Skill',
-                style: Styles.textRegular(size: 14),
+                style: Styles.regular(size: 14),
                 colors: [
                   ColorConstants.GRADIENT_ORANGE,
                   ColorConstants.GRADIENT_RED,
@@ -2043,9 +2043,13 @@ class _DashboardPageState extends State<DashboardPage> {
     return Container(
       decoration: BoxDecoration(color: ColorConstants.WHITE),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 10.0),
@@ -2069,11 +2073,11 @@ class _DashboardPageState extends State<DashboardPage> {
           Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: 8,
-                horizontal: 10,
+             horizontal: 8
               ),
               child: Text(
-                'Participate and add to your portfolio Participate and add to your portfolio',
-                style: Styles.regular(color: ColorConstants.GREY_3),
+                'Participate and add to your portfolio',
+                style: Styles.regular(size: 12, color: ColorConstants.GREY_3),
               )),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -2109,32 +2113,34 @@ class _DashboardPageState extends State<DashboardPage> {
             height: 10,
           ),
           competitionResponse?.data?.length != null
-              ? CustomOutlineButton(
-            strokeWidth: 2,
+              ? Center(
+                child: CustomOutlineButton(
+            strokeWidth: 1,
             radius: 50,
             gradient: LinearGradient(
-              colors: [
-                ColorConstants.GRADIENT_ORANGE,
-                ColorConstants.GRADIENT_RED
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.topRight,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 50.0, right: 50.0),
-              child: GradientText(
-                'View all Skill',
-                style: Styles.textRegular(size: 14),
                 colors: [
                   ColorConstants.GRADIENT_ORANGE,
-                  ColorConstants.GRADIENT_RED,
+                  ColorConstants.GRADIENT_RED
                 ],
-              ),
+                begin: Alignment.topLeft,
+                end: Alignment.topRight,
+            ),
+            child: Padding(
+                padding: const EdgeInsets.only(left: 50.0, right: 50.0),
+                child: GradientText(
+                  'View all Competitions',
+                  style: Styles.regular(size: 14),
+                  colors: [
+                    ColorConstants.GRADIENT_ORANGE,
+                    ColorConstants.GRADIENT_RED,
+                  ],
+                ),
             ),
             onPressed: () {
-              menuProvider?.updateCurrentIndex('/g-competitions');
+                menuProvider?.updateCurrentIndex('/g-competitions');
             },
-          )
+          ),
+              )
               : SizedBox(),
           competitionResponse?.data?.length != null
               ? SizedBox(
@@ -3656,9 +3662,9 @@ class _DashboardPageState extends State<DashboardPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Icon(CupertinoIcons.star_fill, color: ColorConstants.YELLOW),
+                 SvgPicture.asset('assets/images/wow_studio_gradient.svg'),
                   SizedBox(width: 8),
-                  Text('Featured Updates',
+                  Text('Wow Studio',
                       style: Styles.bold(color: Color(0xff0E1638))),
                   Expanded(child: SizedBox()),
                   InkWell(

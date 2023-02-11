@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -209,23 +211,28 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                                 const SizedBox(
                                   width: 4,
                                 ),
-                                Text("${leaderboardResponse?.data.where((e) => e.id == Preference.getInt(Preference.USER_ID)).first.gScore}"),
+                                Text("${leaderboardResponse?.data.where((e) => e.id == Preference.getInt(Preference.USER_ID)).first.gScore ?? 0}"),
                               ],
                             ),
                           ),
                         ),
                       )),
-                  isLeaderboardLoading == false
+                  isLeaderboardLoading == false && leaderboardResponse
+                                        ?.data.length != 0
                       ? Column(
                           children: [
                              Container(
                                     color: Colors.white,
                                     margin: EdgeInsets.symmetric(vertical: 16),
                                     child: ListView.builder(
-                                        itemCount: leaderboardResponse?.data.length,
+                                        itemCount: min(0, leaderboardResponse
+                                        !.data.length - 3),
                                         shrinkWrap: true,
-                                        itemBuilder: (BuildContext context, int index) =>
-                                            userCard(name : leaderboardResponse?.data[index].name, profileImg: leaderboardResponse?.data[index].profileImage,index:  index + 1 , coin:  leaderboardResponse?.data[index].gScore, totalAct: 2)),
+                                        itemBuilder: (BuildContext context, int index) {
+                                          index = index + 3;
+                                          return userCard(name : leaderboardResponse?.data[index].name, profileImg: leaderboardResponse?.data[index].profileImage,index:  index + 1 , coin:  leaderboardResponse?.data[index].gScore, totalAct: 2);
+                                        }
+                                            ),
                                   ),
                             SizedBox(
                               height: 10,
