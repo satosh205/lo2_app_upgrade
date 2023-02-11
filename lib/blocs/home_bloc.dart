@@ -704,10 +704,10 @@ class CompetitionListState extends HomeState {
 class JobCompListState extends HomeState {
   ApiStatus state;
   ApiStatus get apiState => state;
-  CompetitionResponse? jobListResponse, myJobListResponse;
+  CompetitionResponse? jobListResponse, myJobListResponse, recommendedJobOpportunities;
   String? error;
 
-  JobCompListState(this.state, {this.jobListResponse, this.myJobListResponse, this.error});
+  JobCompListState(this.state, {this.jobListResponse, this.myJobListResponse, this.recommendedJobOpportunities, this.error});
 }
 
 
@@ -754,6 +754,13 @@ class CompetitionContentListState extends HomeState {
   ApiStatus get apiState => state;
   CompetitionContentListResponse? response;
   CompetitionContentListState(this.state, {this.response});
+}
+
+class AppJobListCompeState extends HomeState {
+  ApiStatus state;
+  ApiStatus get apiState => state;
+  CompetitionContentListResponse? response;
+  AppJobListCompeState(this.state, {this.response});
 }
 
 class FeaturedVideoEvent extends HomeEvent {
@@ -1900,6 +1907,25 @@ try {
         Log.v("Expection DATA  : $e");
         yield CompetitionContentListState(ApiStatus.ERROR);
       }
+
+    }else if (event is CompetitionContentListEvent) {
+      try {
+        yield AppJobListCompeState(ApiStatus.LOADING);
+        final response = await homeRepository.getCompetitionContentList(event.competitionId, event.isApplied);
+        Log.v("MY DA DATA ::: ${response.data}");
+        int notCheck = 1;
+        //if (response.data != null) {
+        if (notCheck == 1) {
+          yield AppJobListCompeState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERROR DATA ::: ${response}");
+          yield AppJobListCompeState(ApiStatus.ERROR,
+              response: response);
+        }
+      } catch (e) {
+        Log.v("Expection DATA  : $e");
+        yield AppJobListCompeState(ApiStatus.ERROR);
+      }
     }
 
     //leaderboard
@@ -1918,7 +1944,7 @@ try {
         }
       } catch (e) {
         Log.v("Expection DATA  : $e");
-        yield CompetitionContentListState(ApiStatus.ERROR);
+        yield LeaderboardState(ApiStatus.ERROR);
       }
     } else if (event is AnnouncementContentEvent) {
       try {
@@ -2631,13 +2657,14 @@ try {
 
           List<dynamic> response = await  Future.wait(
               [homeRepository.getJobCompApiList(false, event.isFilter!, event.ids, event.isJob, event.myJob, 'allJob'),
-               homeRepository.getJobCompApiList(false, event.isFilter!, event.ids, event.isJob, event.myJob, 'myJob')]);
+               homeRepository.getJobCompApiList(false, event.isFilter!, event.ids, event.isJob, event.myJob, 'myJob'),
+                homeRepository.getJobCompApiList(false, event.isFilter!, event.ids, event.isJob, event.myJob, 'recomJob'),
+              ]);
 
           //final response = await homeRepository.getCompetitionList(false);
-
           yield JobCompListState(
               ApiStatus.SUCCESS, jobListResponse: response[0],
-              myJobListResponse: response[1],);
+              myJobListResponse: response[1], recommendedJobOpportunities: response[2]);
         } catch (e) {
           Log.v("Exception : $e");
           yield JobCompListState(ApiStatus.ERROR,

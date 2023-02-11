@@ -100,18 +100,25 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                         if (checkedValue == true) saveChanges();
                       },
                       child: Container(
+                        decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              gradient: LinearGradient(colors: [
+                ColorConstants.GRADIENT_ORANGE,
+                ColorConstants.GRADIENT_RED,
+              ]),
+            ),
                         width: double.infinity,
                         height: MediaQuery.of(context).size.height *
                             WidgetSize.AUTH_BUTTON_SIZE,
                         margin:
                             EdgeInsets.symmetric(vertical: 2, horizontal: 16),
-                        decoration: BoxDecoration(
-                            color: checkedValue == false
-                                ? ColorConstants()
-                                    .buttonColor()
-                                    .withOpacity(0.5)
-                                : ColorConstants().buttonColor(),
-                            borderRadius: BorderRadius.circular(10)),
+                        // decoration: BoxDecoration(
+                        //     color: checkedValue == false
+                        //         ? ColorConstants()
+                        //             .buttonColor()
+                        //             .withOpacity(0.5)
+                        //         : ColorConstants().buttonColor(),
+                        //     borderRadius: BorderRadius.circular(10)),
                         child: Center(
                             child: Text(
                           '${Strings.of(context)?.continueStr}',
@@ -222,7 +229,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                     // ),
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
-                          color: ColorConstants().primaryColor(), width: 1.5),
+                          color: ColorConstants.RED, width: 1.5),
                     ),
                   ),
                   onChanged: (value) {
@@ -245,7 +252,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                     counterText: "",
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
-                          color: ColorConstants().primaryColor(), width: 1.5),
+                          color: ColorConstants.RED, width: 1.5),
                     ),
                   ),
                   onChanged: (value) {
@@ -479,10 +486,21 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
               ),
               Container(
                 child: ListTile(
-                  leading: new Icon(
+                  leading: new 
+                  ShaderMask(
+                                blendMode: BlendMode.srcIn,
+                                shaderCallback: (Rect bounds) {
+                                  return LinearGradient(
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                      colors: <Color>[
+                                        ColorConstants.GRADIENT_ORANGE,
+                                        ColorConstants.GRADIENT_RED
+                                      ]).createShader(bounds);
+                                },child:Icon(
                     Icons.image,
-                    color: Colors.white,
-                  ),
+                    
+                  ),),
                   title: new Text(
                     '${Strings.of(context)?.Gallery}',
                     style: TextStyle(color: Colors.white),
@@ -525,10 +543,22 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
               ),
               Container(
                 child: ListTile(
-                  leading: new Icon(
+                  leading: new 
+                  ShaderMask(
+                                blendMode: BlendMode.srcIn,
+                                shaderCallback: (Rect bounds) {
+                                  return LinearGradient(
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                      colors: <Color>[
+                                        ColorConstants.GRADIENT_ORANGE,
+                                        ColorConstants.GRADIENT_RED
+                                      ]).createShader(bounds);
+                                },
+                                child:Icon(
                     Icons.camera_alt_outlined,
-                    color: Colors.white,
-                  ),
+                    
+                  ),),
                   title: new Text(
                     '${Strings.of(context)?.camera}',
                     style: TextStyle(color: Colors.white),
