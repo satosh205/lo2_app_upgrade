@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:graphic/graphic.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
@@ -26,6 +27,7 @@ import 'package:masterg/pages/ghome/my_courses.dart';
 import 'package:masterg/pages/ghome/widget/read_more.dart';
 import 'package:masterg/pages/ghome/widget/view_widget_details_page.dart';
 import 'package:masterg/pages/singularis/competition/competition_detail.dart';
+import 'package:masterg/pages/singularis/graph.dart';
 import 'package:masterg/pages/singularis/job/job_details_page.dart';
 import 'package:masterg/pages/singularis/job_graph.dart';
 
@@ -498,22 +500,22 @@ class _DashboardPageState extends State<DashboardPage> {
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
                       onTap: (){
-                        // futureTrendsButtonSheet(
-                        //     domainList!.data!.list[index].growthType,
-                        //     domainList!.data!.list[index].growth);
+                        futureTrendsButtonSheet(domainList!.data!.list[index].name, domainList!.data!.list[index].jobCount.toString(),
+                            domainList!.data!.list[index].growthType,
+                            domainList!.data!.list[index].growth,  domainList!.data!.list[index].id);
 
 
-                            showModalBottomSheet(
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30), topRight: Radius.circular(30))),
-        backgroundColor: Colors.white,
-        context: context,
-        useRootNavigator: true,
-        isScrollControlled: true,
-        builder: (context) {
-          return JobGrowth();
-        });
+        //                     showModalBottomSheet(
+        // shape: const RoundedRectangleBorder(
+        //     borderRadius: BorderRadius.only(
+        //         topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+        // backgroundColor: Colors.white,
+        // context: context,
+        // useRootNavigator: true,
+        // isScrollControlled: true,
+        // builder: (context) {
+        //   return JobGrowth();
+        // });
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.4,
@@ -599,7 +601,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
 
 
-  futureTrendsButtonSheet(String growthType, String growth) {
+  futureTrendsButtonSheet(String title, String jobsCount,String growthType, String growth, int domainId) {
     return showModalBottomSheet(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -611,536 +613,588 @@ class _DashboardPageState extends State<DashboardPage> {
         builder: (context) {
           return Container(
             height: MediaQuery.of(context).size.height - 60,
-            child: Column(
-              children: [
-                Container(
-                  height: 35,
-                  padding: EdgeInsets.only(right: 20.0, top: 10.0),
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Icon(
-                          Icons.close,
-                          color: Colors.black,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  decoration: BoxDecoration(
-                      color: ColorConstants.List_Color,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: ColorConstants.List_Color)),
-                  //margin: EdgeInsets.all(8),
-                  // color: Colors.red,
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.center,
-                      // mainAxisAlignment: MainAxisAlignment,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 8.0, right: 8.0, top: 8.0, bottom: 8.0),
-                          child: Column(
+            child: Column(children: [
+            Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        decoration: BoxDecoration(
+                            color: ColorConstants.List_Color,
+                            borderRadius: BorderRadius.circular(10),
+                            border:
+                            Border.all(color: ColorConstants.List_Color)),
+                        margin: EdgeInsets.all(8),
+                        // color: Colors.red,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            // mainAxisAlignment: MainAxisAlignment,
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Text(
-                                      '+${growth}%',
-                                      style: Styles.regular(
-                                          color: growthType == 'up' ?
-                                          ColorConstants.GREEN:
-                                          ColorConstants.RED,
-                                          size: 11),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0,
+                                    right: 8.0,
+                                    top: 8.0,
+                                    bottom: 8.0),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      '$title',
+                                      style: Styles.bold(
+                                          color: Color(0xff0E1638), size: 13),
+                                      softWrap: true,
+                                      maxLines: 1,
                                     ),
-                                  ),
-                                  growthType == 'up' ? Icon(
-                                    Icons.arrow_drop_up_outlined,
-                                    color: Colors.green,
-                                    size: 20,
-                                  ):
-                                  Icon(
-                                    Icons.arrow_drop_down,
-                                    color: Colors.red,
-                                    size: 20,
-                                  ),
-                                ],
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          '$jobsCount Jobs',
+                                          style: Styles.regular(
+                                              color: ColorConstants.GREY_3,
+                                              size: 11),
+                                        ),
+                                        Padding(
+                                          padding:
+                                          const EdgeInsets.only(left: 8.0),
+                                          child: Text(
+                                            '+ $growth%',
+                                            style: Styles.regular(
+                                                color: growthType == 'up' ?
+                                                ColorConstants.GREEN : ColorConstants.RED,
+                                                size: 11),
+                                          ),
+                                        ),
+                                       growthType == 'up' ? Icon(
+                                          Icons.arrow_drop_up_outlined,
+                                          color: Colors.green,
+                                          size: 20,
+                                        ):
+                                        Icon(
+                                          Icons.arrow_drop_down,
+                                          color: Colors.red,
+                                          size: 20,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                'Projected Growth',
-                                style: Styles.regular(
-                                    color: Color(0xff0E1638), size: 12),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ]),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 30.0),
-                  child: Image.asset('assets/images/graf_img.png'),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            decoration: BoxDecoration(
-                                color: ColorConstants.List_Color,
-                                borderRadius: BorderRadius.circular(10),
-                                border:
-                                Border.all(color: ColorConstants.List_Color)),
-                            margin: EdgeInsets.all(8),
-                            // color: Colors.red,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                // mainAxisAlignment: MainAxisAlignment,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0,
-                                        right: 8.0,
-                                        top: 8.0,
-                                        bottom: 8.0),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          'Art & Design',
-                                          style: Styles.bold(
-                                              color: Color(0xff0E1638), size: 12),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "\$59k",
-                                              style: Styles.regular(
-                                                  color: ColorConstants.GREY_3,
-                                                  size: 11),
-                                            ),
-                                            Padding(
-                                              padding:
-                                              const EdgeInsets.only(left: 8.0),
-                                              child: Text(
-                                                '+30.6%',
-                                                style: Styles.regular(
-                                                    color: ColorConstants.GREEN,
-                                                    size: 11),
-                                              ),
-                                            ),
-                                            Icon(
-                                              Icons.arrow_drop_up_outlined,
-                                              color: Colors.green,
-                                              size: 20,
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ]),
-                          )),
-                      Expanded(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            decoration: BoxDecoration(
-                                color: ColorConstants.List_Color,
-                                borderRadius: BorderRadius.circular(10),
-                                border:
-                                Border.all(color: ColorConstants.List_Color)),
-                            margin: EdgeInsets.all(0),
-                            // color: Colors.red,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                // mainAxisAlignment: MainAxisAlignment,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0,
-                                        right: 8.0,
-                                        top: 8.0,
-                                        bottom: 8.0),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          'Art & Design',
-                                          style: Styles.bold(
-                                              color: Color(0xff0E1638), size: 12),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "\$59k",
-                                              style: Styles.regular(
-                                                  color: ColorConstants.GREY_3,
-                                                  size: 12),
-                                            ),
-                                            Padding(
-                                              padding:
-                                              const EdgeInsets.only(left: 8.0),
-                                              child: Text(
-                                                '+30.6%',
-                                                style: Styles.regular(
-                                                    color: ColorConstants.GREEN,
-                                                    size: 11),
-                                              ),
-                                            ),
-                                            Icon(
-                                              Icons.arrow_drop_up_outlined,
-                                              color: Colors.green,
-                                              size: 20,
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ]),
-                          )),
-                      Expanded(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            decoration: BoxDecoration(
-                                color: ColorConstants.List_Color,
-                                borderRadius: BorderRadius.circular(10),
-                                border:
-                                Border.all(color: ColorConstants.List_Color)),
-                            margin: EdgeInsets.all(8),
-                            // color: Colors.red,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                // mainAxisAlignment: MainAxisAlignment,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0,
-                                        right: 8.0,
-                                        top: 8.0,
-                                        bottom: 8.0),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          'Art & Design',
-                                          style: Styles.bold(
-                                              color: Color(0xff0E1638), size: 12),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "\$59k",
-                                              style: Styles.regular(
-                                                  color: ColorConstants.GREY_3,
-                                                  size: 11),
-                                            ),
-                                            Padding(
-                                              padding:
-                                              const EdgeInsets.only(left: 8.0),
-                                              child: Text(
-                                                '+30.6%',
-                                                style: Styles.regular(
-                                                    color: ColorConstants.GREEN,
-                                                    size: 11),
-                                              ),
-                                            ),
-                                            Icon(
-                                              Icons.arrow_drop_up_outlined,
-                                              color: Colors.green,
-                                              size: 20,
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ]),
-                          )),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            decoration: BoxDecoration(
-                                color: ColorConstants.List_Color,
-                                borderRadius: BorderRadius.circular(10),
-                                border:
-                                Border.all(color: ColorConstants.List_Color)),
-                            margin: EdgeInsets.all(8),
-                            // color: Colors.red,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                // mainAxisAlignment: MainAxisAlignment,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0,
-                                        right: 8.0,
-                                        top: 8.0,
-                                        bottom: 8.0),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          'Art & Design',
-                                          style: Styles.bold(
-                                              color: Color(0xff0E1638), size: 12),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "\$59k",
-                                              style: Styles.regular(
-                                                  color: ColorConstants.GREY_3,
-                                                  size: 11),
-                                            ),
-                                            Padding(
-                                              padding:
-                                              const EdgeInsets.only(left: 8.0),
-                                              child: Text(
-                                                '+30.6%',
-                                                style: Styles.regular(
-                                                    color: ColorConstants.GREEN,
-                                                    size: 11),
-                                              ),
-                                            ),
-                                            Icon(
-                                              Icons.arrow_drop_up_outlined,
-                                              color: Colors.green,
-                                              size: 20,
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ]),
-                          )),
-                      Expanded(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            decoration: BoxDecoration(
-                                color: ColorConstants.List_Color,
-                                borderRadius: BorderRadius.circular(10),
-                                border:
-                                Border.all(color: ColorConstants.List_Color)),
-                            margin: EdgeInsets.all(0),
-                            // color: Colors.red,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                // mainAxisAlignment: MainAxisAlignment,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0,
-                                        right: 8.0,
-                                        top: 8.0,
-                                        bottom: 8.0),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          'Art & Design',
-                                          style: Styles.bold(
-                                              color: Color(0xff0E1638), size: 12),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "\$59k",
-                                              style: Styles.regular(
-                                                  color: ColorConstants.GREY_3,
-                                                  size: 12),
-                                            ),
-                                            Padding(
-                                              padding:
-                                              const EdgeInsets.only(left: 8.0),
-                                              child: Text(
-                                                '+30.6%',
-                                                style: Styles.regular(
-                                                    color: ColorConstants.GREEN,
-                                                    size: 11),
-                                              ),
-                                            ),
-                                            Icon(
-                                              Icons.arrow_drop_up_outlined,
-                                              color: Colors.green,
-                                              size: 20,
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ]),
-                          )),
-                      Expanded(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            decoration: BoxDecoration(
-                                color: ColorConstants.List_Color,
-                                borderRadius: BorderRadius.circular(10),
-                                border:
-                                Border.all(color: ColorConstants.List_Color)),
-                            margin: EdgeInsets.all(8),
-                            // color: Colors.red,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                // mainAxisAlignment: MainAxisAlignment,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0,
-                                        right: 8.0,
-                                        top: 8.0,
-                                        bottom: 8.0),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          'Art & Design',
-                                          style: Styles.bold(
-                                              color: Color(0xff0E1638), size: 12),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "\$59k",
-                                              style: Styles.regular(
-                                                  color: ColorConstants.GREY_3,
-                                                  size: 11),
-                                            ),
-                                            Padding(
-                                              padding:
-                                              const EdgeInsets.only(left: 8.0),
-                                              child: Text(
-                                                '+30.6%',
-                                                style: Styles.regular(
-                                                    color: ColorConstants.GREEN,
-                                                    size: 11),
-                                              ),
-                                            ),
-                                            Icon(
-                                              Icons.arrow_drop_up_outlined,
-                                              color: Colors.green,
-                                              size: 20,
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ]),
-                          )),
-                    ],
-                  ),
-                ),
+                            ]),
+                      ),
+              Expanded(child: LineChartWidget(domainid: domainId,))
+            ],),
+            
+            // Column(
+            //   children: [
+            //     LineChartWidget(domainid: domainId,),
+        
+                // Container(
+                //   height: 35,
+                //   padding: EdgeInsets.only(right: 20.0, top: 10.0),
+                //   width: MediaQuery.of(context).size.width,
+                //   decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(30),
+                //   ),
+                //   child: InkWell(
+                //     onTap: () {
+                //       Navigator.of(context).pop();
+                //     },
+                //     child: Column(
+                //       crossAxisAlignment: CrossAxisAlignment.end,
+                //       children: [
+                //         Icon(
+                //           Icons.close,
+                //           color: Colors.black,
+                //         )
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // Container(
+                //   width: MediaQuery.of(context).size.width * 0.4,
+                //   decoration: BoxDecoration(
+                //       color: ColorConstants.List_Color,
+                //       borderRadius: BorderRadius.circular(10),
+                //       border: Border.all(color: ColorConstants.List_Color)),
+                //   //margin: EdgeInsets.all(8),
+                //   // color: Colors.red,
+                //   child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                //       // mainAxisAlignment: MainAxisAlignment,
+                //       children: [
+                //         Padding(
+                //           padding: const EdgeInsets.only(
+                //               left: 8.0, right: 8.0, top: 8.0, bottom: 8.0),
+                //           child: Column(
+                //             children: [
+                //               Row(
+                //                 mainAxisAlignment: MainAxisAlignment.center,
+                //                 children: [
+                //                   Padding(
+                //                     padding: const EdgeInsets.only(left: 8.0),
+                //                     child: Text(
+                //                       '+${growth}%',
+                //                       style: Styles.regular(
+                //                           color: growthType == 'up' ?
+                //                           ColorConstants.GREEN:
+                //                           ColorConstants.RED,
+                //                           size: 11),
+                //                     ),
+                //                   ),
+                //                   growthType == 'up' ? Icon(
+                //                     Icons.arrow_drop_up_outlined,
+                //                     color: Colors.green,
+                //                     size: 20,
+                //                   ):
+                //                   Icon(
+                //                     Icons.arrow_drop_down,
+                //                     color: Colors.red,
+                //                     size: 20,
+                //                   ),
+                //                 ],
+                //               ),
+                //               SizedBox(
+                //                 height: 5,
+                //               ),
+                //               Text(
+                //                 'Projected Growth',
+                //                 style: Styles.regular(
+                //                     color: Color(0xff0E1638), size: 12),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ]),
+                // ),
+                // // Container(
+                // //   margin: EdgeInsets.only(top: 30.0),
+                // //   child: Image.asset('assets/images/graf_img.png'),
+                // // ),
+                // // SizedBox(
+                // //   height: 20,
+                // // ),
+                // Container(
+                //   child: Row(
+                //     children: [
+                //       Expanded(
+                //           child: Container(
+                //             width: MediaQuery.of(context).size.width * 0.4,
+                //             decoration: BoxDecoration(
+                //                 color: ColorConstants.List_Color,
+                //                 borderRadius: BorderRadius.circular(10),
+                //                 border:
+                //                 Border.all(color: ColorConstants.List_Color)),
+                //             margin: EdgeInsets.all(8),
+                //             // color: Colors.red,
+                //             child: Column(
+                //                 crossAxisAlignment: CrossAxisAlignment.center,
+                //                 // mainAxisAlignment: MainAxisAlignment,
+                //                 children: [
+                //                   Padding(
+                //                     padding: const EdgeInsets.only(
+                //                         left: 8.0,
+                //                         right: 8.0,
+                //                         top: 8.0,
+                //                         bottom: 8.0),
+                //                     child: Column(
+                //                       children: [
+                //                         Text(
+                //                           'Art & Design',
+                //                           style: Styles.bold(
+                //                               color: Color(0xff0E1638), size: 12),
+                //                         ),
+                //                         SizedBox(
+                //                           height: 5,
+                //                         ),
+                //                         Row(
+                //                           mainAxisAlignment:
+                //                           MainAxisAlignment.center,
+                //                           children: [
+                //                             Text(
+                //                               "\$59k",
+                //                               style: Styles.regular(
+                //                                   color: ColorConstants.GREY_3,
+                //                                   size: 11),
+                //                             ),
+                //                             Padding(
+                //                               padding:
+                //                               const EdgeInsets.only(left: 8.0),
+                //                               child: Text(
+                //                                 '+30.6%',
+                //                                 style: Styles.regular(
+                //                                     color: ColorConstants.GREEN,
+                //                                     size: 11),
+                //                               ),
+                //                             ),
+                //                             Icon(
+                //                               Icons.arrow_drop_up_outlined,
+                //                               color: Colors.green,
+                //                               size: 20,
+                //                             )
+                //                           ],
+                //                         ),
+                //                       ],
+                //                     ),
+                //                   ),
+                //                 ]),
+                //           )),
+                //       Expanded(
+                //           child: Container(
+                //             width: MediaQuery.of(context).size.width * 0.4,
+                //             decoration: BoxDecoration(
+                //                 color: ColorConstants.List_Color,
+                //                 borderRadius: BorderRadius.circular(10),
+                //                 border:
+                //                 Border.all(color: ColorConstants.List_Color)),
+                //             margin: EdgeInsets.all(0),
+                //             // color: Colors.red,
+                //             child: Column(
+                //                 crossAxisAlignment: CrossAxisAlignment.center,
+                //                 // mainAxisAlignment: MainAxisAlignment,
+                //                 children: [
+                //                   Padding(
+                //                     padding: const EdgeInsets.only(
+                //                         left: 8.0,
+                //                         right: 8.0,
+                //                         top: 8.0,
+                //                         bottom: 8.0),
+                //                     child: Column(
+                //                       children: [
+                //                         Text(
+                //                           'Art & Design',
+                //                           style: Styles.bold(
+                //                               color: Color(0xff0E1638), size: 12),
+                //                         ),
+                //                         SizedBox(
+                //                           height: 5,
+                //                         ),
+                //                         Row(
+                //                           mainAxisAlignment:
+                //                           MainAxisAlignment.center,
+                //                           children: [
+                //                             Text(
+                //                               "\$59k",
+                //                               style: Styles.regular(
+                //                                   color: ColorConstants.GREY_3,
+                //                                   size: 12),
+                //                             ),
+                //                             Padding(
+                //                               padding:
+                //                               const EdgeInsets.only(left: 8.0),
+                //                               child: Text(
+                //                                 '+30.6%',
+                //                                 style: Styles.regular(
+                //                                     color: ColorConstants.GREEN,
+                //                                     size: 11),
+                //                               ),
+                //                             ),
+                //                             Icon(
+                //                               Icons.arrow_drop_up_outlined,
+                //                               color: Colors.green,
+                //                               size: 20,
+                //                             )
+                //                           ],
+                //                         ),
+                //                       ],
+                //                     ),
+                //                   ),
+                //                 ]),
+                //           )),
+                //       Expanded(
+                //           child: Container(
+                //             width: MediaQuery.of(context).size.width * 0.4,
+                //             decoration: BoxDecoration(
+                //                 color: ColorConstants.List_Color,
+                //                 borderRadius: BorderRadius.circular(10),
+                //                 border:
+                //                 Border.all(color: ColorConstants.List_Color)),
+                //             margin: EdgeInsets.all(8),
+                //             // color: Colors.red,
+                //             child: Column(
+                //                 crossAxisAlignment: CrossAxisAlignment.center,
+                //                 // mainAxisAlignment: MainAxisAlignment,
+                //                 children: [
+                //                   Padding(
+                //                     padding: const EdgeInsets.only(
+                //                         left: 8.0,
+                //                         right: 8.0,
+                //                         top: 8.0,
+                //                         bottom: 8.0),
+                //                     child: Column(
+                //                       children: [
+                //                         Text(
+                //                           'Art & Design',
+                //                           style: Styles.bold(
+                //                               color: Color(0xff0E1638), size: 12),
+                //                         ),
+                //                         SizedBox(
+                //                           height: 5,
+                //                         ),
+                //                         Row(
+                //                           mainAxisAlignment:
+                //                           MainAxisAlignment.center,
+                //                           children: [
+                //                             Text(
+                //                               "\$59k",
+                //                               style: Styles.regular(
+                //                                   color: ColorConstants.GREY_3,
+                //                                   size: 11),
+                //                             ),
+                //                             Padding(
+                //                               padding:
+                //                               const EdgeInsets.only(left: 8.0),
+                //                               child: Text(
+                //                                 '+30.6%',
+                //                                 style: Styles.regular(
+                //                                     color: ColorConstants.GREEN,
+                //                                     size: 11),
+                //                               ),
+                //                             ),
+                //                             Icon(
+                //                               Icons.arrow_drop_up_outlined,
+                //                               color: Colors.green,
+                //                               size: 20,
+                //                             )
+                //                           ],
+                //                         ),
+                //                       ],
+                //                     ),
+                //                   ),
+                //                 ]),
+                //           )),
+                //     ],
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 10,
+                // ),
+                // Container(
+                //   child: Row(
+                //     children: [
+                //       Expanded(
+                //           child: Container(
+                //             width: MediaQuery.of(context).size.width * 0.4,
+                //             decoration: BoxDecoration(
+                //                 color: ColorConstants.List_Color,
+                //                 borderRadius: BorderRadius.circular(10),
+                //                 border:
+                //                 Border.all(color: ColorConstants.List_Color)),
+                //             margin: EdgeInsets.all(8),
+                //             // color: Colors.red,
+                //             child: Column(
+                //                 crossAxisAlignment: CrossAxisAlignment.center,
+                //                 // mainAxisAlignment: MainAxisAlignment,
+                //                 children: [
+                //                   Padding(
+                //                     padding: const EdgeInsets.only(
+                //                         left: 8.0,
+                //                         right: 8.0,
+                //                         top: 8.0,
+                //                         bottom: 8.0),
+                //                     child: Column(
+                //                       children: [
+                //                         Text(
+                //                           'Art & Design',
+                //                           style: Styles.bold(
+                //                               color: Color(0xff0E1638), size: 12),
+                //                         ),
+                //                         SizedBox(
+                //                           height: 5,
+                //                         ),
+                //                         Row(
+                //                           mainAxisAlignment:
+                //                           MainAxisAlignment.center,
+                //                           children: [
+                //                             Text(
+                //                               "\$59k",
+                //                               style: Styles.regular(
+                //                                   color: ColorConstants.GREY_3,
+                //                                   size: 11),
+                //                             ),
+                //                             Padding(
+                //                               padding:
+                //                               const EdgeInsets.only(left: 8.0),
+                //                               child: Text(
+                //                                 '+30.6%',
+                //                                 style: Styles.regular(
+                //                                     color: ColorConstants.GREEN,
+                //                                     size: 11),
+                //                               ),
+                //                             ),
+                //                             Icon(
+                //                               Icons.arrow_drop_up_outlined,
+                //                               color: Colors.green,
+                //                               size: 20,
+                //                             )
+                //                           ],
+                //                         ),
+                //                       ],
+                //                     ),
+                //                   ),
+                //                 ]),
+                //           )),
+                //       Expanded(
+                //           child: Container(
+                //             width: MediaQuery.of(context).size.width * 0.4,
+                //             decoration: BoxDecoration(
+                //                 color: ColorConstants.List_Color,
+                //                 borderRadius: BorderRadius.circular(10),
+                //                 border:
+                //                 Border.all(color: ColorConstants.List_Color)),
+                //             margin: EdgeInsets.all(0),
+                //             // color: Colors.red,
+                //             child: Column(
+                //                 crossAxisAlignment: CrossAxisAlignment.center,
+                //                 // mainAxisAlignment: MainAxisAlignment,
+                //                 children: [
+                //                   Padding(
+                //                     padding: const EdgeInsets.only(
+                //                         left: 8.0,
+                //                         right: 8.0,
+                //                         top: 8.0,
+                //                         bottom: 8.0),
+                //                     child: Column(
+                //                       children: [
+                //                         Text(
+                //                           'Art & Design',
+                //                           style: Styles.bold(
+                //                               color: Color(0xff0E1638), size: 12),
+                //                         ),
+                //                         SizedBox(
+                //                           height: 5,
+                //                         ),
+                //                         Row(
+                //                           mainAxisAlignment:
+                //                           MainAxisAlignment.center,
+                //                           children: [
+                //                             Text(
+                //                               "\$59k",
+                //                               style: Styles.regular(
+                //                                   color: ColorConstants.GREY_3,
+                //                                   size: 12),
+                //                             ),
+                //                             Padding(
+                //                               padding:
+                //                               const EdgeInsets.only(left: 8.0),
+                //                               child: Text(
+                //                                 '+30.6%',
+                //                                 style: Styles.regular(
+                //                                     color: ColorConstants.GREEN,
+                //                                     size: 11),
+                //                               ),
+                //                             ),
+                //                             Icon(
+                //                               Icons.arrow_drop_up_outlined,
+                //                               color: Colors.green,
+                //                               size: 20,
+                //                             )
+                //                           ],
+                //                         ),
+                //                       ],
+                //                     ),
+                //                   ),
+                //                 ]),
+                //           )),
+                //       Expanded(
+                //           child: Container(
+                //             width: MediaQuery.of(context).size.width * 0.4,
+                //             decoration: BoxDecoration(
+                //                 color: ColorConstants.List_Color,
+                //                 borderRadius: BorderRadius.circular(10),
+                //                 border:
+                //                 Border.all(color: ColorConstants.List_Color)),
+                //             margin: EdgeInsets.all(8),
+                //             // color: Colors.red,
+                //             child: Column(
+                //                 crossAxisAlignment: CrossAxisAlignment.center,
+                //                 // mainAxisAlignment: MainAxisAlignment,
+                //                 children: [
+                //                   Padding(
+                //                     padding: const EdgeInsets.only(
+                //                         left: 8.0,
+                //                         right: 8.0,
+                //                         top: 8.0,
+                //                         bottom: 8.0),
+                //                     child: Column(
+                //                       children: [
+                //                         Text(
+                //                           'Art & Design',
+                //                           style: Styles.bold(
+                //                               color: Color(0xff0E1638), size: 12),
+                //                         ),
+                //                         SizedBox(
+                //                           height: 5,
+                //                         ),
+                //                         Row(
+                //                           mainAxisAlignment:
+                //                           MainAxisAlignment.center,
+                //                           children: [
+                //                             Text(
+                //                               "\$59k",
+                //                               style: Styles.regular(
+                //                                   color: ColorConstants.GREY_3,
+                //                                   size: 11),
+                //                             ),
+                //                             Padding(
+                //                               padding:
+                //                               const EdgeInsets.only(left: 8.0),
+                //                               child: Text(
+                //                                 '+30.6%',
+                //                                 style: Styles.regular(
+                //                                     color: ColorConstants.GREEN,
+                //                                     size: 11),
+                //                               ),
+                //                             ),
+                //                             Icon(
+                //                               Icons.arrow_drop_up_outlined,
+                //                               color: Colors.green,
+                //                               size: 20,
+                //                             )
+                //                           ],
+                //                         ),
+                //                       ],
+                //                     ),
+                //                   ),
+                //                 ]),
+                //           )),
+                //     ],
+                //   ),
+                // ),
 
-                /*Container(
-                  height: 50,
-                  margin: EdgeInsets.only(left: 50.0, right: 50.0, top: 20.0, bottom: 10.0),
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),
-                    gradient:
-                    LinearGradient(colors: [
-                      ColorConstants.WHITE,
-                      ColorConstants.WHITE,]),
-                    border: Border.all(color: ColorConstants.GRADIENT_ORANGE),
-                  ),
+                // /*Container(
+                //   height: 50,
+                //   margin: EdgeInsets.only(left: 50.0, right: 50.0, top: 20.0, bottom: 10.0),
+                //   width: MediaQuery.of(context).size.width,
+                //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),
+                //     gradient:
+                //     LinearGradient(colors: [
+                //       ColorConstants.WHITE,
+                //       ColorConstants.WHITE,]),
+                //     border: Border.all(color: ColorConstants.GRADIENT_ORANGE),
+                //   ),
 
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('View Skill Assessments', style: TextStyle(color: ColorConstants.GRADIENT_ORANGE, fontSize: 14,
-                          fontWeight: FontWeight.bold),),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       Text('View Skill Assessments', style: TextStyle(color: ColorConstants.GRADIENT_ORANGE, fontSize: 14,
+                //           fontWeight: FontWeight.bold),),
 
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
-                        child: Icon(Icons.arrow_forward_ios_rounded,
-                          color: ColorConstants.GRADIENT_ORANGE,),
-                      )
-                    ],
-                  ),
-                ),*/
+                //       Padding(
+                //         padding: const EdgeInsets.only(left: 10.0),
+                //         child: Icon(Icons.arrow_forward_ios_rounded,
+                //           color: ColorConstants.GRADIENT_ORANGE,),
+                //       )
+                //     ],
+                //   ),
+                // ),*/
 
-                SizedBox(
-                  height: 30,
-                ),
-                CustomOutlineButton(
-                  strokeWidth: 2,
-                  radius: 50,
-                  gradient: LinearGradient(
-                    colors: [
-                      ColorConstants.GRADIENT_ORANGE,
-                      ColorConstants.GRADIENT_RED
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.topRight,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 50.0, right: 50.0),
-                    child: GradientText(
-                      'View Skill Assessments',
-                      style: Styles.textRegular(size: 14),
-                      colors: [
-                         ColorConstants.GRADIENT_ORANGE,
-                        ColorConstants.GRADIENT_RED,
-                      ],
-                    ),
-                  ),
-                  onPressed: () {},
-                ),
-              ],
-            ),
+                // SizedBox(
+                //   height: 30,
+                // ),
+                
+            //   ],
+            // ),
           );
         });
   }

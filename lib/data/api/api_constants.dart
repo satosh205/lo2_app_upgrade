@@ -149,4 +149,5 @@ class ApiConstants {
   static const  TOP_SCORING_USER = '/api/top-scoring-users';
   static const  COMPETITION_MY_ACTIVITY = '/api/my-activities';
   static const  DOMAIN_LIST = '/api/getDomain';
+  static const  JOB_DOMAIN_DETAIL = '/api/job-domain-detail/';
 }

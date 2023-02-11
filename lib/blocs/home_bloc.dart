@@ -38,6 +38,7 @@ import 'package:masterg/data/models/response/home_response/get_courses_resp.dart
 import 'package:masterg/data/models/response/home_response/get_kpi_analysis_resp.dart';
 import 'package:masterg/data/models/response/home_response/get_module_leaderboard_resp.dart';
 import 'package:masterg/data/models/response/home_response/greels_response.dart';
+import 'package:masterg/data/models/response/home_response/job_domain_detail_resp.dart';
 import 'package:masterg/data/models/response/home_response/joy_category_response.dart';
 import 'package:masterg/data/models/response/home_response/joy_contentList_response.dart';
 import 'package:masterg/data/models/response/home_response/language_response.dart';
@@ -612,6 +613,26 @@ class DomainListState extends HomeState {
 
   DomainListState(this.state, {this.response, this.error});
 }
+
+
+class JobDomainDetailEvent extends HomeEvent {
+  int? domainId;
+
+  JobDomainDetailEvent({this.domainId}) : super([domainId]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+class JobDomainDetailState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  JobDomainResponse? response;
+  String? error;
+
+  JobDomainDetailState(this.state, {this.response, this.error});
+}
+
 
 
 class DomainFilterListEvent extends HomeEvent {
@@ -1682,6 +1703,22 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       } catch (e) {}
       
     }
+
+else if(event is JobDomainDetailEvent){
+try {
+        yield JobDomainDetailState(ApiStatus.LOADING);
+        final response = await homeRepository.jobDomainDetail(event.domainId!);
+        Log.v("top scoring resume DATA ::: ${response.data}");
+
+        if (response.data != null) {
+          yield JobDomainDetailState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("top scoring   ERROR DATA ::: $response");
+          yield JobDomainDetailState(ApiStatus.ERROR, response: response);
+        }
+      } catch (e) {}
+}
+
   else   if(event is DomainListEvent){
         try {
         yield DomainListState(ApiStatus.LOADING);

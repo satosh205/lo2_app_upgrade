@@ -36,6 +36,7 @@ import 'package:masterg/data/models/response/home_response/get_courses_resp.dart
 import 'package:masterg/data/models/response/home_response/get_kpi_analysis_resp.dart';
 import 'package:masterg/data/models/response/home_response/get_module_leaderboard_resp.dart';
 import 'package:masterg/data/models/response/home_response/greels_response.dart';
+import 'package:masterg/data/models/response/home_response/job_domain_detail_resp.dart';
 import 'package:masterg/data/models/response/home_response/joy_category_response.dart';
 import 'package:masterg/data/models/response/home_response/joy_contentList_response.dart';
 import 'package:masterg/data/models/response/home_response/language_response.dart';
@@ -590,6 +591,21 @@ class HomeRepository {
       return DomainListResponse();
     }
   }
+
+  Future<JobDomainResponse> jobDomainDetail(int domainId) async {
+    final response =
+        await homeProvider.jobDomainDetail(domainId);
+    if (response!.success) {
+      Log.v("Competition List  DATA : ${response.body}");
+      JobDomainResponse competitionData =
+          JobDomainResponse.fromJson(response.body);
+      return competitionData;
+    } else {
+      Log.v("====> ${response.body}");
+      return JobDomainResponse();
+    }
+  }
+
   Future<DomainFilterListResponse> getFilterDomainList(String ids) async {
     final response =
         await homeProvider.getFilterDomainList(ids);
