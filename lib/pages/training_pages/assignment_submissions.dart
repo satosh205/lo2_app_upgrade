@@ -166,15 +166,25 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
                                               //     _attempts![currentIndex]
                                               //         .file);
                                             },
-                                            child: SvgPicture.asset(
+                                            child:ShaderMask(
+                                blendMode: BlendMode.srcIn,
+                                shaderCallback: (Rect bounds) {
+                                  return LinearGradient(
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                      colors: <Color>[
+                                        ColorConstants.GRADIENT_ORANGE,
+                                        ColorConstants.GRADIENT_RED
+                                      ]).createShader(bounds);
+                                },
+                                        child:     SvgPicture.asset(
                                               'assets/images/download_icon.svg',
                                               height: 25,
                                               width: 25,
-                                              color: ColorConstants()
-                                                  .primaryColor(),
+                                             
                                               allowDrawingOutsideViewBox: true,
                                             ),
-                                          ),
+                                          ),),
                                           SizedBox(width: 20),
                                           InkWell(
                                             onTap: () {
@@ -187,15 +197,25 @@ class _ReviewSubmissionsState extends State<ReviewSubmissions> {
                                                             .file,
                                                   )));
                                             },
-                                            child: SvgPicture.asset(
+                                            child: ShaderMask(
+                                blendMode: BlendMode.srcIn,
+                                shaderCallback: (Rect bounds) {
+                                  return LinearGradient(
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                      colors: <Color>[
+                                        ColorConstants.GRADIENT_ORANGE,
+                                        ColorConstants.GRADIENT_RED
+                                      ]).createShader(bounds);
+                                },
+                                      child:      SvgPicture.asset(
                                               'assets/images/view_icon.svg',
-                                              color: ColorConstants()
-                                                  .primaryColor(),
+                                              
                                               height: 25,
                                               width: 25,
                                               allowDrawingOutsideViewBox: true,
                                             ),
-                                          ),
+                                          ),)
                                         ],
                                       ),
                                       SizedBox(

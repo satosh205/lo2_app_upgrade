@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive/hive.dart';
+import 'package:masterg/data/models/request/auth_request/change_password_request.dart';
+import 'package:masterg/pages/auth_pages/forget_password.dart';
+import 'package:masterg/pages/auth_pages/singularis_login_username_pass.dart';
+import 'package:masterg/pages/auth_pages/terms_and_condition_page.dart';
+import 'package:masterg/utils/config.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -21,6 +26,7 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
+  bool?isMaintainState = false;
   @override
   Widget build(BuildContext context) {
     return new Drawer(
@@ -124,7 +130,10 @@ class _AppDrawerState extends State<AppDrawer> {
               color: Colors.black,
             ),
             title: Text('Change Password'),
-            onTap: () {},
+            onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> ForgetScreen()));
+
+            },
           ),
           SizedBox(height: 20,),
            ListTile(
@@ -141,7 +150,10 @@ class _AppDrawerState extends State<AppDrawer> {
             //   color: Colors.black,
             // ),
             title: Text('Terms and Conditions'),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> TermsAndCondition(url: APK_DETAILS['policy_url']),
+                            maintainState: false));
+            },
           ),
           SizedBox(height: 20,),
           ListTile(

@@ -112,10 +112,17 @@ class _CoursesDetailsPageState extends State<CoursesDetailsPage> {
                 },
                 child: Container(
                   height: 50,
-                  decoration: BoxDecoration(
-                    color: ColorConstants().primaryColor(),
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                  ),
+                              decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              gradient: LinearGradient(colors: [
+                ColorConstants.GRADIENT_ORANGE,
+                ColorConstants.GRADIENT_RED,
+              ]),
+            ),
+                  // decoration: BoxDecoration(
+                  //   color: ColorConstants().primaryColor(),
+                  //   borderRadius: BorderRadius.all(Radius.circular(5)),
+                  // ),
                   child: Padding(
                     padding: const EdgeInsets.only(
                         left: 8, right: 8, top: 4, bottom: 4),

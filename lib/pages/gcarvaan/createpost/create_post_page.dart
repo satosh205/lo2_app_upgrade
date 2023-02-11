@@ -77,7 +77,18 @@ class _CreatePostPageState extends State<CreatePostPage> {
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(right: 10),
-                child: TextButton(
+                child: ShaderMask(
+                                blendMode: BlendMode.srcIn,
+                                shaderCallback: (Rect bounds) {
+                                  return LinearGradient(
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                      colors: <Color>[
+                                        ColorConstants.GRADIENT_ORANGE,
+                                        ColorConstants.GRADIENT_RED
+                                      ]).createShader(bounds);
+                                },
+              child:  TextButton(
                   onPressed: () async {
                     print('Click On Next');
                     if (pickedFile != null) {
@@ -100,7 +111,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                   ),
                 ),
               ),
-            ),
+            ),)
         ],
       ),
       body: _makeBody(),
@@ -166,13 +177,24 @@ class _CreatePostPageState extends State<CreatePostPage> {
                   },
                   child: Row(
                     children: [
-                      SvgPicture.asset(
+                      ShaderMask(
+                                blendMode: BlendMode.srcIn,
+                                shaderCallback: (Rect bounds) {
+                                  return LinearGradient(
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                      colors: <Color>[
+                                        ColorConstants.GRADIENT_ORANGE,
+                                        ColorConstants.GRADIENT_RED
+                                      ]).createShader(bounds);
+                                },
+                    child:  SvgPicture.asset(
                         'assets/images/create_post_icon.svg',
                         color: ColorConstants.BLACK,
                         height: 28,
                         width: 28,
                         allowDrawingOutsideViewBox: true,
-                      ),
+                      ),),
                       Padding(
                         padding: const EdgeInsets.only(right: 15.0, left: 10.0),
                         child: Text(
@@ -196,13 +218,24 @@ class _CreatePostPageState extends State<CreatePostPage> {
                     },
                     child: Row(
                       children: [
-                        SvgPicture.asset(
+                        ShaderMask(
+                                blendMode: BlendMode.srcIn,
+                                shaderCallback: (Rect bounds) {
+                                  return LinearGradient(
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                      colors: <Color>[
+                                        ColorConstants.GRADIENT_ORANGE,
+                                        ColorConstants.GRADIENT_RED
+                                      ]).createShader(bounds);
+                                },
+                      child:  SvgPicture.asset(
                           'assets/images/camera_icon.svg',
                           height: 20,
                           width: 20,
                           color: ColorConstants().primaryColor(),
                           allowDrawingOutsideViewBox: true,
-                        ),
+                        ),),
                         Padding(
                           padding: const EdgeInsets.only(right: 10.0, left: 10),
                           child: Text(
