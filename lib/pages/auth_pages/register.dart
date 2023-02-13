@@ -341,11 +341,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Container(
                           height: height(context) * 0.06,
                           decoration: BoxDecoration(
+                            color: Color(0xffe9e9e9),
                             borderRadius: BorderRadius.circular(10),
-                            gradient: LinearGradient(colors: [
+                            gradient:emailController.value.text != '' && passController.value.text != '' ?  LinearGradient(colors: [
                               ColorConstants.GRADIENT_ORANGE,
                               ColorConstants.GRADIENT_RED,
-                            ]),
+                            ]) : null,
                           ),
                           child: InkWell(
                             onTap: () {
