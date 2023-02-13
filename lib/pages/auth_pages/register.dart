@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
@@ -58,7 +59,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ColorConstants.GRADIENT_RED
                               ]).createShader(bounds);
                         },
-                        child: Icon(Icons.email_outlined)),
+                        child: Icon(
+                          Icons.email_outlined,
+                          size: 20,
+                        )),
                     SizedBox(
                       width: 10,
                     ),
@@ -69,6 +73,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
               ),
+              
               Padding(
                 padding: const EdgeInsets.only(top: 16.0, left: 16, right: 16),
                 child: Container(
@@ -77,7 +82,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     cursorColor: Color(0xffE5E5E5),
                     autofocus: false,
                     // focusNode: phoneFocus,
-                   controller: emailController,
+                    controller: emailController,
                     // keyboardType: TextInputType.number,
                     style: Styles.bold(
                       color: Color(0xffE5E5E5),
@@ -173,7 +178,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     cursorColor: Color(0xffE5E5E5),
                     autofocus: false,
                     // focusNode: phoneFocus,
-                     controller: newController,
+                    controller: newController,
                     // keyboardType: TextInputType.number,
                     style: Styles.bold(
                       color: Color(0xffE5E5E5),

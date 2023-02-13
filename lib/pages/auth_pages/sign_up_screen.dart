@@ -9,6 +9,7 @@ import 'package:flutter_html/style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:masterg/blocs/auth_bloc.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/data/api/api_service.dart';
@@ -215,7 +216,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: const EdgeInsets.all(16.0),
                   child: Stack(
                     children: [
-                      TextFormField(
+                      IntlPhoneField(
+                        dropdownIcon: Icon(Icons.arrow_drop_down,color: ColorConstants.WHITE,),
                         
                         cursorColor: ColorConstants.WHITE,
                         autofocus: false,
@@ -229,7 +231,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                         ],
-                        maxLength: 10,
+                        // maxLength: 10,
                         decoration: InputDecoration(
                           
                           focusedBorder: OutlineInputBorder(
@@ -255,17 +257,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           isDense: true,
                           prefixIconConstraints:
                               BoxConstraints(minWidth: 0, minHeight: 0),
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Text(
-                              "+91 ",
-                              style: Styles.regular(
-                                color: ColorConstants.WHITE,
-                                size: 14,
-                              ),
-                            ),
+                          // prefixIcon: Padding(
+                          //   padding: const EdgeInsets.only(left: 8.0),
+                          //   child: Text(
+                          //     "+91 ",
+                          //     style: Styles.regular(
+                          //       color: ColorConstants.WHITE,
+                          //       size: 14,
+                          //     ),
+                          //   ),
                             
-                          ),
+                          // ),
                           border: OutlineInputBorder(
                               borderSide: BorderSide(
                                   width: 0.7, color: ColorConstants.WHITE),
@@ -283,13 +285,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onChanged: (value) {
                           setState(() {});
                         },
-                        validator: (value) {
-                          if (value == null) return 'Enter phone number';
-                          if (value.length != 10) {
-                            return "Enter valid phone number.";
-                          }
-                          return null;
-                        },
+                        // validator: (value) {
+                        //   if (value == null) return 'Enter phone number';
+                        //   if (value.length != 10) {
+                        //     return "Enter valid phone number.";
+                        //   }
+                        //   return null;
+                        // },
                       ),
                     
                       Positioned(
@@ -317,7 +319,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             },
                             child: Container(
                               height: height(context) * 0.07,
-                              width: width(context) * 0.28,
+                              width: width(context) * 0.26,
                               decoration: const BoxDecoration(
                                   color: ColorConstants.WHITE,
                                   borderRadius:
