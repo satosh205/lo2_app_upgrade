@@ -217,6 +217,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Stack(
                     children: [
                       IntlPhoneField(
+                        initialCountryCode: 'India',
+                        // initialValue: '',
+                        
+                        
                         dropdownIcon: Icon(Icons.arrow_drop_down,color: ColorConstants.WHITE,),
                         
                         cursorColor: ColorConstants.WHITE,
@@ -228,7 +232,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           color: ColorConstants.WHITE,
                           size: 14,
                         ),
-                        inputFormatters: <TextInputFormatter>[
+                         
+                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                         ],
                         // maxLength: 10,
@@ -252,7 +257,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           hintText: '${Strings.of(context)?.yourMobileNumber}',
                           hintStyle:  Styles.regular(
                                 color: ColorConstants.WHITE,
-                                size: 14,
+                                size: 12,
                               ),
                           isDense: true,
                           prefixIconConstraints:
@@ -350,23 +355,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ],
                   ),
                 ),
-                // SizedBox(height: 20.0),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SingularisLogin()));
-                  },
-                  child: Container(
-                    // margin: EdgeInsets.symmetric(vertical: 12),
-                    width: double.infinity,
-                    height: MediaQuery.of(context).size.height *
-                        WidgetSize.AUTH_BUTTON_SIZE,
-                  
+                 SizedBox(height: 10.0),
+                Container(
+                  // margin: EdgeInsets.symmetric(vertical: 12),
+                  width: double.infinity,
+                  height: height(context)*0.2,
+
+                  // height: MediaQuery.of(context).size.height *
+                  //     WidgetSize.AUTH_BUTTON_SIZE,
+                
+                  child: Align(
+                    alignment: Alignment.topCenter,
                     child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.center,
+                  
                     children: [
                       SvgPicture.asset(
                         'assets/images/email.svg',
@@ -375,11 +378,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       SizedBox(
                         width: 10,
                       ),
-                      Text(
-                        '${Strings.of(context)?.continueStr} with ${Strings.of(context)?.email}',
-                        style: Styles.semibold(
-                          size: 14, 
-                          color: ColorConstants.WHITE,
+                      InkWell(
+                        onTap: () {
+                           Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SingularisLogin()));
+                        },
+                        child: Text(
+                          '${Strings.of(context)?.continueStr} with ${Strings.of(context)?.email}',
+                          style: Styles.semibold(
+                            size: 14, 
+                            color: ColorConstants.WHITE,
+                          ),
                         ),
                       ),
                     ],
@@ -411,12 +422,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             isMaintainState: false));
                   },
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 110.0),
+                    padding: const EdgeInsets.only(top: 0.0),
                     child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text('${Strings.of(context)?.byClickingContinue}',
                             style:
-                                Styles.regular(size: 10, color: Colors.white)),
+                                Styles.regular(size: 12, color: Colors.white),),
+                                SizedBox(height: 5,),
                         Text(
                           '${Strings.of(context)?.byClickingContinueUnderline}',
                           style: Styles.regular(

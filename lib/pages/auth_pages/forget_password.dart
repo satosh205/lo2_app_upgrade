@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
@@ -99,9 +100,9 @@ class _ForgetScreenState extends State<ForgetScreen> {
                 color:Color(0xffE5E5E5),
                 size: 14,
               ),
-              // inputFormatters: <TextInputFormatter>[
-              //   FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-              // ],
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+              ],
               maxLength: 10,
               decoration: InputDecoration(
                 focusedBorder: OutlineInputBorder(
@@ -321,7 +322,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Container(
-                        height: height(context) * 0.1,
+                        height: height(context) * 0.28,
                         child: TextFormField(
                           obscureText: true,
                           cursorColor: Color(0xffE5E5E5),
@@ -387,27 +388,32 @@ class _ForgetScreenState extends State<ForgetScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 130,),
+                    // SizedBox(height: 130,),
                     Padding(
                         padding: const EdgeInsets.all(18.0),
-                        child: Container(
-                          height: height(context) * 0.06,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            gradient: LinearGradient(colors: [
-                              ColorConstants.GRADIENT_ORANGE,
-                              ColorConstants.GRADIENT_RED,
-                            ]),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Back to Login',
-                              style: Styles.regular(
-                                size: 16,
-                                color: ColorConstants.WHITE,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Container(
+                              height: height(context) * 0.06,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                gradient: LinearGradient(colors: [
+                                  ColorConstants.GRADIENT_ORANGE,
+                                  ColorConstants.GRADIENT_RED,
+                                ]),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Back to Login',
+                                  style: Styles.regular(
+                                    size: 16,
+                                    color: ColorConstants.WHITE,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                          ],
                         )),
                   ]),
             )));
@@ -422,20 +428,20 @@ class _ForgetScreenState extends State<ForgetScreen> {
       child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Stack(children: [
-            TextFormField(
+            TextField(
               cursorColor: Color(0xffE5E5E5),
               autofocus: false,
               // focusNode: phoneFocus,
               controller: emailController,
-              keyboardType: TextInputType.number,
+            //  keyboardType: TextInputType.emailAddress,
               style: Styles.bold(
                 color:Color(0xffE5E5E5),
                 size: 14,
               ),
-              // inputFormatters: <TextInputFormatter>[
-              //   FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-              // ],
-              maxLength: 10,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+              ],
+              // maxLength: 10,
               decoration: InputDecoration(
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
@@ -475,13 +481,13 @@ class _ForgetScreenState extends State<ForgetScreen> {
               onChanged: (value) {
                 setState(() {});
               },
-              validator: (value) {
-                if (value == null) return 'Enter phone number';
-                if (value.length != 10) {
-                  return "Enter valid phone number.";
-                }
-                return null;
-              },
+              // validator: (value) {
+              //   if (value == null) return 'Enter phone number';
+              //   if (value.length != 10) {
+              //     return "Enter valid phone number.";
+              //   }
+              //   return null;
+              // },
             ),
             Positioned(
                 right: 0,
