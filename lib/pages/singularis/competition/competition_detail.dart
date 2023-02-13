@@ -416,7 +416,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
       {bool? isLocked}) {
     CardType? cardType;
 
-    if (data?.perCompletion== 100.0) isLocked = false;
+    if (data?.completionPercentage == 100.0) isLocked = false;
     // if (cardType != CardType.session && data?.completionPercentage == 100)
     //   isLocked = false;
 
