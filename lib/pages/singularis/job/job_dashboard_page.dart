@@ -1429,7 +1429,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
   Widget renderJobSecondPositionList(int position) {
     return ListView.builder(
        //itemCount: allJobListResponse?.data!.length,
-      itemCount: position! < 4
+      itemCount: position < 4
           ? position
           : 4,
         //itemCount: position,

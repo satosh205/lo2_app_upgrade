@@ -524,9 +524,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                               isLocked = false;
                             }
 
-                             if(index == 1){
-                            print(' and the dats is ${data?.completionPercentage } and ${data?.perCompletion}');
-                          }
+                            
                           }
 
                   return competitionCard(
