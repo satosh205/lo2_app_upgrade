@@ -16,6 +16,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool isFill = false;
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
+  TextEditingController newController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     cursorColor: Color(0xffE5E5E5),
                     autofocus: false,
                     // focusNode: phoneFocus,
-                    // controller: newController,
+                   controller: emailController,
                     // keyboardType: TextInputType.number,
                     style: Styles.bold(
                       color: Color(0xffE5E5E5),
@@ -172,7 +173,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     cursorColor: Color(0xffE5E5E5),
                     autofocus: false,
                     // focusNode: phoneFocus,
-                    // controller: newController,
+                     controller: newController,
                     // keyboardType: TextInputType.number,
                     style: Styles.bold(
                       color: Color(0xffE5E5E5),
