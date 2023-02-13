@@ -149,8 +149,8 @@ class _homePageState extends State<homePage> {
       '/g-home': GHome(),
       '/g-dashboard': const DashboardPage(),
       '/g-competitions': Competetion(),
-      //'/g-careers': CareersDashboard(),
-      '/g-careers': JobDashboardPage(),
+      //'/g-jobs': CareersDashboard(),
+      '/g-jobs': JobDashboardPage(),
       '/g-school': const GSchool(),
       '/g-reels': ReelsDashboardPage(),
       '/g-carvaan': CommunityDashboard(),
@@ -212,7 +212,7 @@ class _homePageState extends State<homePage> {
     var iconUnSelected = {
       '/g-dashboard': 'assets/images/un_dashboard.svg',
       '/g-competitions': 'assets/images/unselected_competition.svg',
-      '/g-careers': 'assets/images/un_careers.svg',
+      '/g-jobs': 'assets/images/un_careers.svg',
       '/g-home': 'assets/images/un_community.svg',
       '/g-school': 'assets/images/un_learn.svg',
       '/g-reels': 'assets/images/un_trends.svg',
@@ -228,7 +228,7 @@ class _homePageState extends State<homePage> {
     var iconSelected = {
       '/g-dashboard': 'assets/images/s_dashboards.svg',
       '/g-competitions': 'assets/images/selected_competition.svg',
-      '/g-careers': 'assets/images/s_careers.svg',
+      '/g-jobs': 'assets/images/s_careers.svg',
       '/g-home': 'assets/images/s_community.svg',
       '/g-school': 'assets/images/s_learn.svg',
       '/g-reels': 'assets/images/s_trends.svg',
