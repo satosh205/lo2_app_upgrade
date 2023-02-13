@@ -217,8 +217,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Stack(
                     children: [
                       IntlPhoneField(
+                    dropdownTextStyle: TextStyle(color: ColorConstants.WHITE),
+                        initialCountryCode: 'IN',
                         dropdownIcon: Icon(Icons.arrow_drop_down,color: ColorConstants.WHITE,),
-                        
                         cursorColor: ColorConstants.WHITE,
                         autofocus: false,
                         focusNode: phoneFocus,

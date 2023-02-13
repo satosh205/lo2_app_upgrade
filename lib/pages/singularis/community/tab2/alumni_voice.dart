@@ -528,7 +528,7 @@ class _AlumniVoiceState extends State<AlumniVoice> with WidgetsBindingObserver {
               }
               joyCategoryList = temp;
               int? isParentLanguage =
-                  Preference.getInt(Preference.IS_PRIMARY_LANGUAGE);
+                  Preference.getInt(Preference.IS_PRIMARY_LANGUAGE) ?? 1;
 
               return Column(children: [
                 Row(
