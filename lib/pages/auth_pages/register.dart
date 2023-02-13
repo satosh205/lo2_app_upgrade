@@ -333,6 +333,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 height: 230,
               ),
              
+<<<<<<< HEAD
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
@@ -358,6 +359,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           style: Styles.regular(
                             size: 16,
                             color: ColorConstants.WHITE,
+=======
+              Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Column(
+                      children: [
+                        Container(
+                          height: height(context) * 0.06,
+                          decoration: BoxDecoration(
+                            color: Color(0xffe9e9e9),
+                            borderRadius: BorderRadius.circular(10),
+                            gradient:emailController.value.text != '' && passController.value.text != '' ?  LinearGradient(colors: [
+                              ColorConstants.GRADIENT_ORANGE,
+                              ColorConstants.GRADIENT_RED,
+                            ]) : null,
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              
+                            },
+                            child: Center(
+                              child: Text(
+                                'Sign Up',
+                                style: Styles.regular(
+                                  size: 16,
+                                  color: ColorConstants.WHITE,
+                                ),
+                              ),
+                            ),
+>>>>>>> f23903ca69215e4ccc8dfcac947a9eb5940d0df7
                           ),
                         ),
                       ),
