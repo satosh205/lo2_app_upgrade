@@ -2895,6 +2895,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
 
           Preference.setString(Preference.PROFILE_VIDEO,
               '${portfolioState.response?.data.profileVideo}');
+          Preference.setInt(Preference.PROFILE_PERCENT,
+              portfolioState.response!.data.profileCompletion);
 
           if (portfolioState.response?.data.portfolioProfile.isNotEmpty ==
               true) {
