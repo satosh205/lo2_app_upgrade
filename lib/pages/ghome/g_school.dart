@@ -1,6 +1,7 @@
 // ignore_for_file: unused_field, unused_local_variable
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -69,7 +70,6 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
   AnimationController? controller;
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-
   Box? box;
 
   @override
@@ -88,7 +88,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _scaffoldKey,
+      key: _scaffoldKey,
       endDrawer: new AppDrawer(),
       body: BlocManager(
         initState: (context) {},
@@ -124,7 +124,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                   ///TODO: My Course Secton
                   Padding(
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                        const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                     child: Row(children: [
                       Text(
                         'My Courses',
@@ -162,24 +162,21 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                       shrinkWrap: true,
                       children: [
                         topRoundedCard(
-                    'assets/images/my_classes.svg',
-                          'Classes', () {
+                            'assets/images/my_classes.svg', 'Classes', () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => MyClasses()));
                         }),
-                        topRoundedCard(
-                          'assets/images/my_assignment_card.svg',
-                          'Assignments', () {
+                        topRoundedCard('assets/images/my_assignment_card.svg',
+                            'Assignments', () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => MyAssignmentPage()));
                         }),
                         topRoundedCard(
-                          'assets/images/my_quiz_card.svg',
-                          'Quizes', () {
+                            'assets/images/my_quiz_card.svg', 'Quizes', () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -188,7 +185,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                       ],
                     ),
                   ),
-    
+
                   //_getCategories(context),
                   //_getLearnNewEveryday(context),
                   _getRecommendedCourses(context),
@@ -236,7 +233,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                     shape: BoxShape.circle),
                 child: Center(
                     child: SvgPicture.asset(
-                 img,
+                  img,
                   width: width(context) * 0.07,
                 )),
               )),
@@ -523,29 +520,22 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
         child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-                mainAxisAlignment:
-                MainAxisAlignment.start,
-                crossAxisAlignment:
-                CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.center,
-                    mainAxisAlignment:
-                    MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       InkWell(
                         onTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      NewPortfolioPage()));
+                                  builder: (context) => NewPortfolioPage()));
                         },
                         child: ClipRRect(
-                          borderRadius:
-                          BorderRadius.circular(
-                              200),
+                          borderRadius: BorderRadius.circular(200),
                           child: SizedBox(
                             width: 40,
                             child: Image.network(
@@ -554,7 +544,6 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                         ),
                       ),
 
-                      
                       // SizedBox(width: 10),
                       // Column(
                       //   crossAxisAlignment:
@@ -602,14 +591,14 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                       //             .semiBoldWhite())
                       //   ],
                       // ),
-                       Spacer(),
-                            InkWell(
-                              onTap: () {
-                                _scaffoldKey.currentState?.openEndDrawer();
-                              },
-                              child: SvgPicture.asset(
-                                  'assets/images/hamburger_menu.svg'),
-                            )
+                      Spacer(),
+                      InkWell(
+                        onTap: () {
+                          _scaffoldKey.currentState?.openEndDrawer();
+                        },
+                        child: SvgPicture.asset(
+                            'assets/images/hamburger_menu.svg'),
+                      )
                     ],
                   ),
                 ])));
@@ -1164,7 +1153,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
               //var list = _getFilterList();
               return Container(
                   padding:
-                      EdgeInsets.only(left: 10, bottom: 10, top: 10, right: 10),
+                      EdgeInsets.only(left: 10,   right: 10),
                   decoration: BoxDecoration(color: ColorConstants.GREY),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1340,10 +1329,115 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Padding(
-                  padding: EdgeInsets.only(left: 10, top: 10),
+                  padding: EdgeInsets.only(left: 10,),
                   child: Text(title, style: Styles.DMSansbold(size: 18))),
+
+                   Container(
+                height: height(context) * 0.36,
+                // padding: EdgeInsets.only(top: 12),
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+
+                  itemBuilder: (BuildContext context, int index) {
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (APK_DETAILS['package_name'] ==
+                            'com.learn_build') ...[
+                          if (index == 0)
+                            Container(
+                                margin: EdgeInsets.only(left: 9, top: 6),
+                                child: Text(
+                                    '${recommendedcourses![index].categoryName}',
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: false,
+                                    style: Styles.semibold(size: 16))),
+                          if (index > 0 &&
+                              recommendedcourses![index].categoryName !=
+                                  recommendedcourses![index - 1].categoryName)
+                            Container(
+                                margin: EdgeInsets.only(left: 9, top: 6),
+                                child: Text(
+                                    '${recommendedcourses![index].categoryName}',
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: false,
+                                    style: Styles.semibold(size: 16))),
+                        ],
+                        InkWell(
+                            onTap: () {
+                              /*_subscribeRequest(
+                                  recommendedcourses![index].subscriptionType,
+                                  recommendedcourses![index].id);*/
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CoursesDetailsPage(
+                                        imgUrl:
+                                            recommendedcourses![index].image,
+                                        indexc: index,
+                                        tagName: 'TagReco',
+                                        name: recommendedcourses![index].name,
+                                        description: recommendedcourses![index]
+                                                .description ??
+                                            '',
+                                        regularPrice: recommendedcourses![index]
+                                            .regularPrice,
+                                        salePrice: recommendedcourses![index]
+                                            .salePrice,
+                                        trainer:
+                                            recommendedcourses![index].trainer,
+                                        enrolmentCount:
+                                            recommendedcourses![index]
+                                                .enrolmentCount,
+                                        type: recommendedcourses![index]
+                                            .subscriptionType,
+                                        id: recommendedcourses![index].id,
+                                        shortCode: recommendedcourses![index]
+                                            .shortCode)),
+                              ).then((isSuccess) {
+                                if (isSuccess == true) {
+                                  print('sucess enrolled');
+                                  _getPopularCourses();
+                                  _getFilteredPopularCourses();
+
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MyCourses()));
+                                }
+                              });
+
+                              /*Navigator.push(
+                                                context,
+                                                NextPageRoute(ChangeNotifierProvider<
+                                                        RecommendedCourseProvider>(
+                                                    create: (context) =>
+                                                        RecommendedCourseProvider(
+                                                            TrainingService(
+                                                                ApiService()),
+                                                            recommendedcourses[
+                                                                index]),
+                                                    child:
+                                                        PopularCourseDetailPage())));*/
+                            },
+                            child: _getCourseTemplate(context,
+                                recommendedcourses![index], index, 'TagReco')),
+                      ],
+                    );
+                  },
+                  itemCount: min(4, recommendedcourses!.length),
+                  //scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  // physics: NeverScrollableScrollPhysics(),
+                ),
+              ),
               ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
+                  index += 4;
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -1425,16 +1519,23 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                                                   child:
                                                       PopularCourseDetailPage())));*/
                           },
-                          child: _getCourseTemplate(context,
-                              recommendedcourses![index], index, 'TagReco')),
+
+
+                          child: _getCourseVerticalTemplate(
+                                        context,
+                                        recommendedcourses![index], index,
+                                        'TagReco')),
+                          // child: _getCourseTemplate(context,
+                          //     recommendedcourses![index], index, 'TagReco')),
                     ],
                   );
                 },
-                itemCount: recommendedcourses?.length ?? 0,
+                itemCount: recommendedcourses!.length - 4,
                 //scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
               ),
+             
             ]));
       },
     );
