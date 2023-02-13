@@ -38,7 +38,7 @@ class _InterestPageState extends State<InterestPage> {
   bool isUpdating = false;
   List<Menu>? menuList;
   Color foregroundColor = ColorConstants.BLACK;
-  int? isParentLanguage = Preference.getInt(Preference.IS_PRIMARY_LANGUAGE);
+  int? isParentLanguage = Preference.getInt(Preference.IS_PRIMARY_LANGUAGE) ?? 1;
 
   @override
   void initState() {

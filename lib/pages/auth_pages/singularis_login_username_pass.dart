@@ -18,6 +18,7 @@ import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/main.dart';
 import 'package:masterg/pages/auth_pages/forget_password.dart';
 import 'package:masterg/pages/auth_pages/register.dart';
+import 'package:masterg/pages/auth_pages/terms_and_condition_page.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/custom_pages/TapWidget.dart';
 import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
@@ -578,19 +579,29 @@ class _SingularisLoginState extends State<SingularisLogin> {
                           //   //       size: 16, color: ColorConstants.WHITE),
                           //   // ),
                           // ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 50.0),
+                          Container(
+                            height: height(context)*0.1,
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Text(
                                     '${Strings.of(context)?.byClickingContinue}',
                                     style: Styles.regular(
-                                        size: 10, color: Colors.white)),
+                                        size: 12, color: Colors.white)),
                                 SizedBox(width: 10),
-                                Text(
-                                  '${Strings.of(context)?.byClickingContinueUnderline}',
-                                  style: Styles.regular(
-                                      size: 12, color: ColorConstants.WHITE),
+                                InkWell(
+                                  onTap: () {
+                                     Navigator.push(
+                        context,
+                        NextPageRoute(
+                            TermsAndCondition(url: APK_DETAILS['policy_url']),
+                            isMaintainState: false));
+                                  },
+                                  child: Text(
+                                    '${Strings.of(context)?.byClickingContinueUnderline}',
+                                    style: Styles.regular(
+                                        size: 12, color: ColorConstants.WHITE),
+                                  ),
                                 ),
                               ],
                             ),

@@ -338,7 +338,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                               )
                             : Image.asset(
                                 appBarImagePath,
-                                height: 60,
+                                height: 40,
                                 width: 180,
                               )),
                         // SvgPicture.asset(
@@ -498,11 +498,12 @@ class _VerifyOtpState extends State<VerifyOtp> {
                         width: double.infinity,
                         height: MediaQuery.of(context).size.height * 0.06,
                         decoration: BoxDecoration(
-                            color: _pin.length != 4
-                                ? ColorConstants.WHITE
+                                                              color: Colors.white,
+                            // color: _pin.length != 4
+                            //     ? ColorConstants.WHITE
                   
-                                    .withOpacity(0.5)
-                                : ColorConstants.WHITE,
+                            //         .withOpacity(0.5)
+                            //     : ColorConstants.WHITE,
                             borderRadius: BorderRadius.circular(10)),
                         child: ShaderMask(
                                 blendMode: BlendMode.srcIn,
