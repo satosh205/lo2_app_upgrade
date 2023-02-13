@@ -13,6 +13,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  bool isFill = false;
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
   @override
@@ -328,43 +329,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
               ),
-              // SizedBox(
-              //   height: 160,
-              // ),
+              SizedBox(
+                height: 230,
+              ),
              
-              Padding(
-                  padding: const EdgeInsets.all(18.0),
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Column(
-                      children: [
-                        Container(
-                          height: height(context) * 0.06,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            gradient: LinearGradient(colors: [
-                              ColorConstants.GRADIENT_ORANGE,
-                              ColorConstants.GRADIENT_RED,
-                            ]),
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              
-                            },
-                            child: Center(
-                              child: Text(
-                                'Sign Up',
-                                style: Styles.regular(
-                                  size: 16,
-                                  color: ColorConstants.WHITE,
-                                ),
-                              ),
-                            ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: Container(
+                      height: height(context) * 0.06,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        gradient: LinearGradient(
+                          
+                          colors: [
+                          
+                         ColorConstants.GRADIENT_ORANGE,
+                          ColorConstants.GRADIENT_RED
+                          // Color(0xffE9E9E9)
+                        ]),
+                        
+                      ),
+                      child: Center(
+                        child: Text(
+              
+                          'Sign Up',
+                          style: Styles.regular(
+                            size: 16,
+                            color: ColorConstants.WHITE,
                           ),
                         ),
-                      ],
-                    ),
-                  )),
+                      ),
+                    )),
+              ),
             ],
           ),
         ),
