@@ -12,6 +12,7 @@ class Preference {
   static const NATIONALITY = "NATIONALITY";
   static const PROFILE_IMAGE = "PROFILE_IMAGE";
   static const PROFILE_VIDEO = "PROFILE_VIDEO";
+  static const PROFILE_PERCENT = "PROFILE_PER";
   static const ABOUT_ME = "ABOUT_ME";
   static const USER_HEADLINE = "USER_HEADLINE";
   static const LOCATION = "LOCATION";

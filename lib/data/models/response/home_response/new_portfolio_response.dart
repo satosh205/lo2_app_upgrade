@@ -47,6 +47,7 @@ class Data {
         required this.portfolio,
         required this.baseFileUrl,
          required this.recentActivity,
+         required this.profileCompletion
     });
 
     String image;
@@ -62,12 +63,14 @@ class Data {
     List<Portfolio> portfolio;
     String baseFileUrl;
     List<RecentActivity> recentActivity;
+    int profileCompletion;
 
     factory Data.fromJson(Map<String, dynamic> json) => Data(
         image: json["image"],
         name: json["name"],
         resume: List<Resume>.from(json["resume"].map((x) => Resume.fromJson(x))),
         profileVideo: json["profile_video"],
+        profileCompletion: int.parse('${json["profile_completion"] ?? 0}') ,
         education: List<CommonProfession>.from(json["Education"].map((x) => CommonProfession.fromJson(x))),
         experience: List<CommonProfession>.from(json["Experience"].reversed.map((x) => CommonProfession.fromJson(x))),
         certificate: List<CommonProfession>.from(json["Certificate"].reversed.map((x) => CommonProfession.fromJson(x))),
@@ -92,6 +95,7 @@ class Data {
         "portfolio_profile": List<dynamic>.from(portfolioProfile.map((x) => x.toJson())),
         "portfolio":  List<dynamic>.from(portfolio.map((x) => x.toJson())).reversed,
         "base_file_url": baseFileUrl,
+        "profile_completion" : profileCompletion,
         "recent_activity": List<dynamic>.from(recentActivity.map((x) => x.toJson())),
     };
 }

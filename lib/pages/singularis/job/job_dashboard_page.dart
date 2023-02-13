@@ -412,10 +412,11 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                       //       ),
                       //     ),
                       //     SizedBox(height: 8),
-                      //     Text(
-                      //         'Profile completed: 30% ',
-                      //         style: Styles
-                      //             .semiBoldWhite())
+                      ,
+                          Text(
+                              'Profile completed: 30% ',
+                              style: Styles
+                                  .semiBoldWhite())
                         // ],
                       // ),
                     ],

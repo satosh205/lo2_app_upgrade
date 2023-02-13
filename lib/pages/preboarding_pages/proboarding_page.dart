@@ -43,14 +43,16 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       key: _scaffoldKey,
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          children: [
-            _pageView(),
-            _loginRegisterWidget(_currentIndex),
-          ],
+      body: SafeArea(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            children: [
+              _pageView(),
+              _loginRegisterWidget(_currentIndex),
+            ],
+          ),
         ),
       ),
     );

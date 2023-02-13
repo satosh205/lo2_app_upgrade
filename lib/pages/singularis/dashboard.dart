@@ -402,7 +402,23 @@ class _DashboardPageState extends State<DashboardPage> {
                                   ),
                                 ),
                                 SizedBox(height: 10),
-                                // Text('Profile completed: 30% ',
+                              Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                  text:
+                                      'Profile completed: ',
+                                  style: Styles.regular(  color: ColorConstants.WHITE)),
+                              TextSpan(
+                                text:
+                                    '${Preference.getInt(Preference.PROFILE_PERCENT) ?? 0}%',
+                                style: Styles.bold(
+                             color: ColorConstants.WHITE),
+                              ),
+                            ],
+                          ),
+                          textAlign: TextAlign.left),
+                                // Text('Profile completed: ${Preference.getInt(Preference.PROFILE_PERCENT) ?? 0}%',
                                 //     style: Styles.semiBoldWhite())
                               ],
                             ),
