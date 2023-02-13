@@ -333,33 +333,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 height: 230,
               ),
              
-<<<<<<< HEAD
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                    padding: const EdgeInsets.all(18.0),
-                    child: Container(
-                      height: height(context) * 0.06,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        gradient: LinearGradient(
-                          
-                          colors: [
-                          
-                         ColorConstants.GRADIENT_ORANGE,
-                          ColorConstants.GRADIENT_RED
-                          // Color(0xffE9E9E9)
-                        ]),
-                        
-                      ),
-                      child: Center(
-                        child: Text(
-              
-                          'Sign Up',
-                          style: Styles.regular(
-                            size: 16,
-                            color: ColorConstants.WHITE,
-=======
               Padding(
                   padding: const EdgeInsets.all(18.0),
                   child: Align(
@@ -389,12 +362,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                               ),
                             ),
->>>>>>> f23903ca69215e4ccc8dfcac947a9eb5940d0df7
                           ),
                         ),
-                      ),
+             ] ),
                     )),
-              ),
+              
             ],
           ),
         ),
