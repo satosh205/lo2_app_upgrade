@@ -710,10 +710,10 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                   child: ChangeNotifierProvider<AssignmentDetailProvider>(
                       create: (c) => AssignmentDetailProvider(
                           TrainingService(ApiService()), data,
-                          fromCompletiton: true, id: data.programContentId),
+                          fromCompletiton: false, id: data.programContentId),
                       child: AssignmentDetailPage(
                         id: data.id,
-                        fromCompetition: true,
+                        fromCompetition: false,
                       ))));
         else if (cardType == CardType.assessment) {
           Navigator.push(
@@ -725,8 +725,8 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                   child: ChangeNotifierProvider<AssessmentDetailProvider>(
                       create: (context) => AssessmentDetailProvider(
                           TrainingService(ApiService()), data,
-                          fromCompletiton: true, id: data.programContentId),
-                      child: AssessmentDetailPage(fromCompetition: true))));
+                          fromCompletiton: false, id: data.programContentId),
+                      child: AssessmentDetailPage(fromCompetition: false))));
         } else if (cardType == CardType.session) {
           Navigator.push(
               context,

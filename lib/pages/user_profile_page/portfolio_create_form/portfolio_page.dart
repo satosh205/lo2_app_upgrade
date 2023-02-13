@@ -1134,7 +1134,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                   userRank?.data.first.rank !=
                                                           null
                                                       ? '${userRank?.data.first.rank}'
-                                                      : '0',
+                                                      : ' 0',
                                                   style: Styles.bold(size: 26),
                                                 ),
                                               )
@@ -1198,7 +1198,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                   userRank?.data.first.score !=
                                                           null
                                                       ? '${userRank?.data.first.score}'
-                                                      : '0',
+                                                      : ' 0',
                                                   style: Styles.bold(size: 24),
                                                 ),
                                               )

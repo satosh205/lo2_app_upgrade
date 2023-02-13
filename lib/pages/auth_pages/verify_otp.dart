@@ -217,8 +217,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
           if (state.response!.isCompleted == null)
             state.response!.isCompleted = 0;
 
-          Preference.setInt(Preference.APP_LANGUAGE,
-              Preference.getInt(Preference.APP_LANGUAGE) ?? 1);
+          Preference.setInt(Preference.APP_LANGUAGE, Preference.getInt(Preference.APP_LANGUAGE) ?? 1);
           Preference.setInt(Preference.CONTENT_LANGUAGE, 1);
 
           Preference.setString(

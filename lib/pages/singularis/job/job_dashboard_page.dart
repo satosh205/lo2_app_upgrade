@@ -54,6 +54,8 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
   String seletedIds = '';
   List<int> selectedIdList = <int>[];
   int? applied;
+  int? applied2;
+  int? applied3;
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool myJobRecall = false;
 
@@ -1393,8 +1395,10 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                               applied == null || applied != index ?'Apply':'Applied',
                               style: Styles.bold(size: 14),
                               colors: [
-                                ColorConstants.GRADIENT_ORANGE,
-                                ColorConstants.GRADIENT_RED,
+                                applied == null || applied != index ?
+                                ColorConstants.GRADIENT_ORANGE : ColorConstants.GREEN,
+                                applied == null || applied != index ?
+                                ColorConstants.GRADIENT_RED : ColorConstants.GREEN,
                               ],
                             ),
                             /*child: Text(applied == null || applied != index ?'Apply':'',
@@ -1403,7 +1407,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                           ),
                         ): Padding(
                           padding: const EdgeInsets.only(bottom: 20.0),
-                          child: Text('${allJobListResponse?.data![index]!.jobStatus}', style: Styles.bold(color: Colors.green, size: 14),),
+                          child: Text('Applied', style: Styles.bold(color: Colors.green, size: 14),),
                         ),
                       ),
                     ],
@@ -1568,7 +1572,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                         ) :
                         Padding(
                           padding: const EdgeInsets.only(bottom: 20.0),
-                          child: Text('', style: Styles.bold(color: Colors.green, size: 14),),
+                          child: Text('Applied', style: Styles.bold(color: Colors.green, size: 14),),
                         ),
                       ),
                     ],
@@ -1719,8 +1723,10 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                               applied == null || applied != index ?'Apply':'Applied',
                               style: Styles.bold(size: 14),
                               colors: [
-                                ColorConstants.GRADIENT_ORANGE,
-                                ColorConstants.GRADIENT_RED,
+                                applied == null || applied != index ?
+                                ColorConstants.GRADIENT_ORANGE : ColorConstants.GREEN,
+                                applied == null || applied != index ?
+                                ColorConstants.GRADIENT_RED : ColorConstants.GREEN,
                               ],
                             ),
                             /*child: Text(applied == null || applied != index ?'Apply':'',
@@ -1730,7 +1736,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                         ) :
                         Padding(
                           padding: const EdgeInsets.only(bottom: 20.0),
-                          child: Text('', style: Styles.bold(color: Colors.green, size: 14),),
+                          child: Text('Applied', style: Styles.bold(color: Colors.green, size: 14),),
                         ),
                       ),
                     ],

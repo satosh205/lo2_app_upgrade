@@ -181,8 +181,8 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                                         children: [
                                           Text(
                                               e.growthType != 'up'
-                                                  ? '+${e.growth}%'
-                                                  : '-${e.growth}%',
+                                                  ? '-${e.growth}%'
+                                                  : '+${e.growth}%',
                                               style: Styles.regular(
                                                   size: 12,
                                                   color: e.growthType != 'up'
