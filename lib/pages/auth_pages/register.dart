@@ -331,10 +331,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(
                 height: 230,
               ),
-<<<<<<< HEAD
-             
-=======
->>>>>>> 433d2ac4a305f0c2c0e994dc915de4fca853c487
               Padding(
                 padding: const EdgeInsets.all(18.0),
                 child: Align(
@@ -365,15 +361,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                         ),
-<<<<<<< HEAD
-             ] ),
-                    )),
-              
-=======
                       ),
                     ])),
               ),
->>>>>>> 433d2ac4a305f0c2c0e994dc915de4fca853c487
             ],
           ),
         ),
