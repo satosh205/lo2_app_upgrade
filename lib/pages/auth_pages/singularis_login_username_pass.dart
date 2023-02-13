@@ -17,6 +17,7 @@ import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/main.dart';
 import 'package:masterg/pages/auth_pages/forget_password.dart';
+import 'package:masterg/pages/auth_pages/register.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/custom_pages/TapWidget.dart';
 import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
@@ -295,7 +296,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
                     : Image.asset(
                         appBarImagePath,
                         // 'assets/images/${APK_DETAILS' ,
-                        height: 80,
+                        height: 40,
                         width: 150,
                       ),
               ),
@@ -315,7 +316,9 @@ class _SingularisLoginState extends State<SingularisLogin> {
               _size(height: 20),
               Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
                   gradient: LinearGradient(colors: [
                     ColorConstants.GRADIENT_ORANGE,
                     ColorConstants.GRADIENT_RED,
@@ -541,18 +544,28 @@ class _SingularisLoginState extends State<SingularisLogin> {
                                   //   },
                                   // ),
 
-                                  //             RichText(
-                                  //   text: new TextSpan(
-                                  //     text: 'Not registered?',
-                                  //     style: Styles.semibold(size: 14,color: Color(0xff0E1638)),
-                                  //     children: <TextSpan>[
-                                  //       new TextSpan(
-                                  //           text: '  Register now',
-                                  //           style: Styles.regularWhite(size: 14)),
-
-                                  //     ],
-                                  //   ),
-                                  // ),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  RegisterScreen()));
+                                    },
+                                    child: RichText(
+                                      text: new TextSpan(
+                                        text: 'Not registered?',
+                                        style: Styles.semibold(
+                                            size: 14, color: Color(0xff0E1638)),
+                                        children: <TextSpan>[
+                                          new TextSpan(
+                                              text: '  Register now',
+                                              style: Styles.regularWhite(
+                                                  size: 14)),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ]),
                           ),
                           // TapWidget(
@@ -566,7 +579,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
                           //   // ),
                           // ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 30.0),
+                            padding: const EdgeInsets.only(top: 50.0),
                             child: Column(
                               children: [
                                 Text(
