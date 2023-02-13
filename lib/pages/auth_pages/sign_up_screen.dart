@@ -153,7 +153,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       : Image.asset(
                           appBarImagePath,
                           // 'assets/images/${APK_DETAILS' ,
-                          height: 60,
+                          height: 40,
                           width: 180,
                         ),
                 ),
@@ -188,7 +188,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           Container(
             
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(20),
               gradient: LinearGradient(colors: [
                 ColorConstants.GRADIENT_ORANGE,
                 ColorConstants.GRADIENT_RED,

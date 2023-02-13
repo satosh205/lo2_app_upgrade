@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -18,8 +19,15 @@ class _TermsAndConditionState extends State<TermsAndCondition> {
     return Scaffold(
       backgroundColor: ColorConstants.WHITE,
       appBar: AppBar(
-        title: Text("Terms and Conditions"),
-        backgroundColor: ColorConstants.GRADIENT_RED,
+        elevation: 0.0,
+        
+        leading: InkWell(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(Icons.arrow_back_ios_new_outlined,color: ColorConstants.BLACK,)),
+        title: Text("Terms and Conditions",style: Styles.semibold(color: ColorConstants.BLACK,),),
+        backgroundColor: ColorConstants.WHITE
       ),
       body: Stack(
         children: <Widget>[

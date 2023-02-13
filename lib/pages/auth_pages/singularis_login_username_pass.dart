@@ -579,10 +579,16 @@ class _SingularisLoginState extends State<SingularisLogin> {
                           //   //       size: 16, color: ColorConstants.WHITE),
                           //   // ),
                           // ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 50.0),
+                          Container(
+                            height: height(context)*0.1,
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
+                                Text(
+                                    '${Strings.of(context)?.byClickingContinue}',
+                                    style: Styles.regular(
+                                        size: 12, color: Colors.white)),
+                                SizedBox(width: 10),
                                 InkWell(
                                   onTap: () {
                                      Navigator.push(
@@ -592,15 +598,10 @@ class _SingularisLoginState extends State<SingularisLogin> {
                             isMaintainState: false));
                                   },
                                   child: Text(
-                                      '${Strings.of(context)?.byClickingContinue}',
-                                      style: Styles.regular(
-                                          size: 10, color: Colors.white)),
-                                ),
-                                SizedBox(width: 10),
-                                Text(
-                                  '${Strings.of(context)?.byClickingContinueUnderline}',
-                                  style: Styles.regular(
-                                      size: 12, color: ColorConstants.WHITE),
+                                    '${Strings.of(context)?.byClickingContinueUnderline}',
+                                    style: Styles.regular(
+                                        size: 12, color: ColorConstants.WHITE),
+                                  ),
                                 ),
                               ],
                             ),
