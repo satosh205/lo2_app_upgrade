@@ -6,6 +6,7 @@ import 'package:masterg/pages/singularis/careers/skill/skill_assessment.dart';
 import 'package:masterg/pages/singularis/community/tab2/alumni_voice.dart';
 import 'package:masterg/pages/singularis/job/job_dashboard_page.dart';
 import 'package:masterg/pages/singularis/wow_studio.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/portfolio_page.dart';
 
 import '../../../blocs/bloc_manager.dart';
 import '../../../blocs/home_bloc.dart';
@@ -63,8 +64,11 @@ class _CommunityDashboardState extends State<CommunityDashboard> {
                                   formCreatePost: false,
                                 ),
               ),
+
+              SizedBox(height: 0,),
             ],
           ),
+
           // child: DefaultTabController(
           //     length: 2,
           //     initialIndex: 0,
@@ -137,7 +141,7 @@ class _CommunityDashboardState extends State<CommunityDashboard> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Portfolio()));
+                                  builder: (context) => NewPortfolioPage()));
                         },
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(200),

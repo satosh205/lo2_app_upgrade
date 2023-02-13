@@ -198,8 +198,12 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                               ],
                             ),
                           ),
-                          title: Text("${leaderboardResponse?.data.where((e) => e.id == Preference.getInt(Preference.USER_ID)).first.name}"),
-                          subtitle: Text("${leaderboardResponse?.data.where((e) => e.id == Preference.getInt(Preference.USER_ID)).first.totalActivities} Activities"),
+                          title: Text("${leaderboardResponse?.data.where((e) => e.id == Preference.getInt(Preference.USER_ID)).isEmpty == true ? Preference.getString(Preference.FIRST_NAME)
+                              :leaderboardResponse?.data.where((e) => e.id == Preference.getInt(Preference.USER_ID)).first.name}"),
+                          //title: Text("${leaderboardResponse?.data.where((e) => e.id == Preference.getInt(Preference.USER_ID)).first.name}"),
+                          //subtitle: Text("${leaderboardResponse?.data.where((e) => e.id == Preference.getInt(Preference.USER_ID)).first.totalActivities} Activities"),
+                          subtitle: Text("${leaderboardResponse?.data.where((e) => e.id == Preference.getInt(Preference.USER_ID)).isEmpty == true ? '0' :
+                          leaderboardResponse?.data.where((e) => e.id == Preference.getInt(Preference.USER_ID)).first.totalActivities} Activities"),
                           trailing: SizedBox(
                             width: width(context) * 0.18,
                             child: Row(
@@ -211,7 +215,10 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                                 const SizedBox(
                                   width: 4,
                                 ),
-                                Text("${leaderboardResponse?.data.where((e) => e.id == Preference.getInt(Preference.USER_ID)).first.gScore ?? 0}"),
+                                //Text("${leaderboardResponse?.data.where((e) => e.id == Preference.getInt(Preference.USER_ID)).first.gScore ?? 0}"),
+                                Text("${leaderboardResponse?.data.where((e) => e.id == Preference.getInt(Preference.USER_ID)).isEmpty == true ? '0'
+
+                                    : leaderboardResponse?.data.where((e) => e.id == Preference.getInt(Preference.USER_ID)).first.gScore ?? 0}"),
                               ],
                             ),
                           ),

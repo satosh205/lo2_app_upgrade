@@ -16,6 +16,7 @@ import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/resource/size_constants.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../../../blocs/bloc_manager.dart';
 import '../../../blocs/home_bloc.dart';
 import '../../../data/models/response/home_response/competition_response.dart';
@@ -207,7 +208,6 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
   }
 
 
-
   @override
   Widget build(BuildContext context) {
     return BlocManager(
@@ -258,21 +258,20 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
             _customAppBar(),
 
             ///Search Job
-            SizedBox(
+            /*SizedBox(
               height: height(context) * 0.03,
-            ),
-
-            Padding(
+            ),*/
+            /*Padding(
               padding: const EdgeInsets.only(
                   left: SizeConstants.JOB_LEFT_SCREEN_MGN,
                   right: SizeConstants.JOB_RIGHT_SCREEN_MGN),
               child: _searchFilter(),
-            ),
+            ),*/
 
             ///My Job Section
-            myJobResponse?.data != null ? SizedBox(
+            /*myJobResponse?.data != null ? SizedBox(
               height: 30,
-            ):SizedBox(),
+            ):SizedBox(),*/
             myJobResponse?.data != null ? _myJobSectionCard() : SizedBox(),
 
             ///Complete Profile
@@ -293,12 +292,8 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
             myJobLoading == false ? _jobBasedYourListCard() : BlankPage(),
 
             ///Recommended Opportunities
-            SizedBox(
-              height: 30,
-            ),
             recommendedJobOpportunities?.data != null ?
             _recommendedOpportunitiesListCard(): BlankPage(),
-
 
             SizedBox(
               height: 30,
@@ -785,9 +780,13 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              clickType != 'complete_profile' ?
+              Expanded(child: Image.asset('assets/images/build_read.png', height: 40, width: 40,),):
+              SizedBox(),
               Expanded(
                 flex: 9,
                 child: Container(
+                  margin: EdgeInsets.only(left: 10.0, top: 10.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -795,7 +794,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                           style: Styles.bold(
                               size: 16, color: ColorConstants.WHITE)),
                       Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
+                        padding: const EdgeInsets.only(top: 10.0),
                         child: Text('$strDes', style: Styles.regularWhite()),
                       ),
                     ],
@@ -805,7 +804,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
               Expanded(
                 flex: 1,
                 child: Container(
-                  padding: EdgeInsets.only(left: 10.0),
+                  padding: EdgeInsets.only(left: 10.0,),
                   child: Icon(
                     Icons.arrow_forward_ios,
                     color: Colors.white,
@@ -828,8 +827,10 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
   }
 
   Widget _myJobSectionCard() {
-    return Column(
+    return myJobResponse?.data!.length != 0 ? Column(
       children: [
+        //SizedBox(height: 30,),
+        SizedBox(height: 10,),
         Container(
           color: Colors.white,
           child: Row(
@@ -837,7 +838,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(13.0),
-                child: Text('My Job',
+                child: Text('My Jobs',
                     style: Styles.regular(size: 16, color: ColorConstants.BLACK)),
               ),
 
@@ -956,7 +957,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
               },
             ))
       ],
-    );
+    ): SizedBox();
   }
 
   Widget _jobBasedYourListCard() {
@@ -1040,8 +1041,9 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
   }
 
   Widget _recommendedOpportunitiesListCard() {
-    return Container(
+    return recommendedJobOpportunities?.data!.length != 0 ? Container(
       //decoration: BoxDecoration(color: ColorConstants.WHITE),
+      margin: EdgeInsets.only(top: 30),
       child: Column(
         children: [
           Row(
@@ -1266,7 +1268,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
           )
         ],
       ),
-    );
+    ) :SizedBox();
   }
 
   Widget renderJobList(int position) {
@@ -1386,10 +1388,18 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                             _onLoadingForJob();
                             },
                           child: Container(
-                            padding: EdgeInsets.only(left: 5.0),
-                            child: Text(applied == null || applied != index ?'Apply':'',
+                            padding: EdgeInsets.only(left: 0.0),
+                            child: GradientText(
+                              applied == null || applied != index ?'Apply':'Applied',
+                              style: Styles.bold(size: 14),
+                              colors: [
+                                ColorConstants.GRADIENT_ORANGE,
+                                ColorConstants.GRADIENT_RED,
+                              ],
+                            ),
+                            /*child: Text(applied == null || applied != index ?'Apply':'',
                                 style: Styles.bold(
-                                    size: 12, color: ColorConstants.ORANGE)),
+                                    size: 12, color: ColorConstants.ORANGE)),*/
                           ),
                         ): Padding(
                           padding: const EdgeInsets.only(bottom: 20.0),
@@ -1539,10 +1549,21 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                             _onLoadingForJob();
                           },
                           child: Container(
-                            padding: EdgeInsets.only(left: 5.0),
-                            child: Text(applied == null || applied != index ?'Apply':'',
+                            padding: EdgeInsets.only(left: 0.0),
+
+                            child: GradientText(
+                              applied == null || applied != index ?'Apply':'Applied',
+                              style: Styles.bold(size: 14),
+                              colors: [
+                                applied == null || applied != index ?
+                                ColorConstants.GRADIENT_ORANGE : ColorConstants.GREEN,
+                                applied == null || applied != index ?
+                                ColorConstants.GRADIENT_RED : ColorConstants.GREEN,
+                              ],
+                            ),
+                           /* child: Text(applied == null || applied != index ?'Apply':'',
                                 style: Styles.bold(
-                                    size: 12, color: ColorConstants.ORANGE)),
+                                    size: 12, color: ColorConstants.ORANGE)),*/
                           ),
                         ) :
                         Padding(
@@ -1693,10 +1714,18 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                             _onLoadingForJob();
                           },
                           child: Container(
-                            padding: EdgeInsets.only(left: 5.0),
-                            child: Text(applied == null || applied != index ?'Apply':'',
+                            padding: EdgeInsets.only(left: 0.0),
+                            child: GradientText(
+                              applied == null || applied != index ?'Apply':'Applied',
+                              style: Styles.bold(size: 14),
+                              colors: [
+                                ColorConstants.GRADIENT_ORANGE,
+                                ColorConstants.GRADIENT_RED,
+                              ],
+                            ),
+                            /*child: Text(applied == null || applied != index ?'Apply':'',
                                 style: Styles.bold(
-                                    size: 12, color: ColorConstants.ORANGE)),
+                                    size: 12, color: ColorConstants.ORANGE)),*/
                           ),
                         ) :
                         Padding(

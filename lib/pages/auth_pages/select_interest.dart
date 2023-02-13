@@ -55,6 +55,7 @@ class _InterestPageState extends State<InterestPage> {
     BlocProvider.of<HomeBloc>(context).add(MapInterestEvent(param: param));
   }
 
+
   @override
   Widget build(BuildContext context) {
     return BlocManager(
@@ -78,11 +79,11 @@ class _InterestPageState extends State<InterestPage> {
             ],
             child: Scaffold(
               appBar: AppBar(
-                backgroundColor: ColorConstants().primaryColor(),
-                leading: BackButton(color: foregroundColor),
+                backgroundColor: ColorConstants.WHITE,
+                leading: BackButton(color: Colors.black),
                 title: Text(
                   '${Strings.of(context)?.ChooseYourInterests}',
-                  style: Styles.semibold(color: foregroundColor),
+                  style: Styles.semibold(color: Colors.black),
                 ),
                 elevation: 0,
                 automaticallyImplyLeading:
@@ -134,8 +135,7 @@ class _InterestPageState extends State<InterestPage> {
                                         onTap: () {
                                           var parentId = '';
                                           var localId = '';
-                                          print(
-                                              'the selecte dpr $selectProgramId and $selectProgramParentId and $isParentLanguage');
+                                          print('the selecte dpr $selectProgramId and $selectProgramParentId and $isParentLanguage');
 
                                           if (isParentLanguage == 1) {
                                             selectProgramId.forEach((element) {
@@ -175,6 +175,10 @@ class _InterestPageState extends State<InterestPage> {
                                                   .height *
                                               WidgetSize.AUTH_BUTTON_SIZE,
                                           decoration: BoxDecoration(
+                                              gradient: LinearGradient(colors: [
+                                                ColorConstants.GRADIENT_ORANGE,
+                                                ColorConstants.GRADIENT_RED,
+                                              ]),
                                               color: ColorConstants()
                                                   .buttonColor(),
                                               borderRadius:

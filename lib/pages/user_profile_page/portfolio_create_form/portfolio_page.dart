@@ -442,7 +442,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     SizedBox(
-                                      height: 16,
+                                      height: 5,
                                     ),
                                     Row(
                                       children: [
@@ -804,181 +804,225 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                           endIndent: 10,
                                         ),
                                         SizedBox(width: 14),
-                                        portfolioResponse?.data.portfolioSocial.length == 0
+                                        portfolioResponse?.data.portfolioSocial == null ||
+                                            portfolioResponse?.data.portfolioSocial!.length == 0
                                             ? Row(
                                                 children: [
-                                                  SvgPicture.asset(
-                                                      'assets/images/linkedin_un.svg'),
+                                                  SvgPicture.asset('assets/images/linkedin_un.svg'),
                                                   SizedBox(width: 14),
-                                                  SvgPicture.asset(
+                                                  /*SvgPicture.asset(
                                                       'assets/images/facebook_un.svg'),
+                                                  SizedBox(width: 14),*/
+                                                  SvgPicture.asset('assets/images/insta_un.svg'),
                                                   SizedBox(width: 14),
-                                                  SvgPicture.asset(
-                                                      'assets/images/insta_un.svg'),
+                                                  SvgPicture.asset('assets/images/twitter_un.svg'),
                                                   SizedBox(width: 14),
-                                                  SvgPicture.asset(
-                                                      'assets/images/twitter_un.svg'),
-                                                  SizedBox(width: 14),
-                                                  SvgPicture.asset(
-                                                      'assets/images/behance_un.svg'),
+                                                  SvgPicture.asset('assets/images/behance_un.svg'),
                                                   SizedBox(width: 3),
                                                 ],
                                               )
                                             : Row(
-                                                children: [
-                                                  portfolioResponse
-                                                              ?.data
-                                                              .portfolioSocial
-                                                              .first
-                                                              .linkedin !=
-                                                          ""
-                                                      ? InkWell(
-                                                          onTap: () async {
-                                                            Navigator.push(
-                                                                context,
-                                                                NextPageRoute(
-                                                                    CommonWebView(
-                                                                  url: portfolioResponse
-                                                                      ?.data
-                                                                      .portfolioSocial
-                                                                      .first
-                                                                      .linkedin,
-                                                                ))).then((isSuccess) {
-                                                              if (isSuccess ==
-                                                                  true) {
-                                                                Navigator.pop(
+                                              children: [
+                                                Row(
+                                                    children: [
+                                                      portfolioResponse
+                                                                  ?.data
+                                                                  .portfolioSocial
+                                                                  .first
+                                                                  .linkedin !=
+                                                              ""
+                                                          ? InkWell(
+                                                              onTap: () async {
+                                                                Navigator.push(
                                                                     context,
-                                                                    true);
-                                                              }
-                                                            });
-                                                          },
-                                                          child: SvgPicture.asset(
-                                                              'assets/images/linkedin.svg'),
-                                                        )
-                                                      : SvgPicture.asset(
-                                                          'assets/images/linkedin_un.svg'),
-                                                  // SizedBox(width: 14),
+                                                                    NextPageRoute(
+                                                                        CommonWebView(
+                                                                      url: portfolioResponse
+                                                                          ?.data
+                                                                          .portfolioSocial
+                                                                          .first
+                                                                          .linkedin,
+                                                                    ))).then((isSuccess) {
+                                                                  if (isSuccess ==
+                                                                      true) {
+                                                                    Navigator.pop(
+                                                                        context,
+                                                                        true);
+                                                                  }
+                                                                });
+                                                              },
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.only(right: 14.0),
+                                                                child: SvgPicture.asset(
+                                                                    'assets/images/linkedin.svg'),
+                                                              ),
+                                                            )
+                                                          : SizedBox(),
 
-                                                  // portfolioResponse?.data.portfolioSocial.first.facebook != "" ?
-                                                  // InkWell(
-                                                  //   onTap: (){
-                                                  //     Navigator.push(
-                                                  //         context,
-                                                  //         NextPageRoute(CommonWebView(
-                                                  //           url: portfolioResponse?.data.portfolioSocial.first.facebook,
-                                                  //         ))).then((isSuccess) {
-                                                  //       if (isSuccess == true) {
-                                                  //         Navigator.pop(context, true);
-                                                  //       }
-                                                  //     });
-                                                  //   },
-                                                  //   child: SvgPicture.asset(
-                                                  //       'assets/images/facebook.svg'),
-                                                  // )
-                                                  // :SvgPicture.asset(
-                                                  //     'assets/images/facebook_un.svg'),
-                                                  SizedBox(width: 10),
-
-                                                  portfolioResponse
-                                                              ?.data
-                                                              .portfolioSocial
-                                                              .first
-                                                              .insta !=
-                                                          ""
-                                                      ? InkWell(
-                                                          onTap: () {
-                                                            Navigator.push(
-                                                                context,
-                                                                NextPageRoute(
-                                                                    CommonWebView(
-                                                                  url: portfolioResponse
-                                                                      ?.data
-                                                                      .portfolioSocial
-                                                                      .first
-                                                                      .insta,
-                                                                ))).then((isSuccess) {
-                                                              if (isSuccess ==
-                                                                  true) {
-                                                                Navigator.pop(
+                                                      portfolioResponse
+                                                                  ?.data
+                                                                  .portfolioSocial
+                                                                  .first
+                                                                  .insta !=
+                                                              ""
+                                                          ? InkWell(
+                                                              onTap: () {
+                                                                Navigator.push(
                                                                     context,
-                                                                    true);
-                                                              }
-                                                            });
-                                                          },
+                                                                    NextPageRoute(
+                                                                        CommonWebView(
+                                                                      url: portfolioResponse
+                                                                          ?.data
+                                                                          .portfolioSocial
+                                                                          .first
+                                                                          .insta,
+                                                                    ))).then((isSuccess) {
+                                                                  if (isSuccess ==
+                                                                      true) {
+                                                                    Navigator.pop(
+                                                                        context,
+                                                                        true);
+                                                                  }
+                                                                });
+                                                              },
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.only(right: 14.0),
+                                                                child: SvgPicture.asset(
+                                                                    'assets/images/insta.svg'),
+                                                              ),
+                                                            )
+                                                          : SizedBox(),
+
+                                                      portfolioResponse
+                                                                  ?.data
+                                                                  .portfolioSocial
+                                                                  .first
+                                                                  .twitter !=
+                                                              ""
+                                                          ? InkWell(
+                                                              onTap: () {
+                                                                Navigator.push(
+                                                                    context,
+                                                                    NextPageRoute(
+                                                                        CommonWebView(
+                                                                      url: portfolioResponse
+                                                                          ?.data
+                                                                          .portfolioSocial
+                                                                          .first
+                                                                          .twitter,
+                                                                    ))).then((isSuccess) {
+                                                                  if (isSuccess ==
+                                                                      true) {
+                                                                    Navigator.pop(
+                                                                        context,
+                                                                        true);
+                                                                  }
+                                                                });
+                                                              },
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.only(right: 0.0),
+                                                                child: SvgPicture.asset(
+                                                                    'assets/images/twitter.svg'),
+                                                              ),
+                                                            )
+                                                          : SizedBox(),
+
+                                                      portfolioResponse
+                                                                  ?.data
+                                                                  .portfolioSocial
+                                                                  .first
+                                                                  .bee !=
+                                                              ""
+                                                          ? InkWell(
+                                                              onTap: () {
+                                                                Navigator.push(
+                                                                    context,
+                                                                    NextPageRoute(
+                                                                        CommonWebView(
+                                                                      url: portfolioResponse
+                                                                          ?.data
+                                                                          .portfolioSocial
+                                                                          .first
+                                                                          .dribble,
+                                                                    ))).then((isSuccess) {
+                                                                  if (isSuccess ==
+                                                                      true) {
+                                                                    Navigator.pop(
+                                                                        context,
+                                                                        true);
+                                                                  }
+                                                                });
+                                                              },
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.only(right: 14.0),
+                                                                child: SvgPicture.asset(
+                                                                    'assets/images/behance.svg'),
+                                                              ),
+                                                            )
+                                                          : SizedBox(),
+                                                      //SizedBox(width: 14),
+                                                    ],
+                                                  ),
+                                                Row(
+                                                  children: [
+                                                    portfolioResponse
+                                                        ?.data
+                                                        .portfolioSocial
+                                                        .first
+                                                        .linkedin ==
+                                                        ""
+                                                        ? Padding(
+                                                          padding: const EdgeInsets.only(right: 14.0),
                                                           child: SvgPicture.asset(
-                                                              'assets/images/insta.svg'),
+                                                'assets/images/linkedin_un.svg'),
                                                         )
-                                                      : SvgPicture.asset(
+                                                        : SizedBox(),
+                                                    //SizedBox(width: 14),
+
+                                                    portfolioResponse
+                                                        ?.data
+                                                        .portfolioSocial
+                                                        .first
+                                                        .insta ==
+                                                        ""
+                                                        ? Padding(
+                                                          padding: const EdgeInsets.only(right: 14.0),
+                                                          child: SvgPicture.asset(
                                                           'assets/images/insta_un.svg'),
-                                                  SizedBox(width: 14),
-
-                                                  portfolioResponse
-                                                              ?.data
-                                                              .portfolioSocial
-                                                              .first
-                                                              .twitter !=
-                                                          ""
-                                                      ? InkWell(
-                                                          onTap: () {
-                                                            Navigator.push(
-                                                                context,
-                                                                NextPageRoute(
-                                                                    CommonWebView(
-                                                                  url: portfolioResponse
-                                                                      ?.data
-                                                                      .portfolioSocial
-                                                                      .first
-                                                                      .twitter,
-                                                                ))).then((isSuccess) {
-                                                              if (isSuccess ==
-                                                                  true) {
-                                                                Navigator.pop(
-                                                                    context,
-                                                                    true);
-                                                              }
-                                                            });
-                                                          },
-                                                          child: SvgPicture.asset(
-                                                              'assets/images/twitter.svg'),
                                                         )
-                                                      : SvgPicture.asset(
+                                                        : SizedBox(),
+
+                                                    //SizedBox(width: 14),
+
+                                                    portfolioResponse
+                                                        ?.data
+                                                        .portfolioSocial
+                                                        .first
+                                                        .twitter ==
+                                                        ""
+                                                        ? Padding(
+                                                          padding: const EdgeInsets.only(right: 14.0),
+                                                          child: SvgPicture.asset(
                                                           'assets/images/twitter_un.svg'),
-                                                  SizedBox(width: 14),
-
-                                                  portfolioResponse
-                                                              ?.data
-                                                              .portfolioSocial
-                                                              .first
-                                                              .dribble !=
-                                                          ""
-                                                      ? InkWell(
-                                                          onTap: () {
-                                                            Navigator.push(
-                                                                context,
-                                                                NextPageRoute(
-                                                                    CommonWebView(
-                                                                  url: portfolioResponse
-                                                                      ?.data
-                                                                      .portfolioSocial
-                                                                      .first
-                                                                      .dribble,
-                                                                ))).then((isSuccess) {
-                                                              if (isSuccess ==
-                                                                  true) {
-                                                                Navigator.pop(
-                                                                    context,
-                                                                    true);
-                                                              }
-                                                            });
-                                                          },
-                                                          child: SvgPicture.asset(
-                                                              'assets/images/behance.svg'),
                                                         )
-                                                      : SvgPicture.asset(
-                                                          'assets/images/behance_un.svg'),
-                                                  SizedBox(width: 3),
-                                                ],
-                                              ),
+                                                        : SizedBox(),
+                                                    //SizedBox(width: 14),
+
+                                                    portfolioResponse
+                                                        ?.data
+                                                        .portfolioSocial
+                                                        .first
+                                                        .bee ==
+                                                        ""
+                                                        ? SvgPicture.asset(
+                                                        'assets/images/behance_un.svg')
+                                                        : SizedBox(),
+                                                    SizedBox(width: 3),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+
 
                                         /*SvgPicture.asset(
                                             'assets/images/pintrest.svg'),*/
@@ -2836,12 +2880,14 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
           portfolioResponse = portfolioState.response;
 
           if (portfolioState.response?.data.name
-                  .contains('${Preference.getString(Preference.FIRST_NAME)}') !=
+                  .contains('${Preference.getString(Preference.FIRST_NAME)}') ==
               true) {
             Preference.setString(
                 Preference.FIRST_NAME, '${portfolioState.response?.data.name}');
-          } else if (portfolioState.response?.data.image.contains(
-                  '${Preference.getString(Preference.PROFILE_IMAGE)}') !=
+          }
+
+          if (portfolioState.response?.data.image.contains(
+                  '${Preference.getString(Preference.PROFILE_IMAGE)}') ==
               true) {
             Preference.setString(Preference.PROFILE_IMAGE,
                 '${portfolioState.response?.data.image}');

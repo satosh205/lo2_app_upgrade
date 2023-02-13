@@ -92,7 +92,7 @@ class _AppDrawerState extends State<AppDrawer> {
                                    size: 16),
                             ),
                             SizedBox(
-                              width: width(context) * 0.6,
+                              width: width(context) * 0.5,
                               child: Text(
                                 '${Preference.getString(Preference.FIRST_NAME)}',
                                 maxLines: 2,
@@ -122,7 +122,7 @@ class _AppDrawerState extends State<AppDrawer> {
             title: Text('ShareApp'),
             onTap: () {},
           ),
-           SizedBox(height: 20,),
+          /* SizedBox(height: 20,),
           ListTile(
             hoverColor: Colors.blue,
             dense: true,
@@ -136,7 +136,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=> ForgetScreen()));
 
             },
-          ),
+          ),*/
           SizedBox(height: 20,),
            ListTile(
             hoverColor: Colors.blue,

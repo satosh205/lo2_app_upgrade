@@ -35,6 +35,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_page.dart';
 import '../training_pages/new_screen/courses_details_page.dart';
+import '../user_profile_page/portfolio_create_form/portfolio_page.dart';
 import 'my_classes.dart';
 
 class GSchool extends StatefulWidget {
@@ -119,9 +120,11 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                   // _getResumeLerarning(),
                   //_getCourses(),
                   // _getDashboard(context),
+
+                  ///TODO: My Course Secton
                   Padding(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                     child: Row(children: [
                       Text(
                         'My Courses',
@@ -149,7 +152,8 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                       child: MyCourses(
                         fromDashboard: true,
                       )),
-    
+
+                  ///TODO: Button Secton
                   Container(
                     padding: EdgeInsets.all(10),
                     height: height(context) * 0.22,
@@ -536,7 +540,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      Portfolio()));
+                                      NewPortfolioPage()));
                         },
                         child: ClipRRect(
                           borderRadius:
@@ -1427,6 +1431,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                   );
                 },
                 itemCount: recommendedcourses?.length ?? 0,
+                //scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
               ),

@@ -535,7 +535,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                   ),
 
                   Text(
-                    'Instructions',
+                    'Requirements',
                     style:
                     Styles.bold(size: 14, color: Color(0xff5A5F73)),
                   ),
@@ -552,7 +552,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                   ),
 
                   Text(
-                    'FAQs',
+                    'Job Description',
                     style:
                     Styles.bold(size: 14, color: Color(0xff5A5F73)),
                   ),

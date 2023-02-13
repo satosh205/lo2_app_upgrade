@@ -58,6 +58,7 @@ class ColorConstants {
   static const YELLOW_ACTIVE_BUTTON = Color(0xFFffd500);
   static const YELLOW = Color(0xFFFDB515);
   static const ORANGE_3 = Color(0xFFFF2452);
+  static const VIEW_ALL = Color(0xFFFF2452);
   static const ORANGE_4 = Color(0xFFFF9100);
   static const START_GREY_BG = Color(0xFFE0E0E0);
   static const ACTIVE_TAB_UNDERLINE = Color(0xFF12AAEB);

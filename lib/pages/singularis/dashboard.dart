@@ -223,7 +223,7 @@ class _DashboardPageState extends State<DashboardPage> {
           Log.v("Competition Content List State....................");
           //contentList = competitionState.response;
           jobApplyLoading = false;
-          getMyJobList();
+          //getMyJobList();
           /*AlertsWidget.showCustomDialog(
               context: context,
               title: '${'Job Apply'}',
@@ -233,9 +233,6 @@ class _DashboardPageState extends State<DashboardPage> {
               oKText: 'OK',
               onOkClick: () async {
               });*/
-          Utility.showSnackBar(
-              scaffoldContext: context,
-              message: 'Your application is successfully submitted.');
           break;
         case ApiStatus.ERROR:
           Log.v(
@@ -277,9 +274,8 @@ class _DashboardPageState extends State<DashboardPage> {
                     if (state is JobCompListState) {
                       _handleFeaturedInternshipsListResponse(state);
                     }
-                    if (state is CompetitionContentListState)
-                      handleJobApplyState(state);
-
+                    /*if (state is CompetitionContentListState)
+                      handleJobApplyState(state);*/
                     setState(() {
                       menuProvider = mp;
                     });
@@ -572,7 +568,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          '${domainList!.data!.list[index].jobCount} Jobs',
+                                          '${domainList!.data!.list[index].jobCount} Job Roles',
                                           style: Styles.regular(
                                               color: ColorConstants.GREY_3,
                                               size: 11),
@@ -674,7 +670,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    '$jobsCount Jobs',
+                                    '$jobsCount Job Roles',
                                     style: Styles.regular(
                                         color: ColorConstants.GREY_3, size: 11),
                                   ),
@@ -1249,12 +1245,26 @@ class _DashboardPageState extends State<DashboardPage> {
                     'Featured Jobs & Internships',
                     style: Styles.bold(size: 14, color: Color(0xff0E1638)),
                   )),
+              Expanded(child: SizedBox()),
+              InkWell(
+                onTap: () {
+                  menuProvider?.updateCurrentIndex('/g-careers');
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Text('View all',
+                      style: Styles.regular(
+                        size: 12,
+                        color: ColorConstants.VIEW_ALL,
+                      )),
+                ),
+              ),
             ],
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Container(
-              height: 340,
+              height: 300,
               child: featuredInternshipsResponse?.data!.length != 0
                   ? ListView.builder(
                       itemCount: featuredInternshipsResponse?.data!.length,
@@ -1284,8 +1294,8 @@ class _DashboardPageState extends State<DashboardPage> {
                                   //jobListDetails: jobList,
                                   id: featuredInternshipsResponse
                                       ?.data![index]!.id,
-                                  jobStatus: featuredInternshipsResponse
-                                      ?.data![index]!.jobStatus,
+                                  //jobStatus: featuredInternshipsResponse?.data![index]!.jobStatus,
+                                  jobStatus: '   ',
                                 )));
                           },
                           child: Container(
@@ -1318,9 +1328,9 @@ class _DashboardPageState extends State<DashboardPage> {
                                           height: 50,
                                           errorWidget: (context, url, error) =>
                                               SvgPicture.asset(
-                                            'assets/images/gscore_postnow_bg.svg',
+                                            'assets/images/exp_emp.svg',
                                           ),
-                                          fit: BoxFit.cover,
+                                          fit: BoxFit.fill,
                                         ),
                                         Padding(
                                           padding:
@@ -1341,7 +1351,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                           children: [
                                             Flexible(
                                               child: Text(
-                                                '${featuredInternshipsResponse?.data![index]!.skillNames}',
+                                                '${featuredInternshipsResponse?.data![index]!.organizedBy}',
                                                 maxLines: 2,
                                                 softWrap: true,
                                                 style: Styles.regular(
@@ -1459,7 +1469,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                           ),
                                         ),*/
 
-                                        SizedBox(height: 50,),
+                                        SizedBox(height: 30,),
                                         featuredInternshipsResponse
                                                         ?.data![index]!
                                                         .jobStatus ==
@@ -1470,11 +1480,14 @@ class _DashboardPageState extends State<DashboardPage> {
                                                     ""
                                             ? InkWell(
                                                 onTap: () {
-                                                  jobApply(
+                                                  /*jobApply(
                                                       int.parse(
                                                           '${featuredInternshipsResponse?.data![index]!.id}'),
                                                       1);
-                                                  _onLoadingForJob();
+                                                  _onLoadingForJob();*/
+                                                  Utility.showSnackBar(
+                                                      scaffoldContext: context,
+                                                      message: 'Your application is successfully submitted.');
                                                 },
                                                 child: Container(
                                                   height: 45,
@@ -2761,7 +2774,7 @@ class _DashboardPageState extends State<DashboardPage> {
                           child: Text('View all',
                               style: Styles.regular(
                                 size: 12,
-                                color: ColorConstants.ORANGE_3,
+                                color: ColorConstants.VIEW_ALL,
                               )),
                         ),
                       ],
@@ -3000,7 +3013,12 @@ class _DashboardPageState extends State<DashboardPage> {
                   Expanded(child: SizedBox()),
                   IconButton(
                       onPressed: () {
-                        menuProvider?.updateCurrentIndex('/g-reels');
+                        //menuProvider?.updateCurrentIndex('/g-reels');
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ReelsDashboardPage(
+                                )));
                       },
                       icon: Icon(Icons.arrow_forward_ios))
                 ],
@@ -3020,9 +3038,15 @@ class _DashboardPageState extends State<DashboardPage> {
                               width: 180,
                               child: InkWell(
                                   onTap: () {
-                                    menuProvider
-                                        ?.updateCurrentIndex('/g-reels');
-                                    menuProvider?.updateItemIndex(index);
+                                    //menuProvider?.updateCurrentIndex('/g-school');
+                                    //menuProvider?.updateItemIndex(index);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ReelsDashboardPage(
+                                              fromDashboard: true,
+                                              scrollTo: index,
+                                            )));
                                   },
                                   child: CreateThumnail(
                                       path: reelsList?[index].resourcePath))),
@@ -3800,7 +3824,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     child: Text('View all',
                         style: Styles.regular(
                           size: 12,
-                          color: ColorConstants.ORANGE_3,
+                          color: ColorConstants.VIEW_ALL,
                         )),
                   ),
                 ],

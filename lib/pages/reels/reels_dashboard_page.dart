@@ -86,20 +86,19 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
                         },
                         child: Stack(children: [
                           getBody(greelsModel),
-                          if (widget.fromDashboard)
-                            Positioned(
-                                left: 10,
-                                top: 40,
-                                child: IconButton(
-                                  icon: Icon(
-                                    Icons.arrow_back_ios,
-                                    color: ColorConstants.WHITE,
-                                    // size: 200,
-                                  ),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                )),
+                          Positioned(
+                              left: 0,
+                              top: 40,
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.arrow_back_ios,
+                                  color: ColorConstants.WHITE,
+                                  // size: 200,
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              )),
                           Consumer2<CreatePostProvider, ReelsProvider>(
                               builder: (context, createPostProvider,
                                       reelsProvider, child) =>
