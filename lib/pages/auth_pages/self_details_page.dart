@@ -123,7 +123,6 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                                 child: Text(
                               '${Strings.of(context)?.continueStr}',
                               style: Styles.semibold(
-                                
                                 color: ColorConstants.WHITE,
                               ),
                             )),
@@ -149,7 +148,6 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
               Center(
                 child: Column(
                   children: [
-                    
                     SizedBox(
                       height: 10,
                     ),
@@ -252,52 +250,52 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                     return null;
                   },
                 ),
-         
-              ])),  SizedBox(
+              ])),
+              SizedBox(
                 height: 10,
               ),
-
- Text('Email*', style: Styles.regular(size: 12)),
+              Text('Email*', style: Styles.regular(size: 12)),
               SizedBox(
                 height: 6,
               ),
               TextFormField(
-                  controller: emailController,
-                  style: Styles.regular(),
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            width: 1, color: Color(0xffE5E5E5)),
-                        borderRadius: BorderRadius.circular(10)),
-                    hintText: '${Strings.of(context)?.emailAddress}',
-                    helperStyle: Styles.regular(color: ColorConstants.GREY_4),
-                    counterText: "",
-                    // enabledBorder: UnderlineInputBorder(
-                    //   borderSide: BorderSide(
-                    //       color: ColorConstants.RED, width: 1.5),
-                    // ),
-                  ),
-                  onChanged: (value) {
-                    setState(() {});
-                  },
-                  validator: (value) {
-                    if (value == '')
-                      return APK_DETAILS['package_name'] == 'com.learn_build' || APK_DETAILS['package_name'] == 'com.singulariswow'
-                          ? 'Email is required'
-                          : null;
-                    int index = value?.length as int;
-
-                    if (value![index - 1] == '.')
-                      return '${Strings.of(context)?.emailAddressError}';
-
-                    if (!RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        .hasMatch(value))
-                      return '${Strings.of(context)?.emailAddressError}';
-
-                    return null;
-                  },
+                controller: emailController,
+                style: Styles.regular(),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(width: 1, color: Color(0xffE5E5E5)),
+                      borderRadius: BorderRadius.circular(10)),
+                  hintText: '${Strings.of(context)?.emailAddress}',
+                  helperStyle: Styles.regular(color: ColorConstants.GREY_4),
+                  counterText: "",
+                  // enabledBorder: UnderlineInputBorder(
+                  //   borderSide: BorderSide(
+                  //       color: ColorConstants.RED, width: 1.5),
+                  // ),
                 ),
+                onChanged: (value) {
+                  setState(() {});
+                },
+                validator: (value) {
+                  if (value == '')
+                    return APK_DETAILS['package_name'] == 'com.learn_build' ||
+                            APK_DETAILS['package_name'] == 'com.singulariswow'
+                        ? 'Email is required'
+                        : null;
+                  int index = value?.length as int;
+
+                  if (value![index - 1] == '.')
+                    return '${Strings.of(context)?.emailAddressError}';
+
+                  if (!RegExp(
+                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      .hasMatch(value))
+                    return '${Strings.of(context)?.emailAddressError}';
+
+                  return null;
+                },
+              ),
               SizedBox(height: 20),
               Transform.translate(
                 offset: Offset(-28, 0.0),

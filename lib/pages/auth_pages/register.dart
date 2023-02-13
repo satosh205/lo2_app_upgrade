@@ -268,7 +268,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Container(
-                  height: height(context) * 0.1,
+                  height: height(context) * 0.4,
                   child: TextField(
                     obscureText: true,
                     cursorColor: Color(0xffE5E5E5),
@@ -334,41 +334,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 230,
-              ),
+              // SizedBox(
+              //   height: 230,
+              // ),
               Padding(
                 padding: const EdgeInsets.all(18.0),
-                child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Column(children: [
-                      Container(
-                        height: height(context) * 0.06,
-                        decoration: BoxDecoration(
-                          color: Color(0xffe9e9e9),
-                          borderRadius: BorderRadius.circular(10),
-                          gradient: emailController.value.text != '' &&
-                                  passController.value.text != ''
-                              ? LinearGradient(colors: [
-                                  ColorConstants.GRADIENT_ORANGE,
-                                  ColorConstants.GRADIENT_RED,
-                                ])
-                              : null,
-                        ),
-                        child: InkWell(
-                          onTap: () {},
-                          child: Center(
-                            child: Text(
-                              'Sign Up',
-                              style: Styles.regular(
-                                size: 16,
-                                color: ColorConstants.WHITE,
-                              ),
-                            ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                  Container(
+                    height: height(context) * 0.06,
+                    decoration: BoxDecoration(
+                      color: Color(0xffe9e9e9),
+                      borderRadius: BorderRadius.circular(10),
+                      gradient: emailController.value.text != '' &&
+                              passController.value.text != ''
+                          ? LinearGradient(colors: [
+                              ColorConstants.GRADIENT_ORANGE,
+                              ColorConstants.GRADIENT_RED,
+                            ])
+                          : null,
+                    ),
+                    child: InkWell(
+                      onTap: () {},
+                      child: Center(
+                        child: Text(
+                          'Sign Up',
+                          style: Styles.regular(
+                            size: 16,
+                            color: ColorConstants.WHITE,
                           ),
                         ),
                       ),
-                    ])),
+                    ),
+                  ),
+                ]),
               ),
             ],
           ),
