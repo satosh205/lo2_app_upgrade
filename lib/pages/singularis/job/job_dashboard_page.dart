@@ -1430,11 +1430,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
     return ListView.builder(
        //itemCount: allJobListResponse?.data!.length,
       itemCount: position < 4
-<<<<<<< HEAD
-          ? position 
-=======
           ? position
->>>>>>> e3f9dc7c66a1fa65a3c529b3f47bd39a82bc2c68
           : 4,
         //itemCount: position,
         shrinkWrap: true,
