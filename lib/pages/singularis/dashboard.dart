@@ -41,7 +41,9 @@ import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/coustom_outline_button.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
+import 'package:masterg/utils/video_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -51,12 +53,14 @@ import 'package:video_thumbnail/video_thumbnail.dart';
 import '../../data/models/response/auth_response/bottombar_response.dart';
 import '../../data/models/response/home_response/competition_response.dart';
 import '../../data/models/response/home_response/domain_list_response.dart';
+import '../../data/models/response/home_response/gcarvaan_post_reponse.dart';
 import '../../data/providers/training_detail_provider.dart';
 import '../../data/providers/video_player_provider.dart';
 import '../../utils/resource/size_constants.dart';
 import '../custom_pages/alert_widgets/alerts_widget.dart';
 import '../custom_pages/custom_widgets/CommonWebView.dart';
 import '../gcarvaan/comment/comment_view_page.dart';
+import '../gcarvaan/createpost/create_post_provider.dart';
 import '../reels/reels_dashboard_page.dart';
 import '../training_pages/training_detail_page.dart';
 import '../training_pages/training_service.dart';
@@ -402,22 +406,22 @@ class _DashboardPageState extends State<DashboardPage> {
                                   ),
                                 ),
                                 SizedBox(height: 10),
-                              Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                  text:
-                                      'Profile completed: ',
-                                  style: Styles.regular(  color: ColorConstants.WHITE)),
-                              TextSpan(
-                                text:
-                                    '${Preference.getInt(Preference.PROFILE_PERCENT) ?? 0}%',
-                                style: Styles.bold(
-                             color: ColorConstants.WHITE),
-                              ),
-                            ],
-                          ),
-                          textAlign: TextAlign.left),
+                                Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                            text: 'Profile completed: ',
+                                            style: Styles.regular(
+                                                color: ColorConstants.WHITE)),
+                                        TextSpan(
+                                          text:
+                                              '${Preference.getInt(Preference.PROFILE_PERCENT) ?? 0}%',
+                                          style: Styles.bold(
+                                              color: ColorConstants.WHITE),
+                                        ),
+                                      ],
+                                    ),
+                                    textAlign: TextAlign.left),
                                 // Text('Profile completed: ${Preference.getInt(Preference.PROFILE_PERCENT) ?? 0}%',
                                 //     style: Styles.semiBoldWhite())
                               ],
@@ -1264,7 +1268,7 @@ class _DashboardPageState extends State<DashboardPage> {
               Expanded(child: SizedBox()),
               InkWell(
                 onTap: () {
-                  menuProvider?.updateCurrentIndex('/g-careers');
+                  menuProvider?.updateCurrentIndex('/g-jobs');
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(right: 8.0),
@@ -1363,7 +1367,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                         ),
                                         Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                              MainAxisAlignment.start,
                                           children: [
                                             Flexible(
                                               child: Text(
@@ -1372,23 +1376,20 @@ class _DashboardPageState extends State<DashboardPage> {
                                                 softWrap: true,
                                                 style: Styles.regular(
                                                     color:
-                                                    ColorConstants
-                                                        .GREY_3,
+                                                        ColorConstants.GREY_3,
                                                     size: 13),
                                               ),
                                             ),
                                           ],
                                         ),
-
                                         SizedBox(
                                           height: 15,
                                         ),
-
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
-                                             Icon(
+                                            Icon(
                                               Icons.location_on_outlined,
                                               size: 16,
                                               color: ColorConstants.GREY_3,
@@ -1410,23 +1411,31 @@ class _DashboardPageState extends State<DashboardPage> {
                                           height: 10,
                                         ),
                                         Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Image.asset('assets/images/jobicon.png', height: 20, width: 20,),
-                                      Padding(
-                                        padding:
-                                        const EdgeInsets.only(left: 5.0),
-                                        child: Text('Exp: ',
-                                            style: Styles.regular(
-                                                size: 12,
-                                                color: ColorConstants.GREY_6)),
-                                      ),
-                                      Text('${featuredInternshipsResponse?.data![index]!.experience} Yrs',
-                                          style: Styles.regular(
-                                              size: 12,
-                                              color: ColorConstants.GREY_6)),
-                                    ],
-                                  ),
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Image.asset(
+                                              'assets/images/jobicon.png',
+                                              height: 20,
+                                              width: 20,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 5.0),
+                                              child: Text('Exp: ',
+                                                  style: Styles.regular(
+                                                      size: 12,
+                                                      color: ColorConstants
+                                                          .GREY_6)),
+                                            ),
+                                            Text(
+                                                '${featuredInternshipsResponse?.data![index]!.experience} Yrs',
+                                                style: Styles.regular(
+                                                    size: 12,
+                                                    color:
+                                                        ColorConstants.GREY_6)),
+                                          ],
+                                        ),
                                         /*Container(
                                           width: MediaQuery.of(context)
                                                   .size
@@ -1485,7 +1494,9 @@ class _DashboardPageState extends State<DashboardPage> {
                                           ),
                                         ),*/
 
-                                        SizedBox(height: 30,),
+                                        SizedBox(
+                                          height: 30,
+                                        ),
                                         featuredInternshipsResponse
                                                         ?.data![index]!
                                                         .jobStatus ==
@@ -1503,7 +1514,8 @@ class _DashboardPageState extends State<DashboardPage> {
                                                   _onLoadingForJob();*/
                                                   Utility.showSnackBar(
                                                       scaffoldContext: context,
-                                                      message: 'Your application is successfully submitted.');
+                                                      message:
+                                                          'Your application is successfully submitted.');
                                                 },
                                                 child: Container(
                                                   height: 45,
@@ -2777,7 +2789,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Resume Learning',
+                          'My Courses',
                           style: Styles.bold(
                             color: Color(0xff0E1638),
                           ),
@@ -3033,8 +3045,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ReelsDashboardPage(
-                                )));
+                                builder: (context) => ReelsDashboardPage()));
                       },
                       icon: Icon(Icons.arrow_forward_ios))
                 ],
@@ -3059,10 +3070,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => ReelsDashboardPage(
-                                              fromDashboard: true,
-                                              scrollTo: index,
-                                            )));
+                                            builder: (context) =>
+                                                ReelsDashboardPage(
+                                                  fromDashboard: true,
+                                                  scrollTo: index,
+                                                )));
                                   },
                                   child: CreateThumnail(
                                       path: reelsList?[index].resourcePath))),
@@ -3577,13 +3589,20 @@ class _DashboardPageState extends State<DashboardPage> {
                                     //     url: widget.fileList[index])
                                     ? Container(
                                         height: 300,
-                                        child: FlickVideoPlayer(
-                                            flickManager: FlickManager(
-                                          videoPlayerController:
-                                              VideoPlayerController.network(
-                                            '${carvaanList?[index].resourcePath}',
-                                          ),
-                                        )))
+                                        child: VideoPlayerWidget(
+                                          videoUrl:
+                                              '${carvaanList?[index].resourcePath}',
+                                        ))
+                                    // Container(
+                                    //     height: 300,
+                                    //     child: FlickVideoPlayer(
+                                    //         flickManager: FlickManager(
+                                    //       videoPlayerController:
+                                    //           VideoPlayerController.network(
+                                    //         '${carvaanList?[index].resourcePath}',
+                                    //       ),
+                                    //     )))
+
                                     : Image.network(
                                         '${carvaanList?[index].resourcePath}',
                                         height: 300,
@@ -3594,45 +3613,105 @@ class _DashboardPageState extends State<DashboardPage> {
                                 SizedBox(
                                   height: 20,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 10.0,
-                                    horizontal: 10.0,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: <Widget>[
-                                      InkWell(
-                                        onTap: () {
-                                          setState(() {});
-                                        },
-                                        child: Container(
-                                          child: Row(
-                                            children: <Widget>[
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  right: 4.0,
-                                                ),
-                                                child: SvgPicture.asset(
-                                                  'assets/images/like_icon.svg',
-                                                  height: 18.8,
-                                                  width: 17.86,
-                                                  color: ColorConstants.BLACK,
-                                                ),
-                                              ),
-                                              Text(
-                                                carvaanList?[index].likeCount !=
-                                                        0
-                                                    ? '${carvaanList?[index].likeCount} ${Strings.of(context)?.Like}'
-                                                    : ' ${Strings.of(context)?.Like}',
-                                                style: Styles.regular(
-                                                    size: 12,
-                                                    color:
-                                                        ColorConstants.BLACK),
-                                              ),
-                                              /*if (widget.value?.getLikeCount(widget.index) != 0 &&
+                                MultiProvider(
+                                  providers: [
+                                    ChangeNotifierProvider<GCarvaanListModel>(
+                                      create: (context) => GCarvaanListModel(
+                                          carvaanList
+                                              ?.map((e) => GCarvaanPostElement(
+                                                  id: e.id,
+                                                  commentCount: e.commentCount,
+                                                  likeCount: e.likeCount,
+                                                  userLiked: e.userLiked))
+                                              .toList()),
+                                    ),
+                                  ],
+                                  child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0,
+                                        horizontal: 10.0,
+                                      ),
+                                      child: Consumer<GCarvaanListModel>(
+                                        builder: (context, carvaanListModel,
+                                                child) =>
+                                            Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: <Widget>[
+                                            InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  if (carvaanListModel
+                                                          .isLiked(index) ==
+                                                      true) {
+                                                    updateLikeandViews(
+                                                        0,
+                                                        carvaanListModel
+                                                            .list?[index]
+                                                            .programContentId);
+
+                                                    carvaanListModel
+                                                        .updateIsLiked(
+                                                            index, 0);
+
+                                                    carvaanListModel
+                                                        .decrementLike(index);
+                                                  } else {
+                                                    updateLikeandViews(
+                                                        1,
+                                                        carvaanListModel
+                                                            .list?[index]
+                                                            .programContentId);
+
+                                                    carvaanListModel
+                                                        .updateIsLiked(
+                                                            index, 1);
+
+                                                    carvaanListModel
+                                                        .incrementLike(index);
+                                                  }
+                                                });
+                                              },
+                                              child: Container(
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        right: 4.0,
+                                                      ),
+                                                      child: SvgPicture.asset(
+                                                        carvaanListModel.isLiked(
+                                                                    index) ==
+                                                                false
+                                                            ? 'assets/images/like_icon.svg'
+                                                            : 'assets/images/liked_icon.svg',
+                                                        height: 18.8,
+                                                        width: 17.86,
+                                                        color: carvaanListModel
+                                                                    .isLiked(
+                                                                        index) ==
+                                                                false
+                                                            ? ColorConstants
+                                                                .BLACK
+                                                            : ColorConstants
+                                                                .GRADIENT_ORANGE,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      carvaanListModel
+                                                                  .list?[index]
+                                                                  .likeCount !=
+                                                              0
+                                                          ? '${carvaanListModel.list?[index].likeCount} ${Strings.of(context)?.Like}'
+                                                          : ' ${Strings.of(context)?.Like}',
+                                                      style: Styles.regular(
+                                                          size: 12,
+                                                          color: ColorConstants
+                                                              .BLACK),
+                                                    ),
+                                                    /*if (widget.value?.getLikeCount(widget.index) != 0 &&
                                                 widget.value?.getLikeCount(widget.index) != 1 &&
                                                 Preference.getInt(Preference.APP_LANGUAGE) == 1)
                                               Text(
@@ -3642,55 +3721,63 @@ class _DashboardPageState extends State<DashboardPage> {
                                                 style: Styles.regular(
                                                     size: 12, color: ColorConstants.BLACK),
                                               )*/
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          showModalBottomSheet(
-                                              context: context,
-                                              backgroundColor:
-                                                  ColorConstants.WHITE,
-                                              isScrollControlled: true,
-                                              builder: (context) {
-                                                return FractionallySizedBox(
-                                                  heightFactor: 0.7,
-                                                  child: CommentViewPage(
-                                                    postId:
-                                                        carvaanList?[index].id,
-                                                    //value: widget.value,
-                                                  ),
-                                                );
-                                              });
-                                        },
-                                        child: Container(
-                                          child: Row(
-                                            children: <Widget>[
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  right: 4.0,
-                                                ),
-                                                child: SvgPicture.asset(
-                                                  'assets/images/comment_icon.svg',
-                                                  height: 18.8,
-                                                  width: 17.86,
-                                                  allowDrawingOutsideViewBox:
-                                                      true,
+                                                  ],
                                                 ),
                                               ),
-                                              Text(
-                                                carvaanList?[index]
-                                                            .commentCount !=
-                                                        0
-                                                    ? '${carvaanList?[index].commentCount} ${Strings.of(context)?.Comment}'
-                                                    : ' ${Strings.of(context)?.Comment}',
-                                                style: Styles.regular(
-                                                    size: 12,
-                                                    color:
-                                                        ColorConstants.BLACK),
-                                              ),
-                                              /*if (carvaanList?[index].commentCount! > 1 &&
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                showModalBottomSheet(
+                                                        context: context,
+                                                        backgroundColor:
+                                                            ColorConstants.WHITE,
+                                                        isScrollControlled: true,
+                                                        builder: (context) {
+                                                          return FractionallySizedBox(
+                                                            heightFactor: 0.7,
+                                                            child:
+                                                                CommentViewPage(
+                                                              postId:
+                                                                  carvaanList?[
+                                                                          index]
+                                                                      .id,
+                                                              value:
+                                                                  carvaanListModel,
+                                                            ),
+                                                          );
+                                                        })
+                                                    .then((value) =>
+                                                        setState(() {}));
+                                              },
+                                              child: Container(
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        right: 4.0,
+                                                      ),
+                                                      child: SvgPicture.asset(
+                                                        'assets/images/comment_icon.svg',
+                                                        height: 18.8,
+                                                        width: 17.86,
+                                                        allowDrawingOutsideViewBox:
+                                                            true,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      carvaanListModel
+                                                                  .list?[index]
+                                                                  .commentCount !=
+                                                              0
+                                                          ? '${carvaanListModel.list?[index].commentCount} ${Strings.of(context)?.Comment}'
+                                                          : ' ${Strings.of(context)?.Comment}',
+                                                      style: Styles.regular(
+                                                          size: 12,
+                                                          color: ColorConstants
+                                                              .BLACK),
+                                                    ),
+                                                    /*if (carvaanList?[index].commentCount! > 1 &&
                                                 Preference.getInt(Preference.APP_LANGUAGE) == 1)
                                               Text(
                                                 Preference.getInt(Preference.APP_LANGUAGE) == 1
@@ -3699,43 +3786,46 @@ class _DashboardPageState extends State<DashboardPage> {
                                                 style: Styles.regular(
                                                     size: 12, color: ColorConstants.BLACK),
                                               )*/
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          //Share.share('${widget.image_path}');
-                                        },
-                                        child: Container(
-                                          child: Row(
-                                            children: <Widget>[
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  right: 4.0,
-                                                ),
-                                                child: SvgPicture.asset(
-                                                  'assets/images/share_icon.svg',
-                                                  height: 18.8,
-                                                  width: 17.86,
-                                                  allowDrawingOutsideViewBox:
-                                                      true,
+                                                  ],
                                                 ),
                                               ),
-                                              Text(
-                                                '${Strings.of(context)?.Share}',
-                                                style: Styles.regular(
-                                                    size: 12,
-                                                    color:
-                                                        ColorConstants.BLACK),
-                                              )
-                                            ],
-                                          ),
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                Share.share(
+                                                    '${carvaanList?[index].resourcePath}');
+                                              },
+                                              child: Container(
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        right: 4.0,
+                                                      ),
+                                                      child: SvgPicture.asset(
+                                                        'assets/images/share_icon.svg',
+                                                        height: 18.8,
+                                                        width: 17.86,
+                                                        allowDrawingOutsideViewBox:
+                                                            true,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      '${Strings.of(context)?.Share}',
+                                                      style: Styles.regular(
+                                                          size: 12,
+                                                          color: ColorConstants
+                                                              .BLACK),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          ],
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                ),
+                                      )),
+                                )
                               ]),
                         );
                       },
@@ -3753,6 +3843,11 @@ class _DashboardPageState extends State<DashboardPage> {
             ),
           );
         });
+  }
+
+  void updateLikeandViews(int? like, contentId) async {
+    BlocProvider.of<HomeBloc>(context).add(
+        LikeContentEvent(contentId: contentId, like: like, type: 'contents'));
   }
 
   _dots(int index, int postCount) {

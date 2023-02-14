@@ -60,7 +60,7 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
 
   Widget _loginRegisterWidget(int index) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 40),
       child: Container(
         color: Colors.white,
         // alignment: Alignment.center,
@@ -151,7 +151,7 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(
-            height: 100,
+            height: 20,
           ),
           _buildContentTitle(index),
           SizedBox(

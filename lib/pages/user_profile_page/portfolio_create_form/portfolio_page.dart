@@ -805,7 +805,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         ),
                                         SizedBox(width: 14),
                                         portfolioResponse?.data.portfolioSocial == null ||
-                                            portfolioResponse?.data.portfolioSocial!.length == 0
+                                            portfolioResponse?.data.portfolioSocial.length == 0
                                             ? Row(
                                                 children: [
                                                   SvgPicture.asset('assets/images/linkedin_un.svg'),
@@ -1134,7 +1134,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                   userRank?.data.first.rank !=
                                                           null
                                                       ? '${userRank?.data.first.rank}'
-                                                      : '0',
+                                                      : ' 0',
                                                   style: Styles.bold(size: 26),
                                                 ),
                                               )
@@ -1198,7 +1198,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                   userRank?.data.first.score !=
                                                           null
                                                       ? '${userRank?.data.first.score}'
-                                                      : '0',
+                                                      : ' 0',
                                                   style: Styles.bold(size: 24),
                                                 ),
                                               )

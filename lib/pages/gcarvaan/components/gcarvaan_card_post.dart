@@ -1054,7 +1054,7 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                               color:
                                   widget.value?.isLiked(widget.index) == false
                                       ? ColorConstants.BLACK
-                                      : ColorConstants().primaryColor(),
+                                      :ColorConstants.GRADIENT_ORANGE,
                               allowDrawingOutsideViewBox: true,
                             ),
                           ),
