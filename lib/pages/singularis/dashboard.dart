@@ -39,6 +39,7 @@ import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/coustom_outline_button.dart';
+import 'package:masterg/utils/reel_repeat_video.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 import 'package:masterg/utils/video_screen.dart';
@@ -3076,8 +3077,13 @@ class _DashboardPageState extends State<DashboardPage> {
                                                   scrollTo: index,
                                                 )));
                                   },
-                                  child: CreateThumnail(
-                                      path: reelsList?[index].resourcePath))),
+                                  child:
+                                  // ReelRepeatVideo(videoUrl: '${reelsList?[index].resourcePath}',),
+                                  
+                                   CreateThumnail(
+                                      path: reelsList?[index].resourcePath)
+                                      
+                                      )),
                         );
                       }))
             ],

@@ -109,6 +109,7 @@ dependencies:
   # graphic: ^1.0.1
   fl_chart: ^0.60.0
   intl_phone_field: ^3.1.0
+  flutter_cache_manager: ^3.3.0
 
 # dependency_overrides: null
 
