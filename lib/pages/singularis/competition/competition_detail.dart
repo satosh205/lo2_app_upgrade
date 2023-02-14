@@ -295,9 +295,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                               isLocked = false;
                             }
 
-                             if(index == 1){
-                            print(' and the dats is ${data?.completionPercentage } and ${data?.perCompletion}');
-                          }
+                             
                           }
 
                          

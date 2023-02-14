@@ -805,7 +805,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         ),
                                         SizedBox(width: 14),
                                         portfolioResponse?.data.portfolioSocial == null ||
-                                            portfolioResponse?.data.portfolioSocial!.length == 0
+                                            portfolioResponse?.data.portfolioSocial.length == 0
                                             ? Row(
                                                 children: [
                                                   SvgPicture.asset('assets/images/linkedin_un.svg'),

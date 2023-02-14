@@ -151,7 +151,7 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(
-            height: 100,
+            height: 20,
           ),
           _buildContentTitle(index),
           SizedBox(

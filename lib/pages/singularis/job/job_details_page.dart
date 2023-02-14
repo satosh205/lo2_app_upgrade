@@ -501,9 +501,31 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                 itemBuilder: (context, index) {
                   // return Text('nice');
                   bool isLocked = index != 0;
-                  if(index != 0 && contentList?.data?.list?[index - 1]?.completionPercentage == 100.0){
-                    isLocked = false;
-                  }
+                  // if(index != 0 && contentList?.data?.list?[index - 1]?.completionPercentage == 100.0){
+                  //   isLocked = false;
+                  // }
+
+                  if (index != 0) {
+                            CompetitionContent? data =
+                              contentList?.data?.list?[index-1];
+                            if (data?.completionPercentage != null &&
+                                (data?.contentType == 'assignment' ||
+                                    data?.contentType == 'assessment') &&
+                               double.parse('${data?.overallScore ?? 0}') >=
+                                    double.parse('${data?.perCompletion}')) {
+                              isLocked = false;
+                            } 
+                            else if (data?.completionPercentage != null &&
+                                 double.parse('${data?.completionPercentage}') >=
+                                     double.parse('${data?.perCompletion}')) {
+                              isLocked = false;
+                            }
+                            if (data?.activityStatus == 2) {
+                              isLocked = false;
+                            }
+
+                            
+                          }
 
                   return competitionCard(
                       contentList?.data?.list![index],
@@ -515,7 +537,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   //what's in for you
                   Text(
@@ -710,7 +732,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                   child: ChangeNotifierProvider<AssignmentDetailProvider>(
                       create: (c) => AssignmentDetailProvider(
                           TrainingService(ApiService()), data,
-                          fromCompletiton: false, id: data.programContentId),
+                          fromCompletiton: true, id: data.programContentId),
                       child: AssignmentDetailPage(
                         id: data.id,
                         fromCompetition: false,
