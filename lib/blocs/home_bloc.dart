@@ -597,6 +597,17 @@ class JobCompListEvent extends HomeEvent {
   List<Object> get props => throw UnimplementedError();
 }
 
+class JobCompListFilterEvent extends HomeEvent {
+  bool? isPopular;
+  bool? isFilter;
+  String? ids;
+  bool? jobTypeMyJob;
+
+  JobCompListFilterEvent({this.isPopular, this.isFilter = false, this.ids, this.jobTypeMyJob = false}) : super([isPopular, isFilter, ids, jobTypeMyJob]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
 
 class DomainListEvent extends HomeEvent {
 
@@ -709,6 +720,16 @@ class JobCompListState extends HomeState {
   String? error;
 
   JobCompListState(this.state, {this.jobListResponse, this.myJobListResponse, this.recommendedJobOpportunities, this.error});
+}
+
+
+class JobCompListFilterState extends HomeState {
+  ApiStatus state;
+  ApiStatus get apiState => state;
+  CompetitionResponse? jobListResponse;
+  String? error;
+
+  JobCompListFilterState(this.state, {this.jobListResponse, this.error});
 }
 
 
@@ -2622,12 +2643,9 @@ try {
         try {
           yield CompetitionListState(ApiStatus.LOADING);
 
-          
          List<dynamic> response = await  Future.wait([homeRepository.getCompetitionList(false, event.isFilter!, event.ids), homeRepository.getCompetitionList(true, event.isFilter!, event.ids),homeRepository.getPortfolioCompetition(), homeRepository.getCompetitionMyActivity()]);
 
           // final response = await homeRepository.getCompetitionList(false);
-        
-
           yield CompetitionListState(ApiStatus.SUCCESS,competitonResponse: response[0],popularCompetitionResponse: response[1], competedCompetition: response[2], myActivity: response[3] );
         } catch (e) {
           Log.v("Exception : $e");
@@ -2653,47 +2671,45 @@ try {
     ///For Job -============
     else if (event is JobCompListEvent) {
       if (event.isPopular == false) {
-        try {
-          yield JobCompListState(ApiStatus.LOADING);
+          try {
+            yield JobCompListState(ApiStatus.LOADING);
 
-          if(event.jobTypeMyJob == false) {
-            List<dynamic> response = await Future.wait(
-                [
-                  homeRepository.getJobCompApiList(
-                      false, event.isFilter!, event.ids, event.isJob,
-                      event.myJob, 'allJob'),
-                  homeRepository.getJobCompApiList(
-                      false, event.isFilter!, event.ids, event.isJob,
-                      event.myJob, 'myJob'),
-                  homeRepository.getJobCompApiList(
-                      false, event.isFilter!, event.ids, event.isJob,
-                      event.myJob, 'recomJob'),
-                ]);
+            if(event.jobTypeMyJob == false) {
+              List<dynamic> response = await Future.wait(
+                  [
+                    homeRepository.getJobCompApiList(
+                        false, event.isFilter!, event.ids, event.isJob,
+                        event.myJob, 'allJob'),
+                    homeRepository.getJobCompApiList(
+                        false, event.isFilter!, event.ids, event.isJob,
+                        event.myJob, 'myJob'),
+                    homeRepository.getJobCompApiList(
+                        false, event.isFilter!, event.ids, event.isJob,
+                        event.myJob, 'recomJob'),
+                  ]);
 
-            yield JobCompListState(
-                ApiStatus.SUCCESS, jobListResponse: response[0],
-                myJobListResponse: response[1], recommendedJobOpportunities: response[2]);
+              yield JobCompListState(
+                  ApiStatus.SUCCESS, jobListResponse: response[0],
+                  myJobListResponse: response[1], recommendedJobOpportunities: response[2]);
 
-          }else{
-            List<dynamic> response = await Future.wait(
-                [
-                  homeRepository.getJobCompApiList(
-                      false, event.isFilter!, event.ids, event.isJob,
-                      event.myJob, 'myJob'),
-                ]);
+            }else{
+              List<dynamic> response = await Future.wait(
+                  [
+                    homeRepository.getJobCompApiList(
+                        false, event.isFilter!, event.ids, event.isJob,
+                        event.myJob, 'myJob'),
+                  ]);
 
-            yield JobCompListState(
+              yield JobCompListState(
                 ApiStatus.SUCCESS, myJobListResponse: response[0],);
+            }
 
+            //final response = await homeRepository.getCompetitionList(false);
+          } catch (e) {
+            Log.v("Exception : $e");
+            yield JobCompListState(ApiStatus.ERROR,
+                error: 'Something went wrong');
           }
-
-          //final response = await homeRepository.getCompetitionList(false);
-
-        } catch (e) {
-          Log.v("Exception : $e");
-          yield JobCompListState(ApiStatus.ERROR,
-              error: 'Something went wrong');
-        }
 
       } else{
         try {
@@ -2710,22 +2726,24 @@ try {
         }
       }
 
-
-      /*else {
-        try {
-          yield PopularCompetitionListState(ApiStatus.LOADING);
-
-          final response = await homeRepository.getCompetitionList(true, event.isFilter!, event.ids);
-
-          yield PopularCompetitionListState(ApiStatus.SUCCESS,
-              response: response);
-        } catch (e) {
-          Log.v("Exception : $e");
-          yield PopularCompetitionListState(ApiStatus.ERROR,
-              error: 'Something went wrong');
-        }
-      }*/
     }
+
+    ///Filter Job
+    else if (event is JobCompListFilterEvent) {
+      try {
+        yield JobCompListFilterState(ApiStatus.LOADING);
+        List<dynamic> response = await  Future.wait(
+            [homeRepository.getJobCompApiList(false, true, event.ids, 0, 0, 'filter')]);
+
+        yield JobCompListFilterState(
+          ApiStatus.SUCCESS,jobListResponse: response[0],);
+      } catch (e) {
+        Log.v("Exception : $e");
+        yield JobCompListFilterState(ApiStatus.ERROR,
+            error: 'Something went wrong');
+      }
+    }
+
 
     else if (event is CourseCategoryList2IDEvent) {
       try {

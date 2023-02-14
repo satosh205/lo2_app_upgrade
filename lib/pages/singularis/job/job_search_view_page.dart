@@ -6,6 +6,7 @@ import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import '../../../blocs/bloc_manager.dart';
 import '../../../blocs/home_bloc.dart';
 import '../../../data/api/api_service.dart';
+import '../../../data/models/response/home_response/competition_response.dart';
 import '../../../utils/Log.dart';
 import '../../../utils/Styles.dart';
 import '../../../utils/resource/colors.dart';
@@ -19,7 +20,9 @@ class JobSearchViewPage extends StatefulWidget {
 
   final String? appBarTitle;
   final bool? isSearchMode;
-  const JobSearchViewPage({Key? key, this.appBarTitle, this.isSearchMode = true,}) : super(key: key);
+  final String? jobRolesId;
+
+  const JobSearchViewPage({Key? key, this.appBarTitle, this.isSearchMode = true, this.jobRolesId}) : super(key: key);
 
   @override
   State<JobSearchViewPage> createState() => _JobSearchViewPageState();
@@ -28,7 +31,9 @@ class JobSearchViewPage extends StatefulWidget {
 class _JobSearchViewPageState extends State<JobSearchViewPage> {
 
   bool? isJobLoading;
+  bool? myJobLoading = true;
   List<ListElement>? jobList;
+  CompetitionResponse? allJobListResponse;
 
   ///Search Job New -----
   static const historyLength = 5;
@@ -88,7 +93,8 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
     super.initState();
     controller = FloatingSearchBarController();
     filteredSearchHistory = filterSearchTerms(filter: 'null');
-    getJobList();
+    //getJobList();
+    getMyJobList(false);
   }
 
   @override
@@ -97,9 +103,15 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
     super.dispose();
   }
 
-  void getJobList(){
-    BlocProvider.of<HomeBloc>(context).add(UserJobsListEvent());
+  void getMyJobList(bool jobType) {
+    BlocProvider.of<HomeBloc>(context).add(
+        JobCompListFilterEvent(isPopular: false, isFilter: true, ids: widget.jobRolesId, jobTypeMyJob: jobType));
   }
+
+  /*void getJobList(){
+    BlocProvider.of<HomeBloc>(context).add(UserJobsListEvent());
+  }*/
+
 
   @override
   Widget build(BuildContext context) {
@@ -107,8 +119,11 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
       initState: (context) {},
       child: BlocListener<HomeBloc, HomeState>(
         listener: (context, state) {
-          if (state is UserJobListState) {
+          /*if (state is UserJobListState) {
             _handleJobResponse(state);
+          }*/
+          if (state is JobCompListFilterState) {
+            _handlecompetitionListResponse(state);
           }
         },
         child: Scaffold(
@@ -144,7 +159,7 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
             SizedBox(height: 30.0,),
             ///Job List
             widget.isSearchMode == true ? SizedBox(height: 30,):SizedBox(),
-            jobList != null ? _recommendedJobsListCard() : BlankWidgetPage(),
+            allJobListResponse?.data != null ? renderJobList() : BlankWidgetPage(),
           ],
         ),
       ),
@@ -260,22 +275,16 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
   }
 
 
-  Widget _recommendedJobsListCard() {
-    return Container(
-      color: ColorConstants.WHITE,
-      child: renderJobList(jobList),
-    );
-  }
-
-  Widget renderJobList(jobList) {
+  Widget renderJobList() {
     return ListView.builder(
-        itemCount: jobList.length,
+        itemCount: allJobListResponse?.data!.length,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (BuildContext context, int index){
           return Column(
             children: [
               Container(
+                color: Colors.white,
                 width: double.infinity,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0, top: 15.0, right: 10.0, bottom: 15.0),
@@ -287,8 +296,8 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
                         child: Container(
                             padding: EdgeInsets.only(right: 10.0, ),
                             //child: Image.asset('assets/images/google.png'),
-                            child: jobList?[index].companyThumbnail != null ?
-                            Image.network(jobList?[index].companyThumbnail):
+                            child: allJobListResponse?.data?[index]!.image != null ?
+                            Image.network('${allJobListResponse?.data?[index]!.image}'):
                             Image.asset('assets/images/pb_2.png')
                         ),
                       ),
@@ -297,32 +306,33 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
                         child: InkWell(
                           onTap: () {
                             Navigator.push(
-                                context, NextPageRoute(JobDetailsPage(
-                              title: jobList[index].title,
-                              description: jobList[index].description,
-                              location: jobList[index].location,
-                              skillNames: jobList[index].skillNames,
-                              companyName: jobList[index].companyName,
-                              domain: jobList[index].domain,
-                              companyThumbnail: jobList[index].companyThumbnail,
-                              experience: jobList[index].experience,
-                              jobListDetails: jobList,
-                              id: jobList[index].id,
-                            ), isMaintainState: true,
-                            ));
+                                context,
+                                NextPageRoute(JobDetailsPage(
+                                  title: allJobListResponse?.data![index]!.name,
+                                  description: allJobListResponse?.data![index]!.description,
+                                  location: allJobListResponse?.data![index]!.location,
+                                  skillNames: allJobListResponse?.data![index]!.skillNames,
+                                  companyName: allJobListResponse?.data![index]!.organizedBy,
+                                  domain: allJobListResponse?.data![index]!.domainName,
+                                  companyThumbnail: allJobListResponse?.data![index]!.image,
+                                  experience: allJobListResponse?.data![index]!.experience,
+                                  //jobListDetails: jobList,
+                                  id: allJobListResponse?.data![index]!.id,
+                                  jobStatus: allJobListResponse?.data![index]!.jobStatus,
+                                )));
                           },
                           child: Container(
                             padding: EdgeInsets.only(left: 5.0, ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('${jobList?[index].title}',
+                                Text('${allJobListResponse?.data![index]!.name}',
                                     style: Styles.bold(
                                         size: 16, color: ColorConstants.BLACK)),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 10.0),
                                   child: Text(
-                                      '${jobList?[index].companyName}',
+                                      '${allJobListResponse?.data![index]!.organizedBy}',
                                       style: Styles.regular(size:12,color: ColorConstants.GREY_3)),
                                 ),
 
@@ -336,7 +346,7 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
                                         child: Text('Exp: ',
                                             style: Styles.regular(size:12,color: ColorConstants.GREY_3)),
                                       ),
-                                      Text('${jobList?[index].experience} Yrs',
+                                      Text('${allJobListResponse?.data![index]!.experience} Yrs',
                                           style: Styles.regular(size:12,color: ColorConstants.GREY_3)),
 
                                       Padding(
@@ -345,7 +355,7 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
                                           color: ColorConstants.GREY_3,),
                                       ),
 
-                                      Text('${jobList?[index].location}',
+                                      Text('${allJobListResponse?.data![index]!.location}',
                                           style: Styles.regular(size:12,color: ColorConstants.GREY_3)
                                       ),
 
@@ -375,6 +385,32 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
           return Text('data');
         });
   }
+
+
+  void _handlecompetitionListResponse(JobCompListFilterState state) {
+    print('_handlecompetitionListResponse singh');
+    var jobCompState = state;
+    setState(() {
+      switch (jobCompState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          myJobLoading = true;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("CompetitionState....................");
+          allJobListResponse = state.jobListResponse;
+          myJobLoading = false;
+          break;
+        case ApiStatus.ERROR:
+          Log.v("Error CompetitionListIDState .....................${jobCompState.error}");
+          myJobLoading = false;
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
+  }
+
 
   void _handleJobResponse(UserJobListState state) {
     var loginState = state;
