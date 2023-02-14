@@ -297,7 +297,11 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
          ):
          Padding(
            padding: const EdgeInsets.only(bottom: 20.0),
-           child: Text('${widget.jobStatus == 'under_review' ? 'Application under process' : widget.jobStatus}', style: Styles.bold(color: Colors.green, size: 14),),
+           child: Text('${
+               widget.jobStatus == 'under_review' ? 'Application Under Process' :
+           widget.jobStatus == 'shortlisted' ? 'Application Shortlisted' :
+           widget.jobStatus == 'rejected' ? 'Unable To Offer You A Position' : widget.jobStatus}',
+             style: Styles.bold(color: widget.jobStatus == 'rejected' ? ColorConstants.VIEW_ALL :Colors.green, size: 12),),
          ),
         ],
       ),
