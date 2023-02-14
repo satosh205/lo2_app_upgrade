@@ -1268,7 +1268,7 @@ class _DashboardPageState extends State<DashboardPage> {
               Expanded(child: SizedBox()),
               InkWell(
                 onTap: () {
-                  menuProvider?.updateCurrentIndex('/g-careers');
+                  menuProvider?.updateCurrentIndex('/g-jobs');
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(right: 8.0),
@@ -2789,7 +2789,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Resume Learning',
+                          'My Courses',
                           style: Styles.bold(
                             color: Color(0xff0E1638),
                           ),
