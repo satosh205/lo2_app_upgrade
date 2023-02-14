@@ -1,14 +1,9 @@
 import 'dart:io';
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_countdown_timer/current_remaining_time.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:masterg/blocs/auth_bloc.dart';
-import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/request/auth_request/swayam_login_request.dart';
@@ -238,18 +233,24 @@ class _SingularisLoginState extends State<SingularisLogin> {
         key: _scaffoldKey,
         body: Builder(builder: (_context) {
           _scaffoldContext = _context;
+          
           return ScreenWithLoader(
-            body: ScrollConfiguration(
-              behavior: ScrollBehavior(),
-              child: SingleChildScrollView(
-                child: Container(
-                  // padding: const EdgeInsets.symmetric(horizontal: 20),
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  child: _content(),
-                ),
+            body: Container(
+                // padding: const EdgeInsets.symmetric(horizontal: 20),
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: _content(),
               ),
-            ),
+            // body: SingleChildScrollView(
+            //   physics: NeverScrollableScrollPhysics(),
+            //   // physics: MediaQuery.of(context).viewInsets.bottom != 0 ? NeverScrollableScrollPhysics():BouncingScrollPhysics() ,
+            //   child: Container(
+            //     // padding: const EdgeInsets.symmetric(horizontal: 20),
+            //     height: MediaQuery.of(context).size.height,
+            //     width: MediaQuery.of(context).size.width,
+            //     child: _content(),
+            //   ),
+            // ),
             isLoading: _isLoading,
           );
         }),
@@ -274,6 +275,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
 
     var _pin;
     return SingleChildScrollView(
+      physics: MediaQuery.of(context).viewInsets.bottom == 0 ? NeverScrollableScrollPhysics() : BouncingScrollPhysics(),
       child: Form(
         key: _formKey,
         autovalidateMode: _autoValidation
@@ -357,19 +359,23 @@ class _SingularisLoginState extends State<SingularisLogin> {
                               _isObscure = !_isObscure;
                             });
                           }),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 200.0),
-                        child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ForgetScreen()));
-                            },
-                            child: Text(
-                              "Forget Password?",
-                              style: Styles.regularWhite(),
-                            )),
+                          SizedBox(height: 10,),
+                      Row(
+                        children: [
+                          Spacer(),
+                          InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ForgotPassword()));
+                              },
+                              child: Text(
+                                "Forgot Password?",
+                                style: Styles.regularWhite(),
+                              ))
+                        ],
                       ),
                       _size(height: 20),
                       Column(
@@ -420,17 +426,12 @@ class _SingularisLoginState extends State<SingularisLogin> {
                                                 .trim())));
                             },
                             child: Container(
-                                margin: EdgeInsets.all(12),
+                                margin: EdgeInsets.symmetric(vertical: 12),
                                 width: double.infinity,
                                 height:
                                     MediaQuery.of(context).size.height * 0.06,
                                 decoration: BoxDecoration(
                                     color: Colors.white,
-                                    // color: _pin.length != 4
-                                    //     ? ColorConstants.WHITE
-
-                                    //         .withOpacity(0.5)
-                                    //     : ColorConstants.WHITE,
                                     borderRadius: BorderRadius.circular(10)),
                                 child: ShaderMask(
                                   blendMode: BlendMode.srcIn,
@@ -452,13 +453,6 @@ class _SingularisLoginState extends State<SingularisLogin> {
                                       ),
                                     ),
                                   ),
-
-                                  //     child: Text(
-                                  //   '${Strings.of(context)?.signIn}',
-                                  //   style: Styles.regular(
-                                  //     color: ColorConstants.WHITE,
-                                  //   ),
-                                  // )),
                                 )),
                           ),
                           // _size(),
@@ -544,7 +538,9 @@ class _SingularisLoginState extends State<SingularisLogin> {
                                   //     );
                                   //   },
                                   // ),
-
+                                  SizedBox(
+                                    height: 30,
+                                  ),
                                   InkWell(
                                     onTap: () {
                                       Navigator.push(
@@ -579,8 +575,9 @@ class _SingularisLoginState extends State<SingularisLogin> {
                           //   //       size: 16, color: ColorConstants.WHITE),
                           //   // ),
                           // ),
+                          SizedBox(height: 15,),
                           Container(
-                            height: height(context)*0.1,
+                            height: height(context) * 0.07,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -591,11 +588,12 @@ class _SingularisLoginState extends State<SingularisLogin> {
                                 SizedBox(width: 10),
                                 InkWell(
                                   onTap: () {
-                                     Navigator.push(
-                        context,
-                        NextPageRoute(
-                            TermsAndCondition(url: APK_DETAILS['policy_url']),
-                            isMaintainState: false));
+                                    Navigator.push(
+                                        context,
+                                        NextPageRoute(
+                                            TermsAndCondition(
+                                                url: APK_DETAILS['policy_url']),
+                                            isMaintainState: false));
                                   },
                                   child: Text(
                                     '${Strings.of(context)?.byClickingContinueUnderline}',
@@ -651,14 +649,15 @@ class _SingularisLoginState extends State<SingularisLogin> {
     required Function(String) validation,
     Function()? onEyePress,
   }) {
-    return SizedBox(
-      height: 60,
+    return Container(
+      // height: 60,
+      color: ColorConstants.WHITE.withOpacity(0.2),
       child: TextFormField(
         cursorColor: ColorConstants.WHITE,
         style: Styles.regularWhite(),
         controller: controller,
         validator: (String? vla) {
-          validation(vla!);
+          return validation(vla!);
         },
         obscureText: obscureText,
         decoration: InputDecoration(
@@ -703,7 +702,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
           ),
           hintStyle: Styles.regular(size: 18, color: ColorConstants.WHITE),
           contentPadding:
-              const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+              const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
               borderSide: BorderSide(color: ColorConstants.WHITE, width: 1)),
