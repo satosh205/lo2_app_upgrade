@@ -103,7 +103,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
               ],
-              maxLength: 10,
+              maxLength: 4,
               decoration: InputDecoration(
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
@@ -185,7 +185,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
                             ]).createShader(bounds);
                       },
                       child: Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.only(top:10.0,left: 25),
                         child: Text(
                           "Verify code",
                           style: Styles.regular(
@@ -222,77 +222,79 @@ class _ForgetScreenState extends State<ForgetScreen> {
                             "New Password ",
                             style: Styles.textRegular(),
                           ),
+                          
                         ],
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top:16.0, left: 16,right: 16),
-                      child: Container(
-                        height: height(context) * 0.1,
+                      padding: const EdgeInsets.only(left: 2,right: 2,),
+                      child:  Container(
+                      height: height(context)*0.1,
+                      child:  Padding(
+                        padding: const EdgeInsets.all(16.0),
                         child: TextFormField(
-                          obscureText: true,
-                          cursorColor: Color(0xffE5E5E5),
-                          autofocus: false,
-                          // focusNode: phoneFocus,
-                          controller: newController,
-                          keyboardType: TextInputType.number,
-                          style: Styles.bold(
-                            color:Color(0xffE5E5E5),
-                            size: 14,
-                          ),
-                          // inputFormatters: <TextInputFormatter>[
-                          //   FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                          // ],
-                          maxLength: 10,
-                          decoration: InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Color(0xffE5E5E5),
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Color(0xffE5E5E5),
-                                width: 1.5,
-                              ),
-                            ),
-                            fillColor: Color(0xffE5E5E5),
-                            hintText: 'New password',
-                            hintStyle: TextStyle(
-                              color: Color(0xffE5E5E5),
-                            ),
-                            isDense: true,
-                            prefixIconConstraints:
-                                BoxConstraints(minWidth: 0, minHeight: 0),
+              cursorColor: Color(0xffE5E5E5),
+              autofocus: false,
+              // focusNode: phoneFocus,
+              controller: newController,
+              keyboardType: TextInputType.number,
+              style: Styles.bold(
+                color:Color(0xffE5E5E5),
+                size: 14,
+              ),
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+              ],
+              maxLength: 4,
+              decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(
+                    color: Color(0xffE5E5E5),
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(
+                    color: Color(0xffE5E5E5),
+                    width: 1.5,
+                  ),
+                ),   
+                fillColor: Color(0xffE5E5E5),
+                hintText: 'New Password',
+                hintStyle: TextStyle(
+                  color: Color(0xffE5E5E5),
+                ),
+                isDense: true,
+                prefixIconConstraints:
+                    BoxConstraints(minWidth: 0, minHeight: 0),
+             
+                border: OutlineInputBorder(
+                    borderSide:
+                          BorderSide(width: 1, color: ColorConstants.WHITE),
+                    borderRadius: BorderRadius.circular(10)),
 
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 1, color: ColorConstants.WHITE),
-                                borderRadius: BorderRadius.circular(10)),
-
-                            helperStyle: Styles.regular(
-                                size: 14,
-                                color: ColorConstants.GREY_3.withOpacity(0.1)),
-                            counterText: "",
-                            // enabledBorder: UnderlineInputBorder(
-                            //   borderSide: BorderSide(
-                            //       color: ColorConstants.WHITE, width: 1.5),
-                            // ),
-                          ),
-                          // onChanged: (value) {
-                          //   setState(() {});
-                          // },
-                          // validator: (value) {
-                          //   if (value == null) return 'Enter phone number';
-                          //   if (value.length != 10) {
-                          //     return "Enter valid phone number.";
-                          //   }
-                          //   return null;
-                          // },
-                        ),
+                helperStyle: Styles.regular(
+                    size: 14, color: ColorConstants.GREY_3.withOpacity(0.1)),
+                counterText: "",
+                // enabledBorder: UnderlineInputBorder(
+                //   borderSide: BorderSide(
+                //       color: ColorConstants.WHITE, width: 1.5),
+                // ),
+              ),
+              onChanged: (value) {
+                setState(() {});
+              },
+              validator: (value) {
+                if (value == null) return 'Enter phone number';
+                if (value.length != 10) {
+                  return "Enter valid phone number.";
+                }
+                return null;
+              },
+            ),
                       ),
+                    ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0),
@@ -320,100 +322,105 @@ class _ForgetScreenState extends State<ForgetScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Container(
-                        height: height(context) * 0.28,
+                      padding: const EdgeInsets.only(left: 2,right: 2,),
+                      child:  Container(
+                      height: height(context)*0.1,
+                      child:  Padding(
+                        padding: const EdgeInsets.all(16),
                         child: TextFormField(
-                          obscureText: true,
-                          cursorColor: Color(0xffE5E5E5),
-                          autofocus: false,
-                          // focusNode: phoneFocus,
-                          controller: passController,
-                          keyboardType: TextInputType.number,
-                          style: Styles.bold(
-                            color:Color(0xffE5E5E5),
-                            size: 14,
-                          ),
-                          // inputFormatters: <TextInputFormatter>[
-                          //   FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                          // ],
-                          maxLength: 10,
-                          decoration: InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Color(0xffE5E5E5),
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Color(0xffE5E5E5),
-                                width: 1.5,
-                              ),
-                            ),
-                            fillColor: Color(0xffE5E5E5),
-                            hintText: 'Confirm Password',
-                            hintStyle: TextStyle(
-                              color: Color(0xffE5E5E5),
-                            ),
-                            isDense: true,
-                            prefixIconConstraints:
-                                BoxConstraints(minWidth: 0, minHeight: 0),
+              cursorColor: Color(0xffE5E5E5),
+              autofocus: false,
+              // focusNode: phoneFocus,
+              controller: passController,
+              keyboardType: TextInputType.number,
+              style: Styles.bold(
+                color:Color(0xffE5E5E5),
+                size: 14,
+              ),
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+              ],
+              maxLength: 4,
+              decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(
+                    color: Color(0xffE5E5E5),
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(
+                    color: Color(0xffE5E5E5),
+                    width: 1.5,
+                  ),
+                ),   
+                fillColor: Color(0xffE5E5E5),
+                hintText: 'Confirm Password',
+                hintStyle: TextStyle(
+                  color: Color(0xffE5E5E5),
+                ),
+                isDense: true,
+                prefixIconConstraints:
+                    BoxConstraints(minWidth: 0, minHeight: 0),
+             
+                border: OutlineInputBorder(
+                    borderSide:
+                          BorderSide(width: 1, color: ColorConstants.WHITE),
+                    borderRadius: BorderRadius.circular(10)),
 
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 1, color: ColorConstants.WHITE),
-                                borderRadius: BorderRadius.circular(10)),
-
-                            helperStyle: Styles.regular(
-                                size: 14,
-                                color: ColorConstants.GREY_3.withOpacity(0.1)),
-                            counterText: "",
-                            // enabledBorder: UnderlineInputBorder(
-                            //   borderSide: BorderSide(
-                            //       color: ColorConstants.WHITE, width: 1.5),
-                            // ),
-                          ),
-                          // onChanged: (value) {
-                          //   setState(() {});
-                          // },
-                          // validator: (value) {
-                          //   if (value == null) return 'Enter phone number';
-                          //   if (value.length != 10) {
-                          //     return "Enter valid phone number.";
-                          //   }
-                          //   return null;
-                          // },
-                        ),
+                helperStyle: Styles.regular(
+                    size: 14, color: ColorConstants.GREY_3.withOpacity(0.1)),
+                counterText: "",
+                // enabledBorder: UnderlineInputBorder(
+                //   borderSide: BorderSide(
+                //       color: ColorConstants.WHITE, width: 1.5),
+                // ),
+              ),
+              onChanged: (value) {
+                setState(() {});
+              },
+              validator: (value) {
+                if (value == null) return 'Enter phone number';
+                if (value.length != 10) {
+                  return "Enter valid phone number.";
+                }
+                return null;
+              },
+            ),
                       ),
                     ),
-                    // SizedBox(height: 130,),
+                    ),
+                   
+                    
                     Padding(
                         padding: const EdgeInsets.all(18.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Container(
-                              height: height(context) * 0.06,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                gradient: LinearGradient(colors: [
-                                  ColorConstants.GRADIENT_ORANGE,
-                                  ColorConstants.GRADIENT_RED,
-                                ]),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Back to Login',
-                                  style: Styles.regular(
-                                    size: 16,
-                                    color: ColorConstants.WHITE,
+                        child: Container(
+                          height: height(context)*0.3,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                                height: height(context) * 0.06,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  gradient: LinearGradient(colors: [
+                                    ColorConstants.GRADIENT_ORANGE,
+                                    ColorConstants.GRADIENT_RED,
+                                  ]),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Back to Login',
+                                    style: Styles.regular(
+                                      size: 16,
+                                      color: ColorConstants.WHITE,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         )),
                   ]),
             )));
@@ -423,7 +430,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
    
 
     return Container(
-      // color: Colors.red,
+
       height: height(context) * 0.1,
       child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -431,17 +438,15 @@ class _ForgetScreenState extends State<ForgetScreen> {
             TextField(
               cursorColor: Color(0xffE5E5E5),
               autofocus: false,
-              // focusNode: phoneFocus,
+
               controller: emailController,
-            //  keyboardType: TextInputType.emailAddress,
+            
               style: Styles.bold(
                 color:Color(0xffE5E5E5),
                 size: 14,
               ),
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-              ],
-              // maxLength: 10,
+             
+
               decoration: InputDecoration(
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
@@ -473,10 +478,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
                 helperStyle: Styles.regular(
                     size: 14, color: ColorConstants.GREY_3.withOpacity(0.1)),
                 counterText: "",
-                // enabledBorder: UnderlineInputBorder(
-                //   borderSide: BorderSide(
-                //       color: ColorConstants.WHITE, width: 1.5),
-                // ),
+
               ),
               onChanged: (value) {
                 setState(() {});
@@ -523,7 +525,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
                             ]).createShader(bounds);
                       },
                       child: Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.only(left:30.0,top: 10),
                         child: Text(
                           "Send code",
                           style: Styles.regular(
