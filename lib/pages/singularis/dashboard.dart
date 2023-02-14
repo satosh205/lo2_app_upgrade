@@ -43,6 +43,7 @@ import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 import 'package:masterg/utils/video_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -3763,7 +3764,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                             ),
                                             InkWell(
                                               onTap: () {
-                                                //Share.share('${widget.image_path}');
+                                                Share.share('${carvaanListModel.list?[index].resourcePath}');
                                               },
                                               child: Container(
                                                 child: Row(
