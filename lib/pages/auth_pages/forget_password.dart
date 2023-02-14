@@ -468,6 +468,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 cursorColor: Color(0xffE5E5E5),
                 autofocus: false,
                 controller: emailController,
+                
                 validator: (val) {
                   return validateEmail(val!);
                 },
@@ -491,6 +492,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     color: Color(0xffE5E5E5),
                   ),
                   isDense: true,
+                
                   
                   contentPadding:
                       EdgeInsets.only(top: 20, bottom: 20, right: 100, left: 10),

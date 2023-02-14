@@ -280,7 +280,6 @@ const EN_TEXT = {
   'create_post': 'Create Post',
   'ghome': 'GHome',
   'gschool': 'GSchool',
-  'greels': 'GReels',
   'gcarvaan': 'GCaravan',
   'create_reels': 'Create Reels',
   'like': 'Like',
