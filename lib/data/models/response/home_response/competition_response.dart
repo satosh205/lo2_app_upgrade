@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 CompetitionResponse? competitionResponseFromJson(String str) => CompetitionResponse.fromJson(json.decode(str));
 
 String competitionResponseToJson(CompetitionResponse? data) => json.encode(data!.toJson());
@@ -197,4 +199,22 @@ class Competition {
         "skill_names" : skillNames,
 
     };
+}
+
+
+
+class CompetitionResponseProvider extends ChangeNotifier{
+  List<Competition?> list = [];
+   
+  CompetitionResponseProvider(List<Competition?>? list){
+    this.list = list!;
+    notifyListeners();
+  }
+
+  void updateAppliedStatus(int index){
+    this.list[index]?.jobStatus = 'Applied';
+    notifyListeners();
+  }
+  
+  
 }
