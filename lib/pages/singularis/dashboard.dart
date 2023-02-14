@@ -3618,8 +3618,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                     ChangeNotifierProvider<GCarvaanListModel>(
                                       create: (context) => GCarvaanListModel(
                                           carvaanList
-                                              ?.map((e) =>
-                                                  GCarvaanPostElement(id: e.id, commentCount: e.commentCount, likeCount: e.likeCount, userLiked: e.userLiked))
+                                              ?.map((e) => GCarvaanPostElement(
+                                                  id: e.id,
+                                                  commentCount: e.commentCount,
+                                                  likeCount: e.likeCount,
+                                                  userLiked: e.userLiked))
                                               .toList()),
                                     ),
                                   ],
@@ -3638,24 +3641,37 @@ class _DashboardPageState extends State<DashboardPage> {
                                           children: <Widget>[
                                             InkWell(
                                               onTap: () {
-                                                
-                                                 setState(() {
-                        if (carvaanListModel.isLiked(index) == true) {
-                          updateLikeandViews(0,  carvaanListModel.list?[index].programContentId);
+                                                setState(() {
+                                                  if (carvaanListModel
+                                                          .isLiked(index) ==
+                                                      true) {
+                                                    updateLikeandViews(
+                                                        0,
+                                                        carvaanListModel
+                                                            .list?[index]
+                                                            .programContentId);
 
-                          carvaanListModel.updateIsLiked(index, 0);
+                                                    carvaanListModel
+                                                        .updateIsLiked(
+                                                            index, 0);
 
-                          carvaanListModel.decrementLike(index);
-                        } else {
-                          updateLikeandViews(1,carvaanListModel.list?[index].programContentId);
+                                                    carvaanListModel
+                                                        .decrementLike(index);
+                                                  } else {
+                                                    updateLikeandViews(
+                                                        1,
+                                                        carvaanListModel
+                                                            .list?[index]
+                                                            .programContentId);
 
-                          carvaanListModel.updateIsLiked(index, 1);
+                                                    carvaanListModel
+                                                        .updateIsLiked(
+                                                            index, 1);
 
-                          carvaanListModel.incrementLike(index);
-                        }
-                      });
-
-                                                
+                                                    carvaanListModel
+                                                        .incrementLike(index);
+                                                  }
+                                                });
                                               },
                                               child: Container(
                                                 child: Row(
@@ -3666,19 +3682,26 @@ class _DashboardPageState extends State<DashboardPage> {
                                                         right: 4.0,
                                                       ),
                                                       child: SvgPicture.asset(
-                                                    carvaanListModel.isLiked(index) == false
-                                  ? 'assets/images/like_icon.svg'
-                                  : 'assets/images/liked_icon.svg',
+                                                        carvaanListModel.isLiked(
+                                                                    index) ==
+                                                                false
+                                                            ? 'assets/images/like_icon.svg'
+                                                            : 'assets/images/liked_icon.svg',
                                                         height: 18.8,
                                                         width: 17.86,
-                                                        color:
-                                  carvaanListModel.isLiked(index) == false
-                                      ? ColorConstants.BLACK
-                                      : ColorConstants.GRADIENT_ORANGE,
+                                                        color: carvaanListModel
+                                                                    .isLiked(
+                                                                        index) ==
+                                                                false
+                                                            ? ColorConstants
+                                                                .BLACK
+                                                            : ColorConstants
+                                                                .GRADIENT_ORANGE,
                                                       ),
                                                     ),
                                                     Text(
-                                                      carvaanListModel.list?[index]
+                                                      carvaanListModel
+                                                                  .list?[index]
                                                                   .likeCount !=
                                                               0
                                                           ? '${carvaanListModel.list?[index].likeCount} ${Strings.of(context)?.Like}'
@@ -3705,22 +3728,26 @@ class _DashboardPageState extends State<DashboardPage> {
                                             InkWell(
                                               onTap: () {
                                                 showModalBottomSheet(
-                                                    context: context,
-                                                    backgroundColor:
-                                                        ColorConstants.WHITE,
-                                                    isScrollControlled: true,
-                                                    builder: (context) {
-                                                      return FractionallySizedBox(
-                                                        heightFactor: 0.7,
-                                                        child: CommentViewPage(
-                                                          postId: carvaanList?[
-                                                                  index]
-                                                              .id,
-                                                          value:
-                                                              carvaanListModel,
-                                                        ),
-                                                      );
-                                                    }).then((value) => setState((){}));
+                                                        context: context,
+                                                        backgroundColor:
+                                                            ColorConstants.WHITE,
+                                                        isScrollControlled: true,
+                                                        builder: (context) {
+                                                          return FractionallySizedBox(
+                                                            heightFactor: 0.7,
+                                                            child:
+                                                                CommentViewPage(
+                                                              postId:
+                                                                  carvaanList?[
+                                                                          index]
+                                                                      .id,
+                                                              value:
+                                                                  carvaanListModel,
+                                                            ),
+                                                          );
+                                                        })
+                                                    .then((value) =>
+                                                        setState(() {}));
                                               },
                                               child: Container(
                                                 child: Row(
@@ -3739,7 +3766,8 @@ class _DashboardPageState extends State<DashboardPage> {
                                                       ),
                                                     ),
                                                     Text(
-                                                      carvaanListModel.list?[index]
+                                                      carvaanListModel
+                                                                  .list?[index]
                                                                   .commentCount !=
                                                               0
                                                           ? '${carvaanListModel.list?[index].commentCount} ${Strings.of(context)?.Comment}'
@@ -3764,7 +3792,8 @@ class _DashboardPageState extends State<DashboardPage> {
                                             ),
                                             InkWell(
                                               onTap: () {
-                                                Share.share('${carvaanListModel.list?[index].resourcePath}');
+                                                Share.share(
+                                                    '${carvaanList?[index].resourcePath}');
                                               },
                                               child: Container(
                                                 child: Row(
@@ -3816,10 +3845,9 @@ class _DashboardPageState extends State<DashboardPage> {
         });
   }
 
-
   void updateLikeandViews(int? like, contentId) async {
-    BlocProvider.of<HomeBloc>(context).add(LikeContentEvent(
-        contentId: contentId, like: like, type: 'contents'));
+    BlocProvider.of<HomeBloc>(context).add(
+        LikeContentEvent(contentId: contentId, like: like, type: 'contents'));
   }
 
   _dots(int index, int postCount) {
@@ -4962,5 +4990,4 @@ class CompetitionBlankPage extends StatelessWidget {
       ],
     );
   }
-
 }
