@@ -878,6 +878,7 @@ class HomeRepository {
         // box.put("getDashboardIsVisible", dashboardViewResponse.toJson());
 
         box.put("getDashboardIsVisible", dashboardViewResponse.data?.toJson());
+        // box.put("getDashboardIsVisible", jsonDecode(jsonDecode(response.body)['data']));
         print('something went w inserted');
       } catch (e) {
         print('something went wrong while inserting data');
