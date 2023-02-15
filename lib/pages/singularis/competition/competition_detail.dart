@@ -344,7 +344,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                             height: 8,
                           ),
                           Text(
-                            '${contentList?.data?.competitionInstructions?.whatsIn}',
+                            '${contentList?.data?.competitionInstructions?.whatsIn ?? ''}',
                             style: Styles.regular(size: 14, color: Color(0xff5A5F73)),
                           ),
                           SizedBox(
@@ -361,7 +361,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                           ),
 
                           Text(
-                            '${contentList?.data?.competitionInstructions?.instructions}',
+                            '${contentList?.data?.competitionInstructions?.instructions ?? ''}',
                             style: Styles.regular(size: 14, color: Color(0xff5A5F73)),
                           ),
                           SizedBox(
@@ -378,7 +378,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                           ),
 
                           Text(
-                            '${contentList?.data?.competitionInstructions?.faq}',
+                            '${contentList?.data?.competitionInstructions?.faq ?? ''}',
                             style: Styles.regular(size: 14, color: Color(0xff5A5F73)),
                           ),
                         ],
