@@ -8,8 +8,10 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:masterg/pages/auth_pages/select_interest.dart';
 import 'package:masterg/pages/custom_pages/card_loader.dart';
+import 'package:masterg/utils/coustom_outline_button.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../../../blocs/bloc_manager.dart';
@@ -102,9 +104,7 @@ class _AlumniVoiceState extends State<AlumniVoice> with WidgetsBindingObserver {
           Log.v(state.response!.data!.list.toString());
           joyContentListResponse = state.response!.data!.list;
           joyContentListView = joyContentListResponse;
-          setState(() {
-            
-          });
+          setState(() {});
 
           break;
         case ApiStatus.ERROR:
@@ -130,11 +130,10 @@ class _AlumniVoiceState extends State<AlumniVoice> with WidgetsBindingObserver {
             initState: (context) {
               videoPlayerProvider = value;
             },
-            child: 
-            
-            BlocListener<HomeBloc, HomeState>(
+            child: BlocListener<HomeBloc, HomeState>(
               listener: (context, state) async {
-                if(state is JoyContentListState) _handleJoyContentListResponse(state);
+                if (state is JoyContentListState)
+                  _handleJoyContentListResponse(state);
               },
               child: SingleChildScrollView(
                 child: Container(
@@ -179,7 +178,7 @@ class _AlumniVoiceState extends State<AlumniVoice> with WidgetsBindingObserver {
                                 ),
                               );
                             }
-            
+
                             joyContentListResponse = box
                                 .get("joyContentListResponse")
                                 .map((e) => JoyContentListElement.fromJson(
@@ -216,7 +215,7 @@ class _AlumniVoiceState extends State<AlumniVoice> with WidgetsBindingObserver {
                                   ],
                                 ),
                               );
-            
+
                             return Padding(
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               child: Visibility(
@@ -230,11 +229,13 @@ class _AlumniVoiceState extends State<AlumniVoice> with WidgetsBindingObserver {
                                           mainAxisSpacing: 0,
                                           crossAxisSpacing: 20,
                                           childAspectRatio: 2 / 3,
-                                          mainAxisExtent:
-                                              MediaQuery.of(context).size.height *
-                                                  0.35,
+                                          mainAxisExtent: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.35,
                                           crossAxisCount: 2),
-                                  itemBuilder: (BuildContext context, int index) {
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
                                     return InkWell(
                                       onTap: () async {
                                         print('object');
@@ -262,22 +263,24 @@ class _AlumniVoiceState extends State<AlumniVoice> with WidgetsBindingObserver {
                                           Container(
                                               decoration: BoxDecoration(
                                                   borderRadius:
-                                                      BorderRadius.circular(10)),
+                                                      BorderRadius.circular(
+                                                          10)),
                                               child: Stack(
                                                 children: [
                                                   ClipRRect(
                                                     borderRadius:
-                                                        BorderRadius.circular(10),
+                                                        BorderRadius.circular(
+                                                            10),
                                                     child: Container(
-                                                        height:
-                                                            MediaQuery.of(context)
-                                                                    .size
-                                                                    .height *
-                                                                0.25,
-                                                        width:
-                                                            MediaQuery.of(context)
+                                                        height: MediaQuery.of(
+                                                                    context)
                                                                 .size
-                                                                .width,
+                                                                .height *
+                                                            0.25,
+                                                        width: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width,
                                                         decoration: BoxDecoration(
                                                             borderRadius:
                                                                 BorderRadius
@@ -289,17 +292,21 @@ class _AlumniVoiceState extends State<AlumniVoice> with WidgetsBindingObserver {
                                                                     LinearGradient(
                                                           end: const Alignment(
                                                               0.0, -1),
-                                                          begin: const Alignment(
-                                                              0.0, 0.8),
+                                                          begin:
+                                                              const Alignment(
+                                                                  0.0, 0.8),
                                                           colors: [
                                                             const Color(
                                                                     0x8A000000)
-                                                                .withOpacity(0.4),
+                                                                .withOpacity(
+                                                                    0.4),
                                                             Colors.black12
-                                                                .withOpacity(0.0)
+                                                                .withOpacity(
+                                                                    0.0)
                                                           ],
                                                         )),
-                                                        child: CachedNetworkImage(
+                                                        child:
+                                                            CachedNetworkImage(
                                                           imageUrl:
                                                               '${joyContentListView![index].thumbnailUrl}',
                                                           imageBuilder: (context,
@@ -367,17 +374,15 @@ class _AlumniVoiceState extends State<AlumniVoice> with WidgetsBindingObserver {
                                                               '${joyContentListView![index].viewCount}  ${Strings.of(context)?.Views}',
                                                               style: Styles.regular(
                                                                   size: 10,
-                                                                  color:
-                                                                      ColorConstants
-                                                                          .GREY_3)),
+                                                                  color: ColorConstants
+                                                                      .GREY_3)),
                                                           if (joyContentListView![
                                                                       index]
                                                                   .viewCount! >
                                                               1)
                                                             Text(
-                                                                Preference.getInt(
-                                                                            Preference
-                                                                                .APP_LANGUAGE) ==
+                                                                Preference.getInt(Preference
+                                                                            .APP_LANGUAGE) ==
                                                                         1
                                                                     ? 's'
                                                                     : '',
@@ -391,8 +396,9 @@ class _AlumniVoiceState extends State<AlumniVoice> with WidgetsBindingObserver {
                                                         '${0}  ${Strings.of(context)?.Views}',
                                                         style: Styles.regular(
                                                             size: 10,
-                                                            color: ColorConstants
-                                                                .GREY_3)),
+                                                            color:
+                                                                ColorConstants
+                                                                    .GREY_3)),
                                                 // SizedBox(
                                                 //   width: 10,
                                                 //   height: 4,
@@ -459,9 +465,7 @@ class _AlumniVoiceState extends State<AlumniVoice> with WidgetsBindingObserver {
           Log.v("JoyCategoryState Done ....................");
 
           _isJoyCategoryLoading = false;
-            setState(() {
-            
-          });
+          setState(() {});
           break;
         case ApiStatus.ERROR:
           _isJoyCategoryLoading = false;
@@ -569,6 +573,77 @@ class _AlumniVoiceState extends State<AlumniVoice> with WidgetsBindingObserver {
                                       joyCategoryList![index].parentId ==
                                           selectedJoyContentCategoryId;
                                 }
+
+                                return Transform.scale(
+                                  scale: 0.9,
+                                  child: CustomOutlineButton(
+                                    strokeWidth: isSelected ? 1.5 : 1,
+                                    radius: 100,
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        isSelected ?    ColorConstants.GRADIENT_ORANGE : ColorConstants.BLACK.withOpacity(0.3),
+                                      isSelected ?      ColorConstants.GRADIENT_RED : ColorConstants.BLACK.withOpacity(0.3)
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.topRight,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8),
+                                      child: GradientText(
+                                        '${joyCategoryList![index].title}',
+                                        style: Styles.regular(size: 12),
+                                        colors:  [
+                                         isSelected ?  ColorConstants.GRADIENT_ORANGE : ColorConstants.BLACK,
+                                         isSelected ?   ColorConstants.GRADIENT_RED : ColorConstants.BLACK,
+                                        ],
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        if (isParentLanguage == 1) {
+                                          selectedJoyContentCategoryId =
+                                              joyCategoryList![index].id;
+                                        } else {
+                                          selectedJoyContentCategoryId =
+                                              joyCategoryList![index].parentId;
+                                        }
+                                
+                                        if (selectedJoyContentCategoryId == 1) {
+                                          joyContentListView =
+                                              joyContentListResponse;
+                                        } else {
+                                          if (isParentLanguage != 1) {
+                                            joyContentListView =
+                                                joyContentListResponse!
+                                                    .where((element) =>
+                                                        element.categoryId ==
+                                                        joyCategoryList![index]
+                                                            .parentId)
+                                                    .toList();
+                                          } else {
+                                            print('inside else ');
+                                            joyContentListView =
+                                                joyContentListResponse!
+                                                    .where((element) =>
+                                                        element.categoryId ==
+                                                        joyCategoryList![index]
+                                                            .id)
+                                                    .toList();
+                                          }
+                                        }
+                                
+                                        //   ytController = YoutubePlayerController(
+                                        //       flags: YoutubePlayerFlags(
+                                        //         mute: videoController.isMute,
+                                        //         autoPlay: true,
+                                        //         loop: true,
+                                        //       ),
+                                        //       initialVideoId:
+                                        //           '${YoutubePlayer.convertUrlToId('${joyCategoryList![index].video}')}');
+                                      });
+                                    },
+                                  ),
+                                );
                                 return GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -628,28 +703,32 @@ class _AlumniVoiceState extends State<AlumniVoice> with WidgetsBindingObserver {
                                                 borderRadius:
                                                     BorderRadius.circular(18),
                                                 border: Border.all(
-                                                  color:  ColorConstants.GRADIENT_RED.withOpacity(0.6),
+                                                  color: ColorConstants
+                                                      .GRADIENT_RED
+                                                      .withOpacity(0.6),
                                                   width: 2,
                                                 )),
                                             child: Center(
                                                 child: ShaderMask(
-                                        blendMode: BlendMode.srcIn,
-                                        shaderCallback: (Rect bounds) {
-                                          return LinearGradient(
-                                              begin: Alignment.centerLeft,
-                                              end: Alignment.centerRight,
-                                              colors: <Color>[
-                                                ColorConstants.GRADIENT_ORANGE,
-                                                ColorConstants.GRADIENT_RED
-                                              ]).createShader(bounds);
-                                        },
-                                        child: Text(
-                                                      joyCategoryList![index]
-                                                          .title
-                                                          .toString(),
-                                                      style: Styles.regular(
-                                                          size: 12)),
-                                                )))
+                                              blendMode: BlendMode.srcIn,
+                                              shaderCallback: (Rect bounds) {
+                                                return LinearGradient(
+                                                    begin: Alignment.centerLeft,
+                                                    end: Alignment.centerRight,
+                                                    colors: <Color>[
+                                                      ColorConstants
+                                                          .GRADIENT_ORANGE,
+                                                      ColorConstants
+                                                          .GRADIENT_RED
+                                                    ]).createShader(bounds);
+                                              },
+                                              child: Text(
+                                                  joyCategoryList![index]
+                                                      .title
+                                                      .toString(),
+                                                  style:
+                                                      Styles.regular(size: 12)),
+                                            )))
                                         : Container(
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: 10),
