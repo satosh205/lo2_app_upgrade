@@ -970,8 +970,16 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
 
                             myJobResponse?.data![index]!.jobStatus != null ? Padding(
                               padding: const EdgeInsets.only(top: 0.0),
-                              child: Text('${myJobResponse?.data![index]!.jobStatus == 'under_review' ? 'Application under process' :
-                              myJobResponse?.data![index]!.jobStatus}', style: TextStyle(color: Colors.green),),
+                              child: Text('${myJobResponse?.data![index]!.jobStatus == 'under_review' ?
+                              'Application Under Process' :
+                              myJobResponse?.data![index]!.jobStatus == 'shortlisted' ?
+                              'Application Shortlisted' :
+                              myJobResponse?.data![index]!.jobStatus == 'rejected' ?
+                              'Unable To Offer You A Position' :
+                              myJobResponse?.data![index]!.jobStatus}',
+                                style: TextStyle(
+                                    color: myJobResponse?.data![index]!.jobStatus == 'rejected' ?  ColorConstants.VIEW_ALL :
+                                    Colors.green, fontSize: 12),),
                             ):SizedBox(),
                           ],
                         ),
