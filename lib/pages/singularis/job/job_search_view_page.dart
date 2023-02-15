@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masterg/pages/singularis/job/widgets/blank_widget_page.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:provider/provider.dart';
 import '../../../blocs/bloc_manager.dart';
 import '../../../blocs/home_bloc.dart';
 import '../../../data/api/api_service.dart';
@@ -159,7 +160,18 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
             SizedBox(height: 30.0,),
             ///Job List
             widget.isSearchMode == true ? SizedBox(height: 30,):SizedBox(),
-            allJobListResponse?.data != null ? renderJobList() : BlankWidgetPage(),
+            allJobListResponse?.data != null ? 
+            // renderJobList()
+            MultiProvider(
+        providers: [
+          ChangeNotifierProvider<CompetitionResponseProvider>(
+            create: (context) => CompetitionResponseProvider(allJobListResponse?.data),
+          ),
+         
+        ],
+        child:renderJobList())
+            
+             : BlankWidgetPage(),
           ],
         ),
       ),
@@ -276,8 +288,10 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
 
 
   Widget renderJobList() {
-    return ListView.builder(
-        itemCount: allJobListResponse?.data!.length,
+    return  Consumer<CompetitionResponseProvider>(
+                builder: (context, competitionProvider, child)=>  ListView.builder(
+        // itemCount: allJobListResponse?.data!.length,
+        itemCount: competitionProvider.list.length,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (BuildContext context, int index){
@@ -371,7 +385,7 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
                         flex: 2,
                         child: Container(
                           padding: EdgeInsets.only(left: 5.0),
-                          child: Text('Apply',style: Styles.bold(
+                          child: Text(competitionProvider.list[index]?.jobStatus ??  'Apply',style: Styles.bold(
                               size: 15, color: ColorConstants.ORANGE)),),
                       ),
                     ],
@@ -383,7 +397,7 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
           );
 
           return Text('data');
-        });
+        }));
   }
 
 
