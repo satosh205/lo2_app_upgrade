@@ -29,6 +29,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 TabController? _tabController;
+
 class ReelsDashboardPage extends StatefulWidget {
   final bool fromDashboard;
   final int scrollTo;
@@ -353,12 +354,11 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
   void initVideo(String url) async {
     final fileInfo = await checkForCache(url);
     if (fileInfo == null) {
-      print('playing from internet ');
-
       _videoController = VideoPlayerController.network(url);
       _videoController!.addListener(() {});
       _videoController!.setLooping(true);
-      _videoController!.initialize().then((_) => setState(() {
+      _videoController!.initialize().then((_)
+       => setState(() {
         cacheVideo(url);
             setState(() {
               isShowPlaying = true;
@@ -1041,8 +1041,7 @@ class LikeWidget extends StatelessWidget {
     var joyContentModel = Provider.of<GReelsModel>(mcontext!);
     updateLikeandViews(null);
     // reels refresh issue fix
-
-    if(_tabController?.index != 0)
+    
     joyContentModel
         .updateCurrentIndex(joyContentModel.getCurrentPostIndex(contentId));
 
@@ -1092,6 +1091,7 @@ class LikeWidget extends StatelessWidget {
         LikeContentEvent(contentId: contentId, like: like, type: 'contents'));
   }
 }
+
 
 class ShowImage extends StatefulWidget {
   final String? path;
