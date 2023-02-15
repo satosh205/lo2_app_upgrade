@@ -29,7 +29,6 @@ import 'package:visibility_detector/visibility_detector.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 TabController? _tabController;
-
 class ReelsDashboardPage extends StatefulWidget {
   final bool fromDashboard;
   final int scrollTo;
@@ -1042,6 +1041,8 @@ class LikeWidget extends StatelessWidget {
     var joyContentModel = Provider.of<GReelsModel>(mcontext!);
     updateLikeandViews(null);
     // reels refresh issue fix
+
+    if(_tabController?.index != 0)
     joyContentModel
         .updateCurrentIndex(joyContentModel.getCurrentPostIndex(contentId));
 
