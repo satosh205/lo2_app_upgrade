@@ -266,20 +266,20 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
             _customAppBar(),
 
             ///Search Job
-            /*SizedBox(
+            SizedBox(
               height: height(context) * 0.03,
-            ),*/
-            /*Padding(
+            ),
+            Padding(
               padding: const EdgeInsets.only(
                   left: SizeConstants.JOB_LEFT_SCREEN_MGN,
                   right: SizeConstants.JOB_RIGHT_SCREEN_MGN),
               child: _searchFilter(),
-            ),*/
+            ),
 
             ///My Job Section
-            /*myJobResponse?.data != null ? SizedBox(
-              height: 30,
-            ):SizedBox(),*/
+            myJobResponse?.data != null ? SizedBox(
+              height: 15,
+            ):SizedBox(),
             myJobResponse?.data != null ? _myJobSectionCard() : SizedBox(),
 
             ///Complete Profile
@@ -438,7 +438,12 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
         children: [
           Expanded(
             flex: 9,
-            child: InkWell(
+            child: Container(
+              child: Text(
+                'Find Relevant Jobs'
+              ),
+            ),
+            /*child: InkWell(
               onTap: () {
                 Navigator.push(
                     context,
@@ -472,8 +477,9 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                   ],
                 ),
               ),
-            ),
+            ),*/
           ),
+
           Expanded(
             flex: 1,
             child: InkWell(
@@ -687,7 +693,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                                   domainFilterList!.data!.list.length,
                                                       (i) => InkWell(
                                                     onTap: () {
-                                                      seletedIds += domainFilterList!.data!.list[i].id.toString() + ',';
+                                                      //seletedIds += domainFilterList!.data!.list[i].id.toString() + ',';
                                                       if (selectedIdList.contains(domainFilterList!.data!.list[i].id)) {
                                                         selectedIdList.remove(domainFilterList!.data!.list[i].id);
                                                       } else {
@@ -718,6 +724,17 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                             print('Search  Jobs');
                                             print(seletedIds);
                                             print(selectedIdList);
+                                            seletedIds = selectedIdList.toString().replaceAll("[", "").replaceAll("]", "");
+                                            print(seletedIds);
+                                            Navigator.push(
+                                                context,
+                                                NextPageRoute(
+                                                    JobSearchViewPage(
+                                                      appBarTitle: 'Search Jobs',
+                                                      isSearchMode: false,
+                                                      jobRolesId: seletedIds,
+                                                    ),
+                                                    isMaintainState: true));
                                           },
                                           child: Container(
                                             height: 40,
@@ -734,7 +751,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                               alignment: Alignment.center,
                                               child: Padding(
                                                 padding: const EdgeInsets.all(10.0),
-                                                child: Text('Search  Jobs',
+                                                child: Text('Search Jobs',
                                                   style: Styles.regular(size: 13, color: ColorConstants.WHITE,),),
                                               ),
                                             ),
@@ -1390,8 +1407,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                       ),
                       Expanded(
                         flex: 2,
-                        child: 
-                        
+                        child:
                         allJobListResponse?.data![index]!.jobStatus == null || allJobListResponse?.data![index]!.jobStatus == "" 
                         // competitionProvider.list[index]!.jobStatus == null || competitionProvider.list[index]!.jobStatus == "" 
                         ?

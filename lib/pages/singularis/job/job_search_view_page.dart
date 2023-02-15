@@ -148,7 +148,7 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
       child: Container(
         margin: EdgeInsets.only(
             left: SizeConstants.JOB_SEARCH_PAGE_MGN,
-            top: SizeConstants.JOB_SEARCH_PAGE_MGN,
+            top: 40,
             right: SizeConstants.JOB_SEARCH_PAGE_MGN,
             bottom: SizeConstants.JOB_SEARCH_PAGE_MGN),
         width: MediaQuery.of(context).size.width,
