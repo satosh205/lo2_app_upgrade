@@ -13,6 +13,7 @@ import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/pages/walk_through_page/splash_screen.dart';
 import 'package:masterg/utils/check_connection.dart';
 import 'package:masterg/utils/constant.dart';
+import 'package:masterg/utils/dynamic_links/route_services.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:path_provider/path_provider.dart';
 import 'blocs/auth_bloc.dart';
@@ -128,6 +129,7 @@ class _MyAppState extends State<MyApp> {
         ],
         child: MaterialApp(
           locale: this.locale,
+          onGenerateRoute: RouteServices.generateRoute,
           theme: ThemeData(
               // textSelectionHandleColor: Colors.transparent,
               // primaryColor: ColorConstants.ORANGE,

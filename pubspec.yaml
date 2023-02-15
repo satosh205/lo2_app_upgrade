@@ -40,8 +40,8 @@ dependencies:
   expandable: ^5.0.1
   ffmpeg_kit_flutter: 4.5.1-LTS
   file_picker: ^4.5.1
-  firebase_core: ^1.23.0
-  firebase_messaging: ^13.1.0
+  firebase_core: ^2.5.0
+  firebase_messaging: ^14.2.2
   flick_video_player: ^0.4.0-dev.4
   flutter:
     sdk: flutter
@@ -109,6 +109,7 @@ dependencies:
   # graphic: ^1.0.1
   fl_chart: ^0.60.0
   intl_phone_field: ^3.1.0
+  firebase_dynamic_links: ^5.0.12
 
 # dependency_overrides: null
 
