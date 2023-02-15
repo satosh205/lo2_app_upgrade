@@ -116,13 +116,24 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
           }
         } else if (double.parse('${widget.height}') < 1200) {
           if (double.parse('${widget.height}') < 800) {
-            videoHeight = double.parse('${widget.height}') / 1.6;
+            if (double.parse('${widget.width}') > 900) {
+              videoHeight = double.parse('${widget.height}') / 3.0;
+            }else {
+              videoHeight = double.parse('${widget.height}') / 1.6;
+            }
           } else {
             videoHeight = double.parse('${widget.height}') / 2.8;
           }
         } else if (double.parse('${widget.height}') > 1200) {
-          videoHeight = double.parse('${widget.height}') / 1.9;
+          print('object3');
+          if (double.parse('${widget.width}') > 1300) {
+            videoHeight = double.parse('${widget.height}') / 3.9;
+          }else {
+            videoHeight = double.parse('${widget.height}') / 1.9;
+          }
+
         } else {
+          print('object4');
           videoHeight = double.parse('${widget.height}') / 2.7;
           likeCount = widget.likeCount;
         }
@@ -134,7 +145,15 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
           videoHeight = double.parse('${widget.height}');
         } else {
           if (double.parse('${widget.height}') < 1200) {
-            videoHeight = double.parse('${widget.height}') / 5.4;
+            if (double.parse('${widget.width}') < 800) {
+              videoHeight = double.parse('${widget.height}') / 3.5;
+
+            }else if (double.parse('${widget.width}') > 1100) {
+              videoHeight = double.parse('${widget.height}') / 3.5;
+            }
+            else{
+              videoHeight = double.parse('${widget.height}') / 5.4;
+            }
           } else {
             print(widget.height);
             videoHeight = double.parse('${widget.height}') / 2.8;
