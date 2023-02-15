@@ -124,9 +124,9 @@ class _CommunityDashboardState extends State<CommunityDashboard> {
 
   Widget _customAppBar() {
     return RoundedAppBar(
-        appBarHeight: height(context) * 0.1,
+        appBarHeight: height(context) * 0.08,
         child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,

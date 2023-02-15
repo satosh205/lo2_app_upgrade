@@ -1340,93 +1340,96 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
 
                   itemBuilder: (BuildContext context, int index) {
 
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (APK_DETAILS['package_name'] ==
-                            'com.learn_build') ...[
-                          if (index == 0)
-                            Container(
-                                margin: EdgeInsets.only(left: 9, top: 6),
-                                child: Text(
-                                    '${recommendedcourses![index].categoryName}',
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    softWrap: false,
-                                    style: Styles.semibold(size: 16))),
-                          if (index > 0 &&
-                              recommendedcourses![index].categoryName !=
-                                  recommendedcourses![index - 1].categoryName)
-                            Container(
-                                margin: EdgeInsets.only(left: 9, top: 6),
-                                child: Text(
-                                    '${recommendedcourses![index].categoryName}',
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    softWrap: false,
-                                    style: Styles.semibold(size: 16))),
+                    return Container(
+                      width: width(context) * 0.8,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (APK_DETAILS['package_name'] ==
+                              'com.learn_build') ...[
+                            if (index == 0)
+                              Container(
+                                  margin: EdgeInsets.only(left: 9, top: 6),
+                                  child: Text(
+                                      '${recommendedcourses![index].categoryName}',
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      softWrap: false,
+                                      style: Styles.semibold(size: 16))),
+                            if (index > 0 &&
+                                recommendedcourses![index].categoryName !=
+                                    recommendedcourses![index - 1].categoryName)
+                              Container(
+                                  margin: EdgeInsets.only(left: 9, top: 6),
+                                  child: Text(
+                                      '${recommendedcourses![index].categoryName}',
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      softWrap: false,
+                                      style: Styles.semibold(size: 16))),
+                          ],
+                          InkWell(
+                              onTap: () {
+                                /*_subscribeRequest(
+                                    recommendedcourses![index].subscriptionType,
+                                    recommendedcourses![index].id);*/
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CoursesDetailsPage(
+                                          imgUrl:
+                                              recommendedcourses![index].image,
+                                          indexc: index,
+                                          tagName: 'TagReco',
+                                          name: recommendedcourses![index].name,
+                                          description: recommendedcourses![index]
+                                                  .description ??
+                                              '',
+                                          regularPrice: recommendedcourses![index]
+                                              .regularPrice,
+                                          salePrice: recommendedcourses![index]
+                                              .salePrice,
+                                          trainer:
+                                              recommendedcourses![index].trainer,
+                                          enrolmentCount:
+                                              recommendedcourses![index]
+                                                  .enrolmentCount,
+                                          type: recommendedcourses![index]
+                                              .subscriptionType,
+                                          id: recommendedcourses![index].id,
+                                          shortCode: recommendedcourses![index]
+                                              .shortCode)),
+                                ).then((isSuccess) {
+                                  if (isSuccess == true) {
+                                    print('sucess enrolled');
+                                    _getPopularCourses();
+                                    _getFilteredPopularCourses();
+
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => MyCourses()));
+                                  }
+                                });
+
+                                /*Navigator.push(
+                                                  context,
+                                                  NextPageRoute(ChangeNotifierProvider<
+                                                          RecommendedCourseProvider>(
+                                                      create: (context) =>
+                                                          RecommendedCourseProvider(
+                                                              TrainingService(
+                                                                  ApiService()),
+                                                              recommendedcourses[
+                                                                  index]),
+                                                      child:
+                                                          PopularCourseDetailPage())));*/
+                              },
+                              child: _getCourseTemplate(context,
+                                  recommendedcourses![index], index, 'TagReco')),
                         ],
-                        InkWell(
-                            onTap: () {
-                              /*_subscribeRequest(
-                                  recommendedcourses![index].subscriptionType,
-                                  recommendedcourses![index].id);*/
-
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => CoursesDetailsPage(
-                                        imgUrl:
-                                            recommendedcourses![index].image,
-                                        indexc: index,
-                                        tagName: 'TagReco',
-                                        name: recommendedcourses![index].name,
-                                        description: recommendedcourses![index]
-                                                .description ??
-                                            '',
-                                        regularPrice: recommendedcourses![index]
-                                            .regularPrice,
-                                        salePrice: recommendedcourses![index]
-                                            .salePrice,
-                                        trainer:
-                                            recommendedcourses![index].trainer,
-                                        enrolmentCount:
-                                            recommendedcourses![index]
-                                                .enrolmentCount,
-                                        type: recommendedcourses![index]
-                                            .subscriptionType,
-                                        id: recommendedcourses![index].id,
-                                        shortCode: recommendedcourses![index]
-                                            .shortCode)),
-                              ).then((isSuccess) {
-                                if (isSuccess == true) {
-                                  print('sucess enrolled');
-                                  _getPopularCourses();
-                                  _getFilteredPopularCourses();
-
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => MyCourses()));
-                                }
-                              });
-
-                              /*Navigator.push(
-                                                context,
-                                                NextPageRoute(ChangeNotifierProvider<
-                                                        RecommendedCourseProvider>(
-                                                    create: (context) =>
-                                                        RecommendedCourseProvider(
-                                                            TrainingService(
-                                                                ApiService()),
-                                                            recommendedcourses[
-                                                                index]),
-                                                    child:
-                                                        PopularCourseDetailPage())));*/
-                            },
-                            child: _getCourseTemplate(context,
-                                recommendedcourses![index], index, 'TagReco')),
-                      ],
+                      ),
                     );
                   },
                   itemCount: min(4, recommendedcourses!.length),

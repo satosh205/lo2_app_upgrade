@@ -2798,7 +2798,9 @@ class _DashboardPageState extends State<DashboardPage> {
                         Expanded(child: SizedBox()),
                         InkWell(
                           onTap: () {
-                            menuProvider?.updateCurrentIndex('/g-school');
+                            // menuProvider?.updateCurrentIndex('/g-school');
+                            Navigator.push(context, NextPageRoute(MyCourses()));
+                          
                           },
                           child: Text('View all',
                               style: Styles.regular(
