@@ -110,7 +110,7 @@ class _AppDrawerState extends State<AppDrawer> {
               ),
           ),
 
-          SizedBox(height: 40,),
+          SizedBox(height: 30,),
            ListTile(
             hoverColor: Colors.blue,
             dense: true,
@@ -118,6 +118,7 @@ class _AppDrawerState extends State<AppDrawer> {
             leading: Icon(
               Icons.share_outlined,
               color: Colors.black,
+              size: 25,
             ),
             title: Text('ShareApp'),
             onTap: () {},
@@ -137,15 +138,16 @@ class _AppDrawerState extends State<AppDrawer> {
 
             },
           ),*/
-          SizedBox(height: 20,),
+          SizedBox(height: 15,),
            ListTile(
             hoverColor: Colors.blue,
             dense: true,
             visualDensity: VisualDensity(vertical: -4),
-            leading:SvgPicture.asset('assets/images/terms.svg',
-            color: Colors.black ,
-            
-            
+            //leading:SvgPicture.asset('assets/images/terms.svg',color: Colors.black ,
+             leading: Icon(
+               Icons.sticky_note_2_outlined,
+               color: Colors.black,
+               size: 25,
             ),
             // leading: Icon(
             //   Icons.privacy_tip_outlined,
@@ -157,12 +159,13 @@ class _AppDrawerState extends State<AppDrawer> {
                             maintainState: false));
             },
           ),
-          SizedBox(height: 20,),
+          SizedBox(height: 15,),
           ListTile(
             hoverColor: Colors.blue,
             dense: true,
             visualDensity: VisualDensity(vertical: -4),
             leading:SvgPicture.asset('assets/images/about.svg'),
+
             title: Text('About Singularis'),
             onTap: () {},
           ),

@@ -21,6 +21,7 @@
         </intent>
     </queries>
 
+
     <application android:name="${applicationName}" android:icon="@mipmap/ic_launcher_wow" android:label="Singularis WOW" android:requestLegacyExternalStorage="true" android:allowBackup="false" android:usesCleartextTraffic="true" android:largeHeap="true" android:supportsRtl="true" android:roundIcon="@mipmap/ic_launcher_wow">
      <provider android:name="vn.hunghd.flutterdownloader.DownloadedFileProvider" android:authorities="${applicationId}.flutter_downloader.provider" android:exported="false" android:grantUriPermissions="true">
     <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/provider_paths"/>
@@ -48,6 +49,17 @@
             <meta-data android:name="io.flutter.embedding.android.SplashScreenDrawable" android:resource="@drawable/launch_background"/>
             <meta-data android:name="io.flutter.embedding.android.NormalTheme" android:resource="@style/NormalTheme"/>
             <meta-data android:name="flutterEmbedding" android:value="2"/>
+
+            <!--Dynamik Link-->
+            <!--<meta-data android:name="flutter_deeplinking_enabled" android:value="true" />
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:host="singularis.page.link "
+                    android:scheme="https"/>
+            </intent-filter>-->
         </activity>
 
         <activity android:name="com.yalantis.ucrop.UCropActivity" android:screenOrientation="portrait" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>

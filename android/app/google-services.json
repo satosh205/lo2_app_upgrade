@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "283266549880",
-    "project_id": "edulyst-6ae6e",
-    "storage_bucket": "edulyst-6ae6e.appspot.com"
+    "project_number": "618200044908",
+    "project_id": "singularis-wow",
+    "storage_bucket": "singularis-wow.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:283266549880:android:b695b3e9640f4b6dd8058d",
+        "mobilesdk_app_id": "1:618200044908:android:09fa41b5ba12a141f70f49",
         "android_client_info": {
           "package_name": "com.singulariswow"
         }
       },
       "oauth_client": [
         {
-          "client_id": "283266549880-u3890cipbu8dtttjr80vf1qairq7thgi.apps.googleusercontent.com",
+          "client_id": "618200044908-7qcadlghrg3v4jcgucgobadgpf9v5o7g.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAkBRt20YlFU7hd3NKfz0E93v4i3LvuWWI"
+          "current_key": "AIzaSyBKbZu8G2pjkEc7Nfx2aRbi1pF_Fz_DBbE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "283266549880-u3890cipbu8dtttjr80vf1qairq7thgi.apps.googleusercontent.com",
+              "client_id": "618200044908-7qcadlghrg3v4jcgucgobadgpf9v5o7g.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

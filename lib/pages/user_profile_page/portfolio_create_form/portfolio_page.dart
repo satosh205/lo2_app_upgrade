@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -59,6 +60,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
+import '../../../utils/dynamic_links/path_constant.dart';
 import '../../../utils/utility.dart';
 import '../../custom_pages/custom_widgets/CommonWebView.dart';
 import '../../singularis/recentactivities/recent_activities_page.dart';
@@ -85,12 +87,21 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   String? _tempDir;
   String? filePath;
 
+  ///Dynamic Lick Code Start-----
+  //String? _linkMessage;
+  //bool _isCreatingLink = false;
+  //FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
+
+  ///Dynamic Code end-------
+
   @override
   void initState() {
     getPortfolio();
     getPortfolioCompetition();
     topScoringUser();
 
+    ///Dynamic Link
+    //initDynamicLinks();
     super.initState();
   }
 
@@ -367,6 +378,68 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     );
   }
 
+  //TODO: Dynamic Link Code Start
+ /* Future<void> initDynamicLinks() async {
+    dynamicLinks.onLink.listen((dynamicLinkData) {
+      final Uri uri = dynamicLinkData.link;
+      final queryParams = uri.queryParameters;
+      print('Dynamic======= ${queryParams}');
+
+      if (queryParams.isNotEmpty) {
+        String? productId = queryParams["id"];
+
+        print('ifffff=== ${dynamicLinkData.link.path}');
+        Navigator.pushNamed(context, dynamicLinkData.link.path,
+            arguments: {"productId": int.parse(productId!)});
+      } else {
+        print('elseeeeeee=== ${dynamicLinkData.link.path}');
+        Navigator.pushNamed(
+          context,
+          dynamicLinkData.link.path,
+        );
+      }
+    }).onError((error) {
+      print('onLink error');
+      print(error.message);
+    });
+  }*/
+
+  /*Future<void> _createDynamicLink(bool short, String link) async {
+    print('_createDynamicLink');
+    setState(() {
+      _isCreatingLink = true;
+    });
+
+    final DynamicLinkParameters parameters = DynamicLinkParameters(
+      uriPrefix: kUriPrefix,
+      link: Uri.parse(kUriPrefix + link),
+      androidParameters: const AndroidParameters(
+        packageName: 'com.singulariswow',
+        minimumVersion: 0,
+      ),
+    );
+
+    Uri url;
+    if (short) {
+      print('short======');
+      final ShortDynamicLink shortLink =
+      await dynamicLinks.buildShortLink(parameters);
+      url = shortLink.shortUrl;
+      print(url.toString());
+    } else {
+      url = await dynamicLinks.buildLink(parameters);
+    }
+
+    setState(() {
+      _linkMessage = url.toString();
+      _isCreatingLink = false;
+      print('_linkMessage====${_linkMessage}');
+    });
+  }*/
+
+  //TODO: Dynamic Link Code End---------
+
+
   @override
   Widget build(BuildContext context) {
     //String? baseUrl = portfolioResponse?.data.baseFileUrl;
@@ -473,8 +546,10 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                         content: Text(
                                                             "Profile link copied"),
                                                       )));
-
                                               Share.share(shareUrl);
+
+                                              //_createDynamicLink(true, kPortfolioPageLink);
+                                              //_createDynamicLink(false, kPortfolioPageLink);
                                             },
                                             icon: Icon(
                                               Icons.share,
