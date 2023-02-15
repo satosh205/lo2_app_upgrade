@@ -298,6 +298,7 @@ class _DashboardPageState extends State<DashboardPage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                SizedBox(height: 10,),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -397,7 +398,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.6 *
-                                                (30 / 100),
+                                                (Preference.getInt(Preference.PROFILE_PERCENT) ?? 0 / 100),
                                         decoration: BoxDecoration(
                                             color: Color(0xffFFB72F),
                                             borderRadius:
@@ -698,7 +699,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 8.0),
                                     child: Text(
-                                      '+ $growth%',
+                                      growthType == 'up' ? '+ $growth%' : '- $growth%',
                                       style: Styles.regular(
                                           color: growthType == 'up'
                                               ? ColorConstants.GREEN
@@ -2453,7 +2454,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
               ),
             );*/
-            return Text('');
+            return SizedBox();
           }
 
           dynamic content = box.get("getDashboardIsVisible") as Map;
@@ -2502,7 +2503,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
               ),
             );*/
-            return Text('');
+            return SizedBox();
           }
 
           sessionList = box
@@ -2769,7 +2770,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
               ),
             );*/
-            return Text('');
+            return SizedBox();
           }
 
           myCoursesList = box
@@ -3021,7 +3022,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
               ),
             );*/
-            return Text('');
+            return SizedBox();
           }
 
           reelsList = box
@@ -3114,7 +3115,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
               ),
             );*/
-            return Text('');
+            return SizedBox();
           }
 
           recommendedCourseList = box
@@ -3191,8 +3192,9 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
               ),
             );*/
-            return Text('');
+            return SizedBox();
           }
+
 
           carvaanList = box
               .get("dashboard_carvan_limit")
@@ -3424,7 +3426,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
               ),
             );*/
-            return Text('');
+            return SizedBox();
           }
 
           carvaanList = box
@@ -3905,7 +3907,7 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
             ),
           );*/
-          return Text('');
+          return SizedBox();
         }
 
         featuredContentList = box

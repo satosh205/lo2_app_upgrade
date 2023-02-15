@@ -156,13 +156,11 @@ class _CommunityDashboardState extends State<CommunityDashboard> {
                       Spacer(),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           InkWell(
                               onTap: () {
                                  Navigator.push(context, NextPageRoute(WowStudio()));
-
-                                
                               },
                               child: SvgPicture.asset(
                                   'assets/images/wow_studio.svg')),
