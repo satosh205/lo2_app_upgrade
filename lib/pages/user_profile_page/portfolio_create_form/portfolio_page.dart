@@ -48,6 +48,7 @@ import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/resource/size_constants.dart';
+import 'package:masterg/utils/video_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'package:percent_indicator/percent_indicator.dart';
@@ -2211,19 +2212,20 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                       height: height(context) * 0.3,
                       fit: BoxFit.cover,
                     ))
-                : ClipRect(
-                    child: AspectRatio(
-                      aspectRatio: 4 / 4,
-                      child: FlickVideoPlayer(
-                          // flickVideoWithControls: FlickPortraitControls(),
-                          flickManager: FlickManager(
-                        autoPlay: false,
-                        videoPlayerController: VideoPlayerController.network(
-                          '${recentActivites.resourcePath}',
-                        ),
-                      )),
-                    ),
-                  )
+                : VideoPlayerWidget(videoUrl: '${recentActivites.resourcePath}',)
+                // ClipRect(
+                //     child: AspectRatio(
+                //       aspectRatio: 4 / 4,
+                //       child: FlickVideoPlayer(
+                //           // flickVideoWithControls: FlickPortraitControls(),
+                //           flickManager: FlickManager(
+                //         autoPlay: false,
+                //         videoPlayerController: VideoPlayerController.network(
+                //           '${recentActivites.resourcePath}',
+                //         ),
+                //       )),
+                //     ),
+                //   )
 
             // CustomVideoPlayer(
             //                                     // sendflickManager:

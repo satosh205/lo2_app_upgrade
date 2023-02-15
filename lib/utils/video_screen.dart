@@ -40,93 +40,98 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return NotificationListener<ScrollNotification>(
-      onNotification: (ScrollNotification notification) {
-        if (notification is ScrollEndNotification) {
-          final RenderObject? renderObject = context.findRenderObject();
-          final RenderAbstractViewport? viewport =
-              RenderAbstractViewport.of(renderObject);
-          final double offset =
-              viewport!.getOffsetToReveal(renderObject!, 0.0).offset;
-          print('hello $offset');
-          if (offset < 0.0) {
-            _controller?.pause();
-            _isPlaying = false;
-            _showIcon = true;
-            Future.delayed(Duration(seconds: 2), () {
-              setState(() {
-                _showIcon = false;
-              });
-            });
-          } else {
-            _controller?.play();
-            _isPlaying = true;
-            _showIcon = true;
-            Future.delayed(Duration(seconds: 2), () {
-              setState(() {
-                _showIcon = false;
-              });
-            });
-          }
-        }
-        return true;
-      },
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            // _isPlaying = !_isPlaying;
-            // if (_isPlaying) {
-            //   _controller?.play();
-            // } else {
-            //   _controller?.pause();
-            // }
-
-
-
-            _isPlaying = !_isPlaying;
-            _showIcon = true;
-            Future.delayed(Duration(seconds: 2), () {
-              setState(() {
-                _showIcon = false;
-              });
-            });
-            if (_isPlaying) {
-              _controller?.play();
-            } else {
+    return Container(
+      child: NotificationListener<ScrollNotification>(
+        onNotification: (ScrollNotification notification) {
+          if (notification is ScrollEndNotification) {
+            final RenderObject? renderObject = context.findRenderObject();
+            final RenderAbstractViewport? viewport =
+                RenderAbstractViewport.of(renderObject);
+            final double offset =
+                viewport!.getOffsetToReveal(renderObject!, 0.0).offset;
+            print('hello $offset');
+            if (offset < 0.0) {
               _controller?.pause();
+              _isPlaying = false;
+              _showIcon = true;
+              Future.delayed(Duration(seconds: 2), () {
+                setState(() {
+                  _showIcon = false;
+                });
+              });
+            } else {
+              _controller?.play();
+              _isPlaying = true;
+              _showIcon = true;
+              Future.delayed(Duration(seconds: 2), () {
+                setState(() {
+                  _showIcon = false;
+                });
+              });
             }
-          });
+          }
+          return true;
         },
-        child: VisibilityDetector(
-            key: ObjectKey(_controller),
-            onVisibilityChanged: (visibility) {
-              if (visibility.visibleFraction == 0 && this.mounted) {
-                _controller?.pause(); //pausing  functionality
+        child: GestureDetector(
+          onTap: () {
+            setState(() {
+              // _isPlaying = !_isPlaying;
+              // if (_isPlaying) {
+              //   _controller?.play();
+              // } else {
+              //   _controller?.pause();
+              // }
+
+
+
+              _isPlaying = !_isPlaying;
+              _showIcon = true;
+              Future.delayed(Duration(seconds: 2), () {
+                setState(() {
+                  _showIcon = false;
+                });
+              });
+              if (_isPlaying) {
+                _controller?.play();
               } else {
-                _controller?.play(); //playing functionality
+                _controller?.pause();
               }
-            },
-            child: Stack(
-              children: [
-                SizedBox(
-                  height: 300,
-                  child: AspectRatio(
-                    aspectRatio: _controller!.value.aspectRatio,
-                    child: VideoPlayer(_controller!),
+            });
+          },
+          child: VisibilityDetector(
+              key: ObjectKey(_controller),
+              onVisibilityChanged: (visibility) {
+                if (visibility.visibleFraction == 0 && this.mounted) {
+                  _controller?.pause(); //pausing  functionality
+                } else {
+                  _controller?.play(); //playing functionality
+                }
+              },
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  SizedBox(
+                    height: 300,
+                    child: AspectRatio(
+                      aspectRatio: MediaQuery.of(context).size.width/300,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: VideoPlayer(_controller!)),
+                    ),
                   ),
-                ),
-                Align(
-              alignment: Alignment.center,
-              child: _showIcon
-                  ? Icon(
-                     _isPlaying ?  Icons.pause :  Icons.play_arrow,
-                      size: 50.0,
-                      color: Colors.white,
-                    )
-                  : SizedBox(),
-            ),
-              ],
-            )),
+                  Align(
+                alignment: Alignment.center,
+                child: _showIcon
+                    ? Icon(
+                       _isPlaying ?  Icons.pause :  Icons.play_arrow,
+                        size: 50.0,
+                        color: Colors.white,
+                      )
+                    : SizedBox(),
+              ),
+                ],
+              )),
+        ),
       ),
     );
   }

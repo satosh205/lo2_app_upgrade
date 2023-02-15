@@ -3595,9 +3595,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                     //     url: widget.fileList[index])
                                     ? Container(
                                         height: 300,
-                                        child: VideoPlayerWidget(
-                                          videoUrl:
-                                              '${carvaanList?[index].resourcePath}',
+                                        child: Center(
+                                          child: VideoPlayerWidget(
+                                            videoUrl:
+                                                '${carvaanList?[index].resourcePath}',
+                                          ),
                                         ))
                                     // Container(
                                     //     height: 300,
