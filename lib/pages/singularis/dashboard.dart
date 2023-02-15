@@ -39,6 +39,7 @@ import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/coustom_outline_button.dart';
+import 'package:masterg/utils/reel_repeat_video.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 import 'package:masterg/utils/video_screen.dart';
@@ -2797,7 +2798,9 @@ class _DashboardPageState extends State<DashboardPage> {
                         Expanded(child: SizedBox()),
                         InkWell(
                           onTap: () {
-                            menuProvider?.updateCurrentIndex('/g-school');
+                            // menuProvider?.updateCurrentIndex('/g-school');
+                            Navigator.push(context, NextPageRoute(MyCourses()));
+                          
                           },
                           child: Text('View all',
                               style: Styles.regular(
@@ -3076,8 +3079,13 @@ class _DashboardPageState extends State<DashboardPage> {
                                                   scrollTo: index,
                                                 )));
                                   },
-                                  child: CreateThumnail(
-                                      path: reelsList?[index].resourcePath))),
+                                  child:
+                                  // ReelRepeatVideo(videoUrl: '${reelsList?[index].resourcePath}',),
+                                  
+                                   CreateThumnail(
+                                      path: reelsList?[index].resourcePath)
+                                      
+                                      )),
                         );
                       }))
             ],
@@ -3139,7 +3147,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
               Container(
                   padding: EdgeInsets.all(10),
-                  height: MediaQuery.of(context).size.height * 0.35,
+                  height: MediaQuery.of(context).size.height * 0.3,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(color: ColorConstants.WHITE),
                   child: ListView.builder(
@@ -3589,9 +3597,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                     //     url: widget.fileList[index])
                                     ? Container(
                                         height: 300,
-                                        child: VideoPlayerWidget(
-                                          videoUrl:
-                                              '${carvaanList?[index].resourcePath}',
+                                        child: Center(
+                                          child: VideoPlayerWidget(
+                                            videoUrl:
+                                                '${carvaanList?[index].resourcePath}',
+                                          ),
                                         ))
                                     // Container(
                                     //     height: 300,
@@ -4214,13 +4224,21 @@ class _DashboardPageState extends State<DashboardPage> {
         });
       },
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.8,
+        width: MediaQuery.of(context).size.width * 0.7,
         margin: EdgeInsets.only(right: 8),
         decoration: BoxDecoration(
-            border: Border.all(color: ColorConstants.GREY_4),
-            borderRadius: BorderRadius.circular(8)),
+          color: ColorConstants.WHITE,
+          boxShadow: [
+                            BoxShadow(
+                                color: Color(0xff898989).withOpacity(0.2),
+                                offset: Offset(0, 4.0),
+                                blurRadius: 11)
+                          ],
+                          // borderRadius: BorderRadius.circular(20)
+            // border: Border.all(color: ColorConstants.GREY_4),
+            borderRadius: BorderRadius.circular(10)),
         child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
@@ -4239,28 +4257,39 @@ class _DashboardPageState extends State<DashboardPage> {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 10,
+              ),
+
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
-                child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                          width: MediaQuery.of(context).size.width * 0.55,
-                          child: Text('${yourCourses.name}',
-                              overflow: TextOverflow.ellipsis,
-                              style: Styles.bold(size: 16))),
-                      Icon(CupertinoIcons.clock,
-                          size: 15, color: Color(0xFFFDB515)),
-                      SizedBox(width: 2),
-                      Container(
-                          width: MediaQuery.of(context).size.width * 0.15,
-                          child: Text('${duration[0]} ${duration[1]}',
-                              overflow: TextOverflow.clip,
-                              maxLines: 1,
-                              style: Styles.regular(
-                                  size: 10, color: Colors.black)))
-                    ]),
+                padding: const EdgeInsets.only(left: 8),
+                child: Text('${yourCourses.name}',
+                    overflow: TextOverflow.ellipsis,
+                    style: Styles.bold(size: 16)),
+              ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+              //   child: Row(
+              //       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //       crossAxisAlignment: CrossAxisAlignment.center,
+              //       children: [
+              //         Container(
+              //             width: MediaQuery.of(context).size.width * 0.55,
+              //             child: ),
+              //         Icon(CupertinoIcons.clock,
+              //             size: 15, color: Color(0xFFFDB515)),
+              //         SizedBox(width: 2),
+              //         // Container(
+              //         //     width: MediaQuery.of(context).size.width * 0.15,
+              //         //     child: Text('${duration[0]} ${duration[1]}',
+              //         //         overflow: TextOverflow.clip,
+              //         //         maxLines: 1,
+              //         //         style: Styles.regular(
+              //         //             size: 10, color: Colors.black)))
+              //       ]),
+              // ),
+               SizedBox(
+                height: 4,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8),
@@ -4268,45 +4297,61 @@ class _DashboardPageState extends State<DashboardPage> {
                     style: Styles.regular(size: 12)),
               ),
               SizedBox(
-                height: 2,
+                height: 10,
               ),
-              Center(
-                  child: Text(
-                      '${yourCourses.enrolmentCount} Students already enrolled in this course',
-                      style: Styles.regular(size: 12))),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Start now',
-                    style: Styles.semibold(),
-                  ),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  // Text(
-                  //     '${yourCourses.enrolmentCount} ${Strings.of(context)?.enrollments}',
-                  //     style: Styles.regular(size: 12)),
-                  Row(
-                    children: [
-                      if (yourCourses.regularPrice != null)
-                        Text('₹${yourCourses.regularPrice}',
-                            style: TextStyle(
-                              decoration: TextDecoration.lineThrough,
-                            )),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      if (yourCourses.salePrice != null)
-                        Text(
-                          '₹${yourCourses.salePrice}',
-                          style: Styles.semibold(
-                              size: 22, color: ColorConstants.GREEN),
-                        ),
-                    ],
-                  ),
-                ],
-              ),
+
+              Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: Row(
+                  children: [
+                    Icon(CupertinoIcons.clock,
+                        size: 15, color: Color(0xFF273454)),
+
+                        SizedBox(width: 4,),
+                    Text('${duration[0]} ${duration[1]}',
+                        overflow: TextOverflow.clip,
+                        maxLines: 1,
+                        style: Styles.regular(size: 10, color: Colors.black)),
+                  ],
+                ),
+              )
+              // Center(
+              //     child: Text(
+              //         '${yourCourses.enrolmentCount} Students already enrolled in this course',
+              //         style: Styles.regular(size: 12))),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Text(
+              //       'Start now',
+              //       style: Styles.semibold(),
+              //     ),
+              //     SizedBox(
+              //       width: 8,
+              //     ),
+              //     // Text(
+              //     //     '${yourCourses.enrolmentCount} ${Strings.of(context)?.enrollments}',
+              //     //     style: Styles.regular(size: 12)),
+              //     Row(
+              //       children: [
+              //         if (yourCourses.regularPrice != null)
+              //           Text('₹${yourCourses.regularPrice}',
+              //               style: TextStyle(
+              //                 decoration: TextDecoration.lineThrough,
+              //               )),
+              //         SizedBox(
+              //           width: 8,
+              //         ),
+              //         if (yourCourses.salePrice != null)
+              //           Text(
+              //             '₹${yourCourses.salePrice}',
+              //             style: Styles.semibold(
+              //                 size: 22, color: ColorConstants.GREEN),
+              //           ),
+              //       ],
+              //     ),
+              //   ],
+              // ),
             ]),
       ),
     );

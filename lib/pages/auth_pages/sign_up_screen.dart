@@ -153,7 +153,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       : Image.asset(
                           appBarImagePath,
                           // 'assets/images/${APK_DETAILS' ,
-                          height: 40,
+                          height: 60,
                           width: 180,
                         ),
                 ),
@@ -188,7 +188,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           Container(
             
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
               gradient: LinearGradient(colors: [
                 ColorConstants.GRADIENT_ORANGE,
                 ColorConstants.GRADIENT_RED,
@@ -229,8 +229,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           color: ColorConstants.WHITE,
                           size: 14,
                         ),
-                         
-                         inputFormatters: <TextInputFormatter>[
+                        inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                         ],
                         // maxLength: 10,
@@ -254,7 +253,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           hintText: '${Strings.of(context)?.yourMobileNumber}',
                           hintStyle:  Styles.regular(
                                 color: ColorConstants.WHITE,
-                                size: 12,
+                                size: 14,
                               ),
                           isDense: true,
                           prefixIconConstraints:
@@ -352,21 +351,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ],
                   ),
                 ),
-                 SizedBox(height: 10.0),
-                Container(
-                  // margin: EdgeInsets.symmetric(vertical: 12),
-                  width: double.infinity,
-                  height: height(context)*0.2,
-
-                  // height: MediaQuery.of(context).size.height *
-                  //     WidgetSize.AUTH_BUTTON_SIZE,
-                
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Row(
-                    // crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                // SizedBox(height: 20.0),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SingularisLogin()));
+                  },
+                  child: Container(
+                    // margin: EdgeInsets.symmetric(vertical: 12),
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height *
+                        WidgetSize.AUTH_BUTTON_SIZE,
                   
+                    child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SvgPicture.asset(
                         'assets/images/email.svg',
@@ -375,19 +376,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       SizedBox(
                         width: 10,
                       ),
-                      InkWell(
-                        onTap: () {
-                           Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SingularisLogin()));
-                        },
-                        child: Text(
-                          '${Strings.of(context)?.continueStr} with ${Strings.of(context)?.email}',
-                          style: Styles.semibold(
-                            size: 14, 
-                            color: ColorConstants.WHITE,
-                          ),
+                      Text(
+                        '${Strings.of(context)?.continueStr} with ${Strings.of(context)?.email}',
+                        style: Styles.semibold(
+                          size: 14, 
+                          color: ColorConstants.WHITE,
                         ),
                       ),
                     ],
@@ -419,14 +412,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             isMaintainState: false));
                   },
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 0.0),
+                    padding: const EdgeInsets.only(top: 110.0),
                     child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text('${Strings.of(context)?.byClickingContinue}',
                             style:
-                                Styles.regular(size: 12, color: Colors.white),),
-                                SizedBox(height: 5,),
+                                Styles.regular(size: 10, color: Colors.white)),
                         Text(
                           '${Strings.of(context)?.byClickingContinueUnderline}',
                           style: Styles.regular(

@@ -130,7 +130,7 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                         
                           },
                           child: ScreenWithLoader(
-                              isLoading: false,
+                              isLoading: isPostedLoading,
                               body: _content(value)),
                         )),
               ),

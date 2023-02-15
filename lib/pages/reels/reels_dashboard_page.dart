@@ -26,6 +26,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 TabController? _tabController;
 
@@ -345,21 +346,52 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
     //assets/videos/video_1.mp4
     print('===========>>widget.videoUrl111');
     print(widget.videoUrl!.trim());
-
-    _videoController = VideoPlayerController.network(widget.videoUrl!);
-    _videoController!.addListener(() {
-      // setState(() {});
-    });
-    _videoController!.setLooping(true);
-    _videoController!.initialize().then((_) => setState(() {
-          setState(() {
-            isShowPlaying = true;
-          });
-          _videoController!.play();
-        }));
+    initVideo(widget.videoUrl!);
 
     WidgetsBinding.instance.addObserver(this);
   }
+
+  void initVideo(String url) async {
+    final fileInfo = await checkForCache(url);
+    if (fileInfo == null) {
+      print('playing from internet ');
+
+      _videoController = VideoPlayerController.network(url);
+      _videoController!.addListener(() {});
+      _videoController!.setLooping(true);
+      _videoController!.initialize().then((_) => setState(() {
+        cacheVideo(url);
+            setState(() {
+              isShowPlaying = true;
+            });
+            _videoController?.play();
+          }));
+    } else {
+      print('playing from local ');
+      final file = fileInfo.file;
+       _videoController = VideoPlayerController.file(file);
+      _videoController!.addListener(() {});
+      _videoController!.setLooping(true);
+      _videoController!.initialize().then((_) => setState(() {
+            setState(() {
+              isShowPlaying = true;
+            });
+            _videoController?.play();
+          }));
+
+    }
+  }
+
+  Future<FileInfo?> checkForCache(String url) async {
+    final FileInfo? value = await DefaultCacheManager().getFileFromCache(url);
+    return value;
+  }
+
+  void cacheVideo(String url)async{
+    await DefaultCacheManager().getSingleFile(url).then((value) => print('video cache from url $url'));
+  }
+
+
 
   @override
   void dispose() {
@@ -392,9 +424,9 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
         //adding temporary for mute
 
         if (value.isPaused)
-          _videoController!.pause();
+          _videoController?.pause();
         else {
-          _videoController!.play();
+          _videoController?.play();
         }
 
         return Material(

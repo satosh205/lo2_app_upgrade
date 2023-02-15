@@ -15,6 +15,7 @@ import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/resource/size_constants.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../../../blocs/bloc_manager.dart';
@@ -56,7 +57,6 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
   int? applied;
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool myJobRecall = false;
-  int? selectDomainID = 0;
 
   @override
   void initState() {
@@ -254,25 +254,32 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
             // right: SizeConstants.JOB_RIGHT_SCREEN_MGN,
             bottom: SizeConstants.JOB_BOTTOM_SCREEN_MGN),
         width: MediaQuery.of(context).size.width,
+        child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<CompetitionResponseProvider>(
+            create: (context) => CompetitionResponseProvider(allJobListResponse?.data),
+          ),
+         
+        ],
         child: Column(
           children: [
             _customAppBar(),
 
             ///Search Job
-            SizedBox(
+            /*SizedBox(
               height: height(context) * 0.03,
-            ),
-            Padding(
+            ),*/
+            /*Padding(
               padding: const EdgeInsets.only(
                   left: SizeConstants.JOB_LEFT_SCREEN_MGN,
                   right: SizeConstants.JOB_RIGHT_SCREEN_MGN),
               child: _searchFilter(),
-            ),
+            ),*/
 
             ///My Job Section
-            myJobResponse?.data != null ? SizedBox(
-              height: 20,
-            ):SizedBox(),
+            /*myJobResponse?.data != null ? SizedBox(
+              height: 30,
+            ):SizedBox(),*/
             myJobResponse?.data != null ? _myJobSectionCard() : SizedBox(),
 
             ///Complete Profile
@@ -325,7 +332,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
           ],
         ),
       ),
-    );
+    ));
   }
 
   Widget _customAppBar() {
@@ -473,7 +480,6 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
               onTap: () async{
                 getFilterList(domainList!.data!.list[0].id.toString());
 
-                //TODO:Search BottomSheet
                 await showModalBottomSheet(
                     context: context,
                     backgroundColor: Colors.transparent,
@@ -587,8 +593,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                         IconButton(
                                             onPressed: () {
                                               this.setState(() {
-                                                selectedIndex = 0;
-                                                seletedIds = '';
+                                                seletedIds = '0';
                                                 selectedIdList.clear();
                                               });
                                               Navigator.pop(context);
@@ -640,7 +645,6 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                                       selectedIndex = i;
                                                       seletedIds = '';
                                                       selectedIdList = [];
-                                                      //selectDomainID = domainList!.data!.list[i].id;
                                                     });
                                                     getFilterList(domainList!.data!.list[i].id.toString());
                                                   },
@@ -683,7 +687,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                                   domainFilterList!.data!.list.length,
                                                       (i) => InkWell(
                                                     onTap: () {
-                                                      //seletedIds += domainFilterList!.data!.list[i].id.toString() + ',';
+                                                      seletedIds += domainFilterList!.data!.list[i].id.toString() + ',';
                                                       if (selectedIdList.contains(domainFilterList!.data!.list[i].id)) {
                                                         selectedIdList.remove(domainFilterList!.data!.list[i].id);
                                                       } else {
@@ -712,17 +716,8 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                         InkWell(
                                           onTap: (){
                                             print('Search  Jobs');
-                                            print(selectDomainID);
-                                            print(selectedIdList);
-                                             seletedIds = selectedIdList.toString().replaceAll("[", "").replaceAll("]", "");
                                             print(seletedIds);
-                                            Navigator.push(
-                                                context,
-                                                NextPageRoute(JobSearchViewPage(
-                                                  appBarTitle: 'Search',
-                                                  isSearchMode: true,
-                                                  jobRolesId: seletedIds,
-                                                )));
+                                            print(selectedIdList);
                                           },
                                           child: Container(
                                             height: 40,
@@ -958,13 +953,8 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
 
                             myJobResponse?.data![index]!.jobStatus != null ? Padding(
                               padding: const EdgeInsets.only(top: 0.0),
-                              child: Text('${myJobResponse?.data![index]!.jobStatus == 'under_review' ?
-                              'Application Under Process' : myJobResponse?.data![index]!.jobStatus == 'shortlisted' ?
-                              'Application Shortlisted' : myJobResponse?.data![index]!.jobStatus == 'rejected' ?
-                              'Unable To Offer You A Position' :
-                              myJobResponse?.data![index]!.jobStatus}', style: TextStyle(
-                                  color: myJobResponse?.data![index]!.jobStatus == 'rejected' ?
-                                  ColorConstants.VIEW_ALL : Colors.green, fontSize: 12),),
+                              child: Text('${myJobResponse?.data![index]!.jobStatus == 'under_review' ? 'Application under process' :
+                              myJobResponse?.data![index]!.jobStatus}', style: TextStyle(color: Colors.green),),
                             ):SizedBox(),
                           ],
                         ),
@@ -984,7 +974,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /*Padding(
+          Padding(
             padding: const EdgeInsets.all(13.0),
             child: Text('Jobs based on your Portfolio',
                 style: Styles.regular(size: 16, color: ColorConstants.BLACK)),
@@ -992,7 +982,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
           Divider(
             height: 1,
             color: ColorConstants.GREY_3,
-          ),*/
+          ),
 
           allJobListResponse?.data != null ?
           renderJobList(4):SizedBox(),
@@ -1290,7 +1280,10 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
   }
 
   Widget renderJobList(int position) {
-    return ListView.builder(
+    return 
+    
+    Consumer<CompetitionResponseProvider>(
+                builder: (context, competitionProvider, child)=>  ListView.builder(
         //itemCount: allJobListResponse?.data!.length,
       itemCount: (allJobListResponse?.data?.length)! < position
           ? allJobListResponse?.data?.length
@@ -1337,7 +1330,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                   experience: allJobListResponse?.data![index]!.experience,
                                   //jobListDetails: jobList,
                                   id: allJobListResponse?.data![index]!.id,
-                                  jobStatus: applied == index ? 'Application Under Process' : allJobListResponse?.data![index]!.jobStatus,
+                                  jobStatus: applied == index ? 'Application under process' : allJobListResponse?.data![index]!.jobStatus,
                                 )));
 
                           },
@@ -1370,9 +1363,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                                 size: 12,
                                                 color: ColorConstants.GREY_6)),
                                       ),
-                                      Text('${allJobListResponse?.data![index]!.experience != null ?
-                                      allJobListResponse?.data![index]!.experience: '0'
-                                      } Yrs',
+                                      Text('${allJobListResponse?.data![index]!.experience} Yrs',
                                           style: Styles.regular(
                                               size: 12,
                                               color: ColorConstants.GREY_6)),
@@ -1399,28 +1390,36 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                       ),
                       Expanded(
                         flex: 2,
-                        child: allJobListResponse?.data![index]!.jobStatus == null || allJobListResponse?.data![index]!.jobStatus == "" ?
+                        child: 
+                        
+                        allJobListResponse?.data![index]!.jobStatus == null || allJobListResponse?.data![index]!.jobStatus == "" 
+                        // competitionProvider.list[index]!.jobStatus == null || competitionProvider.list[index]!.jobStatus == "" 
+                        ?
                         InkWell(
                           onTap: (){
                             print('jobApply');
-                            applied = index;
+                            // applied = index;
+                            competitionProvider.updateAppliedStatus(index);
                             jobApply(int.parse('${allJobListResponse?.data![index]!.id}'), 1);
                             _onLoadingForJob();
                             },
                           child: Container(
                             padding: EdgeInsets.only(left: 0.0),
                             child: GradientText(
-                              applied == null || applied != index ?'Apply':'Applied',
-                              style: Styles.bold(size: 12),
+                              competitionProvider.list[index]!.jobStatus ?? 'Apply',
+                              style: Styles.bold(size: 14),
                               colors: [
                                 ColorConstants.GRADIENT_ORANGE,
                                 ColorConstants.GRADIENT_RED,
                               ],
                             ),
+                            /*child: Text(applied == null || applied != index ?'Apply':'',
+                                style: Styles.bold(
+                                    size: 12, color: ColorConstants.ORANGE)),*/
                           ),
                         ): Padding(
                           padding: const EdgeInsets.only(bottom: 20.0),
-                          child: Text( 'Applied', style: Styles.bold(color: Colors.green, size: 12),),
+                          child: Text('Applied', style: Styles.bold(color: Colors.green, size: 14),),
                         ),
                       ),
                     ],
@@ -1440,7 +1439,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
               ),
             ],
           );
-        });
+        }));
   }
 
   Widget renderJobSecondPositionList(int position) {
@@ -1453,7 +1452,11 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
+
+          print('position2===== ${position}');
           int newIndex = index + 4;
+          print(newIndex);
+
           return Column(
             children: [
               Container(
@@ -1493,7 +1496,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                   experience: allJobListResponse?.data![newIndex]!.experience,
                                   //jobListDetails: jobList,
                                   id: allJobListResponse?.data![newIndex]!.id,
-                                  jobStatus: applied == index ? 'Application Under Process' : allJobListResponse?.data![newIndex]!.jobStatus,
+                                  jobStatus: applied == index ? 'Application under process' : allJobListResponse?.data![newIndex]!.jobStatus,
                                 )));
 
                           },
@@ -1526,14 +1529,11 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                                 size: 12,
                                                 color: ColorConstants.GREY_6)),
                                       ),
-
-                                      Text('${allJobListResponse?.data![newIndex]!.experience != null ?
-                                      allJobListResponse?.data![newIndex]!.experience: '0'} Yrs',
+                                      Text('${allJobListResponse?.data![newIndex]!.experience} Yrs',
                                           style: Styles.regular(
                                               size: 12,
                                               color: ColorConstants.GREY_6)),
-
-                                      allJobListResponse?.data![newIndex]!.location != null ? Padding(
+                                      Padding(
                                         padding:
                                         const EdgeInsets.only(left: 20.0),
                                         child: Icon(
@@ -1541,11 +1541,11 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                           size: 16,
                                           color: ColorConstants.GREY_3,
                                         ),
-                                      ):SizedBox(),
-                                      allJobListResponse?.data![newIndex]!.location != null ? Text('${allJobListResponse?.data![newIndex]!.location}',
+                                      ),
+                                      Text('${allJobListResponse?.data![newIndex]!.location}',
                                           style: Styles.regular(
                                               size: 12,
-                                              color: ColorConstants.GREY_3)):SizedBox(),
+                                              color: ColorConstants.GREY_3)),
                                     ],
                                   ),
                                 ),
@@ -1560,7 +1560,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                         InkWell(
                           onTap: (){
                             print('jobApply');
-                            applied = index;
+                            // applied = index;
                             jobApply(int.parse('${allJobListResponse?.data![newIndex]!.id}'), 1);
                             _onLoadingForJob();
                           },
@@ -1569,7 +1569,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
 
                             child: GradientText(
                               applied == null || applied != index ?'Apply':'Applied',
-                              style: Styles.bold(size: 12),
+                              style: Styles.bold(size: 14),
                               colors: [
                                 applied == null || applied != index ?
                                 ColorConstants.GRADIENT_ORANGE : ColorConstants.GREEN,
@@ -1577,11 +1577,14 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                 ColorConstants.GRADIENT_RED : ColorConstants.GREEN,
                               ],
                             ),
+                           /* child: Text(applied == null || applied != index ?'Apply':'',
+                                style: Styles.bold(
+                                    size: 12, color: ColorConstants.ORANGE)),*/
                           ),
                         ) :
                         Padding(
                           padding: const EdgeInsets.only(bottom: 20.0),
-                          child: Text('Applied', style: Styles.bold(color: Colors.green, size: 12),),
+                          child: Text('', style: Styles.bold(color: Colors.green, size: 14),),
                         ),
                       ),
                     ],
@@ -1614,7 +1617,11 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
+
+          print('position2===== ${position}');
           int newIndex = index + 8;
+          print(newIndex);
+
           return Column(
             children: [
               Container(
@@ -1654,7 +1661,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                   experience: allJobListResponse?.data![newIndex]!.experience,
                                   //jobListDetails: jobList,
                                   id: allJobListResponse?.data![newIndex]!.id,
-                                  jobStatus: applied == index ? 'Application Under Process' : allJobListResponse?.data![newIndex]!.jobStatus,
+                                  jobStatus: applied == index ? 'Application under process' : allJobListResponse?.data![newIndex]!.jobStatus,
                                 )));
 
                           },
@@ -1687,8 +1694,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                                 size: 12,
                                                 color: ColorConstants.GREY_6)),
                                       ),
-                                      Text('${allJobListResponse?.data![newIndex]!.experience != null?
-                                      allJobListResponse?.data![newIndex]!.experience :'0'} Yrs',
+                                      Text('${allJobListResponse?.data![newIndex]!.experience} Yrs',
                                           style: Styles.regular(
                                               size: 12,
                                               color: ColorConstants.GREY_6)),
@@ -1719,7 +1725,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                         InkWell(
                           onTap: (){
                             print('jobApply');
-                            applied = index;
+                            // applied = index;
                             jobApply(int.parse('${allJobListResponse?.data![newIndex]!.id}'), 1);
                             _onLoadingForJob();
                           },
@@ -1727,17 +1733,20 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                             padding: EdgeInsets.only(left: 0.0),
                             child: GradientText(
                               applied == null || applied != index ?'Apply':'Applied',
-                              style: Styles.bold(size: 12),
+                              style: Styles.bold(size: 14),
                               colors: [
                                 ColorConstants.GRADIENT_ORANGE,
                                 ColorConstants.GRADIENT_RED,
                               ],
                             ),
+                            /*child: Text(applied == null || applied != index ?'Apply':'',
+                                style: Styles.bold(
+                                    size: 12, color: ColorConstants.ORANGE)),*/
                           ),
                         ) :
                         Padding(
                           padding: const EdgeInsets.only(bottom: 20.0),
-                          child: Text('Applied', style: Styles.bold(color: Colors.green, size: 12),),
+                          child: Text('', style: Styles.bold(color: Colors.green, size: 14),),
                         ),
                       ),
                     ],
