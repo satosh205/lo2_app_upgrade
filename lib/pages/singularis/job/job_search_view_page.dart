@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masterg/pages/singularis/job/widgets/blank_widget_page.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../../../blocs/bloc_manager.dart';
 import '../../../blocs/home_bloc.dart';
 import '../../../data/api/api_service.dart';
@@ -18,19 +18,19 @@ import 'model/ExampleItem.dart';
 import 'package:masterg/data/models/response/home_response/user_jobs_list_response.dart';
 
 class JobSearchViewPage extends StatefulWidget {
-
   final String? appBarTitle;
   final bool? isSearchMode;
   final String? jobRolesId;
 
-  const JobSearchViewPage({Key? key, this.appBarTitle, this.isSearchMode = true, this.jobRolesId}) : super(key: key);
+  const JobSearchViewPage(
+      {Key? key, this.appBarTitle, this.isSearchMode = true, this.jobRolesId})
+      : super(key: key);
 
   @override
   State<JobSearchViewPage> createState() => _JobSearchViewPageState();
 }
 
 class _JobSearchViewPageState extends State<JobSearchViewPage> {
-
   bool? isJobLoading;
   bool? myJobLoading = true;
   List<ListElement>? jobList;
@@ -88,7 +88,6 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
 
   late FloatingSearchBarController controller;
 
-
   @override
   void initState() {
     super.initState();
@@ -105,14 +104,16 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
   }
 
   void getMyJobList(bool jobType) {
-    BlocProvider.of<HomeBloc>(context).add(
-        JobCompListFilterEvent(isPopular: false, isFilter: true, ids: widget.jobRolesId, jobTypeMyJob: jobType));
+    BlocProvider.of<HomeBloc>(context).add(JobCompListFilterEvent(
+        isPopular: false,
+        isFilter: true,
+        ids: widget.jobRolesId,
+        jobTypeMyJob: jobType));
   }
 
   /*void getJobList(){
     BlocProvider.of<HomeBloc>(context).add(UserJobsListEvent());
   }*/
-
 
   @override
   Widget build(BuildContext context) {
@@ -157,29 +158,34 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
           children: [
             ///Search Job
             //widget.isSearchMode == true ? _searchFilter():SizedBox(),
-            SizedBox(height: 30.0,),
+            SizedBox(
+              height: 30.0,
+            ),
+
             ///Job List
-            widget.isSearchMode == true ? SizedBox(height: 30,):SizedBox(),
-            allJobListResponse?.data != null ? 
-            // renderJobList()
-            MultiProvider(
-        providers: [
-          ChangeNotifierProvider<CompetitionResponseProvider>(
-            create: (context) => CompetitionResponseProvider(allJobListResponse?.data),
-          ),
-         
-        ],
-        child:renderJobList())
-            
-             : BlankWidgetPage(),
+            widget.isSearchMode == true
+                ? SizedBox(
+                    height: 30,
+                  )
+                : SizedBox(),
+            allJobListResponse?.data != null
+                ?
+                // renderJobList()
+                MultiProvider(providers: [
+                    ChangeNotifierProvider<CompetitionResponseProvider>(
+                      create: (context) =>
+                          CompetitionResponseProvider(allJobListResponse?.data),
+                    ),
+                  ], child: renderJobList())
+                : BlankWidgetPage(),
           ],
         ),
       ),
     );
   }
 
- //TODO: Search Widget
-  Widget _searchWidgetList(){
+  //TODO: Search Widget
+  Widget _searchWidgetList() {
     return FloatingSearchBar(
       controller: controller,
       body: FloatingSearchBarScrollNotifier(
@@ -221,8 +227,7 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
             elevation: 4,
             child: Builder(
               builder: (context) {
-                if (filteredSearchHistory.isEmpty &&
-                    controller.query.isEmpty) {
+                if (filteredSearchHistory.isEmpty && controller.query.isEmpty) {
                   return Container(
                     height: 56,
                     width: double.infinity,
@@ -252,12 +257,12 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
                     children: filteredSearchHistory
                         .map(
                           (term) => ListTile(
-                        title: Text(
-                          term,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        /*leading: const Icon(Icons.history),
+                            title: Text(
+                              term,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            /*leading: const Icon(Icons.history),
                         trailing: IconButton(
                           icon: const Icon(Icons.clear),
                           onPressed: () {
@@ -266,15 +271,15 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
                             });
                           },
                         ),*/
-                        onTap: () {
-                          setState(() {
-                            putSearchTermFirst(term);
-                            selectedTerm = term;
-                          });
-                          controller.close();
-                        },
-                      ),
-                    )
+                            onTap: () {
+                              setState(() {
+                                putSearchTermFirst(term);
+                                selectedTerm = term;
+                              });
+                              controller.close();
+                            },
+                          ),
+                        )
                         .toList(),
                   );
                 }
@@ -286,120 +291,188 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
     );
   }
 
-
   Widget renderJobList() {
-    return  Consumer<CompetitionResponseProvider>(
-                builder: (context, competitionProvider, child)=>  ListView.builder(
-        // itemCount: allJobListResponse?.data!.length,
-        itemCount: competitionProvider.list.length,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (BuildContext context, int index){
-          return Column(
-            children: [
-              Container(
-                color: Colors.white,
-                width: double.infinity,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10.0, top: 15.0, right: 10.0, bottom: 15.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Container(
-                            padding: EdgeInsets.only(right: 10.0, ),
-                            //child: Image.asset('assets/images/google.png'),
-                            child: allJobListResponse?.data?[index]!.image != null ?
-                            Image.network('${allJobListResponse?.data?[index]!.image}'):
-                            Image.asset('assets/images/pb_2.png')
-                        ),
-                      ),
-                      Expanded(
-                        flex: 9,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                NextPageRoute(JobDetailsPage(
-                                  title: allJobListResponse?.data![index]!.name,
-                                  description: allJobListResponse?.data![index]!.description,
-                                  location: allJobListResponse?.data![index]!.location,
-                                  skillNames: allJobListResponse?.data![index]!.skillNames,
-                                  companyName: allJobListResponse?.data![index]!.organizedBy,
-                                  domain: allJobListResponse?.data![index]!.domainName,
-                                  companyThumbnail: allJobListResponse?.data![index]!.image,
-                                  experience: allJobListResponse?.data![index]!.experience,
-                                  //jobListDetails: jobList,
-                                  id: allJobListResponse?.data![index]!.id,
-                                  jobStatus: allJobListResponse?.data![index]!.jobStatus,
-                                )));
-                          },
-                          child: Container(
-                            padding: EdgeInsets.only(left: 5.0, ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('${allJobListResponse?.data![index]!.name}',
-                                    style: Styles.bold(
-                                        size: 16, color: ColorConstants.BLACK)),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 10.0),
-                                  child: Text(
-                                      '${allJobListResponse?.data![index]!.organizedBy}',
-                                      style: Styles.regular(size:12,color: ColorConstants.GREY_3)),
+    return Consumer<CompetitionResponseProvider>(
+        builder: (context, competitionProvider, child) => ListView.builder(
+            // itemCount: allJobListResponse?.data!.length,
+            itemCount: competitionProvider.list.length,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (BuildContext context, int index) {
+              return Column(
+                children: [
+                  Container(
+                    color: Colors.white,
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 10.0, top: 15.0, right: 10.0, bottom: 15.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                                padding: EdgeInsets.only(
+                                  right: 10.0,
                                 ),
-
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 5.0),
-                                  child: Row(
-                                    children: [
-                                      Image.asset('assets/images/jobicon.png'),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 5.0),
-                                        child: Text('Exp: ',
-                                            style: Styles.regular(size:12,color: ColorConstants.GREY_3)),
-                                      ),
-                                      Text('${allJobListResponse?.data![index]!.experience} Yrs',
-                                          style: Styles.regular(size:12,color: ColorConstants.GREY_3)),
-
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 20.0),
-                                        child: Icon(Icons.location_on_outlined, size: 16,
-                                          color: ColorConstants.GREY_3,),
-                                      ),
-
-                                      Text('${allJobListResponse?.data![index]!.location}',
-                                          style: Styles.regular(size:12,color: ColorConstants.GREY_3)
-                                      ),
-
-                                    ],
-                                  ),
+                                //child: Image.asset('assets/images/google.png'),
+                                child: allJobListResponse
+                                            ?.data?[index]!.image !=
+                                        null
+                                    ? Image.network(
+                                        '${allJobListResponse?.data?[index]!.image}')
+                                    : Image.asset('assets/images/pb_2.png')),
+                          ),
+                          Expanded(
+                            flex: 9,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    NextPageRoute(JobDetailsPage(
+                                      title: allJobListResponse
+                                          ?.data![index]!.name,
+                                      description: allJobListResponse
+                                          ?.data![index]!.description,
+                                      location: allJobListResponse
+                                          ?.data![index]!.location,
+                                      skillNames: allJobListResponse
+                                          ?.data![index]!.skillNames,
+                                      companyName: allJobListResponse
+                                          ?.data![index]!.organizedBy,
+                                      domain: allJobListResponse
+                                          ?.data![index]!.domainName,
+                                      companyThumbnail: allJobListResponse
+                                          ?.data![index]!.image,
+                                      experience: allJobListResponse
+                                          ?.data![index]!.experience,
+                                      //jobListDetails: jobList,
+                                      id: allJobListResponse?.data![index]!.id,
+                                      jobStatus: allJobListResponse
+                                          ?.data![index]!.jobStatus,
+                                    )));
+                              },
+                              child: Container(
+                                padding: EdgeInsets.only(
+                                  left: 5.0,
                                 ),
-                              ],
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                        '${allJobListResponse?.data![index]!.name}',
+                                        style: Styles.bold(
+                                            size: 16,
+                                            color: ColorConstants.BLACK)),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Text(
+                                          '${allJobListResponse?.data![index]!.organizedBy}',
+                                          style: Styles.regular(
+                                              size: 12,
+                                              color: ColorConstants.GREY_3)),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 5.0),
+                                      child: Row(
+                                        children: [
+                                          Image.asset(
+                                              'assets/images/jobicon.png'),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 5.0),
+                                            child: Text('Exp: ',
+                                                style: Styles.regular(
+                                                    size: 12,
+                                                    color:
+                                                        ColorConstants.GREY_3)),
+                                          ),
+                                          Text(
+                                              '${allJobListResponse?.data![index]!.experience} Yrs',
+                                              style: Styles.regular(
+                                                  size: 12,
+                                                  color:
+                                                      ColorConstants.GREY_3)),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 20.0),
+                                            child: Icon(
+                                              Icons.location_on_outlined,
+                                              size: 16,
+                                              color: ColorConstants.GREY_3,
+                                            ),
+                                          ),
+                                          Text(
+                                              '${allJobListResponse?.data![index]!.location}',
+                                              style: Styles.regular(
+                                                  size: 12,
+                                                  color:
+                                                      ColorConstants.GREY_3)),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                          Spacer(),
+                          Expanded(
+                            flex: 3,
+                            child: Container(
+                              padding: EdgeInsets.only(left: 5.0),
+                              child: InkWell(
+                                onTap: () {
+                                  competitionProvider
+                                      .updateAppliedStatus(index);
+                                  jobApply(
+                                      int.parse(
+                                        '${allJobListResponse?.data![index]!.id}',
+                                      ),
+                                      1);
+                                },
+                                child: GradientText(
+                                  competitionProvider.list[index]?.jobStatus !=
+                                          null
+                                      ? 'Applied'
+                                      : 'Apply',
+                                  style: Styles.bold(),
+                                  colors: [
+                                    competitionProvider
+                                                .list[index]?.jobStatus ==
+                                            null
+                                        ? ColorConstants.GRADIENT_ORANGE
+                                        : ColorConstants.GREEN,
+                                    competitionProvider
+                                                .list[index]?.jobStatus ==
+                                            null
+                                        ? ColorConstants.GRADIENT_RED
+                                        : ColorConstants.GREEN,
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      Expanded(
-                        flex: 2,
-                        child: Container(
-                          padding: EdgeInsets.only(left: 5.0),
-                          child: Text(competitionProvider.list[index]?.jobStatus ??  'Apply',style: Styles.bold(
-                              size: 15, color: ColorConstants.ORANGE)),),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-              Divider(height: 1,color: ColorConstants.GREY_3,),
-            ],
-          );
+                  Divider(
+                    height: 1,
+                    color: ColorConstants.GREY_3,
+                  ),
+                ],
+              );
 
-          return Text('data');
-        }));
+              return Text('data');
+            }));
   }
 
+  void jobApply(int jobId, int? isApplied) {
+    BlocProvider.of<HomeBloc>(context).add(CompetitionContentListEvent(
+        competitionId: jobId, isApplied: isApplied));
+  }
 
   void _handlecompetitionListResponse(JobCompListFilterState state) {
     print('_handlecompetitionListResponse singh');
@@ -416,7 +489,8 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
           myJobLoading = false;
           break;
         case ApiStatus.ERROR:
-          Log.v("Error CompetitionListIDState .....................${jobCompState.error}");
+          Log.v(
+              "Error CompetitionListIDState .....................${jobCompState.error}");
           myJobLoading = false;
           break;
         case ApiStatus.INITIAL:
@@ -424,7 +498,6 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
       }
     });
   }
-
 
   void _handleJobResponse(UserJobListState state) {
     var loginState = state;
@@ -443,12 +516,12 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
         case ApiStatus.ERROR:
           isJobLoading = false;
           Log.v("Error..........................");
-          Log.v("ErrorUserJobListState..........................${loginState.error}");
+          Log.v(
+              "ErrorUserJobListState..........................${loginState.error}");
           break;
         case ApiStatus.INITIAL:
           break;
       }
     });
   }
-
 }

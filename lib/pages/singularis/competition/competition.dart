@@ -1499,13 +1499,9 @@ class _CompetetionState extends State<Competetion> {
   }
 
   double percentage(int c) {
-    // c =c -1;
     int h = nextValue(c, 1);
     int l = h - 50;
-    print('Api - URL: https://singularis.lea $c and $l and h is $h');
-
     double result = ((c - l) * 100) / 50;
-    print('Api - URL: https://singularis.lea $result');
     return result;
   }
 }

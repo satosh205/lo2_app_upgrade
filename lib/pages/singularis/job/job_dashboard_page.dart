@@ -735,7 +735,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                                       isSearchMode: false,
                                                       jobRolesId: seletedIds,
                                                     ),
-                                                    isMaintainState: true));
+                                                    isMaintainState: true)).then((value) => null);
                                           },
                                           child: Container(
                                             height: 40,
@@ -1437,7 +1437,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                           child: Container(
                             padding: EdgeInsets.only(left: 0.0),
                             child: GradientText(
-                              competitionProvider.list[index]!.jobStatus ?? 'Apply',
+'Apply',
                               style: Styles.bold(size: 14),
                               colors: [
                                 ColorConstants.GRADIENT_ORANGE,
@@ -1450,7 +1450,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                           ),
                         ): Padding(
                           padding: const EdgeInsets.only(bottom: 20.0),
-                          child: Text('Applied', style: Styles.bold(color: Colors.green, size: 12),),
+                          child: Text('Applied', style: Styles.bold(color: Colors.green, size: 14),),
                         ),
                       ),
                     ],
@@ -1474,7 +1474,8 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
   }
 
   Widget renderJobSecondPositionList(int position) {
-    return ListView.builder(
+    return Consumer<CompetitionResponseProvider>(
+                builder: (context, competitionProvider, child)=>  ListView.builder(
        //itemCount: allJobListResponse?.data!.length,
       itemCount: position < 4
           ? position
@@ -1527,7 +1528,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                   experience: allJobListResponse?.data![newIndex]!.experience,
                                   //jobListDetails: jobList,
                                   id: allJobListResponse?.data![newIndex]!.id,
-                                  jobStatus: applied == index ? 'Application under process' : allJobListResponse?.data![newIndex]!.jobStatus,
+                                  jobStatus: competitionProvider.list[index]?.jobStatus != '' ? 'Application under process' : allJobListResponse?.data![newIndex]!.jobStatus,
                                 )));
 
                           },
@@ -1593,11 +1594,12 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                       ),
                       Expanded(
                         flex: 2,
-                        child: allJobListResponse?.data![newIndex]!.jobStatus == null || allJobListResponse?.data![newIndex]!.jobStatus == "" ?
+                        child: competitionProvider.list[newIndex]!.jobStatus == null || competitionProvider.list[newIndex]!.jobStatus == "" ?
                         InkWell(
                           onTap: (){
                             print('jobApply');
                             // applied = index;
+                             competitionProvider.updateAppliedStatus(newIndex);
                             jobApply(int.parse('${allJobListResponse?.data![newIndex]!.id}'), 1);
                             _onLoadingForJob();
                           },
@@ -1605,20 +1607,23 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                             padding: EdgeInsets.only(left: 0.0),
 
                             child: GradientText(
-                              applied == null || applied != index ?'Apply':'Applied',
+                              competitionProvider.list[newIndex]?.jobStatus == null?'Apply':'Applied',
                               style: Styles.bold(size: 14),
                               colors: [
-                                applied == null || applied != index ?
+                                competitionProvider.list[newIndex]?.jobStatus == null?
                                 ColorConstants.GRADIENT_ORANGE : ColorConstants.GREEN,
-                                applied == null || applied != index ?
+                                competitionProvider.list[newIndex]?.jobStatus == null?
                                 ColorConstants.GRADIENT_RED : ColorConstants.GREEN,
                               ],
                             ),
+                           /* child: Text(applied == null || applied != index ?'Apply':'',
+                                style: Styles.bold(
+                                    size: 12, color: ColorConstants.ORANGE)),*/
                           ),
                         ) :
                         Padding(
                           padding: const EdgeInsets.only(bottom: 20.0),
-                          child: Text('Applied', style: Styles.bold(color: Colors.green, size: 12),),
+                          child: Text('', style: Styles.bold(color: Colors.green, size: 14),),
                         ),
                       ),
                     ],
@@ -1638,11 +1643,12 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
               ),
             ],
           );
-        });
+        }));
   }
 
   Widget renderJobThirdPositionList(int position) {
-    return ListView.builder(
+    return Consumer<CompetitionResponseProvider>(
+                builder: (context, competitionProvider, child)=>  ListView.builder(
       //itemCount: allJobListResponse?.data!.length,
       /*itemCount: (allJobListResponse?.data?.length)! < position
           ? allJobListResponse?.data?.length
@@ -1761,18 +1767,19 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                       ),
                       Expanded(
                         flex: 2,
-                        child: allJobListResponse?.data![newIndex]!.jobStatus == null || allJobListResponse?.data![newIndex]!.jobStatus == "" ?
+                        child: competitionProvider.list[newIndex]!.jobStatus == null || competitionProvider.list[newIndex]!.jobStatus == "" ?
                         InkWell(
                           onTap: (){
                             print('jobApply');
                             // applied = index;
+                            competitionProvider.updateAppliedStatus(newIndex);
                             jobApply(int.parse('${allJobListResponse?.data![newIndex]!.id}'), 1);
                             _onLoadingForJob();
                           },
                           child: Container(
                             padding: EdgeInsets.only(left: 0.0),
                             child: GradientText(
-                              applied == null || applied != index ?'Apply':'Applied',
+                    'Apply',
                               style: Styles.bold(size: 14),
                               colors: [
                                 ColorConstants.GRADIENT_ORANGE,
@@ -1786,7 +1793,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                         ) :
                         Padding(
                           padding: const EdgeInsets.only(bottom: 20.0),
-                          child: Text('Applied', style: Styles.bold(color: Colors.green, size: 12),),
+                          child: Text('Applied', style: Styles.bold(color: Colors.green, size: 14),),
                         ),
                       ),
                     ],
@@ -1806,7 +1813,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
               ),
             ],
           );
-        });
+        }));
   }
 
 
