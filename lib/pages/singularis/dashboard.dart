@@ -298,6 +298,7 @@ class _DashboardPageState extends State<DashboardPage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                SizedBox(height: 10,),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [

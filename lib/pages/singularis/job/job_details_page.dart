@@ -227,23 +227,28 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                                           size: 12,
                                           color: ColorConstants.GREY_6)),
                                 ),
-                                Text('${widget.experience} Yrs',
+                                Text('${widget.experience != null ? widget.experience:"0"} Yrs',
                                     style: Styles.regular(
                                         size: 12,
                                         color: ColorConstants.GREY_6)),
-                                Padding(
-                                  padding:
-                                  const EdgeInsets.only(left: 20.0),
-                                  child: Icon(
-                                    Icons.location_on_outlined,
-                                    size: 16,
-                                    color: ColorConstants.GREY_3,
-                                  ),
-                                ),
-                                Text('${widget.location}',
-                                    style: Styles.regular(
-                                        size: 12,
-                                        color: ColorConstants.GREY_3)),
+
+                                widget.location != null ? Row(
+                                  children: [
+                                    Padding(
+                                      padding:
+                                      const EdgeInsets.only(left: 20.0),
+                                      child: Icon(
+                                        Icons.location_on_outlined,
+                                        size: 16,
+                                        color: ColorConstants.GREY_3,
+                                      ),
+                                    ),
+                                    Text('${widget.location}',
+                                        style: Styles.regular(
+                                            size: 12,
+                                            color: ColorConstants.GREY_3)),
+                                  ],
+                                ):SizedBox(),
                               ],
                             ),
                           ),

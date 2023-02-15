@@ -339,13 +339,14 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
     return RoundedAppBar(
         appBarHeight: height(context) * 0.1,
         child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
             child: Column(
                 mainAxisAlignment:
                 MainAxisAlignment.start,
                 crossAxisAlignment:
                 CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: 10,),
                   Row(
                     crossAxisAlignment:
                     CrossAxisAlignment.center,
@@ -1166,7 +1167,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    Row(
+                                    recommendedJobOpportunities?.data![index]!.location != null ? Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
                                         Icon(
@@ -1184,7 +1185,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                           ),
                                         ),
                                       ],
-                                    ),
+                                    ) : SizedBox(),
                                     SizedBox(
                                       height: 10,
                                     ),
@@ -1388,23 +1389,29 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                                 size: 12,
                                                 color: ColorConstants.GREY_6)),
                                       ),
-                                      Text('${allJobListResponse?.data![index]!.experience} Yrs',
+                                      Text('${allJobListResponse?.data![index]!.experience != null ?
+                                      allJobListResponse?.data![index]!.experience : "0"} Yrs',
                                           style: Styles.regular(
                                               size: 12,
                                               color: ColorConstants.GREY_6)),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 20.0),
-                                        child: Icon(
-                                          Icons.location_on_outlined,
-                                          size: 16,
-                                          color: ColorConstants.GREY_3,
-                                        ),
-                                      ),
-                                      Text('${allJobListResponse?.data![index]!.location}',
-                                          style: Styles.regular(
-                                              size: 12,
-                                              color: ColorConstants.GREY_3)),
+
+                                      allJobListResponse?.data![index]!.location != null ? Row(
+                                       children: [
+                                         Padding(
+                                           padding:
+                                           const EdgeInsets.only(left: 20.0),
+                                           child: Icon(
+                                             Icons.location_on_outlined,
+                                             size: 16,
+                                             color: ColorConstants.GREY_3,
+                                           ),
+                                         ),
+                                         Text('${allJobListResponse?.data![index]!.location}',
+                                             style: Styles.regular(
+                                                 size: 12,
+                                                 color: ColorConstants.GREY_3)),
+                                       ],
+                                     ): SizedBox(),
                                     ],
                                   ),
                                 ),
@@ -1553,23 +1560,29 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                                 size: 12,
                                                 color: ColorConstants.GREY_6)),
                                       ),
-                                      Text('${allJobListResponse?.data![newIndex]!.experience} Yrs',
+                                      Text('${allJobListResponse?.data![newIndex]!.experience != null ?
+                                      allJobListResponse?.data![newIndex]!.experience: "0" } Yrs',
                                           style: Styles.regular(
                                               size: 12,
                                               color: ColorConstants.GREY_6)),
-                                      Padding(
-                                        padding:
-                                        const EdgeInsets.only(left: 20.0),
-                                        child: Icon(
-                                          Icons.location_on_outlined,
-                                          size: 16,
-                                          color: ColorConstants.GREY_3,
-                                        ),
-                                      ),
-                                      Text('${allJobListResponse?.data![newIndex]!.location}',
-                                          style: Styles.regular(
-                                              size: 12,
-                                              color: ColorConstants.GREY_3)),
+
+                                      allJobListResponse?.data![newIndex]!.location != null ? Row(
+                                        children: [
+                                          Padding(
+                                            padding:
+                                            const EdgeInsets.only(left: 20.0),
+                                            child: Icon(
+                                              Icons.location_on_outlined,
+                                              size: 16,
+                                              color: ColorConstants.GREY_3,
+                                            ),
+                                          ),
+                                          Text('${allJobListResponse?.data![newIndex]!.location}',
+                                              style: Styles.regular(
+                                                  size: 12,
+                                                  color: ColorConstants.GREY_3)),
+                                        ],
+                                      ):SizedBox(),
                                     ],
                                   ),
                                 ),
@@ -1718,23 +1731,29 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                                 size: 12,
                                                 color: ColorConstants.GREY_6)),
                                       ),
-                                      Text('${allJobListResponse?.data![newIndex]!.experience} Yrs',
+                                      Text('${allJobListResponse?.data![newIndex]!.experience != null ?
+                                      allJobListResponse?.data![newIndex]!.experience: '0'} Yrs',
                                           style: Styles.regular(
                                               size: 12,
                                               color: ColorConstants.GREY_6)),
-                                      Padding(
-                                        padding:
-                                        const EdgeInsets.only(left: 20.0),
-                                        child: Icon(
-                                          Icons.location_on_outlined,
-                                          size: 16,
-                                          color: ColorConstants.GREY_3,
-                                        ),
-                                      ),
-                                      Text('${allJobListResponse?.data![newIndex]!.location}',
-                                          style: Styles.regular(
-                                              size: 12,
-                                              color: ColorConstants.GREY_3)),
+
+                                      allJobListResponse?.data![newIndex]!.location != null ? Row(
+                                        children: [
+                                          Padding(
+                                            padding:
+                                            const EdgeInsets.only(left: 20.0),
+                                            child: Icon(
+                                              Icons.location_on_outlined,
+                                              size: 16,
+                                              color: ColorConstants.GREY_3,
+                                            ),
+                                          ),
+                                          Text('${allJobListResponse?.data![newIndex]!.location}',
+                                              style: Styles.regular(
+                                                  size: 12,
+                                                  color: ColorConstants.GREY_3)),
+                                        ],
+                                      ):SizedBox(),
                                     ],
                                   ),
                                 ),
