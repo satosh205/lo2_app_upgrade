@@ -2169,11 +2169,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                       getExperience(
                           portfolioResponse?.data.experience, context),
                       dividerLine(),
-                      getRecentActivites(
-                          portfolioResponse?.data.recentActivity, context),
+                      getRecentActivites(portfolioResponse?.data.recentActivity, context),
                       dividerLine(),
-                      getExtraActivitesWidget(
-                          portfolioResponse?.data.extraActivities, context),
+                      getExtraActivitesWidget(portfolioResponse?.data.extraActivities, context),
                     ],
                     //]
                   )))),

@@ -1450,7 +1450,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                           ),
                         ): Padding(
                           padding: const EdgeInsets.only(bottom: 20.0),
-                          child: Text('Applied', style: Styles.bold(color: Colors.green, size: 14),),
+                          child: Text('Applied', style: Styles.bold(color: Colors.green, size: 12),),
                         ),
                       ),
                     ],
@@ -1614,14 +1614,11 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                 ColorConstants.GRADIENT_RED : ColorConstants.GREEN,
                               ],
                             ),
-                           /* child: Text(applied == null || applied != index ?'Apply':'',
-                                style: Styles.bold(
-                                    size: 12, color: ColorConstants.ORANGE)),*/
                           ),
                         ) :
                         Padding(
                           padding: const EdgeInsets.only(bottom: 20.0),
-                          child: Text('', style: Styles.bold(color: Colors.green, size: 14),),
+                          child: Text('Applied', style: Styles.bold(color: Colors.green, size: 12),),
                         ),
                       ),
                     ],
@@ -1789,7 +1786,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                         ) :
                         Padding(
                           padding: const EdgeInsets.only(bottom: 20.0),
-                          child: Text('', style: Styles.bold(color: Colors.green, size: 14),),
+                          child: Text('Applied', style: Styles.bold(color: Colors.green, size: 12),),
                         ),
                       ),
                     ],
