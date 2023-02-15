@@ -403,16 +403,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 // SizedBox(
                 //   height: 10,
                 // ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
+                Padding(
+                  padding: const EdgeInsets.only(top: 110.0),
+                  child: InkWell(
+                    onTap: (){
+                        Navigator.push(
                         context,
                         NextPageRoute(
                             TermsAndCondition(url: APK_DETAILS['policy_url']),
                             isMaintainState: false));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 110.0),
+                    },
                     child: Column(
                       children: [
                         Text('${Strings.of(context)?.byClickingContinue}',
