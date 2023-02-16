@@ -941,7 +941,7 @@ class _CompetetionState extends State<Competetion> {
       String difficulty, String gScore, String date) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.7,
-      margin: EdgeInsets.only(bottom: 20, left: 0, right: 55),
+      margin: EdgeInsets.only(bottom: 20, left: 0, right: 20),
       decoration: BoxDecoration(
         color: ColorConstants.WHITE,
         borderRadius: BorderRadius.circular(16),

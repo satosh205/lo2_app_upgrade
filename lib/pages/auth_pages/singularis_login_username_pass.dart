@@ -275,7 +275,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
 
     var _pin;
     return SingleChildScrollView(
-      physics: MediaQuery.of(context).viewInsets.bottom == 0 ? NeverScrollableScrollPhysics() : BouncingScrollPhysics(),
+      //physics: MediaQuery.of(context).viewInsets.bottom == 0 ? NeverScrollableScrollPhysics() : BouncingScrollPhysics(),
       child: Form(
         key: _formKey,
         autovalidateMode: _autoValidation
@@ -327,7 +327,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
                     ColorConstants.GRADIENT_RED,
                   ]),
                 ),
-                height: height(context) * 0.6,
+                height: height(context) * 0.7,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -651,7 +651,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
   }) {
     return Container(
       // height: 60,
-      color: ColorConstants.WHITE.withOpacity(0.2),
+      //color: ColorConstants.WHITE.withOpacity(0.2),
       child: TextFormField(
         cursorColor: ColorConstants.WHITE,
         style: Styles.regularWhite(),
@@ -662,6 +662,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
         obscureText: obscureText,
         decoration: InputDecoration(
           hintText: hintText,
+          errorStyle: TextStyle(color: Colors.white,),
           prefixIcon: Padding(
             padding: const EdgeInsets.all(5),
             child: isEmail == true
