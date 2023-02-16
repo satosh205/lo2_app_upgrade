@@ -437,10 +437,10 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
                                           null
                                       ? 'Applied'
                                       : 'Apply',
-                                  style: Styles.bold(),
+                                  style: Styles.bold(size: competitionProvider.list[index]?.jobStatus ==
+                                      null ? 14 : 12),
                                   colors: [
-                                    competitionProvider
-                                                .list[index]?.jobStatus ==
+                                    competitionProvider.list[index]?.jobStatus ==
                                             null
                                         ? ColorConstants.GRADIENT_ORANGE
                                         : ColorConstants.GREEN,
