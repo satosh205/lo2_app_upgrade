@@ -172,8 +172,8 @@ class _AppDrawerState extends State<AppDrawer> {
             leading:SvgPicture.asset('assets/images/about.svg'),
             title: Text('About Singularis'),
             onTap: () {
-             /* Navigator.push(context, MaterialPageRoute(builder: (context)=> TermsAndCondition(url: APK_DETAILS['policy_url'], title: "About Singularis",),
-                  maintainState: false));*/
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> TermsAndCondition(url: APK_DETAILS['about_url'], title: "About Singularis",),
+                  maintainState: false));
             },
           ),
           Spacer(),
