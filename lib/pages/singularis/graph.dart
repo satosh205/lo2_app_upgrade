@@ -27,7 +27,7 @@ class LineChartWidget extends StatefulWidget {
 class _LineChartWidgetState extends State<LineChartWidget> {
   final List<Color> gradientColors = [
     Color(0xff3EBDA0),
-    Color(0xff3EBDA0),
+    Color.fromARGB(255, 169, 214, 204),
   ];
   bool _isLoading = true;
   JobDomainResponse? domainData;
@@ -149,11 +149,19 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                                         double.parse('${e[1]}')))
                                     .toList(),
                                 isCurved: true,
+                                belowBarData: BarAreaData(
+            show: true,
+            gradient: LinearGradient(
+              colors: gradientColors
+                  .map((color) => color.withOpacity(0.4))
+                  .toList(),
+            ),
+          ),
                                 color: gradientColors[0],
                                 barWidth: 1.2,
-                                belowBarData: BarAreaData(
-                                    show: true,
-                                    color: gradientColors[0].withOpacity(0.3)),
+                                // belowBarData: BarAreaData(
+                                //     show: true,
+                                //     color: gradientColors[0].withOpacity(0.3)),
                               ),
                             ],
                           ),
