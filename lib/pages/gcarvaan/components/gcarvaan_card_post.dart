@@ -99,10 +99,10 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
   void initState() {
     super.initState();
     box = Hive.box(DB.CONTENT);
-    setValues();
+    setDimensionValues();
   }
 
-  void setValues() {
+  void setDimensionValues() {
     if (widget.resourceType == 'image') {
       setState(() {
 
