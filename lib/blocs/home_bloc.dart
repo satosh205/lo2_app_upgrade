@@ -1721,8 +1721,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         try {
         yield DomainFilterListState(ApiStatus.LOADING);
         final response = await homeRepository.getFilterDomainList(event.ids!);
-        Log.v(" domain filter list  DATA ::: ${response.data}");
-
+        //Log.v(" domain filter list  DATA ::: ${response.data}");
         if (response.data != null) {
           yield DomainFilterListState(ApiStatus.SUCCESS, response: response);
         } else {

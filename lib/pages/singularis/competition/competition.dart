@@ -433,6 +433,7 @@ class _CompetetionState extends State<Competetion> {
                                       )),
                                   InkWell(
                                       onTap: () async {
+                                        selectedIndex = 0;
                                         getFilterList(domainList!
                                             .data!.list[0].id
                                             .toString());

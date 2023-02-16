@@ -74,11 +74,13 @@ class ListElement {
     DateTime updatedAt;
     int organizationId;
     int experience;
-    Location location;
+    //Location location;
+    String? location;
     int isRecommended;
     String salary;
     String growth;
-    GrowthType growthType;
+    //GrowthType growthType;
+    String growthType;
 
     factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
         id: json["id"],
@@ -91,11 +93,13 @@ class ListElement {
         updatedAt: DateTime.parse(json["updated_at"]),
         organizationId: json["organization_id"],
         experience: json["experience"],
-        location: locationValues.map[json["location"]]!,
+        //location: locationValues.map[json["location"]]!,
+        location: json["location"],
         isRecommended: json["is_recommended"],
         salary: json["salary"],
         growth: json["growth"],
-        growthType: growthTypeValues.map[json["growth_type"]]!,
+        //growthType: growthTypeValues.map[json["growth_type"]]!,
+        growthType: json["growth_type"],
     );
 
     Map<String, dynamic> toJson() => {
