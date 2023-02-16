@@ -1292,7 +1292,14 @@ class _DashboardPageState extends State<DashboardPage> {
                       itemCount: featuredInternshipsResponse?.data!.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (BuildContext context, int index) {
-                        return InkWell(
+                        return featuredInternshipsResponse
+                                                        ?.data![index]!
+                                                        .jobStatus ==
+                                                    null ||
+                                                featuredInternshipsResponse
+                                                        ?.data![index]!
+                                                        .jobStatus ==
+                                                    "" ?  InkWell(
                           onTap: () {
                             Navigator.push(
                                 context,
@@ -1574,7 +1581,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                   ),
                                 ]),
                           ),
-                        );
+                        ) : SizedBox();
                       })
                   : SizedBox(),
             ),
