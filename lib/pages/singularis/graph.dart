@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterg/blocs/home_bloc.dart';
@@ -26,7 +27,7 @@ class LineChartWidget extends StatefulWidget {
 class _LineChartWidgetState extends State<LineChartWidget> {
   final List<Color> gradientColors = [
     Color(0xff3EBDA0),
-    Color(0xff3EBDA0),
+    Color.fromARGB(255, 169, 214, 204),
   ];
   bool _isLoading = true;
   JobDomainResponse? domainData;
@@ -57,6 +58,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                     children: [
                       SizedBox(
                         height: height(context) * 0.4,
+                        width: width(context) * 0.95,
                         child: LineChart(
                           LineChartData(
                             minX: minX,
@@ -64,13 +66,50 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                             minY: minY,
                             maxY: maxY,
                             baselineX: 200,
+                            lineTouchData: LineTouchData(touchTooltipData:
+                                LineTouchTooltipData(getTooltipItems:
+                                    (List<LineBarSpot> touchedBarSpots) {
+                                    
+                              return touchedBarSpots.map((barSpot) {
+                               
+
+                                return LineTooltipItem(
+                                  '${domainData?.data?.graphArr[barSpot.barIndex][0]}\n',
+                                  TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  children: [
+                                   
+                                    TextSpan(
+                                      
+                                      text: '${domainData?.data?.graphArr[barSpot.barIndex][1]}',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w900,
+                                        
+                                      ),
+                                    ),
+                                    const TextSpan(
+                                      text: ' Jobs',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                    
+                                  ],
+                                  textAlign: TextAlign.left,
+                                );
+
+                              }).toList();
+                            })),
                             titlesData: FlTitlesData(
                                 topTitles: AxisTitles(),
                                 rightTitles: AxisTitles(
                                     sideTitles: SideTitles(showTitles: false)),
                                 show: true,
                                 leftTitles: AxisTitles(
-                                    sideTitles: SideTitles(showTitles: false, interval: 100),
+                                    sideTitles: SideTitles(
+                                        showTitles: false, interval: 100),
                                     axisNameWidget: Text(
                                       'No. of jobs',
                                       style: Styles.regular(size: 12),
@@ -110,11 +149,19 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                                         double.parse('${e[1]}')))
                                     .toList(),
                                 isCurved: true,
+                                belowBarData: BarAreaData(
+            show: true,
+            gradient: LinearGradient(
+              colors: gradientColors
+                  .map((color) => color.withOpacity(0.4))
+                  .toList(),
+            ),
+          ),
                                 color: gradientColors[0],
                                 barWidth: 1.2,
-                                belowBarData: BarAreaData(
-                                    show: true,
-                                    color: gradientColors[0].withOpacity(0.3)),
+                                // belowBarData: BarAreaData(
+                                //     show: true,
+                                //     color: gradientColors[0].withOpacity(0.3)),
                               ),
                             ],
                           ),
