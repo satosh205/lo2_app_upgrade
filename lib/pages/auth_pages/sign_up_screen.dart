@@ -234,9 +234,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ],
                         // maxLength: 10,
                         decoration: InputDecoration(
-                          
                           focusedBorder: OutlineInputBorder(
-                            
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
                               color: ColorConstants.WHITE,
@@ -319,12 +317,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               }
                             },
                             child: Container(
-                              height: height(context) * 0.07,
+                              //height: height(context) * 0.07,
+                              height: 50,
                               width: width(context) * 0.26,
                               decoration: const BoxDecoration(
                                   color: ColorConstants.WHITE,
-                                  borderRadius:
-                                      BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10),topRight: Radius.circular(10),bottomRight: Radius.circular(10))),
+                                  //borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10),topRight: Radius.circular(10),bottomRight: Radius.circular(10))),
+                                  borderRadius: BorderRadius.all(Radius.circular(10))),
                               // child: Text('Get OTP'),
                               child: ShaderMask(
                                 blendMode: BlendMode.srcIn,
