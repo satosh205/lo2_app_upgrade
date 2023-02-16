@@ -316,7 +316,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
         body: ScreenWithLoader(
           isLoading: _isLoading,
           body: SingleChildScrollView(
-          physics: isFocused ? BouncingScrollPhysics():  NeverScrollableScrollPhysics(),
+          //physics: isFocused ? BouncingScrollPhysics():  NeverScrollableScrollPhysics(),
             child: Container(
                //height: height(context)*2,
               child: Column(
@@ -381,13 +381,13 @@ class _VerifyOtpState extends State<VerifyOtp> {
                   _size(height: 50),
                   Container(
                     decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
               gradient: LinearGradient(colors: [
                 ColorConstants.GRADIENT_ORANGE,
                 ColorConstants.GRADIENT_RED,
               ]),
           ),
-          height: height(context) * 0.7,
+          height: height(context) * 0.5,
                     child: Column(children: [
                      Center(
                     child: Padding(
@@ -474,7 +474,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
 
                   _size(height: 10),
                   
-                  _size(height: height(context) * 0.16),
+                  _size(height: height(context) * 0.10),
                   InkWell(
                       onTap: () {
                         if (_pin.isNotEmpty) {

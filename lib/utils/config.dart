@@ -52,7 +52,8 @@ const APK_DETAILS = {
   "splash_image": "splash_wow.png",
   "isBrandEnabled": "1",
   "faqEnabled": "0",
-  "policy_url": "https://singularis.learningoxygen.com/policy"
+  "policy_url": "https://singularis.learningoxygen.com/policy",
+  "about_url": "https://singulariswow.learningoxygen.com"
 };
 
 
