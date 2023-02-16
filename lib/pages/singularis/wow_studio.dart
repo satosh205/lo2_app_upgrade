@@ -93,10 +93,13 @@ class _WowStudioState extends State<WowStudio> {
                   textAlign: TextAlign.center,
                   style: Styles.bold(color: ColorConstants.WHITE, size: 16)),
               SizedBox(height: 10),
-              Text(
-                  'Global community of WOW Alumni, Faculties, Industry Professionals, Recruiters, Policy Makers, and Mentors',
-                  textAlign: TextAlign.center,
-                  style: Styles.regular(color: ColorConstants.WHITE, size: 12))
+              Padding(
+                padding: const EdgeInsets.only(left: 0.0, right: 0.0),
+                child: Text(
+                    'Global community of WOW Alumni, Faculties, Industry Professionals, Recruiters, Policy Makers, and Mentors',
+                    textAlign: TextAlign.center,
+                    style: Styles.regular(color: ColorConstants.WHITE, size: 12)),
+              )
             ]),
           ),
          
@@ -105,7 +108,4 @@ class _WowStudioState extends State<WowStudio> {
     );
   }
 
-  
-
-  
 }
