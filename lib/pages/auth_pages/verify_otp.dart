@@ -317,12 +317,10 @@ class _VerifyOtpState extends State<VerifyOtp> {
           isLoading: _isLoading,
           body: SingleChildScrollView(
           physics: isFocused ? BouncingScrollPhysics():  NeverScrollableScrollPhysics(),
-
             child: Container(
-               height: height(context)*2,
+               //height: height(context)*2,
               child: Column(
                 // crossAxisAlignment: CrossAxisAlignment.start,
-          
                 children: [
                   Text(
                   "Welcome to",style: Styles.regular(size:18,color: Color(0xff5A5F73))),
@@ -380,7 +378,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                 //       textAlign: TextAlign.center,
                 //     ),
                 //   ),
-                  _size(height: 20),
+                  _size(height: 50),
                   Container(
                     decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -393,7 +391,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                     child: Column(children: [
                      Center(
                     child: Padding(
-                      padding: const EdgeInsets.only(top:16.0),
+                      padding: const EdgeInsets.only(top:30.0),
                       child: Text(
                         '${Strings.of(context)?.verify_your_mobile}',
                         style: Styles.bold(color: ColorConstants.WHITE),
@@ -403,7 +401,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                     
                   ),
                   
-                  _size(height: 15),
+                  _size(height: 25),
                   // _otpVerificationPart(),
           
                   Center(

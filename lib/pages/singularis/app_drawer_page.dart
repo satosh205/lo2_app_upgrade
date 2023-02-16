@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -121,7 +123,10 @@ class _AppDrawerState extends State<AppDrawer> {
               size: 25,
             ),
             title: Text('ShareApp'),
-            onTap: () {},
+            onTap: () {
+              Share.share(
+                  'Hey, Checkout Singularis wow Mobile App, A Higher Ed Company in Future-Skills.\n\n${Platform.isAndroid ? "https://play.google.com/store/apps/details?id=com.singulariswow" : "https://apps.apple.com/us/app/singulariswow/id7428096480"}');
+            },
           ),
           /* SizedBox(height: 20,),
           ListTile(
@@ -155,7 +160,7 @@ class _AppDrawerState extends State<AppDrawer> {
             // ),
             title: Text('Terms and Conditions'),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> TermsAndCondition(url: APK_DETAILS['policy_url']),
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> TermsAndCondition(url: APK_DETAILS['policy_url'], title: "Terms and Conditions",),
                             maintainState: false));
             },
           ),
@@ -165,9 +170,11 @@ class _AppDrawerState extends State<AppDrawer> {
             dense: true,
             visualDensity: VisualDensity(vertical: -4),
             leading:SvgPicture.asset('assets/images/about.svg'),
-
             title: Text('About Singularis'),
-            onTap: () {},
+            onTap: () {
+             /* Navigator.push(context, MaterialPageRoute(builder: (context)=> TermsAndCondition(url: APK_DETAILS['policy_url'], title: "About Singularis",),
+                  maintainState: false));*/
+            },
           ),
           Spacer(),
           // SizedBox(height: 200,),
