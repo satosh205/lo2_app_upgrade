@@ -39,7 +39,7 @@ class GCarvaanCardPost extends StatefulWidget {
   final String date;
   int? height;
   final String userStatus;
-  final int? width;
+  int? width;
   final String? description;
   final int commentCount;
   final bool comment_visible;
@@ -99,18 +99,56 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
   void initState() {
     super.initState();
     box = Hive.box(DB.CONTENT);
-    setValues();
+    setDimensionValues();
   }
 
-  void setValues() {
+  void setDimensionValues() {
     if (widget.resourceType == 'image') {
       setState(() {
+
         if (widget.height == null) {
           widget.height = widget.dimension?.first.height;
-          videoHeight = double.parse('${widget.height}');
-          print('widget.contentId=========');
-          print(widget.contentId);
-        } else if (double.parse('${widget.width}') > 1500) {
+          widget.width = widget.dimension?.first.width;
+
+          if (double.parse('${widget.width}') > 1500) {
+            if (double.parse('${widget.height}') > 2500) {
+              videoHeight = double.parse('${widget.height}') / 8.3;
+            } else {
+              videoHeight = double.parse('${widget.height}') / 4.0;
+            }
+          } else if (double.parse('${widget.height}') < 1200) {
+            if (double.parse('${widget.height}') < 800) {
+              if (double.parse('${widget.width}') > 900) {
+                print('widget.contentId=====444444');
+                print(widget.contentId);
+                videoHeight = double.parse('${widget.height}') / 3.0;
+              }else {
+                print('widget.contentId=====33333');
+                print(widget.contentId);
+                videoHeight = double.parse('${widget.height}') / 1.6;
+              }
+            } else {
+              print('widget.contentId=====2222');
+              print(widget.contentId);
+              videoHeight = double.parse('${widget.height}') / 2.6;
+            }
+          } else if (double.parse('${widget.height}') > 1200) {
+            print('widget.contentId=====');
+            print(widget.contentId);
+            if (double.parse('${widget.width}') > 1300) {
+              videoHeight = double.parse('${widget.height}') / 4.0;
+            }else {
+              videoHeight = double.parse('${widget.height}') / 3.0;
+            }
+
+          } else {
+            videoHeight = double.parse('${widget.height}') / 2.0;
+            likeCount = widget.likeCount;
+          }
+
+        }
+
+        else if (double.parse('${widget.width}') > 1500) {
           if (double.parse('${widget.height}') > 2500) {
             videoHeight = double.parse('${widget.height}') / 8.3;
           } else {

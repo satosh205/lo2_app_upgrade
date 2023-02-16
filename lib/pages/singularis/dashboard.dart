@@ -383,7 +383,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 15),
+                                SizedBox(height: 12),
                                 Container(
                                   height: 5,
                                   width: MediaQuery.of(context).size.width,
@@ -407,7 +407,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(height: 10),
+                                SizedBox(height: 7),
                                 Text.rich(
                                     TextSpan(
                                       children: [
@@ -1346,8 +1346,8 @@ class _DashboardPageState extends State<DashboardPage> {
                                         CachedNetworkImage(
                                           imageUrl:
                                               '${featuredInternshipsResponse?.data![index]!.image}',
-                                          width: 100,
-                                          height: 50,
+                                          width: 80,
+                                          height: 80,
                                           errorWidget: (context, url, error) =>
                                               SvgPicture.asset(
                                             'assets/images/exp_emp.svg',
@@ -1500,7 +1500,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                         ),*/
 
                                         SizedBox(
-                                          height: 30,
+                                          height: 20,
                                         ),
                                         featuredInternshipsResponse
                                                         ?.data![index]!
@@ -1512,15 +1512,15 @@ class _DashboardPageState extends State<DashboardPage> {
                                                     ""
                                             ? InkWell(
                                                 onTap: () {
-                                                  /*jobApply(
+                                                  jobApply(
                                                       int.parse(
                                                           '${featuredInternshipsResponse?.data![index]!.id}'),
                                                       1);
-                                                  _onLoadingForJob();*/
-                                                  Utility.showSnackBar(
+                                                  _onLoadingForJob();
+                                                 /* Utility.showSnackBar(
                                                       scaffoldContext: context,
                                                       message:
-                                                          'Your application is successfully submitted.');
+                                                          'Your application is successfully submitted.');*/
                                                 },
                                                 child: Container(
                                                   height: 45,
@@ -1557,16 +1557,18 @@ class _DashboardPageState extends State<DashboardPage> {
                                                   ),
                                                 ),
                                               )
-                                            : Padding(
-                                                padding: const EdgeInsets.only(
-                                                    bottom: 20.0),
-                                                child: Text(
-                                                  '${featuredInternshipsResponse?.data![index]!.jobStatus}',
-                                                  style: Styles.bold(
-                                                      color: Colors.green,
-                                                      size: 14),
+                                            : Center(
+                                              child: Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      bottom: 20.0),
+                                                  child: Text(
+                                                    'Applied',
+                                                    style: Styles.bold(
+                                                        color: Colors.green,
+                                                        size: 14),
+                                                  ),
                                                 ),
-                                              ),
+                                            ),
                                       ],
                                     ),
                                   ),

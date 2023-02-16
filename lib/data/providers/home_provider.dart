@@ -2405,12 +2405,12 @@ class HomeProvider {
       } else if (isFiltter == true) {
         print('Api - URL: https:/ hello $jobIds');
         if (isPopular == true)
-          url = url + '?job_ids=$jobIds' + '&is_popular=1';
+          url = url + '?job_ids=$jobIds' + '&is_popular=1' + '&is_job=1';
         else {
           if (jobIds == '') {
             url += '?&is_job=1';
           } else
-            url += '?job_ids=$jobIds';
+            url += '?job_ids=$jobIds' + '&is_job=1';
         }
       }
       final response = await api.dio.get(url,
