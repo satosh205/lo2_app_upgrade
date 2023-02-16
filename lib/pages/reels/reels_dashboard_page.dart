@@ -649,7 +649,8 @@ class _RightPanelState extends State<RightPanel> with TickerProviderStateMixin {
               ),
 
               LikeWidget(
-                mcontext: widget.mContext,
+                // mcontext: widget.mContext,
+joyContentModel: widget.greelsModel!,
                 contentId: widget.contentId!,
               ),
               // LikeWidget(
@@ -1030,33 +1031,59 @@ class _RightPanelState extends State<RightPanel> with TickerProviderStateMixin {
   }
 }
 
-class LikeWidget extends StatelessWidget {
-  final BuildContext? mcontext;
+class LikeWidget extends StatefulWidget {
   final int contentId;
-  const LikeWidget({Key? key, required this.contentId, this.mcontext})
+  final GReelsModel joyContentModel;
+  const LikeWidget({Key? key, required this.contentId,required this.joyContentModel})
       : super(key: key);
 
   @override
+  State<LikeWidget> createState() => _LikeWidgetState();
+}
+
+class _LikeWidgetState extends State<LikeWidget> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    //  joyContentModel= Provider.of<GReelsModel>(context);
+    update();
+
+   
+    super.initState();
+  }
+
+  void update() async{
+    Future.delayed(Duration.zero, (){
+    print('init is called');
+
+ widget.joyContentModel
+        .updateCurrentIndex(widget.joyContentModel.getCurrentPostIndex(widget.contentId));
+    });
+  }
+  @override
   Widget build(BuildContext context) {
-    var joyContentModel = Provider.of<GReelsModel>(mcontext!);
-    updateLikeandViews(null);
+    updateLikeandViews(null, context);
     // reels refresh issue fix
     
-    joyContentModel
-        .updateCurrentIndex(joyContentModel.getCurrentPostIndex(contentId));
+    // joyContentModel
+    //     .updateCurrentIndex(joyContentModel.getCurrentPostIndex(contentId));
 
-    bool isLiked = joyContentModel.isUserLiked(contentId);
+        
+
+    bool isLiked = widget.joyContentModel.isUserLiked(widget.contentId);
     return InkWell(
       onTap: () {
         if (isLiked) {
-          updateLikeandViews(0);
-          joyContentModel.decreaseLikeCount(contentId);
+          updateLikeandViews(0, context);
+          widget.joyContentModel.decreaseLikeCount(widget.contentId);
         } else {
-          updateLikeandViews(1);
+          updateLikeandViews(1, context);
 
-          joyContentModel.increaseLikeCount(contentId);
+          widget.joyContentModel.increaseLikeCount(widget.contentId);
         }
       },
+
+      // child :Text('nice'),
       child: Container(
         child: Column(
           children: <Widget>[
@@ -1077,7 +1104,7 @@ class LikeWidget extends StatelessWidget {
               height: 5,
             ),
             Text(
-              '${joyContentModel.getLikeCount(contentId)}',
+              '${widget.joyContentModel.getLikeCount(widget.contentId)}',
               style: Styles.regular(size: 12, color: ColorConstants.WHITE),
             )
           ],
@@ -1086,9 +1113,9 @@ class LikeWidget extends StatelessWidget {
     );
   }
 
-  void updateLikeandViews(int? like) async {
-    BlocProvider.of<HomeBloc>(mcontext!).add(
-        LikeContentEvent(contentId: contentId, like: like, type: 'contents'));
+  void updateLikeandViews(int? like, context) async {
+    BlocProvider.of<HomeBloc>(context).add(
+        LikeContentEvent(contentId: widget.contentId, like: like, type: 'contents'));
   }
 }
 
