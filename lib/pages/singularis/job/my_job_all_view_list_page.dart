@@ -82,9 +82,9 @@ class _MyJobAllViewListPageState extends State<MyJobAllViewListPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      height: 120,
+                      height: 110,
                       width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.all(10),
+                      margin: EdgeInsets.all(6),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(color: ColorConstants.WHITE),
@@ -114,8 +114,22 @@ class _MyJobAllViewListPageState extends State<MyJobAllViewListPage> {
                                       Text('${widget.myJobResponse?.data![index]!.name}'),
                                       Padding(
                                         padding: const EdgeInsets.only(top: 8.0),
-                                        child: Text('${widget.myJobResponse?.data![index]!.organizedBy}'),
+                                        child: Text('${widget.myJobResponse?.data![index]!.organizedBy}',
+                                        style: Styles.regular(color: ColorConstants.GREY_3, size: 12),),
                                       ),
+
+                                      widget.myJobResponse?.data![index]!.jobStatus != null ? Padding(
+                                        padding: const EdgeInsets.only(top: 20.0),
+                                        child: Text( widget.myJobResponse?.data![index]!.jobStatus == 'under_review' ?
+                                        'Application Under Process' :
+                                        widget.myJobResponse?.data![index]!.jobStatus == 'shortlisted' ?
+                                        'Application Shortlisted' :
+                                        widget.myJobResponse?.data![index]!.jobStatus == 'rejected' ?
+                                        'Unable To Offer You A Position' :
+                                        '${widget.myJobResponse?.data![index]!.jobStatus}',
+                                          style: TextStyle(color: widget.myJobResponse?.data![index]!.jobStatus == 'rejected' ?
+                                          ColorConstants.VIEW_ALL : Colors.green, fontSize: 12),),
+                                      ):Text(''),
                                     ],
                                   ),
                                 ),
@@ -123,19 +137,6 @@ class _MyJobAllViewListPageState extends State<MyJobAllViewListPage> {
                               ],
                             ),
                           ),
-
-                          widget.myJobResponse?.data![index]!.jobStatus != null ? Padding(
-                            padding: const EdgeInsets.only(top: 0.0),
-                            child: Text( widget.myJobResponse?.data![index]!.jobStatus == 'under_review' ?
-                            'Application Under Process' :
-                            widget.myJobResponse?.data![index]!.jobStatus == 'shortlisted' ?
-                            'Application Shortlisted' :
-                            widget.myJobResponse?.data![index]!.jobStatus == 'rejected' ?
-                            'Unable To Offer You A Position' :
-                            '${widget.myJobResponse?.data![index]!.jobStatus}',
-                              style: TextStyle(color: widget.myJobResponse?.data![index]!.jobStatus == 'rejected' ?
-                              ColorConstants.VIEW_ALL : Colors.green, fontSize: 12),),
-                          ):Text(''),
                         ],
                       ),
                     ),

@@ -138,7 +138,7 @@ class _AlumniVoiceState extends State<AlumniVoice> with WidgetsBindingObserver {
               child: SingleChildScrollView(
                 child: Container(
                   margin: EdgeInsets.only(
-                      left: 15.0, top: 5.0, right: 15.0, bottom: 20.0),
+                      left: 15.0, top: 2.0, right: 15.0, bottom: 20.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -554,12 +554,12 @@ class _AlumniVoiceState extends State<AlumniVoice> with WidgetsBindingObserver {
                       ///height: MediaQuery.of(context).size.height * 0.09,
                       width: MediaQuery.of(context).size.width * 0.8,
                       //width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.only(right: 17.0, top: 5.0),
+                      margin: EdgeInsets.only(right: 17.0, top: 0.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Container(
-                            height: MediaQuery.of(context).size.width * 0.13,
+                            height: MediaQuery.of(context).size.width * 0.10,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
@@ -581,8 +581,8 @@ class _AlumniVoiceState extends State<AlumniVoice> with WidgetsBindingObserver {
                                     radius: 100,
                                     gradient: LinearGradient(
                                       colors: [
-                                        isSelected ?    ColorConstants.GRADIENT_ORANGE : ColorConstants.BLACK.withOpacity(0.3),
-                                      isSelected ?      ColorConstants.GRADIENT_RED : ColorConstants.BLACK.withOpacity(0.3)
+                                        isSelected ? ColorConstants.GRADIENT_ORANGE : ColorConstants.BLACK.withOpacity(0.3),
+                                      isSelected ? ColorConstants.GRADIENT_RED : ColorConstants.BLACK.withOpacity(0.3)
                                       ],
                                       begin: Alignment.topLeft,
                                       end: Alignment.topRight,

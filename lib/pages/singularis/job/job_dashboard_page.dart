@@ -485,7 +485,9 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
             flex: 1,
             child: InkWell(
               onTap: () async{
+                selectedIndex = 0;
                 getFilterList(domainList!.data!.list[0].id.toString());
+                domainFilterList?.data?.list.clear();
 
                 await showModalBottomSheet(
                     context: context,
@@ -495,9 +497,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                   return StatefulBuilder(builder:
                       (BuildContext context,
                       setState) {
-                    void
-                    handleDomainFilterListResponse(
-                        DomainFilterListState
+                    void handleDomainFilterListResponse(DomainFilterListState
                         state) {
                       var popularCompetitionState =
                           state;
@@ -506,24 +506,18 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                         popularCompetitionState
                             .apiState) {
                           case ApiStatus.LOADING:
-                            Log.v(
-                                "Loading....................");
-                            domainListLoading =
-                            true;
+                            Log.v("Loading....................");
+                            domainListLoading = true;
                             break;
                           case ApiStatus.SUCCESS:
-                            Log.v(
-                                "Filter list State....................");
-                            domainFilterList =
-                                state.response;
-                            domainListLoading =
-                            false;
+                            Log.v("Filter list State......######..............");
+                            domainFilterList = state.response;
+                            domainListLoading = false;
                             setState(() {});
 
                             break;
                           case ApiStatus.ERROR:
-                            Log.v(
-                                "Filter list CompetitionListIDState ..........................${popularCompetitionState.error}");
+                            Log.v("Filter list CompetitionListIDState ..........................${popularCompetitionState.error}");
                             domainListLoading =
                             false;
                             break;
@@ -648,11 +642,15 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                                 domainList!.data!.list.length,
                                                     (i) => InkWell(
                                                   onTap: () {
+                                                    print('domainList length=====');
+                                                    print(domainList!.data!.list.length);
                                                     setState(() {
                                                       selectedIndex = i;
                                                       seletedIds = '';
                                                       selectedIdList = [];
                                                     });
+                                                    print('domainList id*******');
+                                                    print(domainList!.data!.list[i].id);
                                                     getFilterList(domainList!.data!.list[i].id.toString());
                                                   },
                                                   child: Padding(
@@ -695,6 +693,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                                       (i) => InkWell(
                                                     onTap: () {
                                                       //seletedIds += domainFilterList!.data!.list[i].id.toString() + ',';
+
                                                       if (selectedIdList.contains(domainFilterList!.data!.list[i].id)) {
                                                         selectedIdList.remove(domainFilterList!.data!.list[i].id);
                                                       } else {
@@ -924,7 +923,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: 120,
+                        height: 130,
                         width: MediaQuery.of(context).size.width -100,
                         margin: EdgeInsets.all(5),
                         decoration: BoxDecoration(
@@ -958,8 +957,23 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                           Padding(
                                             padding: const EdgeInsets.only(top: 8.0),
                                             child: Text('${myJobResponse?.data![index]!.organizedBy}',
-                                              style: TextStyle(color: ColorConstants.GREY_3),),
+                                              style: TextStyle(color: ColorConstants.GREY_3, fontSize: 12),),
                                           ),
+
+
+                                          myJobResponse?.data![index]!.jobStatus != null ? Padding(
+                                            padding: const EdgeInsets.only(top: 20.0),
+                                            child: Text('${myJobResponse?.data![index]!.jobStatus == 'under_review' ?
+                                            'Application Under Process' :
+                                            myJobResponse?.data![index]!.jobStatus == 'shortlisted' ?
+                                            'Application Shortlisted' :
+                                            myJobResponse?.data![index]!.jobStatus == 'rejected' ?
+                                            'Unable To Offer You A Position' :
+                                            myJobResponse?.data![index]!.jobStatus}',
+                                              style: TextStyle(
+                                                  color: myJobResponse?.data![index]!.jobStatus == 'rejected' ?  ColorConstants.VIEW_ALL :
+                                                  Colors.green, fontSize: 12),),
+                                          ):SizedBox(),
                                         ],
                                       ),
                                     ),
@@ -968,20 +982,6 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                 ],
                               ),
                             ),
-
-                            myJobResponse?.data![index]!.jobStatus != null ? Padding(
-                              padding: const EdgeInsets.only(top: 0.0),
-                              child: Text('${myJobResponse?.data![index]!.jobStatus == 'under_review' ?
-                              'Application Under Process' :
-                              myJobResponse?.data![index]!.jobStatus == 'shortlisted' ?
-                              'Application Shortlisted' :
-                              myJobResponse?.data![index]!.jobStatus == 'rejected' ?
-                              'Unable To Offer You A Position' :
-                              myJobResponse?.data![index]!.jobStatus}',
-                                style: TextStyle(
-                                    color: myJobResponse?.data![index]!.jobStatus == 'rejected' ?  ColorConstants.VIEW_ALL :
-                                    Colors.green, fontSize: 12),),
-                            ):SizedBox(),
                           ],
                         ),
                       ),
