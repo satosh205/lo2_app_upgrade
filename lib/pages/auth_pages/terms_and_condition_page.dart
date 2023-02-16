@@ -5,7 +5,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class TermsAndCondition extends StatefulWidget {
   final String? url;
-  TermsAndCondition({Key? key, this.url}) : super(key: key);
+  final String? title;
+  TermsAndCondition({Key? key, this.url, this.title}) : super(key: key);
 
   @override
   State<TermsAndCondition> createState() => _TermsAndConditionState();
@@ -26,7 +27,7 @@ class _TermsAndConditionState extends State<TermsAndCondition> {
             Navigator.pop(context);
           },
           child: Icon(Icons.arrow_back_ios_new_outlined,color: ColorConstants.BLACK,)),
-        title: Text("Terms and Conditions",style: Styles.semibold(color: ColorConstants.BLACK,),),
+        title: Text('${widget.title}',style: Styles.semibold(color: ColorConstants.BLACK,),),
         backgroundColor: ColorConstants.WHITE
       ),
       body: Stack(
