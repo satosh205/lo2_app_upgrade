@@ -1,37 +1,26 @@
 import 'dart:io';
 import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
-import 'package:masterg/data/models/response/auth_response/user_session.dart';
-import 'package:masterg/data/models/response/home_response/competition_response.dart';
 import 'package:masterg/data/models/response/home_response/new_portfolio_response.dart';
 import 'package:masterg/data/models/response/home_response/portfolio_competition_response.dart';
 import 'package:masterg/data/models/response/home_response/top_score.dart';
 import 'package:masterg/local/pref/Preference.dart';
-import 'package:masterg/pages/auth_pages/choose_language.dart';
-import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
-import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
-import 'package:masterg/pages/custom_pages/custom_widgets/pdf_view_page.dart';
-import 'package:masterg/pages/ghome/video_player_screen.dart';
 import 'package:masterg/pages/ghome/widget/read_more.dart';
-import 'package:masterg/pages/singularis/competition/competition_detail.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_certificate.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_education.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_experience.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_extra_act.dart';
-import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfolio.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/certificate_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/education_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/experience_list.dart';
@@ -39,9 +28,6 @@ import 'package:masterg/pages/user_profile_page/portfolio_create_form/extra_acti
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/social_page.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/view_edit_profile_image.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/view_resume.dart';
-import 'package:masterg/pages/user_profile_page/portfolio_detail.dart';
-import 'package:masterg/pages/user_profile_page/portfolio_list.dart';
-
 import 'package:masterg/pages/user_profile_page/singularis_profile_edit.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
@@ -51,16 +37,13 @@ import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/resource/size_constants.dart';
 import 'package:masterg/utils/video_screen.dart';
 import 'package:page_transition/page_transition.dart';
-
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
-import '../../../utils/dynamic_links/path_constant.dart';
 import '../../../utils/utility.dart';
 import '../../custom_pages/custom_widgets/CommonWebView.dart';
 import '../../singularis/recentactivities/recent_activities_page.dart';
@@ -444,6 +427,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   Widget build(BuildContext context) {
     //String? baseUrl = portfolioResponse?.data.baseFileUrl;
     String? baseUrl = 'https://singularis.learningoxygen.com/portfolio/';
+    // return Scaffold(body: Text('hello'));
 
     return BlocManager(
       initState: (context) {},
@@ -459,6 +443,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
               handletopScoring(state);
             }
           },
+
           child: Scaffold(
               //backgroundColor: Color(0xffF2F2F2),
               appBar: PreferredSize(
@@ -479,6 +464,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                       ),
                     )),
               ),
+
+              
               body: SingleChildScrollView(
                   key: const PageStorageKey<String>('portfolioList'),
                   child: Column(
@@ -2081,25 +2068,25 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                         size:
                                                                             14),
                                                               ),
-                                                              if (portfolioResponse
-                                                                          ?.data
-                                                                          .education[
-                                                                              index]
-                                                                          .endDate !=
-                                                                      null ||
-                                                                  portfolioResponse
-                                                                          ?.data
-                                                                          .education[
-                                                                              index]
-                                                                          .endDate !=
-                                                                      '')
-                                                                Text(
-                                                                  '${listOfMonths[endDate.month].substring(0, 3)} ${endDate.day}',
-                                                                  style: Styles
-                                                                      .regular(
-                                                                          size:
-                                                                              14),
-                                                                ),
+                                                              // if (portfolioResponse
+                                                              //             ?.data
+                                                              //             .education[
+                                                              //                 index]
+                                                              //             .endDate !=
+                                                              //         null ||
+                                                              //     portfolioResponse
+                                                              //             ?.data
+                                                              //             .education[
+                                                              //                 index]
+                                                              //             .endDate !=
+                                                              //         '')
+                                                              //   Text(
+                                                              //     '${listOfMonths[endDate.month].substring(0, 3)} ${endDate.day}',
+                                                              //     style: Styles
+                                                              //         .regular(
+                                                              //             size:
+                                                              //                 14),
+                                                              //   ),
                                                             ],
                                                           )
                                                         ],
@@ -2200,6 +2187,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                           scrollDirection: Axis.horizontal,
                           itemCount: min(3, recentActivites!.length),
                           itemBuilder: (context, index) {
+                            // return Text('${recentActivites[index].createdAt}   ');
                             return postCard(recentActivites[index]);
                           }),
                       // child: ListView(
@@ -2275,8 +2263,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
             SizedBox(
               height: 20,
             ),
-            recentActivites.resourcePath.contains('.png') ||
-                    recentActivites.resourcePath.contains('jpeg')
+            recentActivites.resourcePath!.contains('.png') ||
+                    recentActivites.resourcePath!.contains('jpeg')
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: Image.network(
@@ -2374,7 +2362,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                 "${portfolioResponse?.data.certificate[index].startDate}";
 
                             DateTime startDate =
-                                DateFormat("yyy-MM-dd").parse(startDateString);
+                                DateFormat("yyyy-dd-MM").parse(startDateString);
                             return InkWell(
                               onTap: () {
                                 showModalBottomSheet(
@@ -2566,20 +2554,20 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                               SizedBox(
                                                 height: 10,
                                               ),
-                                              experience?[index]
-                                                          .currentlyWorkHere ==
-                                                      'true'
-                                                  ? Text(
-                                                      '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day}  -  Present',
-                                                      style: Styles.regular(
-                                                          size: 12),
-                                                    )
-                                                  : Text(
-                                                      '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day}  -  ' +
-                                                          ' ${listOfMonths[endDate.month - 1].substring(0, 3)} ${endDate.day}',
-                                                      style: Styles.regular(
-                                                          size: 12),
-                                                    )
+                                              // experience?[index]
+                                              //             .currentlyWorkHere ==
+                                              //         'true'
+                                              //     ? Text(
+                                              //         '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day}  -  Present',
+                                              //         style: Styles.regular(
+                                              //             size: 12),
+                                              //       )
+                                              //     : Text(
+                                              //         '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day}  -  ' +
+                                              //             ' ${listOfMonths[endDate.month - 1].substring(0, 3)} ${endDate.day}',
+                                              //         style: Styles.regular(
+                                              //             size: 12),
+                                              //       )
                                             ],
                                           ),
                                         )
@@ -2648,7 +2636,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                 String startDateString =
                                     "${extraActivities[index].startDate}";
 
-                                DateTime startDate = DateFormat("yyy-MM-dd")
+                                DateTime startDate = DateFormat("yyyy-MM-dd")
                                     .parse(startDateString);
 
                                 return Container(

@@ -347,38 +347,38 @@ class Resume {
 
 class RecentActivity {
     RecentActivity({
-        required this.id,
-        required this.viewCount,
-        required this.title,
-        required this.description,
-        required this.resourcePath,
-        required this.resourcePathThumbnail,
-        required this.contentType,
-        required this.categoryId,
-        required this.profileImage,
-        required this.name,
-        required this.createdAt
+        this.id,
+        this.viewCount,
+        this.title,
+        this.description,
+        this.resourcePath,
+        this.resourcePathThumbnail,
+        this.contentType,
+        this.categoryId,
+        this.profileImage,
+        this.name,
+        this.createdAt
     });
 
-    int id;
-    int viewCount;
-    String title;
-    String description;
-    String resourcePath;
-    String resourcePathThumbnail;
-    String contentType;
-    int categoryId;
-    String profileImage;
-    String name;
-    String createdAt;
+    int? id;
+    int? viewCount;
+    String? title;
+    String? description;
+    String? resourcePath;
+    String? resourcePathThumbnail;
+    String? contentType;
+    int? categoryId;
+    String? profileImage;
+    String? name;
+    String? createdAt;
 
     factory RecentActivity.fromJson(Map<String, dynamic> json) => RecentActivity(
         id: json["id"],
         viewCount: json["view_count"],
-        title: json["title"],
+        title: json["title"] ?? "",
         description: json["description"],
         resourcePath: json["resource_path"],
-        resourcePathThumbnail: json["resource_path_thumbnail"],
+        resourcePathThumbnail: json["resource_path_thumbnail"] ?? "",
         contentType: json["content_type"],
         categoryId: json["category_id"],
         profileImage: json["profile_image"],
