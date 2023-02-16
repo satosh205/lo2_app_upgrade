@@ -471,7 +471,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                         color: ColorConstants.SELECTED_PAGE,
                         thickness: 1.2),
                   ),*/
-          
+
                   _size(height: 10),
                   
                   _size(height: height(context) * 0.16),
