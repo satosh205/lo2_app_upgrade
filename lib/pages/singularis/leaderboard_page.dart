@@ -119,13 +119,13 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              leadercard(
+            leaderboardResponse!.data.length > 1 ?      leadercard(
                                   '${leaderboardResponse?.data[1].profileImage}',
                                   '${leaderboardResponse?.data[1].name}',
                                   int.parse(
                                       '${leaderboardResponse?.data[1].totalActivities}'),
                                   '${leaderboardResponse?.data[1].gScore}',
-                                  2),
+                                  2) :leadercard(null, '', 0, 0, 0) ,
                               leadercard(
                                   '${leaderboardResponse?.data[0].profileImage}',
                                   '${leaderboardResponse?.data[0].name}',
@@ -133,13 +133,13 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                                       '${leaderboardResponse?.data[0].totalActivities}'),
                                   '${leaderboardResponse?.data[0].gScore}',
                                   1),
-                              leadercard(
+                            leaderboardResponse!.data.length > 2 ?   leadercard(
                                   '${leaderboardResponse?.data[2].profileImage}',
                                   '${leaderboardResponse?.data[2].name}',
                                   int.parse(
                                       '${leaderboardResponse?.data[2].totalActivities}'),
                                   '${leaderboardResponse?.data[2].gScore}',
-                                  3),
+                                  3)  :leadercard(null, '', 0, 0, 0) ,
                             ],
                           ),
                   ),
@@ -225,7 +225,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                         ),
                       )),
                   isLeaderboardLoading == false && leaderboardResponse
-                                        ?.data.length != 0
+                                        !.data.length > 3
                       ? Column(
                           children: [
                              Container(
