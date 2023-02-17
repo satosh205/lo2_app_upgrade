@@ -264,6 +264,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
     return Scaffold(
       key: _scaffoldKey,
+      backgroundColor: ColorConstants.DASHBOARD_BG_COLOR,
       endDrawer: new AppDrawer(),
       body: Consumer2<VideoPlayerProvider, MenuListProvider>(
           builder: (context, value, mp, child) => BlocManager(
@@ -286,210 +287,219 @@ class _DashboardPageState extends State<DashboardPage> {
                     });
                   },
                   child: SingleChildScrollView(
-                      child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      RoundedAppBar(
-                          appBarHeight: height(context) * 0.16,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                      child: Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 80.0),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(height: 10,),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 5.0,
-                                    ),
-                                    Row(
-                                      children: [
-                                        InkWell(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                NextPageRoute(
-                                                    NewPortfolioPage()));
-                                          },
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(200),
-                                            child: SizedBox(
-                                              width: 50,
-                                              child: CachedNetworkImage(
-                                                imageUrl:
-                                                    '${Preference.getString(Preference.PROFILE_IMAGE)}',
-                                                placeholder: (context, url) =>
-                                                    SvgPicture.asset(
-                                                  'assets/images/default_user.svg',
-                                                  width: 50,
-                                                ),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        SvgPicture.asset(
-                                                  'assets/images/default_user.svg',
-                                                  width: 50,
-                                                ),
-                                              ),
-                                              // child: Image.network(
-                                              //   '${Preference.getString(Preference.PROFILE_IMAGE)}',
-                                              //   errorBuilder:
-                                              //       (context, error, stackTrace) =>
-                                              //       SvgPicture.asset(
-                                              //         'assets/images/default_user.svg',
-                                              //         width: 50,
-                                              //       ),
-                                              // ),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 10),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text('Welcome',
-                                                style: Styles.regular(
-                                                    color: ColorConstants.WHITE,
-                                                    size: 14)),
-                                            Text(
-                                              '${Preference.getString(Preference.FIRST_NAME)}',
-                                              style: Styles.bold(
-                                                  color: ColorConstants.WHITE,
-                                                  size: 22),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Align(
-                                        alignment: Alignment.topRight,
-                                        child: InkWell(
-                                          onTap: () {
-                                            _scaffoldKey.currentState
-                                                ?.openEndDrawer();
-                                          },
-                                          child: SvgPicture.asset(
-                                              'assets/images/hamburger_menu.svg'),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+
+                                // Padding(
+                                //   padding: const EdgeInsets.symmetric(
+                                //       horizontal: 8, vertical: 8),
+                                //   child: Column(
+                                //     crossAxisAlignment: CrossAxisAlignment.start,
+                                //     children: [
+                                //       Text(
+                                //         'Welcome',
+                                //         style: Styles.semibold(size: 14),
+                                //       ),
+                                //       Text(
+                                //         '${Preference.getString(Preference.FIRST_NAME)}',
+                                //         style: Styles.bold(size: 28),
+                                //       ),
+                                //       Text(
+                                //         'Begin your learning journey',
+                                //         style: Styles.regular(),
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
+
+                                SizedBox(
+                                  height: 0,
                                 ),
-                                SizedBox(height: 12),
-                                Container(
-                                  height: 5,
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                      color:
-                                          ColorConstants.WHITE.withOpacity(0.2),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Stack(
-                                    children: [
-                                      Container(
-                                        height: 10,
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.6 *
-                                                (Preference.getInt(Preference.PROFILE_PERCENT) ?? 0 / 100),
-                                        decoration: BoxDecoration(
-                                            color: Color(0xffFFB72F),
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                      ),
-                                    ],
-                                  ),
+                                domainLoading == false ? futureTrendsList() : SizedBox(),
+
+                                SizedBox(
+                                  height: 10,
                                 ),
-                                SizedBox(height: 7),
-                                Text.rich(
-                                    TextSpan(
-                                      children: [
-                                        TextSpan(
-                                            text: 'Profile completed: ',
-                                            style: Styles.regular(
-                                                color: ColorConstants.WHITE)),
-                                        TextSpan(
-                                          text:
-                                              '${Preference.getInt(Preference.PROFILE_PERCENT) ?? 0}%',
-                                          style: Styles.bold(
-                                              color: ColorConstants.WHITE),
-                                        ),
-                                      ],
-                                    ),
-                                    textAlign: TextAlign.left),
-                                // Text('Profile completed: ${Preference.getInt(Preference.PROFILE_PERCENT) ?? 0}%',
-                                //     style: Styles.semiBoldWhite())
-                              ],
-                            ),
-                          )),
-                      // Padding(
-                      //   padding: const EdgeInsets.symmetric(
-                      //       horizontal: 8, vertical: 8),
-                      //   child: Column(
-                      //     crossAxisAlignment: CrossAxisAlignment.start,
-                      //     children: [
-                      //       Text(
-                      //         'Welcome',
-                      //         style: Styles.semibold(size: 14),
-                      //       ),
-                      //       Text(
-                      //         '${Preference.getString(Preference.FIRST_NAME)}',
-                      //         style: Styles.bold(size: 28),
-                      //       ),
-                      //       Text(
-                      //         'Begin your learning journey',
-                      //         style: Styles.regular(),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
+                                featuredInternshipsLoading == false
+                                    ? featuredJobsInternships()
+                                    : SizedBox(),
 
-                      SizedBox(
-                        height: 10,
-                      ),
-                      domainLoading == false ? futureTrendsList() : SizedBox(),
-
-                      SizedBox(
-                        height: 10,
-                      ),
-                      featuredInternshipsLoading == false
-                          ? featuredJobsInternships()
-                          : SizedBox(),
-
-                      /*SizedBox(
+                                /*SizedBox(
                         height: 10,
                       ),
                       skillGapAnalysisWidgets(),*/
 
-                      SizedBox(
-                        height: 20,
-                      ),
-                      competitionsWidgets(),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                competitionsWidgets(),
 
-                      SizedBox(
-                        height: 20,
-                      ),
-                      _buildYourPortfolioCard(
-                          ColorConstants.ORANGE,
-                          'Build Your Portfolio',
-                          'Creating a Portfolio helps the recruiters to understand better about your profile and your skills.',
-                          'build_portfolio'),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                _buildYourPortfolioCard(
+                                    ColorConstants.ORANGE,
+                                    'Build Your Portfolio',
+                                    'Creating a Portfolio helps the recruiters to understand better about your profile and your skills.',
+                                    'build_portfolio'),
 
-                      SizedBox(
-                        height: 10,
-                      ),
+                                SizedBox(
+                                  height: 10,
+                                ),
 
-                      ///API Data
-                      renderWidgets(pages),
-                    ],
-                  )),
+                                ///API Data
+                                renderWidgets(pages),
+                              ],
+                            ),
+                          ),
+                          RoundedAppBar(
+                              appBarHeight: height(context) * 0.16,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(height: 10,),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          height: 5.0,
+                                        ),
+                                        Row(
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    NextPageRoute(
+                                                        NewPortfolioPage()));
+                                              },
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                BorderRadius.circular(200),
+                                                child: SizedBox(
+                                                  width: 50,
+                                                  child: CachedNetworkImage(
+                                                    imageUrl:
+                                                    '${Preference.getString(Preference.PROFILE_IMAGE)}',
+                                                    placeholder: (context, url) =>
+                                                        SvgPicture.asset(
+                                                          'assets/images/default_user.svg',
+                                                          width: 50,
+                                                        ),
+                                                    errorWidget:
+                                                        (context, url, error) =>
+                                                        SvgPicture.asset(
+                                                          'assets/images/default_user.svg',
+                                                          width: 50,
+                                                        ),
+                                                  ),
+                                                  // child: Image.network(
+                                                  //   '${Preference.getString(Preference.PROFILE_IMAGE)}',
+                                                  //   errorBuilder:
+                                                  //       (context, error, stackTrace) =>
+                                                  //       SvgPicture.asset(
+                                                  //         'assets/images/default_user.svg',
+                                                  //         width: 50,
+                                                  //       ),
+                                                  // ),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(width: 10),
+                                            Column(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Text('Welcome',
+                                                    style: Styles.regular(
+                                                        color: ColorConstants.WHITE,
+                                                        size: 14)),
+                                                Text(
+                                                  '${Preference.getString(Preference.FIRST_NAME)}',
+                                                  style: Styles.bold(
+                                                      color: ColorConstants.WHITE,
+                                                      size: 22),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Align(
+                                            alignment: Alignment.topRight,
+                                            child: InkWell(
+                                              onTap: () {
+                                                _scaffoldKey.currentState
+                                                    ?.openEndDrawer();
+                                              },
+                                              child: SvgPicture.asset(
+                                                  'assets/images/hamburger_menu.svg'),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 12),
+                                    Container(
+                                      height: 5,
+                                      width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                          color:
+                                          ColorConstants.WHITE.withOpacity(0.2),
+                                          borderRadius: BorderRadius.circular(10)),
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                            height: 10,
+                                            width:
+                                            MediaQuery.of(context).size.width *
+                                                0.6 *
+                                                (Preference.getInt(Preference.PROFILE_PERCENT) ?? 0 / 100),
+                                            decoration: BoxDecoration(
+                                                color: Color(0xffFFB72F),
+                                                borderRadius:
+                                                BorderRadius.circular(10)),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 7),
+                                    Text.rich(
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(
+                                                text: 'Profile completed: ',
+                                                style: Styles.regular(
+                                                    color: ColorConstants.WHITE)),
+                                            TextSpan(
+                                              text:
+                                              '${Preference.getInt(Preference.PROFILE_PERCENT) ?? 0}%',
+                                              style: Styles.bold(
+                                                  color: ColorConstants.WHITE),
+                                            ),
+                                          ],
+                                        ),
+                                        textAlign: TextAlign.left),
+                                    // Text('Profile completed: ${Preference.getInt(Preference.PROFILE_PERCENT) ?? 0}%',
+                                    //     style: Styles.semiBoldWhite())
+                                  ],
+                                ),
+                              )),
+                        ],
+                      ),
+                  ),
                 ),
               )),
     );
@@ -499,17 +509,19 @@ class _DashboardPageState extends State<DashboardPage> {
   futureTrendsList() {
     return Container(
       decoration: BoxDecoration(color: ColorConstants.WHITE),
+      height: 200,
       child: Column(
         children: [
+          SizedBox(height: 60,),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 10.0),
+                padding: const EdgeInsets.only(left: 12.0),
                 child: SvgPicture.asset(
                   'assets/images/grf_job.svg',
-                  height: 22,
-                  width: 22,
+                  height: 18,
+                  width: 18,
                   allowDrawingOutsideViewBox: true,
                   // color: ColorConstants.GRADIENT_ORANGE,
                 ),
@@ -1247,7 +1259,6 @@ class _DashboardPageState extends State<DashboardPage> {
 
   featuredJobsInternships() {
     return Container(
-      //decoration: BoxDecoration(color: ColorConstants.WHITE),
       child: Column(
         children: [
           Row(
@@ -1286,7 +1297,7 @@ class _DashboardPageState extends State<DashboardPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Container(
-              height: 300,
+              height: 280,
               child: featuredInternshipsResponse?.data!.length != 0
                   ? ListView.builder(
                       itemCount: featuredInternshipsResponse?.data!.length,
@@ -1328,7 +1339,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                 )));
                           },
                           child: Container(
-                            width: MediaQuery.of(context).size.width * 0.8,
+                            width: MediaQuery.of(context).size.width * 0.7,
                             decoration: BoxDecoration(
                                 color: ColorConstants.WHITE,
                                 borderRadius: BorderRadius.circular(10),
@@ -1344,7 +1355,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                     padding: const EdgeInsets.only(
                                         left: 8.0,
                                         right: 8.0,
-                                        top: 15.0,
+                                        top: 8.0,
                                         bottom: 8.0),
                                     child: Column(
                                       crossAxisAlignment:
@@ -1353,26 +1364,30 @@ class _DashboardPageState extends State<DashboardPage> {
                                         CachedNetworkImage(
                                           imageUrl:
                                               '${featuredInternshipsResponse?.data![index]!.image}',
-                                          width: 80,
-                                          height: 80,
+                                          width: 70,
+                                          height: 60,
                                           errorWidget: (context, url, error) =>
                                               SvgPicture.asset(
                                             'assets/images/exp_emp.svg',
                                           ),
                                           fit: BoxFit.fill,
                                         ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 10.0),
-                                          child: Text(
-                                            '${featuredInternshipsResponse?.data![index]!.name}',
-                                            style: Styles.bold(
-                                                color: Color(0xff0E1638),
-                                                size: 13),
+                                        SizedBox(
+                                          height: 46,
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 7.0),
+                                            child: Text(
+                                              '${featuredInternshipsResponse?.data![index]!.name}',
+                                              maxLines: 2,
+                                              style: Styles.bold(
+                                                  color: Color(0xff0E1638),
+                                                  size: 14),
+                                            ),
                                           ),
                                         ),
                                         SizedBox(
-                                          height: 10,
+                                          height: 5,
                                         ),
                                         Row(
                                           mainAxisAlignment:
@@ -1392,7 +1407,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                           ],
                                         ),
                                         SizedBox(
-                                          height: 15,
+                                          height: 10,
                                         ),
                                         Row(
                                           mainAxisAlignment:
@@ -3126,7 +3141,6 @@ class _DashboardPageState extends State<DashboardPage> {
             );*/
             return SizedBox();
           }
-
           recommendedCourseList = box
               .get("dashboard_recommended_courses_limit")
               .map((e) => DashboardRecommendedCoursesLimit.fromJson(
@@ -3141,7 +3155,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 children: [
                   Padding(
                       padding: const EdgeInsets.symmetric(
-                        vertical: 8,
+                        vertical: 28,
                         horizontal: 10,
                       ),
                       child: Text(
@@ -3153,7 +3167,9 @@ class _DashboardPageState extends State<DashboardPage> {
                       onPressed: () {
                         menuProvider?.updateCurrentIndex('/g-school');
                       },
-                      icon: Icon(Icons.arrow_forward_ios))
+
+                      icon: Icon(Icons.arrow_forward_ios)
+                  ),
                 ],
               ),
 
@@ -3163,7 +3179,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   padding: EdgeInsets.all(10),
                   height: MediaQuery.of(context).size.height * 0.3,
                   width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(color: ColorConstants.WHITE),
+                  //decoration: BoxDecoration(color: ColorConstants.WHITE),
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
@@ -3177,7 +3193,8 @@ class _DashboardPageState extends State<DashboardPage> {
                     },
                     itemCount: recommendedCourseList?.length ?? 0,
                     shrinkWrap: true,
-                  ))
+                  )),
+              SizedBox(height: 20,),
             ],
           );
         });
@@ -4220,8 +4237,10 @@ class _DashboardPageState extends State<DashboardPage> {
                   tagName: 'TagReco',
                   name: recommendedcourses![index].name,
                   description: recommendedcourses![index].description ?? '',
-                  regularPrice: recommendedcourses![index].regularPrice,
-                  salePrice: recommendedcourses![index].salePrice,
+                  regularPrice: recommendedcourses![index].regularPrice
+                      != null ? recommendedcourses![index].regularPrice.toInt():null,
+                  salePrice: recommendedcourses![index].salePrice != null
+                      ? recommendedcourses![index].salePrice.toInt():null,
                   trainer: recommendedcourses![index].trainer,
                   enrolmentCount: recommendedcourses![index].enrolmentCount,
                   type: recommendedcourses![index].subscriptionType,
@@ -4243,12 +4262,11 @@ class _DashboardPageState extends State<DashboardPage> {
         margin: EdgeInsets.only(right: 8),
         decoration: BoxDecoration(
           color: ColorConstants.WHITE,
-          boxShadow: [
-                            BoxShadow(
+          /*boxShadow: [BoxShadow(
                                 color: Color(0xff898989).withOpacity(0.2),
                                 offset: Offset(0, 4.0),
                                 blurRadius: 11)
-                          ],
+                          ],*/
                           // borderRadius: BorderRadius.circular(20)
             // border: Border.all(color: ColorConstants.GREY_4),
             borderRadius: BorderRadius.circular(10)),

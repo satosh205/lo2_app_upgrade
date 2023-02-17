@@ -19,6 +19,8 @@ class CoursesDetailsPage extends StatefulWidget {
   final int? indexc;
   final String? name;
   final String? description;
+  //final int? regularPrice;
+  //final int? salePrice;
   final int? regularPrice;
   final int? salePrice;
   final String? trainer;

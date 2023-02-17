@@ -57,8 +57,6 @@ const APK_DETAILS = {
 };
 
 
-
-
 // const APK_DETAILS = {
 //   "app_name": "learn_build",
 //   "package_name": "com.learn_build",
