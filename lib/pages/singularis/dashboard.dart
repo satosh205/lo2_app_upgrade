@@ -3239,7 +3239,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Container(
-                    height: 400,
+                    height: 450,
                     child: ListView.builder(
                         itemCount: carvaanList?.length,
                         scrollDirection: Axis.horizontal,

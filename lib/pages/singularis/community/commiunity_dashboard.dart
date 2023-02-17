@@ -55,8 +55,9 @@ class _CommunityDashboardState extends State<CommunityDashboard> {
           child:  ListView(
             children: [
                _customAppBar(),
-              SizedBox(
-                height: height(context) * 0.9,
+              Container(
+                color: Colors.red,
+                height: height(context) * 0.8,
                 child: GCarvaanPostPage(
                                   fileToUpload: null,
                                   desc: null,
