@@ -210,7 +210,7 @@ class _MyCoursesState extends State<MyCourses> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            if (widget.fromDashboard)
+                            //if (widget.fromDashboard)
                               SizedBox(
                                 width: 120,
                                 height: 100,
@@ -238,7 +238,6 @@ class _MyCoursesState extends State<MyCourses> {
                                   .size
                                   .width *
                                   0.55,
-                              //height: MediaQuery.of(context).size.height * 0.25,
                               child: Column(
                                   crossAxisAlignment:
                                   CrossAxisAlignment.start,
@@ -251,6 +250,7 @@ class _MyCoursesState extends State<MyCourses> {
                                         softWrap: false,
                                         style: Styles.bold(size: 16)),
                                     SizedBox(height: 4),
+
                                     Row(
                                       children: [
                                         SvgPicture.asset(

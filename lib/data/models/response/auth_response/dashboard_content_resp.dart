@@ -691,7 +691,7 @@ class DashboardRecommendedCoursesLimit {
   String? trainer;
   int? enrolmentCount;
   dynamic totalView;
-  int? completionPer;
+  double? completionPer;
 
   DashboardRecommendedCoursesLimit({
     this.image,
@@ -739,8 +739,10 @@ class DashboardRecommendedCoursesLimit {
     viewCount = json['view_count'];
     categoryId = json['category_id'] as int?;
     categoryName = json['category_name'] as String?;
-    regularPrice = json['regular_price'] as double?;
-    salePrice = json['sale_price'] as double?;
+    //regularPrice = json['regular_price'] as double?;
+    regularPrice = json["regular_price"] == null ? null : json["regular_price"];
+    salePrice = json["sale_price"] == null ? null : json["sale_price"];
+    //salePrice = json['sale_price'] as double?;
     shortCode = json['short_code'] as String?;
     admissionStartDate = json['admission_start_date'] as int?;
     admissionEndDate = json['admission_end_date'] as int?;
@@ -756,7 +758,7 @@ class DashboardRecommendedCoursesLimit {
     trainer = json['trainer'] as String?;
     enrolmentCount = json['enrolment_count'] as int?;
     totalView = json['total_view'];
-    completionPer = json['completion_per'] as int?;
+    completionPer = json['completion_per'].toDouble();
   }
 
   Map<String, dynamic> toJson() {
@@ -773,8 +775,10 @@ class DashboardRecommendedCoursesLimit {
     json['view_count'] = viewCount;
     json['category_id'] = categoryId;
     json['category_name'] = categoryName;
-    json['regular_price'] = regularPrice;
-    json['sale_price'] = salePrice;
+    json['regular_price'] = regularPrice == null ? null : regularPrice;
+    //json['regular_price'] = regularPrice;
+    //json['sale_price'] = salePrice;
+    json['sale_price'] = salePrice == null ? null : salePrice;
     json['short_code'] = shortCode;
     json['admission_start_date'] = admissionStartDate;
     json['admission_end_date'] = admissionEndDate;
