@@ -86,12 +86,24 @@ class _CompetitionYoutubePlayerState extends State<CompetitionYoutubePlayer> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0, 
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: ColorConstants.WHITE),
-          onPressed: () {
-           
-              Navigator.pop(context);
-          },
+        leading: Transform.scale(
+          scale: 0.7,
+          child: Container(
+            
+            decoration: BoxDecoration(color: ColorConstants.BLACK.withOpacity(0.5),
+            
+            shape: BoxShape.circle ),
+            child: IconButton(
+                 
+              icon: Icon(Icons.arrow_back, 
+              size: 30,
+              color: ColorConstants.WHITE),
+              onPressed: () {
+               
+                  Navigator.pop(context);
+              },
+            ),
+          ),
         ),
       ),
    
