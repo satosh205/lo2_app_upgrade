@@ -387,7 +387,7 @@ class _CompetetionState extends State<Competetion> {
                                                 image: completedCompetition
                                                     ?.data[index].pImage,
                                                 title: completedCompetition
-                                                    ?.data[index].name,
+                                                    ?.data[index].pName,
                                                 totalAct: completedCompetition
                                                     ?.data[index]
                                                     .totalActivities,

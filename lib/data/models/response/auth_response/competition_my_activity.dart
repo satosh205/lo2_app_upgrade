@@ -47,6 +47,7 @@ class CompetitionActivityElement {
       this.organizedBy,
       this.starDate,
       this.endDate,
+      this.pName,
       this.gscore,
       this.totalCompeleted});
 
@@ -55,6 +56,7 @@ class CompetitionActivityElement {
   int totalActivitiesCompleted;
   dynamic activityStatus;
   String pImage;
+  String? pName;
   int totalContents;
   String? desc;
   String? competitionLevel;
@@ -78,6 +80,7 @@ class CompetitionActivityElement {
           starDate: json['start_date'],
           endDate: json['end_date'],
           gscore: json['score'],
+          pName: json['p_name'],
           totalCompeleted:  json['total_activities_completed']);
 
   Map<String, dynamic> toJson() => {
@@ -93,6 +96,7 @@ class CompetitionActivityElement {
 "start_date" : starDate,
 "end_date" : endDate,
 "score" : gscore,
+"p_name" :pName
 
       };
 }
