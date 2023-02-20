@@ -355,8 +355,8 @@ class _CompetetionState extends State<Competetion> {
                                                 id: myActivity?.data[index].id,
                                                 desc: myActivity
                                                     ?.data[index].desc,
-                                                score: myActivity
-                                                    ?.data[index].gscore,
+                                                score: int.parse('${myActivity
+                                                    ?.data[index].gscore}'),
                                                 date: myActivity
                                                     ?.data[index].starDate,
                                                 conductedBy: myActivity
@@ -396,8 +396,8 @@ class _CompetetionState extends State<Competetion> {
                                                     .completedActivity,
                                                 id: completedCompetition
                                                     ?.data[index].pId,
-                                                score: completedCompetition
-                                                    ?.data[index].gScore,
+                                                score: int.parse('${completedCompetition
+                                                    ?.data[index].gScore}'),
                                                 desc: completedCompetition
                                                     ?.data[index].desc,
                                                 date: completedCompetition
