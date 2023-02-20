@@ -73,7 +73,7 @@ class _CompetitionMyActivityState extends State<CompetitionMyActivity> {
                         widget.completedCompetition?.data[index].totalActivities,
                     doneAct: widget.completedCompetition?.data[index].completedActivity,
                      id: widget.completedCompetition?.data[index].pId,
-                    score: int.parse('${widget.completedCompetition?.data[index].gScore ?? 0}'),
+                    score: int.parse('${widget.completedCompetition?.data[index].gScore}'),
                     desc: widget.completedCompetition?.data[index].desc,
                     date: widget.completedCompetition?.data[index].startDate,
                     difficulty: widget.completedCompetition?.data[index].competitionLevel,
