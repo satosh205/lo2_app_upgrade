@@ -2283,7 +2283,7 @@ class _DashboardPageState extends State<DashboardPage> {
                           child: renderCompetitionCard(
                               '${competitionResponse?.data![index]?.image}',
                               '${competitionResponse?.data![index]?.name}',
-                              '',
+                              '${competitionResponse?.data![index]?.organizedBy}',
                               '${competitionResponse?.data![index]?.competitionLevel ?? "Easy"}',
                               '${competitionResponse?.data![index]?.gScore}',
                               '${Utility.ordinalDate(dateVal: "${competitionResponse?.data![index]?.endDate}")}'));
@@ -2393,7 +2393,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   width: MediaQuery.of(context).size.width * 0.62,
                   child: Text(companyName,
                     maxLines: 1,
-                    style: Styles.semibold(size: 12),
+                    style: Styles.semibold(size: 11, color: ColorConstants.GREY_3),
                   ),
                 ),
 

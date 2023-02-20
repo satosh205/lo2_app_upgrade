@@ -12,7 +12,7 @@ import 'package:masterg/data/models/response/auth_response/user_session.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/main.dart';
 import 'package:masterg/pages/auth_pages/forget_password.dart';
-import 'package:masterg/pages/auth_pages/register.dart';
+import 'package:masterg/pages/auth_pages/register_with_email.dart';
 import 'package:masterg/pages/auth_pages/terms_and_condition_page.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/custom_pages/TapWidget.dart';

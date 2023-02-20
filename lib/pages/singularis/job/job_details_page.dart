@@ -276,7 +276,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
              _onLoadingForJob();
 
              this.setState(() {
-               widget.jobStatus = 'Application under process';
+               widget.jobStatus = 'Application Under Process';
              });
            },
            child: Container(
@@ -303,10 +303,10 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
          Padding(
            padding: const EdgeInsets.only(bottom: 20.0),
            child: Text('${
-               widget.jobStatus == 'under_review' ? 'Application Under Process' :
-           widget.jobStatus == 'shortlisted' ? 'Application Shortlisted' :
-           widget.jobStatus == 'rejected' ? 'Unable To Offer You A Position' : widget.jobStatus}',
-             style: Styles.bold(color: widget.jobStatus == 'rejected' ? ColorConstants.VIEW_ALL :Colors.green, size: 12),),
+               widget.jobStatus == 'Application under process' ? 'Application Under Process' :
+           widget.jobStatus == 'Application under review' ? 'Application Shortlisted' :
+           widget.jobStatus == 'Rejected' ? 'Unable To Offer You A Position' : widget.jobStatus}',
+             style: Styles.bold(color: widget.jobStatus == 'Rejected' ? ColorConstants.VIEW_ALL :Colors.green, size: 12),),
          ),
         ],
       ),
@@ -491,7 +491,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
       child: Column(
         children: [
           if (competitionDetailLoading == false ) ...[
-            widget.jobStatus == 'shortlisted' || widget.jobStatus == 'placed' ?
+            widget.jobStatus == 'Application under review' || widget.jobStatus == 'Placed' ?
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Align(
@@ -502,7 +502,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
 
           //TODO:Progress List
           if (competitionDetailLoading == false ) ...[
-            widget.jobStatus == 'shortlisted' || widget.jobStatus == 'placed' ?
+            widget.jobStatus == 'Application under review' || widget.jobStatus == 'Placed' ?
             ListView.builder(
                 physics: BouncingScrollPhysics(),
                 shrinkWrap: true,

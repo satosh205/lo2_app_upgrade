@@ -79,6 +79,9 @@ class ApiConstants {
   static const ASSIGNMENT_SUBMISSION_DETAILS = '/api/assignmentdetails';
   static const UPDATE_COURSE_COMPLETION = "/api/program-content-attempt";
 
+  static const SEND_EMAIL_CODE = "/api/send_hscode";
+  static const VERIFY_EMAIL_CODE = "/api/verify_hscode";
+
   static const JOY_CATEGORY = "/api/joy/category";
   static const JOY_CONTENT_LIST = "/api/joy/content";
   static const LIVECLASSLIST = "/api/onboard-sessions";
