@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masterg/blocs/home_bloc.dart';
+import 'package:masterg/utils/resource/colors.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -86,7 +87,7 @@ class _CompetitionYoutubePlayerState extends State<CompetitionYoutubePlayer> {
         backgroundColor: Colors.transparent,
         elevation: 0, 
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: ColorConstants.WHITE),
           onPressed: () {
            
               Navigator.pop(context);

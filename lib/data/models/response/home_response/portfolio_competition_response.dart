@@ -76,7 +76,7 @@ class PortfolioCompetition {
         pName: json["p_name"],
         pImage: json["p_image"],
         uId: json["u_id"],
-        gScore: json["score"],
+        gScore: json["score"] ?? 0,
         completionTime: json["completion_time"],
         totalActivities: json["competition_contents"],
         name: json["name"],
