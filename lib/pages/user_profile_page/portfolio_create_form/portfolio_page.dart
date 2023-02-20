@@ -1243,6 +1243,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                   width: 28,
                                                   child: SvgPicture.asset(
                                                       'assets/images/coin.svg')),
+                                                      SizedBox(width: 4,),
                                               ShaderMask(
                                                 blendMode: BlendMode.srcIn,
                                                 shaderCallback: (Rect bounds) {
@@ -2068,25 +2069,25 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                         size:
                                                                             14),
                                                               ),
-                                                              // if (portfolioResponse
-                                                              //             ?.data
-                                                              //             .education[
-                                                              //                 index]
-                                                              //             .endDate !=
-                                                              //         null ||
-                                                              //     portfolioResponse
-                                                              //             ?.data
-                                                              //             .education[
-                                                              //                 index]
-                                                              //             .endDate !=
-                                                              //         '')
-                                                              //   Text(
-                                                              //     '${listOfMonths[endDate.month].substring(0, 3)} ${endDate.day}',
-                                                              //     style: Styles
-                                                              //         .regular(
-                                                              //             size:
-                                                              //                 14),
-                                                              //   ),
+                                                              if (portfolioResponse
+                                                                          ?.data
+                                                                          .education[
+                                                                              index]
+                                                                          .endDate !=
+                                                                      null ||
+                                                                  portfolioResponse
+                                                                          ?.data
+                                                                          .education[
+                                                                              index]
+                                                                          .endDate !=
+                                                                      '')
+                                                                Text(
+                                                                  '${listOfMonths[endDate.month].substring(0, 3)} ${endDate.day}',
+                                                                  style: Styles
+                                                                      .regular(
+                                                                          size:
+                                                                              14),
+                                                                ),
                                                             ],
                                                           )
                                                         ],
@@ -2492,9 +2493,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                               endDate =
                                   DateFormat("yyyy-MM-dd").parse(endDateString);
                             }
-                            String type =
-                                '${experience?[index].curricularType.replaceAll('_', '')}';
-                            type = type[0].toUpperCase() + type.substring(1);
+                            // String type =
+                            //     '${experience?[index].curricularType.replaceAll('_', '')}';
+                            // type = type[0].toUpperCase() + type.substring(1);
 
                             return Transform.translate(
                               offset: Offset(0, -10),
