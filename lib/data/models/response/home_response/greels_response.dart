@@ -188,8 +188,9 @@ class GReelsElement extends ChangeNotifier {
             List<dynamic>.from(json["multi_file_uploads_count"].map((x) => x)),
         isAttempt: json["is_attempt"],
         userSubmittedFile: json["user_submitted_file"],
-        userSubmittedMultipleFile: List<dynamic>.from(
-            json["user_submitted_multiple_file"].map((x) => x)),
+        // userSubmittedMultipleFile: List<dynamic>.from(
+        //     json["user_submitted_multiple_file"].map((x) => x)),
+          userSubmittedMultipleFile: json["user_submitted_multiple_file"],
         thumbnailUrl:
             json["thumbnail_url"] == null ? null : json["thumbnail_url"],
       );
