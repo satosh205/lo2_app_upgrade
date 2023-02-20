@@ -28,7 +28,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController newController = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool flagSendCode = false;
-  bool _isLoading = true;
+  bool _isLoading = false;
 
 
   @override
@@ -60,7 +60,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           break;
         case ApiStatus.ERROR:
           Log.v(
-              "Error CompetitionListIDState ..........................${emailCodeSendState.error}");
+              "Error emailCodeSendState ..........................${emailCodeSendState.error}");
           break;
         case ApiStatus.INITIAL:
           break;

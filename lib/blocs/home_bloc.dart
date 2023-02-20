@@ -2429,10 +2429,9 @@ try {
     else if (event is EmailCodeSendEvent) {
       try {
         yield EmailCodeSendState(ApiStatus.LOADING);
-        final response =
-        await homeRepository.emailCodeSend(email: event.email);
+        final response = await homeRepository.emailCodeSend(email: event.email);
         if (response!.status == 1) {
-          yield EmailCodeSendState(ApiStatus.SUCCESS);
+          yield EmailCodeSendState(ApiStatus.SUCCESS, error: 'SUCCESS');
         } else {
           yield EmailCodeSendState(ApiStatus.ERROR,
               error: "Something went wrong");

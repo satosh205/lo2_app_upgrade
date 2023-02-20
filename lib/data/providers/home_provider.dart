@@ -1892,7 +1892,7 @@ class HomeProvider {
     try {
       final response = await api.dio.post(
         ApiConstants.VERIFY_EMAIL_CODE,
-        data: {"principal_email": email, "hscode": eCode,},
+        data: {"email": email},
         options: Options(
           method: 'POST',
           contentType: "application/json",
