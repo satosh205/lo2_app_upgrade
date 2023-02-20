@@ -232,6 +232,103 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                 ),
                               ),
+
+                              ///enter email Code--
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "Enter code received on your email ",
+                                      style: Styles.textRegular(),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8.0, left: 16, right: 16),
+                                child: Container(
+                                  height: height(context) * 0.1,
+                                  child: TextFormField(
+                                    obscureText: true,
+                                    cursorColor: Color(0xffE5E5E5),
+                                    autofocus: false,
+                                    // focusNode: phoneFocus,
+                                    controller: newController,
+                                    // keyboardType: TextInputType.number,
+                                    style: Styles.bold(
+                                      color: Color(0xffE5E5E5),
+                                      size: 14,
+                                    ),
+                                    // inputFormatters: <TextInputFormatter>[
+                                    //   FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                    // ],
+                                    maxLength: 8,
+                                    decoration: InputDecoration(
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                        borderSide: BorderSide(
+                                          color: Color(0xffE5E5E5),
+                                        ),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                        borderSide: BorderSide(
+                                          color: Color(0xffE5E5E5),
+                                          width: 1.5,
+                                        ),
+                                      ),
+                                      suffix:GestureDetector(
+                                        onTap:(){
+                                          print('object');
+                                          //flagSendCode
+                                        },
+                                        child: GradientText(
+                                          'Verify Code',
+                                          style: Styles.regular(size: 14),
+                                          colors: [
+                                            flagSendCode == true ? ColorConstants.GRADIENT_ORANGE : ColorConstants.UNSELECTED_BUTTON,
+                                            flagSendCode == true ? ColorConstants.GRADIENT_RED : ColorConstants.UNSELECTED_BUTTON,
+                                          ],
+                                        ),
+                                      ),
+
+                                      fillColor: Color(0xffE5E5E5),
+                                      hintStyle: TextStyle(
+                                        color: Color(0xffE5E5E5),
+                                      ),
+                                      isDense: true,
+                                      prefixIconConstraints:
+                                      BoxConstraints(minWidth: 0, minHeight: 0),
+
+                                      border: OutlineInputBorder(
+                                          borderSide:
+                                          BorderSide(width: 1, color: ColorConstants.WHITE),
+                                          borderRadius: BorderRadius.circular(10)),
+
+                                      helperStyle: Styles.regular(
+                                          size: 14,
+                                          color: ColorConstants.GREY_3.withOpacity(0.1)),
+                                      counterText: "",
+                                      // enabledBorder: UnderlineInputBorder(
+                                      //   borderSide: BorderSide(
+                                      //       color: ColorConstants.WHITE, width: 1.5),
+                                      // ),
+                                    ),
+                                    // onChanged: (value) {
+                                    //   setState(() {});
+                                    // },
+                                    // validator: (value) {
+                                    //   if (value == null) return 'Enter phone number';
+                                    //   if (value.length != 10) {
+                                    //     return "Enter valid phone number.";
+                                    //   }
+                                    //   return null;
+                                    // },
+                                  ),
+                                ),
+                              ),
+
                               Padding(
                                 padding: const EdgeInsets.only(left: 20.0),
                                 child: Row(
