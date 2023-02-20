@@ -38,11 +38,10 @@ class Competetion extends StatefulWidget {
   @override
   _CompetetionState createState() => _CompetetionState();
 }
-  List<int> selectedIdList = <int>[];
-  String seletedIds = '';
-  String selectedDifficulty = '';
 
-
+List<int> selectedIdList = <int>[];
+String seletedIds = '';
+String selectedDifficulty = '';
 
 class _CompetetionState extends State<Competetion> {
   // List<MProgram>? competitionList;
@@ -343,7 +342,7 @@ class _CompetetionState extends State<Competetion> {
                                         completedCompetition!.data.length >
                                     0)
                                   SizedBox(
-                                    height: height(context) * 0.165,
+                                    height: height(context) * 0.18,
                                     child: ListView.builder(
                                         itemCount: myActivity!.data.length +
                                             completedCompetition!.data.length,
@@ -421,7 +420,7 @@ class _CompetetionState extends State<Competetion> {
                               ],
                             ),
 
-                          if (widget.fromDasboard == false )
+                          if (widget.fromDasboard == false)
                             Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -807,14 +806,17 @@ class _CompetetionState extends State<Competetion> {
                                   ),
                                 ),
                           SizedBox(height: 10),
-                          if (competitionLoading == false && popularCompetitionResponse?.data?.length !=
-                                      0 )
+                          if (competitionLoading == false &&
+                              popularCompetitionResponse?.data?.length != 0)
                             Row(
                               children: [
-                                SvgPicture.asset('assets/images/star.svg',
-                                height: height(context) * 0.025,
+                                SvgPicture.asset(
+                                  'assets/images/star.svg',
+                                  height: height(context) * 0.025,
                                 ),
-                                SizedBox(width: 10,),
+                                SizedBox(
+                                  width: 10,
+                                ),
                                 Text('Most popular activities',
                                     style: Styles.regular(
                                       color: ColorConstants.GREY_6,
@@ -825,8 +827,10 @@ class _CompetetionState extends State<Competetion> {
                           //
                           if (competitionLoading == false)
                             Container(
-                              height:popularCompetitionResponse?.data?.length !=
-                                      0 ?  height(context) * 0.4 : 0,
+                              height:
+                                  popularCompetitionResponse?.data?.length != 0
+                                      ? height(context) * 0.47
+                                      : 0,
                               // color: Colors.green,
                               padding: EdgeInsets.symmetric(vertical: 20),
 
@@ -859,11 +863,9 @@ class _CompetetionState extends State<Competetion> {
                                                 '',
                                                 '${popularCompetitionResponse?.data![index]?.competitionLevel ?? "Easy"}',
                                                 '${popularCompetitionResponse?.data![index]?.gScore}',
-                                                '${popularCompetitionResponse?.data![index]?.endDate}'));
+                                                '${popularCompetitionResponse?.data![index]?.startDate}'));
                                       })
-                                  : Center(
-                                      child:
-                                          Text('')),
+                                  : Center(child: Text('')),
                             ),
 
                           competitionLoading == false &&
@@ -982,6 +984,8 @@ class _CompetetionState extends State<Competetion> {
               ),
               child: Text(
                 name,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: Styles.bold(),
               ),
             ),
@@ -990,14 +994,9 @@ class _CompetetionState extends State<Competetion> {
               padding: const EdgeInsets.only(left: 8),
               child: Row(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 5.0,
-                    ),
-                    child: Text(difficulty.capital(),
-                        style: Styles.regular(
-                            color: ColorConstants.GREEN_1, size: 12)),
-                  ),
+                  Text(difficulty.capital(),
+                      style: Styles.regular(
+                          color: ColorConstants.GREEN_1, size: 12)),
                   SizedBox(
                     width: 4,
                   ),
@@ -1018,6 +1017,26 @@ class _CompetetionState extends State<Competetion> {
                 ],
               ),
             ),
+            SizedBox(
+              height: 6,
+            ),
+            Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.calendar_month,
+                      size: 16,
+                    ),
+                    SizedBox(
+                      width: 2,
+                    ),
+                    Text(
+                      '${Utility.ordinalDate(dateVal: date)}',
+                      style: Styles.regular(size: 12, color: Color(0xff5A5F73)),
+                    )
+                  ],
+                ))
           ]),
     );
   }

@@ -81,24 +81,21 @@ class _CompetitionYoutubePlayerState extends State<CompetitionYoutubePlayer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-   
-      body: Stack(
-        children: [
-          Positioned(
-            left: 0,
-            top: 0,
-            width: 200,
-            height: 200,
-            child: Container(color: Colors.blue,)),
-            // IconButton(
-            //   onPressed: (){
-            //     Navigator.pop(context);
-            //   },
-            //   icon: Icon(Icons.arrow_back_ios),)
-          YoutubePlayer(
-              controller: _videoPlayerController!),
-        ],
+       extendBodyBehindAppBar: true, 
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0, 
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+           
+              Navigator.pop(context);
+          },
+        ),
       ),
+   
+      body: YoutubePlayer(
+              controller: _videoPlayerController!),
     );
   }
 }
