@@ -192,7 +192,6 @@ class Competition {
         "competition_level" : competitionLevel,
         "is_popular" : isPopular,
         "job_status" : jobStatus,
-
         "domain_name" : domainName,
         "location" : location,
         "experience" : experience,
