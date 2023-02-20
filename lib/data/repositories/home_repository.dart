@@ -1301,17 +1301,10 @@ class HomeRepository {
   Future emailCodeSend({String? email}) async {
     try {
       final response = await homeProvider.emailSendCode(email: email);
-
-      print('response.status------------');
-      print(response);
-      if (response!.success) {
-        if (response.status == 1) {
-          return response.status;
-        } else {
-          return SubmitAnswerResponse(status: 0);
-        }
+      if (response?.body['status'] == 1) {
+        return 1;
       } else {
-        return SubmitAnswerResponse(status: 0);
+        return 0;
       }
     } catch (e) {
       Log.v("EXCEPTION  :  $e");
@@ -1326,10 +1319,10 @@ class HomeRepository {
         if (response.status == 1) {
           return response.status;
         } else {
-          return SubmitAnswerResponse(status: 0);
+          return 0;
         }
       } else {
-        return SubmitAnswerResponse(status: 0);
+        return 0;
       }
     } catch (e) {
       Log.v("EXCEPTION  :  $e");
