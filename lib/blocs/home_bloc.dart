@@ -251,6 +251,48 @@ class SubmitAnswerState extends HomeState {
   SubmitAnswerState(this.state, {this.response, this.error});
 }
 
+//Email Code Send
+class EmailCodeSendState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  String? email;
+  String? error;
+
+  EmailCodeSendState(this.state, {this.error, this.email});
+}
+
+class VerifyEmailCodeState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  String? email;
+  String? code;
+  String? error;
+
+  VerifyEmailCodeState(this.state, {this.error, this.email, this.code});
+}
+
+class EmailCodeSendEvent extends HomeEvent {
+  String? email;
+
+  EmailCodeSendEvent({this.email}) : super([email]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+class VerifyEmailCodeEvent extends HomeEvent {
+  String? email;
+  String? code;
+
+  VerifyEmailCodeEvent({this.email, this.code}) : super([email, code]);
+
+  List<Object> get props => throw UnimplementedError();
+
+}
+///-------------
+
+
 class SubmitAnswerEvent extends HomeEvent {
   String? request;
 
@@ -2381,7 +2423,43 @@ try {
       } catch (e) {
         yield SubmitAnswerState(ApiStatus.ERROR, error: "Something went wrong");
       }
-    } else if (event is ReviewTestEvent) {
+    }
+
+    ///Email
+    else if (event is EmailCodeSendEvent) {
+      try {
+        yield EmailCodeSendState(ApiStatus.LOADING);
+        final response =
+        await homeRepository.emailCodeSend(email: event.email);
+        if (response!.status == 1) {
+          yield EmailCodeSendState(ApiStatus.SUCCESS);
+        } else {
+          yield EmailCodeSendState(ApiStatus.ERROR,
+              error: "Something went wrong");
+        }
+      } catch (e) {
+        yield EmailCodeSendState(ApiStatus.ERROR, error: "Something went wrong");
+      }
+    }
+
+    else if (event is VerifyEmailCodeEvent) {
+      try {
+        yield VerifyEmailCodeState(ApiStatus.LOADING);
+        final response =
+        await homeRepository.verifyEmailCodeAnswer(email: event.email, eCode: event.code);
+        if (response!.status == 1) {
+          yield VerifyEmailCodeState(ApiStatus.SUCCESS);
+        } else {
+          yield VerifyEmailCodeState(ApiStatus.ERROR,
+              error: "Something went wrong");
+        }
+      } catch (e) {
+        yield VerifyEmailCodeState(ApiStatus.ERROR, error: "Something went wrong");
+      }
+    }
+    ///
+
+    else if (event is ReviewTestEvent) {
       try {
         yield ReviewTestState(ApiStatus.LOADING);
         final response =

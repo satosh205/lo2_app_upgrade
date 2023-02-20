@@ -1297,6 +1297,44 @@ class HomeRepository {
     return null;
   }
 
+  ///Email
+  Future emailCodeSend({String? email}) async {
+    try {
+      final response = await homeProvider.emailSendCode(email: email);
+      if (response!.success) {
+        if (response.status == 1) {
+          return response.status;
+        } else {
+          return SubmitAnswerResponse(status: 0);
+        }
+      } else {
+        return SubmitAnswerResponse(status: 0);
+      }
+    } catch (e) {
+      Log.v("EXCEPTION  :  $e");
+    }
+    return null;
+  }
+
+  Future verifyEmailCodeAnswer({String? email, String? eCode}) async {
+    try {
+      final response = await homeProvider.verifyEmailCode(email: email,eCode: eCode);
+      if (response!.success) {
+        if (response.status == 1) {
+          return response.status;
+        } else {
+          return SubmitAnswerResponse(status: 0);
+        }
+      } else {
+        return SubmitAnswerResponse(status: 0);
+      }
+    } catch (e) {
+      Log.v("EXCEPTION  :  $e");
+    }
+    return null;
+  }
+  ///
+
   Future<TestReviewResponse?> reviewTest({required String request}) async {
     try {
       final response = await homeProvider.reviewTest(request: request);

@@ -120,14 +120,14 @@ class _MyJobAllViewListPageState extends State<MyJobAllViewListPage> {
 
                                       widget.myJobResponse?.data![index]!.jobStatus != null ? Padding(
                                         padding: const EdgeInsets.only(top: 20.0),
-                                        child: Text( widget.myJobResponse?.data![index]!.jobStatus == 'under_review' ?
+                                        child: Text( widget.myJobResponse?.data![index]!.jobStatus == 'Application under process' ?
                                         'Application Under Process' :
-                                        widget.myJobResponse?.data![index]!.jobStatus == 'shortlisted' ?
+                                        widget.myJobResponse?.data![index]!.jobStatus == 'Application under review' ?
                                         'Application Shortlisted' :
-                                        widget.myJobResponse?.data![index]!.jobStatus == 'rejected' ?
+                                        widget.myJobResponse?.data![index]!.jobStatus == 'Rejected' ?
                                         'Unable To Offer You A Position' :
                                         '${widget.myJobResponse?.data![index]!.jobStatus}',
-                                          style: TextStyle(color: widget.myJobResponse?.data![index]!.jobStatus == 'rejected' ?
+                                          style: TextStyle(color: widget.myJobResponse?.data![index]!.jobStatus == 'Rejected' ?
                                           ColorConstants.VIEW_ALL : Colors.green, fontSize: 12),),
                                       ):Text(''),
                                     ],
