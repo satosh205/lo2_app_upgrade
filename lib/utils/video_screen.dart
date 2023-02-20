@@ -29,6 +29,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget>
         setState(() {});
       });
       _controller?.play();
+      _controller?.setVolume(0.0);
   }
 
   @override
@@ -81,8 +82,6 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget>
               // } else {
               //   _controller?.pause();
               // }
-
-
 
               _isPlaying = !_isPlaying;
               _showIcon = true;
