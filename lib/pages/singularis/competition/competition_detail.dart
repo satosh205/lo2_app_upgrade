@@ -107,7 +107,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                     width: double.infinity,
                     height: size.height * 0.3,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
+                      //borderRadius: BorderRadius.circular(0),
                       child: CachedNetworkImage(
                         imageUrl: '${widget.competition?.image}',
                         width: double.infinity,

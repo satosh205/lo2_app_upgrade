@@ -29,6 +29,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../user_profile_page/portfolio_create_form/portfolio_page.dart';
+import 'competition_filter_search_result_page.dart';
 // import 'package:phone_verification/phone_verification.dart';
 
 class Competetion extends StatefulWidget {
@@ -63,11 +64,8 @@ class _CompetetionState extends State<Competetion> {
     topScoringUser();
     getCompetitionList(false, '');
     getDomainList();
-
     // if (widget.fromDasboard == false) getPopularCompetitionList();
-
     //yyy-dd-mm yyy-mm-dd
-
     super.initState();
   }
 
@@ -721,7 +719,17 @@ class _CompetetionState extends State<Competetion> {
                                                                         print(selectedIdList);
                                                                         seletedIds = selectedIdList.toString().replaceAll("[", "").replaceAll("]", "");
                                                                         print(seletedIds);
-                                                                        Navigator.pop(context);
+                                                                        //Navigator.pop(context);
+                                                                        Navigator.push(
+                                                                            context,
+                                                                            NextPageRoute(
+                                                                                CompetitionFilterSearchResultPage(
+                                                                                  appBarTitle: 'Search Competitions',
+                                                                                  isSearchMode: false,
+                                                                                  jobRolesId: seletedIds,
+                                                                                ),
+                                                                                isMaintainState: true)).then((value) => null);
+
                                                                       },
                                                                       child: Container(
                                                                         height: 40,
@@ -904,7 +912,7 @@ class _CompetetionState extends State<Competetion> {
 
                           competitionLoading == false &&
                                   widget.fromDasboard == false
-                              ? competitionResponse?.data?.length != 0
+                              ? competitionResponse?.data?.length != 0 && competitionResponse?.data != null
                                   ? ListView.builder(
                                       shrinkWrap: true,
                                       physics: BouncingScrollPhysics(),
