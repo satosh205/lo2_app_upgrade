@@ -2486,7 +2486,6 @@ class _DashboardPageState extends State<DashboardPage> {
           dynamic content = box.get("getDashboardIsVisible") as Map;
           List<Widget> list = <Widget>[];
           content.forEach((key, value) {
-            print('adding first for $key');
             if (value != null) list.add(pages[key] as Widget);
           });
 
