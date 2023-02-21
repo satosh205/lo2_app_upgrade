@@ -69,12 +69,14 @@ class _CompetitionMyAcitivityCardState
       child: Container(
         width: width(context) * 0.8,
         height: height(context) * 0.12,
-        margin: EdgeInsets.symmetric(vertical: 12, horizontal: 6),
+        margin: EdgeInsets.symmetric(vertical: 17, horizontal: 6),
         padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             border: Border.all(color: Color(0xffEDEDED))),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
               width: width(context) * 0.2,
@@ -143,7 +145,7 @@ class _CompetitionMyAcitivityCardState
                       widget.activityStatus != '')
                     Text(
                       '${widget.activityStatus}',
-                      style: Styles.regular(size: 12, color: ColorConstants.GREEN_1),
+                      style: Styles.regular(size: 11, color: ColorConstants.GREEN_1),
                     ),
                   SizedBox(
                     height: 6,
