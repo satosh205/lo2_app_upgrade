@@ -294,34 +294,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                             if (data?.activityStatus == 2) {
                               isLocked = false;
                             }
-
-                             
                           }
-
-                         
-
-// <?php
-//      $is_lock = 1;
-//   if(!empty($competitionVal['per_completion']) && in_array($competitionVal['content_type'], array('assignment','assessment')) && $competitionVal['overall_score'] >= $competitionVal['per_completion']){
-//      $is_lock = 0;
-//   }elseif(!empty($competitionVal['per_completion']) && $competitionVal['completion_percentage'] >= $competitionVal['per_completion']){
-//      $is_lock = 0;
-//   }
-//   if($competitionVal['activity_status'] == 2){
-//      $is_lock = 0;
-//   }
-//   ?>
-
-//                           if(per_completion != null (content_type == 'assignment' || assesment)  && overall_score > per_completion){
-// $is_lock = 0;
-// }
-// else if(per_completion != null && completion_percentage >= per_completion ){
-
-// }
-// if(activity_status == 2){
-//    islocked = 0;
-// }
-
                           return competitionCard(
                               contentList?.data?.list![index],
                               index ==
@@ -748,3 +721,26 @@ extension on String {
     return this[0].toUpperCase() + this.substring(1);
   }
 }
+
+
+// <?php
+//      $is_lock = 1;
+//   if(!empty($competitionVal['per_completion']) && in_array($competitionVal['content_type'], array('assignment','assessment')) && $competitionVal['overall_score'] >= $competitionVal['per_completion']){
+//      $is_lock = 0;
+//   }elseif(!empty($competitionVal['per_completion']) && $competitionVal['completion_percentage'] >= $competitionVal['per_completion']){
+//      $is_lock = 0;
+//   }
+//   if($competitionVal['activity_status'] == 2){
+//      $is_lock = 0;
+//   }
+//   ?>
+
+//                           if(per_completion != null (content_type == 'assignment' || assesment)  && overall_score > per_completion){
+// $is_lock = 0;
+// }
+// else if(per_completion != null && completion_percentage >= per_completion ){
+
+// }
+// if(activity_status == 2){
+//    islocked = 0;
+// }

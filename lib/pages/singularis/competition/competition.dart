@@ -710,6 +710,38 @@ class _CompetetionState extends State<Competetion> {
                                                                                 )),
                                                                       ),
                                                                     ),
+
+                                                                    ///Search Button
+                                                                    InkWell(
+                                                                      onTap: (){
+                                                                        print('Search  Jobs');
+                                                                        print(seletedIds);
+                                                                        print(selectedIdList);
+                                                                        seletedIds = selectedIdList.toString().replaceAll("[", "").replaceAll("]", "");
+                                                                        print(seletedIds);
+                                                                        Navigator.pop(context);
+                                                                      },
+                                                                      child: Container(
+                                                                        height: 40,
+                                                                        margin: EdgeInsets.only(left: 50, top: 20, right: 50, bottom: 20),
+                                                                        width: MediaQuery.of(context).size.width,
+                                                                        decoration: BoxDecoration(
+                                                                          borderRadius: BorderRadius.circular(50),
+                                                                          gradient:
+                                                                          LinearGradient(colors: [
+                                                                            ColorConstants.GRADIENT_ORANGE,
+                                                                            ColorConstants.GRADIENT_RED,]),
+                                                                        ),
+                                                                        child: Align(
+                                                                          alignment: Alignment.center,
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.all(10.0),
+                                                                            child: Text('Search Competitions',
+                                                                              style: Styles.regular(size: 13, color: ColorConstants.WHITE,),),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
                                                                   ],
                                                                 ),
                                                               )
@@ -1096,16 +1128,16 @@ class _CompetetionState extends State<Competetion> {
               ),
               Row(
                 children: [
-                  if (companyName != '')
+                  /*if (companyName != '')
                     Text('Conducted by ',
                         style:
-                            Styles.regular(size: 10, color: Color(0xff929BA3))),
+                            Styles.regular(size: 10, color: Color(0xff929BA3))),*/
                   if (companyName != '')
                     SizedBox(
                       width: width(context) * 0.4,
                       child: Text(
                         companyName,
-                        style: Styles.semibold(size: 12),
+                        style: Styles.semibold(size: 12, color: Color(0xff929BA3)),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -1372,7 +1404,8 @@ class _CompetetionState extends State<Competetion> {
                                   ),
                                 )),
                       ),
-                    )
+                    ),
+
                 ],
               ),
             )
