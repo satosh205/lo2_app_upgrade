@@ -338,14 +338,14 @@ class _CompetetionState extends State<Competetion> {
                                     )
                                   ],
                                 ),
-                                if (myActivity!.data.length +
-                                        completedCompetition!.data.length >
-                                    0)
+                                if (myActivity!.data.length + completedCompetition!.data.length > 0)
                                   SizedBox(
                                     height: height(context) * 0.18,
                                     child: ListView.builder(
-                                        itemCount: myActivity!.data.length +
-                                            completedCompetition!.data.length,
+                                        //itemCount: myActivity!.data.length + completedCompetition!.data.length,
+                                        itemCount: (myActivity!.data.length + completedCompetition!.data.length)! < 4
+                                            ? myActivity!.data.length + completedCompetition!.data.length
+                                            : 4,
                                         scrollDirection: Axis.horizontal,
                                         itemBuilder: (context, index) {
                                           if (index < myActivity!.data.length)
@@ -1199,7 +1199,7 @@ class _CompetetionState extends State<Competetion> {
           SizedBox(
             width: 10,
           ),
-          Text(title, style: Styles.regular(size: 14)),
+          Text(title, style: Styles.regular(size: 14, color: Colors.black87)),
           Text(value, style: Styles.semibold(size: 14)),
         ]),
       ),
