@@ -91,7 +91,6 @@ class _CompetetionState extends State<Competetion> {
 
   @override
   Widget build(BuildContext context) {
-    int percent = 30;
     double barThickness = MediaQuery.of(context).size.height * 0.012;
     double mobileWidth = MediaQuery.of(context).size.width - 50;
     double mobileHeight = MediaQuery.of(context).size.height;
@@ -179,116 +178,119 @@ class _CompetetionState extends State<Competetion> {
                       ),
                     ),
                     if (widget.fromDasboard == false)
-                      Container(
-                        width: double.infinity,
-                        height: mobileHeight * 0.20,
-                        padding: EdgeInsets.only(top: 0),
-                        decoration: BoxDecoration(
-                          color: ColorConstants.WHITE,
-                          gradient: LinearGradient(
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              colors: <Color>[
-                                Color(0xfffc7804),
-                                ColorConstants.GRADIENT_RED
-                              ]),
-                        ),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                                left: mobileWidth * 0.09,
-                                top: 8,
-                                child: renderProgressBar(
-                                    percentage(userRank?.data.first.score ?? 0),
-                                    barThickness,
-                                    mobileWidth)),
-                            Positioned(
-                                left: mobileWidth * 0.02,
-                                top: 30,
-                                child: Text(
-                                  '${userRank?.data.first.score ?? 0} Points',
-                                  style: Styles.regular(
-                                      color: ColorConstants.WHITE, size: 12.5),
-                                )),
-                            Positioned(
-                              left: mobileWidth * 0.06,
-                              child: Container(
-                                width: 25,
-                                height: 25,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                        color: ColorConstants.WHITE,
-                                        width: 2.5)),
-                                child: Image.asset('assets/images/check.png'),
+                      Transform.translate(
+                        offset: Offset(0, -1),
+                        child: Container(
+                          width: double.infinity,
+                          height: mobileHeight * 0.20,
+                          padding: EdgeInsets.only(top: 10),
+                          decoration: BoxDecoration(
+                            color: ColorConstants.WHITE,
+                            gradient: LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                                colors: <Color>[
+                                  Color(0xfffc7804),
+                                  ColorConstants.GRADIENT_RED
+                                ]),
+                          ),
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                  left: mobileWidth * 0.09,
+                                  top: 8,
+                                  child: renderProgressBar(
+                                      percentage(userRank?.data.first.score ?? 0),
+                                      barThickness,
+                                      mobileWidth)),
+                              Positioned(
+                                  left: mobileWidth * 0.02,
+                                  top: 30,
+                                  child: Text(
+                                    '${userRank?.data.first.score ?? 0} Points',
+                                    style: Styles.regular(
+                                        color: ColorConstants.WHITE, size: 12.5),
+                                  )),
+                              Positioned(
+                                left: mobileWidth * 0.06,
+                                child: Container(
+                                  width: 25,
+                                  height: 25,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                          color: ColorConstants.WHITE,
+                                          width: 2.5)),
+                                  child: Image.asset('assets/images/check.png'),
+                                ),
                               ),
-                            ),
-                            Positioned(
-                                left: mobileWidth * 0.59,
-                                top: 8,
-                                child: renderBar(barThickness, mobileWidth)),
-                            Positioned(
-                                left: mobileWidth * 0.72,
-                                top: 8,
-                                child: renderBar(barThickness, mobileWidth)),
-                            Positioned(
-                                left: mobileWidth * 0.85,
-                                top: 8,
-                                child: renderBar(barThickness, mobileWidth)),
-                            Positioned(
-                                left: mobileWidth * 0.97,
-                                top: 8,
-                                child: renderBar(barThickness, mobileWidth,
-                                    fullWidth: true)),
-                            Positioned(
-                                left: mobileWidth * 0.53,
-                                top: 4,
-                                child: renderEllipse(
-                                    '${nextValue(userRank?.data.first.score ?? 0, 1)}')),
-                            Positioned(
-                                left: mobileWidth * 0.66,
-                                top: 3.8,
-                                child: renderEllipse(
-                                    '${nextValue(userRank?.data.first.score ?? 0, 2)}')),
-                            Positioned(
-                                left: mobileWidth * 0.79,
-                                top: 4,
-                                child: renderEllipse(
-                                    '${nextValue(userRank?.data.first.score ?? 0, 3)}')),
-                            Positioned(
-                                left: mobileWidth * 0.92,
-                                top: 4,
-                                child: renderEllipse(
-                                    '${nextValue(userRank?.data.first.score ?? 0, 4)}')),
-                            Positioned(
-                                left: width(context) * 0.07,
-                                bottom: 50,
-                                child: renderTopButton(
-                                    'assets/images/leaderboard.png',
-                                    'Your rank: ',
-                                    '${userRank?.data.first.rank ?? 0}')),
-                            Positioned(
-                                right: width(context) * 0.07,
-                                bottom: 50,
-                                child: renderTopButton(
-                                    'assets/images/coin.png',
-                                    'Points: ',
-                                    '${userRank?.data.first.score ?? 0}')),
-                            Positioned(
-                              bottom: 0,
-                              left: 0,
-                              right: 0,
-                              child: Container(
-                                height: 30,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                    color: ColorConstants.WHITE,
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(16),
-                                        topRight: Radius.circular(16))),
-                              ),
-                            )
-                          ],
+                              Positioned(
+                                  left: mobileWidth * 0.59,
+                                  top: 8,
+                                  child: renderBar(barThickness, mobileWidth)),
+                              Positioned(
+                                  left: mobileWidth * 0.72,
+                                  top: 8,
+                                  child: renderBar(barThickness, mobileWidth)),
+                              Positioned(
+                                  left: mobileWidth * 0.85,
+                                  top: 8,
+                                  child: renderBar(barThickness, mobileWidth)),
+                              Positioned(
+                                  left: mobileWidth * 0.97,
+                                  top: 8,
+                                  child: renderBar(barThickness, mobileWidth,
+                                      fullWidth: true)),
+                              Positioned(
+                                  left: mobileWidth * 0.53,
+                                  top: 4,
+                                  child: renderEllipse(
+                                      '${nextValue(userRank?.data.first.score ?? 0, 1)}')),
+                              Positioned(
+                                  left: mobileWidth * 0.66,
+                                  top: 3.8,
+                                  child: renderEllipse(
+                                      '${nextValue(userRank?.data.first.score ?? 0, 2)}')),
+                              Positioned(
+                                  left: mobileWidth * 0.79,
+                                  top: 4,
+                                  child: renderEllipse(
+                                      '${nextValue(userRank?.data.first.score ?? 0, 3)}')),
+                              Positioned(
+                                  left: mobileWidth * 0.92,
+                                  top: 4,
+                                  child: renderEllipse(
+                                      '${nextValue(userRank?.data.first.score ?? 0, 4)}')),
+                              Positioned(
+                                  left: width(context) * 0.07,
+                                  bottom: 50,
+                                  child: renderTopButton(
+                                      'assets/images/leaderboard.png',
+                                      'Your rank: ',
+                                      '${userRank?.data.first.rank ?? 0}')),
+                              Positioned(
+                                  right: width(context) * 0.07,
+                                  bottom: 50,
+                                  child: renderTopButton(
+                                      'assets/images/coin.png',
+                                      'Points: ',
+                                      '${userRank?.data.first.score ?? 0}')),
+                              Positioned(
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                child: Container(
+                                  height: 30,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                      color: ColorConstants.WHITE,
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(16),
+                                          topRight: Radius.circular(16))),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
 
@@ -343,7 +345,7 @@ class _CompetetionState extends State<Competetion> {
                                     height: height(context) * 0.18,
                                     child: ListView.builder(
                                         //itemCount: myActivity!.data.length + completedCompetition!.data.length,
-                                        itemCount: (myActivity!.data.length + completedCompetition!.data.length)! < 4
+                                        itemCount: (myActivity!.data.length + completedCompetition!.data.length) < 4
                                             ? myActivity!.data.length + completedCompetition!.data.length
                                             : 4,
                                         scrollDirection: Axis.horizontal,

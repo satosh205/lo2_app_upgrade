@@ -741,7 +741,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                       .USER_HEADLINE) !=
                                                               null
                                                           ? '${Preference.getString(Preference.USER_HEADLINE)} '
-                                                          : "",
+                                                          : "Add a headline",
                                                       style: Styles.regular(
                                                           size: 12,
                                                           color: ColorConstants
@@ -753,29 +753,21 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      Preference.getString(
-                                                                  Preference
-                                                                      .LOCATION) !=
-                                                              null
-                                                          ? SvgPicture.asset(
+                                                       SvgPicture.asset(
                                                               'assets/images/person_location.svg')
-                                                          : SizedBox(),
-                                                      Preference.getString(
-                                                                  Preference
-                                                                      .LOCATION) !=
-                                                              null
-                                                          ? SizedBox(
+                                                        ,
+                                                      SizedBox(
                                                               width: width(
                                                                       context) *
                                                                   0.6,
                                                               child: Text(
-                                                                  '${Preference.getString(Preference.LOCATION)}',
+                                                                  '${Preference.getString(Preference.LOCATION) ?? 'Add your location'}',
                                                                   style: Styles.regular(
                                                                       size: 12,
                                                                       color: ColorConstants
                                                                           .WHITE)),
                                                             )
-                                                          : SizedBox(),
+                                                      ,
                                                       Spacer(),
                                                       Transform.scale(
                                                           scale: 1.2,
@@ -814,14 +806,13 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                 color: ColorConstants.WHITE,
                                 height: 50,
                               ),
-                              Preference.getString(Preference.ABOUT_ME) != null
-                                  ? Container(
+                              Container(
                                       color: ColorConstants.WHITE,
                                       width: double.infinity,
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 20),
                                         child: Text(
-                                          '${Preference.getString(Preference.ABOUT_ME)}',
+                                          '${Preference.getString(Preference.ABOUT_ME) ?? 'Tell something about yourself to everyone...'}',
                                           textAlign: TextAlign.center,
                                           style: Styles.regular(
                                               size: 12,
@@ -829,7 +820,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         ),
                                       ),
                                     )
-                                  : SizedBox(),
+                                 ,
                               Container(
                                 color: ColorConstants.WHITE,
                                 child: Center(
@@ -1135,8 +1126,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                               top: Preference.getString(Preference.FIRST_NAME)!
                                           .length >
                                       8
-                                  ? 200
-                                  : 170,
+                                  ? MediaQuery.of(context).size.height * 0.3
+                                  : MediaQuery.of(context).size.height * 0.24,
                               child: Container(
                                 height: 100,
                                 padding: EdgeInsets.symmetric(
@@ -1204,9 +1195,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                             ],
                                           ),
                                           Text(
-                                            userRank?.data.first.rank != null
+                                            userRank?.data.first.rank != null || userRank?.data.first.rank == 0
                                                 ? 'out of ${userRank?.data.first.rankOutOf} Students'
-                                                : 'out of 0 Students',
+                                                : 'compete to gain rank',
                                             style: Styles.regular(
                                                 size: 10,
                                                 color: Color(0xff5A5F73)),
