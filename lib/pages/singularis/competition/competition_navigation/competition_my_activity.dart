@@ -68,7 +68,7 @@ class _CompetitionMyActivityState extends State<CompetitionMyActivity> {
                 itemBuilder: (context, index) {
                   return CompetitionMyAcitivityCard(
                     image: widget.completedCompetition?.data[index].pImage,
-                    title: widget.completedCompetition?.data[index].name,
+                    title: widget.completedCompetition?.data[index].pName,
                     totalAct:
                         widget.completedCompetition?.data[index].totalActivities,
                     doneAct: widget.completedCompetition?.data[index].completedActivity,
