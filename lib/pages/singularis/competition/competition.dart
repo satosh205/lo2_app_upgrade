@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
+import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
 import 'package:masterg/data/models/response/auth_response/competition_my_activity.dart';
 import 'package:masterg/data/models/response/home_response/competition_response.dart';
 import 'package:masterg/data/models/response/home_response/domain_filter_list.dart';
@@ -26,6 +27,7 @@ import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../user_profile_page/portfolio_create_form/portfolio_page.dart';
@@ -54,6 +56,8 @@ class _CompetetionState extends State<Competetion> {
   TopScoringResponse? userRank;
   bool? competitionLoading;
   bool? popularCompetitionLoading;
+  MenuListProvider? menuProvider;
+
 
   List<String> difficulty = ['Easy', 'Medium', 'Hard'];
   int selectedIndex = 0;
@@ -98,7 +102,8 @@ class _CompetetionState extends State<Competetion> {
       endDrawer: new AppDrawer(),
       body: BlocManager(
           initState: (BuildContext context) {},
-          child: BlocListener<HomeBloc, HomeState>(
+          child: Consumer< MenuListProvider>(
+          builder: (context, mp, child) =>  BlocListener<HomeBloc, HomeState>(
               listener: (context, state) {
                 if (state is CompetitionListState) {
                   _handlecompetitionListResponse(state);
@@ -112,6 +117,9 @@ class _CompetetionState extends State<Competetion> {
                 if (state is TopScoringUserState) {
                   handletopScoring(state);
                 }
+                 setState(() {
+                      menuProvider = mp;
+                    });
               },
               child: Container(
                 color: ColorConstants.WHITE,
@@ -137,7 +145,12 @@ class _CompetetionState extends State<Competetion> {
                             InkWell(
                               onTap: () {
                                 Navigator.push(
-                                    context, NextPageRoute(NewPortfolioPage()));
+                                    context, NextPageRoute(NewPortfolioPage())).then((value) {
+                                                if (value != null)
+                                                  menuProvider
+                                                      ?.updateCurrentIndex(
+                                                          value);
+                                              });
                               },
                               child: SizedBox(
                                 width: 45,
@@ -1022,7 +1035,7 @@ class _CompetetionState extends State<Competetion> {
                   ]),
                 ),
               ))),
-    );
+    ));
   }
 
   renderActivityCard(String competitionImg, String name, String companyName,

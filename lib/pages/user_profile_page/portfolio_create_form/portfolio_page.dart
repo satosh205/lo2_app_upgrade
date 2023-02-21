@@ -2219,11 +2219,12 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       child: Column(
         children: [
           topRow('Recent Activites', addAction: () {}, arrowAction: () {
-            if (recentActivites?.length != 0)
-              Navigator.push(
-                  context,
-                  NextPageRoute(RecentActivitiesPage(),
-                      isMaintainState: false));
+            Navigator.pop(context, '/g-carvaan');
+            // if (recentActivites?.length != 0)
+            //   Navigator.push(
+            //       context,
+            //       NextPageRoute(RecentActivitiesPage(),
+            //           isMaintainState: false));
           }, showAddButton: false),
           isPortfolioLoading == false
               ? recentActivites?.length != 0
@@ -3720,11 +3721,13 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
         
       InkWell(
           onTap: () {
-            print('portfolio List');
-             Navigator.push(
-                  context,
-                  NextPageRoute(RecentActivitiesPage(),
-                      isMaintainState: false));
+
+            Navigator.pop(context, '/g-carvaan');
+            // print('portfolio List');
+            //  Navigator.push(
+            //       context,
+            //       NextPageRoute(RecentActivitiesPage(),
+            //           isMaintainState: false));
             // Navigator.push(context, MaterialPageRoute(builder: (context)=> CommunityDashboard()));
           },
           child: Container(
