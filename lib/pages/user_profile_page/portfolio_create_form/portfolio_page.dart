@@ -2219,12 +2219,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       child: Column(
         children: [
           topRow('Recent Activites', addAction: () {}, arrowAction: () {
-            Navigator.pop(context, '/g-carvaan');
-            // if (recentActivites?.length != 0)
-            //   Navigator.push(
-            //       context,
-            //       NextPageRoute(RecentActivitiesPage(),
-            //           isMaintainState: false));
+            if (recentActivites?.length != 0)
+              Navigator.push(
+                  context,
+                  NextPageRoute(RecentActivitiesPage(),
+                      isMaintainState: false));
           }, showAddButton: false),
           isPortfolioLoading == false
               ? recentActivites?.length != 0
@@ -3304,8 +3303,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
           )
         :   InkWell(
           onTap: (){
-          // mp.updateCurrentIndex('/g-competitions');
-          Navigator.push(context, NextPageRoute(Scaffold(body: Competetion(fromDasboard: true,),)));
+      Navigator.pop(context, '/g-competitions');
+          // Navigator.push(context, NextPageRoute(Scaffold(body: Competetion(fromDasboard: true,),)));
           },
           child: Container(
               width: MediaQuery.of(context).size.width,
