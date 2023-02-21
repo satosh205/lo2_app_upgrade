@@ -114,7 +114,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget>
                     child: AspectRatio(
                       aspectRatio: MediaQuery.of(context).size.width/300,
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(0),
                         child: VideoPlayer(_controller!)),
                     ),
                   ),

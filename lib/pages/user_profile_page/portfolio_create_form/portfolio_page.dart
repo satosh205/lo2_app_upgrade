@@ -11,16 +11,23 @@ import 'package:intl/intl.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
+import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
+import 'package:masterg/data/models/response/home_response/competition_response.dart';
 import 'package:masterg/data/models/response/home_response/new_portfolio_response.dart';
 import 'package:masterg/data/models/response/home_response/portfolio_competition_response.dart';
 import 'package:masterg/data/models/response/home_response/top_score.dart';
+import 'package:masterg/data/providers/video_player_provider.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/ghome/widget/read_more.dart';
+import 'package:masterg/pages/singularis/community/commiunity_dashboard.dart';
+import 'package:masterg/pages/singularis/competition/competition.dart';
+import 'package:masterg/pages/singularis/competition/competition_detail.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_certificate.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_education.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_experience.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_extra_act.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfolio.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/certificate_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/education_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/experience_list.dart';
@@ -28,6 +35,8 @@ import 'package:masterg/pages/user_profile_page/portfolio_create_form/extra_acti
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/social_page.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/view_edit_profile_image.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/view_resume.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_detail.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_list.dart';
 import 'package:masterg/pages/user_profile_page/singularis_profile_edit.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
@@ -39,6 +48,7 @@ import 'package:masterg/utils/video_screen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -362,7 +372,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   }
 
   //TODO: Dynamic Link Code Start
- /* Future<void> initDynamicLinks() async {
+  /* Future<void> initDynamicLinks() async {
     dynamicLinks.onLink.listen((dynamicLinkData) {
       final Uri uri = dynamicLinkData.link;
       final queryParams = uri.queryParameters;
@@ -422,7 +432,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
 
   //TODO: Dynamic Link Code End---------
 
-
   @override
   Widget build(BuildContext context) {
     //String? baseUrl = portfolioResponse?.data.baseFileUrl;
@@ -443,7 +452,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
               handletopScoring(state);
             }
           },
-
           child: Scaffold(
               //backgroundColor: Color(0xffF2F2F2),
               appBar: PreferredSize(
@@ -464,8 +472,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                       ),
                     )),
               ),
-
-              
               body: SingleChildScrollView(
                   key: const PageStorageKey<String>('portfolioList'),
                   child: Column(
@@ -605,7 +611,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                               14),
                                                                     ),
                                                                     onTap: () {
-                                                                      Navigator.pop(context);
+                                                                      Navigator.pop(
+                                                                          context);
                                                                       Navigator.push(
                                                                           context,
                                                                           NextPageRoute(UploadProfile(
@@ -627,7 +634,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                     ),
                                                                     onTap: () {
                                                                       // _initFilePiker();
-                                                                      Navigator.pop(context);
+                                                                      Navigator.pop(
+                                                                          context);
                                                                       Navigator.push(
                                                                           context,
                                                                           NextPageRoute(
@@ -672,7 +680,10 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                   Preference
                                                                       .PROFILE_VIDEO) !=
                                                               null &&
-                                                          Preference.getString(Preference.PROFILE_VIDEO) != '')
+                                                          Preference.getString(
+                                                                  Preference
+                                                                      .PROFILE_VIDEO) !=
+                                                              '')
                                                         Navigator.push(
                                                             context,
                                                             NextPageRoute(
@@ -753,21 +764,19 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                       SvgPicture.asset(
-                                                              'assets/images/person_location.svg')
-                                                        ,
+                                                      SvgPicture.asset(
+                                                          'assets/images/person_location.svg'),
                                                       SizedBox(
-                                                              width: width(
-                                                                      context) *
-                                                                  0.6,
-                                                              child: Text(
-                                                                  '${Preference.getString(Preference.LOCATION) ?? 'Add your location'}',
-                                                                  style: Styles.regular(
-                                                                      size: 12,
-                                                                      color: ColorConstants
-                                                                          .WHITE)),
-                                                            )
-                                                      ,
+                                                        width: width(context) *
+                                                            0.6,
+                                                        child: Text(
+                                                            '${Preference.getString(Preference.LOCATION) ?? 'Add your location'}',
+                                                            style: Styles.regular(
+                                                                size: 12,
+                                                                color:
+                                                                    ColorConstants
+                                                                        .WHITE)),
+                                                      ),
                                                       Spacer(),
                                                       Transform.scale(
                                                           scale: 1.2,
@@ -807,20 +816,19 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                 height: 50,
                               ),
                               Container(
-                                      color: ColorConstants.WHITE,
-                                      width: double.infinity,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 20),
-                                        child: Text(
-                                          '${Preference.getString(Preference.ABOUT_ME) ?? 'Tell something about yourself to everyone...'}',
-                                          textAlign: TextAlign.center,
-                                          style: Styles.regular(
-                                              size: 12,
-                                              color: Color(0xff5A5F73)),
-                                        ),
-                                      ),
-                                    )
-                                 ,
+                                color: ColorConstants.WHITE,
+                                width: double.infinity,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 20),
+                                  child: Text(
+                                    '${Preference.getString(Preference.ABOUT_ME) ?? 'Tell something about yourself to everyone...'}',
+                                    textAlign: TextAlign.center,
+                                    style: Styles.regular(
+                                        size: 12, color: Color(0xff5A5F73)),
+                                  ),
+                                ),
+                              ),
                               Container(
                                 color: ColorConstants.WHITE,
                                 child: Center(
@@ -858,26 +866,36 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                           endIndent: 10,
                                         ),
                                         SizedBox(width: 14),
-                                        portfolioResponse?.data.portfolioSocial == null ||
-                                            portfolioResponse?.data.portfolioSocial.length == 0
+                                        portfolioResponse?.data
+                                                        .portfolioSocial ==
+                                                    null ||
+                                                portfolioResponse
+                                                        ?.data
+                                                        .portfolioSocial
+                                                        .length ==
+                                                    0
                                             ? Row(
                                                 children: [
-                                                  SvgPicture.asset('assets/images/linkedin_un.svg'),
+                                                  SvgPicture.asset(
+                                                      'assets/images/linkedin_un.svg'),
                                                   SizedBox(width: 14),
                                                   /*SvgPicture.asset(
                                                       'assets/images/facebook_un.svg'),
                                                   SizedBox(width: 14),*/
-                                                  SvgPicture.asset('assets/images/insta_un.svg'),
+                                                  SvgPicture.asset(
+                                                      'assets/images/insta_un.svg'),
                                                   SizedBox(width: 14),
-                                                  SvgPicture.asset('assets/images/twitter_un.svg'),
+                                                  SvgPicture.asset(
+                                                      'assets/images/twitter_un.svg'),
                                                   SizedBox(width: 14),
-                                                  SvgPicture.asset('assets/images/behance_un.svg'),
+                                                  SvgPicture.asset(
+                                                      'assets/images/behance_un.svg'),
                                                   SizedBox(width: 3),
                                                 ],
                                               )
                                             : Row(
-                                              children: [
-                                                Row(
+                                                children: [
+                                                  Row(
                                                     children: [
                                                       portfolioResponse
                                                                   ?.data
@@ -906,9 +924,14 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                 });
                                                               },
                                                               child: Padding(
-                                                                padding: const EdgeInsets.only(right: 14.0),
-                                                                child: SvgPicture.asset(
-                                                                    'assets/images/linkedin.svg'),
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        right:
+                                                                            14.0),
+                                                                child: SvgPicture
+                                                                    .asset(
+                                                                        'assets/images/linkedin.svg'),
                                                               ),
                                                             )
                                                           : SizedBox(),
@@ -940,9 +963,14 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                 });
                                                               },
                                                               child: Padding(
-                                                                padding: const EdgeInsets.only(right: 14.0),
-                                                                child: SvgPicture.asset(
-                                                                    'assets/images/insta.svg'),
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        right:
+                                                                            14.0),
+                                                                child: SvgPicture
+                                                                    .asset(
+                                                                        'assets/images/insta.svg'),
                                                               ),
                                                             )
                                                           : SizedBox(),
@@ -974,9 +1002,14 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                 });
                                                               },
                                                               child: Padding(
-                                                                padding: const EdgeInsets.only(right: 0.0),
-                                                                child: SvgPicture.asset(
-                                                                    'assets/images/twitter.svg'),
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        right:
+                                                                            0.0),
+                                                                child: SvgPicture
+                                                                    .asset(
+                                                                        'assets/images/twitter.svg'),
                                                               ),
                                                             )
                                                           : SizedBox(),
@@ -1008,75 +1041,94 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                 });
                                                               },
                                                               child: Padding(
-                                                                padding: const EdgeInsets.only(right: 14.0),
-                                                                child: SvgPicture.asset(
-                                                                    'assets/images/behance.svg'),
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        right:
+                                                                            14.0),
+                                                                child: SvgPicture
+                                                                    .asset(
+                                                                        'assets/images/behance.svg'),
                                                               ),
                                                             )
                                                           : SizedBox(),
                                                       //SizedBox(width: 14),
                                                     ],
                                                   ),
-                                                Row(
-                                                  children: [
-                                                    portfolioResponse
-                                                        ?.data
-                                                        .portfolioSocial
-                                                        .first
-                                                        .linkedin ==
-                                                        ""
-                                                        ? Padding(
-                                                          padding: const EdgeInsets.only(right: 14.0),
-                                                          child: SvgPicture.asset(
-                                                'assets/images/linkedin_un.svg'),
-                                                        )
-                                                        : SizedBox(),
-                                                    //SizedBox(width: 14),
+                                                  Row(
+                                                    children: [
+                                                      portfolioResponse
+                                                                  ?.data
+                                                                  .portfolioSocial
+                                                                  .first
+                                                                  .linkedin ==
+                                                              ""
+                                                          ? Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      right:
+                                                                          14.0),
+                                                              child: SvgPicture
+                                                                  .asset(
+                                                                      'assets/images/linkedin_un.svg'),
+                                                            )
+                                                          : SizedBox(),
+                                                      //SizedBox(width: 14),
 
-                                                    portfolioResponse
-                                                        ?.data
-                                                        .portfolioSocial
-                                                        .first
-                                                        .insta ==
-                                                        ""
-                                                        ? Padding(
-                                                          padding: const EdgeInsets.only(right: 14.0),
-                                                          child: SvgPicture.asset(
-                                                          'assets/images/insta_un.svg'),
-                                                        )
-                                                        : SizedBox(),
+                                                      portfolioResponse
+                                                                  ?.data
+                                                                  .portfolioSocial
+                                                                  .first
+                                                                  .insta ==
+                                                              ""
+                                                          ? Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      right:
+                                                                          14.0),
+                                                              child: SvgPicture
+                                                                  .asset(
+                                                                      'assets/images/insta_un.svg'),
+                                                            )
+                                                          : SizedBox(),
 
-                                                    //SizedBox(width: 14),
+                                                      //SizedBox(width: 14),
 
-                                                    portfolioResponse
-                                                        ?.data
-                                                        .portfolioSocial
-                                                        .first
-                                                        .twitter ==
-                                                        ""
-                                                        ? Padding(
-                                                          padding: const EdgeInsets.only(right: 14.0),
-                                                          child: SvgPicture.asset(
-                                                          'assets/images/twitter_un.svg'),
-                                                        )
-                                                        : SizedBox(),
-                                                    //SizedBox(width: 14),
+                                                      portfolioResponse
+                                                                  ?.data
+                                                                  .portfolioSocial
+                                                                  .first
+                                                                  .twitter ==
+                                                              ""
+                                                          ? Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      right:
+                                                                          14.0),
+                                                              child: SvgPicture
+                                                                  .asset(
+                                                                      'assets/images/twitter_un.svg'),
+                                                            )
+                                                          : SizedBox(),
+                                                      //SizedBox(width: 14),
 
-                                                    portfolioResponse
-                                                        ?.data
-                                                        .portfolioSocial
-                                                        .first
-                                                        .bee ==
-                                                        ""
-                                                        ? SvgPicture.asset(
-                                                        'assets/images/behance_un.svg')
-                                                        : SizedBox(),
-                                                    SizedBox(width: 3),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-
+                                                      portfolioResponse
+                                                                  ?.data
+                                                                  .portfolioSocial
+                                                                  .first
+                                                                  .bee ==
+                                                              ""
+                                                          ? SvgPicture.asset(
+                                                              'assets/images/behance_un.svg')
+                                                          : SizedBox(),
+                                                      SizedBox(width: 3),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
 
                                         /*SvgPicture.asset(
                                             'assets/images/pintrest.svg'),*/
@@ -1195,7 +1247,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                             ],
                                           ),
                                           Text(
-                                            userRank?.data.first.rank != null || userRank?.data.first.rank == 0
+                                            userRank?.data.first.rank != null ||
+                                                    userRank?.data.first.rank ==
+                                                        0
                                                 ? 'out of ${userRank?.data.first.rankOutOf} Students'
                                                 : 'compete to gain rank',
                                             style: Styles.regular(
@@ -1234,7 +1288,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                   width: 28,
                                                   child: SvgPicture.asset(
                                                       'assets/images/coin.svg')),
-                                                      SizedBox(width: 4,),
+                                              SizedBox(
+                                                width: 4,
+                                              ),
                                               ShaderMask(
                                                 blendMode: BlendMode.srcIn,
                                                 shaderCallback: (Rect bounds) {
@@ -1336,7 +1392,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                       ),
 
                       //TODO: Skills Level Badges
-                      /*Container(
+                      Container(
                           margin: EdgeInsets.only(top: dividerMarginTop),
                           color: ColorConstants.WHITE,
                           padding: EdgeInsets.symmetric(
@@ -1346,106 +1402,107 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 8),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        'Skills Level & Badges',
-                                        style: Styles.semibold(size: 16),
-                                      ),
-                                      Spacer(),
-                                      Icon(Icons.arrow_forward_ios_rounded)
-                                    ],
-                                  ),
-                                ),
-                                Divider(),
-                                SizedBox(
-                                    height: height(context) * 0.2,
-                                    width: width(context),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          SvgPicture.asset(
-                                            'assets/images/skill_star.svg',
-                                            width: 40,
-                                          ),
-                                          RichText(
-                                            text: new TextSpan(
-                                              text: 'Complete ',
-                                              style: Styles.DMSansregular(),
-                                              children: <TextSpan>[
-                                                new TextSpan(
-                                                  text: 'Skill Assessments  ',
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      color: Colors.red),
-                                                ),
-                                                new TextSpan(
-                                                  text:
-                                                      'to \n    gain skills and earn badges',
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                    //   child: ListView(
-                                    //     scrollDirection: Axis.horizontal,
-                                    //     children: [
-                                    //       Image.asset(
-                                    //         'assets/images/temp/ux_design.png',
-                                    //         width: 100,
-                                    //       ),
-                                    //       SizedBox(
-                                    //         width: 5,
-                                    //       ),
-                                    //       Image.asset(
-                                    //         'assets/images/temp/prototype.png',
-                                    //         width: 100,
-                                    //       ),
-                                    //       SizedBox(
-                                    //         width: 5,
-                                    //       ),
-                                    //       Image.asset(
-                                    //         'assets/images/temp/informational.png',
-                                    //         width: 100,
-                                    //       ),
-                                    //       SizedBox(
-                                    //         width: 5,
-                                    //       ),
-                                    //       Image.asset(
-                                    //         'assets/images/temp/information.png',
-                                    //         width: 100,
-                                    //       ),
-                                    //       SizedBox(
-                                    //         width: 5,
-                                    //       ),
-                                    //       Image.asset(
-                                    //         'assets/images/temp/linux.png',
-                                    //         width: 100,
-                                    //       ),
-                                    //       SizedBox(
-                                    //         width: 5,
-                                    //       ),
-                                    //       Image.asset(
-                                    //         'assets/images/temp/linuxy.png',
-                                    //         width: 100,
-                                    //       ),
-                                    //       SizedBox(
-                                    //         width: 5,
-                                    //       ),
-                                    //       Image.asset(
-                                    //         'assets/images/temp/information.png',
-                                    //         width: 100,
-                                    //       ),
-                                    //     ],
-                                    //   ),
-                                    ),
+                                // Padding(
+                                //   padding:
+                                //       const EdgeInsets.symmetric(horizontal: 8),
+                                //   child: Row(
+                                //     children: [
+                                //       Text(
+                                //         'Skills Level & Badges',
+                                //         style: Styles.semibold(size: 16),
+                                //       ),
+                                //       Spacer(),
+                                //       Icon(Icons.arrow_forward_ios_rounded)
+                                //     ],
+                                //   ),
+                                // ),
+                                // Divider(),
+                                // SizedBox(
+                                //     height: height(context) * 0.2,
+                                //     width: width(context),
+                                //     child: Padding(
+                                //       padding: const EdgeInsets.all(8.0),
+                                //       child: Column(
+                                //         children: [
+                                //           SvgPicture.asset(
+                                //             'assets/images/skill_star.svg',
+                                //             width: 40,
+                                //           ),
+                                //           RichText(
+                                //             text: new TextSpan(
+                                //               text: 'Complete ',
+                                //               style: Styles.DMSansregular(),
+                                //               children: <TextSpan>[
+                                //                 new TextSpan(
+                                //                   text: 'Skill Assessments  ',
+                                //                   style: TextStyle(
+                                //                       fontSize: 16,
+                                //                       color: Colors.red),
+                                //                 ),
+                                //                 new TextSpan(
+                                //                   text:
+                                //                       'to \n    gain skills and earn badges',
+                                //                 ),
+                                //               ],
+                                //             ),
+                                //           ),
+                                //         ],
+                                //       ),
+                                //     )
+                                //     //   child: ListView(
+                                //     //     scrollDirection: Axis.horizontal,
+                                //     //     children: [
+                                //     //       Image.asset(
+                                //     //         'assets/images/temp/ux_design.png',
+                                //     //         width: 100,
+                                //     //       ),
+                                //     //       SizedBox(
+                                //     //         width: 5,
+                                //     //       ),
+                                //     //       Image.asset(
+                                //     //         'assets/images/temp/prototype.png',
+                                //     //         width: 100,
+                                //     //       ),
+                                //     //       SizedBox(
+                                //     //         width: 5,
+                                //     //       ),
+                                //     //       Image.asset(
+                                //     //         'assets/images/temp/informational.png',
+                                //     //         width: 100,
+                                //     //       ),
+                                //     //       SizedBox(
+                                //     //         width: 5,
+                                //     //       ),
+                                //     //       Image.asset(
+                                //     //         'assets/images/temp/information.png',
+                                //     //         width: 100,
+                                //     //       ),
+                                //     //       SizedBox(
+                                //     //         width: 5,
+                                //     //       ),
+                                //     //       Image.asset(
+                                //     //         'assets/images/temp/linux.png',
+                                //     //         width: 100,
+                                //     //       ),
+                                //     //       SizedBox(
+                                //     //         width: 5,
+                                //     //       ),
+                                //     //       Image.asset(
+                                //     //         'assets/images/temp/linuxy.png',
+                                //     //         width: 100,
+                                //     //       ),
+                                //     //       SizedBox(
+                                //     //         width: 5,
+                                //     //       ),
+                                //     //       Image.asset(
+                                //     //         'assets/images/temp/information.png',
+                                //     //         width: 100,
+                                //     //       ),
+                                //     //     ],
+                                //     //   ),
+                                //     ),
                                 dividerLine(),
+
                                 Container(
                                   // margin: EdgeInsets.only(top: dividerMarginTop),
                                   padding:
@@ -1708,7 +1765,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 8),
                                         height: competition?.data.length != 0
-                                            ? height(context) * 0.35
+                                            ? height(context) * 0.28
                                             : height(context) * 0.15,
                                         child: competition?.data.length != 0
                                             ? ListView.builder(
@@ -1749,7 +1806,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                           child: Container(
                                                             width:
                                                                 width(context) *
-                                                                    0.85,
+                                                                    0.7,
                                                             padding:
                                                                 EdgeInsets.only(
                                                                     bottom: 8),
@@ -1785,7 +1842,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                       height: MediaQuery.of(context)
                                                                               .size
                                                                               .height *
-                                                                          0.25,
+                                                                          0.2,
                                                                       fit: BoxFit
                                                                           .cover),
                                                                 ),
@@ -1833,24 +1890,17 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                           style: Styles.semibold(
                                                                               size: 12,
                                                                               color: Color(0xff929BA3))),
-                                                                      InkWell(
-                                                                        onTap:
-                                                                            () {
-                                                                          print(
-                                                                              'nice ${Preference.getString(Preference.FIRST_NAME)}');
-                                                                        },
-                                                                        child: SvgPicture
-                                                                            .asset(
-                                                                          'assets/images/coin.svg',
-                                                                          width:
-                                                                              width(context) * 0.02,
-                                                                        ),
+                                                                      SvgPicture
+                                                                          .asset(
+                                                                        'assets/images/coin.svg',
+                                                                        width: width(context) *
+                                                                            0.02,
                                                                       ),
                                                                       Text(
-                                                                          '${competition?.data[index].gScore ?? 0} Points Earned',
+                                                                          '  ${competition?.data[index].gScore ?? 0} Points Earned',
                                                                           style: Styles.semibold(
                                                                               size: 12,
-                                                                              color: Color(0xff929BA3))),
+                                                                              color: ColorConstants.ORANGE)),
                                                                     ],
                                                                   ),
                                                                 ),
@@ -1865,9 +1915,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                   height: 20,
                                 ),
                                 dividerLine(),
-                              ])),*/
+                              ])),
 
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
                       topRow('Education', arrowAction: () {
                         if (portfolioResponse?.data.education.length != 0)
                           Navigator.push(
@@ -2148,9 +2200,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                       getExperience(
                           portfolioResponse?.data.experience, context),
                       dividerLine(),
-                      getRecentActivites(portfolioResponse?.data.recentActivity, context),
+                      getRecentActivites(
+                          portfolioResponse?.data.recentActivity, context),
                       dividerLine(),
-                      getExtraActivitesWidget(portfolioResponse?.data.extraActivities, context),
+                      getExtraActivitesWidget(
+                          portfolioResponse?.data.extraActivities, context),
                     ],
                     //]
                   )))),
@@ -2265,20 +2319,22 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                       height: height(context) * 0.3,
                       fit: BoxFit.cover,
                     ))
-                : VideoPlayerWidget(videoUrl: '${recentActivites.resourcePath}',)
-                // ClipRect(
-                //     child: AspectRatio(
-                //       aspectRatio: 4 / 4,
-                //       child: FlickVideoPlayer(
-                //           // flickVideoWithControls: FlickPortraitControls(),
-                //           flickManager: FlickManager(
-                //         autoPlay: false,
-                //         videoPlayerController: VideoPlayerController.network(
-                //           '${recentActivites.resourcePath}',
-                //         ),
-                //       )),
-                //     ),
-                //   )
+                : VideoPlayerWidget(
+                    videoUrl: '${recentActivites.resourcePath}',
+                  )
+            // ClipRect(
+            //     child: AspectRatio(
+            //       aspectRatio: 4 / 4,
+            //       child: FlickVideoPlayer(
+            //           // flickVideoWithControls: FlickPortraitControls(),
+            //           flickManager: FlickManager(
+            //         autoPlay: false,
+            //         videoPlayerController: VideoPlayerController.network(
+            //           '${recentActivites.resourcePath}',
+            //         ),
+            //       )),
+            //     ),
+            //   )
 
             // CustomVideoPlayer(
             //                                     // sendflickManager:
@@ -3154,7 +3210,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
           )
         : InkWell(
             onTap: () {
-              print('portfolio List');
+              // print('portfolio List');
             },
             child: Container(
               width: MediaQuery.of(context).size.width,
@@ -3245,21 +3301,38 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
               ),
             ],
           )
-        : Container(
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/images/comp_emp.png'),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text('Participate in Competitions'),
-                ),
-                //Text('Competitions'),
-              ],
+        :   InkWell(
+          onTap: (){
+          // mp.updateCurrentIndex('/g-competitions');
+          Navigator.push(context, NextPageRoute(Scaffold(body: Competetion(fromDasboard: true,),)));
+          },
+          child: Container(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/images/comp_emp.png'),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text('Participate in '),
+                  ),
+                  ShaderMask(
+                      blendMode: BlendMode.srcIn,
+                      shaderCallback: (Rect bounds) {
+                        return LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: <Color>[
+                              ColorConstants.GRADIENT_RED,
+                              Color(0xfffc7804),
+                            ]).createShader(bounds);
+                      },
+                      child: Text('Competitions', style: Styles.bold())),
+                ],
+              ),
             ),
-          );
+        );
   }
 
   Widget educationListShimmer(var listLength) {
@@ -3643,20 +3716,31 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
               ),
             ],
           )
-        : InkWell(
-            onTap: () {
-              print('portfolio List');
-            },
-            child: Container(
-              color: Colors.white,
-              width: MediaQuery.of(context).size.width,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Image.asset(
-                    'assets/images/recentactiv_bg.png',
-                  ),
-                  Column(
+        : 
+        
+      InkWell(
+          onTap: () {
+            print('portfolio List');
+             Navigator.push(
+                  context,
+                  NextPageRoute(RecentActivitiesPage(),
+                      isMaintainState: false));
+            // Navigator.push(context, MaterialPageRoute(builder: (context)=> CommunityDashboard()));
+          },
+          child: Container(
+            color: Colors.white,
+            width: MediaQuery.of(context).size.width,
+            child: Stack(
+
+              alignment: Alignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/recentactiv_bg.png',
+                ),
+                Positioned(
+                  left: 20,
+                  right: 20,
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -3668,14 +3752,38 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                           top: 8.0,
                         ),
                         child: Text(
-                            'You have not done any community activity yet, Explore Community'),
+                            'You have not done any community activity yet,', style: Styles.semibold(size: 14, color: Color(0xff0E1638))),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 8.0,
+                        ),
+                        child: 
+                        
+                        ShaderMask(
+                                                blendMode: BlendMode.srcIn,
+                                                shaderCallback: (Rect bounds) {
+                                                  return LinearGradient(
+                                                      begin:
+                                                          Alignment.centerLeft,
+                                                      end:
+                                                          Alignment.centerRight,
+                                                      colors: <Color>[
+                                                        Color(0xfffc7804),
+                                                        ColorConstants
+                                                            .GRADIENT_RED
+                                                      ]).createShader(bounds);
+                                                },
+                                                child:Text(
+                            'Explore Community', style: Styles.bold(size: 14,))),
                       ),
                     ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          );
+          ),
+        );
   }
 
   Widget extraActivitiesListShimmer(var listLength) {
@@ -3846,7 +3954,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       }
     }
   }
-
 
   /*void callBackUpdateFunction(String ){
 
