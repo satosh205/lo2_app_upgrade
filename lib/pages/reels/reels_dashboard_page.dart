@@ -44,6 +44,7 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
     with TickerProviderStateMixin {
   bool isGReelsLoading = true;
   List<GReelsElement>? greelsList;
+  bool? isScrolled = false;
 
   //Box box;
 
@@ -51,7 +52,7 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
   void initState() {
     super.initState();
     _getGReels();
-    // _tabController = TabController(length: 0, vsync: this);
+    _tabController = TabController(length: 0, vsync: this);
   }
 
   @override
@@ -166,13 +167,19 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
   }
 
   Widget getBody(GReelsModel greelsList) {
-    if (widget.fromDashboard)
-      Future.delayed(Duration(milliseconds: 5), () {
-        // print('sccrolling to ');
-      })
-          .then((value) => _tabController?.animateTo(
+    if (widget.fromDashboard && isScrolled != true)
+      Future.delayed(Duration(seconds: 1), () {
+        print('sccrolling to ');
+        
+        
+      }).then((value) {
+              print('sccrolling to scorllred $isScrolled');
+isScrolled = true;
+        _tabController?.animateTo(
                 widget.scrollTo,
-              ));
+              );
+      });
+         
 
     if (greelsList.list == null || isGReelsLoading) {
       return Container(
