@@ -1701,7 +1701,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                               child: Text(
                                                                 '${portfolioResponse?.data.portfolio[index].portfolioTitle}',
                                                                 softWrap: true,
-                                                                maxLines: 2,
+                                                                maxLines: 1,
                                                                 overflow:
                                                                     TextOverflow
                                                                         .ellipsis,
@@ -1710,6 +1710,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                     color: Color(
                                                                         0xff0E1638)),
                                                               )),
+                                                          SizedBox(height: 4),
+
                                                           SizedBox(
                                                             width: MediaQuery.of(
                                                                         context)
