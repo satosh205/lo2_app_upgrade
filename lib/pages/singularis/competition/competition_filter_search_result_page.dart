@@ -109,7 +109,7 @@ class _CompetitionFilterSearchResultPageState extends State<CompetitionFilterSea
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.all(10),
           child: competitionResponse?.data != null ? ListView.builder(
-              itemCount: int.parse('${competitionResponse?.data!.length}') ?? 0,
+              itemCount: int.parse('${competitionResponse?.data!.length}'),
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {

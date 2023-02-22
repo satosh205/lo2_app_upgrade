@@ -1896,7 +1896,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                           .asset(
                                                                         'assets/images/coin.svg',
                                                                         width: width(context) *
-                                                                            0.02,
+                                                                            0.03,
                                                                       ),
                                                                       Text(
                                                                           '  ${competition?.data[index].gScore ?? 0} Points Earned',
