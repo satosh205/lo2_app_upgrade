@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -67,10 +68,11 @@ class _AddPortfolioState extends State<AddPortfolio> {
           if (state is AddPortfolioState) handleAddPortfolio(state);
         },
         child: Scaffold(
+            backgroundColor: ColorConstants.WHITE,
             appBar: AppBar(
-               backgroundColor: ColorConstants.WHITE,
-                elevation: 0,
-                leading: SizedBox(),
+              backgroundColor: ColorConstants.WHITE,
+              elevation: 0,
+              leading: SizedBox(),
               centerTitle: true,
               title: Text(
                 widget.editMode == true ? "Edit Portfolio" : "Add Portfolio",
@@ -87,7 +89,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                 isLoading: isAddPortfolioLoading,
                 body: Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
                   child: SingleChildScrollView(
                       child: Form(
                     key: _formKey,
@@ -123,6 +125,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                             validate: true,
                             validationString: 'Please enter title',
                             controller: titleController,
+                            maxChar: 50,
                             hintText: 'Type project title here..',
                           ),
                           const SizedBox(
@@ -210,7 +213,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                                       uploadImg != null
                                           ? '${uploadImg?.path.split('/').last}'
                                           : widget.portfolio?.imageName ??
-                                              "Supported Files: .jpeg, .png, .jpg",
+                                              "   Supported Files: .jpeg, .png, .jpg",
                                       softWrap: true,
                                       maxLines: 3,
                                       style: Styles.regular(
@@ -219,7 +222,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 8),
+                          SizedBox(height: 18),
                           Text(
                             "Associated link (if any)",
                             style: Styles.regular(
@@ -233,9 +236,11 @@ class _AddPortfolioState extends State<AddPortfolio> {
                             hintText: 'https//',
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 40,
                           ),
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -271,13 +276,14 @@ class _AddPortfolioState extends State<AddPortfolio> {
                                 ),
                               ),
                               SizedBox(
-                                width: width(context) * 0.6,
+                                width: width(context) * 0.9,
                                 child: Text(
                                     file != null
                                         ? '${file?.path.split('/').last}'
                                         : widget.portfolio?.portfolioFile ??
                                             "Supported Files: Documents, Image, Video",
                                     maxLines: 3,
+                                    textAlign: TextAlign.center,
                                     style: Styles.regular(
                                         size: 12, color: Color(0xff929BA3))),
                               ),
@@ -376,7 +382,9 @@ class _AddPortfolioState extends State<AddPortfolio> {
           Log.v("Success Add Portfolio....................");
           isAddPortfolioLoading = false;
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(widget.editMode == true ?'Portfolio updated' : 'Portfolio created'),
+            content: Text(widget.editMode == true
+                ? 'Portfolio updated'
+                : 'Portfolio created'),
           ));
           Navigator.pop(context);
           break;

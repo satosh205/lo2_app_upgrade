@@ -286,218 +286,233 @@ class _DashboardPageState extends State<DashboardPage> {
                     });
                   },
                   child: SingleChildScrollView(
-                      child: Stack(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 80.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 80.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Padding(
+                              //   padding: const EdgeInsets.symmetric(
+                              //       horizontal: 8, vertical: 8),
+                              //   child: Column(
+                              //     crossAxisAlignment: CrossAxisAlignment.start,
+                              //     children: [
+                              //       Text(
+                              //         'Welcome',
+                              //         style: Styles.semibold(size: 14),
+                              //       ),
+                              //       Text(
+                              //         '${Preference.getString(Preference.FIRST_NAME)}',
+                              //         style: Styles.bold(size: 28),
+                              //       ),
+                              //       Text(
+                              //         'Begin your learning journey',
+                              //         style: Styles.regular(),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
 
-                                // Padding(
-                                //   padding: const EdgeInsets.symmetric(
-                                //       horizontal: 8, vertical: 8),
-                                //   child: Column(
-                                //     crossAxisAlignment: CrossAxisAlignment.start,
-                                //     children: [
-                                //       Text(
-                                //         'Welcome',
-                                //         style: Styles.semibold(size: 14),
-                                //       ),
-                                //       Text(
-                                //         '${Preference.getString(Preference.FIRST_NAME)}',
-                                //         style: Styles.bold(size: 28),
-                                //       ),
-                                //       Text(
-                                //         'Begin your learning journey',
-                                //         style: Styles.regular(),
-                                //       ),
-                                //     ],
-                                //   ),
-                                // ),
+                              SizedBox(
+                                height: 0,
+                              ),
+                              domainLoading == false
+                                  ? futureTrendsList()
+                                  : SizedBox(),
 
-                                SizedBox(
-                                  height: 0,
-                                ),
-                                domainLoading == false ? futureTrendsList() : SizedBox(),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              featuredInternshipsLoading == false
+                                  ? featuredJobsInternships()
+                                  : SizedBox(),
 
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                featuredInternshipsLoading == false
-                                    ? featuredJobsInternships()
-                                    : SizedBox(),
-
-                                /*SizedBox(
+                              /*SizedBox(
                         height: 10,
                       ),
                       skillGapAnalysisWidgets(),*/
 
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                competitionsWidgets(),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              competitionsWidgets(),
 
-                                SizedBox(
-                                  height: 25,
-                                ),
-                                _buildYourPortfolioCard(
-                                    ColorConstants.ORANGE,
-                                    'Build Your Portfolio',
-                                    'Creating a Portfolio helps the recruiters to understand better about your profile and your skills.',
-                                    'build_portfolio'),
+                              SizedBox(
+                                height: 25,
+                              ),
+                              _buildYourPortfolioCard(
+                                  ColorConstants.ORANGE,
+                                  'Build Your Portfolio',
+                                  'Creating a Portfolio helps the recruiters to understand better about your profile and your skills.',
+                                  'build_portfolio'),
 
-                                SizedBox(
-                                  height: 10,
-                                ),
+                              SizedBox(
+                                height: 10,
+                              ),
 
-                                ///API Data
-                                renderWidgets(pages),
-                              ],
-                            ),
+                              ///API Data
+                              renderWidgets(pages),
+                            ],
                           ),
-                          RoundedAppBar(
-                              appBarHeight: height(context) * 0.16,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(height: 10,),
-                                    Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          height: 5.0,
-                                        ),
-                                        Row(
-                                          children: [
-                                            InkWell(
-                                              onTap: () {
-                                                Navigator.push(
-                                                    context,
-                                                    NextPageRoute(
-                                                        NewPortfolioPage()));
-                                              },
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                BorderRadius.circular(200),
-                                                child: SizedBox(
-                                                  width: 50,
-                                                  child: CachedNetworkImage(
-                                                    imageUrl:
-                                                    '${Preference.getString(Preference.PROFILE_IMAGE)}',
-                                                    placeholder: (context, url) =>
-                                                        SvgPicture.asset(
-                                                          'assets/images/default_user.svg',
-                                                          width: 50,
-                                                        ),
-                                                    errorWidget:
-                                                        (context, url, error) =>
-                                                        SvgPicture.asset(
-                                                          'assets/images/default_user.svg',
-                                                          width: 50,
-                                                        ),
+                        ),
+                        RoundedAppBar(
+                            appBarHeight: height(context) * 0.16,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: 5.0,
+                                      ),
+                                      Row(
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                      context,
+                                                      NextPageRoute(
+                                                          NewPortfolioPage()))
+                                                  .then((value) {
+                                                if (value != null)
+                                                  menuProvider
+                                                      ?.updateCurrentIndex(
+                                                          value);
+                                              });
+                                            },
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(200),
+                                              child: SizedBox(
+                                                width: 50,
+                                                child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      '${Preference.getString(Preference.PROFILE_IMAGE)}',
+                                                  placeholder: (context, url) =>
+                                                      SvgPicture.asset(
+                                                    'assets/images/default_user.svg',
+                                                    width: 50,
                                                   ),
-                                                  // child: Image.network(
-                                                  //   '${Preference.getString(Preference.PROFILE_IMAGE)}',
-                                                  //   errorBuilder:
-                                                  //       (context, error, stackTrace) =>
-                                                  //       SvgPicture.asset(
-                                                  //         'assets/images/default_user.svg',
-                                                  //         width: 50,
-                                                  //       ),
-                                                  // ),
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          SvgPicture.asset(
+                                                    'assets/images/default_user.svg',
+                                                    width: 50,
+                                                  ),
                                                 ),
+                                                // child: Image.network(
+                                                //   '${Preference.getString(Preference.PROFILE_IMAGE)}',
+                                                //   errorBuilder:
+                                                //       (context, error, stackTrace) =>
+                                                //       SvgPicture.asset(
+                                                //         'assets/images/default_user.svg',
+                                                //         width: 50,
+                                                //       ),
+                                                // ),
                                               ),
                                             ),
-                                            SizedBox(width: 10),
-                                            Column(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: [
-                                                Text('Welcome',
-                                                    style: Styles.regular(
-                                                        color: ColorConstants.WHITE,
-                                                        size: 14)),
-                                                Text(
-                                                  '${Preference.getString(Preference.FIRST_NAME)}',
-                                                  style: Styles.bold(
-                                                      color: ColorConstants.WHITE,
-                                                      size: 22),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Align(
-                                            alignment: Alignment.topRight,
-                                            child: InkWell(
-                                              onTap: () {
-                                                _scaffoldKey.currentState
-                                                    ?.openEndDrawer();
-                                              },
-                                              child: SvgPicture.asset(
-                                                  'assets/images/hamburger_menu.svg'),
-                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 12),
-                                    Container(
-                                      height: 5,
-                                      width: MediaQuery.of(context).size.width,
-                                      decoration: BoxDecoration(
-                                          color:
-                                          ColorConstants.WHITE.withOpacity(0.2),
-                                          borderRadius: BorderRadius.circular(10)),
-                                      child: Stack(
-                                        children: [
-                                          Container(
-                                            height: 10,
-                                            width:
-                                            MediaQuery.of(context).size.width *
-                                                0.6 *
-                                                (Preference.getInt(Preference.PROFILE_PERCENT) ?? 0 / 100),
-                                            decoration: BoxDecoration(
-                                                color: Color(0xffFFB72F),
-                                                borderRadius:
-                                                BorderRadius.circular(10)),
+                                          SizedBox(width: 10),
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text('Welcome',
+                                                  style: Styles.regular(
+                                                      color:
+                                                          ColorConstants.WHITE,
+                                                      size: 14)),
+                                              Text(
+                                                '${Preference.getString(Preference.FIRST_NAME)}',
+                                                style: Styles.bold(
+                                                    color: ColorConstants.WHITE,
+                                                    size: 22),
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
-                                    ),
-                                    SizedBox(height: 7),
-                                    Text.rich(
-                                        TextSpan(
-                                          children: [
-                                            TextSpan(
-                                                text: 'Profile completed: ',
-                                                style: Styles.regular(
-                                                    color: ColorConstants.WHITE)),
-                                            TextSpan(
-                                              text:
-                                              '${Preference.getInt(Preference.PROFILE_PERCENT) ?? 0}%',
-                                              style: Styles.bold(
-                                                  color: ColorConstants.WHITE),
-                                            ),
-                                          ],
+                                      Expanded(
+                                        flex: 2,
+                                        child: Align(
+                                          alignment: Alignment.topRight,
+                                          child: InkWell(
+                                            onTap: () {
+                                              _scaffoldKey.currentState
+                                                  ?.openEndDrawer();
+                                            },
+                                            child: SvgPicture.asset(
+                                                'assets/images/hamburger_menu.svg'),
+                                          ),
                                         ),
-                                        textAlign: TextAlign.left),
-                                    // Text('Profile completed: ${Preference.getInt(Preference.PROFILE_PERCENT) ?? 0}%',
-                                    //     style: Styles.semiBoldWhite())
-                                  ],
-                                ),
-                              )),
-                        ],
-                      ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 12),
+                                  Container(
+                                    height: 5,
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: BoxDecoration(
+                                        color: ColorConstants.WHITE
+                                            .withOpacity(0.2),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          height: 10,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.6 *
+                                              (Preference.getInt(Preference
+                                                      .PROFILE_PERCENT) ??
+                                                  0 / 100),
+                                          decoration: BoxDecoration(
+                                              color: Color(0xffFFB72F),
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 7),
+                                  Text.rich(
+                                      TextSpan(
+                                        children: [
+                                          TextSpan(
+                                              text: 'Profile completed: ',
+                                              style: Styles.regular(
+                                                  color: ColorConstants.WHITE)),
+                                          TextSpan(
+                                            text:
+                                                '${Preference.getInt(Preference.PROFILE_PERCENT) ?? 0}%',
+                                            style: Styles.bold(
+                                                color: ColorConstants.WHITE),
+                                          ),
+                                        ],
+                                      ),
+                                      textAlign: TextAlign.left),
+                                  // Text('Profile completed: ${Preference.getInt(Preference.PROFILE_PERCENT) ?? 0}%',
+                                  //     style: Styles.semiBoldWhite())
+                                ],
+                              ),
+                            )),
+                      ],
+                    ),
                   ),
                 ),
               )),
@@ -510,7 +525,9 @@ class _DashboardPageState extends State<DashboardPage> {
       height: 200,
       child: Column(
         children: [
-          SizedBox(height: 60,),
+          SizedBox(
+            height: 60,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -709,7 +726,9 @@ class _DashboardPageState extends State<DashboardPage> {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 8.0),
                                     child: Text(
-                                      growthType == 'up' ? '+ $growth%' : '- $growth%',
+                                      growthType == 'up'
+                                          ? '+ $growth%'
+                                          : '- $growth%',
                                       style: Styles.regular(
                                           color: growthType == 'up'
                                               ? ColorConstants.GREEN
@@ -1302,166 +1321,179 @@ class _DashboardPageState extends State<DashboardPage> {
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (BuildContext context, int index) {
                         return featuredInternshipsResponse
-                                                        ?.data![index]!
-                                                        .jobStatus ==
-                                                    null ||
-                                                featuredInternshipsResponse
-                                                        ?.data![index]!
-                                                        .jobStatus ==
-                                                    "" ?  InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                NextPageRoute(JobDetailsPage(
-                                  title: featuredInternshipsResponse
-                                      ?.data![index]!.name,
-                                  description: featuredInternshipsResponse
-                                      ?.data![index]!.description,
-                                  location: featuredInternshipsResponse
-                                      ?.data![index]!.location,
-                                  skillNames: featuredInternshipsResponse
-                                      ?.data![index]!.skillNames,
-                                  companyName: featuredInternshipsResponse
-                                      ?.data![index]!.organizedBy,
-                                  domain: featuredInternshipsResponse
-                                      ?.data![index]!.domainName,
-                                  companyThumbnail: featuredInternshipsResponse
-                                      ?.data![index]!.image,
-                                  experience: featuredInternshipsResponse
-                                      ?.data![index]!.experience,
-                                  //jobListDetails: jobList,
-                                  id: featuredInternshipsResponse
-                                      ?.data![index]!.id,
-                                  //jobStatus: featuredInternshipsResponse?.data![index]!.jobStatus,
-                                  jobStatus: '   ',
-                                )));
-                          },
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            decoration: BoxDecoration(
-                                color: ColorConstants.WHITE,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                    color: ColorConstants.List_Color)),
-                            margin: EdgeInsets.all(8),
-                            // color: Colors.red,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0,
-                                        right: 8.0,
-                                        top: 8.0,
-                                        bottom: 8.0),
-                                    child: Column(
+                                        ?.data![index]!.jobStatus ==
+                                    null ||
+                                featuredInternshipsResponse
+                                        ?.data![index]!.jobStatus ==
+                                    ""
+                            ? InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      NextPageRoute(JobDetailsPage(
+                                        title: featuredInternshipsResponse
+                                            ?.data![index]!.name,
+                                        description: featuredInternshipsResponse
+                                            ?.data![index]!.description,
+                                        location: featuredInternshipsResponse
+                                            ?.data![index]!.location,
+                                        skillNames: featuredInternshipsResponse
+                                            ?.data![index]!.skillNames,
+                                        companyName: featuredInternshipsResponse
+                                            ?.data![index]!.organizedBy,
+                                        domain: featuredInternshipsResponse
+                                            ?.data![index]!.domainName,
+                                        companyThumbnail:
+                                            featuredInternshipsResponse
+                                                ?.data![index]!.image,
+                                        experience: featuredInternshipsResponse
+                                            ?.data![index]!.experience,
+                                        //jobListDetails: jobList,
+                                        id: featuredInternshipsResponse
+                                            ?.data![index]!.id,
+                                        //jobStatus: featuredInternshipsResponse?.data![index]!.jobStatus,
+                                        jobStatus: '   ',
+                                      )));
+                                },
+                                child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.7,
+                                  decoration: BoxDecoration(
+                                      color: ColorConstants.WHITE,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                          color: ColorConstants.List_Color)),
+                                  margin: EdgeInsets.all(8),
+                                  // color: Colors.red,
+                                  child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
-                                        CachedNetworkImage(
-                                          imageUrl:
-                                              '${featuredInternshipsResponse?.data![index]!.image}',
-                                          width: 70,
-                                          height: 60,
-                                          errorWidget: (context, url, error) =>
-                                              SvgPicture.asset(
-                                            'assets/images/exp_emp.svg',
-                                          ),
-                                          fit: BoxFit.fill,
-                                        ),
-                                        SizedBox(
-                                          height: 46,
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 7.0),
-                                            child: Text(
-                                              '${featuredInternshipsResponse?.data![index]!.name}',
-                                              maxLines: 2,
-                                              style: Styles.bold(
-                                                  color: Color(0xff0E1638),
-                                                  size: 14),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Flexible(
-                                              child: Text(
-                                                '${featuredInternshipsResponse?.data![index]!.organizedBy}',
-                                                maxLines: 2,
-                                                softWrap: true,
-                                                style: Styles.regular(
-                                                    color:
-                                                        ColorConstants.GREY_3,
-                                                    size: 13),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 8.0,
+                                              right: 8.0,
+                                              top: 8.0,
+                                              bottom: 8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              CachedNetworkImage(
+                                                imageUrl:
+                                                    '${featuredInternshipsResponse?.data![index]!.image}',
+                                                width: 70,
+                                                height: 60,
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        SvgPicture.asset(
+                                                  'assets/images/exp_emp.svg',
+                                                ),
+                                                fit: BoxFit.fill,
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 1.0),
-                                              child: Icon(
-                                                Icons.location_on_outlined,
-                                                size: 16,
-                                                color: ColorConstants.GREY_3,
+                                              SizedBox(
+                                                height: 46,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 7.0),
+                                                  child: Text(
+                                                    '${featuredInternshipsResponse?.data![index]!.name}',
+                                                    maxLines: 2,
+                                                    style: Styles.bold(
+                                                        color:
+                                                            Color(0xff0E1638),
+                                                        size: 14),
+                                                  ),
+                                                ),
                                               ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 8.0),
-                                              child: Text(
-                                                '${featuredInternshipsResponse?.data![index]!.location}',
-                                                style: Styles.regular(
-                                                    color:
-                                                        ColorConstants.GREY_3,
-                                                    size: 11),
+                                              SizedBox(
+                                                height: 5,
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 7,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Image.asset(
-                                              'assets/images/jobicon.png',
-                                              height: 18,
-                                              width: 18,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 5.0),
-                                              child: Text('Exp: ',
-                                                  style: Styles.regular(
-                                                      size: 12,
-                                                      color: ColorConstants
-                                                          .GREY_6)),
-                                            ),
-                                            Text(
-                                                '${featuredInternshipsResponse?.data![index]!.experience} Yrs',
-                                                style: Styles.regular(
-                                                    size: 12,
-                                                    color:
-                                                        ColorConstants.GREY_6)),
-                                          ],
-                                        ),
-                                        /*Container(
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Flexible(
+                                                    child: Text(
+                                                      '${featuredInternshipsResponse?.data![index]!.organizedBy}',
+                                                      maxLines: 2,
+                                                      softWrap: true,
+                                                      style: Styles.regular(
+                                                          color: ColorConstants
+                                                              .GREY_3,
+                                                          size: 13),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 1.0),
+                                                    child: Icon(
+                                                      Icons
+                                                          .location_on_outlined,
+                                                      size: 16,
+                                                      color:
+                                                          ColorConstants.GREY_3,
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 8.0),
+                                                    child: Text(
+                                                      '${featuredInternshipsResponse?.data![index]!.location}',
+                                                      style: Styles.regular(
+                                                          color: ColorConstants
+                                                              .GREY_3,
+                                                          size: 11),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 7,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Image.asset(
+                                                    'assets/images/jobicon.png',
+                                                    height: 18,
+                                                    width: 18,
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 5.0),
+                                                    child: Text('Exp: ',
+                                                        style: Styles.regular(
+                                                            size: 12,
+                                                            color:
+                                                                ColorConstants
+                                                                    .GREY_6)),
+                                                  ),
+                                                  Text(
+                                                      '${featuredInternshipsResponse?.data![index]!.experience} Yrs',
+                                                      style: Styles.regular(
+                                                          size: 12,
+                                                          color: ColorConstants
+                                                              .GREY_6)),
+                                                ],
+                                              ),
+                                              /*Container(
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
@@ -1519,82 +1551,90 @@ class _DashboardPageState extends State<DashboardPage> {
                                           ),
                                         ),*/
 
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        featuredInternshipsResponse
-                                                        ?.data![index]!
-                                                        .jobStatus ==
-                                                    null ||
-                                                featuredInternshipsResponse
-                                                        ?.data![index]!
-                                                        .jobStatus ==
-                                                    ""
-                                            ? InkWell(
-                                                onTap: () {
-                                                  jobApply(
-                                                      int.parse(
-                                                          '${featuredInternshipsResponse?.data![index]!.id}'),
-                                                      1);
-                                                  _onLoadingForJob();
-                                                 /* Utility.showSnackBar(
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              featuredInternshipsResponse
+                                                              ?.data![index]!
+                                                              .jobStatus ==
+                                                          null ||
+                                                      featuredInternshipsResponse
+                                                              ?.data![index]!
+                                                              .jobStatus ==
+                                                          ""
+                                                  ? InkWell(
+                                                      onTap: () {
+                                                        jobApply(
+                                                            int.parse(
+                                                                '${featuredInternshipsResponse?.data![index]!.id}'),
+                                                            1);
+                                                        _onLoadingForJob();
+                                                        /* Utility.showSnackBar(
                                                       scaffoldContext: context,
                                                       message:
                                                           'Your application is successfully submitted.');*/
-                                                },
-                                                child: Container(
-                                                  height: 45,
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            50),
-                                                    gradient:
-                                                        LinearGradient(colors: [
-                                                      ColorConstants
-                                                          .DASHBOARD_APPLY_COLOR,
-                                                      ColorConstants
-                                                          .DASHBOARD_APPLY_COLOR,
-                                                    ]),
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Text(
-                                                        'Apply',
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                      },
+                                                      child: Container(
+                                                        height: 45,
+                                                        width: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(50),
+                                                          gradient:
+                                                              LinearGradient(
+                                                                  colors: [
+                                                                ColorConstants
+                                                                    .DASHBOARD_APPLY_COLOR,
+                                                                ColorConstants
+                                                                    .DASHBOARD_APPLY_COLOR,
+                                                              ]),
+                                                        ),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Text(
+                                                              'Apply',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              )
-                                            : Center(
-                                              child: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      bottom: 20.0),
-                                                  child: Text(
-                                                    'Applied',
-                                                    style: Styles.bold(
-                                                        color: Colors.green,
-                                                        size: 14),
-                                                  ),
-                                                ),
-                                            ),
-                                      ],
-                                    ),
-                                  ),
-                                ]),
-                          ),
-                        ) : SizedBox();
+                                                    )
+                                                  : Center(
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                bottom: 20.0),
+                                                        child: Text(
+                                                          'Applied',
+                                                          style: Styles.bold(
+                                                              color:
+                                                                  Colors.green,
+                                                              size: 14),
+                                                        ),
+                                                      ),
+                                                    ),
+                                            ],
+                                          ),
+                                        ),
+                                      ]),
+                                ),
+                              )
+                            : SizedBox();
                       })
                   : SizedBox(),
             ),
@@ -1648,7 +1688,10 @@ class _DashboardPageState extends State<DashboardPage> {
       width: double.infinity,
       child: InkWell(
         onTap: () {
-          Navigator.push(context, NextPageRoute(NewPortfolioPage()));
+          Navigator.push(context, NextPageRoute(NewPortfolioPage()))
+              .then((value) {
+            if (value != null) menuProvider?.updateCurrentIndex(value);
+          });
         },
         child: Padding(
           padding: const EdgeInsets.all(8),
@@ -2391,12 +2434,13 @@ class _DashboardPageState extends State<DashboardPage> {
               children: [
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.62,
-                  child: Text(companyName,
+                  child: Text(
+                    companyName,
                     maxLines: 1,
-                    style: Styles.semibold(size: 11, color: ColorConstants.GREY_3),
+                    style:
+                        Styles.semibold(size: 11, color: ColorConstants.GREY_3),
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: Icon(
@@ -2815,7 +2859,8 @@ class _DashboardPageState extends State<DashboardPage> {
                     horizontal: 10,
                   ),
                   child: Padding(
-                    padding: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+                    padding:
+                        EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -2830,7 +2875,6 @@ class _DashboardPageState extends State<DashboardPage> {
                           onTap: () {
                             // menuProvider?.updateCurrentIndex('/g-school');
                             Navigator.push(context, NextPageRoute(MyCourses()));
-                          
                           },
                           child: Text('View all',
                               style: Styles.regular(
@@ -2874,25 +2918,31 @@ class _DashboardPageState extends State<DashboardPage> {
                                 child: Container(
                                     padding: EdgeInsets.all(10),
                                     margin: EdgeInsets.only(top: 12, right: 10),
-                                    width: MediaQuery.of(context).size.width * 0.8,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.8,
                                     //height: MediaQuery.of(context).size.height * 0.13,
                                     height: 100,
                                     decoration: BoxDecoration(
                                         color: ColorConstants.WHITE,
-                                        borderRadius: BorderRadius.circular(10)),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
                                     child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                             children: [
                                               SizedBox(
                                                 child: ClipRRect(
                                                   borderRadius:
                                                       BorderRadius.circular(8),
                                                   child: CachedNetworkImage(
-                                                    imageUrl: '${myCoursesList?[index].image}',
+                                                    imageUrl:
+                                                        '${myCoursesList?[index].image}',
                                                     width: 80,
                                                     height: 80,
                                                     errorWidget:
@@ -2904,62 +2954,74 @@ class _DashboardPageState extends State<DashboardPage> {
                                                   ),
                                                 ),
                                               ),
-
                                               Padding(
-                                                padding: const EdgeInsets.only(left: 10.0),
+                                                padding: const EdgeInsets.only(
+                                                    left: 10.0),
                                                 child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     SizedBox(
-                                                      width: MediaQuery.of(context).size.width * 0.5,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.5,
                                                       child: Text(
                                                           '${myCoursesList![index].name}',
                                                           maxLines: 1,
-                                                          overflow: TextOverflow.ellipsis,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
                                                           softWrap: true,
-                                                          style: Styles.bold(size: 14)),
+                                                          style: Styles.bold(
+                                                              size: 14)),
                                                     ),
-
                                                     Padding(
-                                                      padding: const EdgeInsets.only(top: 8.0),
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 8.0),
                                                       child: Text(
                                                           '${myCoursesList![index].completion.toString().split('.').first}% ${Strings.of(context)?.Completed}',
-                                                          style:
-                                                          Styles.regular(size: 12)),
+                                                          style: Styles.regular(
+                                                              size: 12)),
                                                     ),
                                                     SizedBox(
                                                       height: 4,
                                                     ),
                                                     Container(
                                                       height: 7,
-                                                      width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                          0.50,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.50,
                                                       decoration: BoxDecoration(
-                                                          color: ColorConstants.GREY,
+                                                          color: ColorConstants
+                                                              .GREY,
                                                           borderRadius:
-                                                          BorderRadius.circular(
-                                                              10)),
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10)),
                                                       child: Stack(
                                                         children: [
                                                           Container(
                                                             height: 7,
                                                             width: MediaQuery.of(
-                                                                context)
-                                                                .size
-                                                                .width *
+                                                                        context)
+                                                                    .size
+                                                                    .width *
                                                                 0.8 *
-                                                                (myCoursesList![index]
-                                                                    .completion! /
+                                                                (myCoursesList![
+                                                                            index]
+                                                                        .completion! /
                                                                     100),
                                                             decoration: BoxDecoration(
                                                                 color: ColorConstants
                                                                     .PROGESSBAR_TEAL,
                                                                 borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                    10)),
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10)),
                                                           ),
                                                         ],
                                                       ),
@@ -3078,12 +3140,16 @@ class _DashboardPageState extends State<DashboardPage> {
                               MaterialPageRoute(
                                   builder: (context) => ReelsDashboardPage()));
                         },
-                        icon: Icon(Icons.arrow_forward_ios, size: 20,))
+                        icon: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 20,
+                        ))
                   ],
                 ),
                 Container(
                     height: 250,
-                    margin: EdgeInsets.only(left: 7.0, top: 10.0, right: 7.0, bottom: 10.0),
+                    margin: EdgeInsets.only(
+                        left: 7.0, top: 10.0, right: 7.0, bottom: 10.0),
                     child: ListView.builder(
                         itemCount: reelsList?.length,
                         scrollDirection: Axis.horizontal,
@@ -3109,12 +3175,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                                   )));
                                     },
                                     child:
-                                    // ReelRepeatVideo(videoUrl: '${reelsList?[index].resourcePath}',),
+                                        // ReelRepeatVideo(videoUrl: '${reelsList?[index].resourcePath}',),
 
-                                     CreateThumnail(
-                                        path: reelsList?[index].resourcePath)
-
-                                        )),
+                                        CreateThumnail(
+                                            path: reelsList?[index]
+                                                .resourcePath))),
                           );
                         }))
               ],
@@ -3152,7 +3217,8 @@ class _DashboardPageState extends State<DashboardPage> {
           return Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 10.0, top: 20, right: 10.0),
+                padding:
+                    const EdgeInsets.only(left: 10.0, top: 20, right: 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -3164,15 +3230,15 @@ class _DashboardPageState extends State<DashboardPage> {
                         )),
                     Expanded(child: SizedBox()),
                     TextButton(
-                        onPressed: () {
-                          menuProvider?.updateCurrentIndex('/g-school');
-                        },
+                      onPressed: () {
+                        menuProvider?.updateCurrentIndex('/g-school');
+                      },
                       child: Text('View all',
                           style: Styles.regular(
                             size: 12,
                             color: ColorConstants.VIEW_ALL,
                           )),
-                        //icon: Icon(Icons.arrow_forward_ios, size: 20,)
+                      //icon: Icon(Icons.arrow_forward_ios, size: 20,)
                     ),
                   ],
                 ),
@@ -3198,12 +3264,13 @@ class _DashboardPageState extends State<DashboardPage> {
                     itemCount: recommendedCourseList?.length ?? 0,
                     shrinkWrap: true,
                   )),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
             ],
           );
         });
   }
-
 
   //TODO: Now used for recent community post------
   renderCarvaanPageView() {
@@ -3243,7 +3310,10 @@ class _DashboardPageState extends State<DashboardPage> {
                         onPressed: () {
                           menuProvider?.updateCurrentIndex('/g-carvaan');
                         },
-                        icon: Icon(Icons.arrow_forward_ios, size: 20,))
+                        icon: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 20,
+                        ))
                   ],
                 ),
                 Padding(
@@ -3370,7 +3440,8 @@ class _DashboardPageState extends State<DashboardPage> {
                                   height: 80,
                                   child: Padding(
                                       padding:
-                                          carvaanList?[index].description != null
+                                          carvaanList?[index].description !=
+                                                  null
                                               ? const EdgeInsets.only(
                                                   bottom: 7, left: 10, top: 13)
                                               : const EdgeInsets.only(
@@ -3999,8 +4070,12 @@ class _DashboardPageState extends State<DashboardPage> {
                   tagName: 'TagReco',
                   name: recommendedcourses![index].name,
                   description: recommendedcourses![index].description ?? '',
-                  regularPrice: recommendedcourses![index].regularPrice != null ? recommendedcourses![index].regularPrice.toInt():null,
-                  salePrice: recommendedcourses![index].salePrice != null ? recommendedcourses![index].salePrice.toInt():null,
+                  regularPrice: recommendedcourses![index].regularPrice != null
+                      ? recommendedcourses![index].regularPrice.toInt()
+                      : null,
+                  salePrice: recommendedcourses![index].salePrice != null
+                      ? recommendedcourses![index].salePrice.toInt()
+                      : null,
                   trainer: recommendedcourses![index].trainer,
                   enrolmentCount: recommendedcourses![index].enrolmentCount,
                   type: recommendedcourses![index].subscriptionType,
@@ -4021,13 +4096,13 @@ class _DashboardPageState extends State<DashboardPage> {
         width: MediaQuery.of(context).size.width * 0.7,
         margin: EdgeInsets.only(right: 15),
         decoration: BoxDecoration(
-          color: ColorConstants.WHITE,
-          /*boxShadow: [BoxShadow(
+            color: ColorConstants.WHITE,
+            /*boxShadow: [BoxShadow(
                                 color: Color(0xff898989).withOpacity(0.2),
                                 offset: Offset(0, 4.0),
                                 blurRadius: 11)
                           ],*/
-                          // borderRadius: BorderRadius.circular(20)
+            // borderRadius: BorderRadius.circular(20)
             // border: Border.all(color: ColorConstants.GREY_4),
             borderRadius: BorderRadius.circular(10)),
         child: Column(
@@ -4081,7 +4156,7 @@ class _DashboardPageState extends State<DashboardPage> {
               //         //             size: 10, color: Colors.black)))
               //       ]),
               // ),
-               SizedBox(
+              SizedBox(
                 height: 4,
               ),
               Padding(
@@ -4099,8 +4174,9 @@ class _DashboardPageState extends State<DashboardPage> {
                   children: [
                     Icon(CupertinoIcons.clock,
                         size: 15, color: Color(0xFF273454)),
-
-                        SizedBox(width: 4,),
+                    SizedBox(
+                      width: 4,
+                    ),
                     Text('${duration[0]} ${duration[1]}',
                         overflow: TextOverflow.clip,
                         maxLines: 1,

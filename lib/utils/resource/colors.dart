@@ -84,7 +84,7 @@ class ColorConstants {
   static const STARCOLOUR = Color(0xfff9414d);
   static const PILL_BG = Color(0xfffff4db);
   static const ALL_BG = Color(0xffD4D4D4);
-  static const UNSELECTED_BUTTON = Color(0xffe9e9e9);
+  static const UNSELECTED_BUTTON = Color(0xffC8D0E3);
 
   //Continue button color
   static const CONTINUE_COLOR = Color(0xff043140);

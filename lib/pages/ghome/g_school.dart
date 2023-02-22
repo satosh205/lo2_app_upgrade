@@ -12,6 +12,7 @@ import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/request/home_request/user_program_subscribe.dart';
+import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
 import 'package:masterg/data/models/response/home_response/course_category_list_id_response.dart';
 import 'package:masterg/data/models/response/home_response/learning_space_response.dart';
 import 'package:masterg/data/models/response/home_response/my_assignment_response.dart';
@@ -32,6 +33,7 @@ import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/config.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_page.dart';
@@ -69,6 +71,8 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
   List<MostViewed>? mostViewed = [];
   AnimationController? controller;
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
+  MenuListProvider? menuProvider;
+
 
   Box? box;
 
@@ -92,7 +96,8 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
       endDrawer: new AppDrawer(),
       body: BlocManager(
         initState: (context) {},
-        child: BlocListener<HomeBloc, HomeState>(
+        child: Consumer< MenuListProvider>(
+          builder: (context, mp, child) =>  BlocListener<HomeBloc, HomeState>(
             listener: (context, state) async {
               if (state is getLiveClassState) _handleLiveClassResponse(state);
               if (state is PopularCoursesState)
@@ -105,6 +110,9 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
               if (state is MyAssignmentState) _handleAnnouncmentData(state);
               if (state is UserAnalyticsState) _handleUserAnalyticsData(state);
               if (state is LearningSpaceState) _handleLearningSpaceData(state);
+               setState(() {
+                      menuProvider = mp;
+                    });
             },
             child: SingleChildScrollView(
               child: Column(
@@ -198,7 +206,7 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
               ),
             )),
       ),
-    );
+    ));
   }
 
   Widget topRoundedCard(String img, String name, Function action) {
@@ -534,7 +542,12 @@ class _GSchoolState extends State<GSchool> with TickerProviderStateMixin {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => NewPortfolioPage()));
+                                  builder: (context) => NewPortfolioPage()))  .then((value) {
+                                                if (value != null)
+                                                  menuProvider
+                                                      ?.updateCurrentIndex(
+                                                          value);
+                                              });
                         },
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(200),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masterg/data/api/api_service.dart';
+import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
 import 'package:masterg/data/models/response/home_response/user_jobs_list_response.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/rounded_appbar.dart';
 import 'package:masterg/pages/singularis/app_drawer_page.dart';
@@ -57,6 +58,8 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
   int? applied;
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool myJobRecall = false;
+  MenuListProvider? menuProvider;
+
 
   @override
   void initState() {
@@ -213,7 +216,8 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
   Widget build(BuildContext context) {
     return BlocManager(
       initState: (context) {},
-      child: BlocListener<HomeBloc, HomeState>(
+      child: Consumer< MenuListProvider>(
+          builder: (context, mp, child) => BlocListener<HomeBloc, HomeState>(
         listener: (context, state) {
           if (state is JobCompListState) {
             _handlecompetitionListResponse(state);
@@ -226,6 +230,10 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
           }
           if (state is CompetitionContentListState)
             handleJobApplyState(state);
+
+             setState(() {
+                      menuProvider = mp;
+                    });
         },
         child: Scaffold(
           key:  _scaffoldKey,
@@ -235,7 +243,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
           body: _makeBody(),
         ),
       ),
-    );
+    ));
   }
 
 
@@ -359,7 +367,12 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      NewPortfolioPage()));
+                                      NewPortfolioPage())).then((value) {
+                                                if (value != null)
+                                                  menuProvider
+                                                      ?.updateCurrentIndex(
+                                                          value);
+                                              });
                         },
                         child: ClipRRect(
                           borderRadius:
@@ -794,10 +807,20 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
       child: InkWell(
         onTap: () {
           if (clickType == 'build_portfolio') {
-          Navigator.push(context, NextPageRoute(NewPortfolioPage()));
+          Navigator.push(context, NextPageRoute(NewPortfolioPage())).then((value) {
+                                                if (value != null)
+                                                  menuProvider
+                                                      ?.updateCurrentIndex(
+                                                          value);
+                                              });
 
           }else if(clickType == 'complete_profile'){
-            Navigator.push(context, NextPageRoute(NewPortfolioPage()));
+            Navigator.push(context, NextPageRoute(NewPortfolioPage())).then((value) {
+                                                if (value != null)
+                                                  menuProvider
+                                                      ?.updateCurrentIndex(
+                                                          value);
+                                              });
           }
         },
         child: Padding(

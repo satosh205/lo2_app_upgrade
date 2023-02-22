@@ -123,6 +123,15 @@ class Styles {
         fontWeight: FontWeight.w400);
   }
 
+  static otp({double size = 16, Color color = ColorConstants.GREY_2, double? letterSpacing }) {
+    return TextStyle(
+        fontSize: size * 1.0,
+        fontFamily: _OpenSansRegular,
+        color: color,
+        letterSpacing: letterSpacing,
+        fontWeight: FontWeight.w400);
+  }
+
   static DMSansbold({double size = 18, Color color = ColorConstants.BLACK}) {
     return TextStyle(
         fontSize: size,

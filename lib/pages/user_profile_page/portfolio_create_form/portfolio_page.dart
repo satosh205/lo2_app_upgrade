@@ -1701,7 +1701,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                               child: Text(
                                                                 '${portfolioResponse?.data.portfolio[index].portfolioTitle}',
                                                                 softWrap: true,
-                                                                maxLines: 2,
+                                                                maxLines: 1,
                                                                 overflow:
                                                                     TextOverflow
                                                                         .ellipsis,
@@ -1710,6 +1710,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                     color: Color(
                                                                         0xff0E1638)),
                                                               )),
+                                                          SizedBox(height: 4),
+
                                                           SizedBox(
                                                             width: MediaQuery.of(
                                                                         context)
@@ -3303,8 +3305,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
           )
         :   InkWell(
           onTap: (){
-          // mp.updateCurrentIndex('/g-competitions');
-          Navigator.push(context, NextPageRoute(Scaffold(body: Competetion(fromDasboard: true,),)));
+      Navigator.pop(context, '/g-competitions');
+          // Navigator.push(context, NextPageRoute(Scaffold(body: Competetion(fromDasboard: true,),)));
           },
           child: Container(
               width: MediaQuery.of(context).size.width,
@@ -3720,11 +3722,13 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
         
       InkWell(
           onTap: () {
-            print('portfolio List');
-             Navigator.push(
-                  context,
-                  NextPageRoute(RecentActivitiesPage(),
-                      isMaintainState: false));
+
+            Navigator.pop(context, '/g-carvaan');
+            // print('portfolio List');
+            //  Navigator.push(
+            //       context,
+            //       NextPageRoute(RecentActivitiesPage(),
+            //           isMaintainState: false));
             // Navigator.push(context, MaterialPageRoute(builder: (context)=> CommunityDashboard()));
           },
           child: Container(

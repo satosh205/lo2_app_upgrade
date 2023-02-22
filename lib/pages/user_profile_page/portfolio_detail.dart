@@ -14,6 +14,8 @@ import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfo
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
+import 'package:masterg/utils/resource/colors.dart';
+import 'package:masterg/utils/video_screen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
@@ -105,6 +107,7 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
     }
 
     return Scaffold(
+      backgroundColor: ColorConstants.WHITE,
         body: ScreenWithLoader(
             isLoading: deletePortfolio,
             body: BlocListener<HomeBloc, HomeState>(
@@ -132,40 +135,43 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        padding: const EdgeInsets.only(left: 16,  right: 24),
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
-                                width: width(context) * 0.8,
+                                width: width(context) * 0.7,
                                 child: Text(
                                   '${widget.portfolio.portfolioTitle}',
                                   style: Styles.bold(size: 16),
                                 )),
+                                Spacer(),
                             InkWell(
                                 onTap: () async {
-                                  AlertsWidget.showCustomDialog(
-                                      context: context,
-                                      title: '',
-                                      text: 'Are you sure you want to edit?',
-                                      icon:
-                                          'assets/images/circle_alert_fill.svg',
-                                      onOkClick: () async {
-                                        await Navigator.push(
-                                            context,
-                                            PageTransition(
-                                                duration:
-                                                    Duration(milliseconds: 300),
-                                                reverseDuration:
-                                                    Duration(milliseconds: 300),
-                                                type: PageTransitionType
-                                                    .bottomToTop,
-                                                child: AddPortfolio(
-                                                  baseUrl: '${widget.baseUrl}',
-                                                  editMode: true,
-                                                  portfolio: widget.portfolio,
-                                                ))).then(
-                                            (value) => Navigator.pop(context));
-                                      });
+                                  // AlertsWidget.showCustomDialog(
+                                  //     context: context,
+                                  //     title: '',
+                                  //     text: 'Are you sure you want to edit?',
+                                  //     icon:
+                                  //         'assets/images/circle_alert_fill.svg',
+                                  //     onOkClick: () async {
+                                  //      .then(
+                                  //           (value) => Navigator.pop(context));
+                                  //     });
+
+                                  await Navigator.push(
+                                      context,
+                                      PageTransition(
+                                          duration: Duration(milliseconds: 300),
+                                          reverseDuration:
+                                              Duration(milliseconds: 300),
+                                          type: PageTransitionType.bottomToTop,
+                                          child: AddPortfolio(
+                                            baseUrl: '${widget.baseUrl}',
+                                            editMode: true,
+                                            portfolio: widget.portfolio,
+                                          ))).then(
+                                      (value) => Navigator.pop(context));
                                 },
                                 child: SvgPicture.asset(
                                     'assets/images/edit_portfolio.svg')),
@@ -194,7 +200,7 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
                       // SizedBox(height: 10,),
 
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.only(left: 16, right: 10, top: 12),
                         child: Text('${widget.portfolio.desc}',
                             style: Styles.regular(
                                 size: 14, color: Color(0xff929BA3))),
@@ -203,7 +209,7 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
                         height: 10,
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                       padding: const EdgeInsets.only(left: 16, right: 10),
                         child: InkWell(
                             onTap: () {
                               launchUrl(Uri.parse(
@@ -213,12 +219,13 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
                                 style: Styles.regular(
                                     size: 12, color: Color(0xff0094FF)))),
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
+                      // SizedBox(
+                      //   height: 10,
+                      // ),
                       if (urlType == 'pdf') ...[
                         SizedBox(
-                          height: height(context) * 0.8,
+                          height: height(context) * 0.7,
+                          width: double.infinity,
                           child: PDF(
                             enableSwipe: true,
                             autoSpacing: false,
@@ -238,7 +245,19 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
                         Image.network(
                             '${widget.baseUrl}${widget.portfolio.portfolioFile}'),
                       ] else if (urlType == 'video')
-                        Text('video')
+                        Container(
+                            padding: const EdgeInsets.only(left: 16, right: 16),
+                          width: double.infinity,
+                          child: Center(
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: VideoPlayerWidget(
+                                  videoUrl:
+                                      '${widget.baseUrl}${widget.portfolio.portfolioFile}',
+                                  maitanceAspectRatio: true,
+                                )),
+                          ),
+                        )
 
                       //                     FutureBuilder(
                       //   future: _initializeVideoPlayerFuture,

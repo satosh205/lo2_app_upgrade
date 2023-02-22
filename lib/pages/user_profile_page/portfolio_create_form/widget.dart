@@ -18,35 +18,31 @@ class CustomTextField extends StatelessWidget {
       this.style,
       this.controller,
       this.maxChar,
-
-      this.maxLine = 1, this.validate = false, this.validationString = ""})
+      this.maxLine = 1,
+      this.validate = false,
+      this.validationString = ""})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return 
-   
-       TextFormField(
+    return TextFormField(
         maxLength: maxChar,
-        
         controller: controller,
         validator: (value) {
-          if(validate == false) return null;
-    if (value == null || value.isEmpty) {
-      return validationString;
-    }
-    return null;
-  },
+          if (validate == false) return null;
+          if (value == null || value.isEmpty) {
+            return validationString;
+          }
+          return null;
+        },
         maxLines: maxLine,
         decoration: InputDecoration(
-          
+          hintStyle: Styles.regular(size: 14,color: Color(0xff929BA3)),
           border: OutlineInputBorder(
-            
               borderSide: const BorderSide(width: 1, color: Color(0xffE5E5E5)),
               borderRadius: BorderRadius.circular(10)),
           hintText: hintText,
-       ));
-  
+        ));
   }
 }
 
@@ -88,12 +84,17 @@ class CustomUpload extends StatelessWidget {
         height: height(context) * 0.07,
         decoration: BoxDecoration(
           color: Colors.white,
-          border: Border.all(width: 1.0, color: const Color(0xffE5E5E5)),
+          
+              //  borderSide: const BorderSide(width: 1, color: Color(0xffE5E5E5)),
+              // borderRadius: BorderRadius.circular(10)),
+          border: Border.all(width: 1.0,color: Color.fromARGB(255, 142, 142, 142)),
           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
         ),
         child: Padding(
           padding: const EdgeInsets.only(left: .0),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ShaderMask(
                   blendMode: BlendMode.srcIn,
@@ -106,17 +107,14 @@ class CustomUpload extends StatelessWidget {
                           ColorConstants.GRADIENT_RED
                         ]).createShader(bounds);
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 90.0),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset('assets/images/upload_icon.svg'),
-                        Text(
-                          uploadText,
-                          style: Styles.bold(size: 12),
-                        ),
-                      ],
-                    ),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset('assets/images/upload_icon.svg'),
+                      Text(
+                        uploadText,
+                        style: Styles.bold(size: 12),
+                      ),
+                    ],
                   )),
             ],
           ),
