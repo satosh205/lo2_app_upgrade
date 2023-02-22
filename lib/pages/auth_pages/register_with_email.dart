@@ -25,6 +25,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController otpController = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool isCodeSent = false;
+  bool codeVerified = false;
   bool _isLoading = false;
 
   @override
@@ -38,6 +39,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void sendEmailVerificationCode(String email) {
     BlocProvider.of<HomeBloc>(context).add(EmailCodeSendEvent(email: email));
+  }
+
+  void verifyOtp(String email, String otp){
+    print('verify opt online');
+    BlocProvider.of<HomeBloc>(context).add(VerifyEmailCodeEvent(email: email, code: otp));
   }
 
   void _handleEmailCodeSendResponse(EmailCodeSendState state) {
@@ -67,6 +73,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
   }
 
+   void handleVerifyOtp(EmailCodeSendState state) {
+    var emailCodeSendState = state;
+    setState(() {
+      switch (emailCodeSendState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          _isLoading = true;
+          codeVerified = false;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("EmailCodeSend Suuuuuuuus....................");
+         codeVerified = true;
+          _isLoading = false;
+
+          break;
+        case ApiStatus.ERROR:
+          Log.v(
+              "Error emailCodeSendState ..........................${emailCodeSendState.error}");
+          _isLoading = false;
+          codeVerified = false;
+
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return BlocManager(
@@ -75,6 +110,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           listener: (context, state) async {
             if (state is EmailCodeSendState) {
               _handleEmailCodeSendResponse(state);
+            }
+            if(state is VerifyEmailCodeState){
+              
             }
           },
           child: Scaffold(
@@ -280,6 +318,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               children: [
                                 TextFormField(
                                   obscureText: true,
+                                  keyboardType: TextInputType.number,
                                   cursorColor: Color(0xffE5E5E5),
                                   controller: otpController,
                                   style: Styles.otp(
@@ -288,7 +327,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     letterSpacing: 40
                                   ),
                                   maxLength: 4,
+                                  onChanged: (value){
+                                    setState(() {
+                                      
+                                    });
+                                  },
                                   decoration: InputDecoration(
+                                    
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                       borderSide: BorderSide(
@@ -348,8 +393,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   bottom: 14,
                                   child: GestureDetector(
                                     onTap: () {
-                                      print('object');
+                                      print('object ${otpController.value.text.length}');
                                       //isCodeSent
+                                      verifyOtp(emailController.value.text, otpController.value.text);
                                     },
                                     child: GradientText(
                                       'Verify Code',
