@@ -67,10 +67,11 @@ class _AddPortfolioState extends State<AddPortfolio> {
           if (state is AddPortfolioState) handleAddPortfolio(state);
         },
         child: Scaffold(
+            backgroundColor: ColorConstants.WHITE,
             appBar: AppBar(
-               backgroundColor: ColorConstants.WHITE,
-                elevation: 0,
-                leading: SizedBox(),
+              backgroundColor: ColorConstants.WHITE,
+              elevation: 0,
+              leading: SizedBox(),
               centerTitle: true,
               title: Text(
                 widget.editMode == true ? "Edit Portfolio" : "Add Portfolio",
@@ -87,7 +88,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                 isLoading: isAddPortfolioLoading,
                 body: Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
                   child: SingleChildScrollView(
                       child: Form(
                     key: _formKey,
@@ -233,9 +234,11 @@ class _AddPortfolioState extends State<AddPortfolio> {
                             hintText: 'https//',
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 40,
                           ),
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -271,7 +274,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                                 ),
                               ),
                               SizedBox(
-                                width: width(context) * 0.6,
+                                width: width(context) * 0.9,
                                 child: Text(
                                     file != null
                                         ? '${file?.path.split('/').last}'
@@ -376,7 +379,9 @@ class _AddPortfolioState extends State<AddPortfolio> {
           Log.v("Success Add Portfolio....................");
           isAddPortfolioLoading = false;
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(widget.editMode == true ?'Portfolio updated' : 'Portfolio created'),
+            content: Text(widget.editMode == true
+                ? 'Portfolio updated'
+                : 'Portfolio created'),
           ));
           Navigator.pop(context);
           break;
