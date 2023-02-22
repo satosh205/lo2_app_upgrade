@@ -143,14 +143,18 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
                                 )),
                             InkWell(
                                 onTap: () async {
-                                  AlertsWidget.showCustomDialog(
-                                      context: context,
-                                      title: '',
-                                      text: 'Are you sure you want to edit?',
-                                      icon:
-                                          'assets/images/circle_alert_fill.svg',
-                                      onOkClick: () async {
-                                        await Navigator.push(
+                                  // AlertsWidget.showCustomDialog(
+                                  //     context: context,
+                                  //     title: '',
+                                  //     text: 'Are you sure you want to edit?',
+                                  //     icon:
+                                  //         'assets/images/circle_alert_fill.svg',
+                                  //     onOkClick: () async {
+                                  //      .then(
+                                  //           (value) => Navigator.pop(context));
+                                  //     });
+
+                                   await Navigator.push(
                                             context,
                                             PageTransition(
                                                 duration:
@@ -165,7 +169,7 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
                                                   portfolio: widget.portfolio,
                                                 ))).then(
                                             (value) => Navigator.pop(context));
-                                      });
+                                
                                 },
                                 child: SvgPicture.asset(
                                     'assets/images/edit_portfolio.svg')),

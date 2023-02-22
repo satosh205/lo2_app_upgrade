@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -124,6 +125,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                             validate: true,
                             validationString: 'Please enter title',
                             controller: titleController,
+                            maxChar: 50,
                             hintText: 'Type project title here..',
                           ),
                           const SizedBox(
@@ -211,7 +213,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                                       uploadImg != null
                                           ? '${uploadImg?.path.split('/').last}'
                                           : widget.portfolio?.imageName ??
-                                              "Supported Files: .jpeg, .png, .jpg",
+                                              "   Supported Files: .jpeg, .png, .jpg",
                                       softWrap: true,
                                       maxLines: 3,
                                       style: Styles.regular(
@@ -220,7 +222,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 8),
+                          SizedBox(height: 18),
                           Text(
                             "Associated link (if any)",
                             style: Styles.regular(
@@ -281,6 +283,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                                         : widget.portfolio?.portfolioFile ??
                                             "Supported Files: Documents, Image, Video",
                                     maxLines: 3,
+                                    textAlign: TextAlign.center,
                                     style: Styles.regular(
                                         size: 12, color: Color(0xff929BA3))),
                               ),

@@ -84,7 +84,10 @@ class CustomUpload extends StatelessWidget {
         height: height(context) * 0.07,
         decoration: BoxDecoration(
           color: Colors.white,
-          border: Border.all(width: 1.0, color: const Color(0xffE5E5E5)),
+          
+              //  borderSide: const BorderSide(width: 1, color: Color(0xffE5E5E5)),
+              // borderRadius: BorderRadius.circular(10)),
+          border: Border.all(width: 1.0,color: Color.fromARGB(255, 142, 142, 142)),
           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
         ),
         child: Padding(
