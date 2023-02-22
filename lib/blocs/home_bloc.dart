@@ -618,10 +618,20 @@ class CourseCategoryListIDEvent extends HomeEvent {
 
 class CompetitionListEvent extends HomeEvent {
   bool? isPopular;
-bool? isFilter;
-String? ids;
+  bool? isFilter;
+  String? ids;
 
   CompetitionListEvent({this.isPopular, this.isFilter = false, this.ids}) : super([isPopular, isFilter, ids]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+class CompetitionListFilterEvent extends HomeEvent {
+  bool? isPopular;
+  bool? isFilter;
+  String? ids;
+
+  CompetitionListFilterEvent({this.isPopular, this.isFilter = false, this.ids}) : super([isPopular, isFilter, ids]);
 
   List<Object> get props => throw UnimplementedError();
 }
@@ -752,6 +762,15 @@ class CompetitionListState extends HomeState {
   String? error;
 
   CompetitionListState(this.state, {this.competitonResponse, this.popularCompetitionResponse,this.competedCompetition,this.myActivity,  this.error});
+}
+
+class CompetitionListFilterState extends HomeState {
+  ApiStatus state;
+  ApiStatus get apiState => state;
+  CompetitionResponse? competitionFilterResponse;
+  String? error;
+
+  CompetitionListFilterState(this.state, {this.competitionFilterResponse, this.error});
 }
 
 
@@ -2742,6 +2761,22 @@ try {
         }
       }
     }
+
+    else if (event is CompetitionListFilterEvent) {
+      //if (event.isPopular == false) {
+        try {
+          yield CompetitionListFilterState(ApiStatus.LOADING);
+
+          List<dynamic> response = await  Future.wait([homeRepository.getCompetitionList(false, event.isFilter!, event.ids)]);
+          yield CompetitionListFilterState(ApiStatus.SUCCESS,competitionFilterResponse: response[0]);
+        } catch (e) {
+          Log.v("Exception : $e");
+          yield CompetitionListFilterState(ApiStatus.ERROR,
+              error: 'Something went wrong');
+        }
+      //}
+    }
+
 
     ///For Job -============
     else if (event is JobCompListEvent) {

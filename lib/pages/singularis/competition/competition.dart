@@ -667,7 +667,7 @@ class _CompetetionState extends State<Competetion> {
                                                                               domainFilterList!.data!.list.length,
                                                                               (i) => InkWell(
                                                                                     onTap: () {
-                                                                                      seletedIds += domainFilterList!.data!.list[i].id.toString() + ',';
+                                                                                      //seletedIds += domainFilterList!.data!.list[i].id.toString() + ',';
                                                                                       if (selectedIdList.contains(domainFilterList!.data!.list[i].id)) {
                                                                                         selectedIdList.remove(domainFilterList!.data!.list[i].id);
                                                                                       } else {
@@ -740,37 +740,34 @@ class _CompetetionState extends State<Competetion> {
                                                                     ///Search Button
                                                                     InkWell(
                                                                       onTap: (){
-  //                                                                       bool isFilterApplie;
+                                                                        bool isFilter;
+                                                                        String conSelectValue;
+                                                                        if(selectedIdList.length != 0){
+                                                                          seletedIds = selectedIdList.toString().replaceAll("[", "").replaceAll("]", "");
+                                                                        }
 
-  // if (selectedIdList.length == 0 &&
-  //                                           selectedDifficulty != '') {
-  //                                         getCompetitionList(true,
-  //                                             '&competition_level=${selectedDifficulty.toLowerCase()}');
-  //                                       } else if (selectedIdList.length == 0) {
-  //                                         print('calling this');
-  //                                         getCompetitionList(false,
-  //                                             '&competition_level=${selectedDifficulty.toLowerCase()}');
-  //                                       } else
-  //                                         getCompetitionList(
-  //                                             true,
-  //                                             seletedIds.substring(0,
-  //                                                     seletedIds.length - 1) +
-  //                                                 '&competition_level=${selectedDifficulty.toLowerCase()}');
+                                                                        if (selectedIdList.length == 0 && selectedDifficulty != '') {
+                                                                          isFilter = true;
+                                                                          conSelectValue = '&competition_level=${selectedDifficulty.toLowerCase()}';
+                                                                          //getCompetitionList(true, '&competition_level=${selectedDifficulty.toLowerCase()}');
+                                                                        } else if (selectedIdList.length == 0) {
+                                                                          isFilter = false;
+                                                                          conSelectValue = '&competition_level=${selectedDifficulty.toLowerCase()}';
+                                                                          //getCompetitionList(false, '&competition_level=${selectedDifficulty.toLowerCase()}');
+                                                                        } else
+                                                                          isFilter = true;
+                                                                          conSelectValue = seletedIds + '&competition_level=${selectedDifficulty.toLowerCase()}';
+                                                                          //getCompetitionList(true, seletedIds.substring(0, seletedIds.length - 1) + '&competition_level=${selectedDifficulty.toLowerCase()}');
 
+                                                                        print('Search Jobs');
 
-                                                                        print('Search  Jobs');
-                                                                        print(seletedIds);
-                                                                        print(selectedIdList);
-                                                                        seletedIds = selectedIdList.toString().replaceAll("[", "").replaceAll("]", "");
-                                                                        print(seletedIds);
-                                                                        //Navigator.pop(context);
                                                                         Navigator.push(
                                                                             context,
                                                                             NextPageRoute(
                                                                                 CompetitionFilterSearchResultPage(
                                                                                   appBarTitle: 'Search Competitions',
-                                                                                  isSearchMode: false,
-                                                                                  jobRolesId: seletedIds,
+                                                                                  isSearchMode: isFilter,
+                                                                                  jobRolesId: conSelectValue,
                                                                                 ),
                                                                                 isMaintainState: true)).then((value) => null);
 
@@ -960,11 +957,12 @@ class _CompetetionState extends State<Competetion> {
                                   ? ListView.builder(
                                       shrinkWrap: true,
                                       physics: BouncingScrollPhysics(),
-                                      itemCount:
-                                          competitionResponse!.data!.length - 4,
+                                      itemCount: competitionResponse!.data!.length > 4 ?
+                                      competitionResponse!.data!.length - 4 :
+                                      competitionResponse!.data!.length,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        index = index + 4;
+                                        index = competitionResponse!.data!.length > 4 ? index + 4 : index;
                                         return InkWell(
                                             onTap: () {
                                               Navigator.push(
