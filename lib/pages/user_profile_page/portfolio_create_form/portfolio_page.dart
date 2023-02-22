@@ -771,6 +771,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                             0.6,
                                                         child: Text(
                                                             '${Preference.getString(Preference.LOCATION) ?? 'Add your location'}',
+                                                            maxLines: 1, 
+                                                            // overflow: TextOverflow.ellipsis,
                                                             style: Styles.regular(
                                                                 size: 12,
                                                                 color:
@@ -1802,6 +1804,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                         0,
                                                                     description:
                                                                         "",
+                                                                        startDate: competition
+                                                                            ?.data[index]
+                                                                            .startDate
                                                                   ),
                                                                 )));
                                                           },
@@ -2992,13 +2997,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
         case ApiStatus.SUCCESS:
           portfolioResponse = portfolioState.response;
 
-          if (portfolioState.response?.data.name
-                  .contains('${Preference.getString(Preference.FIRST_NAME)}') ==
-              true) {
-            Preference.setString(
+         Preference.setString(
                 Preference.FIRST_NAME, '${portfolioState.response?.data.name}');
-          }
-
           if (portfolioState.response?.data.image.contains(
                   '${Preference.getString(Preference.PROFILE_IMAGE)}') ==
               true) {

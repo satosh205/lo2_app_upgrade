@@ -22,18 +22,17 @@ import 'package:masterg/utils/utility.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
 
-
 class ViewResume extends StatefulWidget {
   final String? resumUrl;
   final int? resumeId;
-  const ViewResume({super.key,  this.resumUrl, this.resumeId});
+  const ViewResume({super.key, this.resumUrl, this.resumeId});
 
   @override
   State<ViewResume> createState() => _ViewResumeState();
 }
 
 class _ViewResumeState extends State<ViewResume> {
-    final GlobalKey<ScaffoldState> _key = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _key = new GlobalKey<ScaffoldState>();
   bool? updateResume = false;
   @override
   Widget build(BuildContext context) {
@@ -50,7 +49,7 @@ class _ViewResumeState extends State<ViewResume> {
               if (!(widget.resumUrl == '' || widget.resumUrl == null))
                 InkWell(
                     onTap: () {
-                  download(widget.resumUrl);
+                      download(widget.resumUrl);
                     },
                     child: SvgPicture.asset(
                       'assets/images/download.svg',
@@ -58,18 +57,17 @@ class _ViewResumeState extends State<ViewResume> {
               SizedBox(
                 width: 20,
               ),
-           if (!(widget.resumUrl == '' || widget.resumUrl == null))
+              if (!(widget.resumUrl == '' || widget.resumUrl == null))
                 InkWell(
                     onTap: () {
-                        AlertsWidget.showCustomDialog(
-                      context: context,
-                      title: '',
-                      text: 'Are you sure you want to delete the resume?',
-                      icon: 'assets/images/circle_alert_fill.svg',
-                      onOkClick: () async {
-                        deleteResume(widget.resumeId!);
-                      });
-                      
+                      AlertsWidget.showCustomDialog(
+                          context: context,
+                          title: '',
+                          text: 'Are you sure you want to delete the resume?',
+                          icon: 'assets/images/circle_alert_fill.svg',
+                          onOkClick: () async {
+                            deleteResume(widget.resumeId!);
+                          });
                     },
                     child: SvgPicture.asset(
                       'assets/images/delete.svg',
@@ -124,11 +122,17 @@ class _ViewResumeState extends State<ViewResume> {
                         data['file'] = await MultipartFile.fromFile(
                             '${result?.files.first.path}',
                             filename: result?.files.first.name);
-                            updateResume = true;
-                            setState(() {
-                              
-                            });
-                        addResume(data);
+                       
+                        if (result?.files.first.extension == 'pdf') {
+                           setState(() {});
+                           updateResume = true;
+                          addResume(data);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                                'It is not a PDF file please try to upload a PDF file.'),
+                          ));
+                        }
                       }
                     },
                     child: Row(
@@ -158,24 +162,21 @@ class _ViewResumeState extends State<ViewResume> {
               if (state is SingularisDeletePortfolioState) {
                 handleDeleteResume(state);
               }
-              if(state is AddResumeState){
-                   if(state.apiState == ApiStatus.SUCCESS) {
-                    updateResume = false;
-                    setState(() {
-                      
-                    });
-          
-                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content:
-                  Text('Resume uploaded'),
-            ));
-                await    Future.delayed(Duration(seconds: 1));
+              if (state is AddResumeState) {
+                if (state.apiState == ApiStatus.SUCCESS) {
+                  updateResume = false;
+                  setState(() {});
+
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Resume uploaded'),
+                  ));
+                  await Future.delayed(Duration(seconds: 1));
                   Navigator.pop(context);
                 }
               }
             },
             child: Container(
-              color: Colors.green,
+              color: ColorConstants.WHITE,
               height: height(context) * 0.8,
               width: width(context),
               child: widget.resumUrl == '' || widget.resumUrl == null
@@ -194,16 +195,16 @@ class _ViewResumeState extends State<ViewResume> {
                           style: Styles.regular(size: 14),
                         ),
                       ],
-                    ) 
-                    
-                    // : Text('${widget.resumUrl}')
+                    )
+
+                  // : Text('${widget.resumUrl}')
                   : Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: PDF(
+                      width: double.infinity,
+                      height: double.infinity,
+                      child: PDF(
                         //swipeHorizontal: true,
                         autoSpacing: false,
-fitPolicy: FitPolicy.BOTH,
+                        fitPolicy: FitPolicy.BOTH,
                         enableSwipe: true,
                         gestureRecognizers: [
                           Factory(() => PanGestureRecognizer()),
@@ -217,7 +218,7 @@ fitPolicy: FitPolicy.BOTH,
                         errorWidget: (error) =>
                             Center(child: Text(error.toString())),
                       ),
-                  ),
+                    ),
             ),
           ),
         ));
@@ -243,6 +244,10 @@ fitPolicy: FitPolicy.BOTH,
         case ApiStatus.SUCCESS:
           Log.v("Success Add  Certificate....................");
           updateResume = false;
+           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content:
+                  Text('Resume successfully deleted.'),
+            ));
           Navigator.pop(context);
           break;
         case ApiStatus.ERROR:
@@ -255,7 +260,7 @@ fitPolicy: FitPolicy.BOTH,
     });
   }
 
-   void download(String? usersFile) async {
+  void download(String? usersFile) async {
     print('downloading');
     if (await Permission.storage.request().isGranted) {
       // var tempDir = await getApplicationDocumentsDirectory();
@@ -273,7 +278,6 @@ fitPolicy: FitPolicy.BOTH,
           return;
         }
       } else {
-
         localPath = (await getApplicationDocumentsDirectory()).path;
       }
       //String localPath = (tempDir.path) + Platform.pathSeparator + 'MyCoach';
@@ -303,10 +307,10 @@ fitPolicy: FitPolicy.BOTH,
       //   ),
       // );
 
- ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(' Downloading start.'),
-          ));
-     
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(' Downloading start.'),
+      ));
+
       final taskId = await FlutterDownloader.enqueue(
         url: url,
         savedDir: savePath,
@@ -318,5 +322,4 @@ fitPolicy: FitPolicy.BOTH,
       print(e);
     }
   }
-
 }

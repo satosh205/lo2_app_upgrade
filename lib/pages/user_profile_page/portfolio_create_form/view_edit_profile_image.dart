@@ -92,6 +92,7 @@ class _UploadProfileState extends State<UploadProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorConstants.BLACK,
       appBar: AppBar(
           elevation: 0,
           title: Text(
@@ -110,10 +111,9 @@ class _UploadProfileState extends State<UploadProfile> {
               if (widget.editVideo == true || widget.playVideo == true) ...[
                 Preference.getString(Preference.PROFILE_VIDEO) != null &&
                         Preference.getString(Preference.PROFILE_VIDEO) != ""
-                    ? SizedBox(
-                        height: height(context) * 0.3,
-                        width: width(context),
-                        child: VideoPlayer(controller))
+                    ? AspectRatio(
+                      aspectRatio: controller.value.aspectRatio,
+                      child: VideoPlayer(controller))
                     : SizedBox(),
                     //Text('${Preference.getString(Preference.PROFILE_VIDEO)}'),
                 Spacer(),
@@ -129,6 +129,7 @@ class _UploadProfileState extends State<UploadProfile> {
                         icon('Upload', widget.editVideo == true ?
                         'assets/images/video.svg' : 'assets/images/image.svg', () async {
                           _initFilePiker()?.then((value) async {
+                            print('the value is $value');
                             Map<String, dynamic> data = Map();
                             data['video'] = await MultipartFile.fromFile(
                                 '${value?.path}',
@@ -151,7 +152,7 @@ class _UploadProfileState extends State<UploadProfile> {
                               filterQuality: FilterQuality.low,
                               width: width(context),
                               height: height(context) * 0.8,
-                              fit: BoxFit.cover,
+                              fit: BoxFit.contain,
                             ),
                             Spacer(),
                             Container(
