@@ -435,11 +435,17 @@ class _DashboardPageState extends State<DashboardPage> {
                                                       color:
                                                           ColorConstants.WHITE,
                                                       size: 14)),
-                                              Text(
-                                                '${Preference.getString(Preference.FIRST_NAME)}',
-                                                style: Styles.bold(
-                                                    color: ColorConstants.WHITE,
-                                                    size: 22),
+                                              SizedBox(
+                                                width: width(context) * 0.7,
+                                                child: Text(
+                                                  '${Preference.getString(Preference.FIRST_NAME)}',
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: Styles.bold(
+                                                      color: ColorConstants.WHITE,
+                                                      
+                                                      size: 22),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -477,10 +483,10 @@ class _DashboardPageState extends State<DashboardPage> {
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.6 *
-                                              (Preference.getInt(Preference
+                                    
+                                              ((Preference.getInt(Preference
                                                       .PROFILE_PERCENT) ??
-                                                  0 / 100),
+                                                  0) / 100),
                                           decoration: BoxDecoration(
                                               color: Color(0xffFFB72F),
                                               borderRadius:

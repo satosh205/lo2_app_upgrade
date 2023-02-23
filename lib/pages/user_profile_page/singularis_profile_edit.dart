@@ -22,22 +22,21 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  final nameController = TextEditingController(text:  Preference.getString(
-              Preference.FIRST_NAME));
-  final headController = TextEditingController(text: Preference.getString(
-              Preference.USER_HEADLINE));
-  final countryController = TextEditingController(text: Preference.getString(
-              Preference.LOCATION)?.split(',')[1]);
-  final cityController = TextEditingController(text: Preference.getString(
-              Preference.LOCATION)?.split(',').first);
-  final aboutController = TextEditingController(text: Preference.getString(
-              Preference.ABOUT_ME));
-    bool addingProfile = false;
-    final _formKey = GlobalKey<FormState>();
+  final nameController =
+      TextEditingController(text: Preference.getString(Preference.FIRST_NAME));
+  final headController = TextEditingController(
+      text: Preference.getString(Preference.USER_HEADLINE));
+  final countryController = TextEditingController(
+      text: Preference.getString(Preference.LOCATION)?.split(',')[1]);
+  final cityController = TextEditingController(
+      text: Preference.getString(Preference.LOCATION)?.split(',').first);
+  final aboutController =
+      TextEditingController(text: Preference.getString(Preference.ABOUT_ME));
+  bool addingProfile = false;
+  final _formKey = GlobalKey<FormState>();
 
-    late double lat = 0.0;
-    late double long = 0.0;
-
+  late double lat = 0.0;
+  late double long = 0.0;
 
   @override
   void initState() {
@@ -52,20 +51,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         backgroundColor: ColorConstants.WHITE,
         body: ScreenWithLoader(
           isLoading: addingProfile,
           body: BlocListener<HomeBloc, HomeState>(
               listener: (context, state) async {
-                if(state is AddProfolioProfileState){
+                if (state is AddProfolioProfileState) {
                   handleAddProfileResponse(state);
                 }
               },
               child: SafeArea(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: SingleChildScrollView(
                       child: Form(
                     key: _formKey,
@@ -77,8 +75,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               Spacer(),
                               Text(
                                 "Edit Profile",
-                                style:
-                                    Styles.bold(size: 14, color: Color(0xff0E1638)),
+                                style: Styles.bold(
+                                    size: 14, color: Color(0xff0E1638)),
                               ),
                               Spacer(),
                               InkWell(
@@ -93,9 +91,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             ],
                           ),
                           SizedBox(height: 8),
- Text(
+                          Text(
                             "Full Name*",
-                            style: Styles.regular(size: 12),
+                            style: Styles.regular(
+                                size: 14, color: Color(0xff0E1638)),
                           ),
                           SizedBox(
                             height: 10,
@@ -111,9 +110,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           const SizedBox(
                             height: 10,
                           ),
-                           Text(
+                          Text(
                             "Headline*",
-                            style: Styles.regular(size: 12),
+                            style: Styles.regular(
+                                size: 14, color: Color(0xff0E1638)),
                           ),
                           const SizedBox(
                             height: 5,
@@ -124,31 +124,32 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               maxChar: 30,
                               controller: headController,
                               hintText: 'Write your headlline'),
- Text(
+                          Text(
                             "Location",
                             style: Styles.bold(size: 14),
                           ),
-              
                           InkWell(
-                            onTap: () async{
+                            onTap: () async {
                               try {
-                                List<Placemark> placemarks = await placemarkFromCoordinates(lat, long);
+                                List<Placemark> placemarks =
+                                    await placemarkFromCoordinates(lat, long);
                                 print('${placemarks.first.country}');
                                 print('${placemarks.first.locality}');
-              
+
                                 //countryController.text = placemarks.first.country.toString();
                                 //cityController.text = placemarks.first.locality.toString();
-              
+
                                 AlertsWidget.showCustomDialog(
                                     context: context,
                                     title: 'Current Location',
-                                    text: 'Ues Current Location',
+                                    text: 'Use Your Current Location',
                                     icon: 'assets/images/circle_alert_fill.svg',
                                     onOkClick: () async {
-                                      countryController.text = placemarks.first.country.toString();
-                                      cityController.text = placemarks.first.locality.toString();
+                                      countryController.text =
+                                          placemarks.first.country.toString();
+                                      cityController.text =
+                                          placemarks.first.locality.toString();
                                     });
-              
                               } catch (e) {
                                 print(':::: ${e.toString()}');
                               }
@@ -168,10 +169,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               ],
                             ),
                           ),
-              
-                           Text(
+                          Text(
                             "Country*",
-                            style: Styles.regular(size: 12),
+                            style: Styles.regular(
+                                size: 14, color: Color(0xff0E1638)),
                           ),
                           const SizedBox(
                             height: 5,
@@ -184,9 +185,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           const SizedBox(
                             height: 10,
                           ),
-                           Text(
+                          Text(
                             "City*",
-                            style: Styles.regular(size: 12),
+                            style: Styles.regular(
+                                size: 14, color: Color(0xff0E1638)),
                           ),
                           const SizedBox(
                             height: 5,
@@ -199,9 +201,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           SizedBox(
                             height: 20,
                           ),
-                           Text(
+                          Text(
                             "About me*",
-                            style: Styles.regular(size: 12),
+                            style: Styles.regular(
+                                size: 14, color: Color(0xff0E1638)),
                           ),
                           SizedBox(
                             height: 5,
@@ -238,7 +241,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   void handleAddProfileResponse(AddProfolioProfileState state) {
- 
     setState(() {
       switch (state.apiState) {
         case ApiStatus.LOADING:
@@ -250,19 +252,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
           Log.v("Add Profile State....................");
           addingProfile = false;
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content:
-                  Text('Profile updated Successfully '),
-            ));
-          
-          Navigator.pop(context);
-           
+            content: Text('Profile updated Successfully '),
+          ));
 
+          Navigator.pop(context);
 
           break;
         case ApiStatus.ERROR:
           Log.v(
               "Error CompetitionListIDState ..........................${state.error}");
-                    addingProfile = false;
+          addingProfile = false;
           break;
         case ApiStatus.INITIAL:
           break;

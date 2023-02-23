@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_html/style.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
@@ -10,7 +9,6 @@ import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/new_portfolio_response.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
-import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
@@ -125,7 +123,7 @@ class _SocialPageState extends State<SocialPage> {
                           ),
                         ),
                         SizedBox(
-                          height: 12,
+                          height: 8,
                         ),
                         InkWell(
                           onTap: () {
@@ -142,8 +140,8 @@ class _SocialPageState extends State<SocialPage> {
                                         'assets/images/close_eye.svg')
                                     : Icon(
                                         Icons.remove_red_eye,
-                                        size: 20,
-                                        color: ColorConstants.GREEN,
+                                       size: 15,
+                                        color: ColorConstants.GRADIENT_ORANGE,
                                       ),
                                 VerticalDivider(),
                                 Text(
@@ -188,7 +186,7 @@ class _SocialPageState extends State<SocialPage> {
                           ),
                         ),
                         SizedBox(
-                          height: 12,
+                          height: 8,
                         ),
                         InkWell(
                             onTap: () {
@@ -205,8 +203,8 @@ class _SocialPageState extends State<SocialPage> {
                                           'assets/images/close_eye.svg')
                                       : Icon(
                                           Icons.remove_red_eye,
-                                          size: 20,
-                                          color: ColorConstants.GREEN,
+                                          size: 15,
+                                            color: ColorConstants.GRADIENT_ORANGE,
                                         ),
                                   VerticalDivider(),
                                   Text(
