@@ -243,7 +243,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.symmetric(vertical: 8),
                                 child: CustomUpload(
                                   onClick: () async {
                                     FilePickerResult? result;

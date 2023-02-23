@@ -766,7 +766,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                             0.6,
                                                         child: Text(
                                                             '${Preference.getString(Preference.LOCATION) ?? 'Add your location'}',
-                                                            maxLines: 1, 
+                                                            maxLines: 1,
                                                             // overflow: TextOverflow.ellipsis,
                                                             style: Styles.regular(
                                                                 size: 12,
@@ -1708,7 +1708,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                         0xff0E1638)),
                                                               )),
                                                           SizedBox(height: 4),
-
                                                           SizedBox(
                                                             width: MediaQuery.of(
                                                                         context)
@@ -1779,30 +1778,28 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                 context,
                                                                 NextPageRoute(
                                                                     CompetitionDetail(
-                                                                  competition:
-                                                                      Competition(
-                                                                    id: competition
-                                                                        ?.data[
-                                                                            index]
-                                                                        .pId,
-                                                                    name: competition
-                                                                        ?.data[
-                                                                            index]
-                                                                        .pName,
-                                                                    image: competition
-                                                                        ?.data[
-                                                                            index]
-                                                                        .pImage,
-                                                                    gScore: competition
-                                                                            ?.data[index]
-                                                                            .gScore ??
-                                                                        0,
-                                                                    description:
-                                                                        "",
-                                                                        startDate: competition
-                                                                            ?.data[index]
-                                                                            .startDate
-                                                                  ),
+                                                                  competition: Competition(
+                                                                      id: competition
+                                                                          ?.data[
+                                                                              index]
+                                                                          .pId,
+                                                                      name: competition
+                                                                          ?.data[
+                                                                              index]
+                                                                          .pName,
+                                                                      image: competition
+                                                                          ?.data[
+                                                                              index]
+                                                                          .pImage,
+                                                                      gScore:
+                                                                          competition?.data[index].gScore ??
+                                                                              0,
+                                                                      description:
+                                                                          "",
+                                                                      startDate: competition
+                                                                          ?.data[
+                                                                              index]
+                                                                          .startDate),
                                                                 )));
                                                           },
                                                           child: Container(
@@ -1952,22 +1949,22 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                   ? ListView.builder(
                                       shrinkWrap: true,
                                       physics: ScrollPhysics(),
-                                      itemCount: min(2, portfolioResponse
-                                          !.data.education.length),
+                                      itemCount: min(
+                                          2,
+                                          portfolioResponse!
+                                              .data.education.length),
                                       itemBuilder: (context, index) {
-                                        int len  = min(2, portfolioResponse
-                                          !.data.education.length);
+                                        int len = min(
+                                            2,
+                                            portfolioResponse!
+                                                .data.education.length);
                                         DateTime endDate = DateTime.now();
 
-                                        if (portfolioResponse
-                                                    ?.data
-                                                    .education[index]
-                                                    .endDate !=
+                                        if (portfolioResponse?.data
+                                                    .education[index].endDate !=
                                                 null ||
-                                            portfolioResponse
-                                                    ?.data
-                                                    .education[index]
-                                                    .endDate !=
+                                            portfolioResponse?.data
+                                                    .education[index].endDate !=
                                                 '') {
                                           String endDateString =
                                               "${portfolioResponse?.data.education[index].endDate}";
@@ -1998,38 +1995,32 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .start,
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   ClipRRect(
                                                       borderRadius:
-                                                          BorderRadius
-                                                              .circular(8),
-                                                      child:
-                                                          CachedNetworkImage(
+                                                          BorderRadius.circular(
+                                                              8),
+                                                      child: CachedNetworkImage(
                                                         imageUrl:
                                                             '${portfolioResponse?.data.baseFileUrl}${portfolioResponse?.data.education[index].imageName}',
-                                                        height:
-                                                            width(context) *
-                                                                0.2,
-                                                        width:
-                                                            width(context) *
-                                                                0.2,
+                                                        height: width(context) *
+                                                            0.2,
+                                                        width: width(context) *
+                                                            0.2,
                                                         fit: BoxFit.cover,
-                                                        errorWidget:
-                                                            (context, url,
-                                                                error) {
+                                                        errorWidget: (context,
+                                                            url, error) {
                                                           return Container(
                                                             padding:
-                                                                EdgeInsets
-                                                                    .all(
-                                                                        14),
-                                                            decoration: BoxDecoration(
-                                                                color: Color(
-                                                                    0xffD5D5D5)),
-                                                            child:
-                                                                SvgPicture
-                                                                    .asset(
+                                                                EdgeInsets.all(
+                                                                    14),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                                    color: Color(
+                                                                        0xffD5D5D5)),
+                                                            child: SvgPicture
+                                                                .asset(
                                                               'assets/images/default_education.svg',
                                                               height: 40,
                                                               width: 40,
@@ -2041,21 +2032,19 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                             ),
                                                           );
                                                         },
-                                                        placeholder:
-                                                            (BuildContext
-                                                                    context,
-                                                                loadingProgress) {
+                                                        placeholder: (BuildContext
+                                                                context,
+                                                            loadingProgress) {
                                                           return Container(
                                                             padding:
-                                                                EdgeInsets
-                                                                    .all(
-                                                                        14),
-                                                            decoration: BoxDecoration(
-                                                                color: Color(
-                                                                    0xffD5D5D5)),
-                                                            child:
-                                                                SvgPicture
-                                                                    .asset(
+                                                                EdgeInsets.all(
+                                                                    14),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                                    color: Color(
+                                                                        0xffD5D5D5)),
+                                                            child: SvgPicture
+                                                                .asset(
                                                               'assets/images/default_education.svg',
                                                               height: 40,
                                                               width: 40,
@@ -2080,39 +2069,34 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                             .spaceEvenly,
                                                     children: [
                                                       SizedBox(
-                                                        width:
-                                                            width(context) *
-                                                                0.71,
+                                                        width: width(context) *
+                                                            0.71,
                                                         child: Text(
                                                           '${portfolioResponse?.data.education[index].title}',
                                                           maxLines: 2,
-                                                          style:
-                                                              Styles.bold(
-                                                                  size: 14),
+                                                          style: Styles.bold(
+                                                              size: 14),
                                                         ),
                                                       ),
                                                       SizedBox(height: 4),
                                                       SizedBox(
-                                                        width:
-                                                            width(context) *
-                                                                0.71,
+                                                        width: width(context) *
+                                                            0.71,
                                                         child: Text(
                                                           maxLines: 2,
                                                           '${portfolioResponse?.data.education[index].institute}',
-                                                          style: Styles
-                                                              .regular(
-                                                                  size: 14),
+                                                          style: Styles.regular(
+                                                              size: 14),
                                                         ),
                                                       ),
                                                       SizedBox(height: 4),
                                                       Row(
                                                         children: [
                                                           Text(
-                                                            '${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2,4)} - ',
-                                                            style: Styles
-                                                                .regular(
-                                                                    size:
-                                                                        14),
+                                                            '${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2, 4)} - ',
+                                                            style:
+                                                                Styles.regular(
+                                                                    size: 14),
                                                           ),
                                                           if (portfolioResponse
                                                                       ?.data
@@ -2127,11 +2111,10 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                       .endDate !=
                                                                   '')
                                                             Text(
-                                                              '${listOfMonths[endDate.month -1].substring(0, 3)} ${endDate.year.toString().substring(2,4)}',
+                                                              '${listOfMonths[endDate.month - 1].substring(0, 3)} ${endDate.year.toString().substring(2, 4)}',
                                                               style: Styles
                                                                   .regular(
-                                                                      size:
-                                                                          14),
+                                                                      size: 14),
                                                             ),
                                                         ],
                                                       )
@@ -2153,9 +2136,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                               SizedBox(
                                                 height: 22,
                                               ),
-                                              if (index + 1 !=
-                                                  len)
-                                                Divider(),
+                                              if (index + 1 != len) Divider(),
                                             ],
                                           ),
                                         );
@@ -2194,7 +2175,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                           ],*/
 
                       dividerLine(),
-                      
+
                       getCertificateWidget(
                           portfolioResponse?.data.certificate, context),
                       dividerLine(),
@@ -2374,7 +2355,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
 
   Widget getCertificateWidget(
       List<CommonProfession>? certificateList, context) {
-       certificateList?.sort((a, b )=>a.startDate.compareTo(a.startDate));
+    certificateList?.sort((a, b) => a.startDate.compareTo(a.startDate));
     return Container(
       color: Colors.white,
       child: Column(
@@ -2475,7 +2456,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                       height: 8,
                                     ),
                                     Text(
-                                      '${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2,4)}',
+                                      '${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2, 4)}',
                                       // '${certificateList?[index].startDate ?? 'Sep 21'}',
                                       style: Styles.regular(),
                                     ),
@@ -2524,7 +2505,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                   padding: EdgeInsets.all(8),
                   child: experience?.length != 0
                       ? ListView.builder(
-                          itemCount: experience?.length,
+                          itemCount: min(2, int.parse('${experience?.length}')),
                           shrinkWrap: true,
                           physics: ScrollPhysics(),
                           itemBuilder: (context, index) {
@@ -2542,9 +2523,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                               endDate =
                                   DateFormat("yyyy-MM-dd").parse(endDateString);
                             }
-                            // String type =
-                            //     '${experience?[index].curricularType.replaceAll('_', '')}';
-                            // type = type[0].toUpperCase() + type.substring(1);
+                            String type =
+                                '${experience?[index].curricularType.replaceAll('_', '')}';
+                            type = type[0].toUpperCase() + type.substring(1);
 
                             return Transform.translate(
                               offset: Offset(0, -10),
@@ -2604,20 +2585,20 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                               SizedBox(
                                                 height: 10,
                                               ),
-                                              // experience?[index]
-                                              //             .currentlyWorkHere ==
-                                              //         'true'
-                                              //     ? Text(
-                                              //         '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day}  -  Present',
-                                              //         style: Styles.regular(
-                                              //             size: 12),
-                                              //       )
-                                              //     : Text(
-                                              //         '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day}  -  ' +
-                                              //             ' ${listOfMonths[endDate.month - 1].substring(0, 3)} ${endDate.day}',
-                                              //         style: Styles.regular(
-                                              //             size: 12),
-                                              //       )
+                                              experience?[index]
+                                                          .currentlyWorkHere ==
+                                                      'true'
+                                                  ? Text(
+                                                      '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day}  -  Present',
+                                                      style: Styles.regular(
+                                                          size: 12),
+                                                    )
+                                                  : Text(
+                                                      '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day}  -  ' +
+                                                          ' ${listOfMonths[endDate.month - 1].substring(0, 3)} ${endDate.day}',
+                                                      style: Styles.regular(
+                                                          size: 12),
+                                                    )
                                             ],
                                           ),
                                         )
@@ -2630,11 +2611,14 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                       text: '${experience?[index].description}',
                                       color: ColorConstants.GREY_3,
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 12),
-                                      child: Divider(),
-                                    )
+                                    if (index + 1 !=
+                                        min(2,
+                                            int.parse('${experience?.length}')))
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 12),
+                                        child: Divider(),
+                                      )
                                   ],
                                 ),
                               ),
@@ -2992,8 +2976,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
         case ApiStatus.SUCCESS:
           portfolioResponse = portfolioState.response;
 
-         Preference.setString(
-                Preference.FIRST_NAME, '${portfolioState.response?.data.name}');
+          Preference.setString(
+              Preference.FIRST_NAME, '${portfolioState.response?.data.name}');
           if (portfolioState.response?.data.image.contains(
                   '${Preference.getString(Preference.PROFILE_IMAGE)}') ==
               true) {
@@ -3155,7 +3139,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       }
       if (days > 30) {
         int month = (startDate.difference(endDate).inDays ~/ 30).abs();
-        return '$month ${Strings.of(context)?.mos}';
+        return '$month Months';
       } else
         return '${startDate.difference(endDate).inDays.abs()} ${Strings.of(context)?.d}';
     }
@@ -3298,12 +3282,12 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
               ),
             ],
           )
-        :   InkWell(
-          onTap: (){
-      Navigator.pop(context, '/g-competitions');
-          // Navigator.push(context, NextPageRoute(Scaffold(body: Competetion(fromDasboard: true,),)));
-          },
-          child: Container(
+        : InkWell(
+            onTap: () {
+              Navigator.pop(context, '/g-competitions');
+              // Navigator.push(context, NextPageRoute(Scaffold(body: Competetion(fromDasboard: true,),)));
+            },
+            child: Container(
               width: MediaQuery.of(context).size.width,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -3329,7 +3313,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                 ],
               ),
             ),
-        );
+          );
   }
 
   Widget educationListShimmer(var listLength) {
@@ -3713,76 +3697,71 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
               ),
             ],
           )
-        : 
-        
-      InkWell(
-          onTap: () {
-
-            Navigator.pop(context, '/g-carvaan');
-            // print('portfolio List');
-            //  Navigator.push(
-            //       context,
-            //       NextPageRoute(RecentActivitiesPage(),
-            //           isMaintainState: false));
-            // Navigator.push(context, MaterialPageRoute(builder: (context)=> CommunityDashboard()));
-          },
-          child: Container(
-            color: Colors.white,
-            width: MediaQuery.of(context).size.width,
-            child: Stack(
-
-              alignment: Alignment.center,
-              children: [
-                Image.asset(
-                  'assets/images/recentactiv_bg.png',
-                ),
-                Positioned(
-                  left: 20,
-                  right: 20,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/recentactiv_emp.png',
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 8.0,
-                        ),
-                        child: Text(
-                            'You have not done any community activity yet,', style: Styles.semibold(size: 14, color: Color(0xff0E1638))),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 8.0,
-                        ),
-                        child: 
-                        
-                        ShaderMask(
-                                                blendMode: BlendMode.srcIn,
-                                                shaderCallback: (Rect bounds) {
-                                                  return LinearGradient(
-                                                      begin:
-                                                          Alignment.centerLeft,
-                                                      end:
-                                                          Alignment.centerRight,
-                                                      colors: <Color>[
-                                                        Color(0xfffc7804),
-                                                        ColorConstants
-                                                            .GRADIENT_RED
-                                                      ]).createShader(bounds);
-                                                },
-                                                child:Text(
-                            'Explore Community', style: Styles.bold(size: 14,))),
-                      ),
-                    ],
+        : InkWell(
+            onTap: () {
+              Navigator.pop(context, '/g-carvaan');
+              // print('portfolio List');
+              //  Navigator.push(
+              //       context,
+              //       NextPageRoute(RecentActivitiesPage(),
+              //           isMaintainState: false));
+              // Navigator.push(context, MaterialPageRoute(builder: (context)=> CommunityDashboard()));
+            },
+            child: Container(
+              color: Colors.white,
+              width: MediaQuery.of(context).size.width,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/recentactiv_bg.png',
                   ),
-                ),
-              ],
+                  Positioned(
+                    left: 20,
+                    right: 20,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/recentactiv_emp.png',
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 8.0,
+                          ),
+                          child: Text(
+                              'You have not done any community activity yet,',
+                              style: Styles.semibold(
+                                  size: 14, color: Color(0xff0E1638))),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 8.0,
+                          ),
+                          child: ShaderMask(
+                              blendMode: BlendMode.srcIn,
+                              shaderCallback: (Rect bounds) {
+                                return LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                    colors: <Color>[
+                                      Color(0xfffc7804),
+                                      ColorConstants.GRADIENT_RED
+                                    ]).createShader(bounds);
+                              },
+                              child: Text('Explore Community',
+                                  style: Styles.bold(
+                                    size: 14,
+                                  ))),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
+          );
   }
 
   Widget extraActivitiesListShimmer(var listLength) {

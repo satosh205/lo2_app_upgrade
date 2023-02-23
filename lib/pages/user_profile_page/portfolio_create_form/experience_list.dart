@@ -196,7 +196,7 @@ class _ExperienceListState extends State<ExperienceList> {
                                                   children: [
                                                     SizedBox(
                                                       width:
-                                                          width(context) * 0.5,
+                                                          width(context) * 0.578,
                                                       child: Text(
                                                         '${experience?[index].title}',
                                                         style: Styles.bold(
@@ -205,18 +205,7 @@ class _ExperienceListState extends State<ExperienceList> {
                                                     ),
                                                     InkWell(
                                                       onTap: () async {
-                                                        AlertsWidget
-                                                            .showCustomDialog(
-                                                                context:
-                                                                    context,
-                                                                title: '',
-                                                                text:
-                                                                    'Are you sure you want to edit?',
-                                                                icon:
-                                                                    'assets/images/circle_alert_fill.svg',
-                                                                onOkClick:
-                                                                    () async {
-                                                                  await Navigator.push(
+                                                         await Navigator.push(
                                                                           context,
                                                                           PageTransition(
                                                                               duration: Duration(milliseconds: 300),
@@ -224,7 +213,19 @@ class _ExperienceListState extends State<ExperienceList> {
                                                                               type: PageTransitionType.bottomToTop,
                                                                               child: AddExperience(isEditMode: true, experience: experience?[index])))
                                                                       .then((value) => updatePortfolioList());
-                                                                });
+                                                        // AlertsWidget
+                                                        //     .showCustomDialog(
+                                                        //         context:
+                                                        //             context,
+                                                        //         title: '',
+                                                        //         text:
+                                                        //             'Are you sure you want to edit?',
+                                                        //         icon:
+                                                        //             'assets/images/circle_alert_fill.svg',
+                                                        //         onOkClick:
+                                                        //             () async {
+                                                                 
+                                                        //         });
 
                                                         // showModalBottomSheet(
                                                         //     shape: RoundedRectangleBorder(
@@ -303,12 +304,12 @@ class _ExperienceListState extends State<ExperienceList> {
                                                             .currentlyWorkHere ==
                                                         'true'
                                                     ? Text(
-                                                        '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day}  -  ${listOfMonths[endDate.month - 1].substring(0, 3)} ${endDate.day}',
+                                                        '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2,4)}  -  ${listOfMonths[endDate.month - 1].substring(0, 3)} ${endDate.year.toString().substring(2,4)}',
                                                         style: Styles.regular(
                                                             size: 12),
                                                       )
                                                     : Text(
-                                                        '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day} - Present',
+                                                        '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2,4)} - Present',
                                                         style: Styles.regular(
                                                             size: 12),
                                                       )
@@ -424,7 +425,7 @@ class _ExperienceListState extends State<ExperienceList> {
       }
       if (days > 30) {
         int month = (startDate.difference(endDate).inDays ~/ 30).abs();
-        return '$month ${Strings.of(context)?.mos}';
+        return '$month Months';
       } else
         return '${startDate.difference(endDate).inDays.abs()} ${Strings.of(context)?.d}';
     }
