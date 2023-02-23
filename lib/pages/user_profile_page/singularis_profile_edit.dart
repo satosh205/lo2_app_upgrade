@@ -103,6 +103,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               validate: true,
                               validationString: 'Please enter full name',
                               controller: nameController,
+                              maxChar: 50,
                               hintText: 'Full Name'),
                           const SizedBox(
                             height: 5,

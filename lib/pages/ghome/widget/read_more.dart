@@ -23,7 +23,7 @@ class _ReadMoreTextState extends State<ReadMoreText> {
   Widget build(BuildContext context) {
     final span = TextSpan(text: widget.text);
     final tp =
-        TextPainter(text: span, maxLines: 3, textDirection: TextDirection.ltr);
+        TextPainter(text: span, maxLines: 2, textDirection: TextDirection.ltr);
     tp.layout(
         maxWidth: MediaQuery.of(context)
             .size
@@ -35,6 +35,7 @@ class _ReadMoreTextState extends State<ReadMoreText> {
           widget.text,
           style: Styles.regular(size: 14, color:widget.color??  ColorConstants.BLACK),
           maxLines: isExpanded != true ? 2 : null,
+          // overflow: isExpanded,
           // overflow: isExpanded != true ? TextOverflow.fade : null,
         ),
         if (widget.text.length != 0 && tp.didExceedMaxLines)

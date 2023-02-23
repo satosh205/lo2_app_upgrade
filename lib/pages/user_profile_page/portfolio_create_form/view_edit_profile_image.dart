@@ -142,7 +142,12 @@ class _UploadProfileState extends State<UploadProfile> {
                                 .add(UploadProfileEvent(data: data));
                           });
                         }),
-                        icon('Remove ', 'assets/images/delete.svg', () {}),
+                        icon('Remove ', 'assets/images/delete.svg', () {
+                           Map<String, dynamic> data = Map();
+                           data['delete'] = 'video';
+                          BlocProvider.of<HomeBloc>(context)
+                                .add(UploadProfileEvent(data: data));
+                        }),
                       ],
                     ),
                   ),
@@ -211,7 +216,12 @@ class _UploadProfileState extends State<UploadProfile> {
                                         .add(UploadProfileEvent(data: data));
                                   }),
                                   icon('Remove ', 'assets/images/delete.svg',
-                                      () {}),
+                                      () {
+                                        Map<String, dynamic> data = Map();
+                           data['delete'] = 'image';
+                          BlocProvider.of<HomeBloc>(context)
+                                .add(UploadProfileEvent(data: data));
+                                      }),
                                 ],
                               ),
                             ),

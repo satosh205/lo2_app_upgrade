@@ -1954,219 +1954,217 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                               color: ColorConstants.WHITE,
                               child: portfolioResponse?.data.education.length !=
                                       0
-                                  ? Transform.translate(
-                                      offset: Offset(0, -20),
-                                      child: ListView.builder(
-                                          shrinkWrap: true,
-                                          physics: ScrollPhysics(),
-                                          itemCount: portfolioResponse
-                                              ?.data.education.length,
-                                          itemBuilder: (context, index) {
-                                            DateTime endDate = DateTime.now();
+                                  ? ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: ScrollPhysics(),
+                                      itemCount: portfolioResponse
+                                          ?.data.education.length,
+                                      itemBuilder: (context, index) {
+                                        DateTime endDate = DateTime.now();
 
-                                            if (portfolioResponse
-                                                        ?.data
-                                                        .education[index]
-                                                        .endDate !=
-                                                    null ||
-                                                portfolioResponse
-                                                        ?.data
-                                                        .education[index]
-                                                        .endDate !=
-                                                    '') {
-                                              String endDateString =
-                                                  "${portfolioResponse?.data.education[index].endDate}";
-                                              endDate = DateFormat("yyyy-mm-dd")
-                                                  .parse(endDateString);
-                                            }
-                                            String startDateString =
-                                                "${portfolioResponse?.data.education[index].startDate}";
+                                        if (portfolioResponse
+                                                    ?.data
+                                                    .education[index]
+                                                    .endDate !=
+                                                null ||
+                                            portfolioResponse
+                                                    ?.data
+                                                    .education[index]
+                                                    .endDate !=
+                                                '') {
+                                          String endDateString =
+                                              "${portfolioResponse?.data.education[index].endDate}";
+                                          endDate = DateFormat("yyyy-MM-dd")
+                                              .parse(endDateString);
+                                        }
+                                        String startDateString =
+                                            "${portfolioResponse?.data.education[index].startDate}";
 
-                                            DateTime startDate =
-                                                DateFormat("yyyy-MM-dd")
-                                                    .parse(startDateString);
+                                        DateTime startDate =
+                                            DateFormat("yyyy-MM-dd")
+                                                .parse(startDateString);
 
-                                            return Container(
-                                              width: width(context) * 0.3,
-                                              color: ColorConstants.WHITE,
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 8, vertical: 0),
-                                              child: Column(
+                                        return Container(
+                                          width: width(context) * 0.3,
+                                          color: ColorConstants.WHITE,
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 8, vertical: 0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              if (index != 0)
+                                                SizedBox(
+                                                  height: 18,
+                                                ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                    CrossAxisAlignment
+                                                        .start,
                                                 children: [
-                                                  if (index != 0)
-                                                    SizedBox(
-                                                      height: 18,
-                                                    ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
+                                                  ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius
+                                                              .circular(8),
+                                                      child:
+                                                          CachedNetworkImage(
+                                                        imageUrl:
+                                                            '${portfolioResponse?.data.baseFileUrl}${portfolioResponse?.data.education[index].imageName}',
+                                                        height:
+                                                            width(context) *
+                                                                0.2,
+                                                        width:
+                                                            width(context) *
+                                                                0.2,
+                                                        fit: BoxFit.cover,
+                                                        errorWidget:
+                                                            (context, url,
+                                                                error) {
+                                                          return Container(
+                                                            padding:
+                                                                EdgeInsets
+                                                                    .all(
+                                                                        14),
+                                                            decoration: BoxDecoration(
+                                                                color: Color(
+                                                                    0xffD5D5D5)),
+                                                            child:
+                                                                SvgPicture
+                                                                    .asset(
+                                                              'assets/images/default_education.svg',
+                                                              height: 40,
+                                                              width: 40,
+                                                              color:
+                                                                  ColorConstants
+                                                                      .GREY_5,
+                                                              allowDrawingOutsideViewBox:
+                                                                  true,
+                                                            ),
+                                                          );
+                                                        },
+                                                        placeholder:
+                                                            (BuildContext
+                                                                    context,
+                                                                loadingProgress) {
+                                                          return Container(
+                                                            padding:
+                                                                EdgeInsets
+                                                                    .all(
+                                                                        14),
+                                                            decoration: BoxDecoration(
+                                                                color: Color(
+                                                                    0xffD5D5D5)),
+                                                            child:
+                                                                SvgPicture
+                                                                    .asset(
+                                                              'assets/images/default_education.svg',
+                                                              height: 40,
+                                                              width: 40,
+                                                              color:
+                                                                  ColorConstants
+                                                                      .GREY_5,
+                                                              allowDrawingOutsideViewBox:
+                                                                  true,
+                                                            ),
+                                                          );
+                                                        },
+                                                      )),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
                                                             .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
                                                     children: [
-                                                      ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(8),
-                                                          child:
-                                                              CachedNetworkImage(
-                                                            imageUrl:
-                                                                '${portfolioResponse?.data.baseFileUrl}${portfolioResponse?.data.education[index].imageName}',
-                                                            height:
-                                                                width(context) *
-                                                                    0.2,
-                                                            width:
-                                                                width(context) *
-                                                                    0.2,
-                                                            fit: BoxFit.cover,
-                                                            errorWidget:
-                                                                (context, url,
-                                                                    error) {
-                                                              return Container(
-                                                                padding:
-                                                                    EdgeInsets
-                                                                        .all(
-                                                                            14),
-                                                                decoration: BoxDecoration(
-                                                                    color: Color(
-                                                                        0xffD5D5D5)),
-                                                                child:
-                                                                    SvgPicture
-                                                                        .asset(
-                                                                  'assets/images/default_education.svg',
-                                                                  height: 40,
-                                                                  width: 40,
-                                                                  color:
-                                                                      ColorConstants
-                                                                          .GREY_5,
-                                                                  allowDrawingOutsideViewBox:
-                                                                      true,
-                                                                ),
-                                                              );
-                                                            },
-                                                            placeholder:
-                                                                (BuildContext
-                                                                        context,
-                                                                    loadingProgress) {
-                                                              return Container(
-                                                                padding:
-                                                                    EdgeInsets
-                                                                        .all(
-                                                                            14),
-                                                                decoration: BoxDecoration(
-                                                                    color: Color(
-                                                                        0xffD5D5D5)),
-                                                                child:
-                                                                    SvgPicture
-                                                                        .asset(
-                                                                  'assets/images/default_education.svg',
-                                                                  height: 40,
-                                                                  width: 40,
-                                                                  color:
-                                                                      ColorConstants
-                                                                          .GREY_5,
-                                                                  allowDrawingOutsideViewBox:
-                                                                      true,
-                                                                ),
-                                                              );
-                                                            },
-                                                          )),
                                                       SizedBox(
-                                                        width: 10,
+                                                        width:
+                                                            width(context) *
+                                                                0.71,
+                                                        child: Text(
+                                                          '${portfolioResponse?.data.education[index].title}',
+                                                          maxLines: 2,
+                                                          style:
+                                                              Styles.bold(
+                                                                  size: 14),
+                                                        ),
                                                       ),
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceEvenly,
+                                                      SizedBox(height: 4),
+                                                      SizedBox(
+                                                        width:
+                                                            width(context) *
+                                                                0.71,
+                                                        child: Text(
+                                                          maxLines: 2,
+                                                          '${portfolioResponse?.data.education[index].institute}',
+                                                          style: Styles
+                                                              .regular(
+                                                                  size: 14),
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 4),
+                                                      Row(
                                                         children: [
-                                                          SizedBox(
-                                                            width:
-                                                                width(context) *
-                                                                    0.71,
-                                                            child: Text(
-                                                              '${portfolioResponse?.data.education[index].title}',
-                                                              maxLines: 2,
-                                                              style:
-                                                                  Styles.bold(
-                                                                      size: 14),
-                                                            ),
+                                                          Text(
+                                                            '${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2,4)} - ',
+                                                            style: Styles
+                                                                .regular(
+                                                                    size:
+                                                                        14),
                                                           ),
-                                                          SizedBox(height: 4),
-                                                          SizedBox(
-                                                            width:
-                                                                width(context) *
-                                                                    0.71,
-                                                            child: Text(
-                                                              maxLines: 2,
-                                                              '${portfolioResponse?.data.education[index].institute}',
+                                                          // Text('check value    ${endDate.month} vlue'),
+                                                          if (portfolioResponse
+                                                                      ?.data
+                                                                      .education[
+                                                                          index]
+                                                                      .endDate !=
+                                                                  null ||
+                                                              portfolioResponse
+                                                                      ?.data
+                                                                      .education[
+                                                                          index]
+                                                                      .endDate !=
+                                                                  '')
+                                                            Text(
+                                                              '${listOfMonths[endDate.month -1].substring(0, 3)} ${endDate.year.toString().substring(2,4)}',
                                                               style: Styles
                                                                   .regular(
-                                                                      size: 14),
+                                                                      size:
+                                                                          14),
                                                             ),
-                                                          ),
-                                                          SizedBox(height: 4),
-                                                          Row(
-                                                            children: [
-                                                              Text(
-                                                                '${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day} - ',
-                                                                style: Styles
-                                                                    .regular(
-                                                                        size:
-                                                                            14),
-                                                              ),
-                                                              if (portfolioResponse
-                                                                          ?.data
-                                                                          .education[
-                                                                              index]
-                                                                          .endDate !=
-                                                                      null ||
-                                                                  portfolioResponse
-                                                                          ?.data
-                                                                          .education[
-                                                                              index]
-                                                                          .endDate !=
-                                                                      '')
-                                                                Text(
-                                                                  '${listOfMonths[endDate.month].substring(0, 3)} ${endDate.day}',
-                                                                  style: Styles
-                                                                      .regular(
-                                                                          size:
-                                                                              14),
-                                                                ),
-                                                            ],
-                                                          )
                                                         ],
                                                       )
                                                     ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  SizedBox(
-                                                    child: ReadMoreText(
-                                                      viewMore: 'View more',
-                                                      text:
-                                                          '${portfolioResponse?.data.education[index].description}',
-                                                      color: Color(0xff929BA3),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 22,
-                                                  ),
-                                                  if (index + 1 !=
-                                                      portfolioResponse?.data
-                                                          .education.length)
-                                                    Divider(),
+                                                  )
                                                 ],
                                               ),
-                                            );
-                                          }),
-                                    )
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              SizedBox(
+                                                child: ReadMoreText(
+                                                  viewMore: 'View more',
+                                                  text:
+                                                      '${portfolioResponse?.data.education[index].description}',
+                                                  color: Color(0xff929BA3),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 22,
+                                              ),
+                                              if (index + 1 !=
+                                                  portfolioResponse?.data
+                                                      .education.length)
+                                                Divider(),
+                                            ],
+                                          ),
+                                        );
+                                      })
                                   : educationListShimmer(0),
                             )
                           : educationListShimmer(1),
