@@ -2474,6 +2474,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   }
 
   Widget getExperience(List<CommonProfession>? experience, context) {
+    experience?.sort((a, b) => a.endDate.compareTo(a.endDate));
     return Container(
       color: Colors.white,
       child: Column(
@@ -2589,13 +2590,13 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                           .currentlyWorkHere ==
                                                       'true'
                                                   ? Text(
-                                                      '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day}  -  Present',
+                                                      '$type  •  ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2,4)}  -  Present',
                                                       style: Styles.regular(
                                                           size: 12),
                                                     )
                                                   : Text(
-                                                      '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day}  -  ' +
-                                                          ' ${listOfMonths[endDate.month - 1].substring(0, 3)} ${endDate.day}',
+                                                      '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2,4)}  -  ' +
+                                                          ' ${listOfMonths[endDate.month - 1].substring(0, 3)} ${endDate.year.toString().substring(2,4)}',
                                                       style: Styles.regular(
                                                           size: 12),
                                                     )

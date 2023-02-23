@@ -52,6 +52,7 @@ class _ExperienceListState extends State<ExperienceList> {
   @override
   void initState() {
     experience = widget.experience;
+     experience?.sort((a, b) => a.endDate.compareTo(a.endDate));
 
     super.initState();
   }
@@ -156,10 +157,23 @@ class _ExperienceListState extends State<ExperienceList> {
                                                   progressIndicatorBuilder: (context,
                                                           url,
                                                           downloadProgress) =>
-                                                      CircularProgressIndicator(
-                                                          value:
-                                                              downloadProgress
-                                                                  .progress),
+                                                     Container(
+                                                          width: width(context) *
+                                                              0.2,
+                                                          height: width(context) *
+                                                              0.2,
+                                                          padding:
+                                                              EdgeInsets.all(8),
+                                                          decoration: BoxDecoration(
+                                                              color:
+                                                                  ColorConstants
+                                                                      .DIVIDER,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8)),
+                                                          child: SvgPicture.asset(
+                                                              'assets/images/extra.svg')),
                                                   errorWidget: (context, url,
                                                           error) =>
                                                       Container(
@@ -304,15 +318,16 @@ class _ExperienceListState extends State<ExperienceList> {
                                                             .currentlyWorkHere ==
                                                         'true'
                                                     ? Text(
-                                                        '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2,4)}  -  ${listOfMonths[endDate.month - 1].substring(0, 3)} ${endDate.year.toString().substring(2,4)}',
-                                                        style: Styles.regular(
-                                                            size: 12),
-                                                      )
-                                                    : Text(
-                                                        '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2,4)} - Present',
-                                                        style: Styles.regular(
-                                                            size: 12),
-                                                      )
+                                                      '$type  •  ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2,4)}  -  Present',
+                                                      style: Styles.regular(
+                                                          size: 12),
+                                                    )
+                                                  : Text(
+                                                      '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2,4)}  -  ' +
+                                                          ' ${listOfMonths[endDate.month - 1].substring(0, 3)} ${endDate.year.toString().substring(2,4)}',
+                                                      style: Styles.regular(
+                                                          size: 12),
+                                                    )
                                               ],
                                             ),
                                           )
@@ -388,6 +403,7 @@ class _ExperienceListState extends State<ExperienceList> {
         case ApiStatus.SUCCESS:
           Log.v("PortfolioState Success....................");
           experience = portfolioState.response?.data.experience;
+           experience?.sort((a, b) => a.endDate.compareTo(a.endDate));
           isExperienceLoading = false;
 
           setState(() {});
