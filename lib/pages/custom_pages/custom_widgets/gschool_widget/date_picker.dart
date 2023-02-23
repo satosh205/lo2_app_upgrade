@@ -21,7 +21,7 @@ class _CalendarState extends State<Calendar> {
   ScrollController scrollController =
       ScrollController(); //To Track Scroll of ListView
   List<String> listOfMonths = [
-    "Janaury",
+    "January",
     "February",
     "March",
     "April",

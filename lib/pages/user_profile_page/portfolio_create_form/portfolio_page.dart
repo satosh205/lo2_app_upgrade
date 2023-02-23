@@ -107,7 +107,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   }
 
   List<String> listOfMonths = [
-    "Janaury",
+    "January",
     "February",
     "March",
     "April",

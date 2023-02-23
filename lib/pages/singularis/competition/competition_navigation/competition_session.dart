@@ -12,7 +12,7 @@ class CompetitionSession extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<String> listOfMonths = [
-      "Janaury",
+      "January",
       "February",
       "March",
       "April",

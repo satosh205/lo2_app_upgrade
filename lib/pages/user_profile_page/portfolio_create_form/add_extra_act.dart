@@ -181,7 +181,9 @@ class _AddActivitiesState extends State<AddActivities> {
                                             horizontal: 8.0, vertical: 4),
                                         child: CustomTextField(
                                             validate: true,
+                                            maxChar: 20,
                                             validationString:
+                                            
                                                 'Please enter activity type',
                                             controller: activityController,
                                             hintText:
@@ -387,11 +389,11 @@ class _AddActivitiesState extends State<AddActivities> {
                                                   width: 4,
                                                 ),
                                                 SizedBox(
-                                                  width: width(context) * 0.55,
+                                                  width: width(context) * 0.6,
                                                   child: Text(
                                                      uploadImg != null
                                                           ? '${uploadImg?.path.split('/').last}'
-                                                          :widget.activity?.imageName ?? "Supported Files: .jpeg, .png, .jpg",
+                                                          :widget.activity?.imageName?? "Supported Files: .jpeg, .png, .jpg",
                                                       style: TextStyle(
                                                           fontSize: 10,
                                                           fontWeight:

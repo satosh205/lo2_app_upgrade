@@ -35,7 +35,7 @@ class _ExperienceListState extends State<ExperienceList> {
   bool isExperienceLoading = false;
   List<CommonProfession>? experience;
   List<String> listOfMonths = [
-    "Janaury",
+    "January",
     "February",
     "March",
     "April",

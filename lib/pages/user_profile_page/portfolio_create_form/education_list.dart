@@ -43,7 +43,7 @@ class _EducationListState extends State<EducationList> {
   @override
   Widget build(BuildContext context) {
     List<String> listOfMonths = [
-      "Janaury",
+      "January",
       "February",
       "March",
       "April",

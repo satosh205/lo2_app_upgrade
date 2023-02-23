@@ -38,7 +38,7 @@ class _CertificateListState extends State<CertificateList> {
   }
 
   List<String> listOfMonths = [
-    "Janaury",
+    "January",
     "February",
     "March",
     "April",
