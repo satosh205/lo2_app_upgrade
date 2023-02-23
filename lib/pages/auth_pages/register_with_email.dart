@@ -9,6 +9,7 @@ import '../../blocs/home_bloc.dart';
 import '../../data/api/api_service.dart';
 import '../../utils/Log.dart';
 import '../../utils/Strings.dart';
+import '../../utils/utility.dart';
 import '../custom_pages/ScreenWithLoader.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -21,12 +22,15 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   bool isFill = false;
   TextEditingController emailController = TextEditingController();
-  TextEditingController passController = TextEditingController();
   TextEditingController otpController = TextEditingController();
+  TextEditingController newPassController = TextEditingController();
+  TextEditingController confPassController = TextEditingController();
+
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool isCodeSent = false;
   bool codeVerified = false;
   bool _isLoading = false;
+  bool _emailTrue = false;
 
   @override
   void initState() {
@@ -34,7 +38,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void fieldValidation() {
+    print('fjskdjk');
     if (!_formKey.currentState!.validate()) return;
+
+    print(';;;;;;;;');
+    if(newPassController.text.isEmpty || confPassController.text.isEmpty){
+      Utility.showSnackBar(
+          scaffoldContext: context, message: 'Enter new password and conform password.');
+    }else{
+      if(newPassController.text == confPassController.text){
+        print('object Match');
+      }else{
+        Utility.showSnackBar(
+            scaffoldContext: context, message: 'The password does not match');
+      }
+    }
   }
 
   void sendEmailVerificationCode(String email) {
@@ -236,16 +254,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       : GradientText(
                                           'Send Code',
                                           style: Styles.regular(size: 14),
-                                          colors: [
-                                            isCodeSent != true
-                                                ? ColorConstants.GRADIENT_ORANGE
-                                                : ColorConstants
-                                                    .UNSELECTED_BUTTON,
-                                            isCodeSent != true
-                                                ? ColorConstants.GRADIENT_RED
-                                                : ColorConstants
-                                                    .UNSELECTED_BUTTON,
-                                          ],
+                                          colors: _emailTrue == true ?
+                                          [ColorConstants.GRADIENT_ORANGE,
+                                            ColorConstants.GRADIENT_RED] :
+                                          [ColorConstants.UNSELECTED_BUTTON,
+                                            ColorConstants.UNSELECTED_BUTTON],
                                         ),
                                   /*child:Text("Send Code", style: TextStyle(color:
                           isCodeSent == true ? Colors.red: null),),*/
@@ -268,15 +281,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 counterText: "",
                               ),
                               onChanged: (value) {
-                                // setState(() {
-                                //   if (!RegExp(
-                                //           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                //       .hasMatch(value)) {
-                                //     isCodeSent = false;
-                                //   } else {
-                                //     isCodeSent = true;
-                                //   }
-                                // });
+                                setState(() {
+                                  if (!RegExp(
+                                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                      .hasMatch(value)) {
+                                    _emailTrue = false;
+                                    isCodeSent = false;
+                                  } else {
+                                    _emailTrue = true;
+                                  }
+                                });
                               },
                               validator: (value) {
                                 if (value == '') return 'Email is required';
@@ -322,14 +336,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   cursorColor: Color(0xffE5E5E5),
                                   controller: otpController,
                                   style: Styles.otp(
-                                    color: Color(0xff0E1638),
+                                    color: Colors.black,
                                     size: 14,
                                     letterSpacing: 40
                                   ),
                                   maxLength: 4,
                                   onChanged: (value){
                                     setState(() {
-                                      
+                                      if(value.length == 4){
+                                        codeVerified = true;
+                                      }else{
+                                        codeVerified = false;
+                                      }
                                     });
                                   },
                                   decoration: InputDecoration(
@@ -400,14 +418,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     child: GradientText(
                                       'Verify Code',
                                       style: Styles.regular(size: 14),
-                                      colors: [
-                                        isCodeSent == true && otpController.value.text.length == 4
-                                            ? ColorConstants.GRADIENT_ORANGE
-                                            : ColorConstants.UNSELECTED_BUTTON,
-                                        isCodeSent == true && otpController.value.text.length == 4
-                                            ? ColorConstants.GRADIENT_RED
-                                            : ColorConstants.UNSELECTED_BUTTON,
-                                      ],
+                                      colors: codeVerified == true ?
+                                        [ColorConstants.GRADIENT_ORANGE,
+                                        ColorConstants.GRADIENT_RED,] :
+                                        [ColorConstants.UNSELECTED_BUTTON,
+                                        ColorConstants.UNSELECTED_BUTTON,],
                                     ),
                                   ),
                                 )
@@ -457,16 +472,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               cursorColor: Color(0xffE5E5E5),
                               autofocus: false,
                               // focusNode: phoneFocus,
-                              controller: otpController,
+                              controller: newPassController,
                               // keyboardType: TextInputType.number,
-                              style: Styles.regular(
-                                color: Color(0xffE5E5E5),
+                              style: Styles.bold(
+                                color: Colors.black,
                                 size: 14,
                               ),
                               // inputFormatters: <TextInputFormatter>[
                               //   FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                               // ],
-                              maxLength: 8,
+                              maxLength: 20,
                               decoration: InputDecoration(
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
@@ -559,16 +574,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               cursorColor: Color(0xffE5E5E5),
                               autofocus: false,
                               // focusNode: phoneFocus,
-                              controller: passController,
+                              controller: confPassController,
                               // keyboardType: TextInputType.number,
                               style: Styles.bold(
-                                color: Color(0xffE5E5E5),
+                                color: Colors.black,
                                 size: 14,
                               ),
                               // inputFormatters: <TextInputFormatter>[
                               //   FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                               // ],
-                              maxLength: 8,
+                              maxLength: 20,
                               decoration: InputDecoration(
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
@@ -624,7 +639,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         //   height: 230,
                         // ),
                         Padding(
-                          padding: const EdgeInsets.all(18.0),
+                          padding: const EdgeInsets.only(left: 18.0, right: 18.0, bottom: 18.0),
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -633,9 +648,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   decoration: BoxDecoration(
                                     //color: Color(0xffe9e9e9),
                                     borderRadius: BorderRadius.circular(10),
-                                    gradient: emailController.value.text !=
-                                                '' &&
-                                            passController.value.text != ''
+                                    gradient: emailController.value.text != '' &&
+                                            newPassController.value.text != ''
                                         ? LinearGradient(colors: [
                                             ColorConstants.GRADIENT_ORANGE,
                                             ColorConstants.GRADIENT_RED,
@@ -647,7 +661,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                   child: InkWell(
                                     onTap: () {
-                                      //fieldValidation();
+                                      fieldValidation();
                                       // sendEmailVerificationCode();
                                     },
                                     child: Center(
