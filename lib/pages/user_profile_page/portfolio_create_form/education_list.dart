@@ -81,9 +81,9 @@ class _EducationListState extends State<EducationList> {
                           await Navigator.push(
                                   context,
                                   PageTransition(
-                                      duration: Duration(milliseconds: 600),
+                                      duration: Duration(milliseconds: 350),
                                       reverseDuration:
-                                          Duration(milliseconds: 600),
+                                          Duration(milliseconds: 350),
                                       type: PageTransitionType.bottomToTop,
                                       child: AddEducation()))
                               .then((value) => updateEducationList());

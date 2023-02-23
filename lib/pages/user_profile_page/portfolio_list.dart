@@ -73,8 +73,8 @@ class _PortfolioListState extends State<PortfolioList> {
                       await Navigator.push(
                               context,
                               PageTransition(
-                                  duration: Duration(milliseconds: 600),
-                                  reverseDuration: Duration(milliseconds: 600),
+                                  duration: Duration(milliseconds: 350),
+                                  reverseDuration: Duration(milliseconds: 350),
                                   type: PageTransitionType.bottomToTop,
                                   child: AddPortfolio()))
                           .then((value) => updatePortfolioList());
@@ -101,8 +101,8 @@ class _PortfolioListState extends State<PortfolioList> {
                         await Navigator.push(
                             context,
                             PageTransition(
-                                duration: Duration(milliseconds: 600),
-                                reverseDuration: Duration(milliseconds: 600),
+                                duration: Duration(milliseconds: 350),
+                                reverseDuration: Duration(milliseconds: 350),
                                 type: PageTransitionType.bottomToTop,
                                 child: PortfolioDetail(
                                   baseUrl: widget.baseUrl,

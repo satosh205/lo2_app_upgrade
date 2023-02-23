@@ -213,7 +213,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                               color: Colors.white,
                                               border: Border.all(
                                                   width: 1.0,
-                                                  color: Color(0xffE5E5E5)),
+                                                  color: const Color.fromARGB(255, 142, 142, 142)),
                                               borderRadius:
                                                   const BorderRadius.all(
                                                       Radius.circular(10.0)),

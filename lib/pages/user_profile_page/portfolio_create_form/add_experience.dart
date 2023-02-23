@@ -509,7 +509,7 @@ class _AddExperienceState extends State<AddExperience> {
                                                             SvgPicture.asset(
                                                                 'assets/images/upload_icon.svg'),
                                                             Text(
-                                                              "Upload Image",
+                                                              "Upload Image  ",
                                                               style:
                                                                   Styles.bold(
                                                                       size: 12),
@@ -614,7 +614,7 @@ class _AddExperienceState extends State<AddExperience> {
                                                       widget.isEditMode == true
                                                           ? '${widget.experience?.imageName}'
                                                           : '';
-                                                  data['curricular_type'] =
+                                                  data['employment_type'] =
                                                       employmentType;
                                                   data['currently_work_here'] =
                                                       isclicked;

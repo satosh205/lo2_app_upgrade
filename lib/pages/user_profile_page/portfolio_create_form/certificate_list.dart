@@ -71,8 +71,8 @@ class _CertificateListState extends State<CertificateList> {
                   await Navigator.push(
                           context,
                           PageTransition(
-                              duration: Duration(milliseconds: 600),
-                              reverseDuration: Duration(milliseconds: 600),
+                              duration: Duration(milliseconds: 350),
+                              reverseDuration: Duration(milliseconds: 350),
                               type: PageTransitionType.bottomToTop,
                               child: AddCertificate()))
                       .then((value) => updatePortfolioList());
@@ -193,9 +193,9 @@ class _CertificateListState extends State<CertificateList> {
                                                   context,
                                                   PageTransition(
                                                       duration: Duration(
-                                                          milliseconds: 600),
+                                                          milliseconds: 350),
                                                       reverseDuration: Duration(
-                                                          milliseconds: 600),
+                                                          milliseconds: 350),
                                                       type: PageTransitionType
                                                           .bottomToTop,
                                                       child: AddCertificate(

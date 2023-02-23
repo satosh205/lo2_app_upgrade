@@ -1390,15 +1390,16 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
 
                       //TODO: Skills Level Badges
                       Container(
-                          margin: EdgeInsets.only(top: dividerMarginTop),
+                          // margin: EdgeInsets.only(top: dividerMarginTop),
                           color: ColorConstants.WHITE,
-                          padding: EdgeInsets.symmetric(
-                            vertical: 6,
-                          ),
+                          // padding: EdgeInsets.symmetric(
+                          //   vertical: 6,
+                          // ),
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                
                                 // Padding(
                                 //   padding:
                                 //       const EdgeInsets.symmetric(horizontal: 8),
@@ -1518,7 +1519,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                     context,
                                                     PageTransition(
                                                         duration: Duration(
-                                                            milliseconds: 600),
+                                                            milliseconds: 350),
                                                         reverseDuration:
                                                             Duration(
                                                                 milliseconds:
@@ -1932,9 +1933,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                         await Navigator.push(
                                 context,
                                 PageTransition(
-                                    duration: Duration(milliseconds: 600),
+                                    duration: Duration(milliseconds: 350),
                                     reverseDuration:
-                                        Duration(milliseconds: 600),
+                                        Duration(milliseconds: 350),
                                     type: PageTransitionType.bottomToTop,
                                     child: AddEducation()))
                             .then((value) => getPortfolio());
@@ -2371,8 +2372,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
             await Navigator.push(
                     context,
                     PageTransition(
-                        duration: Duration(milliseconds: 600),
-                        reverseDuration: Duration(milliseconds: 600),
+                        duration: Duration(milliseconds: 350),
+                        reverseDuration: Duration(milliseconds: 350),
                         type: PageTransitionType.bottomToTop,
                         child: AddCertificate()))
                 .then((value) => getPortfolio());
@@ -2484,8 +2485,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
               Navigator.push(
                       context,
                       PageTransition(
-                          duration: Duration(milliseconds: 600),
-                          reverseDuration: Duration(milliseconds: 600),
+                          duration: Duration(milliseconds: 350),
+                          reverseDuration: Duration(milliseconds: 350),
                           type: PageTransitionType.bottomToTop,
                           child: ExperienceList(
                               baseUrl: portfolioResponse?.data.baseFileUrl,
@@ -2495,8 +2496,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
             Navigator.push(
                     context,
                     PageTransition(
-                        duration: Duration(milliseconds: 600),
-                        reverseDuration: Duration(milliseconds: 600),
+                        duration: Duration(milliseconds: 350),
+                        reverseDuration: Duration(milliseconds: 350),
                         type: PageTransitionType.bottomToTop,
                         child: AddExperience()))
                 .then((value) => getPortfolio());
@@ -2525,7 +2526,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                   DateFormat("yyyy-MM-dd").parse(endDateString);
                             }
                             String type =
-                                '${experience?[index].curricularType.replaceAll('_', '')}';
+                                '${experience?[index].employmentType.replaceAll('_', '')}';
                             type = type[0].toUpperCase() + type.substring(1);
 
                             return Transform.translate(
@@ -2587,16 +2588,18 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                 height: 10,
                                               ),
                                               experience?[index]
-                                                          .currentlyWorkHere ==
-                                                      'true'
+                                                            .currentlyWorkHere ==
+                                                        'true' || experience?[index]
+                                                            .currentlyWorkHere ==
+                                                        'on'
                                                   ? Text(
-                                                      '$type  •  ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2,4)}  -  Present',
+                                                      '$type  •  ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2, 4)}  -  Present',
                                                       style: Styles.regular(
                                                           size: 12),
                                                     )
                                                   : Text(
-                                                      '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2,4)}  -  ' +
-                                                          ' ${listOfMonths[endDate.month - 1].substring(0, 3)} ${endDate.year.toString().substring(2,4)}',
+                                                      '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2, 4)}  -  ' +
+                                                          ' ${listOfMonths[endDate.month - 1].substring(0, 3)} ${endDate.year.toString().substring(2, 4)}',
                                                       style: Styles.regular(
                                                           size: 12),
                                                     )
@@ -2651,8 +2654,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
             Navigator.push(
                     context,
                     PageTransition(
-                        duration: Duration(milliseconds: 600),
-                        reverseDuration: Duration(milliseconds: 600),
+                        duration: Duration(milliseconds: 350),
+                        reverseDuration: Duration(milliseconds: 350),
                         type: PageTransitionType.bottomToTop,
                         child: AddActivities()))
                 .then((value) => getPortfolio());

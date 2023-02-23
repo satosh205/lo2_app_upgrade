@@ -52,7 +52,7 @@ class _ExperienceListState extends State<ExperienceList> {
   @override
   void initState() {
     experience = widget.experience;
-     experience?.sort((a, b) => a.endDate.compareTo(a.endDate));
+    experience?.sort((a, b) => a.endDate.compareTo(a.endDate));
 
     super.initState();
   }
@@ -88,9 +88,9 @@ class _ExperienceListState extends State<ExperienceList> {
                           Navigator.push(
                                   context,
                                   PageTransition(
-                                      duration: Duration(milliseconds: 600),
+                                      duration: Duration(milliseconds: 350),
                                       reverseDuration:
-                                          Duration(milliseconds: 600),
+                                          Duration(milliseconds: 350),
                                       type: PageTransitionType.bottomToTop,
                                       child: AddExperience()))
                               .then((value) => updatePortfolioList());
@@ -127,7 +127,7 @@ class _ExperienceListState extends State<ExperienceList> {
                                       .parse(endDateString);
                                 }
                                 String type =
-                                    '${experience?[index].curricularType.replaceAll('_', '')}';
+                                    '${experience?[index].employmentType.replaceAll('_', '')}';
                                 type =
                                     type[0].toUpperCase() + type.substring(1);
 
@@ -157,11 +157,13 @@ class _ExperienceListState extends State<ExperienceList> {
                                                   progressIndicatorBuilder: (context,
                                                           url,
                                                           downloadProgress) =>
-                                                     Container(
-                                                          width: width(context) *
-                                                              0.2,
-                                                          height: width(context) *
-                                                              0.2,
+                                                      Container(
+                                                          width:
+                                                              width(context) *
+                                                                  0.2,
+                                                          height:
+                                                              width(context) *
+                                                                  0.2,
                                                           padding:
                                                               EdgeInsets.all(8),
                                                           decoration: BoxDecoration(
@@ -209,8 +211,8 @@ class _ExperienceListState extends State<ExperienceList> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     SizedBox(
-                                                      width:
-                                                          width(context) * 0.578,
+                                                      width: width(context) *
+                                                          0.578,
                                                       child: Text(
                                                         '${experience?[index].title}',
                                                         style: Styles.bold(
@@ -219,14 +221,26 @@ class _ExperienceListState extends State<ExperienceList> {
                                                     ),
                                                     InkWell(
                                                       onTap: () async {
-                                                         await Navigator.push(
-                                                                          context,
-                                                                          PageTransition(
-                                                                              duration: Duration(milliseconds: 300),
-                                                                              reverseDuration: Duration(milliseconds: 300),
-                                                                              type: PageTransitionType.bottomToTop,
-                                                                              child: AddExperience(isEditMode: true, experience: experience?[index])))
-                                                                      .then((value) => updatePortfolioList());
+                                                        await Navigator.push(
+                                                                context,
+                                                                PageTransition(
+                                                                    duration: Duration(
+                                                                        milliseconds:
+                                                                            300),
+                                                                    reverseDuration:
+                                                                        Duration(
+                                                                            milliseconds:
+                                                                                300),
+                                                                    type: PageTransitionType
+                                                                        .bottomToTop,
+                                                                    child: AddExperience(
+                                                                        isEditMode:
+                                                                            true,
+                                                                        experience:
+                                                                            experience?[
+                                                                                index])))
+                                                            .then((value) =>
+                                                                updatePortfolioList());
                                                         // AlertsWidget
                                                         //     .showCustomDialog(
                                                         //         context:
@@ -238,7 +252,7 @@ class _ExperienceListState extends State<ExperienceList> {
                                                         //             'assets/images/circle_alert_fill.svg',
                                                         //         onOkClick:
                                                         //             () async {
-                                                                 
+
                                                         //         });
 
                                                         // showModalBottomSheet(
@@ -316,18 +330,20 @@ class _ExperienceListState extends State<ExperienceList> {
                                                 ),
                                                 experience?[index]
                                                             .currentlyWorkHere ==
-                                                        'true'
+                                                        'true' || experience?[index]
+                                                            .currentlyWorkHere ==
+                                                        'on'
                                                     ? Text(
-                                                      '$type  •  ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2,4)}  -  Present',
-                                                      style: Styles.regular(
-                                                          size: 12),
-                                                    )
-                                                  : Text(
-                                                      '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2,4)}  -  ' +
-                                                          ' ${listOfMonths[endDate.month - 1].substring(0, 3)} ${endDate.year.toString().substring(2,4)}',
-                                                      style: Styles.regular(
-                                                          size: 12),
-                                                    )
+                                                        '$type  •  ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2, 4)}  -  Present',
+                                                        style: Styles.regular(
+                                                            size: 12),
+                                                      )
+                                                    : Text(
+                                                        '$type • ${calculateTimeDifferenceBetween(startDate, endDate)} • ${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2, 4)}  -  ' +
+                                                            ' ${listOfMonths[endDate.month - 1].substring(0, 3)} ${endDate.year.toString().substring(2, 4)}',
+                                                        style: Styles.regular(
+                                                            size: 12),
+                                                      )
                                               ],
                                             ),
                                           )
@@ -403,7 +419,7 @@ class _ExperienceListState extends State<ExperienceList> {
         case ApiStatus.SUCCESS:
           Log.v("PortfolioState Success....................");
           experience = portfolioState.response?.data.experience;
-           experience?.sort((a, b) => a.endDate.compareTo(a.endDate));
+          experience?.sort((a, b) => a.endDate.compareTo(a.endDate));
           isExperienceLoading = false;
 
           setState(() {});
