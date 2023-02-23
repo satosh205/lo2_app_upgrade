@@ -33,7 +33,7 @@ class _CertificateListState extends State<CertificateList> {
   void initState() {
     certificates = widget.certificates;
     // education?.sort((a, b) => b.endDate.compareTo(a.endDate));
-    certificates?.sort((a, b )=>a.startDate.compareTo(a.startDate));
+    certificates?.sort((b, a)=>a.startDate.compareTo(b.startDate));
     super.initState();
   }
 
@@ -148,7 +148,7 @@ class _CertificateListState extends State<CertificateList> {
                                   });
                             },
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+                              padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -297,7 +297,8 @@ class _CertificateListState extends State<CertificateList> {
         case ApiStatus.SUCCESS:
           Log.v("PortfolioState Success....................");
           certificates = portfolioState.response?.data.certificate;
-    certificates?.sort((a, b )=>a.startDate.compareTo(a.startDate));
+    certificates?.sort((b, a)=>a.startDate.compareTo(b.startDate));
+
 
           deleteCertificate = false;
 

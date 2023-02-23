@@ -8,6 +8,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
@@ -398,6 +399,24 @@ class _AddActivitiesState extends State<AddEducation> {
                                 ),
                                 PortfolioCustomButton(
                                   clickAction: () async {
+
+                                     DateTime startD = DateFormat(
+                                                      "yyyy-MM-dd")
+                                                  .parse(
+                                                      '${startDate.value.text}');
+                                              DateTime endD = DateFormat(
+                                                      "yyyy-MM-dd")
+                                                  .parse(
+                                                      '${endDate.value.text}');
+
+                                              if (startD.isAfter(endD) ||
+                                                  startD == endD) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(const SnackBar(
+                                                        content: Text(
+                                                            'End date must be grater than start date')));
+                                                return;
+                                              }
                                     if(!_formKey.currentState!
                                         .validate())return;
                                         

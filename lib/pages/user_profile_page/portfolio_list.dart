@@ -113,7 +113,7 @@ class _PortfolioListState extends State<PortfolioList> {
                       },
                       child: Container(
                         margin:
-                            EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            EdgeInsets.symmetric(horizontal: 12, vertical: 14),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

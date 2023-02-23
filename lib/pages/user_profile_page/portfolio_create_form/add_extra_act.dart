@@ -58,6 +58,7 @@ class _AddActivitiesState extends State<AddActivities> {
       descController =
           TextEditingController(text: widget.activity?.description);
       startDate = TextEditingController(text: widget.activity?.startDate);
+    
     }
   }
 
@@ -258,7 +259,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          "Description",
+                                          "Description*",
                                           style: Styles.regular(
                                               size: 14,
                                               color: Color(0xff0E1638)),
@@ -281,17 +282,15 @@ class _AddActivitiesState extends State<AddActivities> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          "Featured image",
+                                          "Featured image*",
                                           style: Styles.regular(
                                               size: 14,
                                               color: Color(0xff0E1638)),
                                         ),
                                       ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
+                                      
                                       Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                                         child: InkWell(
                                           onTap: () async {
                                             final picker = ImagePicker();
@@ -378,7 +377,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                                         SvgPicture.asset(
                                                             'assets/images/upload_icon.svg'),
                                                         Text(
-                                                          "Upload Image",
+                                                          "Upload Image  ",
                                                           style: Styles.bold(
                                                               size: 12),
                                                         ),
@@ -390,7 +389,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                                 SizedBox(
                                                   width: width(context) * 0.55,
                                                   child: Text(
-                                                      uploadImg != null
+                                                     uploadImg != null
                                                           ? '${uploadImg?.path.split('/').last}'
                                                           :widget.activity?.imageName ?? "Supported Files: .jpeg, .png, .jpg",
                                                       style: TextStyle(
@@ -422,7 +421,9 @@ class _AddActivitiesState extends State<AddActivities> {
                                             Map<String, dynamic> data = Map();
                                             try {
                                               if (widget.isEditMode == true) {
+                                                print('edit mode');
                                                 if (uploadImg?.path != null) {
+                                                  print('edit mode then ');
                                                   String? fileName = uploadImg
                                                       ?.path
                                                       .split('/')
@@ -433,6 +434,8 @@ class _AddActivitiesState extends State<AddActivities> {
                                                           filename: fileName);
                                                 }
                                               } else {
+                                                  print('edit mode now ');
+
                                                 String? fileName = uploadImg
                                                     ?.path
                                                     .split('/')

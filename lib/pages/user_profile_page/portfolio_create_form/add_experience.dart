@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
@@ -56,9 +57,11 @@ class _AddExperienceState extends State<AddExperience> {
       startDate =
           TextEditingController(text: '${widget.experience?.startDate}');
       endDate = TextEditingController(text: '${widget.experience?.endDate}');
-      employmentType = '${widget.experience?.curricularType}';
-      isclicked =
-          widget.experience?.currentlyWorkHere.length == 0 ? false : true;
+      employmentType = '${widget.experience?.employmentType}';
+      isclicked = widget.experience?.currentlyWorkHere == 'true' ||
+              widget.experience?.currentlyWorkHere == 'on'
+          ? true
+          : false;
     }
     super.initState();
   }
@@ -120,7 +123,8 @@ class _AddExperienceState extends State<AddExperience> {
                               //   ],
                               // ),
                               Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 8 , horizontal: 14),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 14),
                                   child: SingleChildScrollView(
                                     child: Column(
                                         crossAxisAlignment:
@@ -246,7 +250,8 @@ class _AddExperienceState extends State<AddExperience> {
                                                 color: Colors.white,
                                                 border: Border.all(
                                                     width: 1.0,
-                                                     color: const Color.fromARGB(255, 142, 142, 142)),
+                                                    color: const Color.fromARGB(
+                                                        255, 142, 142, 142)),
                                                 borderRadius:
                                                     const BorderRadius.all(
                                                         Radius.circular(10.0)),
@@ -332,6 +337,7 @@ class _AddExperienceState extends State<AddExperience> {
                                           ),
                                           InkWell(
                                             onTap: () {
+                                              if (isclicked == true) return;
                                               if (startDate!.value.text == '') {
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
@@ -357,7 +363,8 @@ class _AddExperienceState extends State<AddExperience> {
                                                 color: Colors.white,
                                                 border: Border.all(
                                                     width: 1.0,
-                                                    color: const Color.fromARGB(255, 142, 142, 142)),
+                                                    color: const Color.fromARGB(
+                                                        255, 142, 142, 142)),
                                                 borderRadius:
                                                     const BorderRadius.all(
                                                         Radius.circular(10.0)),
@@ -372,7 +379,9 @@ class _AddExperienceState extends State<AddExperience> {
                                                         const EdgeInsets.all(
                                                             8.0),
                                                     child: Text(
-                                                      endDate!.value.text != ''
+                                                      endDate!.value.text !=
+                                                                  '' &&
+                                                              isclicked == false
                                                           ? endDate!.value.text
                                                           : "Select Date",
                                                       style: TextStyle(
@@ -428,7 +437,8 @@ class _AddExperienceState extends State<AddExperience> {
                                           ),
                                           Padding(
                                               padding:
-                                                  const EdgeInsets.symmetric( horizontal: 8),
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8),
                                               child: Text('Featured Image*',
                                                   style: Styles.regular(
                                                       size: 14,
@@ -514,26 +524,43 @@ class _AddExperienceState extends State<AddExperience> {
                                                                   Styles.bold(
                                                                       size: 12),
                                                             ),
-                                                            
                                                           ],
                                                         )),
-                                             
-                                             Text(
-                                            uploadCerti != null
-                                                ? ' ${uploadCerti?.path.split('/').last}'
-                                                : widget.experience
-                                                        ?.imageName ??
-                                                    " Supported Files: .jpeg, .png, .jpg",
-                                            style: Styles.regular(
-                                                size: 10,
-                                                color: Color(0xff0E1638)),
-                                          ),     ]))),
+                                                    Text(
+                                                      uploadCerti != null
+                                                          ? ' ${uploadCerti?.path.split('/').last}'
+                                                          : widget.experience
+                                                                  ?.imageName ??
+                                                              " Supported Files: .jpeg, .png, .jpg",
+                                                      style: Styles.regular(
+                                                          size: 10,
+                                                          color: Color(
+                                                              0xff0E1638)),
+                                                    ),
+                                                  ]))),
                                           SizedBox(
                                             width: 4,
                                           ),
-                                          
                                           PortfolioCustomButton(
                                             clickAction: () async {
+                                              DateTime startD = DateFormat(
+                                                      "yyyy-MM-dd")
+                                                  .parse(
+                                                      '${startDate?.value.text}');
+                                              DateTime endD = DateFormat(
+                                                      "yyyy-MM-dd")
+                                                  .parse(
+                                                      '${endDate?.value.text}');
+
+                                              if (startD.isAfter(endD) ||
+                                                  startD == endD) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(const SnackBar(
+                                                        content: Text(
+                                                            'End date must be grater than start date')));
+                                                return;
+                                              }
+
                                               if (!_formKey.currentState!
                                                   .validate()) return;
                                               print(
@@ -625,7 +652,7 @@ class _AddExperienceState extends State<AddExperience> {
                                                       .showSnackBar(
                                                     const SnackBar(
                                                         content: Text(
-                                                            'Please upload file')),
+                                                            'Please add feature image')),
                                                   );
                                                 }
                                               }
@@ -657,7 +684,7 @@ class _AddExperienceState extends State<AddExperience> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
                 content: Text(widget.isEditMode == true
-                    ? 'Experience edited'
+                    ? 'Experience updated'
                     : 'Experience added')),
           );
           isAddExperienceLoading = false;
