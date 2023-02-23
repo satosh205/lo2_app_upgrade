@@ -2462,13 +2462,12 @@ try {
     else if (event is VerifyEmailCodeEvent) {
       try {
         yield VerifyEmailCodeState(ApiStatus.LOADING);
-        final response =
-        await homeRepository.verifyEmailCodeAnswer(email: event.email, eCode: event.code);
-        if (response!.status == 1) {
+        final response = await homeRepository.verifyEmailCodeAnswer(email: event.email, eCode: event.code);
+
+        if (response == 1) {
           yield VerifyEmailCodeState(ApiStatus.SUCCESS);
         } else {
-          yield VerifyEmailCodeState(ApiStatus.ERROR,
-              error: "Something went wrong");
+          yield VerifyEmailCodeState(ApiStatus.ERROR, error: "Invalid Code");
         }
       } catch (e) {
         yield VerifyEmailCodeState(ApiStatus.ERROR, error: "Something went wrong");

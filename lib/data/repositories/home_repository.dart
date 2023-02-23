@@ -1315,12 +1315,8 @@ class HomeRepository {
   Future verifyEmailCodeAnswer({String? email, String? eCode}) async {
     try {
       final response = await homeProvider.verifyEmailCode(email: email,eCode: eCode);
-      if (response!.success) {
-        if (response.status == 1) {
-          return response.status;
-        } else {
-          return 0;
-        }
+      if (response?.body['status'] == 1) {
+        return 1;
       } else {
         return 0;
       }

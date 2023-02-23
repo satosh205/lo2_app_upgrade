@@ -80,10 +80,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
           break;
         case ApiStatus.ERROR:
-          Log.v(
-              "Error emailCodeSendState ..........................${emailCodeSendState.error}");
+          Log.v("Error emailCodeSendState ..........................${emailCodeSendState.error}");
           _isLoading = false;
-
           break;
         case ApiStatus.INITIAL:
           break;
@@ -91,7 +89,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
   }
 
-   void handleVerifyOtp(EmailCodeSendState state) {
+   void handleVerifyOtp(VerifyEmailCodeState state) {
     var emailCodeSendState = state;
     setState(() {
       switch (emailCodeSendState.apiState) {
@@ -101,17 +99,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
           codeVerified = false;
           break;
         case ApiStatus.SUCCESS:
-          Log.v("EmailCodeSend Suuuuuuuus....................");
+          Log.v("VerifyOtp Suuuuuuuus....................");
          codeVerified = true;
           _isLoading = false;
 
           break;
         case ApiStatus.ERROR:
-          Log.v(
-              "Error emailCodeSendState ..........................${emailCodeSendState.error}");
+          Log.v("Error handleVerifyOtp ..........................${emailCodeSendState.error}");
           _isLoading = false;
           codeVerified = false;
-
+          Utility.showSnackBar(
+              scaffoldContext: context, message: 'Invalid Code');
           break;
         case ApiStatus.INITIAL:
           break;
@@ -130,7 +128,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               _handleEmailCodeSendResponse(state);
             }
             if(state is VerifyEmailCodeState){
-              
+              handleVerifyOtp(state);
             }
           },
           child: Scaffold(
@@ -287,8 +285,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       .hasMatch(value)) {
                                     _emailTrue = false;
                                     isCodeSent = false;
+                                    otpController.clear();
                                   } else {
                                     _emailTrue = true;
+                                    otpController.clear();
                                   }
                                 });
                               },
@@ -312,7 +312,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
 
                         ///enter email Code--
-                        Padding(
+                        isCodeSent == true ? Padding(
                           padding: const EdgeInsets.only(left: 20.0),
                           child: Row(
                             children: [
@@ -322,8 +322,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ],
                           ),
-                        ),
-                        Padding(
+                        ): SizedBox(),
+                        isCodeSent == true ? Padding(
                           padding: const EdgeInsets.only(
                               top: 8.0, left: 16, right: 16),
                           child: Container(
@@ -429,8 +429,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ],
                             ),
                           ),
-                        ),
+                        ): SizedBox(),
 
+                        ///new Password
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0),
                           child: Row(
