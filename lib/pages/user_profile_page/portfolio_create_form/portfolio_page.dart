@@ -11,17 +11,13 @@ import 'package:intl/intl.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
-import 'package:masterg/data/models/response/auth_response/bottombar_response.dart';
 import 'package:masterg/data/models/response/home_response/competition_response.dart';
 import 'package:masterg/data/models/response/home_response/new_portfolio_response.dart';
 import 'package:masterg/data/models/response/home_response/portfolio_competition_response.dart';
 import 'package:masterg/data/models/response/home_response/top_score.dart';
-import 'package:masterg/data/providers/video_player_provider.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/ghome/widget/read_more.dart';
-import 'package:masterg/pages/singularis/community/commiunity_dashboard.dart';
-import 'package:masterg/pages/singularis/competition/competition.dart';
 import 'package:masterg/pages/singularis/competition/competition_detail.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_certificate.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_education.dart';
@@ -48,7 +44,6 @@ import 'package:masterg/utils/video_screen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -1957,9 +1952,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                   ? ListView.builder(
                                       shrinkWrap: true,
                                       physics: ScrollPhysics(),
-                                      itemCount: portfolioResponse
-                                          ?.data.education.length,
+                                      itemCount: min(2, portfolioResponse
+                                          !.data.education.length),
                                       itemBuilder: (context, index) {
+                                        int len  = min(2, portfolioResponse
+                                          !.data.education.length);
                                         DateTime endDate = DateTime.now();
 
                                         if (portfolioResponse
@@ -2117,7 +2114,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                     size:
                                                                         14),
                                                           ),
-                                                          // Text('check value    ${endDate.month} vlue'),
                                                           if (portfolioResponse
                                                                       ?.data
                                                                       .education[
@@ -2158,8 +2154,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                 height: 22,
                                               ),
                                               if (index + 1 !=
-                                                  portfolioResponse?.data
-                                                      .education.length)
+                                                  len)
                                                 Divider(),
                                             ],
                                           ),
@@ -2199,6 +2194,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                           ],*/
 
                       dividerLine(),
+                      
                       getCertificateWidget(
                           portfolioResponse?.data.certificate, context),
                       dividerLine(),
@@ -2378,6 +2374,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
 
   Widget getCertificateWidget(
       List<CommonProfession>? certificateList, context) {
+       certificateList?.sort((a, b )=>a.startDate.compareTo(a.startDate));
     return Container(
       color: Colors.white,
       child: Column(
@@ -2404,7 +2401,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                   padding: EdgeInsets.all(8),
                   margin: EdgeInsets.only(right: 10),
                   height: certificateList?.length != 0
-                      ? height(context) * 0.38
+                      ? height(context) * 0.33
                       : height(context) * 0.15,
                   child: certificateList?.length != 0
                       ? ListView.builder(
@@ -2415,7 +2412,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                 "${portfolioResponse?.data.certificate[index].startDate}";
 
                             DateTime startDate =
-                                DateFormat("yyyy-dd-MM").parse(startDateString);
+                                DateFormat("yyyy-MM-dd").parse(startDateString);
                             return InkWell(
                               onTap: () {
                                 showModalBottomSheet(
@@ -2478,7 +2475,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                       height: 8,
                                     ),
                                     Text(
-                                      '${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day}',
+                                      '${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2,4)}',
                                       // '${certificateList?[index].startDate ?? 'Sep 21'}',
                                       style: Styles.regular(),
                                     ),
