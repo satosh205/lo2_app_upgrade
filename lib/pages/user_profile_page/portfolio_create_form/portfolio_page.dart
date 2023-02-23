@@ -1921,7 +1921,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                 SizedBox(
                                   height: 20,
                                 ),
-                                dividerLine(),
+                                // dividerLine(),
                               ])),
 
                       SizedBox(
