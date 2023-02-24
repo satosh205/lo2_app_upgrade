@@ -2266,123 +2266,133 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     var past = DateTime.parse("${recentActivites.createdAt}");
 
     var difference = now.difference(past);
-    return Container(
-      width: width(context) * 0.75,
-      height: height(context) * 0.35,
-      padding: EdgeInsets.symmetric(horizontal: 12),
-      margin: EdgeInsets.all(4),
-      decoration: BoxDecoration(
-          border: Border.all(color: ColorConstants.DIVIDER),
-          borderRadius: BorderRadius.circular(8),
-          color: ColorConstants.WHITE),
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-          if(recentActivites.reserved != 'reels')  SizedBox(
-              height: 20,
-            ),
-         if(recentActivites.reserved != 'reels')   Row(
-              children: [
-                ClipOval(
-                  child: Image.network(
-                    '${recentActivites.profileImage}',
-                    width: width(context) * 0.13,
-                    height: width(context) * 0.13,
-                  ),
-                ),
-                SizedBox(width: 12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: width(context) * 0.5,
-                      child: Text(
-                        '${recentActivites.name}',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    Text('${calculateTimeDifferenceBetween(past, now)}')
-                    // Text('${difference.inDays}')
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 6,
-            ),
-         if(recentActivites.reserved != 'reels') ReadMoreText(
-              text: '${recentActivites.description}',
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            recentActivites.resourcePath!.contains('png') ||
-                    recentActivites.resourcePath!.contains('jpeg') || recentActivites.resourcePath!.contains('jpg')
-                ? ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
+    return InkWell(
+      onTap: (){
+          Navigator.push(
+                  context,
+                  NextPageRoute(RecentActivitiesPage(animateToIndex: recentActivites.reserved 
+                  != 'reels' ? 1 : 0,),
+                      isMaintainState: false));
+
+      },
+      child: Container(
+        width: width(context) * 0.75,
+        height: height(context) * 0.35,
+        padding: EdgeInsets.symmetric(horizontal: 12),
+        margin: EdgeInsets.all(4),
+        decoration: BoxDecoration(
+            border: Border.all(color: ColorConstants.DIVIDER),
+            borderRadius: BorderRadius.circular(8),
+            color: ColorConstants.WHITE),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+            if(recentActivites.reserved != 'reels')  SizedBox(
+                height: 20,
+              ),
+           if(recentActivites.reserved != 'reels')   Row(
+                children: [
+                  ClipOval(
                     child: Image.network(
-                      '${recentActivites.resourcePath}',
-                      width: width(context) * 0.65,
-                      height: height(context) * 0.3,
-                      fit: BoxFit.cover,
-                    ))
-                : Container(
-                  color: Colors.red,
-                  height:recentActivites.reserved != 'reels' ?200:   height(context) * 0.4,
-            
-                  child: VideoPlayerWidget(
-                      videoUrl: '${recentActivites.resourcePath}',
-                      // maitanceAspectRatio: true,
+                      '${recentActivites.profileImage}',
+                      width: width(context) * 0.13,
+                      height: width(context) * 0.13,
                     ),
-                )
-            // ClipRect(
-            //     child: AspectRatio(
-            //       aspectRatio: 4 / 4,
-            //       child: FlickVideoPlayer(
-            //           // flickVideoWithControls: FlickPortraitControls(),
-            //           flickManager: FlickManager(
-            //         autoPlay: false,
-            //         videoPlayerController: VideoPlayerController.network(
-            //           '${recentActivites.resourcePath}',
-            //         ),
-            //       )),
-            //     ),
-            //   )
-
-            // CustomVideoPlayer(
-            //                                     // sendflickManager:
-            //                                     //     (FlickManager value) {},
-            //                                     url: recentActivites.resourcePath,
-            //                                     isLocalVideo: false,
-            //                                     likeCount:0,
-            //                                     viewCount: 0,
-            //                                     commentCount:
-            //                                         0,
-            //                                     //height:  videoHeight,
-            //                                     height: min(
-            //                                         height(context) * 0.3,
-            //                                         MediaQuery.of(context)
-            //                                                 .size
-            //                                                 .height -
-            //                                             MediaQuery.of(context)
-            //                                                     .size
-            //                                                     .height *
-            //                                                 0.25),
-            //                                     index: 0,
-            //                                     desc: recentActivites.description,
-            //                                     userName: recentActivites.name,
-            //                                     profilePath: recentActivites.profileImage,
-            //                                     time:"nice"
-            //                                         // calculateTimeDifferenceBetween(
-            //                                         //     DateTime.parse(date
-            //                                         //         .toString()
-            //                                         //         .substring(0, 19)),
-            //                                         //     now),
-
-            //                                   ),
-          ]),
+                  ),
+                  SizedBox(width: 12),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: width(context) * 0.5,
+                        child: Text(
+                          '${recentActivites.name}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Text('${calculateTimeDifferenceBetween(past, now)}')
+                      // Text('${difference.inDays}')
+                    ],
+                  ),
+                ],
+              ),
+             if(recentActivites.reserved != 'reels')  SizedBox(
+                height: 6,
+              ),
+           if(recentActivites.reserved != 'reels') ReadMoreText(
+                text: '${recentActivites.description}',
+              ),
+           if(recentActivites.reserved != 'reels')    SizedBox(
+                height: 20,
+              ),
+              recentActivites.resourcePath!.contains('png') ||
+                      recentActivites.resourcePath!.contains('jpeg') || recentActivites.resourcePath!.contains('jpg')
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        '${recentActivites.resourcePath}',
+                        width: width(context) * 0.65,
+                        height: height(context) * 0.3,
+                        fit: BoxFit.cover,
+                      ))
+                  : Container(
+                  
+                    height:recentActivites.reserved != 'reels' ?height(context) * 0.33:   height(context) * 0.43,
+              
+                    child: VideoPlayerWidget(
+                        videoUrl: '${recentActivites.resourcePath}',
+                        // maitanceAspectRatio: true,
+                      ),
+                  )
+              // ClipRect(
+              //     child: AspectRatio(
+              //       aspectRatio: 4 / 4,
+              //       child: FlickVideoPlayer(
+              //           // flickVideoWithControls: FlickPortraitControls(),
+              //           flickManager: FlickManager(
+              //         autoPlay: false,
+              //         videoPlayerController: VideoPlayerController.network(
+              //           '${recentActivites.resourcePath}',
+              //         ),
+              //       )),
+              //     ),
+              //   )
+    
+              // CustomVideoPlayer(
+              //                                     // sendflickManager:
+              //                                     //     (FlickManager value) {},
+              //                                     url: recentActivites.resourcePath,
+              //                                     isLocalVideo: false,
+              //                                     likeCount:0,
+              //                                     viewCount: 0,
+              //                                     commentCount:
+              //                                         0,
+              //                                     //height:  videoHeight,
+              //                                     height: min(
+              //                                         height(context) * 0.3,
+              //                                         MediaQuery.of(context)
+              //                                                 .size
+              //                                                 .height -
+              //                                             MediaQuery.of(context)
+              //                                                     .size
+              //                                                     .height *
+              //                                                 0.25),
+              //                                     index: 0,
+              //                                     desc: recentActivites.description,
+              //                                     userName: recentActivites.name,
+              //                                     profilePath: recentActivites.profileImage,
+              //                                     time:"nice"
+              //                                         // calculateTimeDifferenceBetween(
+              //                                         //     DateTime.parse(date
+              //                                         //         .toString()
+              //                                         //         .substring(0, 19)),
+              //                                         //     now),
+    
+              //                                   ),
+            ]),
+      ),
     );
   }
 

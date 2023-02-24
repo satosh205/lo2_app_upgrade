@@ -13,7 +13,8 @@ import '../../../data/providers/video_player_provider.dart';
 import '../../../utils/Styles.dart';
 
 class RecentActivitiesPage extends StatefulWidget {
-  const RecentActivitiesPage({Key? key}) : super(key: key);
+  final int animateToIndex;
+  const RecentActivitiesPage({Key? key,  this.animateToIndex = 0}) : super(key: key);
 
   @override
   State<RecentActivitiesPage> createState() => _RecentActivitiesPageState();
@@ -22,6 +23,7 @@ class RecentActivitiesPage extends StatefulWidget {
 class _RecentActivitiesPageState extends State<RecentActivitiesPage> {
 
   bool selectedFlag = false;
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class _RecentActivitiesPageState extends State<RecentActivitiesPage> {
               listener: (context, state) async{},
               child: DefaultTabController(
                   length: 2,
-                  initialIndex: 0,
+                  initialIndex: widget.animateToIndex,
                   child: Scaffold(
                     backgroundColor: Colors.white,
                     appBar: AppBar(
