@@ -1256,11 +1256,12 @@ class HomeProvider {
     return null;
   }
 
-  Future<ApiResponse?> GCarvaanPost(int callCount, int? postId) async {
+  Future<ApiResponse?> GCarvaanPost(int callCount, int? postId, bool userActivity) async {
     try {
       int from = ((callCount - 1) * 10) + 1;
       final response = await api.dio.get(
-          postId != null
+       userActivity ?ApiConstants.GCARVAAN_POST +
+                  '?from=$from&count=10&content_type=0&created_by_id=${Preference.getInt(Preference.USER_ID)}' :    postId != null
               ? ApiConstants.GCARVAAN_POST +
                   '?from=1&count=10&content_type=0&id=$postId'
               : ApiConstants.GCARVAAN_POST +
@@ -1289,10 +1290,10 @@ class HomeProvider {
     return null;
   }
 
-  Future<ApiResponse?> GReelsPost() async {
+  Future<ApiResponse?> GReelsPost(bool userActivity) async {
     try {
       final response =
-          await api.dio.get(ApiConstants.GREELS_POST + '?from=1&count=20',
+          await api.dio.get(userActivity ? ApiConstants.GREELS_POST + '?from=1&count=20&created_by_id=${Preference.getInt(Preference.USER_ID)}':  ApiConstants.GREELS_POST + '?from=1&count=20',
               options: Options(
                   method: 'GET',
                   headers: {

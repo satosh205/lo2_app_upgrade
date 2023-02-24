@@ -58,7 +58,6 @@ class _AddActivitiesState extends State<AddActivities> {
       descController =
           TextEditingController(text: widget.activity?.description);
       startDate = TextEditingController(text: widget.activity?.startDate);
-    
     }
   }
 
@@ -160,7 +159,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                             horizontal: 8.0, vertical: 4),
                                         child: CustomTextField(
                                             validate: true,
-                                             maxChar: 50,
+                                            maxChar: 50,
                                             validationString:
                                                 'Please enter organisation',
                                             controller: organizationController,
@@ -183,7 +182,6 @@ class _AddActivitiesState extends State<AddActivities> {
                                             validate: true,
                                             maxChar: 20,
                                             validationString:
-                                            
                                                 'Please enter activity type',
                                             controller: activityController,
                                             hintText:
@@ -216,7 +214,8 @@ class _AddActivitiesState extends State<AddActivities> {
                                               color: Colors.white,
                                               border: Border.all(
                                                   width: 1.0,
-                                                  color: const Color.fromARGB(255, 142, 142, 142)),
+                                                  color: const Color.fromARGB(
+                                                      255, 142, 142, 142)),
                                               borderRadius:
                                                   const BorderRadius.all(
                                                       Radius.circular(10.0)),
@@ -290,9 +289,9 @@ class _AddActivitiesState extends State<AddActivities> {
                                               color: Color(0xff0E1638)),
                                         ),
                                       ),
-                                      
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 4, horizontal: 8),
                                         child: InkWell(
                                           onTap: () async {
                                             final picker = ImagePicker();
@@ -391,15 +390,17 @@ class _AddActivitiesState extends State<AddActivities> {
                                                 SizedBox(
                                                   width: width(context) * 0.6,
                                                   child: Text(
-                                                     uploadImg != null
+                                                      uploadImg != null
                                                           ? '${uploadImg?.path.split('/').last}'
-                                                          :widget.activity?.imageName?? "Supported Files: .jpeg, .png, .jpg",
+                                                          : widget.activity
+                                                                  ?.imageName ??
+                                                              "Supported Files: .jpeg, .png, .jpg",
                                                       style: TextStyle(
                                                           fontSize: 10,
                                                           fontWeight:
                                                               FontWeight.w400,
-                                                          color:
-                                                              Color(0xff929BA3))),
+                                                          color: Color(
+                                                              0xff929BA3))),
                                                 ),
                                               ],
                                             ),
@@ -436,7 +437,7 @@ class _AddActivitiesState extends State<AddActivities> {
                                                           filename: fileName);
                                                 }
                                               } else {
-                                                  print('edit mode now ');
+                                                print('edit mode now ');
 
                                                 String? fileName = uploadImg
                                                     ?.path
@@ -506,10 +507,10 @@ class _AddActivitiesState extends State<AddActivities> {
         case ApiStatus.SUCCESS:
           Log.v("Success Add Activities....................");
           isAddActivitiesLoading = false;
-ScaffoldMessenger.of(context)
-                                                  .showSnackBar(SnackBar(
-                                                      content: Text(
-                                                         widget.isEditMode == true ? 'Activity updated' :'Activity added')));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(widget.isEditMode == true
+                  ? 'Activity updated'
+                  : 'Activity added')));
           Navigator.pop(context);
           break;
         case ApiStatus.ERROR:

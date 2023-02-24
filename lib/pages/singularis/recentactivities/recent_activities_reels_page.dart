@@ -114,7 +114,7 @@ class _RecentActivitiesReelsPageState extends State<RecentActivitiesReelsPage> {
   }
 
   void _getGReels() async {
-    BlocProvider.of<HomeBloc>(context).add(GReelsPostEvent());
+    BlocProvider.of<HomeBloc>(context).add(GReelsPostEvent(userActivity: true));
   }
 
   void _handleGReelsResponse(GReelsPostState state) {

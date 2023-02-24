@@ -1041,7 +1041,8 @@ class MapInterestState extends HomeState {
 class GCarvaanPostEvent extends HomeEvent {
   int? callCount;
   int? postId;
-  GCarvaanPostEvent({this.callCount, this.postId}) : super([callCount, postId]);
+  bool userActivity;
+  GCarvaanPostEvent({this.callCount, this.postId, this.userActivity = false}) : super([callCount, postId]);
 
   List<Object> get props => throw UnimplementedError();
 }
@@ -1057,7 +1058,8 @@ class GCarvaanPostState extends HomeState {
 }
 
 class GReelsPostEvent extends HomeEvent {
-  GReelsPostEvent() : super([]);
+  bool userActivity;
+  GReelsPostEvent({this.userActivity = false}) : super([]);
 
   List<Object> get props => throw UnimplementedError();
 }
@@ -2984,7 +2986,7 @@ try {
         yield GCarvaanPostState(ApiStatus.LOADING);
 
         final response =
-            await homeRepository.GCarvaanPost(event.callCount!, event.postId);
+            await homeRepository.GCarvaanPost(event.callCount!, event.postId, event.userActivity);
 
         if (response.data != null) {
           yield GCarvaanPostState(ApiStatus.SUCCESS, response: response);
@@ -3002,7 +3004,7 @@ try {
       try {
         yield GReelsPostState(ApiStatus.LOADING);
 
-        final response = await homeRepository.GReelsPost();
+        final response = await homeRepository.GReelsPost(event.userActivity);
 
         if (response.data != null) {
           yield GReelsPostState(ApiStatus.SUCCESS, response: response);

@@ -1124,8 +1124,8 @@ class HomeRepository {
     }
   }
 
-  Future<GCarvaanPostResponse> GCarvaanPost(int callCount, int? postId) async {
-    final response = await homeProvider.GCarvaanPost(callCount, postId);
+  Future<GCarvaanPostResponse> GCarvaanPost(int callCount, int? postId, bool userActivity) async {
+    final response = await homeProvider.GCarvaanPost(callCount, postId, userActivity);
     if (response!.success) {
       GCarvaanPostResponse gcarvaanPost =
           GCarvaanPostResponse.fromJson(response.body);
@@ -1142,8 +1142,8 @@ class HomeRepository {
     }
   }
 
-  Future<GReelsPostResponse> GReelsPost() async {
-    final response = await homeProvider.GReelsPost();
+  Future<GReelsPostResponse> GReelsPost(bool userActivity) async {
+    final response = await homeProvider.GReelsPost(userActivity);
     if (response!.success) {
       GReelsPostResponse gReelsPost =
           GReelsPostResponse.fromJson(response.body);

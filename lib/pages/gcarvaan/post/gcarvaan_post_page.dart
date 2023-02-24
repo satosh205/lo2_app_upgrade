@@ -32,6 +32,7 @@ class GCarvaanPostPage extends StatefulWidget {
   bool? formCreatePost;
   bool fromDashboard;
   bool recentActivities;
+  bool fromUserActivity;
 
   GCarvaanPostPage(
       {Key? key,
@@ -40,7 +41,9 @@ class GCarvaanPostPage extends StatefulWidget {
       this.filesPath,
       this.formCreatePost,
       this.fromDashboard = false,
-      this.recentActivities = false,})
+      this.recentActivities = false,
+      this.fromUserActivity = false,
+      })
       : super(key: key);
 
   @override
@@ -96,7 +99,7 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
         print('Something went wrong while fetching data form hive: $e');
       }
     }
-    BlocProvider.of<HomeBloc>(context).add(GCarvaanPostEvent(callCount: callCount, postId: postId));
+    BlocProvider.of<HomeBloc>(context).add(GCarvaanPostEvent(callCount: callCount, postId: postId, userActivity: widget.fromUserActivity));
   }
 
   void createPost() {

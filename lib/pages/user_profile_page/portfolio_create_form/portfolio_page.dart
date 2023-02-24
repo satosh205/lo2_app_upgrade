@@ -890,258 +890,267 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                   SizedBox(width: 3),
                                                 ],
                                               )
-                                            : Row(
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      portfolioResponse
-                                                                  ?.data
-                                                                  .portfolioSocial
-                                                                  .first
-                                                                  .linkedin !=
-                                                              ""
-                                                          ? InkWell(
-                                                              onTap: () async {
-                                                                Navigator.push(
-                                                                    context,
-                                                                    NextPageRoute(
-                                                                        CommonWebView(
-                                                                      url: portfolioResponse
-                                                                          ?.data
-                                                                          .portfolioSocial
-                                                                          .first
-                                                                          .linkedin,
-                                                                    ))).then((isSuccess) {
-                                                                  if (isSuccess ==
-                                                                      true) {
-                                                                    Navigator.pop(
-                                                                        context,
-                                                                        true);
-                                                                  }
-                                                                });
-                                                              },
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        right:
-                                                                            14.0),
-                                                                child: SvgPicture
-                                                                    .asset(
-                                                                        'assets/images/linkedin.svg'),
-                                                              ),
-                                                            )
-                                                          : SizedBox(),
-
-                                                      portfolioResponse
-                                                                  ?.data
-                                                                  .portfolioSocial
-                                                                  .first
-                                                                  .insta !=
-                                                              ""
-                                                          ? InkWell(
-                                                              onTap: () {
-                                                                Navigator.push(
-                                                                    context,
-                                                                    NextPageRoute(
-                                                                        CommonWebView(
-                                                                      url: portfolioResponse
-                                                                          ?.data
-                                                                          .portfolioSocial
-                                                                          .first
-                                                                          .insta,
-                                                                    ))).then((isSuccess) {
-                                                                  if (isSuccess ==
-                                                                      true) {
-                                                                    Navigator.pop(
-                                                                        context,
-                                                                        true);
-                                                                  }
-                                                                });
-                                                              },
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        right:
-                                                                            14.0),
-                                                                child: SvgPicture
-                                                                    .asset(
-                                                                        'assets/images/insta.svg'),
-                                                              ),
-                                                            )
-                                                          : SizedBox(),
-
-                                                      portfolioResponse
-                                                                  ?.data
-                                                                  .portfolioSocial
-                                                                  .first
-                                                                  .twitter !=
-                                                              ""
-                                                          ? InkWell(
-                                                              onTap: () {
-                                                                Navigator.push(
-                                                                    context,
-                                                                    NextPageRoute(
-                                                                        CommonWebView(
-                                                                      url: portfolioResponse
-                                                                          ?.data
-                                                                          .portfolioSocial
-                                                                          .first
-                                                                          .twitter,
-                                                                    ))).then((isSuccess) {
-                                                                  if (isSuccess ==
-                                                                      true) {
-                                                                    Navigator.pop(
-                                                                        context,
-                                                                        true);
-                                                                  }
-                                                                });
-                                                              },
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        right:
-                                                                            0.0),
-                                                                child: SvgPicture
-                                                                    .asset(
-                                                                        'assets/images/twitter.svg'),
-                                                              ),
-                                                            )
-                                                          : SizedBox(),
-
-                                                      portfolioResponse
-                                                                  ?.data
-                                                                  .portfolioSocial
-                                                                  .first
-                                                                  .bee !=
-                                                              ""
-                                                          ? InkWell(
-                                                              onTap: () {
-                                                                Navigator.push(
-                                                                    context,
-                                                                    NextPageRoute(
-                                                                        CommonWebView(
-                                                                      url: portfolioResponse
-                                                                          ?.data
-                                                                          .portfolioSocial
-                                                                          .first
-                                                                          .dribble,
-                                                                    ))).then((isSuccess) {
-                                                                  if (isSuccess ==
-                                                                      true) {
-                                                                    Navigator.pop(
-                                                                        context,
-                                                                        true);
-                                                                  }
-                                                                });
-                                                              },
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        right:
-                                                                            14.0),
-                                                                child: SvgPicture
-                                                                    .asset(
-                                                                        'assets/images/behance.svg'),
-                                                              ),
-                                                            )
-                                                          : SizedBox(),
-                                                      //SizedBox(width: 14),
-                                                    ],
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      portfolioResponse
-                                                                  ?.data
-                                                                  .portfolioSocial
-                                                                  .first
-                                                                  .linkedin ==
-                                                              ""
-                                                          ? Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      right:
-                                                                          14.0),
-                                                              child: SvgPicture
-                                                                  .asset(
-                                                                      'assets/images/linkedin_un.svg'),
-                                                            )
-                                                          : SizedBox(),
-                                                      //SizedBox(width: 14),
-
-                                                      portfolioResponse
-                                                                  ?.data
-                                                                  .portfolioSocial
-                                                                  .first
-                                                                  .insta ==
-                                                              ""
-                                                          ? Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      right:
-                                                                          14.0),
-                                                              child: SvgPicture
-                                                                  .asset(
-                                                                      'assets/images/insta_un.svg'),
-                                                            )
-                                                          : SizedBox(),
-
-                                                      //SizedBox(width: 14),
-
-                                                      portfolioResponse
-                                                                  ?.data
-                                                                  .portfolioSocial
-                                                                  .first
-                                                                  .twitter ==
-                                                              ""
-                                                          ? Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      right:
-                                                                          14.0),
-                                                              child: SvgPicture
-                                                                  .asset(
-                                                                      'assets/images/twitter_un.svg'),
-                                                            )
-                                                          : SizedBox(),
-                                                      //SizedBox(width: 14),
-
-                                                      portfolioResponse
-                                                                  ?.data
-                                                                  .portfolioSocial
-                                                                  .first
-                                                                  .bee ==
-                                                              ""
-                                                          ? SvgPicture.asset(
-                                                              'assets/images/behance_un.svg')
-                                                          : SizedBox(),
-                                                      SizedBox(width: 3),
-                                                    ],
-                                                  ),
-                                                ],
+                                            : ShowSocailLinks(
+                                                portfolioSocial:
+                                                    portfolioResponse?.data
+                                                        .portfolioSocial.first,
                                               ),
+
+                                        //show here social widget
+
+                                        // Row(
+                                        //     children: [
+                                        //       Row(
+                                        //         children: [
+                                        //           portfolioResponse
+                                        //                       ?.data
+                                        //                       .portfolioSocial
+                                        //                       .first
+                                        //                       .linkedin !=
+                                        //                   ""
+                                        //               ? InkWell(
+                                        //                   onTap: () async {
+                                        //                     Navigator.push(
+                                        //                         context,
+                                        //                         NextPageRoute(
+                                        //                             CommonWebView(
+                                        //                           url: portfolioResponse
+                                        //                               ?.data
+                                        //                               .portfolioSocial
+                                        //                               .first
+                                        //                               .linkedin,
+                                        //                         ))).then((isSuccess) {
+                                        //                       if (isSuccess ==
+                                        //                           true) {
+                                        //                         Navigator.pop(
+                                        //                             context,
+                                        //                             true);
+                                        //                       }
+                                        //                     });
+                                        //                   },
+                                        //                   child: Padding(
+                                        //                     padding:
+                                        //                         const EdgeInsets
+                                        //                                 .only(
+                                        //                             right:
+                                        //                                 14.0),
+                                        //                     child: SvgPicture
+                                        //                         .asset(
+                                        //                             'assets/images/linkedin.svg'),
+                                        //                   ),
+                                        //                 )
+                                        //               : SizedBox(),
+
+                                        //           portfolioResponse
+                                        //                       ?.data
+                                        //                       .portfolioSocial
+                                        //                       .first
+                                        //                       .insta !=
+                                        //                   ""
+                                        //               ? InkWell(
+                                        //                   onTap: () {
+                                        //                     Navigator.push(
+                                        //                         context,
+                                        //                         NextPageRoute(
+                                        //                             CommonWebView(
+                                        //                           url: portfolioResponse
+                                        //                               ?.data
+                                        //                               .portfolioSocial
+                                        //                               .first
+                                        //                               .insta,
+                                        //                         ))).then((isSuccess) {
+                                        //                       if (isSuccess ==
+                                        //                           true) {
+                                        //                         Navigator.pop(
+                                        //                             context,
+                                        //                             true);
+                                        //                       }
+                                        //                     });
+                                        //                   },
+                                        //                   child: Padding(
+                                        //                     padding:
+                                        //                         const EdgeInsets
+                                        //                                 .only(
+                                        //                             right:
+                                        //                                 14.0),
+                                        //                     child: SvgPicture
+                                        //                         .asset(
+                                        //                             'assets/images/insta.svg'),
+                                        //                   ),
+                                        //                 )
+                                        //               : SizedBox(),
+
+                                        //           portfolioResponse
+                                        //                       ?.data
+                                        //                       .portfolioSocial
+                                        //                       .first
+                                        //                       .twitter !=
+                                        //                   ""
+                                        //               ? InkWell(
+                                        //                   onTap: () {
+                                        //                     Navigator.push(
+                                        //                         context,
+                                        //                         NextPageRoute(
+                                        //                             CommonWebView(
+                                        //                           url: portfolioResponse
+                                        //                               ?.data
+                                        //                               .portfolioSocial
+                                        //                               .first
+                                        //                               .twitter,
+                                        //                         ))).then((isSuccess) {
+                                        //                       if (isSuccess ==
+                                        //                           true) {
+                                        //                         Navigator.pop(
+                                        //                             context,
+                                        //                             true);
+                                        //                       }
+                                        //                     });
+                                        //                   },
+                                        //                   child: Padding(
+                                        //                     padding:
+                                        //                         const EdgeInsets
+                                        //                                 .only(
+                                        //                             right:
+                                        //                                 0.0),
+                                        //                     child: SvgPicture
+                                        //                         .asset(
+                                        //                             'assets/images/twitter.svg'),
+                                        //                   ),
+                                        //                 )
+                                        //               : SizedBox(),
+
+                                        //           portfolioResponse
+                                        //                       ?.data
+                                        //                       .portfolioSocial
+                                        //                       .first
+                                        //                       .bee !=
+                                        //                   ""
+                                        //               ? InkWell(
+                                        //                   onTap: () {
+                                        //                     Navigator.push(
+                                        //                         context,
+                                        //                         NextPageRoute(
+                                        //                             CommonWebView(
+                                        //                           url: portfolioResponse
+                                        //                               ?.data
+                                        //                               .portfolioSocial
+                                        //                               .first
+                                        //                               .dribble,
+                                        //                         ))).then((isSuccess) {
+                                        //                       if (isSuccess ==
+                                        //                           true) {
+                                        //                         Navigator.pop(
+                                        //                             context,
+                                        //                             true);
+                                        //                       }
+                                        //                     });
+                                        //                   },
+                                        //                   child: Padding(
+                                        //                     padding:
+                                        //                         const EdgeInsets
+                                        //                                 .only(
+                                        //                             right:
+                                        //                                 14.0),
+                                        //                     child: SvgPicture
+                                        //                         .asset(
+                                        //                             'assets/images/behance.svg'),
+                                        //                   ),
+                                        //                 )
+                                        //               : SizedBox(),
+                                        //           //SizedBox(width: 14),
+                                        //         ],
+                                        //       ),
+                                        //       Row(
+                                        //         children: [
+                                        //           portfolioResponse
+                                        //                       ?.data
+                                        //                       .portfolioSocial
+                                        //                       .first
+                                        //                       .linkedin ==
+                                        //                   ""
+                                        //               ? Padding(
+                                        //                   padding:
+                                        //                       const EdgeInsets
+                                        //                               .only(
+                                        //                           right:
+                                        //                               14.0),
+                                        //                   child: SvgPicture
+                                        //                       .asset(
+                                        //                           'assets/images/linkedin_un.svg'),
+                                        //                 )
+                                        //               : SizedBox(),
+                                        //           //SizedBox(width: 14),
+
+                                        //           portfolioResponse
+                                        //                       ?.data
+                                        //                       .portfolioSocial
+                                        //                       .first
+                                        //                       .insta ==
+                                        //                   ""
+                                        //               ? Padding(
+                                        //                   padding:
+                                        //                       const EdgeInsets
+                                        //                               .only(
+                                        //                           right:
+                                        //                               14.0),
+                                        //                   child: SvgPicture
+                                        //                       .asset(
+                                        //                           'assets/images/insta_un.svg'),
+                                        //                 )
+                                        //               : SizedBox(),
+
+                                        //           //SizedBox(width: 14),
+
+                                        //           portfolioResponse
+                                        //                       ?.data
+                                        //                       .portfolioSocial
+                                        //                       .first
+                                        //                       .twitter ==
+                                        //                   ""
+                                        //               ? Padding(
+                                        //                   padding:
+                                        //                       const EdgeInsets
+                                        //                               .only(
+                                        //                           right:
+                                        //                               14.0),
+                                        //                   child: SvgPicture
+                                        //                       .asset(
+                                        //                           'assets/images/twitter_un.svg'),
+                                        //                 )
+                                        //               : SizedBox(),
+                                        //           //SizedBox(width: 14),
+
+                                        //           portfolioResponse
+                                        //                       ?.data
+                                        //                       .portfolioSocial
+                                        //                       .first
+                                        //                       .bee ==
+                                        //                   ""
+                                        //               ? SvgPicture.asset(
+                                        //                   'assets/images/behance_un.svg')
+                                        //               : SizedBox(),
+                                        //           SizedBox(width: 3),
+                                        //         ],
+                                        //       ),
+                                        //     ],
+                                        //   ),
 
                                         /*SvgPicture.asset(
                                             'assets/images/pintrest.svg'),*/
-                                        portfolioResponse?.data.portfolioSocial
-                                                    .length !=
-                                                0
-                                            ? GestureDetector(
-                                                onTapDown:
-                                                    (TapDownDetails detail) {
-                                                  _showPopupMenu(
-                                                      detail.globalPosition);
-                                                },
-                                                child: SvgPicture.asset(
-                                                    'assets/images/vertical_menu.svg'),
-                                              )
-                                            : SizedBox(),
+                                        // portfolioResponse?.data.portfolioSocial
+                                        //             .length !=
+                                        //         0
+                                        //     ? GestureDetector(
+                                        //         onTapDown:
+                                        //             (TapDownDetails detail) {
+                                        //           _showPopupMenu(
+                                        //             detail.globalPosition,
+                                        //           );
+                                        //         },
+                                        //         child: SvgPicture.asset(
+                                        //             'assets/images/vertical_menu.svg'),
+                                        //       )
+                                        //     : SizedBox(),
                                         SizedBox(width: 10),
                                         InkWell(
                                           onTap: () {
@@ -1498,17 +1507,13 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                 //     //     ],
                                 //     //   ),
                                 //     ),
-                                // ShowSocailLinks(
-                                //   portfolioSocial: portfolioResponse
-                                //       ?.data.portfolioSocial.first,
-                                // ),
 
                                 dividerLine(),
 
                                 Container(
                                   // margin: EdgeInsets.only(top: dividerMarginTop),
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 10),
                                   color: ColorConstants.WHITE,
                                   child: Row(
                                     children: [
@@ -1538,24 +1543,29 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                       SizedBox(
                                         width: 8,
                                       ),
-                                   if(isCompetitionLoading == false && portfolioResponse
-                                                    ?.data.portfolio.length != 0)     IconButton(
-                                          onPressed: () {
-                                            if (portfolioResponse
-                                                    ?.data.portfolio.length !=
-                                                0)
-                                              Navigator.push(
-                                                  context,
-                                                  NextPageRoute(PortfolioList(
-                                                      baseUrl: portfolioResponse
-                                                          ?.data.baseFileUrl,
-                                                      portfolioList:
-                                                          portfolioResponse
-                                                              ?.data
-                                                              .portfolio)));
-                                          },
-                                          icon: Icon(
-                                              Icons.arrow_forward_ios_rounded)),
+                                      if (isCompetitionLoading == false &&
+                                          portfolioResponse
+                                                  ?.data.portfolio.length !=
+                                              0)
+                                        IconButton(
+                                            onPressed: () {
+                                              if (portfolioResponse
+                                                      ?.data.portfolio.length !=
+                                                  0)
+                                                Navigator.push(
+                                                    context,
+                                                    NextPageRoute(PortfolioList(
+                                                        baseUrl:
+                                                            portfolioResponse
+                                                                ?.data
+                                                                .baseFileUrl,
+                                                        portfolioList:
+                                                            portfolioResponse
+                                                                ?.data
+                                                                .portfolio)));
+                                            },
+                                            icon: Icon(Icons
+                                                .arrow_forward_ios_rounded)),
                                     ],
                                   ),
                                 ),
@@ -1750,7 +1760,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         style: Styles.bold(size: 16),
                                       ),
                                       Spacer(),
-                                  if(isCompetitionLoading == false && competition?.data.length != 0)    Icon(Icons.arrow_forward_ios_outlined),
+                                      if (isCompetitionLoading == false &&
+                                          competition?.data.length != 0)
+                                        Icon(Icons.arrow_forward_ios_outlined),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 4),
@@ -1925,7 +1937,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                       SizedBox(
                         height: 20,
                       ),
-                      topRow('Education', showArrow:portfolioResponse?.data.education.length != 0 , arrowAction: () {
+                      topRow('Education',
+                          showArrow: portfolioResponse?.data.education.length !=
+                              0, arrowAction: () {
                         if (portfolioResponse?.data.education.length != 0)
                           Navigator.push(
                               context,
@@ -2206,7 +2220,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       color: Colors.white,
       child: Column(
         children: [
-          topRow('Recent Activites', showArrow:recentActivites?.length != 0 , addAction: () {}, arrowAction: () {
+          topRow('Recent Activites',
+              showArrow: recentActivites?.length != 0,
+              addAction: () {}, arrowAction: () {
             if (recentActivites?.length != 0)
               Navigator.push(
                   context,
@@ -2280,9 +2296,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                         width: width(context) * 0.5,
-
-
+                      width: width(context) * 0.5,
                       child: Text(
                         '${recentActivites.name}',
                         maxLines: 1,
@@ -2373,7 +2387,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       color: Colors.white,
       child: Column(
         children: [
-          topRow('Certificates', showArrow:certificateList?.length != 0 , arrowAction: () {
+          topRow('Certificates', showArrow: certificateList?.length != 0,
+              arrowAction: () {
             if (certificateList?.length != 0)
               Navigator.push(
                   context,
@@ -2492,7 +2507,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       color: Colors.white,
       child: Column(
         children: [
-          topRow('Experience',  showArrow:experience?.length != 0 ,arrowAction: () {
+          topRow('Experience', showArrow: experience?.length != 0,
+              arrowAction: () {
             if (experience?.length != 0)
               Navigator.push(
                       context,
@@ -2655,36 +2671,31 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       color: Colors.white,
       child: Column(
         children: [
-          topRow('Extra Curricular Activities', showArrow:extraActivities?.length != 0 , arrowAction: () {
+          topRow('Extra Curricular Activities',
+              showArrow: extraActivities?.length != 0, arrowAction: () {
             if (extraActivities?.length != 0)
               // Navigator.push(
               //     context,
               //     NextPageRoute());
-               Navigator.push(
-                    context,
-                    PageTransition(
-                        duration: Duration(milliseconds: 350),
-                        reverseDuration: Duration(milliseconds: 350),
-                        type: PageTransitionType.bottomToTop,
-                        child:  ExtraActivitiesList(
-                    baseUrl: '${portfolioResponse?.data.baseFileUrl}',
-                    activities: extraActivities!,
-                  )))
-                .then((value) => getPortfolio());
-
-             
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      duration: Duration(milliseconds: 350),
+                      reverseDuration: Duration(milliseconds: 350),
+                      type: PageTransitionType.bottomToTop,
+                      child: ExtraActivitiesList(
+                        baseUrl: '${portfolioResponse?.data.baseFileUrl}',
+                        activities: extraActivities!,
+                      ))).then((value) => getPortfolio());
           }, addAction: () {
-             Navigator.push(
+            Navigator.push(
                     context,
                     PageTransition(
                         duration: Duration(milliseconds: 350),
                         reverseDuration: Duration(milliseconds: 350),
                         type: PageTransitionType.bottomToTop,
-                        child:  AddActivities(
-                 
-                  )))
+                        child: AddActivities()))
                 .then((value) => getPortfolio());
-
           }),
           isPortfolioLoading == false
               ? Container(
@@ -2698,23 +2709,21 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                             String startDateString =
                                 "${extraActivities[index].startDate}";
 
-                            DateTime startDate = DateFormat("yyyy-MM-dd")
-                                .parse(startDateString);
+                            DateTime startDate =
+                                DateFormat("yyyy-MM-dd").parse(startDateString);
 
                             return Container(
                               margin: EdgeInsets.only(right: 10),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   if (index != 0)
                                     SizedBox(
                                       height: 10,
                                     ),
                                   Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
@@ -2728,38 +2737,31 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                             imageUrl:
                                                 "${portfolioResponse?.data.baseFileUrl}${extraActivities[index].imageName}",
                                             fit: BoxFit.cover,
-                                            progressIndicatorBuilder:
-                                                (context, url,
-                                                        downloadProgress) =>
-                                                    Shimmer.fromColors(
+                                            progressIndicatorBuilder: (context,
+                                                    url, downloadProgress) =>
+                                                Shimmer.fromColors(
                                               baseColor: Colors.grey[300]!,
-                                              highlightColor:
-                                                  Colors.grey[100]!,
+                                              highlightColor: Colors.grey[100]!,
                                               enabled: true,
                                               child: Container(
                                                 width: width(context) * 0.2,
-                                                height:
-                                                    width(context) * 0.2,
+                                                height: width(context) * 0.2,
                                                 color: Colors.grey,
                                               ),
                                             ),
                                             errorWidget: (context, url,
                                                     error) =>
                                                 Container(
-                                                    width: width(context) *
-                                                        0.2,
-                                                    height: width(context) *
-                                                        0.2,
-                                                    padding:
-                                                        EdgeInsets.all(8),
+                                                    width: width(context) * 0.2,
+                                                    height:
+                                                        width(context) * 0.2,
+                                                    padding: EdgeInsets.all(8),
                                                     decoration: BoxDecoration(
-                                                        color:
-                                                            ColorConstants
-                                                                .DIVIDER,
+                                                        color: ColorConstants
+                                                            .DIVIDER,
                                                         borderRadius:
                                                             BorderRadius
-                                                                .circular(
-                                                                    8)),
+                                                                .circular(8)),
                                                     child: SvgPicture.asset(
                                                         'assets/images/extra.svg')),
                                           ),
@@ -2778,8 +2780,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                               offset: Offset(0, -3),
                                               child: Text(
                                                 '${extraActivities[index].title}',
-                                                style:
-                                                    Styles.bold(size: 14),
+                                                style: Styles.bold(size: 14),
                                               ),
                                             ),
                                             SizedBox(
@@ -2787,8 +2788,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                             ),
                                             Text(
                                               '${extraActivities[index].institute}',
-                                              style:
-                                                  Styles.regular(size: 14),
+                                              style: Styles.regular(size: 14),
                                             ),
                                             SizedBox(
                                               height: 4,
@@ -2797,13 +2797,13 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                               children: [
                                                 Text(
                                                   '${extraActivities[index].curricularType}   • ',
-                                                  style: Styles.regular(
-                                                      size: 14),
+                                                  style:
+                                                      Styles.regular(size: 14),
                                                 ),
                                                 Text(
                                                   '  ${Utility.ordinal(startDate.day)} ${listOfMonths[startDate.month - 1]} ${startDate.year}',
-                                                  style: Styles.regular(
-                                                      size: 14),
+                                                  style:
+                                                      Styles.regular(size: 14),
                                                 ),
                                               ],
                                             )
@@ -2824,8 +2824,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  if (index != extraActivities.length)
-                                    Divider()
+                                  if (index != extraActivities.length) Divider()
                                 ],
                               ),
                             );
@@ -3111,7 +3110,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   Widget topRow(String title,
       {required Function addAction,
       required Function arrowAction,
-      bool showAddButton = true, bool showArrow = false}) {
+      bool showAddButton = true,
+      bool showArrow = false}) {
     return Container(
       color: ColorConstants.WHITE,
       child: Padding(
@@ -3122,7 +3122,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
               SizedBox(
                 height: 10,
               ),
-       Row(
+            Row(
               children: [
                 Text(
                   '$title',
@@ -3135,11 +3135,12 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                         addAction();
                       },
                       icon: Icon(Icons.add)),
-                  if(showArrow)   InkWell(
-                    onTap: (() {
-                      arrowAction();
-                    }),
-                    child: Icon(Icons.arrow_forward_ios_outlined)),
+                if (showArrow)
+                  InkWell(
+                      onTap: (() {
+                        arrowAction();
+                      }),
+                      child: Icon(Icons.arrow_forward_ios_outlined)),
               ],
             ),
             Divider(),
@@ -3981,25 +3982,159 @@ class _ShowSocailLinksState extends State<ShowSocailLinks> {
     dynamic data = widget.portfolioSocial?.toJson();
     List<String> socialKey = [];
     List<String> socialValue = [];
+    List<String> socialKeyUnselected = [];
+    List<String> socialValueUnselected = [];
 
     for (final key in data.keys) {
-      if (data[key] != null && data[key].toString().isNotEmpty) {
-        socialKey.insert(0,'$key');
-        socialValue.insert(0,'${data[key]}');
+      if (key != 'mob_num' &&
+          key != 'email' &&
+          key != 'mob_num_hidden' &&
+          key != 'email_hidden' &&
+          key != 'id' &&
+          key != 'other') {
+        if (data[key] != null && data[key].toString().isNotEmpty) {
+          print('print key $key');
+          socialKey.insert(0, '$key');
+          socialValue.insert(0, '${data[key]}');
+        } else {
+          print('print key insside $key');
+          socialKeyUnselected.insert(0, '$key');
+          socialValueUnselected.insert(0, '${data[key]}');
+        }
       }
     }
-//     return Text('he;lo')
-// ;  
-  return SizedBox(
-    height:height(context) * 0.1,
-     child: ListView.builder(
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemCount: min(4, socialKey.length),
-        itemBuilder: (context, index)=> Column(children: [
-          Text('${socialKey[index]}  '),
-          SvgPicture.asset('assets/images/${socialKey[index]}' + '.svg')
-        ],)),
-  );
+
+    return SizedBox(
+      height: height(context) * 0.1,
+      child: Row(
+        children: [
+          ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: min(4, socialKey.length),
+              itemBuilder: (context, index) => InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return CommonWebView(
+                              url: socialValue[index],
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    child: Container(
+                        height: 20,
+                        margin: EdgeInsets.only(right: 10),
+                        child: SvgPicture.asset(
+                            'assets/images/${socialKey[index]}' + '.svg')),
+                  )),
+          ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: max(0, 4 - socialKey.length),
+              itemBuilder: (context, index) => Container(
+                  height: 20,
+                  margin: EdgeInsets.only(right: 10),
+                  child: SvgPicture.asset(
+                    'assets/images/${socialKeyUnselected[index]}' + '.svg',
+                    color: ColorConstants.GREY_4,
+                  ))),
+          GestureDetector(
+            onTapDown: (TapDownDetails detail) {
+              _showPopupMenu(detail.globalPosition, socialKey, socialValue,
+                  socialKeyUnselected, socialValueUnselected);
+            },
+            child: SvgPicture.asset('assets/images/vertical_menu.svg'),
+          )
+        ],
+      ),
+    );
+  }
+
+  void _showPopupMenu(Offset offset, socialKey, socialValue,
+      socialKeyUnselected, socialValueUnselected) async {
+    final screenSize = MediaQuery.of(context).size;
+    double left = offset.dx;
+    double top = offset.dy;
+    double right = screenSize.width - offset.dx;
+    double bottom = screenSize.height - offset.dy;
+   List<PopupMenuItem> selectedMenuList =  List.generate(
+              socialKey.length - 4,
+              (index) => PopupMenuItem(
+                    child: Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return CommonWebView(
+                                    url: socialValue[index + 4],
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                          child: Container(
+                              height: 25,
+                              margin: EdgeInsets.only(right: 6),
+                              child: SvgPicture.asset(
+                                  'assets/images/${socialKey[index + 4]}' +
+                                      '.svg')),
+                        ),
+                        Text('${socialValue[index + 4]}')
+                      ],
+                    ),
+                    value: '${socialValue[index + 4]}',
+                  ));
+
+                  List<PopupMenuItem> unselectedMenuList = List.generate(
+              max(0, socialKeyUnselected.length - max(0, 4 - socialKey.length)),
+              (index) => PopupMenuItem(
+                    child: Row(
+                      children: [
+                        Container(
+                            height: 25,
+                            margin: EdgeInsets.only(right: 6),
+                            child: SvgPicture.asset(
+                              'assets/images/${socialKeyUnselected[index + max(0, 4 - socialKey.length)]}' +
+                                  '.svg',
+                              color: ColorConstants.GREY_4,
+                            )),
+                        Text(
+                          '${socialKeyUnselected[index + max(0, 4 - socialKey.length)]}'.capital(),
+                        )
+                      ],
+                    ),
+                    value:
+                        '${socialValueUnselected[index + max(0, 4 - socialKey.length)]}',
+                  ));                  
+
+                  List<PopupMenuItem> finalList = [...selectedMenuList, ...unselectedMenuList];
+    await showMenu(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(20.0),
+        ),
+      ),
+      context: context,
+      position: RelativeRect.fromLTRB(left, top, right, bottom),
+      items: finalList,
+      // items: socialKey.length > 4
+      //     ? 
+      //     : ,
+      elevation: 10.0,
+    );
+  }
+}
+
+
+extension on String {
+  String capital() {
+    return this[0].toUpperCase() + this.substring(1);
   }
 }
