@@ -34,10 +34,13 @@ import '../../utils/click_picker.dart';
 class SelfDetailsPage extends StatefulWidget {
   bool isFromProfile;
   final phoneNumber;
+  final String? email;
+  final String? password;
+  final bool? loginWithEmail;
 
   List<Menu>? menuList;
 
-  SelfDetailsPage({this.isFromProfile = false, this.phoneNumber});
+  SelfDetailsPage({this.isFromProfile = false, this.phoneNumber, this.email, this.password, this.loginWithEmail = false});
 
   @override
   _SelfDetailsPageState createState() => _SelfDetailsPageState();
@@ -61,7 +64,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
 
   @override
   void initState() {
-    phoneController.text = widget.phoneNumber;
+    phoneController.text = widget.phoneNumber ?? '';
     controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 400));
     offset = Tween<Offset>(begin: Offset.zero, end: Offset(0.0, 5.0))
@@ -252,50 +255,95 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                 ),
               ])),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
-              Text('Email*', style: Styles.regular(size: 12)),
-              SizedBox(
-                height: 6,
-              ),
-              TextFormField(
-                controller: emailController,
-                style: Styles.regular(),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderSide:
+
+              ///Email Fields
+            widget.loginWithEmail == false ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Email*', style: Styles.regular(size: 12)),
+                  SizedBox(
+                    height: 6,
+                  ),
+                  TextFormField(
+                    controller: emailController,
+                    style: Styles.regular(),
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderSide:
                           const BorderSide(width: 1, color: Color(0xffE5E5E5)),
-                      borderRadius: BorderRadius.circular(10)),
-                  hintText: '${Strings.of(context)?.emailAddress}',
-                  helperStyle: Styles.regular(color: ColorConstants.GREY_4),
-                  counterText: "",
-                  // enabledBorder: UnderlineInputBorder(
-                  //   borderSide: BorderSide(
-                  //       color: ColorConstants.RED, width: 1.5),
-                  // ),
-                ),
-                onChanged: (value) {
-                  setState(() {});
-                },
-                validator: (value) {
-                  if (value == '')
-                    return APK_DETAILS['package_name'] == 'com.learn_build' ||
+                          borderRadius: BorderRadius.circular(10)),
+                      hintText: '${Strings.of(context)?.emailAddress}',
+                      helperStyle: Styles.regular(color: ColorConstants.GREY_4),
+                      counterText: "",
+                      // enabledBorder: UnderlineInputBorder(
+                      //   borderSide: BorderSide(
+                      //       color: ColorConstants.RED, width: 1.5),
+                      // ),
+                    ),
+                    onChanged: (value) {
+                      setState(() {});
+                    },
+                    validator: (value) {
+                      if (value == '')
+                        return APK_DETAILS['package_name'] == 'com.learn_build' ||
                             APK_DETAILS['package_name'] == 'com.singulariswow'
-                        ? 'Email is required'
-                        : null;
-                  int index = value?.length as int;
+                            ? 'Email is required'
+                            : null;
+                      int index = value?.length as int;
 
-                  if (value![index - 1] == '.')
-                    return '${Strings.of(context)?.emailAddressError}';
+                      if (value![index - 1] == '.')
+                        return '${Strings.of(context)?.emailAddressError}';
 
-                  if (!RegExp(
+                      if (!RegExp(
                           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                      .hasMatch(value))
-                    return '${Strings.of(context)?.emailAddressError}';
+                          .hasMatch(value))
+                        return '${Strings.of(context)?.emailAddressError}';
 
-                  return null;
-                },
+                      return null;
+                    },
+                  ),
+                ],
+              ) :
+              ///Phone Number Fields
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Phone Number*', style: Styles.regular(size: 12)),
+                  SizedBox(
+                    height: 6,
+                  ),
+                  TextFormField(
+                    controller: phoneController,
+                    style: Styles.regular(),
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderSide: const BorderSide(width: 1, color: Color(0xffE5E5E5)),
+                          borderRadius: BorderRadius.circular(10)),
+                      hintText: '${Strings.of(context)?.phoneNumber}',
+                      helperStyle: Styles.regular(color: ColorConstants.GREY_4),
+                      counterText: "",
+                      // enabledBorder: UnderlineInputBorder(
+                      //   borderSide: BorderSide(
+                      //       color: ColorConstants.RED, width: 1.5),
+                      // ),
+                    ),
+                    onChanged: (value) {
+                      setState(() {});
+                    },
+                    validator: (value) {
+                      if (value == '')
+                        return APK_DETAILS['package_name'] == 'com.learn_build' ||
+                            APK_DETAILS['package_name'] == 'com.singulariswow'
+                            ? 'Email is required'
+                            : null;
+                    },
+                  ),
+                ],
               ),
+
               SizedBox(height: 20),
               Transform.translate(
                 offset: Offset(-28, 0.0),
@@ -444,13 +492,14 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
         firstName: fullNameController.text.toString(),
         mobileNo: phoneController.text.toString(),
         alternateMobileNo: phoneController.text.toString(),
-        emailAddress: emailController.text.toString(),
+        emailAddress: widget.loginWithEmail != true ? emailController.text.toString() : widget.email,
         username: emailController.text.toString(),
         firmName: '',
         lastName: '',
         gender: '',
         dateOfBirth: '',
         dbCode: '0',
+        password: widget.password,
       );
       BlocProvider.of<AuthBloc>(context).add(SignUpEvent(request: req));
     } else {
