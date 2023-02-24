@@ -10,6 +10,7 @@ class SignUpRequest {
   String? profilePic;
   String? dbCode;
   String? username;
+  String? password;
 
   SignUpRequest(
       {this.firmName,
@@ -22,7 +23,8 @@ class SignUpRequest {
       this.emailAddress,
       this.dateOfBirth,
       this.profilePic,
-      this.username});
+      this.username,
+      this.password});
 
   SignUpRequest.fromJson(Map<String, dynamic> json) {
     firmName = json['firm_name'];
@@ -36,6 +38,7 @@ class SignUpRequest {
     profilePic = json['profile_pic'];
     dbCode = json['db_code'];
     username = json['username'];
+    password = json['password'];
   }
 
   Map<String, dynamic> toJson() {
@@ -51,6 +54,7 @@ class SignUpRequest {
     data['profile_pic'] = this.profilePic;
     data['db_code'] = this.dbCode;
     data['username'] = this.username;
+    data['password'] = this.password;
     return data;
   }
 }

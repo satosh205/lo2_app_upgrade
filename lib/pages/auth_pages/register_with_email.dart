@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masterg/pages/auth_pages/self_details_page.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
@@ -31,6 +32,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool codeVerified = false;
   bool _isLoading = false;
   bool _emailTrue = false;
+  bool _codeVerifiedTrue = false;
 
   @override
   void initState() {
@@ -46,11 +48,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
       Utility.showSnackBar(
           scaffoldContext: context, message: 'Enter new password and conform password.');
     }else{
-      if(newPassController.text == confPassController.text){
-        print('object Match');
+      if(newPassController.text.toString().length > 7){
+        if(newPassController.text == confPassController.text){
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context)=> SelfDetailsPage(
+                email: emailController.text.toString().trim(),
+                password: confPassController.text.toString().trim(),
+                loginWithEmail: true,
+              )));
+        }else{
+          Utility.showSnackBar(
+              scaffoldContext: context, message: 'The password does not match');
+        }
       }else{
         Utility.showSnackBar(
-            scaffoldContext: context, message: 'The password does not match');
+            scaffoldContext: context, message: 'Security password min-length 8');
       }
     }
   }
@@ -101,6 +114,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         case ApiStatus.SUCCESS:
           Log.v("VerifyOtp Suuuuuuuus....................");
          codeVerified = true;
+          _codeVerifiedTrue = true;
           _isLoading = false;
 
           break;
@@ -161,7 +175,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 20.0),
+                          padding: const EdgeInsets.only(left: 20.0, top: 20.0),
                           child: Row(
                             children: [
                               ShaderMask(
@@ -431,215 +445,217 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ): SizedBox(),
 
-                        ///new Password
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20.0),
-                          child: Row(
-                            children: [
-                              ShaderMask(
-                                blendMode: BlendMode.srcIn,
-                                shaderCallback: (Rect bounds) {
-                                  return LinearGradient(
-                                      begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight,
-                                      colors: <Color>[
-                                        ColorConstants.GRADIENT_ORANGE,
-                                        ColorConstants.GRADIENT_RED
-                                      ]).createShader(bounds);
-                                },
-                                //child: Image.asset('assets/images/lock.png'),
-                                child: Icon(
-                                  Icons.lock_outline,
-                                  size: 20,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                "New Password ",
-                                style: Styles.textRegular(),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 8.0, left: 16, right: 16),
-                          child: Container(
-                            height: height(context) * 0.1,
-                            child: TextField(
-                              obscureText: true,
-                              cursorColor: Color(0xffE5E5E5),
-                              autofocus: false,
-                              // focusNode: phoneFocus,
-                              controller: newPassController,
-                              // keyboardType: TextInputType.number,
-                              style: Styles.bold(
-                                color: Colors.black,
-                                size: 14,
-                              ),
-                              // inputFormatters: <TextInputFormatter>[
-                              //   FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                              // ],
-                              maxLength: 20,
-                              decoration: InputDecoration(
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(
-                                    color: Color(0xffE5E5E5),
+                        ///Password
+                        _codeVerifiedTrue == true ? Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20.0),
+                              child: Row(
+                                children: [
+                                  ShaderMask(
+                                    blendMode: BlendMode.srcIn,
+                                    shaderCallback: (Rect bounds) {
+                                      return LinearGradient(
+                                          begin: Alignment.centerLeft,
+                                          end: Alignment.centerRight,
+                                          colors: <Color>[
+                                            ColorConstants.GRADIENT_ORANGE,
+                                            ColorConstants.GRADIENT_RED
+                                          ]).createShader(bounds);
+                                    },
+                                    //child: Image.asset('assets/images/lock.png'),
+                                    child: Icon(
+                                      Icons.lock_outline,
+                                      size: 20,
+                                    ),
                                   ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(
-                                    color: Color(0xffE5E5E5),
-                                    width: 1.5,
+                                  SizedBox(
+                                    width: 8,
                                   ),
-                                ),
-                                fillColor: Color(0xffE5E5E5),
-                                hintText: 'New password',
-                                hintStyle: TextStyle(
-                                  color: Color(0xffE5E5E5),
-                                ),
-                                isDense: true,
-                                prefixIconConstraints:
+                                  Text(
+                                    "Password ",
+                                    style: Styles.textRegular(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 8.0, left: 16, right: 16),
+                              child: Container(
+                                height: height(context) * 0.1,
+                                child: TextField(
+                                  obscureText: true,
+                                  cursorColor: Color(0xffE5E5E5),
+                                  autofocus: false,
+                                  // focusNode: phoneFocus,
+                                  controller: newPassController,
+                                  // keyboardType: TextInputType.number,
+                                  style: Styles.bold(
+                                    color: Colors.black,
+                                    size: 14,
+                                  ),
+                                  // inputFormatters: <TextInputFormatter>[
+                                  //   FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                  // ],
+                                  maxLength: 20,
+                                  decoration: InputDecoration(
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Color(0xffE5E5E5),
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Color(0xffE5E5E5),
+                                        width: 1.5,
+                                      ),
+                                    ),
+                                    fillColor: Color(0xffE5E5E5),
+                                    hintText: 'New password',
+                                    hintStyle: TextStyle(
+                                      color: Color(0xffE5E5E5),
+                                    ),
+                                    isDense: true,
+                                    prefixIconConstraints:
                                     BoxConstraints(minWidth: 0, minHeight: 0),
 
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 1, color: ColorConstants.WHITE),
-                                    borderRadius: BorderRadius.circular(10)),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 1, color: ColorConstants.WHITE),
+                                        borderRadius: BorderRadius.circular(10)),
 
-                                helperStyle: Styles.regular(
-                                    size: 14,
-                                    color:
+                                    helperStyle: Styles.regular(
+                                        size: 14,
+                                        color:
                                         ColorConstants.GREY_3.withOpacity(0.1)),
-                                counterText: "",
-                                // enabledBorder: UnderlineInputBorder(
-                                //   borderSide: BorderSide(
-                                //       color: ColorConstants.WHITE, width: 1.5),
-                                // ),
+                                    counterText: "",
+                                    // enabledBorder: UnderlineInputBorder(
+                                    //   borderSide: BorderSide(
+                                    //       color: ColorConstants.WHITE, width: 1.5),
+                                    // ),
+                                  ),
+                                  // onChanged: (value) {
+                                  //   setState(() {});
+                                  // },
+                                  // validator: (value) {
+                                  //   if (value == null) return 'Enter phone number';
+                                  //   if (value.length != 10) {
+                                  //     return "Enter valid phone number.";
+                                  //   }
+                                  //   return null;
+                                  // },
+                                ),
                               ),
-                              // onChanged: (value) {
-                              //   setState(() {});
-                              // },
-                              // validator: (value) {
-                              //   if (value == null) return 'Enter phone number';
-                              //   if (value.length != 10) {
-                              //     return "Enter valid phone number.";
-                              //   }
-                              //   return null;
-                              // },
                             ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20.0),
-                          child: Row(
-                            children: [
-                              ShaderMask(
-                                blendMode: BlendMode.srcIn,
-                                shaderCallback: (Rect bounds) {
-                                  return LinearGradient(
-                                      begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight,
-                                      colors: <Color>[
-                                        ColorConstants.GRADIENT_ORANGE,
-                                        ColorConstants.GRADIENT_RED
-                                      ]).createShader(bounds);
-                                },
-                                //child: Image.asset('assets/images/lock.png'),
-                                child: Icon(
-                                  Icons.lock_outline,
-                                  size: 20,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                "Confirm Password ",
-                                style: Styles.textRegular(),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 8.0, left: 16, right: 16),
-                          child: Container(
-                            height: height(context) * 0.4,
-                            child: TextField(
-                              obscureText: true,
-                              cursorColor: Color(0xffE5E5E5),
-                              autofocus: false,
-                              // focusNode: phoneFocus,
-                              controller: confPassController,
-                              // keyboardType: TextInputType.number,
-                              style: Styles.bold(
-                                color: Colors.black,
-                                size: 14,
-                              ),
-                              // inputFormatters: <TextInputFormatter>[
-                              //   FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                              // ],
-                              maxLength: 20,
-                              decoration: InputDecoration(
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(
-                                    color: Color(0xffE5E5E5),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20.0),
+                              child: Row(
+                                children: [
+                                  ShaderMask(
+                                    blendMode: BlendMode.srcIn,
+                                    shaderCallback: (Rect bounds) {
+                                      return LinearGradient(
+                                          begin: Alignment.centerLeft,
+                                          end: Alignment.centerRight,
+                                          colors: <Color>[
+                                            ColorConstants.GRADIENT_ORANGE,
+                                            ColorConstants.GRADIENT_RED
+                                          ]).createShader(bounds);
+                                    },
+                                    //child: Image.asset('assets/images/lock.png'),
+                                    child: Icon(
+                                      Icons.lock_outline,
+                                      size: 20,
+                                    ),
                                   ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(
-                                    color: Color(0xffE5E5E5),
-                                    width: 1.5,
+                                  SizedBox(
+                                    width: 8,
                                   ),
-                                ),
-                                fillColor: Color(0xffE5E5E5),
-                                hintText: 'Confirm Password',
-                                hintStyle: TextStyle(
-                                  color: Color(0xffE5E5E5),
-                                ),
-                                isDense: true,
-                                prefixIconConstraints:
+                                  Text(
+                                    "Confirm Password ",
+                                    style: Styles.textRegular(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 8.0, left: 16, right: 16),
+                              child: Container(
+                                height: height(context) * 0.4,
+                                child: TextField(
+                                  obscureText: true,
+                                  cursorColor: Color(0xffE5E5E5),
+                                  autofocus: false,
+                                  // focusNode: phoneFocus,
+                                  controller: confPassController,
+                                  // keyboardType: TextInputType.number,
+                                  style: Styles.bold(
+                                    color: Colors.black,
+                                    size: 14,
+                                  ),
+                                  // inputFormatters: <TextInputFormatter>[
+                                  //   FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                  // ],
+                                  maxLength: 20,
+                                  decoration: InputDecoration(
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Color(0xffE5E5E5),
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Color(0xffE5E5E5),
+                                        width: 1.5,
+                                      ),
+                                    ),
+                                    fillColor: Color(0xffE5E5E5),
+                                    hintText: 'Confirm Password',
+                                    hintStyle: TextStyle(
+                                      color: Color(0xffE5E5E5),
+                                    ),
+                                    isDense: true,
+                                    prefixIconConstraints:
                                     BoxConstraints(minWidth: 0, minHeight: 0),
 
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 1, color: ColorConstants.WHITE),
-                                    borderRadius: BorderRadius.circular(10)),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 1, color: ColorConstants.WHITE),
+                                        borderRadius: BorderRadius.circular(10)),
 
-                                helperStyle: Styles.regular(
-                                    size: 14,
-                                    color:
+                                    helperStyle: Styles.regular(
+                                        size: 14,
+                                        color:
                                         ColorConstants.GREY_3.withOpacity(0.1)),
-                                counterText: "",
-                                // enabledBorder: UnderlineInputBorder(
-                                //   borderSide: BorderSide(
-                                //       color: ColorConstants.WHITE, width: 1.5),
-                                // ),
+                                    counterText: "",
+                                    // enabledBorder: UnderlineInputBorder(
+                                    //   borderSide: BorderSide(
+                                    //       color: ColorConstants.WHITE, width: 1.5),
+                                    // ),
+                                  ),
+                                  // onChanged: (value) {
+                                  //   setState(() {});
+                                  // },
+                                  // validator: (value) {
+                                  //   if (value == null) return 'Enter phone number';
+                                  //   if (value.length != 10) {
+                                  //     return "Enter valid phone number.";
+                                  //   }
+                                  //   return null;
+                                  // },
+                                ),
                               ),
-                              // onChanged: (value) {
-                              //   setState(() {});
-                              // },
-                              // validator: (value) {
-                              //   if (value == null) return 'Enter phone number';
-                              //   if (value.length != 10) {
-                              //     return "Enter valid phone number.";
-                              //   }
-                              //   return null;
-                              // },
                             ),
-                          ),
-                        ),
-                        // SizedBox(
-                        //   height: 230,
-                        // ),
-                        Padding(
+                          ],
+                        ):SizedBox(),
+
+                        _codeVerifiedTrue == true ? Padding(
                           padding: const EdgeInsets.only(left: 18.0, right: 18.0, bottom: 18.0),
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.end,
@@ -677,7 +693,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                 ),
                               ]),
-                        ),
+                        ):SizedBox(),
                       ],
                     ),
                   ),
