@@ -2279,10 +2279,10 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+          if(recentActivites.reserved != 'reels')  SizedBox(
               height: 20,
             ),
-            Row(
+         if(recentActivites.reserved != 'reels')   Row(
               children: [
                 ClipOval(
                   child: Image.network(
@@ -2312,14 +2312,14 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
             SizedBox(
               height: 6,
             ),
-            ReadMoreText(
+         if(recentActivites.reserved != 'reels') ReadMoreText(
               text: '${recentActivites.description}',
             ),
             SizedBox(
               height: 20,
             ),
-            recentActivites.resourcePath!.contains('.png') ||
-                    recentActivites.resourcePath!.contains('jpeg')
+            recentActivites.resourcePath!.contains('png') ||
+                    recentActivites.resourcePath!.contains('jpeg') || recentActivites.resourcePath!.contains('jpg')
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: Image.network(
@@ -2328,9 +2328,15 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                       height: height(context) * 0.3,
                       fit: BoxFit.cover,
                     ))
-                : VideoPlayerWidget(
-                    videoUrl: '${recentActivites.resourcePath}',
-                  )
+                : Container(
+                  color: Colors.red,
+                  height:recentActivites.reserved != 'reels' ?200:   height(context) * 0.4,
+            
+                  child: VideoPlayerWidget(
+                      videoUrl: '${recentActivites.resourcePath}',
+                      // maitanceAspectRatio: true,
+                    ),
+                )
             // ClipRect(
             //     child: AspectRatio(
             //       aspectRatio: 4 / 4,

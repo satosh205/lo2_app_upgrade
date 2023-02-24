@@ -5,9 +5,8 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 class VideoPlayerWidget extends StatefulWidget {
   final String videoUrl;
-  final bool maitanceAspectRatio ;
 
-  VideoPlayerWidget({Key? key, required this.videoUrl, this.maitanceAspectRatio = false}) : super(key: key);
+  VideoPlayerWidget({Key? key, required this.videoUrl}) : super(key: key);
 
   @override
   _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
@@ -110,22 +109,15 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget>
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                widget.maitanceAspectRatio ?  AspectRatio(
-                      // aspectRatio: MediaQuery.of(context).size.width/300,
-                      aspectRatio: _controller!.value.aspectRatio,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(0),
-                        child: VideoPlayer(_controller!)),
-                    ):   SizedBox(
+                  SizedBox(
                     height: 300,
                     child: AspectRatio(
                       aspectRatio: MediaQuery.of(context).size.width/300,
-                      child: ClipRRect( 
+                      child: ClipRRect(
                         borderRadius: BorderRadius.circular(0),
                         child: VideoPlayer(_controller!)),
                     ),
                   ),
-                 
                   Align(
                 alignment: Alignment.center,
                 child: _showIcon

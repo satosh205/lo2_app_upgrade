@@ -358,7 +358,8 @@ class RecentActivity {
         this.categoryId,
         this.profileImage,
         this.name,
-        this.createdAt
+        this.createdAt,
+        this.reserved
     });
 
     int? id;
@@ -372,6 +373,7 @@ class RecentActivity {
     String? profileImage;
     String? name;
     String? createdAt;
+    String? reserved;
 
     factory RecentActivity.fromJson(Map<String, dynamic> json) => RecentActivity(
         id: json["id"],
@@ -383,7 +385,9 @@ class RecentActivity {
         contentType: json["content_type"],
         categoryId: json["category_id"],
         profileImage: json["profile_image"],
-        name: json["name"], createdAt: json['created_at'],
+        name: json["name"],
+        createdAt: json['created_at'],
+        reserved: json['reserved'],
     );
 
     Map<String, dynamic> toJson() => {
@@ -397,6 +401,7 @@ class RecentActivity {
         "category_id": categoryId,
         "profile_image": profileImage,
         "name": name,
-        "created_at" : createdAt
+        "created_at" : createdAt,
+        "reserved" : reserved
     };
 }
