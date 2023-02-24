@@ -4044,8 +4044,11 @@ class _ShowSocailLinksState extends State<ShowSocailLinks> {
                   ))),
           GestureDetector(
             onTapDown: (TapDownDetails detail) {
-              _showPopupMenu(detail.globalPosition, socialKey, socialValue,
+              print('open mneu');
+                _showPopupMenu(detail.globalPosition, socialKey, socialValue,
                   socialKeyUnselected, socialValueUnselected);
+            
+           
             },
             child: SvgPicture.asset('assets/images/vertical_menu.svg'),
           )
@@ -4061,60 +4064,67 @@ class _ShowSocailLinksState extends State<ShowSocailLinks> {
     double top = offset.dy;
     double right = screenSize.width - offset.dx;
     double bottom = screenSize.height - offset.dy;
-   List<PopupMenuItem> selectedMenuList =  List.generate(
-              socialKey.length - 4,
-              (index) => PopupMenuItem(
-                    child: Row(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return CommonWebView(
-                                    url: socialValue[index + 4],
-                                  );
-                                },
-                              ),
+    print('gggggg 1');
+    List<PopupMenuItem> selectedMenuList = List.generate(
+        max(0, socialKey.length - 4),
+        (index) => PopupMenuItem(
+              child: Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return CommonWebView(
+                              url: socialValue[index + 4],
                             );
                           },
-                          child: Container(
-                              height: 25,
-                              margin: EdgeInsets.only(right: 6),
-                              child: SvgPicture.asset(
-                                  'assets/images/${socialKey[index + 4]}' +
-                                      '.svg')),
                         ),
-                        Text('${socialValue[index + 4]}')
-                      ],
-                    ),
-                    value: '${socialValue[index + 4]}',
-                  ));
+                      );
+                    },
+                    child: Container(
+                        height: 25,
+                        margin: EdgeInsets.only(right: 6),
+                        child: SvgPicture.asset(
+                            'assets/images/${socialKey[index + 4]}' + '.svg')),
+                  ),
+                  Text('${socialValue[index + 4]}')
+                ],
+              ),
+              value: '${socialValue[index + 4]}',
+            ));
+    print('gggggg 2');
 
-                  List<PopupMenuItem> unselectedMenuList = List.generate(
-              max(0, socialKeyUnselected.length - max(0, 4 - socialKey.length)),
-              (index) => PopupMenuItem(
-                    child: Row(
-                      children: [
-                        Container(
-                            height: 25,
-                            margin: EdgeInsets.only(right: 6),
-                            child: SvgPicture.asset(
-                              'assets/images/${socialKeyUnselected[index + max(0, 4 - socialKey.length)]}' +
-                                  '.svg',
-                              color: ColorConstants.GREY_4,
-                            )),
-                        Text(
-                          '${socialKeyUnselected[index + max(0, 4 - socialKey.length)]}'.capital(),
-                        )
-                      ],
-                    ),
-                    value:
-                        '${socialValueUnselected[index + max(0, 4 - socialKey.length)]}',
-                  ));                  
 
-                  List<PopupMenuItem> finalList = [...selectedMenuList, ...unselectedMenuList];
+    List<PopupMenuItem> unselectedMenuList = List.generate(
+        max(0, socialKeyUnselected.length - max(0, 4 - socialKey.length)),
+        (index) => PopupMenuItem(
+              child: Row(
+                children: [
+                  Container(
+                      height: 25,
+                      margin: EdgeInsets.only(right: 6),
+                      child: SvgPicture.asset(
+                        'assets/images/${socialKeyUnselected[index + max(0, 4 - socialKey.length)]}' +
+                            '.svg',
+                        color: ColorConstants.GREY_4,
+                      )),
+                  Text(
+                    '${socialKeyUnselected[index + max(0, 4 - socialKey.length)]}'
+                        .capital(),
+                  )
+                ],
+              ),
+              value:
+                  '${socialValueUnselected[index + max(0, 4 - socialKey.length)]}',
+            ));
+    print('gggggg 3');
+
+    List<PopupMenuItem> finalList = [
+      ...selectedMenuList,
+      ...unselectedMenuList
+    ];
     await showMenu(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
@@ -4125,13 +4135,12 @@ class _ShowSocailLinksState extends State<ShowSocailLinks> {
       position: RelativeRect.fromLTRB(left, top, right, bottom),
       items: finalList,
       // items: socialKey.length > 4
-      //     ? 
+      //     ?
       //     : ,
       elevation: 10.0,
     );
   }
 }
-
 
 extension on String {
   String capital() {

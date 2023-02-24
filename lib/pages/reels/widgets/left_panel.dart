@@ -3,6 +3,7 @@ import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/reels/widgets/column_social_icon.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
+import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 
 class LeftPanel extends StatelessWidget {
@@ -94,9 +95,14 @@ String calculateTimeDifferenceBetween(DateTime startDate, DateTime endDate) {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(name!,
-                        style: Styles.semibold(
-                            size: 14,  color: userStatus != "active" ?  ColorConstants.GREY_3.withOpacity(0.8) : ColorConstants.WHITE)),
+                    SizedBox(
+                      width: width(context) * 0.55,
+                      child: Text(name!,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                          style: Styles.semibold(
+                              size: 14,  color: userStatus != "active" ?  ColorConstants.GREY_3.withOpacity(0.8) : ColorConstants.WHITE)),
+                    ),
                     Text(
                       calculateTimeDifferenceBetween(
                           DateTime.parse(date.toString().substring(0, 19)),

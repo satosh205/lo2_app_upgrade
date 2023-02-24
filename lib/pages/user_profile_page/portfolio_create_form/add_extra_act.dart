@@ -448,15 +448,8 @@ class _AddActivitiesState extends State<AddActivities> {
                                                         '${uploadImg?.path}',
                                                         filename: fileName);
                                               }
-                                            } catch (e) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(SnackBar(
-                                                      content: Text(
-                                                          'Please upload featured image')));
-                                              print('something is wrong $e');
-                                            }
 
-                                            data["activity_type"] =
+                                              data["activity_type"] =
                                                 'extra_activities';
                                             data["title"] =
                                                 activitytitleController
@@ -481,6 +474,15 @@ class _AddActivitiesState extends State<AddActivities> {
                                                 activityController.value.text;
 
                                             addActivities(data);
+                                            } catch (e) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
+                                                      content: Text(
+                                                          'Please upload featured image')));
+                                              print('something is wrong $e');
+                                            }
+
+                                            
                                           }
                                         },
                                       )
