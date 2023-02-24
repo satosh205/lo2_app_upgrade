@@ -43,7 +43,7 @@ class _EducationListState extends State<EducationList> {
   @override
   Widget build(BuildContext context) {
     List<String> listOfMonths = [
-      "Janaury",
+      "January",
       "February",
       "March",
       "April",
@@ -81,9 +81,9 @@ class _EducationListState extends State<EducationList> {
                           await Navigator.push(
                                   context,
                                   PageTransition(
-                                      duration: Duration(milliseconds: 600),
+                                      duration: Duration(milliseconds: 350),
                                       reverseDuration:
-                                          Duration(milliseconds: 600),
+                                          Duration(milliseconds: 350),
                                       type: PageTransitionType.bottomToTop,
                                       child: AddEducation()))
                               .then((value) => updateEducationList());
@@ -115,7 +115,7 @@ class _EducationListState extends State<EducationList> {
                                     "${education?[index].endDate}";
                                 DateTime startDate = DateFormat("yyyy-MM-dd")
                                     .parse(startDateString);
-                                DateTime endDate = DateFormat("yyyy-mm-dd")
+                                DateTime endDate = DateFormat("yyyy-MM-dd")
                                     .parse(endDateString);
                                 return Container(
                                   margin: EdgeInsets.symmetric(
@@ -130,15 +130,18 @@ class _EducationListState extends State<EducationList> {
                                           Spacer(),
                                           InkWell(
                                               onTap: () async {
-                                                AlertsWidget.showCustomDialog(
-                                                    context: context,
-                                                    title: '',
-                                                    text:
-                                                        'Are you sure you want to edit?',
-                                                    icon:
-                                                        'assets/images/circle_alert_fill.svg',
-                                                    onOkClick: () async {
-                                                      await Navigator.push(
+                                                // AlertsWidget.showCustomDialog(
+                                                //     context: context,
+                                                //     title: '',
+                                                //     text:
+                                                //         'Are you sure you want to edit?',
+                                                //     icon:
+                                                //         'assets/images/circle_alert_fill.svg',
+                                                //     onOkClick: () async {
+                                                      
+                                                //     });
+
+                                                await Navigator.push(
                                                           context,
                                                           PageTransition(
                                                               duration: Duration(
@@ -159,7 +162,6 @@ class _EducationListState extends State<EducationList> {
                                                                     true,
                                                               ))).then((value) =>
                                                           updateEducationList());
-                                                    });
                                               },
                                               child: SvgPicture.asset(
                                                   'assets/images/edit_portfolio.svg')),
@@ -276,7 +278,7 @@ class _EducationListState extends State<EducationList> {
                                               Row(
                                                 children: [
                                                   Text(
-                                                    '${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day} - ',
+                                                    '${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2,4)} - ',
                                                     style: Styles.regular(
                                                         size: 14),
                                                   ),
@@ -287,7 +289,7 @@ class _EducationListState extends State<EducationList> {
                                                               .endDate !=
                                                           '')
                                                     Text(
-                                                      '${listOfMonths[endDate.month].substring(0, 3)} ${endDate.day}',
+                                                      '${listOfMonths[endDate.month - 1].substring(0, 3)} ${endDate.year.toString().substring(2,4)}',
                                                       style: Styles.regular(
                                                           size: 14),
                                                     ),

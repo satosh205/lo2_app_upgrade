@@ -108,7 +108,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
 
 
   List<String> listOfMonths = [
-    "Janaury",
+    "January",
     "February",
     "March",
     "April",

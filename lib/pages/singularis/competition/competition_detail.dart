@@ -701,7 +701,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
   }
 
   List<String> listOfMonths = [
-    "Janaury",
+    "January",
     "February",
     "March",
     "April",

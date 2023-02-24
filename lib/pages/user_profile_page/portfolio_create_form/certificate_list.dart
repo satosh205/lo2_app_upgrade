@@ -32,11 +32,13 @@ class _CertificateListState extends State<CertificateList> {
   @override
   void initState() {
     certificates = widget.certificates;
+    // education?.sort((a, b) => b.endDate.compareTo(a.endDate));
+    certificates?.sort((b, a)=>a.startDate.compareTo(b.startDate));
     super.initState();
   }
 
   List<String> listOfMonths = [
-    "Janaury",
+    "January",
     "February",
     "March",
     "April",
@@ -54,7 +56,7 @@ class _CertificateListState extends State<CertificateList> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Certificate", style: Styles.bold()),
+          title: Text("Certificates", style: Styles.bold()),
           elevation: 0,
           backgroundColor: ColorConstants.WHITE,
           leading: IconButton(
@@ -69,8 +71,8 @@ class _CertificateListState extends State<CertificateList> {
                   await Navigator.push(
                           context,
                           PageTransition(
-                              duration: Duration(milliseconds: 600),
-                              reverseDuration: Duration(milliseconds: 600),
+                              duration: Duration(milliseconds: 350),
+                              reverseDuration: Duration(milliseconds: 350),
                               type: PageTransitionType.bottomToTop,
                               child: AddCertificate()))
                       .then((value) => updatePortfolioList());
@@ -146,7 +148,7 @@ class _CertificateListState extends State<CertificateList> {
                                   });
                             },
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,85 +175,36 @@ class _CertificateListState extends State<CertificateList> {
                                       height: 10,
                                     ),
                                     Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          "${certificates?[index].title}",
-                                          style: Styles.bold(),
+                                        SizedBox(
+                                          width: width(context) * 0.75,
+                                          child: Text(
+                                            "${certificates?[index].title}",
+                                            maxLines: 2,
+                                            style: Styles.bold(),
+                                          ),
                                         ),
                                         Spacer(),
                                         InkWell(
                                             onTap: () async {
-                                               AlertsWidget.showCustomDialog(
-                                      context: context,
-                                      title: '',
-                                      text: 'Are you sure you want to edit?',
-                                      icon:
-                                          'assets/images/circle_alert_fill.svg',
-                                      onOkClick: () async {  await Navigator.push(
-                                                      context,
-                                                      PageTransition(
-                                                          duration: Duration(
-                                                              milliseconds:
-                                                                  600),
-                                                          reverseDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                      600),
-                                                          type:
-                                                              PageTransitionType
-                                                                  .bottomToTop,
-                                                          child:
-                                                              AddCertificate(
-                                                            isEditMode: true,
-                                                            cetificate:
-                                                                certificates?[
-                                                                    index],
-                                                          )))
-                                                  // .then(
-                                                  //     (value) => AddCertificate(
-                                                  //           isEditMode: true,
-                                                  //           cetificate:
-                                                  //               certificates?[
-                                                  //                   index],
-                                                  //         ))
-                                                  .then((value) =>
-                                                      updatePortfolioList());
-                                                        });
-                                              // showModalBottomSheet(
-                                              //         shape:
-                                              //             RoundedRectangleBorder(
-                                              //                 borderRadius:
-                                              //                     BorderRadius
-                                              //                         .circular(
-                                              //                             20)),
-                                              //         context: context,
-                                              //         enableDrag: true,
-                                              //         isScrollControlled: true,
-                                              //         builder: (context) {
-                                              //           return FractionallySizedBox(
-                                              //             heightFactor: 0.7,
-                                              //             child: Container(
-                                              //                 height: height(
-                                              //                     context),
-                                              //                 padding:
-                                              //                     const EdgeInsets
-                                              //                         .all(8.0),
-                                              //                 margin:
-                                              //                     const EdgeInsets
-                                              //                             .only(
-                                              //                         top: 10),
-                                              //                 child:
-                                              //                     AddCertificate(
-                                              //                   isEditMode:
-                                              //                       true,
-                                              //                   cetificate:
-                                              //                       certificates?[
-                                              //                           index],
-                                              //                 )),
-                                              //           );
-                                              //         })
-                                              //     .then((value) =>
-                                              //         updatePortfolioList());
+                                              await Navigator.push(
+                                                  context,
+                                                  PageTransition(
+                                                      duration: Duration(
+                                                          milliseconds: 350),
+                                                      reverseDuration: Duration(
+                                                          milliseconds: 350),
+                                                      type: PageTransitionType
+                                                          .bottomToTop,
+                                                      child: AddCertificate(
+                                                        isEditMode: true,
+                                                        cetificate:
+                                                            certificates?[
+                                                                index],
+                                                      ))).then((value) =>
+                                                  updatePortfolioList());
                                             },
                                             child: SizedBox(
                                               height: 20,
@@ -264,18 +217,18 @@ class _CertificateListState extends State<CertificateList> {
                                         ),
                                         InkWell(
                                             onTap: () {
-AlertsWidget.showCustomDialog(
-                                      context: context,
-                                      title: '',
-                                      text: 'Are you sure you want to delete?',
-                                      icon:
-                                          'assets/images/circle_alert_fill.svg',
-                                      onOkClick: () async {
-                                         deleteResume(
-                                                  certificates![index].id);
-                                      });
-                                              
-                                            
+                                              AlertsWidget.showCustomDialog(
+                                                  context: context,
+                                                  title: '',
+                                                  text:
+                                                      'Are you sure you want to delete?',
+                                                  icon:
+                                                      'assets/images/circle_alert_fill.svg',
+                                                  onOkClick: () async {
+                                                    deleteResume(
+                                                        certificates![index]
+                                                            .id);
+                                                  });
                                             },
                                             child: SvgPicture.asset(
                                                 'assets/images/delete.svg')),
@@ -284,8 +237,9 @@ AlertsWidget.showCustomDialog(
                                         ),
                                       ],
                                     ),
+                                    SizedBox(height: 6),
                                     Text(
-                                      '${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.day}',
+                                      '${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2,4)}',
                                       style: Styles.regular(size: 12),
                                     ),
                                   ]),
@@ -310,12 +264,9 @@ AlertsWidget.showCustomDialog(
 
         case ApiStatus.SUCCESS:
           Log.v("Success Add  Certificate....................");
-           ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                     SnackBar(
-                                                  content: Text(
-                                                   'Certificate deleted')),
-                                            );
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Certificate deleted')),
+          );
           deleteCertificate = false;
           break;
         case ApiStatus.ERROR:
@@ -346,6 +297,9 @@ AlertsWidget.showCustomDialog(
         case ApiStatus.SUCCESS:
           Log.v("PortfolioState Success....................");
           certificates = portfolioState.response?.data.certificate;
+    certificates?.sort((b, a)=>a.startDate.compareTo(b.startDate));
+
+
           deleteCertificate = false;
 
           setState(() {});

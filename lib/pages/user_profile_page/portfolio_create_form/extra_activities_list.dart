@@ -35,7 +35,7 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
   bool? isActivitieLoading = false;
   List<CommonProfession>? activities;
   List<String> listOfMonths = [
-    "Janaury",
+    "January",
     "February",
     "March",
     "April",
@@ -58,8 +58,7 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          backgroundColor: ColorConstants.WHITE,
-
+        backgroundColor: ColorConstants.WHITE,
         appBar: AppBar(
           title: Text("Extra currricular Activities", style: Styles.bold()),
           elevation: 0,
@@ -73,22 +72,30 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
           actions: [
             IconButton(
                 onPressed: () async {
-                  await showModalBottomSheet(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      context: context,
-                      enableDrag: true,
-                      isScrollControlled: true,
-                      builder: (context) {
-                        return FractionallySizedBox(
-                          heightFactor: 0.7,
-                          child: Container(
-                              height: height(context),
-                              padding: const EdgeInsets.all(8.0),
-                              margin: const EdgeInsets.only(top: 10),
-                              child: AddActivities()),
-                        );
-                      }).then((value) => updatePortfolioList());
+                  // await showModalBottomSheet(
+                  //     shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(20)),
+                  //     context: context,
+                  //     enableDrag: true,
+                  //     isScrollControlled: true,
+                  //     builder: (context) {
+                  //       return FractionallySizedBox(
+                  //         heightFactor: 0.7,
+                  //         child: Container(
+                  //             height: height(context),
+                  //             padding: const EdgeInsets.all(8.0),
+                  //             margin: const EdgeInsets.only(top: 10),
+                  //             child: AddActivities()),
+                  //       );
+                  //     }).then((value) => updatePortfolioList());
+                  Navigator.push(
+                          context,
+                          PageTransition(
+                              duration: Duration(milliseconds: 350),
+                              reverseDuration: Duration(milliseconds: 350),
+                              type: PageTransitionType.bottomToTop,
+                              child: AddActivities()))
+                      .then((value) => updatePortfolioList());
                 },
                 icon: Icon(
                   Icons.add,
@@ -110,12 +117,12 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
                 child: ScreenWithLoader(
                   isLoading: isActivitieLoading,
                   body: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(vertical: 14.0),
                     child: Container(
                         height: height(context) * 0.9,
                         width: width(context),
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                           child: ListView.builder(
                               itemCount: activities?.length,
                               itemBuilder: (BuildContext context, int index) {
@@ -192,7 +199,7 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
                                           SizedBox(width: 6),
                                           Container(
                                             // color: Colors.red,
-                                            width: width(context) * 0.7,
+                                            width: width(context) * 0.74,
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -216,75 +223,46 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
                                                         ),
                                                       ),
                                                     ),
-                                                    InkWell(
-                                                      onTap: () async {
-                                                        // await showModalBottomSheet(
-                                                        //     shape: RoundedRectangleBorder(
-                                                        //         borderRadius:
-                                                        //             BorderRadius
-                                                        //                 .circular(
-                                                        //                     20)),
-                                                        //     context: context,
-                                                        //     enableDrag: true,
-                                                        //     isScrollControlled:
-                                                        //         true,
-                                                        //     builder: (context) {
-                                                        //   return FractionallySizedBox(
-                                                        //     heightFactor:
-                                                        //         0.7,
-                                                        //     child:
-                                                        //         Container(
-                                                        //             height: height(
-                                                        //                 context),
-                                                        //             padding:
-                                                        //                 const EdgeInsets.all(
-                                                        //                     8.0),
-                                                        //             margin: const EdgeInsets.only(
-                                                        //                 top:
-                                                        //                     10),
-                                                        //             child:
-                                                        //                 AddActivities(
-                                                        //               isEditMode:
-                                                        //                   true,
-                                                        //               activity:
-                                                        //                   activities?[index],
-                                                        //             )),
-                                                        //   );
-                                                        // }).then((value) => updatePortfolioList());
-
-                                                        AlertsWidget
-                                                            .showCustomDialog(
-                                                                context:
-                                                                    context,
-                                                                title: '',
-                                                                text:
-                                                                    'Are you sure you want to edit?',
-                                                                icon:
-                                                                    'assets/images/circle_alert_fill.svg',
-                                                                onOkClick:
-                                                                    () async {
-                                                                  await Navigator.push(
-                                                                      context,
-                                                                      PageTransition(
-                                                                          duration: Duration(milliseconds: 300),
-                                                                          reverseDuration: Duration(milliseconds: 300),
-                                                                          type: PageTransitionType.bottomToTop,
-                                                                          child: AddActivities(
-                                                                            isEditMode:
-                                                                                true,
-                                                                            activity:
-                                                                                activities?[index],
-                                                                          ))).then((value) => updatePortfolioList());
-                                                                });
-                                                      },
-                                                      child: SvgPicture.asset(
-                                                          'assets/images/edit_portfolio.svg'),
+                                                     Transform.translate(
+                                                        offset: Offset(18, 0), 
+                                                      child: InkWell(
+                                                        onTap: () async {
+                                                    
+                                                          await Navigator.push(
+                                                              context,
+                                                              PageTransition(
+                                                                  duration: Duration(
+                                                                      milliseconds:
+                                                                          300),
+                                                                  reverseDuration:
+                                                                      Duration(
+                                                                          milliseconds:
+                                                                              300),
+                                                                  type: PageTransitionType
+                                                                      .bottomToTop,
+                                                                  child:
+                                                                      AddActivities(
+                                                                    isEditMode:
+                                                                        true,
+                                                                    activity:
+                                                                        activities?[
+                                                                            index],
+                                                                  ))).then((value) =>
+                                                              updatePortfolioList());
+                                                        },
+                                                        child: SvgPicture.asset(
+                                                            'assets/images/edit_portfolio.svg'),
+                                                      ),
                                                     ),
                                                     SizedBox(
                                                       width: 20,
                                                     ),
-                                                    InkWell(
+                                                  Transform.translate(
+                                                        offset: Offset(20, 0), 
+                                                      child:   InkWell(
                                                       onTap: () {
+
+                                                       
                                                         AlertsWidget
                                                             .showCustomDialog(
                                                                 context:
@@ -304,22 +282,22 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
                                                       },
                                                       child: SvgPicture.asset(
                                                           'assets/images/delete.svg'),
-                                                    ),
+                                                    )),
                                                   ],
                                                 ),
                                                 SizedBox(
                                                   height: 4,
                                                 ),
-                                                // Text(
-                                                //   '${activities?[index].institute}',
-                                                //   style:
-                                                //       Styles.regular(size: 14),
-                                                // ),
                                                 Text(
-                                                  '${activities?[index].curricularType}',
+                                                  '${activities?[index].institute}',
                                                   style:
-                                                      Styles.regular(size: 12),
+                                                      Styles.regular(size: 14),
                                                 ),
+                                                // Text(
+                                                //   '${activities?[index].curricularType}',
+                                                //   style:
+                                                //       Styles.regular(size: 12),
+                                                // ),
                                                 SizedBox(
                                                   height: 4,
                                                 ),
@@ -327,14 +305,17 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.start,
                                                   children: [
-                                                    // Text(
-                                                    //     '${activities?[index].curricularType} • '),
+                                                    Text(
+                                                      '${activities?[index].curricularType} • ',
+                                                      style: Styles.regular(
+                                                        size: 12,
+                                                      ),
+                                                    ),
                                                     Text(
                                                       '${Utility.ordinal(startDate.day)} ${listOfMonths[startDate.month - 1]} ${startDate.year}',
                                                       style: Styles.regular(
-                                                          size: 12,
-                                                          color: Color(
-                                                              0xff929BA3)),
+                                                        size: 12,
+                                                      ),
                                                     ),
                                                   ],
                                                 )

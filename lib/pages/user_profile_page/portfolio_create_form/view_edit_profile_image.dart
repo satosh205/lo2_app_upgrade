@@ -1,24 +1,19 @@
 import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
-import 'package:masterg/pages/ghome/video_player_screen.dart';
 import 'package:masterg/pages/user_profile_page/mobile_ui_helper.dart';
-import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
@@ -27,10 +22,6 @@ import 'package:masterg/utils/resource/colors.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
-import 'package:path_provider/path_provider.dart';
-import '../../../utils/utility.dart';
-
-
 
 class UploadProfile extends StatefulWidget {
   final bool? editVideo;
@@ -52,6 +43,7 @@ class _UploadProfileState extends State<UploadProfile> {
   String? filePath;
   bool? profileLoading = false;
   late VideoPlayerController controller;
+  bool isVideoLoading = true;
 
   @override
   void initState() {
@@ -67,18 +59,20 @@ class _UploadProfileState extends State<UploadProfile> {
 
       //     });
       //   });
-        //   = controller!.initialize();
-        //  controller?.play();
+      //   = controller!.initialize();
+      //  controller?.play();
 
       //controller = VideoPlayerController.network('http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4');
-      controller = VideoPlayerController.network('${ Preference.getString(Preference.PROFILE_VIDEO)}');
+      controller = VideoPlayerController.network(
+          '${Preference.getString(Preference.PROFILE_VIDEO)}');
 
       controller.addListener(() {
-        print('listining to ');
         setState(() {});
       });
       controller.setLooping(true);
-      controller.initialize().then((_) => setState(() {}));
+      controller.initialize().then((_) => setState(() {
+            isVideoLoading = false;
+          }));
       controller.play();
     }
   }
@@ -106,16 +100,24 @@ class _UploadProfileState extends State<UploadProfile> {
             }
           },
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Text('${Preference.getString(Preference.PROFILE_VIDEO)}'),
               if (widget.editVideo == true || widget.playVideo == true) ...[
+                Spacer(),
                 Preference.getString(Preference.PROFILE_VIDEO) != null &&
                         Preference.getString(Preference.PROFILE_VIDEO) != ""
                     ? AspectRatio(
-                      aspectRatio: controller.value.aspectRatio,
-                      child: VideoPlayer(controller))
+                        aspectRatio: controller.value.aspectRatio,
+                        child: isVideoLoading
+                            ? SizedBox(
+                                width: width(context) * 0.3,
+                                height: width(context) * 0.3,
+                                child: CircularProgressIndicator())
+                            : VideoPlayer(controller))
                     : SizedBox(),
-                    //Text('${Preference.getString(Preference.PROFILE_VIDEO)}'),
+                //Text('${Preference.getString(Preference.PROFILE_VIDEO)}'),
                 Spacer(),
                 if (widget.playVideo == false)
                   Container(
@@ -126,18 +128,26 @@ class _UploadProfileState extends State<UploadProfile> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         //icon('Edit', 'assets/images/edit.svg', () {}),
-                        icon('Upload', widget.editVideo == true ?
-                        'assets/images/video.svg' : 'assets/images/image.svg', () async {
+                        icon(
+                            'Upload',
+                            widget.editVideo == true
+                                ? 'assets/images/video.svg'
+                                : 'assets/images/image.svg', () async {
                           _initFilePiker()?.then((value) async {
-                            print('the value is $value');
                             Map<String, dynamic> data = Map();
                             data['video'] = await MultipartFile.fromFile(
                                 '${value?.path}',
                                 filename: '${value?.path.split('/').last}');
-                            BlocProvider.of<HomeBloc>(context).add(UploadProfileEvent(data: data));
+                            BlocProvider.of<HomeBloc>(context)
+                                .add(UploadProfileEvent(data: data));
                           });
                         }),
-                        icon('Remove ', 'assets/images/delete.svg', () {}),
+                        icon('Remove ', 'assets/images/delete.svg', () {
+                           Map<String, dynamic> data = Map();
+                           data['delete'] = 'video';
+                          BlocProvider.of<HomeBloc>(context)
+                                .add(UploadProfileEvent(data: data));
+                        }),
                       ],
                     ),
                   ),
@@ -206,7 +216,12 @@ class _UploadProfileState extends State<UploadProfile> {
                                         .add(UploadProfileEvent(data: data));
                                   }),
                                   icon('Remove ', 'assets/images/delete.svg',
-                                      () {}),
+                                      () {
+                                        Map<String, dynamic> data = Map();
+                           data['delete'] = 'image';
+                          BlocProvider.of<HomeBloc>(context)
+                                .add(UploadProfileEvent(data: data));
+                                      }),
                                 ],
                               ),
                             ),
@@ -258,7 +273,7 @@ class _UploadProfileState extends State<UploadProfile> {
   Future<String> _cropImage(_pickedFile) async {
     print('_cropImage ==== ${_pickedFile}');
     if (_pickedFile != null) {
-      print('_cropImage if---' );
+      print('_cropImage if---');
       final croppedFile = await ImageCropper().cropImage(
         sourcePath: _pickedFile,
         compressFormat: ImageCompressFormat.jpg,
@@ -286,6 +301,9 @@ class _UploadProfileState extends State<UploadProfile> {
           //allowedExtensions: ['mp4']
         );
       }
+      setState(() {
+        profileLoading = true;
+      });
 
       if (result != null) {
         if (File(result.paths[0]!).lengthSync() / 1000000 > 50.0) {
@@ -298,17 +316,19 @@ class _UploadProfileState extends State<UploadProfile> {
         pickedFile = pickedList.first;
         print('pickedFile ==== ${pickedFile}');
 
-        if (result.paths.toString().contains('mp4')) {
-          final thumbnail = await VideoThumbnail.thumbnailFile(
-              video: result.paths[0].toString(),
-              thumbnailPath: _tempDir,
-              imageFormat: _format,
-              quality: _quality);
-          setState(() {
-            final file = File(thumbnail!);
-            filePath = file.path;
-          });
-        }
+        //generate thumnail
+
+        // if (result.paths.toString().contains('mp4')) {
+        //   final thumbnail = await VideoThumbnail.thumbnailFile(
+        //       video: result.paths[0].toString(),
+        //       thumbnailPath: _tempDir,
+        //       imageFormat: _format,
+        //       quality: _quality);
+        //   setState(() {
+        //     final file = File(thumbnail!);
+        //     filePath = file.path;
+        //   });
+        // }
       }
     }
     return pickedFile;
@@ -345,6 +365,4 @@ class _UploadProfileState extends State<UploadProfile> {
       }
     });
   }
-
-
 }

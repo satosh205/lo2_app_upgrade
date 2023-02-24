@@ -137,12 +137,12 @@ class PortfolioCustomButton extends StatelessWidget {
       },
       child: Container(
         height: height(context) * 0.06,
-        width: width(context) * 0.9,
+        width: width(context) ,
         padding: const EdgeInsets.all(10.0),
-        margin: const EdgeInsets.all(20.0),
+        margin: const EdgeInsets.symmetric(vertical: 20,),
         decoration: const BoxDecoration(
             color: Color(0xff0E1638),
-            borderRadius: BorderRadius.all(Radius.circular(21))),
+            borderRadius: BorderRadius.all(Radius.circular(26))),
         child: const Center(
           child: Text(
             "Save",

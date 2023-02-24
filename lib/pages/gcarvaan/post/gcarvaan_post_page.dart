@@ -1,27 +1,19 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/data/models/response/home_response/create_post_response.dart';
 import 'package:masterg/data/models/response/home_response/gcarvaan_post_reponse.dart';
-import 'package:masterg/local/pref/Preference.dart';
-import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
-import 'package:masterg/pages/custom_pages/custom_widgets/rounded_appbar.dart';
 import 'package:masterg/pages/gcarvaan/components/gcarvaan_card_post.dart';
 import 'package:masterg/pages/gcarvaan/createpost/create_gcarvaan_page.dart';
 import 'package:masterg/pages/gcarvaan/createpost/create_post_provider.dart';
-import 'package:masterg/pages/reels/reels_dashboard_page.dart';
-import 'package:masterg/pages/singularis/community/discover_communities_page.dart';
-import 'package:masterg/pages/user_profile_page/portfolio_page.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
@@ -29,7 +21,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 import '../../../utils/Strings.dart';
 import '../../../utils/constant.dart';
