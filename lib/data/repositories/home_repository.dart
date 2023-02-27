@@ -1325,6 +1325,21 @@ class HomeRepository {
     }
     return null;
   }
+
+  Future passwordUpdate({String? email, String? pass}) async {
+    try {
+      final response = await homeProvider.passwordUpdate(email: email, pass: pass);
+      if (response?.body['status'] == 1) {
+        return 1;
+      } else {
+        return 0;
+      }
+    } catch (e) {
+      Log.v("EXCEPTION  :  $e");
+    }
+    return null;
+  }
+
   ///
 
   Future<TestReviewResponse?> reviewTest({required String request}) async {

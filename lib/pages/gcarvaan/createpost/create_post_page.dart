@@ -15,7 +15,8 @@ import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
-import 'package:open_file_safe/open_file_safe.dart';
+//import 'package:open_file_safe/open_file_safe.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:path/path.dart' as path;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:video_player/video_player.dart';
@@ -392,7 +393,8 @@ class _CreatePostPageState extends State<CreatePostPage> {
 
                 if (pickedFile!.path.contains('doc') ||
                     pickedFile!.path.contains('docx')) {
-                  OpenFile.open('$pickedFile');
+                  //OpenFile.open('$pickedFile');
+                  OpenFilex.open('$pickedFile');
                 }
                 if (pickedFile!.path.contains('pdf')) {
                   showDialog(
@@ -515,7 +517,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
   //void _initFilePiker({type = null}) async {
   void _initFilePiker() async {
     FilePickerResult? result;
-    if (await Permission.storage.request().isGranted) {
+    //if (await Permission.storage.request().isGranted) {
       if (Platform.isIOS) {
         result = await FilePicker.platform.pickFiles(
             allowMultiple: widget.isReelsPage == true ? false : true,
@@ -576,7 +578,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
           });
         }
       }
-    }
+    //}
   }
 
   Future<String?> _getImages() async {

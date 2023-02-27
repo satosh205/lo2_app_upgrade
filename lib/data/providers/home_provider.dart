@@ -1917,6 +1917,34 @@ class HomeProvider {
     }
     return null;
   }
+
+  Future<ApiResponse?> passwordUpdate({String? email, String? pass}) async {
+    Utility.hideKeyboard();
+    try {
+      final response = await api.dio.post(
+        ApiConstants.PASSWORD_UPDATE,
+        data: {"email": email, "password" : pass,},
+        options: Options(
+          method: 'POST',
+          contentType: "application/json",
+          headers: {
+            "Authorization": "bearer ${UserSession.userToken}",
+            ApiConstants.API_KEY: ApiConstants().APIKeyValue()
+          },
+          responseType: ResponseType.json, // or ResponseType.JSON
+        ),
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return ApiResponse.success(response);
+      }
+    } catch (e) {
+      if (e is DioError) {
+        Log.v("data ==> ${e.response!.statusCode}");
+      }
+      // return ApiResponse.failure(e);
+    }
+    return null;
+  }
   ///
 
   Future<ApiResponse?> reviewTest({required String request}) async {

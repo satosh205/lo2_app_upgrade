@@ -7,7 +7,6 @@ import 'package:hive/hive.dart';
 import 'package:masterg/blocs/auth_bloc.dart';
 import 'package:masterg/blocs/bloc_manager.dart';
 import 'package:masterg/pages/auth_pages/sign_up_screen.dart';
-import 'package:masterg/pages/swayam_pages/login_screen.dart';
 import 'package:masterg/utils/check_connection.dart';
 import 'package:masterg/utils/config.dart';
 import 'package:masterg/blocs/home_bloc.dart';

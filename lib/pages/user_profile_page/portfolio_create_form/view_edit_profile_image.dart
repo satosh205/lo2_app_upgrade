@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -177,9 +178,7 @@ class _UploadProfileState extends State<UploadProfile> {
                                       () async {
                                     FilePickerResult? result;
                                     try {
-                                      if (await Permission.storage
-                                          .request()
-                                          .isGranted) {
+                                      //if (await Permission.storage.request().isGranted) {
                                         if (Platform.isIOS) {
                                           result = await FilePicker.platform
                                               .pickFiles(
@@ -191,18 +190,16 @@ class _UploadProfileState extends State<UploadProfile> {
                                               .pickFiles(
                                                   allowMultiple: false,
                                                   type: FileType.custom,
-                                                  allowedExtensions: [
-                                                'jpg',
-                                                'png',
-                                                'jpeg'
-                                              ]);
+                                                  allowedExtensions: ['jpg', 'png', 'jpeg']);
                                         }
-                                      }
+                                     // }
                                     } catch (e) {
                                       print('the expection is $e');
                                     }
 
                                     String? value = result?.paths.first;
+                                    print('result================');
+                                    print(value);
                                     if (value != null) {
                                       selectedImage = value;
                                       selectedImage = await _cropImage(value);
@@ -289,8 +286,98 @@ class _UploadProfileState extends State<UploadProfile> {
   }
 
   Future<File?>? _initFilePiker() async {
+    print('_initFilePiker========');
     FilePickerResult? result;
-    if (await Permission.storage.request().isGranted) {
+
+    bool isStoragePermission = true;
+    bool isVideosPermission = true;
+    bool isPhotosPermission = true;
+
+// Only check for storage < Android 13
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    if (androidInfo.version.sdkInt >= 33) {
+      isVideosPermission = await Permission.videos.status.isGranted;
+      isPhotosPermission = await Permission.photos.status.isGranted;
+    } else {
+      //isStoragePermission = await Permission.storage.status.isGranted;
+      //isStoragePermission = await Permission.storage.request().isGranted;
+      if (await Permission.storage.request().isGranted) {
+      if (Platform.isIOS) {
+        result = await FilePicker.platform.pickFiles(
+            allowMultiple: false, type: FileType.video, allowedExtensions: []);
+      } else {
+        result = await FilePicker.platform.pickFiles(
+          allowMultiple: false,
+          type: FileType.video,
+          //allowedExtensions: ['mp4']
+        );
+      }
+      setState(() {
+        profileLoading = true;
+      });
+
+      if (result != null) {
+        if (File(result.paths[0]!).lengthSync() / 1000000 > 50.0) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('${Strings.of(context)?.imageVideoSizeLarge} 50MB'),
+          ));
+        } else {
+          pickedList.add(File(result.paths[0]!));
+        }
+        pickedFile = pickedList.first;
+        print('pickedFile ==== ${pickedFile}');
+
+      }
+    }
+
+    }
+    if (isVideosPermission && isPhotosPermission) {
+      // no worries about crash
+      print('Your app cresh ========');
+    } else {
+      // write your code here
+      if (Platform.isIOS) {
+        result = await FilePicker.platform.pickFiles(
+            allowMultiple: false, type: FileType.video, allowedExtensions: []);
+      } else {
+        result = await FilePicker.platform.pickFiles(
+          allowMultiple: false,
+          type: FileType.video,
+          //allowedExtensions: ['mp4']
+        );
+      }
+      setState(() {
+        profileLoading = true;
+      });
+
+      if (result != null) {
+        if (File(result.paths[0]!).lengthSync() / 1000000 > 50.0) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('${Strings.of(context)?.imageVideoSizeLarge} 50MB'),
+          ));
+        } else {
+          pickedList.add(File(result.paths[0]!));
+        }
+        pickedFile = pickedList.first;
+        print('pickedFile ==== ${pickedFile}');
+
+        //generate thumnail
+        // if (result.paths.toString().contains('mp4')) {
+        //   final thumbnail = await VideoThumbnail.thumbnailFile(
+        //       video: result.paths[0].toString(),
+        //       thumbnailPath: _tempDir,
+        //       imageFormat: _format,
+        //       quality: _quality);
+        //   setState(() {
+        //     final file = File(thumbnail!);
+        //     filePath = file.path;
+        //   });
+        // }
+      }
+    }
+
+    /*if (await Permission.storage.request().isGranted) {
       if (Platform.isIOS) {
         result = await FilePicker.platform.pickFiles(
             allowMultiple: false, type: FileType.video, allowedExtensions: []);
@@ -330,7 +417,7 @@ class _UploadProfileState extends State<UploadProfile> {
         //   });
         // }
       }
-    }
+    }*/
     return pickedFile;
   }
 
