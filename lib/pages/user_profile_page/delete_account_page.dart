@@ -217,15 +217,20 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                       }
                         },
                         child: Container(
-                          margin:
-                              EdgeInsets.only(left: 12.0, right: 12.0, top: 10),
+                          margin: EdgeInsets.only(left: 12.0, right: 12.0, top: 10),
                           width: double.infinity,
                           height: MediaQuery.of(context).size.height *
                               WidgetSize.AUTH_BUTTON_SIZE,
                           decoration: BoxDecoration(
-                                   color: selectedOption != 0
-                        ? ColorConstants().primaryColor()
-                        : ColorConstants.GREY_4,
+                                   gradient: selectedOption != 0
+                        ? LinearGradient(colors: [
+                                     ColorConstants.GRADIENT_ORANGE,
+                                     ColorConstants.GRADIENT_RED,
+                                   ])
+                        : LinearGradient(colors: [
+                                     ColorConstants.UNSELECTED_BUTTON,
+                                     ColorConstants.UNSELECTED_BUTTON,
+                                   ]),
                               borderRadius: BorderRadius.circular(10)),
                           child: Center(
                               child: Text(
@@ -333,8 +338,8 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
               UserSession.clearSession();
               await Hive.deleteFromDisk();
               Preference.clearPref().then((value) {
-                // Navigator.pushAndRemoveUntil(
-                //     context, NextPageRoute(ChooseLanguage(showEdulystLogo: true,)), (route) => false);
+                 Navigator.pushAndRemoveUntil(
+                     context, NextPageRoute(SignUpScreen()), (route) => false);
               });
             });
 

@@ -23,6 +23,7 @@ import '../../utils/resource/colors.dart';
 import '../auth_pages/choose_language.dart';
 import '../custom_pages/alert_widgets/alerts_widget.dart';
 import '../custom_pages/custom_widgets/NextPageRouting.dart';
+import '../user_profile_page/delete_account_page.dart';
 
 class AppDrawer extends StatefulWidget {
   @override
@@ -174,6 +175,28 @@ class _AppDrawerState extends State<AppDrawer> {
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context)=> TermsAndCondition(url: APK_DETAILS['about_url'], title: "About Singularis",),
                   maintainState: false));
+            },
+          ),
+          SizedBox(height: 15,),
+          ListTile(
+            hoverColor: Colors.blue,
+            dense: true,
+            visualDensity: VisualDensity(vertical: -4),
+            leading: new Icon(
+              Icons.delete_outline,
+              color: Colors.black,size: 25,
+            ),
+            title: Text(
+              '${Strings.of(context)?.deleteAccount}',
+            ),
+            onTap: () async {
+              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          DeleteAccountPage(
+                            imageUrl: '${Preference.getString(Preference.PROFILE_IMAGE)}')));
             },
           ),
           Spacer(),
