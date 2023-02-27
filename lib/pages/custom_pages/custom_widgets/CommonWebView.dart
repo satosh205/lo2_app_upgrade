@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:masterg/utils/Log.dart';
+import 'package:masterg/utils/resource/colors.dart';
 
 import '../ScreenWithLoader.dart';
 import 'CommonAppBar.dart';
@@ -63,15 +64,32 @@ class _CommonWebViewState extends State<CommonWebView> {
           return true;
         },
         child: Scaffold(
+          backgroundColor: ColorConstants.WHITE,
           extendBodyBehindAppBar: true,
-          appBar: CommonAppBar.getAppBar(
-              bgColor: Colors.transparent,
-              backColor: Colors.black,
-              context: context,
-              onBackPress: () {
-                Navigator.pop(
-                    context, DateTime.now().toLocal().millisecondsSinceEpoch);
-              }),
+          // appBar: CommonAppBar.getAppBar(
+            
+          //     bgColor: Colors.transparent,
+          //     backColor: Colors.black,
+          //     context: context,
+          //     onBackPress: () {
+          //       Navigator.pop(
+          //           context, DateTime.now().toLocal().millisecondsSinceEpoch);
+          //     }),
+          appBar: AppBar(
+            
+            backgroundColor: ColorConstants.WHITE,
+            elevation: 0,
+            leading: IconButton(onPressed: (){
+              Navigator.pop(context);
+            
+            },
+            icon: Icon(Icons.arrow_back_ios, color: ColorConstants.BLACK,),
+            ),
+            
+          
+
+        
+          ),
           body: ScreenWithLoader(
             isLoading: widget._isLoading,
             body: InAppWebView(
@@ -95,7 +113,7 @@ class _CommonWebViewState extends State<CommonWebView> {
                     action: PermissionRequestResponseAction.GRANT);
               },
               onLoadStart: (InAppWebViewController controller, Uri? url) async {
-
+          
                 // if(controller.)
                 if (url.toString().contains('g-home')) {
                  Navigator.pop(context, true);

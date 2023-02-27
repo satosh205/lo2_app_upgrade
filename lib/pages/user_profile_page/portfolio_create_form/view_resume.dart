@@ -93,57 +93,57 @@ class _ViewResumeState extends State<ViewResume> {
             width: width(context),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 110.0),
-                  child: InkWell(
-                    onTap: () async {
-                      FilePickerResult? result;
-                      if (await Permission.storage.request().isGranted) {
-                        if (Platform.isIOS) {
-                          result = await FilePicker.platform.pickFiles(
-                              allowMultiple: false,
-                              type: FileType.media,
-                              allowedExtensions: ['pdf']);
-                        } else {
-                          result = await FilePicker.platform.pickFiles(
-                              allowMultiple: false,
-                              type: FileType.custom,
-                              onFileLoading: (path) {
-                                print('File $path is loading');
-                              },
-                              allowedExtensions: [
-                                'pdf',
-                              ]);
-                        }
-
-                        Map<String, dynamic> data = Map();
-
-                        data['file'] = await MultipartFile.fromFile(
-                            '${result?.files.first.path}',
-                            filename: result?.files.first.name);
-                       
-                        if (result?.files.first.extension == 'pdf') {
-                           setState(() {});
-                           updateResume = true;
-                          addResume(data);
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(
-                                'It is not a PDF file please try to upload a PDF file.'),
-                          ));
-                        }
+                InkWell(
+                  onTap: () async {
+                    FilePickerResult? result;
+                    if (await Permission.storage.request().isGranted) {
+                      if (Platform.isIOS) {
+                        result = await FilePicker.platform.pickFiles(
+                            allowMultiple: false,
+                            type: FileType.media,
+                            allowedExtensions: ['pdf']);
+                      } else {
+                        result = await FilePicker.platform.pickFiles(
+                            allowMultiple: false,
+                            type: FileType.custom,
+                            onFileLoading: (path) {
+                              print('File $path is loading');
+                            },
+                            allowedExtensions: [
+                              'pdf',
+                            ]);
                       }
-                    },
-                    child: Row(
-                      children: [
-                        SvgPicture.asset('assets/images/upload_icon.svg'),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        GradientText(child: Text('Upload Latest'))
-                      ],
-                    ),
+
+                      Map<String, dynamic> data = Map();
+
+                      data['file'] = await MultipartFile.fromFile(
+                          '${result?.files.first.path}',
+                          filename: result?.files.first.name);
+                     
+                      if (result?.files.first.extension == 'pdf') {
+                         setState(() {});
+                         updateResume = true;
+                        addResume(data);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              'It is not a PDF file please try to upload a PDF file.'),
+                        ));
+                      }
+                    }
+                  },
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset('assets/images/upload_icon.svg'),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      GradientText(child: Text('Upload Latest'))
+                    ],
                   ),
                 ),
                 Text("Supported Format: .pdf",

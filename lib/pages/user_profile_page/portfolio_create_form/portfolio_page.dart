@@ -479,12 +479,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                             children: [
                               Container(
                                 width: double.infinity,
-                                height: Preference.getString(
-                                                Preference.FIRST_NAME)!
-                                            .length >
-                                        8
-                                    ? MediaQuery.of(context).size.height * 0.35
-                                    : MediaQuery.of(context).size.height * 0.3,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.27,
                                 padding: EdgeInsets.only(top: 8),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.only(
@@ -520,8 +516,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         IconButton(
                                             onPressed: () async {
                                               String shareUrl = '$baseUrl' +
-                                                  '/user-portfolio-webview?email=' +
-                                                  '${Preference.getString(Preference.USER_EMAIL)}}';
+                                                  'portfolio-detail?user_id=' +
+                                                  '${Preference.getString(Preference.USER_ID)}}';
 
                                               await Clipboard.setData(
                                                       ClipboardData(
@@ -1181,11 +1177,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                           Positioned(
                               left: 25,
                               right: 25,
-                              top: Preference.getString(Preference.FIRST_NAME)!
-                                          .length >
-                                      8
-                                  ? MediaQuery.of(context).size.height * 0.3
-                                  : MediaQuery.of(context).size.height * 0.24,
+                              top: MediaQuery.of(context).size.height * 0.22,
                               child: Container(
                                 height: 100,
                                 padding: EdgeInsets.symmetric(
@@ -1345,7 +1337,13 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                       //         child: Divider()),
                       //   ),
                       // ),
-
+                      Center(
+                        child: Container(
+                          color: Color(0xffF3F3F3),
+                          height: 1.5,
+                          width: width(context) * 0.9,
+                        ),
+                      ),
                       Container(
                         color: ColorConstants.WHITE,
                         padding: EdgeInsets.symmetric(vertical: 8),
@@ -1968,7 +1966,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                       0
                                   ? ListView.builder(
                                       shrinkWrap: true,
-                                      physics: ScrollPhysics(),
+                                      physics: NeverScrollableScrollPhysics(),
                                       itemCount: min(
                                           2,
                                           portfolioResponse!
@@ -2267,13 +2265,14 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
 
     var difference = now.difference(past);
     return InkWell(
-      onTap: (){
-          Navigator.push(
-                  context,
-                  NextPageRoute(RecentActivitiesPage(animateToIndex: recentActivites.reserved 
-                  != 'reels' ? 1 : 0,),
-                      isMaintainState: false));
-
+      onTap: () {
+        Navigator.push(
+            context,
+            NextPageRoute(
+                RecentActivitiesPage(
+                  animateToIndex: recentActivites.reserved != 'reels' ? 1 : 0,
+                ),
+                isMaintainState: false));
       },
       child: Container(
         width: width(context) * 0.75,
@@ -2288,47 +2287,53 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            if(recentActivites.reserved != 'reels')  SizedBox(
-                height: 20,
-              ),
-           if(recentActivites.reserved != 'reels')   Row(
-                children: [
-                  ClipOval(
-                    child: Image.network(
-                      '${recentActivites.profileImage}',
-                      width: width(context) * 0.13,
-                      height: width(context) * 0.13,
-                    ),
-                  ),
-                  SizedBox(width: 12),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: width(context) * 0.5,
-                        child: Text(
-                          '${recentActivites.name}',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+              if (recentActivites.reserved != 'reels')
+                SizedBox(
+                  height: 20,
+                ),
+              if (recentActivites.reserved != 'reels')
+                Row(
+                  children: [
+                    ClipOval(
+                      child: Image.network(
+                        '${recentActivites.profileImage}',
+                        width: width(context) * 0.13,
+                        height: width(context) * 0.13,
                       ),
-                      Text('${calculateTimeDifferenceBetween(past, now)}')
-                      // Text('${difference.inDays}')
-                    ],
-                  ),
-                ],
-              ),
-             if(recentActivites.reserved != 'reels')  SizedBox(
-                height: 6,
-              ),
-           if(recentActivites.reserved != 'reels') ReadMoreText(
-                text: '${recentActivites.description}',
-              ),
-           if(recentActivites.reserved != 'reels')    SizedBox(
-                height: 20,
-              ),
+                    ),
+                    SizedBox(width: 12),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: width(context) * 0.5,
+                          child: Text(
+                            '${recentActivites.name}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Text('${calculateTimeDifferenceBetween(past, now)}')
+                        // Text('${difference.inDays}')
+                      ],
+                    ),
+                  ],
+                ),
+              if (recentActivites.reserved != 'reels')
+                SizedBox(
+                  height: 6,
+                ),
+              if (recentActivites.reserved != 'reels')
+                ReadMoreText(
+                  text: '${recentActivites.description}',
+                ),
+              if (recentActivites.reserved != 'reels')
+                SizedBox(
+                  height: 20,
+                ),
               recentActivites.resourcePath!.contains('png') ||
-                      recentActivites.resourcePath!.contains('jpeg') || recentActivites.resourcePath!.contains('jpg')
+                      recentActivites.resourcePath!.contains('jpeg') ||
+                      recentActivites.resourcePath!.contains('jpg')
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: Image.network(
@@ -2338,14 +2343,14 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                         fit: BoxFit.cover,
                       ))
                   : Container(
-                  
-                    height:recentActivites.reserved != 'reels' ?height(context) * 0.33:   height(context) * 0.43,
-              
-                    child: VideoPlayerWidget(
+                      height: recentActivites.reserved != 'reels'
+                          ? height(context) * 0.33
+                          : height(context) * 0.43,
+                      child: VideoPlayerWidget(
                         videoUrl: '${recentActivites.resourcePath}',
                         // maitanceAspectRatio: true,
                       ),
-                  )
+                    )
               // ClipRect(
               //     child: AspectRatio(
               //       aspectRatio: 4 / 4,
@@ -2359,7 +2364,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
               //       )),
               //     ),
               //   )
-    
+
               // CustomVideoPlayer(
               //                                     // sendflickManager:
               //                                     //     (FlickManager value) {},
@@ -2389,7 +2394,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
               //                                         //         .toString()
               //                                         //         .substring(0, 19)),
               //                                         //     now),
-    
+
               //                                   ),
             ]),
       ),
@@ -2553,7 +2558,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                       ? ListView.builder(
                           itemCount: min(2, int.parse('${experience?.length}')),
                           shrinkWrap: true,
-                          physics: ScrollPhysics(),
+                          physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             String startDateString =
                                 "${experience?[index].startDate}";
@@ -2718,7 +2723,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                   padding: EdgeInsets.symmetric(horizontal: 8),
                   child: extraActivities?.length != 0
                       ? ListView.builder(
-                          physics: ScrollPhysics(),
+                          physics: NeverScrollableScrollPhysics(),
                           itemCount: min(2, extraActivities!.length),
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
@@ -3065,11 +3070,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     setState(() async {
       switch (portfolioState.apiState) {
         case ApiStatus.LOADING:
-          Log.v("Portfolio Competition Loading....................");
+          Log.v("Portfolio TopScoring Loading....................");
           isPortfolioLoading = true;
           break;
         case ApiStatus.SUCCESS:
-          Log.v("PortfolioState Competition Success....................");
+          Log.v("PortfolioState TopScoring Success....................");
 
           userRank = portfolioState.response;
           Preference.setString(
@@ -3083,9 +3088,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
 
         case ApiStatus.ERROR:
           isPortfolioLoading = false;
-          Log.v("PortfolioState Error..........................");
+          Log.v("TopScoring Error..........................");
           Log.v(
-              "PortfolioState Error..........................${portfolioState.error}");
+              "TopScoring Error..........................${portfolioState.error}");
 
           break;
         case ApiStatus.INITIAL:
@@ -4061,10 +4066,8 @@ class _ShowSocailLinksState extends State<ShowSocailLinks> {
           GestureDetector(
             onTapDown: (TapDownDetails detail) {
               print('open mneu');
-                _showPopupMenu(detail.globalPosition, socialKey, socialValue,
+              _showPopupMenu(detail.globalPosition, socialKey, socialValue,
                   socialKeyUnselected, socialValueUnselected);
-            
-           
             },
             child: SvgPicture.asset('assets/images/vertical_menu.svg'),
           )
@@ -4084,34 +4087,36 @@ class _ShowSocailLinksState extends State<ShowSocailLinks> {
     List<PopupMenuItem> selectedMenuList = List.generate(
         max(0, socialKey.length - 4),
         (index) => PopupMenuItem(
-              child: Row(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return CommonWebView(
-                              url: socialValue[index + 4],
-                            );
-                          },
-                        ),
-                      );
-                    },
-                    child: Container(
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return CommonWebView(
+                          url: socialValue[index + 4],
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: Row(
+                  children: [
+                    Container(
                         height: 25,
                         margin: EdgeInsets.only(right: 6),
                         child: SvgPicture.asset(
                             'assets/images/${socialKey[index + 4]}' + '.svg')),
-                  ),
-                  Text('${socialValue[index + 4]}')
-                ],
+                    Text(
+                      '${socialKey[index + 4]}'.capital(),
+                      style: Styles.regular(),
+                    )
+                  ],
+                ),
               ),
-              value: '${socialValue[index + 4]}',
+              value: '${socialKey[index + 4]}',
             ));
     print('gggggg 2');
-
 
     List<PopupMenuItem> unselectedMenuList = List.generate(
         max(0, socialKeyUnselected.length - max(0, 4 - socialKey.length)),
