@@ -276,8 +276,8 @@ class _ViewResumeState extends State<ViewResume> {
         final file = File(localPath + "/" + usersFile!.split('/').last);
         if (file.existsSync()) {
           print("FILE EXISTS");
-          Utility.showSnackBar(
-              scaffoldContext: context, message: "File already exists");
+          // Utility.showSnackBar(
+          //     scaffoldContext: context, message: "File already exists");
 
           await FlutterDownloader.open(taskId: usersFile.split('/').last);
           return;
