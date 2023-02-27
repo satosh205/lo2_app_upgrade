@@ -273,6 +273,18 @@ class VerifyEmailCodeState extends HomeState {
   VerifyEmailCodeState(this.state, {this.error, this.email, this.code});
 }
 
+class PasswordUpdateState extends HomeState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  String? email;
+  String? pass;
+  String? error;
+
+  PasswordUpdateState(this.state, {this.error, this.email, this.pass});
+}
+
+
 class EmailCodeSendEvent extends HomeEvent {
   String? email;
 
@@ -290,6 +302,17 @@ class VerifyEmailCodeEvent extends HomeEvent {
   List<Object> get props => throw UnimplementedError();
 
 }
+
+class PasswordUpdateEvent extends HomeEvent {
+  String? email;
+  String? pass;
+
+  PasswordUpdateEvent({this.email, this.pass}) : super([email, pass]);
+
+  List<Object> get props => throw UnimplementedError();
+
+}
+
 ///-------------
 
 
@@ -2459,9 +2482,7 @@ try {
       } catch (e) {
         yield EmailCodeSendState(ApiStatus.ERROR, error: "Something went wrong");
       }
-    }
-
-    else if (event is VerifyEmailCodeEvent) {
+    }else if (event is VerifyEmailCodeEvent) {
       try {
         yield VerifyEmailCodeState(ApiStatus.LOADING);
         final response = await homeRepository.verifyEmailCodeAnswer(email: event.email, eCode: event.code);
@@ -2473,6 +2494,21 @@ try {
         }
       } catch (e) {
         yield VerifyEmailCodeState(ApiStatus.ERROR, error: "Something went wrong");
+      }
+    }
+
+    else if (event is PasswordUpdateEvent) {
+      try {
+        yield PasswordUpdateState(ApiStatus.LOADING);
+        final response = await homeRepository.passwordUpdate(email: event.email, pass: event.pass);
+
+        if (response == 1) {
+          yield PasswordUpdateState(ApiStatus.SUCCESS);
+        } else {
+          yield PasswordUpdateState(ApiStatus.ERROR, error: "Password Update Error");
+        }
+      } catch (e) {
+        yield PasswordUpdateState(ApiStatus.ERROR, error: "Something went wrong");
       }
     }
     ///

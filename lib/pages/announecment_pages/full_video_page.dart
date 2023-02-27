@@ -7,7 +7,8 @@ import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
-import 'package:open_file_safe/open_file_safe.dart';
+import 'package:open_filex/open_filex.dart';
+//import 'package:open_file_safe/open_file_safe.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -197,7 +198,8 @@ class _FullContentPageState extends State<FullContentPage> {
       if (await File(savePath).exists()) {
         // if (Platform.isAndroid) {
         Navigator.pop(context);
-        await OpenFile.open(savePath);
+        //await OpenFile.open(savePath);
+        await OpenFilex.open(savePath);
       } else {
         await _startDownload(savePath);
       }
@@ -222,7 +224,8 @@ class _FullContentPageState extends State<FullContentPage> {
         Future.delayed(Duration(seconds: 1), () {
           Navigator.pop(context);
         });
-        await OpenFile.open(savePath);
+        //await OpenFile.open(savePath);
+        await OpenFilex.open(savePath);
       }
       Log.v(savePath);
     } catch (ex) {

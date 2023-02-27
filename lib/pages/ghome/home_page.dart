@@ -21,12 +21,6 @@ import 'package:masterg/pages/singularis/competition/competition.dart';
 import 'package:masterg/pages/singularis/dashboard.dart';
 import 'package:masterg/pages/singularis/dashboard_temp.dart';
 import 'package:masterg/pages/singularis/job/job_dashboard_page.dart';
-import 'package:masterg/pages/swayam_pages/announcemnt_page.dart';
-import 'package:masterg/pages/swayam_pages/library_page.dart';
-import 'package:masterg/pages/swayam_pages/profile_page.dart';
-import 'package:masterg/pages/swayam_pages/sign_up_screen.dart';
-import 'package:masterg/pages/swayam_pages/training_home_page.dart';
-import 'package:masterg/pages/swayam_pages/training_provider.dart';
 import 'package:masterg/pages/training_pages/training_service.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_page.dart';
 import 'package:masterg/pages/user_profile_page/user_profile_page.dart';
@@ -129,11 +123,11 @@ class _homePageState extends State<homePage> {
                   color: ColorConstants.PRIMARY_COLOR,
                 ),
                 onTap: () {
-                  Navigator.push(
+                  /*Navigator.push(
                       context,
                       NextPageRoute(SignUpScreen(
                         isFromProfile: true,
-                      )));
+                      )));*/
                 },
               ),
               // _size(height: 10),
@@ -161,26 +155,26 @@ class _homePageState extends State<homePage> {
         filesPath: widget.filesPath,
         formCreatePost: widget.isFromCreatePost,
       ),*/
-      '/training': ChangeNotifierProvider<TrainingProvider>(
+      /*'/training': ChangeNotifierProvider<TrainingProvider>(
           create: (context) => TrainingProvider(TrainingService(ApiService())),
           child: TrainingHomePage(
             drawerWidget: _getDrawerLayout(context),
-          )),
+          )),*//*
       '/announcements': ChangeNotifierProvider<AnnouncementDetailProvider>(
           create: (context) =>
               AnnouncementDetailProvider(TrainingService(ApiService())),
           child: AnnouncementPage(
             isViewAll: true,
             drawerWidget: _getDrawerLayout(context),
-          )),
+          )),*/
       '/analytics': AnalyticPage(
         isViewAll: true,
         drawerWidget: _getDrawerLayout(context),
       ),
-      '/library': LibraryPage(
+      /*'/library': LibraryPage(
         isViewAll: true,
-      ),
-      '/my-space-settings': ProfilePage(drawerWidget: _getDrawerLayout(context))
+      ),*/
+     // '/my-space-settings': ProfilePage(drawerWidget: _getDrawerLayout(context))
     };
 
     /*var iconUnSelected = {

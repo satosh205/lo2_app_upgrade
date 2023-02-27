@@ -82,59 +82,78 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
               if (state is SignUpState) _handleResponse(state);
               // if (state is LoginByIDState) _handleLoginResponse(state);
             },
-            child: WillPopScope(
+            /*child: WillPopScope(
               onWillPop: () async => false,
-              child: Scaffold(
-                backgroundColor: ColorConstants.WHITE,
-                body: SafeArea(
-                    child: ScreenWithLoader(
+              child:
+            )*/
+          child: Scaffold(
+            backgroundColor: ColorConstants.WHITE,
+            appBar: AppBar(
+              centerTitle: true,
+              backgroundColor: Colors.transparent,
+              title: Text('${Strings.of(context)?.TellUsAboutYourSelf}',
+                style: Styles.semibold(color: ColorConstants.BLACK, size: 16),
+              ),
+              leading: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.arrow_back_ios_new_outlined,
+                  color: ColorConstants.BLACK,
+                ),
+              ),
+              elevation: 0.0,
+            ),
+            body: SafeArea(
+                child: ScreenWithLoader(
                   isLoading: _isLoading,
                   body: _makeBody(),
                 )),
-                floatingActionButtonLocation:
-                    FloatingActionButtonLocation.centerFloat,
-                floatingActionButton: Visibility(
-                  visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      InkWell(
-                          onTap: () {
-                            if (checkedValue == true) saveChanges();
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              gradient: LinearGradient(colors: [
-                                ColorConstants.GRADIENT_ORANGE,
-                                ColorConstants.GRADIENT_RED,
-                              ]),
-                            ),
-                            width: double.infinity,
-                            height: MediaQuery.of(context).size.height *
-                                WidgetSize.AUTH_BUTTON_SIZE,
-                            margin: EdgeInsets.symmetric(
-                                vertical: 2, horizontal: 16),
-                            // decoration: BoxDecoration(
-                            //     color: checkedValue == false
-                            //         ? ColorConstants()
-                            //             .buttonColor()
-                            //             .withOpacity(0.5)
-                            //         : ColorConstants().buttonColor(),
-                            //     borderRadius: BorderRadius.circular(10)),
-                            child: Center(
-                                child: Text(
+            floatingActionButtonLocation:
+            FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: Visibility(
+              visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  InkWell(
+                      onTap: () {
+                        if (checkedValue == true) saveChanges();
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          gradient: LinearGradient(colors: [
+                            ColorConstants.GRADIENT_ORANGE,
+                            ColorConstants.GRADIENT_RED,
+                          ]),
+                        ),
+                        width: double.infinity,
+                        height: MediaQuery.of(context).size.height *
+                            WidgetSize.AUTH_BUTTON_SIZE,
+                        margin: EdgeInsets.symmetric(
+                            vertical: 2, horizontal: 16),
+                        // decoration: BoxDecoration(
+                        //     color: checkedValue == false
+                        //         ? ColorConstants()
+                        //             .buttonColor()
+                        //             .withOpacity(0.5)
+                        //         : ColorConstants().buttonColor(),
+                        //     borderRadius: BorderRadius.circular(10)),
+                        child: Center(
+                            child: Text(
                               '${Strings.of(context)?.continueStr}',
                               style: Styles.semibold(
                                 color: ColorConstants.WHITE,
                               ),
                             )),
-                          )),
-                    ],
-                  ),
-                ),
+                      )),
+                ],
               ),
-            )));
+            ),
+          ),
+        ));
   }
 
   _makeBody() {
@@ -148,7 +167,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Center(
+              /*Center(
                 child: Column(
                   children: [
                     SizedBox(
@@ -160,7 +179,8 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                     SizedBox(height: 40),
                   ],
                 ),
-              ),
+              ),*/
+              SizedBox(height: 30,),
               Center(
                 child: Stack(
                   children: [

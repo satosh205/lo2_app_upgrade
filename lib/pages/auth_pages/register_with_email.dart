@@ -1,5 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_countdown_timer/current_remaining_time.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:masterg/pages/auth_pages/self_details_page.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/constant.dart';
@@ -33,6 +36,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _isLoading = false;
   bool _emailTrue = false;
   bool _codeVerifiedTrue = false;
+  int endTime = 0;
 
   @override
   void initState() {
@@ -90,7 +94,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Log.v("EmailCodeSend Suuuuuuuus....................");
           isCodeSent = true;
           _isLoading = false;
-
+          Utility.showSnackBar(scaffoldContext: context, message: 'Verification code sent on your registered email');
+          endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
           break;
         case ApiStatus.ERROR:
           Log.v("Error emailCodeSendState ..........................${emailCodeSendState.error}");
@@ -174,6 +179,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
+
+                        ///Email Field--
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0, top: 20.0),
                           child: Row(
@@ -203,7 +210,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ],
                           ),
                         ),
-
                         Padding(
                           padding: const EdgeInsets.only(
                               top: 8.0, left: 16, right: 16),
@@ -222,6 +228,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               // inputFormatters: <TextInputFormatter>[
                               //   FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                               // ],
+
                               decoration: InputDecoration(
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
@@ -236,34 +243,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     width: 1.5,
                                   ),
                                 ),
-                                suffix: GestureDetector(
+                                suffix: isCodeSent
+                                    ? Container(
+                                  padding: EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                    color: ColorConstants.GREEN,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.done,
+                                    size: 12,
+                                    color: Colors.white,
+                                  ),
+                                ) : GestureDetector(
                                   onTap: () {
-                                    print('object');
-                                    //isCodeSent
-                                    if (!isCodeSent &&
-                                        emailController.value.text != '')
-                                      sendEmailVerificationCode(
-                                          emailController.value.text);
-                                    else
+                                    codeVerified = false;
+                                    _codeVerifiedTrue = false;
+                                    otpController.clear();
+                                    newPassController.clear();
+                                    confPassController.clear();
+                                    if (emailController.value.text.isEmpty) {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
                                         content: Text('Please enter email'),
                                       ));
+                                    } else if (_emailTrue == false) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                        content: Text('Please enter valid email'),
+                                      ));
+                                    }else{
+                                      sendEmailVerificationCode(emailController.value.text);
+                                    }
                                   },
-                                  child: isCodeSent
-                                      ? Container(
-                                          padding: EdgeInsets.all(4),
-                                          decoration: BoxDecoration(
-                                            color: ColorConstants.GREEN,
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: Icon(
-                                            Icons.done,
-                                            size: 12,
-                                            color: Colors.white,
-                                          ),
-                                        )
-                                      : GradientText(
+                                  child: GradientText(
                                           'Send Code',
                                           style: Styles.regular(size: 14),
                                           colors: _emailTrue == true ?
@@ -273,7 +286,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             ColorConstants.UNSELECTED_BUTTON],
                                         ),
                                   /*child:Text("Send Code", style: TextStyle(color:
-                          isCodeSent == true ? Colors.red: null),),*/
+                                  isCodeSent == true ? Colors.red: null),),*/
                                 ),
                                 hintText: 'example@mail.com',
                                 hintStyle: TextStyle(
@@ -300,9 +313,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     _emailTrue = false;
                                     isCodeSent = false;
                                     otpController.clear();
+                                    newPassController.clear();
+                                    confPassController.clear();
                                   } else {
                                     _emailTrue = true;
                                     otpController.clear();
+                                    newPassController.clear();
+                                    confPassController.clear();
                                   }
                                 });
                               },
@@ -325,6 +342,55 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
 
+                        ///Re-Send Code
+                        isCodeSent == true ? Row(
+                          children: [
+                            Expanded(child: SizedBox(),),
+                            CountdownTimer(
+                              endTime: endTime,
+                              widgetBuilder: (_, CurrentRemainingTime? time) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(right: 20.0, bottom: 15.0),
+                                  child: RichText(
+                                    text: TextSpan(
+                                        text: '',
+                                        style: TextStyle(
+                                          fontSize: 3,
+                                        ),
+                                        children: <TextSpan>[
+                                          time == null
+                                              ? TextSpan(
+                                              text:
+                                              'Re-send code',
+                                              recognizer: TapGestureRecognizer()
+                                                ..onTap = () {
+                                                  _emailTrue = false;
+                                                  isCodeSent = false;
+                                                  codeVerified = false;
+                                                  _codeVerifiedTrue = false;
+                                                  otpController.clear();
+                                                  newPassController.clear();
+                                                  confPassController.clear();
+                                                  /*this.setState(() {
+                                                    _emailTrue = false;
+                                                    isCodeSent = false;
+                                                  });*/
+                                                  sendEmailVerificationCode(emailController.value.text);
+                                                },
+                                              style: Styles.regular(
+                                                  size: 12,
+                                                  color: ColorConstants.BLACK))
+                                              : TextSpan(text: 'Resend in ${time.sec} secs', style:Styles.regular(
+                                              size: 12,
+                                              color: ColorConstants.BLACK) ),
+                                        ]),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ) : SizedBox(),
+
                         ///enter email Code--
                         isCodeSent == true ? Padding(
                           padding: const EdgeInsets.only(left: 20.0),
@@ -345,7 +411,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             child: Stack(
                               children: [
                                 TextFormField(
-                                  obscureText: true,
+                                  obscureText: false,
                                   keyboardType: TextInputType.number,
                                   cursorColor: Color(0xffE5E5E5),
                                   controller: otpController,
@@ -422,12 +488,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 Positioned(
                                   right: 10,
                                   top: 14,
-                                  bottom: 14,
-                                  child: GestureDetector(
+                                  //bottom: 14,
+                                  child: _codeVerifiedTrue
+                                      ? Container(
+                                    padding: EdgeInsets.all(4),
+                                    decoration: BoxDecoration(
+                                      color: ColorConstants.GREEN,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.done,
+                                      size: 12,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                      : GestureDetector(
                                     onTap: () {
                                       print('object ${otpController.value.text.length}');
-                                      //isCodeSent
-                                      verifyOtp(emailController.value.text, otpController.value.text);
+
+                                      if(otpController.value.text.isEmpty){
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: Text('Please enter verification code'),
+                                        ));
+                                      }else if(codeVerified == false){
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: Text('Please enter 4 digit code'),
+                                        ));
+                                      }else{
+                                        verifyOtp(emailController.value.text, otpController.value.text);
+                                      }
                                     },
                                     child: GradientText(
                                       'Verify Code',

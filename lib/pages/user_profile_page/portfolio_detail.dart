@@ -252,9 +252,8 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
                             child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: VideoPlayerWidget(
-                                  videoUrl:
-                                      '${widget.baseUrl}${widget.portfolio.portfolioFile}',
-                                  maitanceAspectRatio: true,
+                                  //videoUrl: '${widget.baseUrl}${widget.portfolio.portfolioFile}', maitanceAspectRatio: true,
+                                  videoUrl: '${widget.baseUrl}${widget.portfolio.portfolioFile}',
                                 )),
                           ),
                         )

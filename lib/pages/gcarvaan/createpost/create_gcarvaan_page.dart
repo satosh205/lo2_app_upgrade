@@ -202,7 +202,6 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                           InkWell(
                             onTap: () async {
                               _initFilePiker(value);
-                              
                               setState(() {});
                             },
                             child: Row(
@@ -235,8 +234,6 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                           ),
                           InkWell(
                             onTap: () async {
-                              //  _getImages(value);
-
                               final cameras = await availableCameras();
                               final firstCamera = cameras.first;
 
@@ -452,7 +449,7 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
 
   void _initFilePiker(CreatePostProvider provider) async {
     FilePickerResult? result;
-    if (await Permission.storage.request().isGranted) {
+    //if (await Permission.storage.request().isGranted) {
       if (Platform.isIOS) {
         result = await FilePicker.platform.pickFiles(
             allowMultiple: true, type: FileType.media, allowedExtensions: []);
@@ -488,7 +485,7 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
           ));
         }
       }
-    }
+    //}
   }
 }
 

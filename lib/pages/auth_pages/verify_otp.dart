@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:device_info_plus/device_info_plus.dart';
+//import 'package:device_info_plus/device_info_plus.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:masterg/pages/swayam_pages/notification_helper.dart';
 import 'package:masterg/utils/config.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
@@ -54,21 +54,22 @@ class _VerifyOtpState extends State<VerifyOtp> {
   bool resendFlag = false;
   List<Menu>? menuList;
   bool isFocused = false;
-  NotificationHelper? _notificationHelper;
+  //NotificationHelper? _notificationHelper;
   ///Add New code for OTP AutoFill
   late OTPTextEditController otpController;
   late OTPInteractor _otpInteractor;
   String otpCode = '';
 
   Future<Null> _getId() async {
-  var deviceInfo = DeviceInfoPlugin();
-  if (Platform.isIOS) { // import 'dart:io'
+  //var deviceInfo = DeviceInfoPlugin();
+  /*if (Platform.isIOS) { // import 'dart:io'
     var iosDeviceInfo = await deviceInfo.iosInfo;
    deviceId =  iosDeviceInfo.identifierForVendor; // unique ID on iOS
   } else if(Platform.isAndroid) {
     var androidDeviceInfo = await deviceInfo.androidInfo;
-   deviceId = androidDeviceInfo.androidId; // unique ID on Android
-  }
+   //deviceId = androidDeviceInfo.androidId; // unique ID on Android
+   deviceId = androidDeviceInfo.id; // unique ID on Android
+  }*/
 
   setState(() {
     
@@ -83,10 +84,10 @@ class _VerifyOtpState extends State<VerifyOtp> {
     _getId();
 
     ///Add New code for OTP AutoFill
-      _notificationHelper = NotificationHelper.getInstance(context);
-    _notificationHelper?.setFcm();
+      //_notificationHelper = NotificationHelper.getInstance(context);
+    //_notificationHelper?.setFcm();
+    //_notificationHelper?.getFcmToken();
 
-    _notificationHelper?.getFcmToken();
     _otpInteractor = OTPInteractor();
     _otpInteractor.getAppSignature()
     //ignore: avoid_print
@@ -608,7 +609,6 @@ class _VerifyOtpState extends State<VerifyOtp> {
     }
 
     print(UserSession.firebaseToken);
-
     Utility.checkNetwork().then((isConnected) {
       if (isConnected) {
         var verifyOtp = EmailRequest(

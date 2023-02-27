@@ -26,7 +26,8 @@ dependencies:
   bloc: ^7.2.1
   cached_network_image: ^3.2.1
   calendar_strip: ^1.0.6
-  camera: ^0.9.7+1
+  #camera: ^0.9.7+1
+  camera: ^0.10.3+1
   camerawesome: ^0.3.0+1
   change_app_package_name: ^1.1.0
   charts_flutter: ^0.12.0
@@ -39,7 +40,7 @@ dependencies:
   equatable: ^2.0.3
   expandable: ^5.0.1
   ffmpeg_kit_flutter: 4.5.1-LTS
-  file_picker: ^4.5.1
+  file_picker: ^5.2.5
   firebase_core: ^2.5.0
   firebase_messaging: ^14.2.2
   flick_video_player: ^0.4.0-dev.4
@@ -52,7 +53,7 @@ dependencies:
   flutter_html: ^3.0.0-alpha.3
   flutter_inappwebview: ^5.4.3+7
   flutter_linkify: ^5.0.2
-  flutter_local_notifications: ^9.5.3+1
+  flutter_local_notifications: ^13.0.0
   flutter_localizations:
     sdk: flutter
   flutter_pdfview: ^1.2.2
@@ -68,7 +69,9 @@ dependencies:
   injector: ^2.0.0
   intl: ^0.17.0
   keyboard_actions: ^4.0.0
-  open_file_safe: ^3.2.3
+  #open_file_safe: ^3.2.3
+  #open_file_safe: ^3.2.3
+  open_filex: ^4.3.2
   otp_autofill: ^2.1.0
   overlay_support: ^2.0.0
   package_info_plus: ^1.4.2
@@ -81,7 +84,7 @@ dependencies:
   pinput: ^2.2.12
   provider: ^6.0.3
   pull_to_refresh: ^2.0.0
-  rename_app: ^1.0.0
+  #rename_app: ^1.0.0
   share_plus: ^4.0.4
   shared_preferences: ^2.0.15
   shimmer: ^2.0.0
@@ -96,7 +99,8 @@ dependencies:
   visibility_detector: ^0.3.3
   webview_flutter: ^3.0.4
   youtube_player_flutter: ^8.1.0
-  device_info_plus: any
+  #device_info_plus: any
+  device_info_plus: ^8.1.0
   zoom_pinch_overlay: ^1.2.0
   internet_connection_checker: any
   http: ^0.13.5

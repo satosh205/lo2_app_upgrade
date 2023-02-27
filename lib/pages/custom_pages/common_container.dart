@@ -6,8 +6,6 @@ import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/custom_pages/custom_widgets/NextPageRouting.dart';
 import 'package:masterg/pages/feedback_page.dart';
 import 'package:masterg/pages/notification_list_page.dart';
-import 'package:masterg/pages/swayam_pages/login_screen.dart';
-import 'package:masterg/pages/swayam_pages/profile_page.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/images.dart';
@@ -201,13 +199,13 @@ class CommonContainer extends StatelessWidget {
                
           },
         ),
-           ListTile(
+          /* ListTile(
           title: const Text('Profile 5'),
           onTap: () {
             Navigator.push(context, NextPageRoute(ProfilePage()));
           },
-        ),
-        ListTile(
+        ),*/
+        /*ListTile(
           title: const Text('Logout'),
           onTap: () {
              Preference.clearPref().then((value) {
@@ -217,7 +215,7 @@ class CommonContainer extends StatelessWidget {
                   context, NextPageRoute(LoginScreen()), (route) => false);
             });
           },
-        ),
+        ),*/
           ],)),
         );
       },

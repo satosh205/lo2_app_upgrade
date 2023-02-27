@@ -24,7 +24,8 @@ import 'package:masterg/utils/get_widget_size.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 import 'package:masterg/utils/widget_size.dart';
-import 'package:open_file_safe/open_file_safe.dart';
+import 'package:open_filex/open_filex.dart';
+//import 'package:open_file_safe/open_file_safe.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -802,8 +803,8 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
                                                   .contains('.docx')
                                               ? InkWell(
                                                   onTap: () {
-                                                    OpenFile.open(
-                                                        '${widget.fileList![index]}');
+                                                    //OpenFile.open('${widget.fileList![index]}');
+                                                    OpenFilex.open('${widget.fileList![index]}');
                                                   },
                                                   child: Container(
                                                     child: Image.asset(

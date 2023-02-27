@@ -153,7 +153,7 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
           SizedBox(
             height: 20,
           ),
-          _buildContentTitle(index),
+          //_buildContentTitle(index),
           SizedBox(
             height: 10,
           ),
@@ -169,8 +169,14 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
               ),
             ),
           ),
+
+          SizedBox(
+            height: 70,
+          ),
+          _buildContentTitle(index),
+
           Expanded(
-            flex: 3,
+            flex: 20,
             child: _buildContent(index),
           )
         ],
@@ -228,9 +234,12 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
                   .copyWith(fontWeight: FontWeight.bold),
             ),*/
             //SizedBox(height: 18),
-            Text(
-              PreBoardingData.getDat()[index]['text2'],
-              style: Styles.textRegular(size: 16),
+            Flexible(
+              child: Text(
+                PreBoardingData.getDat()[index]['text2'],
+                style: Styles.textRegular(size: 16,),
+                textAlign: TextAlign.center,
+              ),
             ),
           ],
         ),
@@ -249,7 +258,8 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
           children: [
             GradientText(
               PreBoardingData.getDat()[index]['text1'],
-              style: Styles.textRegular(size: 28).copyWith(fontWeight: FontWeight.bold),
+              style: Styles.textRegular(size: 20).copyWith(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
               colors: [
                 ColorConstants.GRADIENT_ORANGE,
                 ColorConstants.GRADIENT_RED,
