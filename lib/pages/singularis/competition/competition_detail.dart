@@ -480,12 +480,12 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
     DateTime start = CardType.session == cardType ? DateFormat("yyyy-MM-dd hh:mm:ss").parse(startDate) :  DateFormat("yyyy-MM-dd").parse(startDate);
     return InkWell(
       onTap: () {
-        // if (isLocked == true) {
-        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //     content: Text('Content Locked!'),
-        //   ));
-        //   return;
-        // }
+        if (isLocked == true) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Content Locked!'),
+          ));
+          return;
+        }
         if (cardType == CardType.youtube) {
           Navigator.push(
               context,
