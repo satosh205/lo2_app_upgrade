@@ -278,7 +278,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
   final defaultPinTheme = PinTheme(
     width: 50,
     height: 50,
-    textStyle: TextStyle(fontSize: 20, color: Color.fromRGBO(30, 60, 87, 1), fontWeight: FontWeight.w600),
+    textStyle: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w600),
     decoration: BoxDecoration(
       border: Border.all(color: Color.fromRGBO(234, 239, 243, 1)),
       borderRadius: BorderRadius.circular(10),

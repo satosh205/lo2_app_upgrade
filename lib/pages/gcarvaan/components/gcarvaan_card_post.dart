@@ -120,22 +120,14 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
           } else if (double.parse('${widget.height}') < 1200) {
             if (double.parse('${widget.height}') < 800) {
               if (double.parse('${widget.width}') > 900) {
-                print('widget.contentId=====444444');
-                print(widget.contentId);
                 videoHeight = double.parse('${widget.height}') / 3.0;
               }else {
-                print('widget.contentId=====33333');
-                print(widget.contentId);
                 videoHeight = double.parse('${widget.height}') / 1.6;
               }
             } else {
-              print('widget.contentId=====2222');
-              print(widget.contentId);
               videoHeight = double.parse('${widget.height}') / 2.6;
             }
           } else if (double.parse('${widget.height}') > 1200) {
-            print('widget.contentId=====');
-            print(widget.contentId);
             if (double.parse('${widget.width}') > 1300) {
               videoHeight = double.parse('${widget.height}') / 4.0;
             }else {
@@ -169,7 +161,13 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
           if (double.parse('${widget.width}') > 1300) {
             videoHeight = double.parse('${widget.height}') / 3.9;
           }else {
-            videoHeight = double.parse('${widget.height}') / 1.9;
+            print('widget.contentId=======');
+            print(widget.contentId);
+            if (double.parse('${widget.height}') > 2000 || double.parse('${widget.width}') < 1200) {
+              videoHeight = double.parse('${widget.height}') / 3.0;
+            }else {
+              videoHeight = double.parse('${widget.height}') / 1.9;
+            }
           }
 
         } else {
@@ -181,7 +179,25 @@ class _GCarvaanCardPostState extends State<GCarvaanCardPost> {
       setState(() {
         if (widget.height == null) {
           widget.height = widget.dimension?.first.height;
-          videoHeight = double.parse('${widget.height}');
+          widget.width = widget.dimension?.first.width;
+          //videoHeight = double.parse('${widget.height}');
+
+          if (double.parse('${widget.height}') < 1200) {
+            if (double.parse('${widget.width}') < 800) {
+              videoHeight = double.parse('${widget.height}') / 3.5;
+
+            }else if (double.parse('${widget.width}') > 1100) {
+              videoHeight = double.parse('${widget.height}') / 3.5;
+            }
+            else{
+              videoHeight = double.parse('${widget.height}') / 5.4;
+            }
+          } else {
+            print(widget.height);
+            videoHeight = double.parse('${widget.height}') / 2.8;
+          }
+          likeCount = widget.likeCount;
+
         } else {
           if (double.parse('${widget.height}') < 1200) {
             if (double.parse('${widget.width}') < 800) {
