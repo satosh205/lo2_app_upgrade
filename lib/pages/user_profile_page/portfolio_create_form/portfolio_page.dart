@@ -25,6 +25,7 @@ import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_experi
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_extra_act.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/add_portfolio.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/certificate_list.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/competition_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/education_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/experience_list.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/extra_activities_list.dart';
@@ -63,7 +64,7 @@ class NewPortfolioPage extends StatefulWidget {
 class _NewPortfolioPageState extends State<NewPortfolioPage> {
   bool editModeEnabled = true;
   bool? isPortfolioLoading = true;
-  bool? isCompetitionLoading = true;
+  bool? isCompetitionLoading =false;
   PortfolioResponse? portfolioResponse;
   PortfolioCompetitionResponse? competition;
   TopScoringResponse? userRank;
@@ -121,250 +122,251 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     "December"
   ];
 
-  void _showPopupMenu(Offset offset) async {
-    final screenSize = MediaQuery.of(context).size;
-    double left = offset.dx;
-    double top = offset.dy;
-    double right = screenSize.width - offset.dx;
-    double bottom = screenSize.height - offset.dy;
-    await showMenu(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(20.0),
-        ),
-      ),
-      context: context,
-      position: RelativeRect.fromLTRB(left, top, right, bottom),
-      items: [
-        if (portfolioResponse?.data.portfolioSocial.first.linkedin != "") ...[
-          PopupMenuItem<String>(
-            onTap: () {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return CommonWebView(
-                        url: portfolioResponse
-                            ?.data.portfolioSocial.first.linkedin,
-                      );
-                    },
-                  ),
-                );
-              });
-            },
-            child: Row(
-              children: [
-                Image.asset('assets/images/linkedin.png'),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: const Text(
-                    'Linkedin',
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
-        if (portfolioResponse?.data.portfolioSocial.first.facebook != "") ...[
-          PopupMenuItem<String>(
-            onTap: () {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return CommonWebView(
-                        url: portfolioResponse
-                            ?.data.portfolioSocial.first.facebook,
-                      );
-                    },
-                  ),
-                );
-              });
-            },
-            child: Row(
-              children: [
-                Image.asset('assets/images/facebook_p.png'),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: const Text('Facebook'),
-                ),
-              ],
-            ),
-          )
-        ],
-        if (portfolioResponse?.data.portfolioSocial.first.bee != "") ...[
-          PopupMenuItem<String>(
-            onTap: () {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return CommonWebView(
-                        url: portfolioResponse?.data.portfolioSocial.first.bee,
-                      );
-                    },
-                  ),
-                );
-              });
-            },
-            child: Row(
-              children: [
-                Image.asset('assets/images/behance_p.png'),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: const Text('Bee'),
-                ),
-              ],
-            ),
-          )
-        ],
-        if (portfolioResponse?.data.portfolioSocial.first.dribble != "") ...[
-          PopupMenuItem<String>(
-            onTap: () {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return CommonWebView(
-                        url: portfolioResponse
-                            ?.data.portfolioSocial.first.dribble,
-                      );
-                    },
-                  ),
-                );
-              });
-            },
-            child: Row(
-              children: [
-                Image.asset('assets/images/linkedin.png'),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: const Text('Dribble'),
-                ),
-              ],
-            ),
-          )
-        ],
-        if (portfolioResponse?.data.portfolioSocial.first.insta != "") ...[
-          PopupMenuItem<String>(
-            onTap: () {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return CommonWebView(
-                        url:
-                            portfolioResponse?.data.portfolioSocial.first.insta,
-                      );
-                    },
-                  ),
-                );
-              });
-            },
-            child: Row(
-              children: [
-                Image.asset('assets/images/instagram_p.png'),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: const Text('Instagram'),
-                ),
-              ],
-            ),
-          )
-        ],
-        if (portfolioResponse?.data.portfolioSocial.first.twitter != "") ...[
-          PopupMenuItem<String>(
-            onTap: () {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return CommonWebView(
-                        url: portfolioResponse
-                            ?.data.portfolioSocial.first.twitter,
-                      );
-                    },
-                  ),
-                );
-              });
-            },
-            child: Row(
-              children: [
-                Image.asset('assets/images/twitter_p.png'),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: const Text('Twitter'),
-                ),
-              ],
-            ),
-          )
-        ],
-        if (portfolioResponse?.data.portfolioSocial.first.pinterest != "") ...[
-          PopupMenuItem<String>(
-            onTap: () {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return CommonWebView(
-                        url: portfolioResponse
-                            ?.data.portfolioSocial.first.pinterest,
-                      );
-                    },
-                  ),
-                );
-              });
-            },
-            child: Row(
-              children: [
-                Image.asset('assets/images/pinterest_p.png'),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: const Text('Pinterest'),
-                ),
-              ],
-            ),
-          )
-        ],
-        if (portfolioResponse?.data.portfolioSocial.first.siteUrl != "") ...[
-          PopupMenuItem<String>(
-            onTap: () {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return CommonWebView(
-                        url: portfolioResponse
-                            ?.data.portfolioSocial.first.siteUrl,
-                      );
-                    },
-                  ),
-                );
-              });
-            },
-            child: Row(
-              children: [
-                Image.asset('assets/images/globe_p.png'),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: const Text('Site Url'),
-                ),
-              ],
-            ),
-          )
-        ],
-      ],
-      elevation: 10.0,
-    );
-  }
+  // void _showPopupMenu(Offset offset) async {
+  //   final screenSize = MediaQuery.of(context).size;
+  //   double left = offset.dx;
+  //   double top = offset.dy;
+  //   double right = screenSize.width - offset.dx;
+  //   double bottom = screenSize.height - offset.dy;
+  //   await showMenu(
+  //     shape: RoundedRectangleBorder(
+  //       borderRadius: BorderRadius.all(
+  //         Radius.circular(20.0),
+  //       ),
+  //     ),
+  //     context: context,
+  //     position: RelativeRect.fromLTRB(left, top, right, bottom),
+  //     items: [
+  //       if (portfolioResponse?.data.portfolioSocial.first.linkedin != "") ...[
+  //         PopupMenuItem<String>(
+  //           onTap: () {
+  //             WidgetsBinding.instance.addPostFrameCallback((_) {
+                
+  //               Navigator.push(
+  //                 context,
+  //                 MaterialPageRoute(
+  //                   builder: (context) {
+  //                     return CommonWebView(
+  //                       url: portfolioResponse
+  //                           ?.data.portfolioSocial.first.linkedin,
+  //                     );
+  //                   },
+  //                 ),
+  //               );
+  //             });
+  //           },
+  //           child: Row(
+  //             children: [
+  //               Image.asset('assets/images/linkedin.png'),
+  //               Padding(
+  //                 padding: const EdgeInsets.only(left: 10.0),
+  //                 child: const Text(
+  //                   'Linkedin',
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         )
+  //       ],
+  //       if (portfolioResponse?.data.portfolioSocial.first.facebook != "") ...[
+  //         PopupMenuItem<String>(
+  //           onTap: () {
+  //             WidgetsBinding.instance.addPostFrameCallback((_) {
+  //               Navigator.push(
+  //                 context,
+  //                 MaterialPageRoute(
+  //                   builder: (context) {
+  //                     return CommonWebView(
+  //                       url: portfolioResponse
+  //                           ?.data.portfolioSocial.first.facebook,
+  //                     );
+  //                   },
+  //                 ),
+  //               );
+  //             });
+  //           },
+  //           child: Row(
+  //             children: [
+  //               Image.asset('assets/images/facebook_p.png'),
+  //               Padding(
+  //                 padding: const EdgeInsets.only(left: 10.0),
+  //                 child: const Text('Facebook'),
+  //               ),
+  //             ],
+  //           ),
+  //         )
+  //       ],
+  //       if (portfolioResponse?.data.portfolioSocial.first.bee != "") ...[
+  //         PopupMenuItem<String>(
+  //           onTap: () {
+  //             WidgetsBinding.instance.addPostFrameCallback((_) {
+  //               Navigator.push(
+  //                 context,
+  //                 MaterialPageRoute(
+  //                   builder: (context) {
+  //                     return CommonWebView(
+  //                       url: portfolioResponse?.data.portfolioSocial.first.bee,
+  //                     );
+  //                   },
+  //                 ),
+  //               );
+  //             });
+  //           },
+  //           child: Row(
+  //             children: [
+  //               Image.asset('assets/images/behance_p.png'),
+  //               Padding(
+  //                 padding: const EdgeInsets.only(left: 10.0),
+  //                 child: const Text('Bee'),
+  //               ),
+  //             ],
+  //           ),
+  //         )
+  //       ],
+  //       if (portfolioResponse?.data.portfolioSocial.first.dribble != "") ...[
+  //         PopupMenuItem<String>(
+  //           onTap: () {
+  //             WidgetsBinding.instance.addPostFrameCallback((_) {
+  //               Navigator.push(
+  //                 context,
+  //                 MaterialPageRoute(
+  //                   builder: (context) {
+  //                     return CommonWebView(
+  //                       url: portfolioResponse
+  //                           ?.data.portfolioSocial.first.dribble,
+  //                     );
+  //                   },
+  //                 ),
+  //               );
+  //             });
+  //           },
+  //           child: Row(
+  //             children: [
+  //               Image.asset('assets/images/linkedin.png'),
+  //               Padding(
+  //                 padding: const EdgeInsets.only(left: 10.0),
+  //                 child: const Text('Dribble'),
+  //               ),
+  //             ],
+  //           ),
+  //         )
+  //       ],
+  //       if (portfolioResponse?.data.portfolioSocial.first.insta != "") ...[
+  //         PopupMenuItem<String>(
+  //           onTap: () {
+  //             WidgetsBinding.instance.addPostFrameCallback((_) {
+  //               Navigator.push(
+  //                 context,
+  //                 MaterialPageRoute(
+  //                   builder: (context) {
+  //                     return CommonWebView(
+  //                       url:
+  //                           portfolioResponse?.data.portfolioSocial.first.insta,
+  //                     );
+  //                   },
+  //                 ),
+  //               );
+  //             });
+  //           },
+  //           child: Row(
+  //             children: [
+  //               Image.asset('assets/images/instagram_p.png'),
+  //               Padding(
+  //                 padding: const EdgeInsets.only(left: 10.0),
+  //                 child: const Text('Instagram'),
+  //               ),
+  //             ],
+  //           ),
+  //         )
+  //       ],
+  //       if (portfolioResponse?.data.portfolioSocial.first.twitter != "") ...[
+  //         PopupMenuItem<String>(
+  //           onTap: () {
+  //             WidgetsBinding.instance.addPostFrameCallback((_) {
+  //               Navigator.push(
+  //                 context,
+  //                 MaterialPageRoute(
+  //                   builder: (context) {
+  //                     return CommonWebView(
+  //                       url: portfolioResponse
+  //                           ?.data.portfolioSocial.first.twitter,
+  //                     );
+  //                   },
+  //                 ),
+  //               );
+  //             });
+  //           },
+  //           child: Row(
+  //             children: [
+  //               Image.asset('assets/images/twitter_p.png'),
+  //               Padding(
+  //                 padding: const EdgeInsets.only(left: 10.0),
+  //                 child: const Text('Twitter'),
+  //               ),
+  //             ],
+  //           ),
+  //         )
+  //       ],
+  //       if (portfolioResponse?.data.portfolioSocial.first.pinterest != "") ...[
+  //         PopupMenuItem<String>(
+  //           onTap: () {
+  //             WidgetsBinding.instance.addPostFrameCallback((_) {
+  //               Navigator.push(
+  //                 context,
+  //                 MaterialPageRoute(
+  //                   builder: (context) {
+  //                     return CommonWebView(
+  //                       url: portfolioResponse
+  //                           ?.data.portfolioSocial.first.pinterest,
+  //                     );
+  //                   },
+  //                 ),
+  //               );
+  //             });
+  //           },
+  //           child: Row(
+  //             children: [
+  //               Image.asset('assets/images/pinterest_p.png'),
+  //               Padding(
+  //                 padding: const EdgeInsets.only(left: 10.0),
+  //                 child: const Text('Pinterest'),
+  //               ),
+  //             ],
+  //           ),
+  //         )
+  //       ],
+  //       if (portfolioResponse?.data.portfolioSocial.first.siteUrl != "") ...[
+  //         PopupMenuItem<String>(
+  //           onTap: () {
+  //             WidgetsBinding.instance.addPostFrameCallback((_) {
+  //               Navigator.push(
+  //                 context,
+  //                 MaterialPageRoute(
+  //                   builder: (context) {
+  //                     return CommonWebView(
+  //                       url: portfolioResponse
+  //                           ?.data.portfolioSocial.first.siteUrl,
+  //                     );
+  //                   },
+  //                 ),
+  //               );
+  //             });
+  //           },
+  //           child: Row(
+  //             children: [
+  //               Image.asset('assets/images/globe_p.png'),
+  //               Padding(
+  //                 padding: const EdgeInsets.only(left: 10.0),
+  //                 child: const Text('Site Url'),
+  //               ),
+  //             ],
+  //           ),
+  //         )
+  //       ],
+  //     ],
+  //     elevation: 10.0,
+  //   );
+  // }
 
   //TODO: Dynamic Link Code Start
   /* Future<void> initDynamicLinks() async {
@@ -1760,7 +1762,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                       Spacer(),
                                       if (isCompetitionLoading == false &&
                                           competition?.data.length != 0)
-                                        Icon(Icons.arrow_forward_ios_outlined),
+                                       IconButton(onPressed: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=> CompetitionListPortfolio()));
+                                       }, icon: Icon(Icons.arrow_forward_ios_outlined),),
+
+                                        
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 4),
@@ -2297,6 +2303,14 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                     ClipOval(
                       child: Image.network(
                         '${recentActivites.profileImage}',
+                        errorBuilder: (context, url, error) {
+                          return SvgPicture.asset(
+                            'assets/images/default_user.svg',
+                            width: width(context) * 0.13,
+                            height: width(context) * 0.13,
+                            allowDrawingOutsideViewBox: true,
+                          );
+                        },
                         width: width(context) * 0.13,
                         height: width(context) * 0.13,
                       ),
@@ -3025,12 +3039,15 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
 
           Preference.setString(
               Preference.FIRST_NAME, '${portfolioState.response?.data.name}');
-          if (portfolioState.response?.data.image.contains(
-                  '${Preference.getString(Preference.PROFILE_IMAGE)}') ==
-              true) {
-            Preference.setString(Preference.PROFILE_IMAGE,
+          // if (portfolioState.response?.data.image.contains(
+          //         '${Preference.getString(Preference.PROFILE_IMAGE)}') ==
+          //     true) {
+          //   Preference.setString(Preference.PROFILE_IMAGE,
+          //       '${portfolioState.response?.data.image}');
+          // }
+
+          Preference.setString(Preference.PROFILE_IMAGE,
                 '${portfolioState.response?.data.image}');
-          }
 
           Preference.setString(Preference.PROFILE_VIDEO,
               '${portfolioState.response?.data.profileVideo}');
@@ -3488,7 +3505,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text('Add your Education'),
                 ),
-                //Text('Competitions'),
+                
               ],
             ),
           );
@@ -3568,7 +3585,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text('Add your Certificate'),
                 ),
-                //Text('Competitions'),
+                
               ],
             ),
           );
@@ -3697,7 +3714,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text('Add your Work Experience'),
                 ),
-                //Text('Competitions'),
+                
               ],
             ),
           );
@@ -3936,7 +3953,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text('Add extra curricular activities'),
                 ),
-                //Text('Competitions'),
+                
               ],
             ),
           );
@@ -4035,6 +4052,7 @@ class _ShowSocailLinksState extends State<ShowSocailLinks> {
               itemCount: min(4, socialKey.length),
               itemBuilder: (context, index) => InkWell(
                     onTap: () {
+                    
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -4089,6 +4107,7 @@ class _ShowSocailLinksState extends State<ShowSocailLinks> {
         (index) => PopupMenuItem(
               child: InkWell(
                 onTap: () {
+                 
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -4099,6 +4118,7 @@ class _ShowSocailLinksState extends State<ShowSocailLinks> {
                       },
                     ),
                   );
+                  
                 },
                 child: Row(
                   children: [

@@ -378,11 +378,20 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                           borderRadius:
                           BorderRadius.circular(
                               200),
-                          child: SizedBox(
-                            width: 40,
-                            child: Image.network(
-                                '${Preference.getString(Preference.PROFILE_IMAGE)}'),
-                          ),
+                          child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      '${Preference.getString(Preference.PROFILE_IMAGE)}',
+                                                  placeholder: (context, url) =>
+                                                      SvgPicture.asset(
+                                                    'assets/images/default_user.svg',
+                                                    width: 40,
+                                                  ),
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          SvgPicture.asset(
+                                                    'assets/images/default_user.svg',
+                                                    width: 40,
+                          )),
                         ),
                       ),
                       SizedBox(width: 10),

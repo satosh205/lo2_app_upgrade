@@ -441,7 +441,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                                   '${Preference.getString(Preference.FIRST_NAME)}',
                                                   maxLines: 1,
                                                   overflow: TextOverflow.ellipsis,
-                                                  style: Styles.bold(
+                                                style: Styles.bold(
                                                       color: ColorConstants.WHITE,
                                                       
                                                       size: 22),
@@ -528,11 +528,11 @@ class _DashboardPageState extends State<DashboardPage> {
   futureTrendsList() {
     return Container(
       decoration: BoxDecoration(color: ColorConstants.WHITE),
-      height: 200,
+      height: 210,
       child: Column(
         children: [
           SizedBox(
-            height: 60,
+            height: 70,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,

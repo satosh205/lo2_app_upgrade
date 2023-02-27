@@ -5,8 +5,6 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -146,6 +144,11 @@ class _UploadProfileState extends State<UploadProfile> {
                         icon('Remove ', 'assets/images/delete.svg', () {
                            Map<String, dynamic> data = Map();
                            data['delete'] = 'video';
+
+                           setState(() {
+                             profileLoading = true;
+                           });
+                           Preference.setString( Preference.PROFILE_IMAGE, '');
                           BlocProvider.of<HomeBloc>(context)
                                 .add(UploadProfileEvent(data: data));
                         }),
@@ -161,6 +164,9 @@ class _UploadProfileState extends State<UploadProfile> {
                               imageUrl:
                                   '${Preference.getString(Preference.PROFILE_IMAGE)}',
                               filterQuality: FilterQuality.low,
+                              errorWidget: (context, url , widget){
+                                return SizedBox();
+                              },
                               width: width(context),
                               height: height(context) * 0.8,
                               fit: BoxFit.contain,

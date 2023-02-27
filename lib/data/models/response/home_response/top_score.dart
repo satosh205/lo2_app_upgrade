@@ -32,30 +32,30 @@ class TopScoringResponse {
 
 class Datum {
     Datum({
-        required this.id,
-        required this.name,
-        required this.email,
-        required this.profileImage,
-        required this.score,
-        required this.rank,
-        required this.rankOutOf,
-        required this.scoreRange
+        this.id,
+        this.name,
+        this.email,
+        this.profileImage,
+        this.score,
+        this.rank,
+        this.rankOutOf,
+        this.scoreRange
     });
 
-    int id;
-    String name;
-    String email;
-    String profileImage;
-    dynamic score;
-    int rank;
-    int rankOutOf;
-    int scoreRange;
+    int? id;
+    String? name;
+    String? email;
+    String? profileImage;
+    dynamic? score;
+    int? rank;
+    int? rankOutOf;
+    int? scoreRange;
 
     factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
         name: json["name"],
         email: json["email"],
-        profileImage: json["profile_image"],
+        profileImage: json["profile_image"] ?? "",
         score: json["score"],
         rank: json["rank"],
         rankOutOf: json["rank_out_of"],

@@ -106,6 +106,7 @@ class _CommonWebViewState extends State<CommonWebView> {
               onWebViewCreated: (InAppWebViewController controller) {
                 _webViewController = controller;
               },
+              
               androidOnPermissionRequest: (InAppWebViewController controller,
                   String origin, List<String> resources) async {
                 return PermissionRequestResponse(
