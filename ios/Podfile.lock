@@ -314,7 +314,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
-  camera_avfoundation: 07c77549ea54ad95d8581be86617c094a46280d9
+  camera_avfoundation: 82dc5597033fe2dcdcca6e41f7e464d0855e74ad
   camerawesome: 0f8628efae993cb064ec4f36322e89c237e1064f
   connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
