@@ -52,8 +52,8 @@ class _ViewResumeState extends State<ViewResume> {
               if (!(widget.resumUrl == '' || widget.resumUrl == null))
                 InkWell(
                     onTap: () {
-                      // download(widget.resumUrl);
-                      downloadFile(widget.resumUrl!);
+                      download(widget.resumUrl);
+                      // downloadFile(widget.resumUrl!);
                     
                     },
                     child: SvgPicture.asset(
