@@ -34,17 +34,17 @@ class PortfolioCompetitionResponse {
 
 class PortfolioCompetition {
   PortfolioCompetition({
-    required this.pId,
-    required this.pName,
-    required this.pImage,
-    required this.uId,
+    this.pId,
+    this.pName,
+    this.pImage,
+    this.uId,
     this.gScore,
-    required this.completionTime,
-    required this.totalActivities,
-    required this.name,
-    required this.email,
-    required this.profileImage,
-    required this.rank,
+    this.completionTime,
+    this.totalActivities,
+    this.name,
+    this.email,
+    this.profileImage,
+    this.rank,
     this.completedActivity,
     this.desc,
     this.startDate,
@@ -52,16 +52,16 @@ class PortfolioCompetition {
     this.organizedBy,
   });
 
-  int pId;
-  String pName;
-  String pImage;
-  int uId;
+  int? pId;
+  String? pName;
+  String? pImage;
+  int? uId;
   dynamic gScore;
-  String completionTime;
-  int totalActivities;
-  String name;
-  String email;
-  String profileImage;
+  String? completionTime;
+  int? totalActivities;
+  String? name;
+  String? email;
+  String? profileImage;
   int? rank;
 
   int? completedActivity;
@@ -76,7 +76,7 @@ class PortfolioCompetition {
         pName: json["p_name"],
         pImage: json["p_image"],
         uId: json["u_id"],
-        gScore: json["score"] ?? 0,
+        gScore: json["g_score"] ?? 0,
         completionTime: json["completion_time"],
         totalActivities: json["competition_contents"],
         name: json["name"],
@@ -96,7 +96,7 @@ class PortfolioCompetition {
         "p_name": pName,
         "p_image": pImage,
         "u_id": uId,
-        "score": gScore,
+        "g_score": gScore,
         "completion_time": completionTime,
         "total_activities": totalActivities,
         "name": name,

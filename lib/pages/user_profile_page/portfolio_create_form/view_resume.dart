@@ -13,6 +13,7 @@ import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/custom_pages/alert_widgets/alerts_widget.dart';
+import 'package:masterg/pages/user_profile_page/portfolio_create_form/download_resume.dart';
 import 'package:masterg/pages/user_profile_page/portfolio_create_form/widget.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Styles.dart';
@@ -21,6 +22,8 @@ import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:http/http.dart' as http;
+
 
 class ViewResume extends StatefulWidget {
   final String? resumUrl;
@@ -49,7 +52,9 @@ class _ViewResumeState extends State<ViewResume> {
               if (!(widget.resumUrl == '' || widget.resumUrl == null))
                 InkWell(
                     onTap: () {
-                      download(widget.resumUrl);
+                      // download(widget.resumUrl);
+                      downloadFile(widget.resumUrl!);
+                    
                     },
                     child: SvgPicture.asset(
                       'assets/images/download.svg',
@@ -322,4 +327,34 @@ class _ViewResumeState extends State<ViewResume> {
       print(e);
     }
   }
+
+  Future<String> downloadFile(String url) async {
+    String localPath;
+   if (Platform.isAndroid) {
+        localPath = "/sdcard/download/";
+        //check if file exists
+        final file = File(localPath + "/" + url.split('/').last);
+        if (file.existsSync()) {
+          print("FILE EXISTS");
+          Utility.showSnackBar(
+              scaffoldContext: context, message: "File already exists");
+
+          await FlutterDownloader.open(taskId: url.split('/').last);
+        
+        }
+      } else {
+        localPath = (await getApplicationDocumentsDirectory()).path;
+      }
+  final fileName = url.split('/').last;
+  final filePath = '$localPath/$fileName';
+
+  final response = await http.get(Uri.parse(url));
+  final file = File(filePath);
+  await file.writeAsBytes(response.bodyBytes);
+
+  return filePath;
 }
+}
+
+
+
