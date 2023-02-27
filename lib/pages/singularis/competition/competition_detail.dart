@@ -410,10 +410,12 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
         cardType = CardType.assignment;
 
         break;
-      case "zoomclass":
+      case "zoomclass" :
         cardType = CardType.session;
         // isLocked = false;
         break;
+      case "liveclass" :
+        cardType = CardType.session;
     }
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8),
@@ -474,16 +476,16 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
   }
 
   Widget card(CompetitionContent data, CardType? cardType, bool? isLocked) {
-    String startDate = '${data.startDate?.split(' ').first}';
-    DateTime start = DateFormat("yyyy-MM-dd").parse(startDate);
+    String startDate = CardType.session == cardType ? '${data.createdAt}' :  '${data.startDate?.split(' ').first}';
+    DateTime start = CardType.session == cardType ? DateFormat("yyyy-MM-dd hh:mm:ss").parse(startDate) :  DateFormat("yyyy-MM-dd").parse(startDate);
     return InkWell(
       onTap: () {
-        if (isLocked == true) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Content Locked!'),
-          ));
-          return;
-        }
+        // if (isLocked == true) {
+        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        //     content: Text('Content Locked!'),
+        //   ));
+        //   return;
+        // }
         if (cardType == CardType.youtube) {
           Navigator.push(
               context,

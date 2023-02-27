@@ -136,8 +136,8 @@ class CompetitionContent {
     int? expectedDuration;
     String? endDate;
     String? startDate;
-    double? perCompletion;
-    double? completionPercentage;
+    dynamic perCompletion;
+    dynamic completionPercentage;
     dynamic activityStatus;
 
 
@@ -184,7 +184,7 @@ class CompetitionContent {
     String? presenter;
     String? liveclassAction;
     String? liveclassActionTitle;
-    double? sessionStartingIn;
+    dynamic sessionStartingIn;
     String? contentTypeLabel;
     String? difficultyLevel;
 
@@ -200,7 +200,7 @@ class CompetitionContent {
         description: json["description"],
         createdAt: json["created_at"],
         contentType: json["content_type"],
-        pageCount: json["page_count"],
+        pageCount: json["page_count"] ?? 0,
         expectedDuration: json["expected_duration"],
         endDate: json["end_date"],
         startDate: json["start_date"],
