@@ -133,12 +133,15 @@ class _UploadProfileState extends State<UploadProfile> {
                                 ? 'assets/images/video.svg'
                                 : 'assets/images/image.svg', () async {
                           _initFilePiker()?.then((value) async {
-                            Map<String, dynamic> data = Map();
+                            
+                          if(value != null){
+                              Map<String, dynamic> data = Map();
                             data['video'] = await MultipartFile.fromFile(
-                                '${value?.path}',
-                                filename: '${value?.path.split('/').last}');
+                                '${value.path}',
+                                filename: '${value.path.split('/').last}');
                             BlocProvider.of<HomeBloc>(context)
                                 .add(UploadProfileEvent(data: data));
+                          }
                           });
                         }),
                         icon('Remove ', 'assets/images/delete.svg', () {
@@ -328,6 +331,10 @@ class _UploadProfileState extends State<UploadProfile> {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text('${Strings.of(context)?.imageVideoSizeLarge} 50MB'),
           ));
+            setState(() {
+        profileLoading = false;
+        return null;
+      });
         } else {
           pickedList.add(File(result.paths[0]!));
         }
