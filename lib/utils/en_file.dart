@@ -263,7 +263,7 @@ const EN_TEXT = {
   'change_phone_number': 'Go back',
   'select_categories': 'Select Categories',
   'select_atleast_category': 'Select atleast 1 Category',
-  'enter_full_name': 'Enter Full Name',
+  'enter_full_name': 'Enter your first name',
   'choose_image': 'Choose Image',
   'choose_image_description':
       'Choose from gallery or camera to upload your profile picture',
@@ -973,7 +973,7 @@ const TA_TEXT = {
   'select_categories': 'Select Categories',
   'select_atleast_category': 'Select atleast 1 Category',
   'verification_title': "Enter OTP that sent to  ",
-  'enter_full_name': 'Enter Full Name',
+  'enter_full_name': 'Enter your first name',
   'choose_image': 'Choose Image',
   'choose_image_description':
       'Choose from gallery or camera to upload your profile picture',
@@ -1180,7 +1180,7 @@ const TE_TEXT = {
   'select_categories': 'Select Categories',
   'select_atleast_category': 'Select atleast 1 Category',
   'verification_title': "Enter OTP that sent to  ",
-  'enter_full_name': 'Enter Full Name',
+  'enter_full_name': 'Enter your first name',
   'choose_image': 'Choose Image',
   'choose_image_description':
       'Choose from gallery or camera to upload your profile picture',
@@ -1385,7 +1385,7 @@ const BN_TEXT = {
   'select_categories': 'Select Categories',
   'select_atleast_category': 'Select atleast 1 Category',
   'verification_title': "Enter OTP that sent to  ",
-  'enter_full_name': 'Enter Full Name',
+  'enter_full_name': 'Enter your first name',
   'choose_image': 'Choose Image',
   'choose_image_description':
       'Choose from gallery or camera to upload your profile picture',
@@ -1586,7 +1586,7 @@ const KN_TEXT = {
   'select_categories': 'Select Categories',
   'select_atleast_category': 'Select atleast 1 Category',
   'verification_title': "Enter OTP that sent to  ",
-  'enter_full_name': 'Enter Full Name',
+  'enter_full_name': 'Enter your first name',
   'choose_image': 'Choose Image',
   'choose_image_description':
       'Choose from gallery or camera to upload your profile picture',
@@ -1786,7 +1786,7 @@ const MR_TEXT = {
   'select_categories': 'Select Categories',
   'select_atleast_category': 'Select atleast 1 Category',
   'verification_title': "Enter OTP that sent to  ",
-  'enter_full_name': 'Enter Full Name',
+  'enter_full_name': 'Enter your first name',
   'choose_image': 'Choose Image',
   'choose_image_description':
       'Choose from gallery or camera to upload your profile picture',
@@ -1991,7 +1991,7 @@ const ML_TEXT = {
   'select_categories': 'Select Categories',
   'select_atleast_category': 'Select atleast 1 Category',
   'verification_title': "Enter OTP that sent to  ",
-  'enter_full_name': 'Enter Full Name',
+  'enter_full_name': 'Enter your first name',
   'choose_image': 'Choose Image',
   'choose_image_description':
       'Choose from gallery or camera to upload your profile picture',

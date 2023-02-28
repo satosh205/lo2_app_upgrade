@@ -37,6 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _emailTrue = false;
   bool _codeVerifiedTrue = false;
   int endTime = 0;
+  bool verifiedAutoFocus = true;
 
   @override
   void initState() {
@@ -50,7 +51,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     print(';;;;;;;;');
     if(newPassController.text.isEmpty || confPassController.text.isEmpty){
       Utility.showSnackBar(
-          scaffoldContext: context, message: 'Enter new password and conform password.');
+          scaffoldContext: context, message: 'Enter password and conform password.');
     }else{
       if(newPassController.text.toString().length > 7){
         if(newPassController.text == confPassController.text){
@@ -216,7 +217,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           child: Container(
                             height: height(context) * 0.1,
                             child: TextFormField(
-                              cursorColor: Color(0xffE5E5E5),
+                              cursorColor: ColorConstants.GRADIENT_RED,
                               autofocus: true,
                               // focusNode: phoneFocus,
                               controller: emailController,
@@ -413,7 +414,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 TextFormField(
                                   obscureText: false,
                                   keyboardType: TextInputType.number,
-                                  cursorColor: Color(0xffE5E5E5),
+                                  cursorColor: codeVerified == false ? ColorConstants.GRADIENT_RED: Colors.white,
                                   controller: otpController,
                                   style: Styles.otp(
                                     color: Colors.black,
@@ -465,13 +466,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     // ),
 
                                     fillColor: Color(0xffE5E5E5),
+                                    hintText: '••••',
                                     hintStyle: TextStyle(
-                                      color: Color(0xffE5E5E5),
+                                      color: Colors.black,
                                     ),
                                     isDense: true,
                                     prefixIconConstraints: BoxConstraints(
                                         minWidth: 0, minHeight: 0),
-
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
                                             width: 1,
@@ -514,7 +515,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       }else if(codeVerified == false){
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(
-                                          content: Text('Please enter 4 digit code'),
+                                          content: Text('Please enter valid 4 digit code'),
                                         ));
                                       }else{
                                         verifyOtp(emailController.value.text, otpController.value.text);
@@ -577,7 +578,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 height: height(context) * 0.1,
                                 child: TextField(
                                   obscureText: true,
-                                  cursorColor: Color(0xffE5E5E5),
+                                  cursorColor: ColorConstants.GRADIENT_RED,
                                   autofocus: false,
                                   // focusNode: phoneFocus,
                                   controller: newPassController,
@@ -605,7 +606,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       ),
                                     ),
                                     fillColor: Color(0xffE5E5E5),
-                                    hintText: 'New password',
+                                    hintText: 'password',
                                     hintStyle: TextStyle(
                                       color: Color(0xffE5E5E5),
                                     ),
@@ -679,7 +680,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 height: height(context) * 0.4,
                                 child: TextField(
                                   obscureText: true,
-                                  cursorColor: Color(0xffE5E5E5),
+                                  cursorColor: ColorConstants.GRADIENT_RED,
                                   autofocus: false,
                                   // focusNode: phoneFocus,
                                   controller: confPassController,
