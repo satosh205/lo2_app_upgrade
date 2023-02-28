@@ -286,8 +286,8 @@ class PortfolioSocial {
     String pinterest;
     String other;
     String siteUrl;
-    String mobNumHidden;
-    String emailHidden;
+    dynamic mobNumHidden;
+    dynamic emailHidden;
     int id;
 
     factory PortfolioSocial.fromJson(Map<String, dynamic> json) => PortfolioSocial(
@@ -302,7 +302,7 @@ class PortfolioSocial {
         pinterest: json["pinterest"],
         other: json["other"],
         siteUrl: json["site_url"],
-        mobNumHidden: json["mob_num_hidden"],
+        mobNumHidden: json["mob_num_hidden"] ?? 0,
         emailHidden: json["email_hidden"],
         id: json["id"],
     );

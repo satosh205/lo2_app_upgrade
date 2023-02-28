@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
@@ -655,8 +656,15 @@ class HomeRepository {
 
     if (response!.success) {
       Log.v("Portfolio Content  DATA : ${response.body}");
-      PortfolioResponse portfolioResponse =
+      PortfolioResponse? portfolioResponse; 
+      try{
+        portfolioResponse=
           PortfolioResponse.fromJson(response.body);
+      }
+      catch (e, stacktrace) {
+    print('Exception: ' + e.toString());
+    print('Stacktrace: ' + stacktrace.toString());
+}
       return portfolioResponse;
     } else {
       Log.v("====> ${response.body}");

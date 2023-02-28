@@ -3045,6 +3045,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
           isPortfolioLoading = true;
           break;
         case ApiStatus.SUCCESS:
+          Log.v("PortfolioStatedone ...................");
+
           portfolioResponse = portfolioState.response;
 
           Preference.setString(
