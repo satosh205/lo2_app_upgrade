@@ -14,7 +14,7 @@ class TopScoringResponse {
     });
 
     int status;
-    List<Datum> data;
+    List<Datum?>? data;
     String message;
 
     factory TopScoringResponse.fromJson(Map<String, dynamic> json) => TopScoringResponse(
@@ -25,7 +25,7 @@ class TopScoringResponse {
 
     Map<String, dynamic> toJson() => {
         "status": status,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x!.toJson())),
         "message": message,
     };
 }

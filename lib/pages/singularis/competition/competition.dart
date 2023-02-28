@@ -256,7 +256,7 @@ class _CompetetionState extends State<Competetion> {
                                         top: 8,
                                         child: renderProgressBar(
                                             percentage(
-                                                userRank?.data.first.score ??
+                                                userRank?.data?.first?.score ??
                                                     0),
                                             barThickness,
                                             mobileWidth)),
@@ -264,7 +264,7 @@ class _CompetetionState extends State<Competetion> {
                                         left: mobileWidth * 0.02,
                                         top: 30,
                                         child: Text(
-                                          '${userRank?.data.first.score ?? 0} Points',
+                                          '${userRank?.data?.first?.score ?? 0} Points',
                                           style: Styles.regular(
                                               color: ColorConstants.WHITE,
                                               size: 12.5),
@@ -308,36 +308,36 @@ class _CompetetionState extends State<Competetion> {
                                         left: mobileWidth * 0.53,
                                         top: 4,
                                         child: renderEllipse(
-                                            '${nextValue(userRank?.data.first.score ?? 0, 1)}')),
+                                            '${nextValue(userRank?.data?.first?.score ?? 0, 1)}')),
                                     Positioned(
                                         left: mobileWidth * 0.66,
                                         top: 3.8,
                                         child: renderEllipse(
-                                            '${nextValue(userRank?.data.first.score ?? 0, 2)}')),
+                                            '${nextValue(userRank?.data?.first?.score ?? 0, 2)}')),
                                     Positioned(
                                         left: mobileWidth * 0.79,
                                         top: 4,
                                         child: renderEllipse(
-                                            '${nextValue(userRank?.data.first.score ?? 0, 3)}')),
+                                            '${nextValue(userRank?.data?.first?.score ?? 0, 3)}')),
                                     Positioned(
                                         left: mobileWidth * 0.92,
                                         top: 4,
                                         child: renderEllipse(
-                                            '${nextValue(userRank?.data.first.score ?? 0, 4)}')),
+                                            '${nextValue(userRank?.data?.first?.score ?? 0, 4)}')),
                                     Positioned(
                                         left: width(context) * 0.07,
                                         bottom: 50,
                                         child: renderTopButton(
                                             'assets/images/leaderboard.png',
                                             'Your rank: ',
-                                            '${userRank?.data.first.rank ?? 0}')),
+                                            '${userRank?.data?.first?.rank ?? 0}')),
                                     Positioned(
                                         right: width(context) * 0.07,
                                         bottom: 50,
                                         child: renderTopButton(
                                             'assets/images/coin.png',
                                             'Points: ',
-                                            '${userRank?.data.first.score ?? 0}')),
+                                            '${userRank?.data?.first?.score ?? 0}')),
                                     Positioned(
                                       bottom: 0,
                                       left: 0,
@@ -1660,10 +1660,7 @@ class _CompetetionState extends State<Competetion> {
           Log.v("PortfolioState Competition Success....................");
 
           userRank = portfolioState.response;
-          Preference.setString(
-              Preference.FIRST_NAME, '${userRank?.data.first.name}');
-          Preference.setString(
-              Preference.PROFILE_IMAGE, '${userRank?.data.first.profileImage}');
+       
 
           popularCompetitionLoading = false;
           setState(() {});

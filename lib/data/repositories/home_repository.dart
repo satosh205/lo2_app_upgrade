@@ -664,7 +664,7 @@ class HomeRepository {
       catch (e, stacktrace) {
     print('Exception: ' + e.toString());
     print('Stacktrace: ' + stacktrace.toString());
-}
+} 
       return portfolioResponse;
     } else {
       Log.v("====> ${response.body}");
@@ -1168,14 +1168,16 @@ class HomeRepository {
   }
 
   Future<CreatePostResponse> CreatePost(
-      List<MultipartFile>? filePath,
+  
+      String? thumbnail,
       int? contentType,
       String? postType,
       String? title,
       String? description,
       List<String?>? filePaths) async {
     final response = await homeProvider.createPost(
-        filePath, contentType, postType, title, description, filePaths);
+      thumbnail,
+      contentType, postType, title, description, filePaths, );
     if (response!.success) {
       CreatePostResponse createPostResp =
           CreatePostResponse.fromJson(response.body);

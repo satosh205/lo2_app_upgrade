@@ -269,7 +269,6 @@ class _SharePostState extends State<SharePost> {
         isPostedLoading = true;
       });
       BlocProvider.of<HomeBloc>(context).add(CreatePostEvent(
-          files: widget.fileToUpload,
           contentType: 2,
           title: '',
           description: postDescriptionController.value.text,
