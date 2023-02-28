@@ -259,7 +259,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               child: Container(
                                 height: height(context) * 0.1,
                                 child: TextFormField(
-                                  cursorColor: Color(0xffE5E5E5),
+                                  cursorColor: ColorConstants.GRADIENT_RED,
                                   autofocus: true,
                                   // focusNode: phoneFocus,
                                   controller: emailController,
@@ -456,7 +456,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                     TextFormField(
                                       obscureText: false,
                                       keyboardType: TextInputType.number,
-                                      cursorColor: Color(0xffE5E5E5),
+                                      cursorColor: codeVerified == false ? ColorConstants.GRADIENT_RED: Colors.white,
                                       controller: otpController,
                                       style: Styles.otp(
                                           color: Colors.black,
@@ -508,8 +508,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                         // ),
 
                                         fillColor: Color(0xffE5E5E5),
+                                        hintText: '••••',
                                         hintStyle: TextStyle(
-                                          color: Color(0xffE5E5E5),
+                                          color: Colors.black,
                                         ),
                                         isDense: true,
                                         prefixIconConstraints: BoxConstraints(
@@ -557,7 +558,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                           }else if(codeVerified == false){
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(SnackBar(
-                                              content: Text('Please enter 4 digit code'),
+                                              content: Text('Please enter valid 4 digit code'),
                                             ));
                                           }else{
                                             verifyOtp(emailController.value.text, otpController.value.text);
@@ -607,7 +608,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                         width: 8,
                                       ),
                                       Text(
-                                        "Password ",
+                                        "New Password ",
                                         style: Styles.textRegular(),
                                       ),
                                     ],
@@ -620,7 +621,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                     height: height(context) * 0.1,
                                     child: TextField(
                                       obscureText: true,
-                                      cursorColor: Color(0xffE5E5E5),
+                                      cursorColor: ColorConstants.GRADIENT_RED,
                                       autofocus: false,
                                       // focusNode: phoneFocus,
                                       controller: newPassController,
@@ -722,7 +723,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                     height: height(context) * 0.4,
                                     child: TextField(
                                       obscureText: true,
-                                      cursorColor: Color(0xffE5E5E5),
+                                      cursorColor: ColorConstants.GRADIENT_RED,
                                       autofocus: false,
                                       // focusNode: phoneFocus,
                                       controller: confPassController,

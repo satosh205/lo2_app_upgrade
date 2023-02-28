@@ -119,14 +119,17 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                 children: [
                   InkWell(
                       onTap: () {
-                        if (checkedValue == true) saveChanges();
+                        saveChanges();
                       },
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          gradient: LinearGradient(colors: [
+                          gradient: LinearGradient(colors: checkedValue == true ? [
                             ColorConstants.GRADIENT_ORANGE,
                             ColorConstants.GRADIENT_RED,
+                          ]:[
+                            ColorConstants.UNSELECTED_BUTTON,
+                            ColorConstants.UNSELECTED_BUTTON,
                           ]),
                         ),
                         width: double.infinity,
@@ -232,6 +235,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                   ],
                 ),
               ),
+              Center(child: Text('Add your photo*')),
               SizedBox(
                 height: 20,
               ),
@@ -250,7 +254,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                         borderSide: const BorderSide(
                             width: 1, color: Color(0xffE5E5E5)),
                         borderRadius: BorderRadius.circular(10)),
-                    hintText: '${Strings.of(context)?.EnterFullName}*',
+                    hintText: '${Strings.of(context)?.EnterFullName}',
                     helperStyle: Styles.regular(color: ColorConstants.GREY_4),
                     counterText: "",
                     suffixIconConstraints: BoxConstraints(minWidth: 0),
@@ -262,6 +266,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                     //   borderSide: BorderSide(
                     //       color: ColorConstants.RED, width: 1.5),
                     // ),
+
                   ),
                   onChanged: (value) {
                     setState(() {});
@@ -330,7 +335,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Phone Number*', style: Styles.regular(size: 12)),
+                  Text('Mobile Number*', style: Styles.regular(size: 12)),
                   SizedBox(
                     height: 6,
                   ),
@@ -342,7 +347,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                       border: OutlineInputBorder(
                           borderSide: const BorderSide(width: 1, color: Color(0xffE5E5E5)),
                           borderRadius: BorderRadius.circular(10)),
-                      hintText: '${Strings.of(context)?.phoneNumber}',
+                      hintText: '+91 XXXXXX XXXX',
                       helperStyle: Styles.regular(color: ColorConstants.GREY_4),
                       counterText: "",
                       // enabledBorder: UnderlineInputBorder(
@@ -507,21 +512,35 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
   void saveChanges() {
     if (!_formKey.currentState!.validate()) return;
     if (selectedImage != null) {
-      var req = SignUpRequest(
-        profilePic: selectedImage,
-        firstName: fullNameController.text.toString(),
-        mobileNo: phoneController.text.toString(),
-        alternateMobileNo: phoneController.text.toString(),
-        emailAddress: widget.loginWithEmail != true ? emailController.text.toString() : widget.email,
-        username: emailController.text.toString(),
-        firmName: '',
-        lastName: '',
-        gender: '',
-        dateOfBirth: '',
-        dbCode: '0',
-        password: widget.password,
-      );
-      BlocProvider.of<AuthBloc>(context).add(SignUpEvent(request: req));
+      if (checkedValue == true){
+        var req = SignUpRequest(
+          profilePic: selectedImage,
+          firstName: fullNameController.text.toString(),
+          mobileNo: phoneController.text.toString(),
+          alternateMobileNo: phoneController.text.toString(),
+          emailAddress: widget.loginWithEmail != true ? emailController.text.toString() : widget.email,
+          username: emailController.text.toString(),
+          firmName: '',
+          lastName: '',
+          gender: '',
+          dateOfBirth: '',
+          dbCode: '0',
+          password: widget.password,
+        );
+        BlocProvider.of<AuthBloc>(context).add(SignUpEvent(request: req));
+      }else{
+        AlertsWidget.showCustomDialog(
+            context: context,
+            title: "You must agree with the terms and conditions",
+            text: "",
+            icon: 'assets/images/circle_alert_fill.svg',
+            showCancel: false,
+            oKText: "Ok",
+            onOkClick: () async {
+              // Navigator.pop(context);
+            });
+      }
+
     } else {
       AlertsWidget.showCustomDialog(
           context: context,
@@ -596,7 +615,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                   onTap: () async {
                     FilePickerResult? result;
                     try {
-                      if (await Permission.storage.request().isGranted) {
+                      //if (await Permission.storage.request().isGranted) {
                         if (Platform.isIOS) {
                           result = await FilePicker.platform.pickFiles(
                               allowMultiple: false,
@@ -608,7 +627,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                               type: FileType.custom,
                               allowedExtensions: ['jpg', 'png', 'jpeg']);
                         }
-                      }
+                      //}
                     } catch (e) {
                       print('the expection is $e');
                     }
