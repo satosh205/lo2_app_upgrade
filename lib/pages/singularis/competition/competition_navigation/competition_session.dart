@@ -28,7 +28,13 @@ class CompetitionSession extends StatelessWidget {
 
     String startDateString = "${data?.startDate}";
 
-    DateTime startDate = DateFormat("yyyy-MM-dd").parse(startDateString);
+    DateTime startDate =
+        DateFormat("yyyy-MM-dd hh:mm:ss").parse(startDateString);
+    DateTime now = DateTime.now();
+    final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
+    final String formatted = formatter.format(now);
+    now = DateFormat("yyyy-MM-dd HH:mm:ss").parse(formatted);
+
     return Scaffold(
       appBar: AppBar(
           elevation: 0.3,
@@ -81,16 +87,17 @@ class CompetitionSession extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '${data?.contentTypeLabel}',
+                    '${data?.contentTypeLabel ?? ''}',
                     style: Styles.bold(size: 14),
                   ),
                   Text(
-                    '${data?.isJoined}',
+                    '${data?.isJoined ?? ''}',
                     style: Styles.bold(size: 14),
-                  )
+                  ),
                 ],
               ),
             ),
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Container(
@@ -140,7 +147,7 @@ class CompetitionSession extends StatelessWidget {
                                 color: Color(0xFF5A5F73)),
                           ),
                           Text(
-                            '${startDate.day} ${listOfMonths[startDate.month - 1]}',
+                            '${startDate.day} ${listOfMonths[startDate.month - 1]} ${startDate.hour}:${startDate.minute}:${startDate.second}',
                             style: Styles.regular(size: 14),
                           )
                         ],
@@ -165,7 +172,19 @@ class CompetitionSession extends StatelessWidget {
                   onTap: () {
                     //open session
                     print('open session');
-                    launchUrl(Uri.parse('${data?.content}'));
+
+                    if (now.isAfter(startDate.add(
+                        Duration(minutes: int.parse('${data?.duration}'))))) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('${data?.contentTypeLabel} ended'),
+                      ));
+                    } else if (now.isAfter(startDate))
+                      launchUrl(Uri.parse('${data?.zoomUrl}'));
+                    else
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                            '${data?.contentTypeLabel} starts in ${startDate.difference(now).inMinutes} mins'),
+                      ));
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.06,
@@ -175,10 +194,11 @@ class CompetitionSession extends StatelessWidget {
                     decoration: const BoxDecoration(
                         color: Color(0xff0E1638),
                         borderRadius: BorderRadius.all(Radius.circular(21))),
-                    child:  Center(
+                    child: Center(
                       child: Text(
                         'Join',
-                        style: Styles.semibold(size: 14, color: ColorConstants.WHITE),
+                        style: Styles.semibold(
+                            size: 14, color: ColorConstants.WHITE),
                         textAlign: TextAlign.center,
                       ),
                     ),

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -149,8 +150,21 @@ class _CommunityDashboardState extends State<CommunityDashboard> {
                           borderRadius: BorderRadius.circular(200),
                           child: SizedBox(
                             width: 40,
-                            child: Image.network(
-                                '${Preference.getString(Preference.PROFILE_IMAGE)}'),
+                            child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      '${Preference.getString(Preference.PROFILE_IMAGE)}',
+                                                  placeholder: (context, url) =>
+                                                      SvgPicture.asset(
+                                                    'assets/images/default_user.svg',
+                                                    width: 40,
+                                                  ),
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          SvgPicture.asset(
+                                                    'assets/images/default_user.svg',
+                                                    width: 40,
+                                                  ),
+                                                ),
                           ),
                         ),
                       ),

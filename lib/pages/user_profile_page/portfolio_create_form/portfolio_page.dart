@@ -1763,7 +1763,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                       if (isCompetitionLoading == false &&
                                           competition?.data.length != 0)
                                        IconButton(onPressed: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=> CompetitionListPortfolio()));
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=> CompetitionListPortfolio(competitionList: competition?.data)));
                                        }, icon: Icon(Icons.arrow_forward_ios_outlined),),
 
                                         
@@ -1856,16 +1856,25 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                           Radius.circular(
                                                                               8)),
                                                                   child: CachedNetworkImage(
+                                                                  
                                                                       imageUrl:
                                                                           '${competition?.data[index].pImage}',
+                                                                          
                                                                       width: double
                                                                           .infinity,
                                                                       height: MediaQuery.of(context)
                                                                               .size
                                                                               .height *
                                                                           0.2,
+                                                                             errorWidget:
+                                                      (context, url, error) =>
+                                                         SizedBox(),
+                                                
+                                                                          
                                                                       fit: BoxFit
                                                                           .cover),
+                                                                          
+                                                                          
                                                                 ),
                                                                 SizedBox(
                                                                     height: 10),
@@ -1928,7 +1937,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                               ],
                                                             ),
                                                           ),
-                                                        ))
+                                                        )
+                                                        )
                                             : competitionListShimmer(0),
                                       )
                                     : competitionListShimmer(1),

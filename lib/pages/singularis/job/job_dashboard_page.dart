@@ -1134,7 +1134,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Container(
-              height: 360,
+              height: 300,
               child: recommendedJobOpportunities?.data!.length != 0 ?
               ListView.builder(
                   itemCount: recommendedJobOpportunities?.data!.length ,
@@ -1158,176 +1158,454 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                               jobStatus: recommendedJobOpportunities?.data![index]!.jobStatus,
                             )));
                       },
+
                       child: Container(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        decoration: BoxDecoration(
-                            color: ColorConstants.WHITE,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: ColorConstants.List_Color)),
-                        margin: EdgeInsets.all(8),
-                        // color: Colors.red,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0,
-                                    right: 8.0,
-                                    top: 15.0,
-                                    bottom: 8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CachedNetworkImage(
-                                      imageUrl: '${recommendedJobOpportunities?.data![index]!.image}',
-                                      width: 100,
-                                      height: 50,
-                                      errorWidget: (context, url, error) => SvgPicture.asset(
-                                        'assets/images/gscore_postnow_bg.svg',
-                                      ),
-                                      fit: BoxFit.cover,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10.0),
-                                      child: Text(
-                                        '${recommendedJobOpportunities?.data![index]!.name}',
-                                        style: Styles.bold(
-                                            color: Color(0xff0E1638), size: 13),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    recommendedJobOpportunities?.data![index]!.location != null ? Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Icon(
-                                          Icons.location_on_outlined,
-                                          color: Colors.orange,
-                                        ),
-                                        Padding(
-                                          padding:
-                                          const EdgeInsets.only(left: 8.0),
-                                          child: Text(
-                                            '${recommendedJobOpportunities?.data![index]!.location}',
-                                            style: Styles.regular(
-                                                color: ColorConstants.GREY_3,
-                                                size: 11),
-                                          ),
-                                        ),
-                                      ],
-                                    ) : SizedBox(),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    /*Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Icon(
-                                        Icons.currency_exchange_outlined,
-                                        color: Colors.orange,
-                                        size: 18,
-                                      ),
-                                      Padding(
-                                        padding:
-                                        const EdgeInsets.only(left: 8.0),
-                                        child: Text(
-                                          '100K - 150K LPA',
-                                          style: Styles.regular(
-                                              color: ColorConstants.GREY_3,
-                                              size: 11),
-                                        ),
-                                      ),
-                                    ],
-                                  ),*/
-                                    Container(
-                                      width:
+                                  width:
                                       MediaQuery.of(context).size.width * 0.7,
-                                      height: 100,
-                                      decoration: BoxDecoration(
-                                          color: ColorConstants.List_Color,
-                                          borderRadius: BorderRadius.circular(10),
-                                          border: Border.all(
-                                              color: ColorConstants.List_Color)),
-                                      margin: EdgeInsets.all(8),
-                                      // color: Colors.red,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 8.0,
-                                            right: 8.0,
-                                            top: 10.0,
-                                            bottom: 8.0),
-                                        child: Column(
-                                          crossAxisAlignment:
+                                  decoration: BoxDecoration(
+                                      color: ColorConstants.WHITE,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                          color: ColorConstants.List_Color)),
+                                  margin: EdgeInsets.all(8),
+                                  // color: Colors.red,
+                                  child: Column(
+                                      crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Skills Required',
-                                              style: Styles.bold(
-                                                  color: ColorConstants.GREY_3,
-                                                  size: 13),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                              children: [
-                                                Flexible(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 8.0,
+                                              right: 8.0,
+                                              top: 8.0,
+                                              bottom: 8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              CachedNetworkImage(
+                                                imageUrl:
+                                                    '${recommendedJobOpportunities?.data![index]!.image}',
+                                                width: 70,
+                                                height: 60,
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        SvgPicture.asset(
+                                                  'assets/images/exp_emp.svg',
+                                                ),
+                                                fit: BoxFit.fill,
+                                              ),
+                                              SizedBox(
+                                                height: 46,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 7.0),
                                                   child: Text(
-                                                    '${recommendedJobOpportunities?.data![index]!.skillNames}',
+                                                    '${recommendedJobOpportunities?.data![index]!.name}',
                                                     maxLines: 2,
-                                                    softWrap: true,
                                                     style: Styles.bold(
-                                                        color: ColorConstants.BLACK,
-                                                        size: 13),
+                                                        color:
+                                                            Color(0xff0E1638),
+                                                        size: 14),
                                                   ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Flexible(
+                                                    child: Text(
+                                                      '${recommendedJobOpportunities?.data![index]!.organizedBy}',
+                                                      maxLines: 2,
+                                                      softWrap: true,
+                                                      style: Styles.regular(
+                                                          color: ColorConstants
+                                                              .GREY_3,
+                                                          size: 13),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 1.0),
+                                                    child: Icon(
+                                                      Icons
+                                                          .location_on_outlined,
+                                                      size: 16,
+                                                      color:
+                                                          ColorConstants.GREY_3,
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 8.0),
+                                                    child: Text(
+                                                      '${recommendedJobOpportunities?.data![index]!.location}',
+                                                      style: Styles.regular(
+                                                          color: ColorConstants
+                                                              .GREY_3,
+                                                          size: 11),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 7,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Image.asset(
+                                                    'assets/images/jobicon.png',
+                                                    height: 18,
+                                                    width: 18,
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 5.0),
+                                                    child: Text('Exp: ',
+                                                        style: Styles.regular(
+                                                            size: 12,
+                                                            color:
+                                                                ColorConstants
+                                                                    .GREY_6)),
+                                                  ),
+                                                  Text(
+                                                      '${recommendedJobOpportunities?.data![index]!.experience} Yrs',
+                                                      style: Styles.regular(
+                                                          size: 12,
+                                                          color: ColorConstants
+                                                              .GREY_6)),
+                                                ],
+                                              ),
+                                              /*Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.7,
+                                          height: 100,
+                                          decoration: BoxDecoration(
+                                              color: ColorConstants.List_Color,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              border: Border.all(
+                                                  color: ColorConstants
+                                                      .List_Color)),
+                                          margin: EdgeInsets.all(8),
+                                          // color: Colors.red,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0,
+                                                right: 8.0,
+                                                top: 10.0,
+                                                bottom: 8.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Skills Required',
+                                                  style: Styles.bold(
+                                                      color:
+                                                          ColorConstants.GREY_3,
+                                                      size: 13),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Flexible(
+                                                      child: Text(
+                                                        '${recommendedJobOpportunities?.data![index]!.skillNames}',
+                                                        maxLines: 2,
+                                                        softWrap: true,
+                                                        style: Styles.bold(
+                                                            color:
+                                                                ColorConstants
+                                                                    .BLACK,
+                                                            size: 13),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ],
                                             ),
-                                          ],
+                                          ),
+                                        ),*/
+
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              recommendedJobOpportunities?.data![index]!.
+                                                              jobStatus ==
+                                                          null ||
+                                                     recommendedJobOpportunities?.data![index]!.jobStatus ==
+                                                          ""
+                                                  ? InkWell(
+                                                      onTap: () {
+                                                        jobApply(
+                                                            int.parse(
+                                                                '${recommendedJobOpportunities?.data![index]!.id}'),
+                                                            1);
+                                                        _onLoadingForJob();
+                                                        /* Utility.showSnackBar(
+                                                      scaffoldContext: context,
+                                                      message:
+                                                          'Your application is successfully submitted.');*/
+                                                      },
+                                                      child: Container(
+                                                        height: 45,
+                                                        width: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(50),
+                                                          gradient:
+                                                              LinearGradient(
+                                                                  colors: [
+                                                                ColorConstants
+                                                                    .DASHBOARD_APPLY_COLOR,
+                                                                ColorConstants
+                                                                    .DASHBOARD_APPLY_COLOR,
+                                                              ]),
+                                                        ),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Text(
+                                                              'Apply',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : Center(
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                bottom: 20.0),
+                                                        child: Text(
+                                                          'Applied',
+                                                          style: Styles.bold(
+                                                              color:
+                                                                  Colors.green,
+                                                              size: 14),
+                                                        ),
+                                                      ),
+                                                    ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    recommendedJobOpportunities?.data![index]!.jobStatus == null || recommendedJobOpportunities?.data![index]!.jobStatus == "" ? InkWell(
-                                      onTap: (){
-                                        jobApply(int.parse('${recommendedJobOpportunities?.data![index]!.id}'), 1);
-                                        _onLoadingForJob();
-                                      },
-                                      child: Container(
-                                        height: 50,
-                                        width: MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(50),
-                                          gradient: LinearGradient(colors: [
-                                            ColorConstants.DASHBOARD_APPLY_COLOR,
-                                            ColorConstants.DASHBOARD_APPLY_COLOR,
-                                          ]),
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                          children: [
-                                            Text('Apply',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ): Padding(
-                                      padding: const EdgeInsets.only(bottom: 20.0),
-                                      child: Text('${recommendedJobOpportunities?.data![index]!.jobStatus}', style: Styles.bold(color: Colors.green, size: 14),),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ]),
-                      ),
+                                      ]),
+                                )
+                      // child: Container(
+                      //   width: MediaQuery.of(context).size.width * 0.8,
+                      //   decoration: BoxDecoration(
+                      //       color: ColorConstants.WHITE,
+                      //       borderRadius: BorderRadius.circular(10),
+                      //       border: Border.all(color: ColorConstants.List_Color)),
+                      //   margin: EdgeInsets.all(8),
+                      //   // color: Colors.red,
+                      //   child: Column(
+                      //       crossAxisAlignment: CrossAxisAlignment.start,
+                      //       mainAxisAlignment: MainAxisAlignment.start,
+                      //       children: [
+                      //         Padding(
+                      //           padding: const EdgeInsets.only(
+                      //               left: 8.0,
+                      //               right: 8.0,
+                      //               top: 15.0,
+                      //               bottom: 8.0),
+                      //           child: Column(
+                      //             crossAxisAlignment: CrossAxisAlignment.start,
+                      //             children: [
+                      //               CachedNetworkImage(
+                      //                 imageUrl: '${recommendedJobOpportunities?.data![index]!.image}',
+                      //                 width: 100,
+                      //                 height: 50,
+                      //                 errorWidget: (context, url, error) => SvgPicture.asset(
+                      //                   'assets/images/gscore_postnow_bg.svg',
+                      //                 ),
+                      //                 fit: BoxFit.cover,
+                      //               ),
+                      //               Padding(
+                      //                 padding: const EdgeInsets.only(top: 10.0),
+                      //                 child: Text(
+                      //                   '${recommendedJobOpportunities?.data![index]!.name}',
+                      //                   style: Styles.bold(
+                      //                       color: Color(0xff0E1638), size: 13),
+                      //                 ),
+                      //               ),
+                      //               SizedBox(
+                      //                 height: 10,
+                      //               ),
+                      //               recommendedJobOpportunities?.data![index]!.location != null ? Row(
+                      //                 mainAxisAlignment: MainAxisAlignment.start,
+                      //                 children: [
+                      //                   Icon(
+                      //                     Icons.location_on_outlined,
+                      //                     color: Colors.orange,
+                      //                   ),
+                      //                   Padding(
+                      //                     padding:
+                      //                     const EdgeInsets.only(left: 8.0),
+                      //                     child: Text(
+                      //                       '${recommendedJobOpportunities?.data![index]!.location}',
+                      //                       style: Styles.regular(
+                      //                           color: ColorConstants.GREY_3,
+                      //                           size: 11),
+                      //                     ),
+                      //                   ),
+                      //                 ],
+                      //               ) : SizedBox(),
+                      //               SizedBox(
+                      //                 height: 10,
+                      //               ),
+                      //               /*Row(
+                      //               mainAxisAlignment: MainAxisAlignment.start,
+                      //               children: [
+                      //                 Icon(
+                      //                   Icons.currency_exchange_outlined,
+                      //                   color: Colors.orange,
+                      //                   size: 18,
+                      //                 ),
+                      //                 Padding(
+                      //                   padding:
+                      //                   const EdgeInsets.only(left: 8.0),
+                      //                   child: Text(
+                      //                     '100K - 150K LPA',
+                      //                     style: Styles.regular(
+                      //                         color: ColorConstants.GREY_3,
+                      //                         size: 11),
+                      //                   ),
+                      //                 ),
+                      //               ],
+                      //             ),*/
+                      //               Container(
+                      //                 width:
+                      //                 MediaQuery.of(context).size.width * 0.7,
+                      //                 height: 100,
+                      //                 decoration: BoxDecoration(
+                      //                     color: ColorConstants.List_Color,
+                      //                     borderRadius: BorderRadius.circular(10),
+                      //                     border: Border.all(
+                      //                         color: ColorConstants.List_Color)),
+                      //                 margin: EdgeInsets.all(8),
+                      //                 // color: Colors.red,
+                      //                 child: Padding(
+                      //                   padding: const EdgeInsets.only(
+                      //                       left: 8.0,
+                      //                       right: 8.0,
+                      //                       top: 10.0,
+                      //                       bottom: 8.0),
+                      //                   child: Column(
+                      //                     crossAxisAlignment:
+                      //                     CrossAxisAlignment.start,
+                      //                     children: [
+                      //                       Text(
+                      //                         'Skills Required',
+                      //                         style: Styles.bold(
+                      //                             color: ColorConstants.GREY_3,
+                      //                             size: 13),
+                      //                       ),
+                      //                       SizedBox(
+                      //                         height: 10,
+                      //                       ),
+                      //                       Row(
+                      //                         mainAxisAlignment:
+                      //                         MainAxisAlignment.start,
+                      //                         children: [
+                      //                           Flexible(
+                      //                             child: Text(
+                      //                               '${recommendedJobOpportunities?.data![index]!.skillNames}',
+                      //                               maxLines: 2,
+                      //                               softWrap: true,
+                      //                               style: Styles.bold(
+                      //                                   color: ColorConstants.BLACK,
+                      //                                   size: 13),
+                      //                             ),
+                      //                           ),
+                      //                         ],
+                      //                       ),
+                      //                     ],
+                      //                   ),
+                      //                 ),
+                      //               ),
+                      //               recommendedJobOpportunities?.data![index]!.jobStatus == null || recommendedJobOpportunities?.data![index]!.jobStatus == "" ? InkWell(
+                      //                 onTap: (){
+                      //                   jobApply(int.parse('${recommendedJobOpportunities?.data![index]!.id}'), 1);
+                      //                   _onLoadingForJob();
+                      //                 },
+                      //                 child: Container(
+                      //                   height: 50,
+                      //                   width: MediaQuery.of(context).size.width,
+                      //                   decoration: BoxDecoration(
+                      //                     borderRadius: BorderRadius.circular(50),
+                      //                     gradient: LinearGradient(colors: [
+                      //                       ColorConstants.DASHBOARD_APPLY_COLOR,
+                      //                       ColorConstants.DASHBOARD_APPLY_COLOR,
+                      //                     ]),
+                      //                   ),
+                      //                   child: Row(
+                      //                     mainAxisAlignment:
+                      //                     MainAxisAlignment.center,
+                      //                     children: [
+                      //                       Text('Apply',
+                      //                         style: TextStyle(
+                      //                             color: Colors.white,
+                      //                             fontSize: 16,
+                      //                             fontWeight: FontWeight.bold),
+                      //                       ),
+                      //                     ],
+                      //                   ),
+                      //                 ),
+                      //               ): Padding(
+                      //                 padding: const EdgeInsets.only(bottom: 20.0),
+                      //                 child: Text('${recommendedJobOpportunities?.data![index]!.jobStatus}', style: Styles.bold(color: Colors.green, size: 14),),
+                      //               ),
+                      //             ],
+                      //           ),
+                      //         ),
+                      //       ]),
+                      // ),
+                   
+                   
                     );
                   }): SizedBox(),
             ),
