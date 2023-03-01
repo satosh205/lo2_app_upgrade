@@ -1924,7 +1924,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                           width:
                                                                               8),
                                                                       Text(
-                                                                          ' • ',
+                                                                          ' •  ',
                                                                           style: Styles.semibold(
                                                                               size: 12,
                                                                               color: Color(0xff929BA3))),
@@ -2804,9 +2804,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  if (index != 0)
                                     SizedBox(
-                                      height: 10,
+                                      height: index != 0 ? 10 : 6,
                                     ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
