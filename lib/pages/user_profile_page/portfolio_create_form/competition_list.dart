@@ -50,7 +50,7 @@ class _CompetitionListPortfolioState extends State<CompetitionListPortfolio> {
                           id: widget.competitionList?[index].pId,
                           name: widget.competitionList?[index].pName,
                           image: widget.competitionList?[index].pImage,
-                          gScore: widget.competitionList?[index].gScore ?? 0,
+                          gScore:  int.parse('${widget.competitionList?[index].gScore ?? '0'} '),
                           description: "",
                           startDate: widget.competitionList?[index].startDate),
                     )));

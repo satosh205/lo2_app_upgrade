@@ -1803,7 +1803,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                 itemBuilder:
                                                     (context, index) => InkWell(
                                                           onTap: () {
-                                                            Navigator.push(
+                                                           try{
+ Navigator.push(
                                                                 context,
                                                                 NextPageRoute(
                                                                     CompetitionDetail(
@@ -1821,8 +1822,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                               index]
                                                                           .pImage,
                                                                       gScore:
-                                                                          competition?.data[index].gScore ??
-                                                                              0,
+                                                                          int.parse('${competition?.data[index].gScore ?? '0'}') 
+                                                                              ,
                                                                       description:
                                                                           "",
                                                                       startDate: competition
@@ -1830,6 +1831,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                               index]
                                                                           .startDate),
                                                                 )));
+                                                           }
+                                                           catch(e, stacktrace){
+                                                            print(stacktrace);
+
+                                                           }
                                                           },
                                                           child: Container(
                                                             width:
@@ -2361,7 +2367,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                 SizedBox(
                   height: 20,
                 ),
-              recentActivites.resourcePath!.contains('png') ||
+            recentActivites.reserved != 'reels' ?    recentActivites.resourcePath!.contains('png') ||
                       recentActivites.resourcePath!.contains('jpeg') ||
                       recentActivites.resourcePath!.contains('jpg')
                   ? ClipRRect(
@@ -2380,7 +2386,34 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                         videoUrl: '${recentActivites.resourcePath}',
                         // maitanceAspectRatio: true,
                       ),
+                    ) : SizedBox(
+                      height: height(context) * 0.44,
+                      child: Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.network(
+                              '${recentActivites.resourcePathThumbnail}',
+                              width: width(context) * 0.65,
+                              height: height(context) * 0.44,
+                              fit: BoxFit.cover,
+                            )),
+                             Center(
+                  child: SvgPicture.asset(
+                    'assets/images/play.svg',
+                    height: 40.0,
+                    width: 40.0,
+                    allowDrawingOutsideViewBox: true,
+                  ),
+                ),
+                            Positioned(
+                              bottom: 10,
+                              left: 10,
+                              child: Text('${recentActivites.viewCount} views', style: Styles.regular(size: 12, color: ColorConstants.WHITE)))
+                        ],
+                      ),
                     )
+
               // ClipRect(
               //     child: AspectRatio(
               //       aspectRatio: 4 / 4,
