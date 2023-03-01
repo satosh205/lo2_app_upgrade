@@ -2,8 +2,11 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_countdown_timer/current_remaining_time.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -26,10 +29,16 @@ import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/config.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:masterg/utils/utility.dart';
 import 'package:masterg/utils/widget_size.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 
+import '../../blocs/home_bloc.dart';
+import '../../data/models/request/auth_request/email_request.dart';
+import '../../data/models/request/auth_request/login_request.dart';
 import '../../utils/click_picker.dart';
+import '../../utils/constant.dart';
 
 class SelfDetailsPage extends StatefulWidget {
   bool isFromProfile;
@@ -51,6 +60,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
   final phoneController = TextEditingController();
   final fullNameController = TextEditingController();
   final emailController = TextEditingController();
+  final otpController = TextEditingController();
   bool? checkedValue = false;
 
   String? selectedImage;
@@ -61,6 +71,12 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
   //final _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
+  bool isCodeSent = false;
+  bool codeVerified = false;
+  bool _emailTrue = false;
+  bool _codeVerifiedTrue = false;
+  int endTime = 0;
+
 
   @override
   void initState() {
@@ -73,6 +89,183 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
     super.initState();
   }
 
+
+  void sendEmailVerificationCode(String email) {
+    BlocProvider.of<HomeBloc>(context).add(EmailCodeSendEvent(email: email, isSignup: 1));
+  }
+
+  void verifyOtp(String email, String otp){
+    print('verify opt online');
+    BlocProvider.of<HomeBloc>(context).add(VerifyEmailCodeEvent(email: email, code: otp));
+  }
+
+  void _handleEmailCodeSendResponse(EmailCodeSendState state) {
+    print('_handlecompetitionListResponse');
+    var emailCodeSendState = state;
+    setState(() {
+      switch (emailCodeSendState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          _isLoading = true;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("EmailCodeSend Suuuuuuuus....................");
+          isCodeSent = true;
+          _isLoading = false;
+          Utility.showSnackBar(scaffoldContext: context, message: 'Verification code sent on your registered email');
+          endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
+          break;
+        case ApiStatus.ERROR:
+          Log.v("Error emailCodeSendState ..........................${emailCodeSendState.error}");
+          Utility.showSnackBar(
+              scaffoldContext: context, message: '${emailCodeSendState.error}');
+          _isLoading = false;
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
+  }
+
+  void handleVerifyOtp(VerifyEmailCodeState state) {
+    var emailCodeSendState = state;
+    setState(() {
+      switch (emailCodeSendState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          _isLoading = true;
+          codeVerified = false;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("VerifyOtp Suuuuuuuus....................");
+          codeVerified = true;
+          _codeVerifiedTrue = true;
+          _isLoading = false;
+
+          break;
+        case ApiStatus.ERROR:
+          Log.v("Error handleVerifyOtp ..........................${emailCodeSendState.error}");
+          _isLoading = false;
+          codeVerified = false;
+          Utility.showSnackBar(
+              scaffoldContext: context, message: 'Invalid Code');
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
+  }
+
+
+  void verifyMobileOTP() {
+    setState(() {
+      _isLoading = true;
+    });
+    Utility.hideKeyboard();
+    if (otpController.text.length != 4) {
+      return;
+    }
+
+    print(UserSession.firebaseToken);
+    Utility.checkNetwork().then((isConnected) {
+      if (isConnected) {
+        var verifyOtp = EmailRequest(
+            mobileNo: phoneController.text,
+            optKey: otpController.text,
+            deviceType: Utility.getDeviceType(),
+            //deviceId: deviceId,
+            locale: Strings.of(context)!.locale.languageCode == 'hi'
+                ? 'Hindi'
+                : 'English',
+            deviceToken: UserSession.firebaseToken);
+        BlocProvider.of<AuthBloc>(context)
+            .add(VerifyOtpEvent(request: verifyOtp));
+      } else {
+        AlertsWidget.alertWithOkBtn(
+            context: context,
+            text: Strings.NO_INTERNET_MESSAGE,
+            onOkClick: () {
+              FocusScope.of(context).unfocus();
+            });
+      }
+    });
+  }
+
+  void resendOTP() {
+    setState(() {
+      _isLoading = true;
+    });
+    BlocProvider.of<AuthBloc>(context).add(LoginUser(
+        request:
+        LoginRequest(mobileNo: phoneController.text, mobile_exist_skip: '1')));
+  }
+
+  void _handleVerifyResponse(VerifyOtpState state) {
+    var loginState = state;
+    setState(() {
+      switch (loginState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          _isLoading = true;
+          codeVerified = false;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("Success ....................");
+          codeVerified = true;
+          _codeVerifiedTrue = true;
+          if (state.response!.isCompleted == null)
+            state.response!.isCompleted = 0;
+          _isLoading = false;
+          break;
+        case ApiStatus.ERROR:
+          _isLoading = false;
+          codeVerified = false;
+          Log.v("Error..........................${loginState.status}");
+          Log.v("Error..........................${loginState.error}");
+          Utility.showSnackBar(
+              scaffoldContext: context, message: '${loginState.error}');
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
+  }
+
+  void _handleLoginResponseOTP(LoginState state) {
+    var loginState = state;
+    setState(() {
+      switch (loginState.apiState) {
+        case ApiStatus.LOADING:
+          Log.v("Loading....................");
+          _isLoading = true;
+          break;
+        case ApiStatus.SUCCESS:
+          Log.v("Success....................");
+          print('=================OTP');
+          isCodeSent = true;
+          Utility.showSnackBar(scaffoldContext: context, message: 'Verification code sent on your mobile number');
+          endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
+          _isLoading = false;
+          break;
+
+        case ApiStatus.ERROR:
+          _isLoading = false;
+          Log.v("Error..........................");
+          Log.v("Error..........................${loginState.error}");
+          AlertsWidget.alertWithOkBtn(
+              context: context,
+              text: loginState.error,
+              onOkClick: () {
+                FocusScope.of(context).unfocus();
+              });
+          break;
+        case ApiStatus.INITIAL:
+          break;
+      }
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return BlocManager(
@@ -80,82 +273,94 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
         child: BlocListener<AuthBloc, AuthState>(
             listener: (context, state) {
               if (state is SignUpState) _handleResponse(state);
+              if (state is LoginState) _handleLoginResponseOTP(state);
+              if (state is VerifyOtpState) _handleVerifyResponse(state);
               // if (state is LoginByIDState) _handleLoginResponse(state);
             },
             /*child: WillPopScope(
               onWillPop: () async => false,
               child:
             )*/
-          child: Scaffold(
-            backgroundColor: ColorConstants.WHITE,
-            appBar: AppBar(
-              centerTitle: true,
-              backgroundColor: Colors.transparent,
-              title: Text('${Strings.of(context)?.TellUsAboutYourSelf}',
-                style: Styles.semibold(color: ColorConstants.BLACK, size: 16),
+          child: BlocListener<HomeBloc, HomeState>(
+            listener: (context, state) async {
+              if (state is EmailCodeSendState) {
+                _handleEmailCodeSendResponse(state);
+              }
+              if(state is VerifyEmailCodeState){
+                handleVerifyOtp(state);
+              }
+            },
+            child: Scaffold(
+              backgroundColor: ColorConstants.WHITE,
+              appBar: AppBar(
+                centerTitle: true,
+                backgroundColor: Colors.transparent,
+                title: Text('${Strings.of(context)?.TellUsAboutYourSelf}',
+                  style: Styles.semibold(color: ColorConstants.BLACK, size: 16),
+                ),
+                leading: InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(
+                    Icons.arrow_back_ios_new_outlined,
+                    color: ColorConstants.BLACK,
+                  ),
+                ),
+                elevation: 0.0,
               ),
-              leading: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  Icons.arrow_back_ios_new_outlined,
-                  color: ColorConstants.BLACK,
+              body: SafeArea(
+                  child: ScreenWithLoader(
+                    isLoading: _isLoading,
+                    body: _makeBody(),
+                  )),
+              floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+              floatingActionButton: Visibility(
+                visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                        onTap: () {
+                          saveChanges();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            gradient: LinearGradient(colors: checkedValue == true ? [
+                              ColorConstants.GRADIENT_ORANGE,
+                              ColorConstants.GRADIENT_RED,
+                            ]:[
+                              ColorConstants.UNSELECTED_BUTTON,
+                              ColorConstants.UNSELECTED_BUTTON,
+                            ]),
+                          ),
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.height *
+                              WidgetSize.AUTH_BUTTON_SIZE,
+                          margin: EdgeInsets.symmetric(
+                              vertical: 2, horizontal: 16),
+                          // decoration: BoxDecoration(
+                          //     color: checkedValue == false
+                          //         ? ColorConstants()
+                          //             .buttonColor()
+                          //             .withOpacity(0.5)
+                          //         : ColorConstants().buttonColor(),
+                          //     borderRadius: BorderRadius.circular(10)),
+                          child: Center(
+                              child: Text(
+                                '${Strings.of(context)?.continueStr}',
+                                style: Styles.semibold(
+                                  color: ColorConstants.WHITE,
+                                ),
+                              )),
+                        )),
+                  ],
                 ),
               ),
-              elevation: 0.0,
             ),
-            body: SafeArea(
-                child: ScreenWithLoader(
-                  isLoading: _isLoading,
-                  body: _makeBody(),
-                )),
-            floatingActionButtonLocation:
-            FloatingActionButtonLocation.centerFloat,
-            floatingActionButton: Visibility(
-              visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  InkWell(
-                      onTap: () {
-                        saveChanges();
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          gradient: LinearGradient(colors: checkedValue == true ? [
-                            ColorConstants.GRADIENT_ORANGE,
-                            ColorConstants.GRADIENT_RED,
-                          ]:[
-                            ColorConstants.UNSELECTED_BUTTON,
-                            ColorConstants.UNSELECTED_BUTTON,
-                          ]),
-                        ),
-                        width: double.infinity,
-                        height: MediaQuery.of(context).size.height *
-                            WidgetSize.AUTH_BUTTON_SIZE,
-                        margin: EdgeInsets.symmetric(
-                            vertical: 2, horizontal: 16),
-                        // decoration: BoxDecoration(
-                        //     color: checkedValue == false
-                        //         ? ColorConstants()
-                        //             .buttonColor()
-                        //             .withOpacity(0.5)
-                        //         : ColorConstants().buttonColor(),
-                        //     borderRadius: BorderRadius.circular(10)),
-                        child: Center(
-                            child: Text(
-                              '${Strings.of(context)?.continueStr}',
-                              style: Styles.semibold(
-                                color: ColorConstants.WHITE,
-                              ),
-                            )),
-                      )),
-                ],
-              ),
-            ),
-          ),
+          )
         ));
   }
 
@@ -291,44 +496,124 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                   SizedBox(
                     height: 6,
                   ),
-                  TextFormField(
-                    controller: emailController,
-                    style: Styles.regular(),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderSide:
-                          const BorderSide(width: 1, color: Color(0xffE5E5E5)),
-                          borderRadius: BorderRadius.circular(10)),
-                      hintText: '${Strings.of(context)?.emailAddress}',
-                      helperStyle: Styles.regular(color: ColorConstants.GREY_4),
-                      counterText: "",
-                      // enabledBorder: UnderlineInputBorder(
-                      //   borderSide: BorderSide(
-                      //       color: ColorConstants.RED, width: 1.5),
-                      // ),
-                    ),
-                    onChanged: (value) {
-                      setState(() {});
-                    },
-                    validator: (value) {
-                      if (value == '')
-                        return APK_DETAILS['package_name'] == 'com.learn_build' ||
-                            APK_DETAILS['package_name'] == 'com.singulariswow'
-                            ? 'Email is required'
-                            : null;
-                      int index = value?.length as int;
+          TextFormField(
+            cursorColor: ColorConstants.GRADIENT_RED,
+            autofocus: true,
+            // focusNode: phoneFocus,
+            controller: emailController,
+            // keyboardType: TextInputType.number,
+            style: Styles.regular(
+              color: Color(0xff0E1638),
+              size: 14,
+            ),
+            // inputFormatters: <TextInputFormatter>[
+            //   FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+            // ],
 
-                      if (value![index - 1] == '.')
-                        return '${Strings.of(context)?.emailAddressError}';
+            decoration: InputDecoration(
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(
+                  color: Color(0xffE5E5E5),
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(
+                  color: Color(0xffE5E5E5),
+                  width: 1.5,
+                ),
+              ),
+              suffix: isCodeSent
+                  ? Container(
+                padding: EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: ColorConstants.GREEN,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.done,
+                  size: 12,
+                  color: Colors.white,
+                ),
+              ) : GestureDetector(
+                onTap: () {
+                  codeVerified = false;
+                  _codeVerifiedTrue = false;
+                  otpController.clear();
+                  if (emailController.value.text.isEmpty) {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(
+                      content: Text('Please enter email'),
+                    ));
+                  } else if (_emailTrue == false) {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(
+                      content: Text('Please enter valid email'),
+                    ));
+                  }else{
+                    sendEmailVerificationCode(emailController.value.text);
+                  }
+                },
+                child: GradientText(
+                  'Send Code',
+                  style: Styles.regular(size: 14),
+                  colors: _emailTrue == true ?
+                  [ColorConstants.GRADIENT_ORANGE,
+                    ColorConstants.GRADIENT_RED] :
+                  [ColorConstants.UNSELECTED_BUTTON,
+                    ColorConstants.UNSELECTED_BUTTON],
+                ),
+                /*child:Text("Send Code", style: TextStyle(color:
+                                  isCodeSent == true ? Colors.red: null),),*/
+              ),
+              hintText: 'example@mail.com',
+              hintStyle: TextStyle(
+                color: Color(0xffE5E5E5),
+              ),
+              isDense: true,
+              prefixIconConstraints:
+              BoxConstraints(minWidth: 0, minHeight: 0),
+              border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      width: 1, color: ColorConstants.WHITE),
+                  borderRadius: BorderRadius.circular(10)),
+              helperStyle: Styles.regular(
+                  size: 14,
+                  color:
+                  ColorConstants.GREY_3.withOpacity(0.1)),
+              counterText: "",
+            ),
+            onChanged: (value) {
+              setState(() {
+                if (!RegExp(
+                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                    .hasMatch(value)) {
+                  _emailTrue = false;
+                  isCodeSent = false;
+                  otpController.clear();
+                } else {
+                  _emailTrue = true;
+                  otpController.clear();
+                }
+              });
+            },
+            validator: (value) {
+              if (value == '') return 'Email is required';
+              int index = value?.length as int;
 
-                      if (!RegExp(
-                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                          .hasMatch(value))
-                        return '${Strings.of(context)?.emailAddressError}';
+              if (value![index - 1] == '.')
+                return '${Strings.of(context)?.emailAddressError}';
 
-                      return null;
-                    },
-                  ),
+              if (!RegExp(
+                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                  .hasMatch(value))
+                return '${Strings.of(context)?.emailAddressError}';
+
+              isCodeSent = true;
+              return null;
+            },
+          ),
                 ],
               ) :
               ///Phone Number Fields
@@ -354,9 +639,58 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                       //   borderSide: BorderSide(
                       //       color: ColorConstants.RED, width: 1.5),
                       // ),
+                      suffix: isCodeSent
+                          ? Container(
+                        padding: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: ColorConstants.GREEN,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.done,
+                          size: 12,
+                          color: Colors.white,
+                        ),
+                      ) : GestureDetector(
+                        onTap: () {
+                          codeVerified = false;
+                          _codeVerifiedTrue = false;
+                          otpController.clear();
+                          if (phoneController.value.text.isEmpty) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(SnackBar(
+                              content: Text('Please enter mobile number'),
+                            ));
+                          } else if (_emailTrue == false) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(SnackBar(
+                              content: Text('Please enter valid mobile number'),
+                            ));
+                          }else{
+                            resendOTP();
+                          }
+                        },
+                        child: GradientText(
+                          'Send Code',
+                          style: Styles.regular(size: 14),
+                          colors: _emailTrue == true ?
+                          [ColorConstants.GRADIENT_ORANGE,
+                            ColorConstants.GRADIENT_RED] :
+                          [ColorConstants.UNSELECTED_BUTTON,
+                            ColorConstants.UNSELECTED_BUTTON],
+                        ),
+                        /*child:Text("Send Code", style: TextStyle(color:
+                                  isCodeSent == true ? Colors.red: null),),*/
+                      ),
                     ),
                     onChanged: (value) {
-                      setState(() {});
+                      setState(() {
+                        if(value.length > 6){
+                          _emailTrue = true;
+                        }else{
+                          _emailTrue = false;
+                        }
+                      });
                     },
                     validator: (value) {
                       if (value == '')
@@ -370,6 +704,204 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
               ),
 
               SizedBox(height: 20),
+              ///Re-Send Code
+              isCodeSent == true ? Row(
+                children: [
+                  Expanded(child: SizedBox(),),
+                  CountdownTimer(
+                    endTime: endTime,
+                    widgetBuilder: (_, CurrentRemainingTime? time) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 20.0, bottom: 15.0),
+                        child: RichText(
+                          text: TextSpan(
+                              text: '',
+                              style: TextStyle(
+                                fontSize: 3,
+                              ),
+                              children: <TextSpan>[
+                                time == null
+                                    ? TextSpan(
+                                    text:
+                                    'Re-send code',
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        _emailTrue = false;
+                                        isCodeSent = false;
+                                        codeVerified = false;
+                                        _codeVerifiedTrue = false;
+                                        otpController.clear();
+
+                                        /*this.setState(() {
+                                                    _emailTrue = false;
+                                                    isCodeSent = false;
+                                                  });*/
+                                        widget.loginWithEmail == false ?
+                                        sendEmailVerificationCode(emailController.value.text):
+                                        resendOTP();
+                                      },
+                                    style: Styles.regular(
+                                        size: 12,
+                                        color: ColorConstants.BLACK))
+                                    : TextSpan(text: 'Resend in ${time.sec} secs', style:Styles.regular(
+                                    size: 12,
+                                    color: ColorConstants.BLACK) ),
+                              ]),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ) : SizedBox(),
+
+              ///enter email Code--
+              isCodeSent == true ? Padding(
+                padding: const EdgeInsets.only(left: 0.0),
+                child: Row(
+                  children: [
+                    Text(
+                     widget.loginWithEmail == false ? "Enter code received on your email" : "Enter code received on your mobile number",
+                        style: Styles.regular(size: 12),
+                    ),
+                  ],
+                ),
+              ): SizedBox(),
+              isCodeSent == true ? Padding(
+                padding: const EdgeInsets.only(
+                    top: 8.0, left: 0, right: 0),
+                child: Container(
+                  height: height(context) * 0.1,
+                  child: Stack(
+                    children: [
+                      TextFormField(
+                        obscureText: false,
+                        keyboardType: TextInputType.number,
+                        cursorColor: codeVerified == false ? ColorConstants.GRADIENT_RED: Colors.white,
+                        controller: otpController,
+                        style: Styles.otp(
+                            color: Colors.black,
+                            size: 14,
+                            letterSpacing: 40
+                        ),
+                        maxLength: 4,
+                        onChanged: (value){
+                          setState(() {
+                            if(value.length == 4){
+                              codeVerified = true;
+                            }else{
+                              codeVerified = false;
+                              _codeVerifiedTrue = false;
+                            }
+                          });
+                        },
+                        decoration: InputDecoration(
+
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Color(0xffE5E5E5),
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Color(0xffE5E5E5),
+                              width: 1.5,
+                            ),
+                          ),
+                          // suffix: GestureDetector(
+                          //   onTap: () {
+                          //     print('object');
+                          //     //isCodeSent
+                          //   },
+                          //   child: GradientText(
+                          //     'Verify Code',
+                          //     style: Styles.regular(size: 14),
+                          //     colors: [
+                          //       isCodeSent != true
+                          //           ? ColorConstants.GRADIENT_ORANGE
+                          //           : ColorConstants.UNSELECTED_BUTTON,
+                          //       isCodeSent != true
+                          //           ? ColorConstants.GRADIENT_RED
+                          //           : ColorConstants.UNSELECTED_BUTTON,
+                          //     ],
+                          //   ),
+                          // ),
+
+                          fillColor: Color(0xffE5E5E5),
+                          hintText: '••••',
+                          hintStyle: TextStyle(
+                            color: Colors.black,
+                          ),
+                          isDense: true,
+                          prefixIconConstraints: BoxConstraints(
+                              minWidth: 0, minHeight: 0),
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  width: 1,
+                                  color: ColorConstants.WHITE),
+                              borderRadius:
+                              BorderRadius.circular(10)),
+
+                          helperStyle: Styles.regular(
+                              size: 14,
+                              color: ColorConstants.GREY_3
+                                  .withOpacity(0.1)),
+                        ),
+                      ),
+                      Positioned(
+                        right: 10,
+                        top: 14,
+                        //bottom: 14,
+                        child: _codeVerifiedTrue
+                            ? Container(
+                          padding: EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            color: ColorConstants.GREEN,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.done,
+                            size: 12,
+                            color: Colors.white,
+                          ),
+                        )
+                            : GestureDetector(
+                          onTap: () {
+                            print('object ${otpController.value.text.length}');
+
+                            if(otpController.value.text.isEmpty){
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text('Please enter verification code'),
+                              ));
+                            }else if(codeVerified == false){
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text('Please enter valid 4 digit code'),
+                              ));
+                            }else{
+                             widget.loginWithEmail == false ?
+                             verifyOtp(emailController.value.text, otpController.value.text):
+                             verifyMobileOTP();
+                            }
+                          },
+                          child: GradientText(
+                            'Verify Code',
+                            style: Styles.regular(size: 14),
+                            colors: codeVerified == true ?
+                            [ColorConstants.GRADIENT_ORANGE,
+                              ColorConstants.GRADIENT_RED,] :
+                            [ColorConstants.UNSELECTED_BUTTON,
+                              ColorConstants.UNSELECTED_BUTTON,],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ): SizedBox(),
+
               Transform.translate(
                 offset: Offset(-28, 0.0),
                 child: CheckboxListTile(

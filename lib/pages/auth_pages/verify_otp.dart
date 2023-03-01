@@ -337,7 +337,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                               )
                             : Image.asset(
                                 appBarImagePath,
-                                height: 40,
+                                height: 35,
                                 width: 180,
                               )),
                         // SvgPicture.asset(
@@ -379,7 +379,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                 //       textAlign: TextAlign.center,
                 //     ),
                 //   ),
-                  _size(height: 50),
+                  _size(height: 60),
                   Container(
                     decoration: BoxDecoration(
               borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
@@ -492,12 +492,10 @@ class _VerifyOtpState extends State<VerifyOtp> {
                         }
                       },
                       child: Container(
-                        
                         margin: EdgeInsets.all(12),
                         width: double.infinity,
                         height: MediaQuery.of(context).size.height * 0.06,
-                        decoration: BoxDecoration(
-                                                              color: Colors.white,
+                        decoration: BoxDecoration(color: Colors.white,
                             // color: _pin.length != 4
                             //     ? ColorConstants.WHITE
                   

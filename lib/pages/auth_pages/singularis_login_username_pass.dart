@@ -327,7 +327,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
                     ColorConstants.GRADIENT_RED,
                   ]),
                 ),
-                height: height(context) * 0.7,
+                height: height(context) * 0.61,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -347,7 +347,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
                         prefixImage: 'assets/images/email_icon.png',
                         validation: validateEmail,
                       ),
-                      _size(height: 10),
+                      _size(height: 13),
                       _textField(
                           controller: _passController,
                           hintText: 'Password',
@@ -575,7 +575,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
                           //   //       size: 16, color: ColorConstants.WHITE),
                           //   // ),
                           // ),
-                          SizedBox(height: 15,),
+                          SizedBox(height: 10,),
                           Container(
                             height: height(context) * 0.07,
                             child: Column(
@@ -634,7 +634,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
     );
   }
 
-  _size({double height = 10}) {
+  _size({double height = 5}) {
     return SizedBox(
       height: height,
     );
@@ -703,7 +703,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
           ),
           hintStyle: Styles.regular(size: 18, color: ColorConstants.WHITE),
           contentPadding:
-              const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+              const EdgeInsets.symmetric(horizontal: 0, vertical: 13),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
               borderSide: BorderSide(color: ColorConstants.WHITE, width: 1)),

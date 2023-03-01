@@ -74,7 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void sendEmailVerificationCode(String email) {
-    BlocProvider.of<HomeBloc>(context).add(EmailCodeSendEvent(email: email));
+    BlocProvider.of<HomeBloc>(context).add(EmailCodeSendEvent(email: email, isSignup: 1));
   }
 
   void verifyOtp(String email, String otp){
@@ -100,6 +100,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           break;
         case ApiStatus.ERROR:
           Log.v("Error emailCodeSendState ..........................${emailCodeSendState.error}");
+          Utility.showSnackBar(
+              scaffoldContext: context, message: '${emailCodeSendState.error}');
           _isLoading = false;
           break;
         case ApiStatus.INITIAL:
@@ -180,7 +182,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-
                         ///Email Field--
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0, top: 20.0),

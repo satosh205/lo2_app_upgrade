@@ -1308,13 +1308,13 @@ class HomeRepository {
   }
 
   ///Email
-  Future emailCodeSend({String? email}) async {
+  Future emailCodeSend({String? email, int? isSignup}) async {
     try {
-      final response = await homeProvider.emailSendCode(email: email);
+      final response = await homeProvider.emailSendCode(email: email, isSignup: isSignup);
       if (response?.body['status'] == 1) {
         return 1;
       } else {
-        return 0;
+        return response?.body['message'];
       }
     } catch (e) {
       Log.v("EXCEPTION  :  $e");
