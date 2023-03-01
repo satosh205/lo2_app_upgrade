@@ -1144,17 +1144,18 @@ class CreatePostEvent extends HomeEvent {
   String? title;
   String? description;
   String? postType;
-  List<MultipartFile>? files;
   List<String?>? filePath;
+  String? thumbnail;
 
   CreatePostEvent(
       {this.contentType,
       this.title,
       this.description,
       this.postType,
-      this.files,
-      this.filePath})
-      : super([title, description, postType, files, filePath]);
+      this.filePath,
+      this.thumbnail
+      })
+      : super([title, description, postType, filePath]);
 
   List<Object> get props => throw UnimplementedError();
 }
@@ -3061,7 +3062,7 @@ try {
         yield CreatePostState(ApiStatus.LOADING);
 
         final response = await homeRepository.CreatePost(
-            event.files,
+          event.thumbnail,
             event.contentType,
             event.postType,
             event.title,

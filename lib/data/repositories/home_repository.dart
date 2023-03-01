@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
@@ -655,8 +656,15 @@ class HomeRepository {
 
     if (response!.success) {
       Log.v("Portfolio Content  DATA : ${response.body}");
-      PortfolioResponse portfolioResponse =
+      PortfolioResponse? portfolioResponse; 
+      try{
+        portfolioResponse=
           PortfolioResponse.fromJson(response.body);
+      }
+      catch (e, stacktrace) {
+    print('Exception: ' + e.toString());
+    print('Stacktrace: ' + stacktrace.toString());
+} 
       return portfolioResponse;
     } else {
       Log.v("====> ${response.body}");
@@ -1160,14 +1168,16 @@ class HomeRepository {
   }
 
   Future<CreatePostResponse> CreatePost(
-      List<MultipartFile>? filePath,
+  
+      String? thumbnail,
       int? contentType,
       String? postType,
       String? title,
       String? description,
       List<String?>? filePaths) async {
     final response = await homeProvider.createPost(
-        filePath, contentType, postType, title, description, filePaths);
+      thumbnail,
+      contentType, postType, title, description, filePaths, );
     if (response!.success) {
       CreatePostResponse createPostResp =
           CreatePostResponse.fromJson(response.body);

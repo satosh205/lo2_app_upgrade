@@ -28,15 +28,19 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:video_thumbnail/video_thumbnail.dart' as Thumbnail;
+import 'dart:typed_data';
+
+import 'package:path_provider/path_provider.dart';
 
 import '../../../utils/click_picker.dart';
 import '../../user_profile_page/mobile_ui_helper.dart';
 
 List<String?>? croppedList;
+String? thumnailUrl;
 
 class CreateGCarvaanPage extends StatefulWidget {
   // final File postDocPath;
-  final List<MultipartFile>? fileToUpload; 
+  final List<MultipartFile>? fileToUpload;
   List<String?>? filesPath;
   final bool isReelsPost;
   final CreatePostProvider? provider;
@@ -77,7 +81,7 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider<CreatePostProvider>(
-            create: (context) => CreatePostProvider(widget.filesPath,false),
+            create: (context) => CreatePostProvider(widget.filesPath, false),
           ),
           ChangeNotifierProvider<MenuListProvider>(
             create: (context) => MenuListProvider([]),
@@ -126,8 +130,6 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                           listener: (context, state) {
                             if (state is CreatePostState)
                               _handleCreatePostResponse(state, value);
-
-                        
                           },
                           child: ScreenWithLoader(
                               isLoading: isPostedLoading,
@@ -330,7 +332,9 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                             bool isVideo = true;
                             if (firstExtension == 'mp4' ||
                                 firstExtension == 'mov') isVideo = true;
-                            createPost(menuProvider, isVideo);
+                                print('$thumnailUrl');
+                            createPost(menuProvider, isVideo,
+                               thumnailUrl);
                             // value.postStatus(true);
                             // Navigator.pop(context);
                           } else {
@@ -353,10 +357,10 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
                           decoration: BoxDecoration(
                             color: ColorConstants().buttonColor(),
                             borderRadius: BorderRadius.circular(10),
-                              gradient: LinearGradient(colors: [
-                ColorConstants.GRADIENT_ORANGE,
-                ColorConstants.GRADIENT_RED,
-              ]),
+                            gradient: LinearGradient(colors: [
+                              ColorConstants.GRADIENT_ORANGE,
+                              ColorConstants.GRADIENT_RED,
+                            ]),
                           ),
                           child: Center(
                             child: Text('${Strings.of(context)?.Share} ',
@@ -374,7 +378,7 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
     );
   }
 
-  void createPost(MenuListProvider provider, bool isVideo) {
+  void createPost(MenuListProvider provider, bool isVideo, String? thumbnail) {
     setState(() {
       isPostedLoading = true;
       widget.filesPath = widget.provider?.getFiles();
@@ -382,7 +386,6 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
 
     if (!widget.isReelsPost) {
       BlocProvider.of<HomeBloc>(context).add(CreatePostEvent(
-          files: widget.fileToUpload,
           //contentType:isVideo == true ? 2  :1 ,
           contentType: isVideo == true ? 2 : 1,
           title: '',
@@ -392,20 +395,17 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
     } else {
       print('create reel ${widget.filesPath?.first}');
       BlocProvider.of<HomeBloc>(context).add(CreatePostEvent(
-          files: widget.fileToUpload,
+          thumbnail: thumbnail,
           contentType: 2,
           title: '',
           description: postDescriptionController.value.text,
           postType: 'reels',
           filePath: widget.filesPath));
     }
-
-
   }
 
- 
-
-  void _handleCreatePostResponse(CreatePostState state, CreatePostProvider provider) {
+  void _handleCreatePostResponse(
+      CreatePostState state, CreatePostProvider provider) {
     var loginState = state;
     setState(() async {
       switch (loginState.apiState) {
@@ -418,7 +418,7 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
           isPostedLoading = false;
           responseData = state.response;
           widget.provider?.clearList();
-          
+
           if (responseData!.status == 1) {
             if (widget.isReelsPost == true) Navigator.pop(context);
             Navigator.pop(context);
@@ -450,41 +450,39 @@ class _CreateGCarvaanPageState extends State<CreateGCarvaanPage> {
   void _initFilePiker(CreatePostProvider provider) async {
     FilePickerResult? result;
     //if (await Permission.storage.request().isGranted) {
-      if (Platform.isIOS) {
-        result = await FilePicker.platform.pickFiles(
-            allowMultiple: true, type: FileType.media, allowedExtensions: []);
-      } else {
-        result = await FilePicker.platform.pickFiles(
-            allowMultiple: true,
-            type: FileType.custom,
-            onFileLoading: (path) {
-              print('File $path is loading');
-            },
-            allowedExtensions: ['jpg', 'jpeg', 'png', 'mp4']);
-      }
+    if (Platform.isIOS) {
+      result = await FilePicker.platform.pickFiles(
+          allowMultiple: true, type: FileType.media, allowedExtensions: []);
+    } else {
+      result = await FilePicker.platform.pickFiles(
+          allowMultiple: true,
+          type: FileType.custom,
+          onFileLoading: (path) {
+            print('File $path is loading');
+          },
+          allowedExtensions: ['jpg', 'jpeg', 'png', 'mp4']);
+    }
 
-      if (result != null) {
-        for (int i = 0; i < result.paths.length; i++) {
-          if (i == 4) break;
-          if (File(result.paths[i]!).lengthSync() / 1000000 > 100.0) {
-            print(
-                'THE SIZE IS ${File(result.paths[i]!).lengthSync() / 1000000}');
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content:
-                  Text('${Strings.of(context)?.imageVideoSizeLarge} 100 MB'),
-            ));
-          } else
-            provider.addToList(result.paths[i]);
-
-          croppedList = provider.files?.toList();
-        }
-
-        if (provider.files!.length > 4) {
+    if (result != null) {
+      for (int i = 0; i < result.paths.length; i++) {
+        if (i == 4) break;
+        if (File(result.paths[i]!).lengthSync() / 1000000 > 100.0) {
+          print('THE SIZE IS ${File(result.paths[i]!).lengthSync() / 1000000}');
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text("Only 4 images/videos are allowed"),
+            content: Text('${Strings.of(context)?.imageVideoSizeLarge} 100 MB'),
           ));
-        }
+        } else
+          provider.addToList(result.paths[i]);
+
+        croppedList = provider.files?.toList();
       }
+
+      if (provider.files!.length > 4) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Only 4 images/videos are allowed"),
+        ));
+      }
+    }
     //}
   }
 }
@@ -532,7 +530,10 @@ class _ShowReadyToPostState extends State<ShowReadyToPost> {
         compressFormat: ImageCompressFormat.jpg,
         compressQuality: 100,
         uiSettings: buildUiSettings(context),
-        aspectRatioPresets: [CropAspectRatioPreset.ratio4x3,CropAspectRatioPreset.ratio16x9 ],
+        aspectRatioPresets: [
+          CropAspectRatioPreset.ratio4x3,
+          CropAspectRatioPreset.ratio16x9
+        ],
         // aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
       );
       if (croppedFile != null) {
@@ -571,7 +572,6 @@ class _ShowReadyToPostState extends State<ShowReadyToPost> {
                                     pickedFile.path.contains('.hevc') ||
                                     pickedFile.path.contains('.h.265')
                                 ? ShowImage(path: pickedFile.path)
-                              
                                 : Image.file(
                                     pickedFile,
                                     height: 240,
@@ -601,7 +601,6 @@ class _ShowReadyToPostState extends State<ShowReadyToPost> {
                           color: ColorConstants.BLACK, shape: BoxShape.circle),
                       child: IconButton(
                         onPressed: () {
-
                           AlertsWidget.showCustomDialog(
                               context: context,
                               title: "${Strings.of(context)?.deletePost}!",
@@ -650,7 +649,6 @@ class _ShowReadyToPostState extends State<ShowReadyToPost> {
                                       croppedList![index] = croppedPath;
                                     });
                                 });
-                            
                           },
                           padding: EdgeInsets.zero,
                           constraints: BoxConstraints(),
@@ -671,6 +669,13 @@ class ShowImage extends StatelessWidget {
   ShowImage({Key? key, this.path}) : super(key: key);
 
   Uint8List? imageFile;
+  Future<File> writeToFile(Uint8List data) async {
+    final directory = await getTemporaryDirectory(); // get cache directory
+    final file = File(
+        '${directory.path}/example.jpg'); // create new file in cache directory
+    await file.writeAsBytes(data); // write the data to the file
+    return file; // return the file
+  }
 
   Future<Uint8List?> getFile() async {
     final uint8list = await Thumbnail.VideoThumbnail.thumbnailData(
@@ -678,6 +683,8 @@ class ShowImage extends StatelessWidget {
       imageFormat: Thumbnail.ImageFormat.PNG,
       quality: 10,
     );
+    File file = await writeToFile(uint8list!);
+    thumnailUrl = file.path;
 
     return uint8list;
   }

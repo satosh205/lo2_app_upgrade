@@ -1445,7 +1445,7 @@ class HomeProvider {
   }
 
   Future<ApiResponse?> createPost(
-      List<MultipartFile>? filePath,
+       String? thumbnail,
       int? contentType,
       String? postType,
       String? title,
@@ -1456,6 +1456,7 @@ class HomeProvider {
     try {
       Map<String, dynamic> data = Map();
       List<MultipartFile> files = [];
+      
 
       if (postType == 'caravan') {
         for (var item in filepaths!) {
@@ -1464,9 +1465,15 @@ class HomeProvider {
         }
         data['file[]'] = files;
       } else {
+  
         files.add(await MultipartFile.fromFile(filepaths![0]!,
             filename: filepaths[0]!.split('/').last));
+        data['thumbnail'] = await MultipartFile.fromFile(thumbnail!,
+            filename: thumbnail.split('/').last);
+           
+            
         data['file'] = files;
+        
       }
 
       data['post_type'] = postType;

@@ -440,10 +440,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                                 child: Text(
                                                   '${Preference.getString(Preference.FIRST_NAME)}',
                                                   maxLines: 1,
-                                                  overflow: TextOverflow.ellipsis,
-                                                style: Styles.bold(
-                                                      color: ColorConstants.WHITE,
-                                                      
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: Styles.bold(
+                                                      color:
+                                                          ColorConstants.WHITE,
                                                       size: 22),
                                                 ),
                                               ),
@@ -483,10 +484,10 @@ class _DashboardPageState extends State<DashboardPage> {
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                    
                                               ((Preference.getInt(Preference
-                                                      .PROFILE_PERCENT) ??
-                                                  0) / 100),
+                                                          .PROFILE_PERCENT) ??
+                                                      0) /
+                                                  100),
                                           decoration: BoxDecoration(
                                               color: Color(0xffFFB72F),
                                               borderRadius:
@@ -3180,12 +3181,44 @@ class _DashboardPageState extends State<DashboardPage> {
                                                     scrollTo: index,
                                                   )));
                                     },
-                                    child:
-                                        // ReelRepeatVideo(videoUrl: '${reelsList?[index].resourcePath}',),
+                                    child: Stack(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                          child: CachedNetworkImage(
+                                           height: 280,
+                                            imageUrl:
+                                                '${reelsList?[index].thumbnailUrl}',
+                                            imageBuilder:
+                                                (context, imageProvider) =>
+                                                    Container(
+                                              decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                image: imageProvider,
+                                                fit: BoxFit.cover,
+                                              )),
+                                            ),
+                                           
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                 CreateThumnail(path: reelsList?[index].resourcePath,)
+                                          ),
+                                        ),
+                                        Center(
+                                          child: SvgPicture.asset(
+                                            'assets/images/play.svg',
+                                            height: 40.0,
+                                            width: 40.0,
+                                            allowDrawingOutsideViewBox: true,
+                                          ),
+                                        ),
+                                      ],
+                                    )
 
-                                        CreateThumnail(
-                                            path: reelsList?[index]
-                                                .resourcePath))),
+                                    // ReelRepeatVideo(videoUrl: '${reelsList?[index].resourcePath}',),
+
+                                    )),
                           );
                         }))
               ],

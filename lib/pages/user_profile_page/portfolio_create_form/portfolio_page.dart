@@ -64,7 +64,7 @@ class NewPortfolioPage extends StatefulWidget {
 class _NewPortfolioPageState extends State<NewPortfolioPage> {
   bool editModeEnabled = true;
   bool? isPortfolioLoading = true;
-  bool? isCompetitionLoading =false;
+  bool? isCompetitionLoading = false;
   PortfolioResponse? portfolioResponse;
   PortfolioCompetitionResponse? competition;
   TopScoringResponse? userRank;
@@ -141,7 +141,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   //         PopupMenuItem<String>(
   //           onTap: () {
   //             WidgetsBinding.instance.addPostFrameCallback((_) {
-                
+
   //               Navigator.push(
   //                 context,
   //                 MaterialPageRoute(
@@ -517,10 +517,10 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         Spacer(),
                                         IconButton(
                                             onPressed: () async {
-                                              String shareUrl = '$baseUrl' +
-                                                  'portfolio-detail?user_id=' +
-                                                  '${Preference.getString(Preference.USER_ID)}}';
-
+                                              String shareUrl =
+                                                  '${baseUrl.split('/portfolio').first}/' +
+                                                      'portfolio-detail?user_id=${Preference.getInt(Preference.USER_ID)}';
+                                              print(shareUrl);
                                               await Clipboard.setData(
                                                       ClipboardData(
                                                           text: shareUrl))
@@ -1237,20 +1237,17 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                       ]).createShader(bounds);
                                                 },
                                                 child: Text(
-                                                  userRank?.data.first.rank !=
-                                                          null
-                                                      ? '${userRank?.data.first.rank}'
-                                                      : ' 0',
+                                                  userRank?.data?.length != 0
+                                                      ? '${userRank?.data?.first?.rank ?? '00'}'
+                                                      : '00',
                                                   style: Styles.bold(size: 26),
                                                 ),
                                               )
                                             ],
                                           ),
                                           Text(
-                                            userRank?.data.first.rank != null ||
-                                                    userRank?.data.first.rank ==
-                                                        0
-                                                ? 'out of ${userRank?.data.first.rankOutOf} Students'
+                                            userRank?.data?.length != 0 
+                                                ? 'out of ${userRank?.data?.first?.rankOutOf ?? '0'} Students'
                                                 : 'compete to gain rank',
                                             style: Styles.regular(
                                                 size: 10,
@@ -1306,17 +1303,18 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                       ]).createShader(bounds);
                                                 },
                                                 child: Text(
-                                                  userRank?.data.first.score !=
-                                                          null
-                                                      ? '${userRank?.data.first.score}'
-                                                      : ' 0',
+                                                  userRank?.data?.length != 0
+                                                      ? '${userRank?.data?.first?.score ?? '00'}'
+                                                      : '00',
                                                   style: Styles.bold(size: 24),
                                                 ),
                                               )
                                             ],
                                           ),
                                           Text(
-                                            'gained from 5 activities',
+                                            userRank?.data?.length != 0
+                                                ? 'gained from ${userRank?.data?.first?.rankOutOf ?? '00'} activities'
+                                                : 'gained from -- activities',
                                             style: Styles.regular(
                                                 size: 10,
                                                 color: Color(0xff5A5F73)),
@@ -1762,11 +1760,20 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                       Spacer(),
                                       if (isCompetitionLoading == false &&
                                           competition?.data.length != 0)
-                                       IconButton(onPressed: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=> CompetitionListPortfolio(competitionList: competition?.data)));
-                                       }, icon: Icon(Icons.arrow_forward_ios_outlined),),
-
-                                        
+                                        IconButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        CompetitionListPortfolio(
+                                                            competitionList:
+                                                                competition
+                                                                    ?.data)));
+                                          },
+                                          icon: Icon(
+                                              Icons.arrow_forward_ios_outlined),
+                                        ),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 4),
@@ -1856,25 +1863,20 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                           Radius.circular(
                                                                               8)),
                                                                   child: CachedNetworkImage(
-                                                                  
                                                                       imageUrl:
                                                                           '${competition?.data[index].pImage}',
-                                                                          
                                                                       width: double
                                                                           .infinity,
                                                                       height: MediaQuery.of(context)
                                                                               .size
                                                                               .height *
                                                                           0.2,
-                                                                             errorWidget:
-                                                      (context, url, error) =>
-                                                         SizedBox(),
-                                                
-                                                                          
+                                                                      errorWidget: (context,
+                                                                              url,
+                                                                              error) =>
+                                                                          SizedBox(),
                                                                       fit: BoxFit
                                                                           .cover),
-                                                                          
-                                                                          
                                                                 ),
                                                                 SizedBox(
                                                                     height: 10),
@@ -1937,8 +1939,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                               ],
                                                             ),
                                                           ),
-                                                        )
-                                                        )
+                                                        ))
                                             : competitionListShimmer(0),
                                       )
                                     : competitionListShimmer(1),
@@ -3045,6 +3046,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
           isPortfolioLoading = true;
           break;
         case ApiStatus.SUCCESS:
+          Log.v("PortfolioStatedone ...................");
+
           portfolioResponse = portfolioState.response;
 
           Preference.setString(
@@ -3057,7 +3060,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
           // }
 
           Preference.setString(Preference.PROFILE_IMAGE,
-                '${portfolioState.response?.data.image}');
+              '${portfolioState.response?.data.image}');
 
           Preference.setString(Preference.PROFILE_VIDEO,
               '${portfolioState.response?.data.profileVideo}');
@@ -3104,10 +3107,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
           Log.v("PortfolioState TopScoring Success....................");
 
           userRank = portfolioState.response;
-          Preference.setString(
-              Preference.FIRST_NAME, '${userRank?.data.first.name}');
-          Preference.setString(
-              Preference.PROFILE_IMAGE, '${userRank?.data.first.profileImage}');
 
           isPortfolioLoading = false;
           setState(() {});
@@ -3515,7 +3514,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text('Add your Education'),
                 ),
-                
               ],
             ),
           );
@@ -3595,7 +3593,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text('Add your Certificate'),
                 ),
-                
               ],
             ),
           );
@@ -3724,7 +3721,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text('Add your Work Experience'),
                 ),
-                
               ],
             ),
           );
@@ -3963,7 +3959,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text('Add extra curricular activities'),
                 ),
-                
               ],
             ),
           );
@@ -4062,7 +4057,6 @@ class _ShowSocailLinksState extends State<ShowSocailLinks> {
               itemCount: min(4, socialKey.length),
               itemBuilder: (context, index) => InkWell(
                     onTap: () {
-                    
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -4117,7 +4111,6 @@ class _ShowSocailLinksState extends State<ShowSocailLinks> {
         (index) => PopupMenuItem(
               child: InkWell(
                 onTap: () {
-                 
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -4128,7 +4121,6 @@ class _ShowSocailLinksState extends State<ShowSocailLinks> {
                       },
                     ),
                   );
-                  
                 },
                 child: Row(
                   children: [

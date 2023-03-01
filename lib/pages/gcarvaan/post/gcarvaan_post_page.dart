@@ -109,7 +109,6 @@ class _GCarvaanPostPageState extends State<GCarvaanPostPage> {
       });
 
       BlocProvider.of<HomeBloc>(context).add(CreatePostEvent(
-          files: widget.fileToUpload,
           contentType: 2,
           title: '',
           description: widget.desc,
