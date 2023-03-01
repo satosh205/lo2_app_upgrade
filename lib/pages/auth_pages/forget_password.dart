@@ -79,7 +79,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   void sendEmailVerificationCode(String email) {
-    BlocProvider.of<HomeBloc>(context).add(EmailCodeSendEvent(email: email));
+    BlocProvider.of<HomeBloc>(context).add(EmailCodeSendEvent(email: email, isSignup: 0));
   }
 
   void verifyOtp(String email, String otp){
