@@ -494,6 +494,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
                                         ((context, error, stackTrace) =>
                                             SizedBox()),
                                   )),
+                                   if( isShowPlaying == false) Center(child: CircularProgressIndicator(),),
                             Center(
                               child: Container(
                                 padding: const EdgeInsets.all(10),
@@ -1130,47 +1131,5 @@ class _LikeWidgetState extends State<LikeWidget> {
   void updateLikeandViews(int? like, context) async {
     BlocProvider.of<HomeBloc>(context).add(LikeContentEvent(
         contentId: widget.contentId, like: like, type: 'contents'));
-  }
-}
-
-class ShowImage extends StatefulWidget {
-  final String? path;
-  ShowImage({Key? key, this.path}) : super(key: key);
-
-  @override
-  State<ShowImage> createState() => _ShowImageState();
-}
-
-class _ShowImageState extends State<ShowImage> {
-  Uint8List? imageFile;
-  @override
-  void initState() {
-    super.initState();
-    getFile();
-  }
-
-  Future<Uint8List?> getFile() async {
-    final uint8list = await VideoThumbnail.thumbnailData(
-      video: widget.path!,
-      imageFormat: ImageFormat.PNG,
-      timeMs: Duration(seconds: 1).inMilliseconds,
-    );
-    if (this.mounted)
-      setState(() {
-        imageFile = uint8list;
-      });
-    return uint8list;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return imageFile != null
-        ? Image.memory(
-            imageFile!,
-            fit: BoxFit.cover,
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-          )
-        : Text('loading image');
   }
 }

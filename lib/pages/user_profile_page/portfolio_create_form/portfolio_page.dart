@@ -2718,6 +2718,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
 
   Widget getExtraActivitesWidget(
       List<CommonProfession>? extraActivities, context) {
+  extraActivities?.sort((a, b) => b.startDate.compareTo(a.startDate));
+        
     return Container(
       color: Colors.white,
       child: Column(

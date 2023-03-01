@@ -27,7 +27,7 @@ class _TermsAndConditionState extends State<TermsAndCondition> {
             Navigator.pop(context);
           },
           child: Icon(Icons.arrow_back_ios_new_outlined,color: ColorConstants.BLACK,)),
-        title: Text('${widget.title}',style: Styles.semibold(color: ColorConstants.BLACK,),),
+        title: Text('${widget.title ?? 'Terms and Conditions'}',style: Styles.semibold(color: ColorConstants.BLACK,),),
         backgroundColor: ColorConstants.WHITE
       ),
       body: Stack(
