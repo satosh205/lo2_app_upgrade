@@ -170,16 +170,13 @@ class _ReelsDashboardPageState extends State<ReelsDashboardPage>
     if (widget.fromDashboard && isScrolled != true)
       Future.delayed(Duration(seconds: 1), () {
         print('sccrolling to ');
-        
-        
       }).then((value) {
-              print('sccrolling to scorllred $isScrolled');
-isScrolled = true;
+        print('sccrolling to scorllred $isScrolled');
+        isScrolled = true;
         _tabController?.animateTo(
-                widget.scrollTo,
-              );
+          widget.scrollTo,
+        );
       });
-         
 
     if (greelsList.list == null || isGReelsLoading) {
       return Container(
@@ -257,6 +254,7 @@ isScrolled = true;
             greelsModel: greelsList,
             index: index,
             userID: greelsList.list![index].userId,
+            thumbnail: greelsList.list![index].thumbnailUrl,
           );
 
           // return;
@@ -314,6 +312,7 @@ class VideoPlayerItem extends StatefulWidget {
   final int? index;
   final int? userID;
   final String? userStatus;
+  final String? thumbnail;
   VideoPlayerItem(
       {Key? key,
       required this.size,
@@ -332,7 +331,8 @@ class VideoPlayerItem extends StatefulWidget {
       this.index,
       this.userID,
       this.userStatus,
-      this.greelsModel})
+      this.greelsModel,
+      this.thumbnail})
       : super(key: key);
 
   final Size size;
@@ -364,9 +364,8 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
       _videoController = VideoPlayerController.network(url);
       _videoController!.addListener(() {});
       _videoController!.setLooping(true);
-      _videoController!.initialize().then((_)
-       => setState(() {
-        cacheVideo(url);
+      _videoController!.initialize().then((_) => setState(() {
+            cacheVideo(url);
             setState(() {
               isShowPlaying = true;
             });
@@ -375,7 +374,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
     } else {
       print('playing from local ');
       final file = fileInfo.file;
-       _videoController = VideoPlayerController.file(file);
+      _videoController = VideoPlayerController.file(file);
       _videoController!.addListener(() {});
       _videoController!.setLooping(true);
       _videoController!.initialize().then((_) => setState(() {
@@ -384,7 +383,6 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
             });
             _videoController?.play();
           }));
-
     }
   }
 
@@ -393,11 +391,11 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
     return value;
   }
 
-  void cacheVideo(String url)async{
-    await DefaultCacheManager().getSingleFile(url).then((value) => print('video cache from url $url'));
+  void cacheVideo(String url) async {
+    await DefaultCacheManager()
+        .getSingleFile(url)
+        .then((value) => print('video cache from url $url'));
   }
-
-
 
   @override
   void dispose() {
@@ -485,7 +483,17 @@ class _VideoPlayerItemState extends State<VideoPlayerItem>
                                       }
                                     },
                                     child: VideoPlayer(_videoController!))
-                                : ShowImage(path: widget.videoUrl),
+                                // : ShowImage(path: widget.videoUrl),
+                                : Center(
+                                    child: Image.network(
+                                    '${widget.thumbnail}',
+                                    height: double.infinity,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                    errorBuilder:
+                                        ((context, error, stackTrace) =>
+                                            SizedBox()),
+                                  )),
                             Center(
                               child: Container(
                                 padding: const EdgeInsets.all(10),
@@ -657,7 +665,7 @@ class _RightPanelState extends State<RightPanel> with TickerProviderStateMixin {
 
               LikeWidget(
                 // mcontext: widget.mContext,
-joyContentModel: widget.greelsModel!,
+                joyContentModel: widget.greelsModel!,
                 contentId: widget.contentId!,
               ),
               // LikeWidget(
@@ -1041,7 +1049,8 @@ joyContentModel: widget.greelsModel!,
 class LikeWidget extends StatefulWidget {
   final int contentId;
   final GReelsModel joyContentModel;
-  const LikeWidget({Key? key, required this.contentId,required this.joyContentModel})
+  const LikeWidget(
+      {Key? key, required this.contentId, required this.joyContentModel})
       : super(key: key);
 
   @override
@@ -1055,27 +1064,25 @@ class _LikeWidgetState extends State<LikeWidget> {
     //  joyContentModel= Provider.of<GReelsModel>(context);
     update();
 
-   
     super.initState();
   }
 
-  void update() async{
-    Future.delayed(Duration.zero, (){
-    print('init is called');
+  void update() async {
+    Future.delayed(Duration.zero, () {
+      print('init is called');
 
- widget.joyContentModel
-        .updateCurrentIndex(widget.joyContentModel.getCurrentPostIndex(widget.contentId));
+      widget.joyContentModel.updateCurrentIndex(
+          widget.joyContentModel.getCurrentPostIndex(widget.contentId));
     });
   }
+
   @override
   Widget build(BuildContext context) {
     updateLikeandViews(null, context);
     // reels refresh issue fix
-    
+
     // joyContentModel
     //     .updateCurrentIndex(joyContentModel.getCurrentPostIndex(contentId));
-
-        
 
     bool isLiked = widget.joyContentModel.isUserLiked(widget.contentId);
     return InkWell(
@@ -1121,11 +1128,10 @@ class _LikeWidgetState extends State<LikeWidget> {
   }
 
   void updateLikeandViews(int? like, context) async {
-    BlocProvider.of<HomeBloc>(context).add(
-        LikeContentEvent(contentId: widget.contentId, like: like, type: 'contents'));
+    BlocProvider.of<HomeBloc>(context).add(LikeContentEvent(
+        contentId: widget.contentId, like: like, type: 'contents'));
   }
 }
-
 
 class ShowImage extends StatefulWidget {
   final String? path;

@@ -25,7 +25,7 @@ class _CompetitionListPortfolioState extends State<CompetitionListPortfolio> {
     return Scaffold(
        appBar: AppBar(
         centerTitle: false,
-                  title: Text("Experience", style: Styles.bold()),
+                  title: Text("Competitions", style: Styles.bold()),
                   elevation: 0.6,
                   backgroundColor: ColorConstants.WHITE,
                   leading: IconButton(

@@ -326,6 +326,7 @@ class _AddExperienceState extends State<AddExperience> {
                                                       color: Color(0xff929BA3)))
                                             ],
                                           ),
+                                          SizedBox(height: 6,),
                                           Text(
                                             "End date (or expected)",
                                             style: Styles.regular(
@@ -543,6 +544,8 @@ class _AddExperienceState extends State<AddExperience> {
                                           ),
                                           PortfolioCustomButton(
                                             clickAction: () async {
+                                               if (!_formKey.currentState!
+                                                  .validate()) return;
                                               DateTime startD = DateFormat(
                                                       "yyyy-MM-dd")
                                                   .parse(
@@ -557,12 +560,11 @@ class _AddExperienceState extends State<AddExperience> {
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(const SnackBar(
                                                         content: Text(
-                                                            'End date must be grater than start date')));
+                                                            'End date must be greater than start date')));
                                                 return;
                                               }
 
-                                              if (!_formKey.currentState!
-                                                  .validate()) return;
+                                             
                                               print(
                                                   'employmentType=== ${employmentType}');
                                               if (employmentType == "") {

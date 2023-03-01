@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -195,7 +193,10 @@ class _AddActivitiesState extends State<AddEducation> {
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w400,
-                                                  color:startDate.value.text != '' ? ColorConstants.BLACK:  Color(0xff929BA3)),
+                                                  color:
+                                                      startDate.value.text != ''
+                                                          ? ColorConstants.BLACK
+                                                          : Color(0xff929BA3)),
                                             ),
                                           ),
                                           Padding(
@@ -262,7 +263,10 @@ class _AddActivitiesState extends State<AddEducation> {
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w400,
-                                                  color:endDate.value.text != '' ? ColorConstants.BLACK:  Color(0xff929BA3)),
+                                                  color:
+                                                      endDate.value.text != ''
+                                                          ? ColorConstants.BLACK
+                                                          : Color(0xff929BA3)),
                                             ),
                                           ),
                                           Padding(
@@ -399,44 +403,38 @@ class _AddActivitiesState extends State<AddEducation> {
                                 ),
                                 PortfolioCustomButton(
                                   clickAction: () async {
+                                    if (!_formKey.currentState!.validate())
+                                      return;
 
-                                     DateTime startD = DateFormat(
-                                                      "yyyy-MM-dd")
-                                                  .parse(
-                                                      '${startDate.value.text}');
-                                              DateTime endD = DateFormat(
-                                                      "yyyy-MM-dd")
-                                                  .parse(
-                                                      '${endDate.value.text}');
+                                    DateTime startD = DateFormat("yyyy-MM-dd")
+                                        .parse('${startDate.value.text}');
+                                    DateTime endD = DateFormat("yyyy-MM-dd")
+                                        .parse('${endDate.value.text}');
 
-                                              if (startD.isAfter(endD) ||
-                                                  startD == endD) {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(const SnackBar(
-                                                        content: Text(
-                                                            'End date must be grater than start date')));
-                                                return;
-                                              }
-                                    if(!_formKey.currentState!
-                                        .validate())return;
-                                        
-                                           if (startDate.value.text == '') {
+                                    if (startD.isAfter(endD) ||
+                                        startD == endD) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  'End date must be greater than start date')));
+                                      return;
+                                    }
+
+                                    if (startDate.value.text == '') {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         const SnackBar(
                                             content: Text(
                                                 'Please choose start date')),
                                       );
-                                    } 
-                                    else if(endDate.value.text == ''){
+                                    } else if (endDate.value.text == '') {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         const SnackBar(
-                                            content: Text(
-                                                'Please choose end date')),
+                                            content:
+                                                Text('Please choose end date')),
                                       );
-                                    }
-                                    else if (_formKey.currentState!
+                                    } else if (_formKey.currentState!
                                         .validate()) {
                                       Map<String, dynamic> data = Map();
 
@@ -490,8 +488,8 @@ class _AddActivitiesState extends State<AddEducation> {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           const SnackBar(
-                                              content:
-                                                  Text('Please add feature image')),
+                                              content: Text(
+                                                  'Please add feature image')),
                                         );
                                       }
                                     }
@@ -519,10 +517,11 @@ class _AddActivitiesState extends State<AddEducation> {
         case ApiStatus.SUCCESS:
           Log.v("Success Add Education....................");
           isAddEducationLoading = false;
-           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content:
-                  Text(widget.isEditMode == true ?'Education updated' : 'Education added'),
-            ));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(widget.isEditMode == true
+                ? 'Education updated'
+                : 'Education added'),
+          ));
           Navigator.pop(context);
           break;
         case ApiStatus.ERROR:

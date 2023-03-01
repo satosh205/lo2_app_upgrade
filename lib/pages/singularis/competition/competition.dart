@@ -980,7 +980,7 @@ class _CompetetionState extends State<Competetion> {
                                       height: popularCompetitionResponse
                                                   ?.data?.length !=
                                               0
-                                          ? height(context) * 0.47
+                                          ? height(context) * 0.43
                                           : 0,
                                       // color: Colors.green,
                                       padding:
