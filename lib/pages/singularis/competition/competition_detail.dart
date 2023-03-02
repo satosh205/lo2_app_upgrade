@@ -504,12 +504,12 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
     DateTime start = DateFormat("yyyy-MM-dd").parse(startDate);
     return InkWell(
       onTap: () {
-        // if (isLocked == true) {
-        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //     content: Text('Content Locked!'),
-        //   ));
-        //   return;
-        // }
+        if (isLocked == true) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Content Locked!'),
+          ));
+          return;
+        }
         if (cardType == CardType.youtube) {
           Navigator.push(
               context,
@@ -646,16 +646,16 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                 SizedBox(
                   width: 4,
                 ),
+                Text('•',
+                    style:
+                        Styles.regular(color: ColorConstants.GREY_2, size: 12)),
+                SizedBox(
+                  width: 4,
+                ),
                 Icon(
                   Icons.calendar_month,
                   size: 20,
                 ),
-                SizedBox(
-                  width: 4,
-                ),
-                Text('•',
-                    style:
-                        Styles.regular(color: ColorConstants.GREY_2, size: 12)),
                 SizedBox(
                   width: 4,
                 ),
