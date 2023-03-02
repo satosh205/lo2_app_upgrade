@@ -118,7 +118,8 @@ class CompetitionContent {
         this.contentTypeLabel,
         this.difficultyLevel,
         this.perCompletion,
-        this.activityStatus
+        this.activityStatus,
+        this.presenterImage
     });
 
     dynamic image;
@@ -187,6 +188,7 @@ class CompetitionContent {
     dynamic sessionStartingIn;
     String? contentTypeLabel;
     String? difficultyLevel;
+    String? presenterImage;
 
     factory CompetitionContent.fromJson(Map<String, dynamic> json) => CompetitionContent(
         image: json["image"],
@@ -252,7 +254,8 @@ class CompetitionContent {
         sessionStartingIn: json["session_starting_in"],
         contentTypeLabel: json["content_type_label"],
         difficultyLevel: json['difficulty_level'],
-        activityStatus: json['activity_status']
+        activityStatus: json['activity_status'],
+        presenterImage: json['presenter_image'],
 
         
     );
