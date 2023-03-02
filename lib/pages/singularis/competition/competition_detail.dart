@@ -359,10 +359,14 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                           SizedBox(
                             height: 8,
                           ),
-                          Text(
-                            '${contentList?.data?.competitionInstructions?.whatsIn ?? ''}',
-                            style: Styles.regular(
-                                size: 14, color: Color(0xff5A5F73)),
+                          Padding(
+                                               padding: const EdgeInsets.only(left: 6),
+
+                            child: Text(
+                              '${contentList?.data?.competitionInstructions?.whatsIn ?? ''}',
+                              style: Styles.regular(
+                                  size: 14, color: Color(0xff5A5F73)),
+                            ),
                           ),
                           SizedBox(
                             height: 20,
@@ -380,10 +384,14 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                             height: 4,
                           ),
 
-                          Text(
-                            '${contentList?.data?.competitionInstructions?.instructions ?? ''}',
-                            style: Styles.regular(
-                                size: 14, color: Color(0xff5A5F73)),
+                          Padding(
+                                               padding: const EdgeInsets.only(left: 6),
+
+                            child: Text(
+                              '${contentList?.data?.competitionInstructions?.instructions ?? ''}',
+                              style: Styles.regular(
+                                  size: 14, color: Color(0xff5A5F73)),
+                            ),
                           ),
                           SizedBox(
                             height: 20,
@@ -400,10 +408,14 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                             height: 4,
                           ),
 
-                          Text(
-                            '${contentList?.data?.competitionInstructions?.faq ?? ''}',
-                            style: Styles.regular(
-                                size: 14, color: Color(0xff5A5F73)),
+                          Padding(
+                                               padding: const EdgeInsets.only(left: 6),
+
+                            child: Text(
+                              '${contentList?.data?.competitionInstructions?.faq ?? ''}',
+                              style: Styles.regular(
+                                  size: 14, color: Color(0xff5A5F73)),
+                            ),
                           ),
                         ],
                       ),
