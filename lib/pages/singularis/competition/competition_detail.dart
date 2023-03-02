@@ -500,16 +500,16 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
   }
 
   Widget card(CompetitionContent data, CardType? cardType, bool? isLocked) {
-    String startDate =  '${data.startDate?.split(' ').first}';
-    DateTime start =  DateFormat("yyyy-MM-dd").parse(startDate);
+    String startDate = '${data.startDate?.split(' ').first}';
+    DateTime start = DateFormat("yyyy-MM-dd").parse(startDate);
     return InkWell(
       onTap: () {
-        if (isLocked == true) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Content Locked!'),
-          ));
-          return;
-        }
+        // if (isLocked == true) {
+        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        //     content: Text('Content Locked!'),
+        //   ));
+        //   return;
+        // }
         if (cardType == CardType.youtube) {
           Navigator.push(
               context,
@@ -587,11 +587,12 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.network(
-                    'https://singularis.learningoxygen.com/images/profile/${data.presenterImage}',
-                    height: height(context) * 0.06,
-                    width: height(context) * 0.06,
-                  ),
+                  Image.network('${data.baseFileUrl}/${data.presenterImage}',
+                      height: height(context) * 0.06,
+                      width: height(context) * 0.06,
+                      errorBuilder: (_, __, ___) {
+                    return SizedBox();
+                  }),
                   SizedBox(
                     width: 8,
                   ),
