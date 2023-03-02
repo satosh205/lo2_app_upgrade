@@ -287,9 +287,36 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                           // return Text('nice');
 
                           bool isLocked = index != 0;
+
+                          bool isTick = false;
+                          
+
+                          // if(!empty($competitionVal['per_completion']) && in_array($competitionVal['content_type'], array('assignment','assessment')) && $competitionVal['overall_score'] >= $competitionVal['per_completion']){
+                          //                            $tick = "fa fa-check";
+                          //                        }elseif(!empty($competitionVal['per_completion']) && !empty($competitionVal['completion_percentage']) && $competitionVal['completion_percentage'] >= $competitionVal['per_completion']){
+                          //                            $tick = "fa fa-check";
+                          //                        }
+                          //                        if($competitionVal['activity_status'] == 2){
+                          //                            $tick = "fa fa-check";
+                          //  }
+                          if (contentList?.data?.list?[index]?.completionPercentage != null &&
+                              (contentList?.data?.list?[index]?.contentType == 'assignment' ||
+                                  contentList?.data?.list?[index]?.contentType == 'assessment') &&
+                              double.parse('${contentList?.data?.list?[index]?.overallScore ?? 0}') >=
+                                  double.parse('${contentList?.data?.list?[index]?.perCompletion}')) {
+                            isTick = true;
+                          } else if (contentList?.data?.list?[index]?.completionPercentage != null &&
+                              double.parse('${contentList?.data?.list?[index]?.completionPercentage}') >=
+                                  double.parse('${contentList?.data?.list?[index]?.perCompletion}')) {
+                            isTick = true;
+                          }
+                          if (contentList?.data?.list?[index]?.activityStatus == 2) {
+                            isTick = true;
+                          }
+
                           if (index != 0) {
                             CompetitionContent? data =
-                                contentList?.data?.list?[index - 1];
+                              contentList?.data?.list?[index - 1];
                             if (data?.completionPercentage != null &&
                                 (data?.contentType == 'assignment' ||
                                     data?.contentType == 'assessment') &&
@@ -309,7 +336,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                               contentList?.data?.list![index],
                               index ==
                                   ((contentList?.data?.list?.length ?? 1) - 1),
-                              isLocked: isLocked);
+                              isLocked: isLocked,isTick: isTick);
                         }),
                     SizedBox(
                       height: 3,
@@ -408,10 +435,10 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
   }
 
   Widget competitionCard(CompetitionContent? data, bool isLast,
-      {bool? isLocked}) {
+      {bool? isLocked, bool? isTick}) {
     CardType? cardType;
 
-    if (data?.completionPercentage == 100.0) isLocked = false;
+    // if (data?.completionPercentage == 100.0) isLocked = false;
     // if (cardType != CardType.session && data?.completionPercentage == 100)
     //   isLocked = false;
 
@@ -452,7 +479,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  data?.completionPercentage == 100.0
+                  isTick ==true
                       ? Container(
                           padding: EdgeInsets.all(1),
                           decoration: BoxDecoration(
@@ -789,7 +816,6 @@ extension on String {
     return this[0].toUpperCase() + this.substring(1);
   }
 }
-
 
 // <?php
 //      $is_lock = 1;
