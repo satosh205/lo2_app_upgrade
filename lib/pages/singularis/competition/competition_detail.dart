@@ -289,7 +289,6 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                           bool isLocked = index != 0;
 
                           bool isTick = false;
-                          
 
                           // if(!empty($competitionVal['per_completion']) && in_array($competitionVal['content_type'], array('assignment','assessment')) && $competitionVal['overall_score'] >= $competitionVal['per_completion']){
                           //                            $tick = "fa fa-check";
@@ -299,24 +298,36 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                           //                        if($competitionVal['activity_status'] == 2){
                           //                            $tick = "fa fa-check";
                           //  }
-                          if (contentList?.data?.list?[index]?.completionPercentage != null &&
-                              (contentList?.data?.list?[index]?.contentType == 'assignment' ||
-                                  contentList?.data?.list?[index]?.contentType == 'assessment') &&
-                              double.parse('${contentList?.data?.list?[index]?.overallScore ?? 0}') >=
-                                  double.parse('${contentList?.data?.list?[index]?.perCompletion}')) {
+                          if (contentList?.data?.list?[index]
+                                      ?.completionPercentage !=
+                                  null &&
+                              (contentList?.data?.list?[index]?.contentType ==
+                                      'assignment' ||
+                                  contentList
+                                          ?.data?.list?[index]?.contentType ==
+                                      'assessment') &&
+                              double.parse(
+                                      '${contentList?.data?.list?[index]?.overallScore ?? 0}') >=
+                                  double.parse(
+                                      '${contentList?.data?.list?[index]?.perCompletion}')) {
                             isTick = true;
-                          } else if (contentList?.data?.list?[index]?.completionPercentage != null &&
-                              double.parse('${contentList?.data?.list?[index]?.completionPercentage}') >=
-                                  double.parse('${contentList?.data?.list?[index]?.perCompletion}')) {
+                          } else if (contentList?.data?.list?[index]
+                                      ?.completionPercentage !=
+                                  null &&
+                              double.parse(
+                                      '${contentList?.data?.list?[index]?.completionPercentage}') >=
+                                  double.parse(
+                                      '${contentList?.data?.list?[index]?.perCompletion}')) {
                             isTick = true;
                           }
-                          if (contentList?.data?.list?[index]?.activityStatus == 2) {
+                          if (contentList?.data?.list?[index]?.activityStatus ==
+                              2) {
                             isTick = true;
                           }
 
                           if (index != 0) {
                             CompetitionContent? data =
-                              contentList?.data?.list?[index - 1];
+                                contentList?.data?.list?[index - 1];
                             if (data?.completionPercentage != null &&
                                 (data?.contentType == 'assignment' ||
                                     data?.contentType == 'assessment') &&
@@ -336,7 +347,8 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                               contentList?.data?.list![index],
                               index ==
                                   ((contentList?.data?.list?.length ?? 1) - 1),
-                              isLocked: isLocked,isTick: isTick);
+                              isLocked: isLocked,
+                              isTick: isTick);
                         }),
                     SizedBox(
                       height: 3,
@@ -360,8 +372,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                             height: 8,
                           ),
                           Padding(
-                                               padding: const EdgeInsets.only(left: 6),
-
+                            padding: const EdgeInsets.only(left: 6),
                             child: Text(
                               '${contentList?.data?.competitionInstructions?.whatsIn ?? ''}',
                               style: Styles.regular(
@@ -385,8 +396,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                           ),
 
                           Padding(
-                                               padding: const EdgeInsets.only(left: 6),
-
+                            padding: const EdgeInsets.only(left: 6),
                             child: Text(
                               '${contentList?.data?.competitionInstructions?.instructions ?? ''}',
                               style: Styles.regular(
@@ -409,8 +419,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                           ),
 
                           Padding(
-                                               padding: const EdgeInsets.only(left: 6),
-
+                            padding: const EdgeInsets.only(left: 6),
                             child: Text(
                               '${contentList?.data?.competitionInstructions?.faq ?? ''}',
                               style: Styles.regular(
@@ -491,7 +500,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  isTick ==true
+                  isTick == true
                       ? Container(
                           padding: EdgeInsets.all(1),
                           decoration: BoxDecoration(

@@ -512,6 +512,8 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
   Widget _progressActivitiesSection() {
     return Container(
       child: Column(
+           crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
         children: [
           if (competitionDetailLoading == false) ...[
             widget.jobStatus == 'Application under review' ||
@@ -922,6 +924,8 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
   Widget _questionsSection() {
     return Container(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             child: Column(
