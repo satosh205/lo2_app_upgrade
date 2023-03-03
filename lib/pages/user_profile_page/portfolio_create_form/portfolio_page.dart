@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,6 +51,8 @@ import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
+import '../../../utils/dynamic_links/page/courses_page.dart';
+import '../../../utils/dynamic_links/path_constant.dart';
 import '../../../utils/utility.dart';
 import '../../custom_pages/custom_widgets/CommonWebView.dart';
 import '../../singularis/recentactivities/recent_activities_page.dart';
@@ -77,9 +80,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   String? filePath;
 
   ///Dynamic Lick Code Start-----
-  //String? _linkMessage;
-  //bool _isCreatingLink = false;
-  //FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
+  String? _linkMessage;
+  bool _isCreatingLink = false;
+  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
 
   ///Dynamic Code end-------
 
@@ -90,7 +93,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     topScoringUser();
 
     ///Dynamic Link
-    //initDynamicLinks();
+    initDynamicLinks();
     super.initState();
   }
 
@@ -369,7 +372,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   // }
 
   //TODO: Dynamic Link Code Start
-  /* Future<void> initDynamicLinks() async {
+   Future<void> initDynamicLinks() async {
     dynamicLinks.onLink.listen((dynamicLinkData) {
       final Uri uri = dynamicLinkData.link;
       final queryParams = uri.queryParameters;
@@ -392,9 +395,11 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       print('onLink error');
       print(error.message);
     });
-  }*/
+  }
 
-  /*Future<void> _createDynamicLink(bool short, String link) async {
+
+
+  Future<void> _createDynamicLink(bool short, String link) async {
     print('_createDynamicLink');
     setState(() {
       _isCreatingLink = true;
@@ -425,8 +430,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       _isCreatingLink = false;
       print('_linkMessage====${_linkMessage}');
     });
-  }*/
-
+  }
   //TODO: Dynamic Link Code End---------
 
   @override
@@ -517,7 +521,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         Spacer(),
                                         IconButton(
                                             onPressed: () async {
-                                              String shareUrl =
+                                              /*String shareUrl =
                                                   '${baseUrl.split('/portfolio').first}/' +
                                                       'portfolio-detail?user_id=${Preference.getInt(Preference.USER_ID)}';
                                               print(shareUrl);
@@ -532,10 +536,16 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                         content: Text(
                                                             "Profile link copied"),
                                                       )));
-                                              Share.share(shareUrl);
+                                              Share.share(shareUrl);*/
 
-                                              //_createDynamicLink(true, kPortfolioPageLink);
-                                              //_createDynamicLink(false, kPortfolioPageLink);
+                                              _createDynamicLink(true, kNewCoursesPageLink);
+                                              //_createDynamicLink(false, kNewCoursesPageLink);
+                                              //kNewCoursesPageLink
+
+                                             /* Navigator.push(
+                                                  context,
+                                                  NextPageRoute(CoursesPage()));*/
+
                                             },
                                             icon: Icon(
                                               Icons.share,

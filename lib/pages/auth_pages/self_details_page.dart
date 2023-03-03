@@ -177,9 +177,9 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
             locale: Strings.of(context)!.locale.languageCode == 'hi'
                 ? 'Hindi'
                 : 'English',
-            deviceToken: UserSession.firebaseToken);
-        BlocProvider.of<AuthBloc>(context)
-            .add(VerifyOtpEvent(request: verifyOtp));
+            deviceToken: UserSession.firebaseToken,
+        skipLogin: 1);
+        BlocProvider.of<AuthBloc>(context).add(OnlyVerifyOtpEvent(request: verifyOtp));
       } else {
         AlertsWidget.alertWithOkBtn(
             context: context,
@@ -200,7 +200,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
         LoginRequest(mobileNo: phoneController.text, mobile_exist_skip: '1')));
   }
 
-  void _handleVerifyResponse(VerifyOtpState state) {
+  void _handleVerifyResponse(OnlyVerifyOtpState state) {
     var loginState = state;
     setState(() {
       switch (loginState.apiState) {
@@ -213,8 +213,8 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
           Log.v("Success ....................");
           codeVerified = true;
           _codeVerifiedTrue = true;
-          if (state.response!.isCompleted == null)
-            state.response!.isCompleted = 0;
+          /*if (state.response!.isCompleted == null)
+            state.response!.isCompleted = 0;*/
           _isLoading = false;
           break;
         case ApiStatus.ERROR:
@@ -274,7 +274,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
             listener: (context, state) {
               if (state is SignUpState) _handleResponse(state);
               if (state is LoginState) _handleLoginResponseOTP(state);
-              if (state is VerifyOtpState) _handleVerifyResponse(state);
+              if (state is OnlyVerifyOtpState) _handleVerifyResponse(state);
               // if (state is LoginByIDState) _handleLoginResponse(state);
             },
             /*child: WillPopScope(
@@ -687,8 +687,12 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                       setState(() {
                         if(value.length > 6){
                           _emailTrue = true;
+                          isCodeSent = false;
+                          _codeVerifiedTrue = false;
                         }else{
                           _emailTrue = false;
+                          isCodeSent = false;
+                          _codeVerifiedTrue = false;
                         }
                       });
                     },
@@ -790,7 +794,6 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                               codeVerified = true;
                             }else{
                               codeVerified = false;
-                              _codeVerifiedTrue = false;
                             }
                           });
                         },
@@ -1000,7 +1003,8 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
 
           AlertsWidget.showCustomDialog(
               context: context,
-              title: "${loginState.error}",
+              //title: "${loginState.error}",
+              title: widget.loginWithEmail == true ? "Your mobile number already exists":"Your email already exists",
               text: "",
               icon: 'assets/images/circle_alert_fill.svg',
               showCancel: false,
@@ -1044,26 +1048,39 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
   void saveChanges() {
     if (!_formKey.currentState!.validate()) return;
     if (selectedImage != null) {
-      if (checkedValue == true){
-        var req = SignUpRequest(
-          profilePic: selectedImage,
-          firstName: fullNameController.text.toString(),
-          mobileNo: phoneController.text.toString(),
-          alternateMobileNo: phoneController.text.toString(),
-          emailAddress: widget.loginWithEmail != true ? emailController.text.toString() : widget.email,
-          username: emailController.text.toString(),
-          firmName: '',
-          lastName: '',
-          gender: '',
-          dateOfBirth: '',
-          dbCode: '0',
-          password: widget.password,
-        );
-        BlocProvider.of<AuthBloc>(context).add(SignUpEvent(request: req));
+      if(_codeVerifiedTrue == true){
+        if (checkedValue == true){
+          var req = SignUpRequest(
+            profilePic: selectedImage,
+            firstName: fullNameController.text.toString(),
+            mobileNo: phoneController.text.toString(),
+            alternateMobileNo: phoneController.text.toString(),
+            emailAddress: widget.loginWithEmail != true ? emailController.text.toString() : widget.email,
+            username: emailController.text.toString(),
+            firmName: '',
+            lastName: '',
+            gender: '',
+            dateOfBirth: '',
+            dbCode: '0',
+            password: widget.password,
+          );
+          BlocProvider.of<AuthBloc>(context).add(SignUpEvent(request: req));
+        }else{
+          AlertsWidget.showCustomDialog(
+              context: context,
+              title: "You must agree with the terms and conditions",
+              text: "",
+              icon: 'assets/images/circle_alert_fill.svg',
+              showCancel: false,
+              oKText: "Ok",
+              onOkClick: () async {
+                // Navigator.pop(context);
+              });
+        }
       }else{
         AlertsWidget.showCustomDialog(
             context: context,
-            title: "You must agree with the terms and conditions",
+            title: "Please first verify your otp",
             text: "",
             icon: 'assets/images/circle_alert_fill.svg',
             showCancel: false,

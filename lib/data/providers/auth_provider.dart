@@ -92,10 +92,9 @@ class AuthProvider {
       print('request ====${request.toJson()}');
       Map<String, dynamic> data = request.toJson();
       String fileName = request.profilePic!.split('/').last;
-      data['profile_pic'] =
-          await MultipartFile.fromFile(request.profilePic!, filename: fileName);
-      final response = await api.dio.post(
-          '${ApiConstants.SIGNUP}${APK_DETAILS['package_name'] == 'com.learn_build' ? '?org=1' : ''}',
+      data['profile_pic'] = await MultipartFile.fromFile(request.profilePic!, filename: fileName);
+
+      final response = await api.dio.post('${ApiConstants.SIGNUP}${APK_DETAILS['package_name'] == 'com.learn_build' ? '?org=1' : ''}',
           data: FormData.fromMap(data),
           options: Options(
             method: 'POST',
@@ -105,6 +104,8 @@ class AuthProvider {
             // responseType: ResponseType.json // or ResponseType.JSON
           ));
 
+      print('response=========');
+      print(response);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return ApiResponse.success(response);
       }

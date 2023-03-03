@@ -13,14 +13,23 @@ class RouteServices {
           return const PortfolioPage();
         });
 
-      case "/coursespage":
+      case '/newcoursespage':
+        return CupertinoPageRoute(builder: (_) {
+          return const PortfolioPage();
+        });
+
+      /*case "/coursespage":
         if (args is Map) {
           return CupertinoPageRoute(builder: (_) {
             return CoursesPage(
               coursesId: args["coursesId"],
             );
           });
-        }
+        }*/
+      case "/coursespage":
+          return CupertinoPageRoute(builder: (_) {
+            return CoursesPage();
+          });
         return _errorRoute();
       default:
         return _errorRoute();

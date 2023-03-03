@@ -1,9 +1,10 @@
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class CoursesPage extends StatefulWidget {
   final int? coursesId;
-  const CoursesPage({Key? key, this.coursesId}) : super(key: key);
+  const CoursesPage({super.key, this.coursesId});
 
   @override
   State<CoursesPage> createState() => _CoursesPageState();
@@ -12,10 +13,11 @@ class CoursesPage extends StatefulWidget {
 class _CoursesPageState extends State<CoursesPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      child: Center(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Dynamic Links'),
+      ),
+      body: Center(
         child: Text('Courses Page Dynamic Link  ${widget.coursesId}'),
       ),
     );

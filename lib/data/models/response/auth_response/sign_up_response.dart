@@ -33,8 +33,7 @@ class SignUpResponse {
   Map<String, dynamic> toJson() => {
         "status": status == null ? null : status,
         "data": data == null ? null : data!.toJson(),
-        "error":
-            error == null ? null : List<dynamic>.from(error!.map((x) => x)),
+        "error": error == null ? null : List<dynamic>.from(error!.map((x) => x)),
         "name": name == null ? null : name,
         "founded": founded == null ? null : founded,
         "members":

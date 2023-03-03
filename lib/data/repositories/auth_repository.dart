@@ -14,6 +14,8 @@ import 'package:masterg/data/providers/auth_provider.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/utils/Log.dart';
 
+import '../models/response/auth_response/only_verify_otp_response.dart';
+
 class AuthRepository {
   AuthRepository({required this.userProvider});
 
@@ -109,6 +111,19 @@ class AuthRepository {
     if (verifyOtpResp == null) return;
     Preference.setString(Preference.USER_TOKEN, '${verifyOtpResp.data?.token}');
     UserSession.userToken = verifyOtpResp.data!.token;
+  }
+
+  Future<OnlyVerifyOtpResponse> onlyVerifyOtp({required EmailRequest request}) async {
+    final response = await userProvider.verifyOTP(request);
+    if (response!.success) {
+      Log.v("!response.success : ${response.body}");
+      OnlyVerifyOtpResponse verifyOtpResp = OnlyVerifyOtpResponse.fromJson(response.body);
+      return verifyOtpResp;
+    } else {
+      Log.v("====> ${response.body}");
+      Log.v("====> ${response.status}");
+      return OnlyVerifyOtpResponse(error: response.body, status: response.status);
+    }
   }
 
   Future<AppVersionResp> getAppVeriosn({String? deviceType}) async {

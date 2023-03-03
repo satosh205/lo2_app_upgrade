@@ -18,6 +18,7 @@ import 'package:masterg/data/repositories/auth_repository.dart';
 import 'package:masterg/data/repositories/home_repository.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
+import 'package:masterg/data/models/response/auth_response/only_verify_otp_response.dart';
 
 abstract class AuthEvent {
   AuthEvent([List event = const []]) : super();
@@ -51,6 +52,15 @@ class VerifyOtpEvent extends AuthEvent {
   final EmailRequest request;
 
   VerifyOtpEvent({required this.request}) : super([request]);
+
+  List<Object> get props => throw UnimplementedError();
+}
+
+
+class OnlyVerifyOtpEvent extends AuthEvent {
+  final EmailRequest request;
+
+  OnlyVerifyOtpEvent({required this.request}) : super([request]);
 
   List<Object> get props => throw UnimplementedError();
 }
@@ -124,6 +134,18 @@ class VerifyOtpState extends AuthState {
   int? status;
 
   VerifyOtpState(this.state, {this.response, this.error, this.status});
+}
+
+
+class OnlyVerifyOtpState extends AuthState {
+  ApiStatus state;
+
+  ApiStatus get apiState => state;
+  OnlyVerifyOtpResponse? response;
+  String? error;
+  int? status;
+
+  OnlyVerifyOtpState(this.state, {this.response, this.error, this.status});
 }
 
 class UpdateUserState extends AuthState {
@@ -322,9 +344,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } else if (event is SignUpEvent) {
       try {
         yield SignUpState(ApiStatus.LOADING);
-        final response =
-            await authRepository.signUpCall(request: event.request);
+        final response = await authRepository.signUpCall(request: event.request);
 
+        print('SignUpState===========');
+        print(response);
         if (response.status == 1) {
           yield SignUpState(ApiStatus.SUCCESS, response: response);
         } else {
@@ -335,7 +358,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       } catch (e) {
         Log.v("Expection DATA : ");
-
         yield SignUpState(ApiStatus.ERROR, error: Strings.somethingWentWrong);
       }
     } else if (event is VerifyOtpEvent) {
@@ -357,7 +379,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         yield VerifyOtpState(ApiStatus.ERROR,
             error: Strings.somethingWentWrong);
       }
-    } else if (event is CategoryEvent) {
+    }
+
+    else if (event is OnlyVerifyOtpEvent) {
+      try {
+        yield OnlyVerifyOtpState(ApiStatus.LOADING);
+        final response = await authRepository.onlyVerifyOtp(request: event.request);
+        if (response.status == 1) {
+          yield OnlyVerifyOtpState(ApiStatus.SUCCESS, response: response);
+        } else {
+          Log.v("ERRORe4 DATA ::: ${response.status}");
+          yield OnlyVerifyOtpState(ApiStatus.ERROR,
+              error: response.error != null && response.error!.length > 0
+                  ? response.error!.first
+                  : Strings.somethingWentWrong,
+              status: response.status);
+        }
+      } catch (e) {
+        Log.v("ERROR DATA : $e");
+        yield OnlyVerifyOtpState(ApiStatus.ERROR,
+            error: Strings.somethingWentWrong);
+      }
+    }
+    else if (event is CategoryEvent) {
       try {
         yield CategoryState(ApiStatus.LOADING);
         final response = await homeRepository.getCategory();

@@ -13,6 +13,7 @@ import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/pages/walk_through_page/splash_screen.dart';
 import 'package:masterg/utils/check_connection.dart';
 import 'package:masterg/utils/constant.dart';
+import 'package:masterg/utils/dynamic_links/page/portfolio_page.dart';
 import 'package:masterg/utils/dynamic_links/route_services.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:path_provider/path_provider.dart';
@@ -28,7 +29,6 @@ void main() async {
     runZonedGuarded(() async {
       WidgetsFlutterBinding.ensureInitialized();
       await FlutterDownloader.initialize();
-      //  WidgetsFlutterBinding.ensureInitialized();
 
       await Firebase.initializeApp();
       setupDependencyInjections();
@@ -129,7 +129,10 @@ class _MyAppState extends State<MyApp> {
         ],
         child: MaterialApp(
           locale: this.locale,
-          onGenerateRoute: RouteServices.generateRoute,
+          //onGenerateRoute: RouteServices.generateRoute,
+          routes: <String, WidgetBuilder>{
+            '/newcoursespage': (BuildContext context) => PortfolioPage(),
+          },
           theme: ThemeData(
               // textSelectionHandleColor: Colors.transparent,
               // primaryColor: ColorConstants.ORANGE,
