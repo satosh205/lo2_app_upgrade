@@ -122,7 +122,8 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
                         height: height(context) * 0.9,
                         width: width(context),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 8),
                           child: ListView.builder(
                               itemCount: activities?.length,
                               itemBuilder: (BuildContext context, int index) {
@@ -223,11 +224,10 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
                                                         ),
                                                       ),
                                                     ),
-                                                     Transform.translate(
-                                                        offset: Offset(18, 0), 
+                                                    Transform.translate(
+                                                      offset: Offset(18, 0),
                                                       child: InkWell(
                                                         onTap: () async {
-                                                    
                                                           await Navigator.push(
                                                               context,
                                                               PageTransition(
@@ -247,8 +247,9 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
                                                                     activity:
                                                                         activities?[
                                                                             index],
-                                                                  ))).then((value) =>
-                                                              updatePortfolioList());
+                                                                  ))).then(
+                                                              (value) =>
+                                                                  updatePortfolioList());
                                                         },
                                                         child: SvgPicture.asset(
                                                             'assets/images/edit_portfolio.svg'),
@@ -257,32 +258,30 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
                                                     SizedBox(
                                                       width: 20,
                                                     ),
-                                                  Transform.translate(
-                                                        offset: Offset(20, 0), 
-                                                      child:   InkWell(
-                                                      onTap: () {
-
-                                                       
-                                                        AlertsWidget
-                                                            .showCustomDialog(
-                                                                context:
-                                                                    context,
-                                                                title: '',
-                                                                text:
-                                                                    'Are you sure you want to delete?',
-                                                                icon:
-                                                                    'assets/images/circle_alert_fill.svg',
-                                                                onOkClick:
-                                                                    () async {
-                                                                  deletePortfolio(widget
-                                                                      .activities[
-                                                                          index]
-                                                                      .id);
-                                                                });
-                                                      },
-                                                      child: SvgPicture.asset(
-                                                          'assets/images/delete.svg'),
-                                                    )),
+                                                    Transform.translate(
+                                                        offset: Offset(20, 0),
+                                                        child: InkWell(
+                                                          onTap: () {
+                                                            AlertsWidget
+                                                                .showCustomDialog(
+                                                                    context:
+                                                                        context,
+                                                                    title: '',
+                                                                    text:
+                                                                        'Are you sure you want to delete?',
+                                                                    icon:
+                                                                        'assets/images/circle_alert_fill.svg',
+                                                                    onOkClick:
+                                                                        () async {
+                                                                      deletePortfolio(widget
+                                                                          .activities[
+                                                                              index]
+                                                                          .id);
+                                                                    });
+                                                          },
+                                                          child: SvgPicture.asset(
+                                                              'assets/images/delete.svg'),
+                                                        )),
                                                   ],
                                                 ),
                                                 SizedBox(
@@ -397,6 +396,8 @@ class _ExtraActivitiesListState extends State<ExtraActivitiesList> {
         case ApiStatus.SUCCESS:
           Log.v("PortfolioState Success....................");
           activities = portfolioState.response?.data.extraActivities;
+          activities?.sort((a, b) => b.startDate.compareTo(a.startDate));
+
           isActivitieLoading = false;
 
           setState(() {});

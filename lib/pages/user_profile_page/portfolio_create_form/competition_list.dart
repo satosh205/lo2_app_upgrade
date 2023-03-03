@@ -25,7 +25,7 @@ class _CompetitionListPortfolioState extends State<CompetitionListPortfolio> {
     return Scaffold(
        appBar: AppBar(
         centerTitle: false,
-                  title: Text("Experience", style: Styles.bold()),
+                  title: Text("Competitions", style: Styles.bold()),
                   elevation: 0.6,
                   backgroundColor: ColorConstants.WHITE,
                   leading: IconButton(
@@ -50,7 +50,7 @@ class _CompetitionListPortfolioState extends State<CompetitionListPortfolio> {
                           id: widget.competitionList?[index].pId,
                           name: widget.competitionList?[index].pName,
                           image: widget.competitionList?[index].pImage,
-                          gScore: widget.competitionList?[index].gScore ?? 0,
+                          gScore:  int.parse('${widget.competitionList?[index].gScore ?? '0'} '),
                           description: "",
                           startDate: widget.competitionList?[index].startDate),
                     )));

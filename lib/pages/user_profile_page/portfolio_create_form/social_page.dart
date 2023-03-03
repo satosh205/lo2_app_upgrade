@@ -55,7 +55,14 @@ class _SocialPageState extends State<SocialPage> {
     siteController = TextEditingController(text: widget.social?.siteUrl);
     otherController = TextEditingController(text: widget.social?.other);
 
+    setValue();
     super.initState();
+  }
+
+  void setValue() {
+    mobileHidden = widget.social?.mobNumHidden == 1;
+    emailHidden = widget.social?.emailHidden == 1;
+    setState(() {});
   }
 
   @override
@@ -140,7 +147,7 @@ class _SocialPageState extends State<SocialPage> {
                                         'assets/images/close_eye.svg')
                                     : Icon(
                                         Icons.remove_red_eye,
-                                       size: 15,
+                                        size: 15,
                                         color: ColorConstants.GRADIENT_ORANGE,
                                       ),
                                 VerticalDivider(),
@@ -204,7 +211,7 @@ class _SocialPageState extends State<SocialPage> {
                                       : Icon(
                                           Icons.remove_red_eye,
                                           size: 15,
-                                            color: ColorConstants.GRADIENT_ORANGE,
+                                          color: ColorConstants.GRADIENT_ORANGE,
                                         ),
                                   VerticalDivider(),
                                   Text(
@@ -291,13 +298,10 @@ class _SocialPageState extends State<SocialPage> {
                               data["pinterest"] = pintrestController.value.text;
                               data["other"] = "";
                               data["site_url"] = siteController.value.text;
-                              data["mob_num_hidden"] = mobileHidden;
-                              data["email_hidden"] = emailHidden;
-                              print(data);
-                              Preference.setString(
-                                  Preference.PHONE, phoneController.value.text);
-                              Preference.setString(Preference.USER_EMAIL,
-                                  emailController.value.text);
+                              data["mob_num_hidden"] =
+                                  mobileHidden == true ? 'on' : 'off';
+                              data["email_hidden"] =
+                                  emailHidden == true ? 'on' : 'off';
 
                               addSocail(data);
                             }
@@ -387,10 +391,22 @@ class _SocialPageState extends State<SocialPage> {
 
         case ApiStatus.SUCCESS:
           Log.v("Success Add Social....................");
-          Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Information Successfully Updated'),
-          ));
+
+          if (addPortfolioState.response?.status == 1) {
+            Preference.setString(Preference.PHONE, phoneController.value.text);
+            Preference.setString(
+                Preference.USER_EMAIL, emailController.value.text);
+
+            Navigator.pop(context);
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Information Successfully Updated'),
+            ));
+          } else if (addPortfolioState.response?.status == 0) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('${addPortfolioState.response?.error.first}'),
+            ));
+          }
+
           isAddPortfolioLoading = false;
           break;
         case ApiStatus.ERROR:

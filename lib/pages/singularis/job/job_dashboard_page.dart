@@ -967,8 +967,8 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
               ),
               Container(
                   padding: EdgeInsets.all(10),
-                  //height: MediaQuery.of(context).size.height * 0.35,
-                  height: 170,
+                  height: MediaQuery.of(context).size.height * 0.19,
+                  // height: 170,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(color: ColorConstants.WHITE),
                   child: ListView.builder(
@@ -1006,7 +1006,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              height: 130,
+                             height: MediaQuery.of(context).size.height * 0.15,
                               width: MediaQuery.of(context).size.width - 100,
                               margin: EdgeInsets.all(5),
                               decoration: BoxDecoration(

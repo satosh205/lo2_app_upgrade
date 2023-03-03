@@ -90,104 +90,104 @@ class _UploadProfileState extends State<UploadProfile> {
           elevation: 0,
           title: Text(
               widget.editVideo == true ? 'Profile Video' : 'Profile Picture')),
-      body: ScreenWithLoader(
-        isLoading: profileLoading,
-        body: BlocListener<HomeBloc, HomeState>(
-          listener: (context, state) {
-            if (state is UploadProfileState) {
-              handleUploadProfile(state);
-            }
-          },
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Text('${Preference.getString(Preference.PROFILE_VIDEO)}'),
-              if (widget.editVideo == true || widget.playVideo == true) ...[
-                Spacer(),
-                Preference.getString(Preference.PROFILE_VIDEO) != null &&
-                        Preference.getString(Preference.PROFILE_VIDEO) != ""
-                    ? AspectRatio(
-                        aspectRatio: controller.value.aspectRatio,
-                        child: isVideoLoading
-                            ? SizedBox(
-                                width: width(context) * 0.3,
-                                height: width(context) * 0.3,
-                                child: CircularProgressIndicator())
-                            : VideoPlayer(controller))
-                    : SizedBox(),
-                //Text('${Preference.getString(Preference.PROFILE_VIDEO)}'),
-                Spacer(),
-                if (widget.playVideo == false)
-                  Container(
-                    padding: EdgeInsets.zero,
-                    color: ColorConstants.BLACK,
-                    width: width(context),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        //icon('Edit', 'assets/images/edit.svg', () {}),
-                        icon(
-                            'Upload',
-                            widget.editVideo == true
-                                ? 'assets/images/video.svg'
-                                : 'assets/images/image.svg', () async {
-                          _initFilePiker()?.then((value) async {
-                            
-                          if(value != null){
-                              Map<String, dynamic> data = Map();
-                            data['video'] = await MultipartFile.fromFile(
-                                '${value.path}',
-                                filename: '${value.path.split('/').last}');
+      body: SafeArea(
+        child: ScreenWithLoader(
+          isLoading: profileLoading,
+          body: BlocListener<HomeBloc, HomeState>(
+            listener: (context, state) {
+              if (state is UploadProfileState) {
+                handleUploadProfile(state);
+              }
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Text('${Preference.getString(Preference.PROFILE_VIDEO)}'),
+                if (widget.editVideo == true || widget.playVideo == true) ...[
+                  Spacer(),
+                  Preference.getString(Preference.PROFILE_VIDEO) != null &&
+                          Preference.getString(Preference.PROFILE_VIDEO) != ""
+                      ? AspectRatio(
+                          aspectRatio: controller.value.aspectRatio,
+                          child: isVideoLoading
+                              ? SizedBox(
+                                  width: width(context) * 0.3,
+                                  height: width(context) * 0.3,
+                                  child: CircularProgressIndicator())
+                              : VideoPlayer(controller))
+                      : SizedBox(),
+                  //Text('${Preference.getString(Preference.PROFILE_VIDEO)}'),
+                  Spacer(),
+                  if (widget.playVideo == false)
+                    Container(
+                      padding: EdgeInsets.zero,
+                      color: ColorConstants.BLACK,
+                      width: width(context),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          //icon('Edit', 'assets/images/edit.svg', () {}),
+                          icon(
+                              'Upload',
+                              widget.editVideo == true
+                                  ? 'assets/images/video.svg'
+                                  : 'assets/images/image.svg', () async {
+                            _initFilePiker()?.then((value) async {
+                              if (value != null) {
+                                Map<String, dynamic> data = Map();
+                                data['video'] = await MultipartFile.fromFile(
+                                    '${value.path}',
+                                    filename: '${value.path.split('/').last}');
+                                BlocProvider.of<HomeBloc>(context)
+                                    .add(UploadProfileEvent(data: data));
+                              }
+                            });
+                          }),
+                          icon('Remove ', 'assets/images/delete.svg', () {
+                            Map<String, dynamic> data = Map();
+                            data['delete'] = 'video';
+
+                            setState(() {
+                              profileLoading = true;
+                            });
+                            Preference.setString(Preference.PROFILE_IMAGE, '');
                             BlocProvider.of<HomeBloc>(context)
                                 .add(UploadProfileEvent(data: data));
-                          }
-                          });
-                        }),
-                        icon('Remove ', 'assets/images/delete.svg', () {
-                           Map<String, dynamic> data = Map();
-                           data['delete'] = 'video';
-
-                           setState(() {
-                             profileLoading = true;
-                           });
-                           Preference.setString( Preference.PROFILE_IMAGE, '');
-                          BlocProvider.of<HomeBloc>(context)
-                                .add(UploadProfileEvent(data: data));
-                        }),
-                      ],
+                          }),
+                        ],
+                      ),
                     ),
-                  ),
-              ] else ...[
-                Preference.getString(Preference.PROFILE_IMAGE) != null
-                    ? Expanded(
-                        child: Column(
-                          children: [
-                            CachedNetworkImage(
-                              imageUrl:
-                                  '${Preference.getString(Preference.PROFILE_IMAGE)}',
-                              filterQuality: FilterQuality.low,
-                              errorWidget: (context, url , widget){
-                                return SizedBox();
-                              },
-                              width: width(context),
-                              height: height(context) * 0.8,
-                              fit: BoxFit.contain,
-                            ),
-                            Spacer(),
-                            Container(
-                              padding: EdgeInsets.zero,
-                              color: ColorConstants.BLACK,
-                              width: width(context),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  //icon('Edit ', 'assets/images/edit.svg', () async{}),
-                                  icon('Upload ', 'assets/images/camera.svg',
-                                      () async {
-                                    FilePickerResult? result;
-                                    try {
-                                      //if (await Permission.storage.request().isGranted) {
+                ] else ...[
+                  Preference.getString(Preference.PROFILE_IMAGE) != null
+                      ? Expanded(
+                          child: Column(
+                            children: [
+                              CachedNetworkImage(
+                                imageUrl:
+                                    '${Preference.getString(Preference.PROFILE_IMAGE)}',
+                                filterQuality: FilterQuality.low,
+                                errorWidget: (context, url, widget) {
+                                  return SizedBox();
+                                },
+                                width: width(context),
+                                height: height(context) * 0.8,
+                                fit: BoxFit.contain,
+                              ),
+                              Spacer(),
+                              Container(
+                                padding: EdgeInsets.zero,
+                                color: ColorConstants.BLACK,
+                                width: width(context),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    //icon('Edit ', 'assets/images/edit.svg', () async{}),
+                                    icon('Upload ', 'assets/images/camera.svg',
+                                        () async {
+                                      FilePickerResult? result;
+                                      try {
+                                        //if (await Permission.storage.request().isGranted) {
                                         if (Platform.isIOS) {
                                           result = await FilePicker.platform
                                               .pickFiles(
@@ -199,48 +199,53 @@ class _UploadProfileState extends State<UploadProfile> {
                                               .pickFiles(
                                                   allowMultiple: false,
                                                   type: FileType.custom,
-                                                  allowedExtensions: ['jpg', 'png', 'jpeg']);
+                                                  allowedExtensions: [
+                                                'jpg',
+                                                'png',
+                                                'jpeg'
+                                              ]);
                                         }
-                                     // }
-                                    } catch (e) {
-                                      print('the expection is $e');
-                                    }
+                                        // }
+                                      } catch (e) {
+                                        print('the expection is $e');
+                                      }
 
-                                    String? value = result?.paths.first;
-                                    print('result================');
-                                    print(value);
-                                    if (value != null) {
-                                      selectedImage = value;
-                                      selectedImage = await _cropImage(value);
-                                    }
-                                    Map<String, dynamic> data = Map();
-                                    data['image'] =
-                                        await MultipartFile.fromFile(
-                                            '$selectedImage',
-                                            filename: selectedImage);
-                                    BlocProvider.of<HomeBloc>(context)
-                                        .add(UploadProfileEvent(data: data));
-                                  }),
-                                  icon('Remove ', 'assets/images/delete.svg',
-                                      () {
-                                        Map<String, dynamic> data = Map();
-                           data['delete'] = 'image';
-                          BlocProvider.of<HomeBloc>(context)
-                                .add(UploadProfileEvent(data: data));
-                                      }),
-                                ],
+                                      String? value = result?.paths.first;
+                                      print('result================');
+                                      print(value);
+                                      if (value != null) {
+                                        selectedImage = value;
+                                        selectedImage = await _cropImage(value);
+                                      }
+                                      Map<String, dynamic> data = Map();
+                                      data['image'] =
+                                          await MultipartFile.fromFile(
+                                              '$selectedImage',
+                                              filename: selectedImage);
+                                      BlocProvider.of<HomeBloc>(context)
+                                          .add(UploadProfileEvent(data: data));
+                                    }),
+                                    icon('Remove ', 'assets/images/delete.svg',
+                                        () {
+                                      Map<String, dynamic> data = Map();
+                                      data['delete'] = 'image';
+                                      BlocProvider.of<HomeBloc>(context)
+                                          .add(UploadProfileEvent(data: data));
+                                    }),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
+                        )
+                      : Container(
+                          color: ColorConstants.WHITE,
+                          height: height(context) * 0.6,
+                          width: width(context),
                         ),
-                      )
-                    : Container(
-                        color: ColorConstants.WHITE,
-                        height: height(context) * 0.6,
-                        width: width(context),
-                      ),
-              ]
-            ],
+                ]
+              ],
+            ),
           ),
         ),
       ),
@@ -312,38 +317,43 @@ class _UploadProfileState extends State<UploadProfile> {
       //isStoragePermission = await Permission.storage.status.isGranted;
       //isStoragePermission = await Permission.storage.request().isGranted;
       if (await Permission.storage.request().isGranted) {
-      if (Platform.isIOS) {
-        result = await FilePicker.platform.pickFiles(
-            allowMultiple: false, type: FileType.video, allowedExtensions: []);
-      } else {
-        result = await FilePicker.platform.pickFiles(
-          allowMultiple: false,
-          type: FileType.video,
-          //allowedExtensions: ['mp4']
-        );
-      }
-      setState(() {
-        profileLoading = true;
-      });
-
-      if (result != null) {
-        if (File(result.paths[0]!).lengthSync() / 1000000 > 50.0) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('${Strings.of(context)?.imageVideoSizeLarge} 50MB'),
-          ));
-            setState(() {
-        profileLoading = false;
-        return null;
-      });
+        if (Platform.isIOS) {
+          result = await FilePicker.platform.pickFiles(
+              allowMultiple: false,
+              type: FileType.video,
+              allowedExtensions: []);
         } else {
-          pickedList.add(File(result.paths[0]!));
+          result = await FilePicker.platform.pickFiles(
+            allowMultiple: false,
+            type: FileType.video,
+            //allowedExtensions: ['mp4']
+          );
         }
-        pickedFile = pickedList.first;
-        print('pickedFile ==== ${pickedFile}');
+        setState(() {
+          profileLoading = true;
+        });
 
+        if (result != null) {
+          if (File(result.paths[0]!).lengthSync() / 1000000 > 50.0) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('${Strings.of(context)?.imageVideoSizeLarge} 50MB'),
+            ));
+            setState(() {
+              profileLoading = false;
+            });
+            return null;
+          } else {
+            pickedList.add(File(result.paths[0]!));
+          }
+          pickedFile = pickedList.first;
+          print('pickedFile ==== ${pickedFile}');
+        } else {
+          setState(() {
+            profileLoading = false;
+          });
+          return null;
+        }
       }
-    }
-
     }
     if (isVideosPermission && isPhotosPermission) {
       // no worries about crash
@@ -365,9 +375,9 @@ class _UploadProfileState extends State<UploadProfile> {
       });
 
       if (result != null) {
-        if (File(result.paths[0]!).lengthSync() / 1000000 > 50.0) {
+        if (File(result.paths[0]!).lengthSync() / 1000000 > 500.0) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('${Strings.of(context)?.imageVideoSizeLarge} 50MB'),
+            content: Text('${Strings.of(context)?.imageVideoSizeLarge} 500MB'),
           ));
         } else {
           pickedList.add(File(result.paths[0]!));

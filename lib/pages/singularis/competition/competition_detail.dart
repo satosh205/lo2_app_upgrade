@@ -20,6 +20,7 @@ import 'package:masterg/pages/training_pages/assessment_page.dart';
 import 'package:masterg/pages/training_pages/assignment_detail_page.dart';
 import 'package:masterg/pages/training_pages/training_service.dart';
 import 'package:masterg/utils/Styles.dart';
+import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 import 'package:page_transition/page_transition.dart';
@@ -128,6 +129,10 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                           '${widget.competition?.name}',
                           style: Styles.bold(color: Color(0xff0E1638)),
                         ),
+                        SizedBox(
+                          height: 3,
+                        ),
+
                         if (widget.competition?.organizedBy != null)
                           Wrap(
                             children: [
@@ -144,6 +149,9 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                               ),
                             ],
                           ),
+                        SizedBox(
+                          height: 4,
+                        ),
                         Row(
                           children: [
                             Container(
@@ -221,7 +229,6 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                           ],
                         ),
                         ReadMoreText(
-                          
                           text: '${widget.competition?.description}',
                           color: Color(0xff5A5F73),
                           viewMore: 'view more',
@@ -259,6 +266,10 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                         //     ),
                         //   ),
                         // ),
+                        SizedBox(
+                          height: 4,
+                        ),
+
                         if (competitionDetailLoading == false &&
                             contentList?.data?.list?.length != 0)
                           Text('Activities',
@@ -274,21 +285,58 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                         itemCount: contentList?.data?.list?.length,
                         itemBuilder: (context, index) {
                           // return Text('nice');
-                          
+
                           bool isLocked = index != 0;
+
+                          bool isTick = false;
+
+                          // if(!empty($competitionVal['per_completion']) && in_array($competitionVal['content_type'], array('assignment','assessment')) && $competitionVal['overall_score'] >= $competitionVal['per_completion']){
+                          //                            $tick = "fa fa-check";
+                          //                        }elseif(!empty($competitionVal['per_completion']) && !empty($competitionVal['completion_percentage']) && $competitionVal['completion_percentage'] >= $competitionVal['per_completion']){
+                          //                            $tick = "fa fa-check";
+                          //                        }
+                          //                        if($competitionVal['activity_status'] == 2){
+                          //                            $tick = "fa fa-check";
+                          //  }
+                          if (contentList?.data?.list?[index]
+                                      ?.completionPercentage !=
+                                  null &&
+                              (contentList?.data?.list?[index]?.contentType ==
+                                      'assignment' ||
+                                  contentList
+                                          ?.data?.list?[index]?.contentType ==
+                                      'assessment') &&
+                              double.parse(
+                                      '${contentList?.data?.list?[index]?.overallScore ?? 0}') >=
+                                  double.parse(
+                                      '${contentList?.data?.list?[index]?.perCompletion}')) {
+                            isTick = true;
+                          } else if (contentList?.data?.list?[index]
+                                      ?.completionPercentage !=
+                                  null &&
+                              double.parse(
+                                      '${contentList?.data?.list?[index]?.completionPercentage}') >=
+                                  double.parse(
+                                      '${contentList?.data?.list?[index]?.perCompletion}')) {
+                            isTick = true;
+                          }
+                          if (contentList?.data?.list?[index]?.activityStatus ==
+                              2) {
+                            isTick = true;
+                          }
+
                           if (index != 0) {
                             CompetitionContent? data =
-                              contentList?.data?.list?[index-1];
+                                contentList?.data?.list?[index - 1];
                             if (data?.completionPercentage != null &&
                                 (data?.contentType == 'assignment' ||
                                     data?.contentType == 'assessment') &&
-                               double.parse('${data?.overallScore ?? 0}') >=
+                                double.parse('${data?.overallScore ?? 0}') >=
                                     double.parse('${data?.perCompletion}')) {
                               isLocked = false;
-                            } 
-                            else if (data?.completionPercentage != null &&
-                                 double.parse('${data?.completionPercentage}') >=
-                                     double.parse('${data?.perCompletion}')) {
+                            } else if (data?.completionPercentage != null &&
+                                double.parse('${data?.completionPercentage}') >=
+                                    double.parse('${data?.perCompletion}')) {
                               isLocked = false;
                             }
                             if (data?.activityStatus == 2) {
@@ -299,8 +347,12 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                               contentList?.data?.list![index],
                               index ==
                                   ((contentList?.data?.list?.length ?? 1) - 1),
-                              isLocked: isLocked);
+                              isLocked: isLocked,
+                              isTick: isTick);
                         }),
+                    SizedBox(
+                      height: 3,
+                    ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
@@ -308,51 +360,71 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           //what's in for you
-                      if(contentList?.data?.competitionInstructions?.whatsIn != null)    Text(
-                            'What’s in for you',
-                            style:
-                                Styles.bold(size: 14, color: Color(0xff5A5F73)),
-                          ),
+                          if (contentList
+                                  ?.data?.competitionInstructions?.whatsIn !=
+                              null)
+                            Text(
+                              'What’s in for you',
+                              style: Styles.bold(
+                                  size: 14, color: Color(0xff5A5F73)),
+                            ),
                           SizedBox(
                             height: 8,
                           ),
-                          Text(
-                            '${contentList?.data?.competitionInstructions?.whatsIn ?? ''}',
-                            style: Styles.regular(size: 14, color: Color(0xff5A5F73)),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 6),
+                            child: Text(
+                              '${contentList?.data?.competitionInstructions?.whatsIn ?? ''}',
+                              style: Styles.regular(
+                                  size: 14, color: Color(0xff5A5F73)),
+                            ),
                           ),
                           SizedBox(
                             height: 20,
                           ),
 
-                       if(contentList?.data?.competitionInstructions?.instructions != null)   Text(
-                            'Instructions',
-                            style:
-                                Styles.bold(size: 14, color: Color(0xff5A5F73)),
-                          ),
+                          if (contentList?.data?.competitionInstructions
+                                  ?.instructions !=
+                              null)
+                            Text(
+                              'Instructions',
+                              style: Styles.bold(
+                                  size: 14, color: Color(0xff5A5F73)),
+                            ),
                           SizedBox(
                             height: 4,
                           ),
 
-                          Text(
-                            '${contentList?.data?.competitionInstructions?.instructions ?? ''}',
-                            style: Styles.regular(size: 14, color: Color(0xff5A5F73)),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 6),
+                            child: Text(
+                              '${contentList?.data?.competitionInstructions?.instructions ?? ''}',
+                              style: Styles.regular(
+                                  size: 14, color: Color(0xff5A5F73)),
+                            ),
                           ),
                           SizedBox(
                             height: 20,
                           ),
 
-                      if(contentList?.data?.competitionInstructions?.faq != null)    Text(
-                            'FAQs',
-                            style:
-                                Styles.bold(size: 14, color: Color(0xff5A5F73)),
-                          ),
+                          if (contentList?.data?.competitionInstructions?.faq !=
+                              null)
+                            Text(
+                              'FAQs',
+                              style: Styles.bold(
+                                  size: 14, color: Color(0xff5A5F73)),
+                            ),
                           SizedBox(
                             height: 4,
                           ),
 
-                          Text(
-                            '${contentList?.data?.competitionInstructions?.faq ?? ''}',
-                            style: Styles.regular(size: 14, color: Color(0xff5A5F73)),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 6),
+                            child: Text(
+                              '${contentList?.data?.competitionInstructions?.faq ?? ''}',
+                              style: Styles.regular(
+                                  size: 14, color: Color(0xff5A5F73)),
+                            ),
                           ),
                         ],
                       ),
@@ -384,10 +456,10 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
   }
 
   Widget competitionCard(CompetitionContent? data, bool isLast,
-      {bool? isLocked}) {
+      {bool? isLocked, bool? isTick}) {
     CardType? cardType;
 
-    if (data?.completionPercentage == 100.0) isLocked = false;
+    // if (data?.completionPercentage == 100.0) isLocked = false;
     // if (cardType != CardType.session && data?.completionPercentage == 100)
     //   isLocked = false;
 
@@ -410,11 +482,11 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
         cardType = CardType.assignment;
 
         break;
-      case "zoomclass" :
+      case "zoomclass":
         cardType = CardType.session;
         // isLocked = false;
         break;
-      case "liveclass" :
+      case "liveclass":
         cardType = CardType.session;
     }
     return Container(
@@ -428,7 +500,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  data?.completionPercentage == 100.0
+                  isTick == true
                       ? Container(
                           padding: EdgeInsets.all(1),
                           decoration: BoxDecoration(
@@ -476,8 +548,8 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
   }
 
   Widget card(CompetitionContent data, CardType? cardType, bool? isLocked) {
-    String startDate = CardType.session == cardType ? '${data.createdAt}' :  '${data.startDate?.split(' ').first}';
-    DateTime start = CardType.session == cardType ? DateFormat("yyyy-MM-dd hh:mm:ss").parse(startDate) :  DateFormat("yyyy-MM-dd").parse(startDate);
+    String startDate = '${data.startDate?.split(' ').first}';
+    DateTime start = DateFormat("yyyy-MM-dd").parse(startDate);
     return InkWell(
       onTap: () {
         if (isLocked == true) {
@@ -553,16 +625,52 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
           children: [
             Text('${data.contentTypeLabel ?? ''}',
                 style: Styles.regular(size: 12, color: ColorConstants.GREY_3)),
+            if (cardType != CardType.session) ...[
+              SizedBox(height: 8),
+              Text('${data.title}', style: Styles.bold(size: 12)),
+            ],
             SizedBox(height: 8),
-            Text('${data.title}', style: Styles.bold(size: 12)),
-            SizedBox(height: 8),
+            if (cardType == CardType.session)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.network('${data.baseFileUrl}/${data.presenterImage}',
+                      height: height(context) * 0.06,
+                      width: height(context) * 0.06,
+                      errorBuilder: (_, __, ___) {
+                    return SizedBox();
+                  }),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${data.presenter}',
+                        style: Styles.bold(size: 14),
+                      ),
+                      Text(
+                        '${data.title}',
+                        style:
+                            Styles.regular(size: 10, color: Color(0xff5A5F73)),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            SizedBox(
+              height: 8,
+            ),
             Row(
               children: [
                 Text(
                     cardType == CardType.note
                         ? '${data.pageCount ?? ''} pages'
                         : cardType == CardType.video
-                            ? '${data.duration ?? ''} mins'
+                            ? '${data.duration ?? data.expectedDuration} mins'
                             : '${data.difficultyLevel?.capital()}',
                     style: Styles.regular(
                         color: ColorConstants.GREEN_1, size: 12)),
@@ -583,6 +691,12 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                 Text('${data.gScore ?? 0} Points',
                     style: Styles.regular(
                         color: ColorConstants.ORANGE_4, size: 12)),
+                SizedBox(
+                  width: 4,
+                ),
+                Text('•',
+                    style:
+                        Styles.regular(color: ColorConstants.GREY_2, size: 12)),
                 SizedBox(
                   width: 4,
                 ),
@@ -723,7 +837,6 @@ extension on String {
     return this[0].toUpperCase() + this.substring(1);
   }
 }
-
 
 // <?php
 //      $is_lock = 1;

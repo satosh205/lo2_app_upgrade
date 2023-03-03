@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:masterg/data/models/response/home_response/competition_content_list_resp.dart';
 import 'package:masterg/utils/Styles.dart';
 import 'package:masterg/utils/resource/colors.dart';
+import 'package:masterg/utils/utility.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CompetitionSession extends StatelessWidget {
@@ -30,6 +31,7 @@ class CompetitionSession extends StatelessWidget {
 
     DateTime startDate =
         DateFormat("yyyy-MM-dd hh:mm:ss").parse(startDateString);
+        String pmTime   = DateFormat('h:mm a').format(startDate);
     DateTime now = DateTime.now();
     final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
     final String formatted = formatter.format(now);
@@ -90,6 +92,7 @@ class CompetitionSession extends StatelessWidget {
                     '${data?.contentTypeLabel ?? ''}',
                     style: Styles.bold(size: 14),
                   ),
+                
                   Text(
                     '${data?.isJoined ?? ''}',
                     style: Styles.bold(size: 14),
@@ -114,7 +117,7 @@ class CompetitionSession extends StatelessWidget {
                           CircleAvatar(
                             radius: 40,
                             backgroundImage: NetworkImage(
-                              "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=327&q=80",
+                              '${data?.baseFileUrl}${data?.presenterImage}',
                             ),
                           ),
                           SizedBox(
@@ -128,6 +131,7 @@ class CompetitionSession extends StatelessWidget {
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
                                       color: Colors.black)),
+                                        SizedBox(height: 6),
                               Text('${data?.title}',
                                   style: Styles.regular(
                                       size: 12, color: Color(0xff929BA3)))
@@ -141,14 +145,29 @@ class CompetitionSession extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            'Due Date:',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xFF5A5F73)),
+                            'Start Date: ',
+                             style: Styles.regular(size: 14,color: Color(0xFF5A5F73)),
                           ),
                           Text(
-                            '${startDate.day} ${listOfMonths[startDate.month - 1]} ${startDate.hour}:${startDate.minute}:${startDate.second}',
-                            style: Styles.regular(size: 14),
+                            '${Utility.ordinal(startDate.day)} ${listOfMonths[startDate.month - 1]} | $pmTime',
+                            
+                            // ${startDate.hour}:${startDate.minute}:${startDate.second}',
+                            style: Styles.regular(size: 14, color: Color(0xff0E1638)),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Duration:',
+                            style: Styles.regular(size: 14,color: Color(0xFF5A5F73)),
+                          ),
+                          Text(
+                            ' ${data?.duration} mins' ,
+                            style: Styles.regular(size: 14, color: Color(0xff0E1638)),
                           )
                         ],
                       )

@@ -531,7 +531,7 @@ class _AddActivitiesState extends State<AddActivities> {
       context: context,
       initialDate: selectedDate, // Refer step 1
       firstDate: startDate ?? DateTime(1900),
-      lastDate: DateTime(2030),
+      lastDate: selectedDate,
     );
     if (picked != null && picked != selectedDate)
       setState(() {

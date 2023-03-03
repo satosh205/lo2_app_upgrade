@@ -1,8 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
+import 'package:masterg/pages/singularis/competition/competition_navigation/competition_notes.dart';
+import 'package:masterg/pages/singularis/competition/competition_navigation/competition_youtube.dart';
 import 'package:masterg/pages/singularis/job/widgets/blank_widget_page.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -26,10 +27,9 @@ import 'package:masterg/data/models/response/home_response/user_jobs_list_respon
 import 'package:masterg/pages/training_pages/training_service.dart';
 import 'package:masterg/utils/utility.dart';
 
-
 enum CardType { assignment, assessment, session, video, note, youtube }
-class JobDetailsPage extends StatefulWidget {
 
+class JobDetailsPage extends StatefulWidget {
   final String? title;
   final String? description;
   final String? location;
@@ -42,7 +42,8 @@ class JobDetailsPage extends StatefulWidget {
   final int? id;
   String? jobStatus = '';
 
-   JobDetailsPage({Key? key,
+  JobDetailsPage({
+    Key? key,
     this.title,
     this.description,
     this.location,
@@ -61,7 +62,6 @@ class JobDetailsPage extends StatefulWidget {
 }
 
 class _JobDetailsPageState extends State<JobDetailsPage> {
-
   bool? competitionDetailLoading = true;
   CompetitionContentListResponse? contentList;
   int? applied = 0;
@@ -72,10 +72,9 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
     super.initState();
   }
 
-
   void getCompetitionContentList(int? isApplied) {
-    BlocProvider.of<HomeBloc>(context).add(
-        CompetitionContentListEvent(competitionId: widget.id, isApplied: isApplied));
+    BlocProvider.of<HomeBloc>(context).add(CompetitionContentListEvent(
+        competitionId: widget.id, isApplied: isApplied));
   }
 
   void handleCompetitionListState(CompetitionContentListState state) {
@@ -90,9 +89,10 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
           Log.v("Competition Content List State....................");
           contentList = competitionState.response;
           competitionDetailLoading = false;
-          if(applied != 0){
+          if (applied != 0) {
             Utility.showSnackBar(
-                scaffoldContext: context, message: 'Your application is successfully submitted.');
+                scaffoldContext: context,
+                message: 'Your application is successfully submitted.');
           }
           break;
         case ApiStatus.ERROR:
@@ -105,7 +105,6 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
       }
     });
   }
-
 
   List<String> listOfMonths = [
     "January",
@@ -121,7 +120,6 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
     "November",
     "December"
   ];
-
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +140,10 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
             ),
             elevation: 0.0,
             backgroundColor: ColorConstants.WHITE,
-            title: Text('', style: TextStyle(color: Colors.black),),
+            title: Text(
+              '',
+              style: TextStyle(color: Colors.black),
+            ),
           ),
           backgroundColor: ColorConstants.JOB_BG_COLOR,
           body: _makeBody(),
@@ -159,18 +160,22 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
         child: Column(
           children: [
             ///Job List
-             Divider(height: 1,color: ColorConstants.GREY_3,),
+            Divider(
+              height: 1,
+              color: ColorConstants.GREY_3,
+            ),
             _jobDetailsWidget(),
 
             ///Similar Jobs
-            SizedBox(height: 30,),
+            SizedBox(
+              height: 30,
+            ),
             _progressActivitiesSection(),
           ],
         ),
       ),
     );
   }
-
 
   Widget _jobDetailsWidget() {
     return Container(
@@ -220,35 +225,41 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                               children: [
                                 Image.asset('assets/images/jobicon.png'),
                                 Padding(
-                                  padding:
-                                  const EdgeInsets.only(left: 5.0),
+                                  padding: const EdgeInsets.only(left: 5.0),
                                   child: Text('Exp: ',
                                       style: Styles.regular(
                                           size: 12,
                                           color: ColorConstants.GREY_6)),
                                 ),
-                                Text('${widget.experience != null ? widget.experience:"0"} Yrs',
+                                Text(
+                                    '${widget.experience != null ? widget.experience : "0"} Yrs  ',
                                     style: Styles.regular(
                                         size: 12,
                                         color: ColorConstants.GREY_6)),
-
-                                widget.location != null ? Row(
-                                  children: [
-                                    Padding(
-                                      padding:
-                                      const EdgeInsets.only(left: 20.0),
-                                      child: Icon(
-                                        Icons.location_on_outlined,
-                                        size: 16,
-                                        color: ColorConstants.GREY_3,
-                                      ),
-                                    ),
-                                    Text('${widget.location}',
-                                        style: Styles.regular(
-                                            size: 12,
-                                            color: ColorConstants.GREY_3)),
-                                  ],
-                                ):SizedBox(),
+                                Text('  •',
+                                    style: Styles.regular(
+                                        color: ColorConstants.GREY_2,
+                                        size: 12)),
+                                widget.location != null
+                                    ? Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 10.0),
+                                            child: Icon(
+                                              Icons.location_on_outlined,
+                                              size: 16,
+                                              color: ColorConstants.GREY_3,
+                                            ),
+                                          ),
+                                          Text('${widget.location}',
+                                              style: Styles.regular(
+                                                  size: 12,
+                                                  color:
+                                                      ColorConstants.GREY_3)),
+                                        ],
+                                      )
+                                    : SizedBox(),
                               ],
                             ),
                           ),
@@ -260,54 +271,68 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
               ),
             ),
           ),
-
           Container(
             child: Padding(
-              padding: const EdgeInsets.only(left: 10.0, top: 10.0, right: 10.0, bottom: 30.0),
-              child: Text('${widget.description}',
-                style: Styles.regular(size: 13, color: ColorConstants.GREY_3,),),
-            ),
-          ),
-
-         widget.jobStatus == null || widget.jobStatus == "" ? InkWell(
-           onTap: (){
-             applied = 1;
-             getCompetitionContentList(1);
-             _onLoadingForJob();
-
-             this.setState(() {
-               widget.jobStatus = 'Application Under Process';
-             });
-           },
-           child: Container(
-              height: 40,
-              margin: EdgeInsets.only(left: 50, top: 10, right: 50, bottom: 20),
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
-                gradient:
-                LinearGradient(colors: [
-                  ColorConstants.GRADIENT_ORANGE,
-                  ColorConstants.GRADIENT_RED,]),
-              ),
-              child: Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text('Apply',
-                    style: Styles.regular(size: 13, color: ColorConstants.WHITE,),),
+              padding: const EdgeInsets.only(
+                  left: 10.0, top: 10.0, right: 10.0, bottom: 30.0),
+              child: Text(
+                '${widget.description}',
+                style: Styles.regular(
+                  size: 13,
+                  color: ColorConstants.GREY_3,
                 ),
               ),
             ),
-         ):
-         Padding(
-           padding: const EdgeInsets.only(bottom: 20.0),
-           child: Text('${
-               widget.jobStatus == 'Application under process' ? 'Application Under Process' :
-           widget.jobStatus == 'Application under review' ? 'Application Shortlisted' :
-           widget.jobStatus == 'Rejected' ? 'Unable To Offer You A Position' : widget.jobStatus}',
-             style: Styles.bold(color: widget.jobStatus == 'Rejected' ? ColorConstants.VIEW_ALL :Colors.green, size: 12),),
-         ),
+          ),
+          widget.jobStatus == null || widget.jobStatus == ""
+              ? InkWell(
+                  onTap: () {
+                    applied = 1;
+                    getCompetitionContentList(1);
+                    _onLoadingForJob();
+
+                    this.setState(() {
+                      widget.jobStatus = 'Application Under Process';
+                    });
+                  },
+                  child: Container(
+                    height: 40,
+                    margin: EdgeInsets.only(
+                        left: 50, top: 10, right: 50, bottom: 20),
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      gradient: LinearGradient(colors: [
+                        ColorConstants.GRADIENT_ORANGE,
+                        ColorConstants.GRADIENT_RED,
+                      ]),
+                    ),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          'Apply',
+                          style: Styles.regular(
+                            size: 13,
+                            color: ColorConstants.WHITE,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              : Padding(
+                  padding: const EdgeInsets.only(bottom: 20.0),
+                  child: Text(
+                    '${widget.jobStatus == 'Application under process' ? 'Application Under Process' : widget.jobStatus == 'Application under review' ? 'Application Shortlisted' : widget.jobStatus == 'Rejected' ? 'Unable To Offer You A Position' : widget.jobStatus}',
+                    style: Styles.bold(
+                        color: widget.jobStatus == 'Rejected'
+                            ? ColorConstants.VIEW_ALL
+                            : Colors.green,
+                        size: 12),
+                  ),
+                ),
         ],
       ),
 
@@ -483,83 +508,86 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
     );
   }
 
-
   //TODO:Progress============
-  Widget _progressActivitiesSection(){
+  Widget _progressActivitiesSection() {
     return Container(
-
       child: Column(
+           crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          if (competitionDetailLoading == false ) ...[
-            widget.jobStatus == 'Application under review' || widget.jobStatus == 'Placed' ?
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Text('Progress', style: Styles.bold(size: 16, color: Color(0xff0E1638)))),
-            ):SizedBox(),
+          if (competitionDetailLoading == false) ...[
+            widget.jobStatus == 'Application under review' ||
+                    widget.jobStatus == 'Placed'
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Text('Progress',
+                            style: Styles.bold(
+                                size: 16, color: Color(0xff0E1638)))),
+                  )
+                : SizedBox(),
           ],
 
           //TODO:Progress List
-          if (competitionDetailLoading == false ) ...[
-            widget.jobStatus == 'Application under review' || widget.jobStatus == 'Placed' ?
-            ListView.builder(
-                physics: BouncingScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: contentList?.data?.list?.length,
-                itemBuilder: (context, index) {
-                  // return Text('nice');
-                  bool isLocked = index != 0;
-                  // if(index != 0 && contentList?.data?.list?[index - 1]?.completionPercentage == 100.0){
-                  //   isLocked = false;
-                  // }
+          if (competitionDetailLoading == false) ...[
+            widget.jobStatus == 'Application under review' ||
+                    widget.jobStatus == 'Placed'
+                ? ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: contentList?.data?.list?.length,
+                    itemBuilder: (context, index) {
+                      // return Text('nice');
+                      bool isLocked = index != 0;
+                      // if(index != 0 && contentList?.data?.list?[index - 1]?.completionPercentage == 100.0){
+                      //   isLocked = false;
+                      // }
 
-                  if (index != 0) {
-                            CompetitionContent? data =
-                              contentList?.data?.list?[index-1];
-                            if (data?.completionPercentage != null &&
-                                (data?.contentType == 'assignment' ||
-                                    data?.contentType == 'assessment') &&
-                               double.parse('${data?.overallScore ?? 0}') >=
-                                    double.parse('${data?.perCompletion}')) {
-                              isLocked = false;
-                            } 
-                            else if (data?.completionPercentage != null &&
-                                 double.parse('${data?.completionPercentage}') >=
-                                     double.parse('${data?.perCompletion}')) {
-                              isLocked = false;
-                            }
-                            if (data?.activityStatus == 2) {
-                              isLocked = false;
-                            }
+                      if (index != 0) {
+                        CompetitionContent? data =
+                            contentList?.data?.list?[index - 1];
+                        if (data?.completionPercentage != null &&
+                            (data?.contentType == 'assignment' ||
+                                data?.contentType == 'assessment') &&
+                            double.parse('${data?.overallScore ?? 0}') >=
+                                double.parse('${data?.perCompletion}')) {
+                          isLocked = false;
+                        } else if (data?.completionPercentage != null &&
+                            double.parse('${data?.completionPercentage}') >=
+                                double.parse('${data?.perCompletion}')) {
+                          isLocked = false;
+                        }
+                        if (data?.activityStatus == 2) {
+                          isLocked = false;
+                        }
+                      }
 
-                            
-                          }
-
-                  return competitionCard(
-                      contentList?.data?.list![index],
-                      index == ((contentList?.data?.list?.length ?? 1) - 1),
-                      isLocked:  isLocked);
-                }): SizedBox(),
-
+                      return competitionCard(contentList?.data?.list![index],
+                          index == ((contentList?.data?.list?.length ?? 1) - 1),
+                          isLocked: isLocked);
+                    })
+                : SizedBox(),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   //what's in for you
                   Text(
                     'What’s in for you',
-                    style:
-                    Styles.bold(size: 14, color: Color(0xff5A5F73)),
+                    style: Styles.bold(size: 14, color: Color(0xff5A5F73)),
                   ),
                   SizedBox(
                     height: 8,
                   ),
-                  Text(
-                    '${contentList?.data?.competitionInstructions?.whatsIn}',
-                    style: Styles.regular(color: Color(0xff5A5F73), size: 14),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 6),
+                    child: Text(
+                      '${contentList?.data?.competitionInstructions?.whatsIn}',
+                      style: Styles.regular(color: Color(0xff5A5F73), size: 14),
+                    ),
                   ),
                   SizedBox(
                     height: 40,
@@ -567,16 +595,18 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
 
                   Text(
                     'Requirements',
-                    style:
-                    Styles.bold(size: 14, color: Color(0xff5A5F73)),
+                    style: Styles.bold(size: 14, color: Color(0xff5A5F73)),
                   ),
                   SizedBox(
                     height: 8,
                   ),
 
-                  Text(
-                    '${contentList?.data?.competitionInstructions?.instructions}',
-                    style: Styles.regular(color: Color(0xff5A5F73), size: 14),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 6),
+                    child: Text(
+                      '${contentList?.data?.competitionInstructions?.instructions}',
+                      style: Styles.regular(color: Color(0xff5A5F73), size: 14),
+                    ),
                   ),
                   SizedBox(
                     height: 40,
@@ -584,16 +614,18 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
 
                   Text(
                     'Job Description',
-                    style:
-                    Styles.bold(size: 14, color: Color(0xff5A5F73)),
+                    style: Styles.bold(size: 14, color: Color(0xff5A5F73)),
                   ),
                   SizedBox(
                     height: 8,
                   ),
 
-                  Text(
-                    '${contentList?.data?.competitionInstructions?.faq}',
-                    style: Styles.regular(color: Color(0xff5A5F73), size: 14),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 6),
+                    child: Text(
+                      '${contentList?.data?.competitionInstructions?.faq}',
+                      style: Styles.regular(color: Color(0xff5A5F73), size: 14),
+                    ),
                   ),
                 ],
               ),
@@ -607,10 +639,9 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                       baseColor: Color(0xffe6e4e6),
                       highlightColor: Color(0xffeaf0f3),
                       child: Container(
-                        height:
-                        MediaQuery.of(context).size.height * 0.1,
-                        margin: EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 20),
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                             color: Colors.white,
@@ -622,7 +653,8 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
     );
   }
 
-  Widget competitionCard(CompetitionContent? data, bool isLast, {bool? isLocked}) {
+  Widget competitionCard(CompetitionContent? data, bool isLast,
+      {bool? isLocked}) {
     CardType? cardType;
 
     if (data?.completionPercentage == 100.0) isLocked = false;
@@ -630,7 +662,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
     //   isLocked = false;
 
     switch (data?.contentType) {
-      /*case "video_yts":
+      case "video_yts":
         cardType = CardType.youtube;
         break;
       case "video":
@@ -638,7 +670,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
         break;
       case "notes":
         cardType = CardType.note;
-        break;*/
+        break;
       case "assessment":
         cardType = CardType.assessment;
         break;
@@ -660,20 +692,32 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  data?.completionPercentage == 100.0   ? Container(
-                      padding: EdgeInsets.all(1),
-                      decoration: BoxDecoration(shape: BoxShape.circle, color: ColorConstants.GREEN_1),
-                      child: Icon(Icons.done, size: 20, color: ColorConstants.WHITE,)): SvgPicture.asset(
-                    isLocked == true
-                        ? 'assets/images/lock_content.svg'
-                        : 'assets/images/circular_border.svg',
-                    width: 18,
-                    height: 18,
-                  ),
+                  data?.completionPercentage == 100.0
+                      ? Container(
+                          padding: EdgeInsets.all(1),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: ColorConstants.GREEN_1),
+                          child: Icon(
+                            Icons.done,
+                            size: 20,
+                            color: ColorConstants.WHITE,
+                          ))
+                      : SvgPicture.asset(
+                          isLocked == true
+                              ? 'assets/images/lock_content.svg'
+                              : 'assets/images/circular_border.svg',
+                          width: 18,
+                          height: 18,
+                        ),
                   if (!isLast)
                     Container(
                       margin: EdgeInsets.only(top: 4),
-                      height:data?.completionPercentage == 100.0  && (cardType == CardType.assignment  || cardType == CardType.assessment) ?100 : 75,
+                      height: data?.completionPercentage == 100.0 &&
+                              (cardType == CardType.assignment ||
+                                  cardType == CardType.assessment)
+                          ? 100
+                          : 75,
                       width: 4,
                       decoration: BoxDecoration(
                           color: Color(0xffCECECE),
@@ -706,7 +750,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
           ));
           return;
         }
-        /*if (cardType == CardType.youtube) {
+        if (cardType == CardType.youtube) {
           Navigator.push(
               context,
               PageTransition(
@@ -716,9 +760,8 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                   child: CompetitionYoutubePlayer(
                     id: data.id,
                     videoUrl: data.content,
-                  )));
-        }*/
-        /*else if (cardType == CardType.note) {
+                  ))).then((value) => getCompetitionContentList(0));
+        } else if (cardType == CardType.note) {
           Navigator.push(
               context,
               PageTransition(
@@ -728,10 +771,8 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                   child: CompetitionNotes(
                     id: data.id,
                     notesUrl: data.content,
-                  )));
-        }*/
-
-        else if (cardType == CardType.assignment)
+                  ))).then((value) => getCompetitionContentList(0));
+        } else if (cardType == CardType.assignment)
           Navigator.push(
               context,
               PageTransition(
@@ -745,19 +786,21 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                       child: AssignmentDetailPage(
                         id: data.id,
                         fromCompetition: false,
-                      ))));
+                      )))).then((value) => getCompetitionContentList(0));
         else if (cardType == CardType.assessment) {
           Navigator.push(
-              context,
-              PageTransition(
-                  duration: Duration(milliseconds: 300),
-                  reverseDuration: Duration(milliseconds: 300),
-                  type: PageTransitionType.bottomToTop,
-                  child: ChangeNotifierProvider<AssessmentDetailProvider>(
-                      create: (context) => AssessmentDetailProvider(
-                          TrainingService(ApiService()), data,
-                          fromCompletiton: false, id: data.programContentId),
-                      child: AssessmentDetailPage(fromCompetition: false))));
+                  context,
+                  PageTransition(
+                      duration: Duration(milliseconds: 300),
+                      reverseDuration: Duration(milliseconds: 300),
+                      type: PageTransitionType.bottomToTop,
+                      child: ChangeNotifierProvider<AssessmentDetailProvider>(
+                          create: (context) => AssessmentDetailProvider(
+                              TrainingService(ApiService()), data,
+                              fromCompletiton: false,
+                              id: data.programContentId),
+                          child: AssessmentDetailPage(fromCompetition: false))))
+              .then((value) => getCompetitionContentList(0));
         } else if (cardType == CardType.session) {
           Navigator.push(
               context,
@@ -767,7 +810,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                   type: PageTransitionType.bottomToTop,
                   child: CompetitionSession(
                     data: data,
-                  )));
+                  ))).then((value) => getCompetitionContentList(0));
         }
       },
       child: Column(
@@ -814,27 +857,34 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                 )
               ],
             ),
-
-            if( data.completionPercentage == 100.0  && (cardType == CardType.assignment  || cardType == CardType.assessment))   Divider(),
-            if( data.completionPercentage == 100.0  && (cardType == CardType.assignment  || cardType == CardType.assessment)) Text.rich(
-              TextSpan(
-                children: [
-                  TextSpan(
-                      text:'Report: ',
-                      style: Styles.regular(size: 12)),
-                  TextSpan(
-                      text: cardType == CardType.assignment ? '${data.marks}' : '${data.score}',
-                      style: Styles.bold(size: 12, color: ColorConstants.GRADIENT_RED)),
-                  TextSpan(
-                      text:cardType == CardType.assignment ?  '/${data.passingMarks} Score':  '/${data.maximumMarks} Score',
-                      style: Styles.regular(size: 12)),
-                ],
+            if (data.completionPercentage == 100.0 &&
+                (cardType == CardType.assignment ||
+                    cardType == CardType.assessment))
+              Divider(),
+            if (data.completionPercentage == 100.0 &&
+                (cardType == CardType.assignment ||
+                    cardType == CardType.assessment))
+              Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(text: 'Report: ', style: Styles.regular(size: 12)),
+                    TextSpan(
+                        text: cardType == CardType.assignment
+                            ? '${data.marks}'
+                            : '${data.score}',
+                        style: Styles.bold(
+                            size: 12, color: ColorConstants.GRADIENT_RED)),
+                    TextSpan(
+                        text: cardType == CardType.assignment
+                            ? '/${data.passingMarks} Score'
+                            : '/${data.maximumMarks} Score',
+                        style: Styles.regular(size: 12)),
+                  ],
+                ),
               ),
-            ),
           ]),
     );
   }
-
 
   void _onLoadingForJob() {
     showDialog(
@@ -874,6 +924,8 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
   Widget _questionsSection() {
     return Container(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             child: Column(
@@ -897,9 +949,12 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
           Padding(
             padding: const EdgeInsets.all(13.0),
             child: Text('Similar Jobs',
-                style: Styles.bold(size:16,color: ColorConstants.BLACK)),
+                style: Styles.bold(size: 16, color: ColorConstants.BLACK)),
           ),
-          Divider(height: 1,color: ColorConstants.GREY_3,),
+          Divider(
+            height: 1,
+            color: ColorConstants.GREY_3,
+          ),
 
           //renderJobList(widget.jobListDetails) ,
         ],
@@ -907,7 +962,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
     );
   }
 
- /* Widget renderJobList(jobList){
+  /* Widget renderJobList(jobList){
     return ListView.builder(
         itemCount: jobList?.length,
         shrinkWrap: true,
@@ -1007,13 +1062,13 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                     ],
                   ),
                 ),
-                *//*decoration: BoxDecoration(
+                */ /*decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: ColorConstants.WHITE,
                   boxShadow: [
                     BoxShadow(color: Colors.white, spreadRadius: 3),
                   ],
-                ),*//*
+                ),*/ /*
               ),
               Divider(height: 1,color: ColorConstants.GREY_3,),
             ],
