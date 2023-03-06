@@ -3444,15 +3444,19 @@ class _DashboardPageState extends State<DashboardPage> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 8.0,
-                                                  right: 8.0,
-                                                  top: 2.0),
-                                              child: Text(
-                                                carvaanList?[index].name ?? '',
-                                                style: Styles.textRegular(
-                                                    size: 14),
+                                            SizedBox(
+                                              height: 40,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0,
+                                                    right: 8.0,
+                                                    top: 2.0),
+                                                child: Text(
+                                                  carvaanList?[index].name ?? '',
+                                                  style: Styles.textRegular(
+                                                      size: 14),
+                                                  maxLines: 2,
+                                                ),
                                               ),
                                             ),
                                             Padding(
@@ -3476,18 +3480,18 @@ class _DashboardPageState extends State<DashboardPage> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 80,
+                                  height: 60,
                                   child: Padding(
                                       padding:
                                           carvaanList?[index].description !=
                                                   null
                                               ? const EdgeInsets.only(
-                                                  bottom: 7, left: 10, top: 13)
+                                                  bottom: 7, left: 10, top: 8)
                                               : const EdgeInsets.only(
                                                   bottom: 0, left: 10, top: 0),
                                       child: ReadMoreText(
                                           text:
-                                              '${carvaanList?[index].description ?? ''}')),
+                                          '${carvaanList?[index].description ?? ''}')),
                                 ),
 
                                 carvaanList?[index]
@@ -3501,7 +3505,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                     // ? CustomBetterPlayer(
                                     //     url: widget.fileList[index])
                                     ? Container(
-                                        height: 300,
+                                        height: 290,
                                         child: Center(
                                           child: VideoPlayerWidget(
                                             videoUrl:
@@ -3520,7 +3524,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
                                     : Image.network(
                                         '${carvaanList?[index].resourcePath}',
-                                        height: 300,
+                                        height: 290,
                                         width: double.infinity,
                                         fit: BoxFit.fitWidth),
 
@@ -3534,10 +3538,10 @@ class _DashboardPageState extends State<DashboardPage> {
                                       create: (context) => GCarvaanListModel(
                                           carvaanList
                                               ?.map((e) => GCarvaanPostElement(
-                                                  id: e.id,
-                                                  commentCount: e.commentCount,
-                                                  likeCount: e.likeCount,
-                                                  userLiked: e.userLiked))
+                                              id: e.id,
+                                              commentCount: e.commentCount,
+                                              likeCount: e.likeCount,
+                                              userLiked: e.userLiked))
                                               .toList()),
                                     ),
                                   ],
@@ -3548,199 +3552,199 @@ class _DashboardPageState extends State<DashboardPage> {
                                       ),
                                       child: Consumer<GCarvaanListModel>(
                                         builder: (context, carvaanListModel,
-                                                child) =>
+                                            child) =>
                                             Row(
-                                          mainAxisAlignment:
+                                              mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            InkWell(
-                                              onTap: () {
-                                                setState(() {
-                                                  if (carvaanListModel
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: <Widget>[
+                                                InkWell(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      if (carvaanListModel
                                                           .isLiked(index) ==
-                                                      true) {
-                                                    updateLikeandViews(
-                                                        0,
-                                                        carvaanListModel
-                                                            .list?[index]
-                                                            .programContentId);
+                                                          true) {
+                                                        updateLikeandViews(
+                                                            0,
+                                                            carvaanListModel
+                                                                .list?[index]
+                                                                .programContentId);
 
-                                                    carvaanListModel
-                                                        .updateIsLiked(
+                                                        carvaanListModel
+                                                            .updateIsLiked(
                                                             index, 0);
 
-                                                    carvaanListModel
-                                                        .decrementLike(index);
-                                                  } else {
-                                                    updateLikeandViews(
-                                                        1,
                                                         carvaanListModel
-                                                            .list?[index]
-                                                            .programContentId);
+                                                            .decrementLike(index);
+                                                      } else {
+                                                        updateLikeandViews(
+                                                            1,
+                                                            carvaanListModel
+                                                                .list?[index]
+                                                                .programContentId);
 
-                                                    carvaanListModel
-                                                        .updateIsLiked(
+                                                        carvaanListModel
+                                                            .updateIsLiked(
                                                             index, 1);
 
-                                                    carvaanListModel
-                                                        .incrementLike(index);
-                                                  }
-                                                });
-                                              },
-                                              child: Container(
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Padding(
-                                                      padding:
+                                                        carvaanListModel
+                                                            .incrementLike(index);
+                                                      }
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        Padding(
+                                                          padding:
                                                           const EdgeInsets.only(
-                                                        right: 4.0,
-                                                      ),
-                                                      child: SvgPicture.asset(
-                                                        carvaanListModel.isLiked(
-                                                                    index) ==
+                                                            right: 4.0,
+                                                          ),
+                                                          child: SvgPicture.asset(
+                                                            carvaanListModel.isLiked(
+                                                                index) ==
                                                                 false
-                                                            ? 'assets/images/like_icon.svg'
-                                                            : 'assets/images/liked_icon.svg',
-                                                        height: 18.8,
-                                                        width: 17.86,
-                                                        color: carvaanListModel
-                                                                    .isLiked(
-                                                                        index) ==
+                                                                ? 'assets/images/like_icon.svg'
+                                                                : 'assets/images/liked_icon.svg',
+                                                            height: 18.8,
+                                                            width: 17.86,
+                                                            color: carvaanListModel
+                                                                .isLiked(
+                                                                index) ==
                                                                 false
-                                                            ? ColorConstants
+                                                                ? ColorConstants
                                                                 .BLACK
-                                                            : ColorConstants
+                                                                : ColorConstants
                                                                 .GRADIENT_ORANGE,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      carvaanListModel
-                                                                  .list?[index]
-                                                                  .likeCount !=
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          carvaanListModel
+                                                              .list?[index]
+                                                              .likeCount !=
                                                               0
-                                                          ? '${carvaanListModel.list?[index].likeCount} ${Strings.of(context)?.Like}'
-                                                          : ' ${Strings.of(context)?.Like}',
-                                                      style: Styles.regular(
-                                                          size: 12,
-                                                          color: ColorConstants
-                                                              .BLACK),
+                                                              ? '${carvaanListModel.list?[index].likeCount} ${Strings.of(context)?.Like}'
+                                                              : ' ${Strings.of(context)?.Like}',
+                                                          style: Styles.regular(
+                                                              size: 12,
+                                                              color: ColorConstants
+                                                                  .BLACK),
+                                                        ),
+                                                        /*if (widget.value?.getLikeCount(widget.index) != 0 &&
+                                                  widget.value?.getLikeCount(widget.index) != 1 &&
+                                                  Preference.getInt(Preference.APP_LANGUAGE) == 1)
+                                                Text(
+                                                  Preference.getInt(Preference.APP_LANGUAGE) == 1
+                                                      ? 's'
+                                                      : '',
+                                                  style: Styles.regular(
+                                                      size: 12, color: ColorConstants.BLACK),
+                                                )*/
+                                                      ],
                                                     ),
-                                                    /*if (widget.value?.getLikeCount(widget.index) != 0 &&
-                                                widget.value?.getLikeCount(widget.index) != 1 &&
-                                                Preference.getInt(Preference.APP_LANGUAGE) == 1)
-                                              Text(
-                                                Preference.getInt(Preference.APP_LANGUAGE) == 1
-                                                    ? 's'
-                                                    : '',
-                                                style: Styles.regular(
-                                                    size: 12, color: ColorConstants.BLACK),
-                                              )*/
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap: () {
-                                                showModalBottomSheet(
+                                                InkWell(
+                                                  onTap: () {
+                                                    showModalBottomSheet(
                                                         context: context,
                                                         backgroundColor:
-                                                            ColorConstants.WHITE,
+                                                        ColorConstants.WHITE,
                                                         isScrollControlled: true,
                                                         builder: (context) {
                                                           return FractionallySizedBox(
                                                             heightFactor: 0.7,
                                                             child:
-                                                                CommentViewPage(
+                                                            CommentViewPage(
                                                               postId:
-                                                                  carvaanList?[
-                                                                          index]
-                                                                      .id,
+                                                              carvaanList?[
+                                                              index]
+                                                                  .id,
                                                               value:
-                                                                  carvaanListModel,
+                                                              carvaanListModel,
                                                             ),
                                                           );
                                                         })
-                                                    .then((value) =>
+                                                        .then((value) =>
                                                         setState(() {}));
-                                              },
-                                              child: Container(
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Padding(
-                                                      padding:
+                                                  },
+                                                  child: Container(
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        Padding(
+                                                          padding:
                                                           const EdgeInsets.only(
-                                                        right: 4.0,
-                                                      ),
-                                                      child: SvgPicture.asset(
-                                                        'assets/images/comment_icon.svg',
-                                                        height: 18.8,
-                                                        width: 17.86,
-                                                        allowDrawingOutsideViewBox:
+                                                            right: 4.0,
+                                                          ),
+                                                          child: SvgPicture.asset(
+                                                            'assets/images/comment_icon.svg',
+                                                            height: 18.8,
+                                                            width: 17.86,
+                                                            allowDrawingOutsideViewBox:
                                                             true,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      carvaanListModel
-                                                                  .list?[index]
-                                                                  .commentCount !=
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          carvaanListModel
+                                                              .list?[index]
+                                                              .commentCount !=
                                                               0
-                                                          ? '${carvaanListModel.list?[index].commentCount} ${Strings.of(context)?.Comment}'
-                                                          : ' ${Strings.of(context)?.Comment}',
-                                                      style: Styles.regular(
-                                                          size: 12,
-                                                          color: ColorConstants
-                                                              .BLACK),
+                                                              ? '${carvaanListModel.list?[index].commentCount} ${Strings.of(context)?.Comment}'
+                                                              : ' ${Strings.of(context)?.Comment}',
+                                                          style: Styles.regular(
+                                                              size: 12,
+                                                              color: ColorConstants
+                                                                  .BLACK),
+                                                        ),
+                                                        /*if (carvaanList?[index].commentCount! > 1 &&
+                                                  Preference.getInt(Preference.APP_LANGUAGE) == 1)
+                                                Text(
+                                                  Preference.getInt(Preference.APP_LANGUAGE) == 1
+                                                      ? 's'
+                                                      : '',
+                                                  style: Styles.regular(
+                                                      size: 12, color: ColorConstants.BLACK),
+                                                )*/
+                                                      ],
                                                     ),
-                                                    /*if (carvaanList?[index].commentCount! > 1 &&
-                                                Preference.getInt(Preference.APP_LANGUAGE) == 1)
-                                              Text(
-                                                Preference.getInt(Preference.APP_LANGUAGE) == 1
-                                                    ? 's'
-                                                    : '',
-                                                style: Styles.regular(
-                                                    size: 12, color: ColorConstants.BLACK),
-                                              )*/
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap: () {
-                                                Share.share(
-                                                    '${carvaanList?[index].resourcePath}');
-                                              },
-                                              child: Container(
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Padding(
-                                                      padding:
+                                                InkWell(
+                                                  onTap: () {
+                                                    Share.share(
+                                                        '${carvaanList?[index].resourcePath}');
+                                                  },
+                                                  child: Container(
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        Padding(
+                                                          padding:
                                                           const EdgeInsets.only(
-                                                        right: 4.0,
-                                                      ),
-                                                      child: SvgPicture.asset(
-                                                        'assets/images/share_icon.svg',
-                                                        height: 18.8,
-                                                        width: 17.86,
-                                                        allowDrawingOutsideViewBox:
+                                                            right: 4.0,
+                                                          ),
+                                                          child: SvgPicture.asset(
+                                                            'assets/images/share_icon.svg',
+                                                            height: 18.8,
+                                                            width: 17.86,
+                                                            allowDrawingOutsideViewBox:
                                                             true,
-                                                      ),
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          '${Strings.of(context)?.Share}',
+                                                          style: Styles.regular(
+                                                              size: 12,
+                                                              color: ColorConstants
+                                                                  .BLACK),
+                                                        )
+                                                      ],
                                                     ),
-                                                    Text(
-                                                      '${Strings.of(context)?.Share}',
-                                                      style: Styles.regular(
-                                                          size: 12,
-                                                          color: ColorConstants
-                                                              .BLACK),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
                                       )),
-                                )
+                                ),
                               ]),
                         );
                       },

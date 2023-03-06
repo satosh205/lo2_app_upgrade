@@ -376,31 +376,23 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     dynamicLinks.onLink.listen((dynamicLinkData) {
       final Uri uri = dynamicLinkData.link;
       final queryParams = uri.queryParameters;
-      print('Dynamic======= ${queryParams}');
 
       if (queryParams.isNotEmpty) {
         String? productId = queryParams["id"];
-
-        print('ifffff=== ${dynamicLinkData.link.path}');
         Navigator.pushNamed(context, dynamicLinkData.link.path,
             arguments: {"productId": int.parse(productId!)});
       } else {
-        print('elseeeeeee=== ${dynamicLinkData.link.path}');
         Navigator.pushNamed(
           context,
           dynamicLinkData.link.path,
         );
       }
     }).onError((error) {
-      print('onLink error');
       print(error.message);
     });
   }
 
-
-
   Future<void> _createDynamicLink(bool short, String link) async {
-    print('_createDynamicLink');
     setState(() {
       _isCreatingLink = true;
     });
@@ -3126,9 +3118,10 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
             Preference.setString(Preference.LOCATION,
                 '${portfolioState.response?.data.portfolioProfile.first.city}, ${portfolioState.response?.data.portfolioProfile.first.country}');
           }
-          isPortfolioLoading = false;
           Log.v("PortfolioState Success....................");
-          setState(() {});
+          setState(() {
+            isPortfolioLoading = false;
+          });
           break;
 
         case ApiStatus.ERROR:
@@ -3150,7 +3143,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       switch (portfolioState.apiState) {
         case ApiStatus.LOADING:
           Log.v("Portfolio TopScoring Loading....................");
-          isPortfolioLoading = true;
+          //isPortfolioLoading = true;
           break;
         case ApiStatus.SUCCESS:
           Log.v("PortfolioState TopScoring Success....................");
@@ -3180,7 +3173,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
       switch (portfolioState.apiState) {
         case ApiStatus.LOADING:
           Log.v("Portfolio Competition Loading....................");
-          isPortfolioLoading = true;
+          //isPortfolioLoading = true;
           break;
         case ApiStatus.SUCCESS:
           Log.v("PortfolioState Competition Success....................");

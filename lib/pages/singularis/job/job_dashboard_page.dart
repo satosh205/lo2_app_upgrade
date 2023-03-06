@@ -45,6 +45,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
   bool? competitionDetailLoading = true;
   bool? domainListLoading = true;
   bool? jobApplyLoading = true;
+
   //List<ListElement>? jobList;
   CompetitionResponse? myJobResponse,
       allJobListResponse,
@@ -102,7 +103,6 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
   }
 
   void _handlecompetitionListResponse(JobCompListState state) {
-    print('_handlecompetitionListResponse singh');
     var jobCompState = state;
     setState(() {
       switch (jobCompState.apiState) {
@@ -616,24 +616,12 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                                         .data!.list.length,
                                                     (i) => InkWell(
                                                           onTap: () {
-                                                            print(
-                                                                'domainList length=====');
-                                                            print(domainList!
-                                                                .data!
-                                                                .list
-                                                                .length);
                                                             setState(() {
                                                               selectedIndex = i;
                                                               seletedIds = '';
                                                               selectedIdList =
                                                                   [];
                                                             });
-                                                            print(
-                                                                'domainList id*******');
-                                                            print(domainList!
-                                                                .data!
-                                                                .list[i]
-                                                                .id);
                                                             getFilterList(
                                                                 domainList!
                                                                     .data!
@@ -711,8 +699,6 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                                                         .list[i]
                                                                         .id);
                                                               }
-                                                              print(
-                                                                  selectedIdList);
                                                               setState(() {});
                                                             },
                                                             child: Padding(
@@ -752,14 +738,10 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                               ),
                                             InkWell(
                                               onTap: () {
-                                                print('Search  Jobs');
-                                                print(seletedIds);
-                                                print(selectedIdList);
                                                 seletedIds = selectedIdList
                                                     .toString()
                                                     .replaceAll("[", "")
                                                     .replaceAll("]", "");
-                                                print(seletedIds);
                                                 Navigator.push(
                                                         context,
                                                         NextPageRoute(
@@ -942,7 +924,6 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                     ),
                     InkWell(
                       onTap: () {
-                        print('View All');
                         Navigator.push(
                             context,
                             NextPageRoute(MyJobAllViewListPage(
@@ -978,8 +959,6 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
                         onTap: () {
-                          print(
-                              'jobStatus==== ${myJobResponse?.data![index]!.jobStatus}');
                           Navigator.push(
                               context,
                               NextPageRoute(JobDetailsPage(
@@ -1006,7 +985,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                             height: MediaQuery.of(context).size.height * 0.15,
+                              height: MediaQuery.of(context).size.height * 0.15,
                               width: MediaQuery.of(context).size.width - 100,
                               margin: EdgeInsets.all(5),
                               decoration: BoxDecoration(
@@ -1019,7 +998,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         left: 10.0,
-                                        top: 15.0,
+                                        top: 14.0,
                                         right: 10.0,
                                         bottom: 15.0),
                                     child: Row(
@@ -1051,9 +1030,14 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Text(
-                                                  '${myJobResponse?.data![index]!.name}',
-                                                  style: Styles.bold(size: 14),
+                                                SizedBox(
+                                                  height: 39,
+                                                  child: Text(
+                                                    '${myJobResponse?.data![index]!.name}',
+                                                    style:
+                                                        Styles.bold(size: 14),
+                                                    maxLines: 2,
+                                                  ),
                                                 ),
                                                 Padding(
                                                   padding:
@@ -1074,7 +1058,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                                         padding:
                                                             const EdgeInsets
                                                                     .only(
-                                                                top: 20.0),
+                                                                top: 16.0),
                                                         child: Text(
                                                           '${myJobResponse?.data![index]!.jobStatus == 'Application under process' ? 'Application Under Process' : myJobResponse?.data![index]!.jobStatus == 'Application under review' ? 'Application Shortlisted' : myJobResponse?.data![index]!.jobStatus == 'Rejected' ? 'Unable To Offer You A Position' : myJobResponse?.data![index]!.jobStatus}',
                                                           style: TextStyle(
@@ -1130,7 +1114,6 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
 
           /*  InkWell(
             onTap: () {
-              print('View all Job');
               Navigator.push(
                   context,
                   NextPageRoute(
@@ -1476,6 +1459,9 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                                                   '${recommendedJobOpportunities?.data![index]!.id}'),
                                                               1);
                                                           _onLoadingForJob();
+                                                          recommendedJobOpportunities
+                                                              ?.data!
+                                                              .removeAt(index);
                                                           /* Utility.showSnackBar(
                                                       scaffoldContext: context,
                                                       message:
@@ -1876,7 +1862,6 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                 // competitionProvider.list[index]!.jobStatus == null || competitionProvider.list[index]!.jobStatus == ""
                                 ? InkWell(
                                     onTap: () {
-                                      print('jobApply');
                                       // applied = index;
                                       competitionProvider
                                           .updateAppliedStatus(index);
@@ -1940,10 +1925,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
-              print('position2===== ${position}');
               int newIndex = index + 4;
-              print(newIndex);
-
               return Column(
                 children: [
                   Container(
@@ -2091,7 +2073,6 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                         ""
                                 ? InkWell(
                                     onTap: () {
-                                      print('jobApply');
                                       // applied = index;
                                       competitionProvider
                                           .updateAppliedStatus(newIndex);
@@ -2169,9 +2150,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
-              print('position2===== ${position}');
               int newIndex = index + 8;
-              print(newIndex);
 
               return Column(
                 children: [
@@ -2318,7 +2297,6 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                             ""
                                     ? InkWell(
                                         onTap: () {
-                                          print('jobApply');
                                           // applied = index;
                                           competitionProvider
                                               .updateAppliedStatus(newIndex);

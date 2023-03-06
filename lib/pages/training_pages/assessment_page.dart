@@ -78,7 +78,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
               // Divider(),
 
               Text(
-                '${assessmentDetailProvider.assessmentResponse?.data?.instruction?.details?.title}',
+                '${assessmentDetailProvider.assessmentResponse?.data!.instruction!.details!.title}',
                 style: Styles.bold(size: 14),
               ),
               SizedBox(height: 8),
@@ -93,7 +93,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                     Styles.regular(size: 12, color: Color(0xff5A5F73)),
                   ),
                   Text(
-                    '${Utility.convertDateFromMillis(int.parse('${assessmentDetailProvider.assessmentResponse?.data?.instruction?.details?.endDate}'),Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
+                    '${Utility.convertDateFromMillis(int.parse('${assessmentDetailProvider.assessmentResponse?.data!.instruction!.details!.endDate}'),Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
                     style:
                     Styles.semibold(size: 12, color: Color(0xff0E1638)),
                   ),
@@ -105,7 +105,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${assessmentDetailProvider.assessmentResponse?.data?.instruction?.details?.maximumMarks} marks '),
+                  Text('${assessmentDetailProvider.assessmentResponse?.data!.instruction!.details!.maximumMarks} marks '),
                   Text('• ',
                       style: Styles.regular(
                           color: ColorConstants.GREY_2, size: 12)),
@@ -115,7 +115,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
               ),
               SizedBox(height: 8),
               Text(
-                '${assessmentDetailProvider.assessmentResponse?.data?.instruction?.details?.description}', style: Styles.regular(
+                '${assessmentDetailProvider.assessmentResponse?.data!.instruction!.details!.description}', style: Styles.regular(
                   size: 14,  color: Color(0xff5A5F73)),),
 
               Padding(
@@ -217,16 +217,15 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
               // )
             ]
             else...[
-              Padding(
+              /*Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: Row(
                   children: [],
                 ),
-              ),
+              ),*/
               _belowTitle(assessmentDetailProvider),
               _body(assessmentDetailProvider),
             ]
-
           ],
         ),
       ),
@@ -245,7 +244,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
             children: [
               Text(
                   '${Strings.of(context)?.submitBefore}: '
-                  '${Utility.convertDateFromMillis(assessmentDetailProvider.assessments.endDate!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
+                  '${Utility.convertDateFromMillis(int.parse('${assessmentDetailProvider.assessmentResponse?.data!.instruction!.details!.endDate}'), Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
                   style:
                       Styles.semibold(size: 14, color: ColorConstants.BLACK)),
               Text(
@@ -256,7 +255,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
           ),
           _size(height: 15),
           Text(
-            assessmentDetailProvider.assessments.title!,
+            '${assessmentDetailProvider.assessmentResponse?.data!.instruction!.details!.title!}',
             style:
                 Styles.bold(size: 16, color: ColorConstants().primaryColor()),
           ),
@@ -265,12 +264,12 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                '${assessmentDetailProvider.assessments.maximumMarks} Marks • ',
+                '${assessmentDetailProvider.assessmentResponse?.data!.instruction!.details!.maximumMarks} Marks • ',
                 style:
                     Styles.textExtraBold(size: 16, color: ColorConstants.BLACK),
               ),
               Text(
-                '${assessmentDetailProvider.assessments.attemptsRemaining} attempts available ',
+                '${assessmentDetailProvider.assessmentResponse?.data!.instruction!.details!.isReviewAllowed} attempts available ',
                 style:
                     Styles.textExtraBold(size: 16, color: ColorConstants.BLACK),
               )

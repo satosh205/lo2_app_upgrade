@@ -181,6 +181,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
     return Container(
       color: Colors.white,
       child: Column(
+        //crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             width: double.infinity,
@@ -513,7 +514,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
     return Container(
       child: Column(
            crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+           mainAxisAlignment: MainAxisAlignment.start,
         children: [
           if (competitionDetailLoading == false) ...[
             widget.jobStatus == 'Application under review' ||
@@ -570,64 +571,67 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                 : SizedBox(),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  //what's in for you
-                  Text(
-                    'What’s in for you',
-                    style: Styles.bold(size: 14, color: Color(0xff5A5F73)),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 6),
-                    child: Text(
-                      '${contentList?.data?.competitionInstructions?.whatsIn}',
-                      style: Styles.regular(color: Color(0xff5A5F73), size: 14),
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    //what's in for you
+                    Text(
+                      'What’s in for you',
+                      style: Styles.bold(size: 14, color: Color(0xff5A5F73)),
                     ),
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-
-                  Text(
-                    'Requirements',
-                    style: Styles.bold(size: 14, color: Color(0xff5A5F73)),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-
-                  Padding(
-                    padding: const EdgeInsets.only(left: 6),
-                    child: Text(
-                      '${contentList?.data?.competitionInstructions?.instructions}',
-                      style: Styles.regular(color: Color(0xff5A5F73), size: 14),
+                    SizedBox(
+                      height: 8,
                     ),
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-
-                  Text(
-                    'Job Description',
-                    style: Styles.bold(size: 14, color: Color(0xff5A5F73)),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-
-                  Padding(
-                    padding: const EdgeInsets.only(left: 6),
-                    child: Text(
-                      '${contentList?.data?.competitionInstructions?.faq}',
-                      style: Styles.regular(color: Color(0xff5A5F73), size: 14),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 6),
+                      child: Text(
+                        '${contentList?.data?.competitionInstructions?.whatsIn}',
+                        style: Styles.textRegular(color: Color(0xff5A5F73), size: 14),
+                      ),
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      height: 40,
+                    ),
+
+                    Text(
+                      'Requirements',
+                      style: Styles.bold(size: 14, color: Color(0xff5A5F73)),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(left: 6),
+                      child: Text(
+                        '${contentList?.data?.competitionInstructions?.instructions}',
+                        style: Styles.textRegular(color: Color(0xff5A5F73), size: 14),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+
+                    Text(
+                      'Job Description',
+                      style: Styles.bold(size: 14, color: Color(0xff5A5F73)),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(left: 6),
+                      child: Text(
+                        '${contentList?.data?.competitionInstructions?.faq}',
+                        style: Styles.textRegular(color: Color(0xff5A5F73), size: 14),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             )
           ] else
@@ -788,7 +792,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                         fromCompetition: false,
                       )))).then((value) => getCompetitionContentList(0));
         else if (cardType == CardType.assessment) {
-          Navigator.push(
+         /* Navigator.push(
                   context,
                   PageTransition(
                       duration: Duration(milliseconds: 300),
@@ -800,7 +804,20 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                               fromCompletiton: false,
                               id: data.programContentId),
                           child: AssessmentDetailPage(fromCompetition: false))))
-              .then((value) => getCompetitionContentList(0));
+              .then((value) => getCompetitionContentList(0));*/
+
+          Navigator.push(
+              context,
+              PageTransition(
+                  duration: Duration(milliseconds: 300),
+                  reverseDuration: Duration(milliseconds: 300),
+                  type: PageTransitionType.bottomToTop,
+                  child: ChangeNotifierProvider<AssessmentDetailProvider>(
+                      create: (context) => AssessmentDetailProvider(
+                          TrainingService(ApiService()), data,
+                          fromCompletiton: true, id: data.programContentId),
+                      child: AssessmentDetailPage(fromCompetition: false))));
+
         } else if (cardType == CardType.session) {
           Navigator.push(
               context,
@@ -820,7 +837,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
             Text('${data.contentTypeLabel ?? ''}',
                 style: Styles.regular(size: 12, color: ColorConstants.GREY_3)),
             SizedBox(height: 8),
-            Text('${data.description}', style: Styles.bold(size: 12)),
+            Text('${data.title}', style: Styles.bold(size: 12)),
             SizedBox(height: 13),
             Row(
               children: [

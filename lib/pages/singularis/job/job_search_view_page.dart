@@ -129,17 +129,18 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
           }
         },
         child: Scaffold(
-          /*appBar: AppBar(
+          appBar: AppBar(
             iconTheme: IconThemeData(
               color: Colors.black, //change your color here
             ),
             elevation: 0.0,
             backgroundColor: ColorConstants.WHITE,
             title: Text(widget.appBarTitle!, style: TextStyle(color: Colors.black),),
-          ),*/
+          ),
           backgroundColor: ColorConstants.JOB_BG_COLOR,
           //body: _makeBody(),
-          body: _searchWidgetList(),
+          //body: _searchWidgetList(),
+          body: _makeBody(),
         ),
       ),
     );
@@ -150,7 +151,7 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
       child: Container(
         margin: EdgeInsets.only(
             left: SizeConstants.JOB_SEARCH_PAGE_MGN,
-            top: 40,
+            //top: 40,
             right: SizeConstants.JOB_SEARCH_PAGE_MGN,
             bottom: SizeConstants.JOB_SEARCH_PAGE_MGN),
         width: MediaQuery.of(context).size.width,
@@ -159,7 +160,7 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
             ///Search Job
             //widget.isSearchMode == true ? _searchFilter():SizedBox(),
             SizedBox(
-              height: 30.0,
+              height: 10.0,
             ),
 
             ///Job List
@@ -363,7 +364,7 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
                                     Text(
                                         '${allJobListResponse?.data![index]!.name}',
                                         style: Styles.bold(
-                                            size: 16,
+                                            size: 15,
                                             color: ColorConstants.BLACK)),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
@@ -403,12 +404,14 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
                                               color: ColorConstants.GREY_3,
                                             ),
                                           ),
-                                          Text(
-                                              '${allJobListResponse?.data![index]!.location}',
-                                              style: Styles.regular(
-                                                  size: 12,
-                                                  color:
-                                                      ColorConstants.GREY_3)),
+                                          Flexible(
+                                            child: Text(
+                                                '${allJobListResponse?.data![index]!.location}',
+                                                style: Styles.regular(
+                                                    size: 12,
+                                                    color:
+                                                        ColorConstants.GREY_3)),
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -419,9 +422,9 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
                           ),
                           Spacer(),
                           Expanded(
-                            flex: 3,
+                            flex: 2,
                             child: Container(
-                              padding: EdgeInsets.only(left: 5.0),
+                              padding: EdgeInsets.only(left: 0.0),
                               child: InkWell(
                                 onTap: () {
                                   competitionProvider
@@ -436,9 +439,9 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
                                   competitionProvider.list[index]?.jobStatus !=
                                           null
                                       ? 'Applied'
-                                      : 'Apply',
+                                      : 'Applied',
                                   style: Styles.bold(size: competitionProvider.list[index]?.jobStatus ==
-                                      null ? 14 : 12),
+                                      null ? 12 : 11),
                                   colors: [
                                     competitionProvider.list[index]?.jobStatus ==
                                             null
@@ -475,7 +478,6 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
   }
 
   void _handlecompetitionListResponse(JobCompListFilterState state) {
-    print('_handlecompetitionListResponse singh');
     var jobCompState = state;
     setState(() {
       switch (jobCompState.apiState) {
@@ -510,7 +512,6 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
         case ApiStatus.SUCCESS:
           Log.v("UserJobListState....................");
           jobList = state.response!.list!;
-          print('jobList====${jobList!.length}');
           isJobLoading = false;
           break;
         case ApiStatus.ERROR:
