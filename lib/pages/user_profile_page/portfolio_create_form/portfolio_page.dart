@@ -372,7 +372,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   // }
 
   //TODO: Dynamic Link Code Start
-   Future<void> initDynamicLinks() async {
+  Future<void> initDynamicLinks() async {
     dynamicLinks.onLink.listen((dynamicLinkData) {
       final Uri uri = dynamicLinkData.link;
       final queryParams = uri.queryParameters;
@@ -410,7 +410,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     if (short) {
       print('short======');
       final ShortDynamicLink shortLink =
-      await dynamicLinks.buildShortLink(parameters);
+          await dynamicLinks.buildShortLink(parameters);
       url = shortLink.shortUrl;
       print(url.toString());
     } else {
@@ -530,14 +530,14 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                       )));
                                               Share.share(shareUrl);*/
 
-                                              _createDynamicLink(true, kNewCoursesPageLink);
+                                              _createDynamicLink(
+                                                  true, kNewCoursesPageLink);
                                               //_createDynamicLink(false, kNewCoursesPageLink);
                                               //kNewCoursesPageLink
 
-                                             /* Navigator.push(
+                                              /* Navigator.push(
                                                   context,
                                                   NextPageRoute(CoursesPage()));*/
-
                                             },
                                             icon: Icon(
                                               Icons.share,
@@ -1248,7 +1248,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                             ],
                                           ),
                                           Text(
-                                            userRank?.data?.length != 0 
+                                            userRank?.data?.length != 0
                                                 ? 'out of ${userRank?.data?.first?.rankOutOf ?? '0'} Students'
                                                 : 'compete to gain rank',
                                             style: Styles.regular(
@@ -1805,39 +1805,35 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                 itemBuilder:
                                                     (context, index) => InkWell(
                                                           onTap: () {
-                                                           try{
- Navigator.push(
-                                                                context,
-                                                                NextPageRoute(
-                                                                    CompetitionDetail(
-                                                                  competition: Competition(
-                                                                      id: competition
-                                                                          ?.data[
-                                                                              index]
-                                                                          .pId,
-                                                                      name: competition
-                                                                          ?.data[
-                                                                              index]
-                                                                          .pName,
-                                                                      image: competition
-                                                                          ?.data[
-                                                                              index]
-                                                                          .pImage,
-                                                                      gScore:
-                                                                          int.parse('${competition?.data[index].gScore ?? '0'}') 
-                                                                              ,
-                                                                      description:
-                                                                          "",
-                                                                      startDate: competition
-                                                                          ?.data[
-                                                                              index]
-                                                                          .startDate),
-                                                                )));
-                                                           }
-                                                           catch(e, stacktrace){
-                                                            print(stacktrace);
-
-                                                           }
+                                                            // try {
+                                                            //   Navigator.push(
+                                                            //       context,
+                                                            //       NextPageRoute(
+                                                            //           CompetitionDetail(
+                                                            //         competition: Competition(
+                                                            //             id: competition
+                                                            //                 ?.data[
+                                                            //                     index]
+                                                            //                 .pId,
+                                                            //             name: competition
+                                                            //                 ?.data[
+                                                            //                     index]
+                                                            //                 .pName,
+                                                            //             image: competition
+                                                            //                 ?.data[
+                                                            //                     index]
+                                                            //                 .pImage,
+                                                            //             gScore: int.parse(
+                                                            //                 '${competition?.data[index].gScore ?? '0'}'),
+                                                            //             description:
+                                                            //                 "",
+                                                            //             startDate: competition
+                                                            //                 ?.data[index]
+                                                            //                 .startDate),
+                                                            //       )));
+                                                            // } catch (e, stacktrace) {
+                                                            //   print(stacktrace);
+                                                            // }
                                                           },
                                                           child: Container(
                                                             width:
@@ -1910,6 +1906,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                                     ),
                                                                   ),
                                                                 ),
+                                                                SizedBox(height: 6,),
                                                                 Padding(
                                                                   padding: const EdgeInsets
                                                                           .only(
@@ -1985,9 +1982,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
 
                       /// education list
                       isPortfolioLoading == false
-                          ? 
-
-                          educationList(portfolioResponse?.data.education as List<CommonProfession>)
+                          ? educationList(portfolioResponse?.data.education
+                              as List<CommonProfession>)
                           // Container(
                           //     color: ColorConstants.WHITE,
                           //     child: portfolioResponse?.data.education.length !=
@@ -2189,8 +2185,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                           //             })
                           //         : educationListShimmer(0),
                           //   )
-                         
-                         
+
                           : educationListShimmer(1),
 
                       //if (isPortfolioLoading == false) ...[
@@ -2369,49 +2364,53 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                 SizedBox(
                   height: 20,
                 ),
-            recentActivites.reserved != 'reels' ?    recentActivites.resourcePath!.contains('png') ||
-                      recentActivites.resourcePath!.contains('jpeg') ||
-                      recentActivites.resourcePath!.contains('jpg')
-                  ? ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.network(
-                        '${recentActivites.resourcePath}',
-                        width: width(context) * 0.65,
-                        height: height(context) * 0.3,
-                        fit: BoxFit.cover,
-                      ))
-                  : Container(
-                      height: recentActivites.reserved != 'reels'
-                          ? height(context) * 0.33
-                          : height(context) * 0.43,
-                      child: VideoPlayerWidget(
-                        videoUrl: '${recentActivites.resourcePath}',
-                        // maitanceAspectRatio: true,
-                      ),
-                    ) : SizedBox(
+              recentActivites.reserved != 'reels'
+                  ? recentActivites.resourcePath!.contains('png') ||
+                          recentActivites.resourcePath!.contains('jpeg') ||
+                          recentActivites.resourcePath!.contains('jpg')
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.network(
+                            '${recentActivites.resourcePath}',
+                            width: width(context) * 0.65,
+                            height: height(context) * 0.3,
+                            fit: BoxFit.cover,
+                          ))
+                      : Container(
+                          height: recentActivites.reserved != 'reels'
+                              ? height(context) * 0.33
+                              : height(context) * 0.43,
+                          child: VideoPlayerWidget(
+                            videoUrl: '${recentActivites.resourcePath}',
+                            // maitanceAspectRatio: true,
+                          ),
+                        )
+                  : SizedBox(
                       height: height(context) * 0.44,
                       child: Stack(
                         children: [
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.network(
-                              '${recentActivites.resourcePathThumbnail}',
-                              width: width(context) * 0.65,
-                              height: height(context) * 0.44,
-                              fit: BoxFit.cover,
-                            )),
-                             Center(
-                  child: SvgPicture.asset(
-                    'assets/images/play.svg',
-                    height: 40.0,
-                    width: 40.0,
-                    allowDrawingOutsideViewBox: true,
-                  ),
-                ),
-                            Positioned(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.network(
+                                '${recentActivites.resourcePathThumbnail}',
+                                width: width(context) * 0.65,
+                                height: height(context) * 0.44,
+                                fit: BoxFit.cover,
+                              )),
+                          Center(
+                            child: SvgPicture.asset(
+                              'assets/images/play.svg',
+                              height: 40.0,
+                              width: 40.0,
+                              allowDrawingOutsideViewBox: true,
+                            ),
+                          ),
+                          Positioned(
                               bottom: 10,
                               left: 10,
-                              child: Text('${recentActivites.viewCount} views', style: Styles.regular(size: 12, color: ColorConstants.WHITE)))
+                              child: Text('${recentActivites.viewCount} views',
+                                  style: Styles.regular(
+                                      size: 12, color: ColorConstants.WHITE)))
                         ],
                       ),
                     )
@@ -2753,8 +2752,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
 
   Widget getExtraActivitesWidget(
       List<CommonProfession>? extraActivities, context) {
-  extraActivities?.sort((a, b) => b.startDate.compareTo(a.startDate));
-        
+    extraActivities?.sort((a, b) => b.startDate.compareTo(a.startDate));
+
     return Container(
       color: Colors.white,
       child: Column(
@@ -2806,9 +2805,9 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                    SizedBox(
-                                      height: index != 0 ? 10 : 6,
-                                    ),
+                                  SizedBox(
+                                    height: index != 0 ? 10 : 6,
+                                  ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
@@ -3878,214 +3877,150 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
           );
   }
 
-
-
-  Widget educationList(List<CommonProfession> education){
+  Widget educationList(List<CommonProfession> education) {
     education.sort((a, b) => b.endDate.compareTo(a.endDate));
 
-    return   Container(
-                              color: ColorConstants.WHITE,
-                              child: education.length !=
-                                      0
-                                  ? ListView.builder(
-                                      shrinkWrap: true,
-                                      physics: ScrollPhysics(),
-                                      itemCount: min(
-                                          2,
-                                          portfolioResponse!
-                                              .data.education.length),
-                                      itemBuilder: (context, index) {
-                                        int len = min(
-                                            2,
-                                            portfolioResponse!
-                                                .data.education.length);
-                                        DateTime endDate = DateTime.now();
+    return Container(
+      color: ColorConstants.WHITE,
+      child: education.length != 0
+          ? ListView.builder(
+              shrinkWrap: true,
+              physics: ScrollPhysics(),
+              itemCount: min(2, portfolioResponse!.data.education.length),
+              itemBuilder: (context, index) {
+                int len = min(2, portfolioResponse!.data.education.length);
+                DateTime endDate = DateTime.now();
 
-                                        if (portfolioResponse?.data
-                                                    .education[index].endDate !=
-                                                null ||
-                                            portfolioResponse?.data
-                                                    .education[index].endDate !=
-                                                '') {
-                                          String endDateString =
-                                              "${education[index].endDate}";
-                                          endDate = DateFormat("yyyy-MM-dd")
-                                              .parse(endDateString);
-                                        }
-                                        String startDateString =
-                                            "${education[index].startDate}";
+                if (portfolioResponse?.data.education[index].endDate != null ||
+                    portfolioResponse?.data.education[index].endDate != '') {
+                  String endDateString = "${education[index].endDate}";
+                  endDate = DateFormat("yyyy-MM-dd").parse(endDateString);
+                }
+                String startDateString = "${education[index].startDate}";
 
-                                        DateTime startDate =
-                                            DateFormat("yyyy-MM-dd")
-                                                .parse(startDateString);
+                DateTime startDate =
+                    DateFormat("yyyy-MM-dd").parse(startDateString);
 
-                                        return Container(
-                                          width: width(context) * 0.3,
-                                          color: ColorConstants.WHITE,
-                                          margin: EdgeInsets.symmetric(
-                                              horizontal: 8, vertical: 0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              if (index != 0)
-                                                SizedBox(
-                                                  height: 18,
-                                                ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8),
-                                                      child: CachedNetworkImage(
-                                                        imageUrl:
-                                                            '${portfolioResponse?.data.baseFileUrl}${education[index].imageName}',
-                                                        height: width(context) *
-                                                            0.2,
-                                                        width: width(context) *
-                                                            0.2,
-                                                        fit: BoxFit.cover,
-                                                        errorWidget: (context,
-                                                            url, error) {
-                                                          return Container(
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    14),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                                    color: Color(
-                                                                        0xffD5D5D5)),
-                                                            child: SvgPicture
-                                                                .asset(
-                                                              'assets/images/default_education.svg',
-                                                              height: 40,
-                                                              width: 40,
-                                                              color:
-                                                                  ColorConstants
-                                                                      .GREY_5,
-                                                              allowDrawingOutsideViewBox:
-                                                                  true,
-                                                            ),
-                                                          );
-                                                        },
-                                                        placeholder: (BuildContext
-                                                                context,
-                                                            loadingProgress) {
-                                                          return Container(
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    14),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                                    color: Color(
-                                                                        0xffD5D5D5)),
-                                                            child: SvgPicture
-                                                                .asset(
-                                                              'assets/images/default_education.svg',
-                                                              height: 40,
-                                                              width: 40,
-                                                              color:
-                                                                  ColorConstants
-                                                                      .GREY_5,
-                                                              allowDrawingOutsideViewBox:
-                                                                  true,
-                                                            ),
-                                                          );
-                                                        },
-                                                      )),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceEvenly,
-                                                    children: [
-                                                      SizedBox(
-                                                        width: width(context) *
-                                                            0.71,
-                                                        child: Text(
-                                                          '${education[index].title}',
-                                                          maxLines: 2,
-                                                          style: Styles.bold(
-                                                              size: 14),
-                                                        ),
-                                                      ),
-                                                      SizedBox(height: 4),
-                                                      SizedBox(
-                                                        width: width(context) *
-                                                            0.71,
-                                                        child: Text(
-                                                          maxLines: 2,
-                                                          '${education[index].institute}',
-                                                          style: Styles.regular(
-                                                              size: 14),
-                                                        ),
-                                                      ),
-                                                      SizedBox(height: 4),
-                                                      Row(
-                                                        children: [
-                                                          Text(
-                                                            '${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2, 4)} - ',
-                                                            style:
-                                                                Styles.regular(
-                                                                    size: 14),
-                                                          ),
-                                                          if (portfolioResponse
-                                                                      ?.data
-                                                                      .education[
-                                                                          index]
-                                                                      .endDate !=
-                                                                  null ||
-                                                              portfolioResponse
-                                                                      ?.data
-                                                                      .education[
-                                                                          index]
-                                                                      .endDate !=
-                                                                  '')
-                                                            Text(
-                                                              '${listOfMonths[endDate.month - 1].substring(0, 3)} ${endDate.year.toString().substring(2, 4)}',
-                                                              style: Styles
-                                                                  .regular(
-                                                                      size: 14),
-                                                            ),
-                                                        ],
-                                                      )
-                                                    ],
-                                                  )
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              SizedBox(
-                                                child: ReadMoreText(
-                                                  viewMore: 'View more',
-                                                  text:
-                                                      '${education[index].description}',
-                                                  color: Color(0xff929BA3),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 22,
-                                              ),
-                                              if (index + 1 != len) Divider(),
-                                            ],
-                                          ),
-                                        );
-                                      })
-                                  : educationListShimmer(0),
-                            );
-                         
-                         
+                return Container(
+                  width: width(context) * 0.3,
+                  color: ColorConstants.WHITE,
+                  margin: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (index != 0)
+                        SizedBox(
+                          height: 18,
+                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    '${portfolioResponse?.data.baseFileUrl}${education[index].imageName}',
+                                height: width(context) * 0.2,
+                                width: width(context) * 0.2,
+                                fit: BoxFit.cover,
+                                errorWidget: (context, url, error) {
+                                  return Container(
+                                    padding: EdgeInsets.all(14),
+                                    decoration:
+                                        BoxDecoration(color: Color(0xffD5D5D5)),
+                                    child: SvgPicture.asset(
+                                      'assets/images/default_education.svg',
+                                      height: 40,
+                                      width: 40,
+                                      color: ColorConstants.GREY_5,
+                                      allowDrawingOutsideViewBox: true,
+                                    ),
+                                  );
+                                },
+                                placeholder:
+                                    (BuildContext context, loadingProgress) {
+                                  return Container(
+                                    padding: EdgeInsets.all(14),
+                                    decoration:
+                                        BoxDecoration(color: Color(0xffD5D5D5)),
+                                    child: SvgPicture.asset(
+                                      'assets/images/default_education.svg',
+                                      height: 40,
+                                      width: 40,
+                                      color: ColorConstants.GREY_5,
+                                      allowDrawingOutsideViewBox: true,
+                                    ),
+                                  );
+                                },
+                              )),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              SizedBox(
+                                width: width(context) * 0.71,
+                                child: Text(
+                                  '${education[index].title}',
+                                  maxLines: 2,
+                                  style: Styles.bold(size: 14),
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              SizedBox(
+                                width: width(context) * 0.71,
+                                child: Text(
+                                  maxLines: 2,
+                                  '${education[index].institute}',
+                                  style: Styles.regular(size: 14),
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              Row(
+                                children: [
+                                  Text(
+                                    '${listOfMonths[startDate.month - 1].substring(0, 3)} ${startDate.year.toString().substring(2, 4)} - ',
+                                    style: Styles.regular(size: 14),
+                                  ),
+                                  if (portfolioResponse
+                                              ?.data.education[index].endDate !=
+                                          null ||
+                                      portfolioResponse
+                                              ?.data.education[index].endDate !=
+                                          '')
+                                    Text(
+                                      '${listOfMonths[endDate.month - 1].substring(0, 3)} ${endDate.year.toString().substring(2, 4)}',
+                                      style: Styles.regular(size: 14),
+                                    ),
+                                ],
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        child: ReadMoreText(
+                          viewMore: 'View more',
+                          text: '${education[index].description}',
+                          color: Color(0xff929BA3),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 22,
+                      ),
+                      if (index + 1 != len) Divider(),
+                    ],
+                  ),
+                );
+              })
+          : educationListShimmer(0),
+    );
   }
 
   Widget extraActivitiesListShimmer(var listLength) {

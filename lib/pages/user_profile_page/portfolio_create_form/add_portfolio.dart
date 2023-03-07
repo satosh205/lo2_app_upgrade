@@ -256,7 +256,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                                       );
                                       if (result != null)
                                         setState(() {
-                                          uploadImg =
+                                          file =
                                               File(result!.files.first.path!);
                                         });
                                     } else {

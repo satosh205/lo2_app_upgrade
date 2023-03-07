@@ -219,9 +219,9 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
                                 style: Styles.regular(
                                     size: 12, color: Color(0xff0094FF)))),
                       ),
-                      // SizedBox(
-                      //   height: 10,
-                      // ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       if (urlType == 'pdf') ...[
                         SizedBox(
                           height: height(context) * 0.7,
@@ -242,8 +242,11 @@ class _PortfolioDetailState extends State<PortfolioDetail> {
                           ),
                         )
                       ] else if (urlType == 'img') ...[
+                       
                         Image.network(
-                            '${widget.baseUrl}${widget.portfolio.portfolioFile}'),
+                            '${widget.baseUrl}${widget.portfolio.portfolioFile}',
+                            width: double.infinity,
+                            ),
                       ] else if (urlType == 'video')
                         Container(
                             padding: const EdgeInsets.only(left: 16, right: 16),

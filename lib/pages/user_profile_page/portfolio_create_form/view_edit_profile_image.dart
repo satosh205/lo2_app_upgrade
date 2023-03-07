@@ -306,22 +306,48 @@ class _UploadProfileState extends State<UploadProfile> {
     bool isStoragePermission = true;
     bool isVideosPermission = true;
     bool isPhotosPermission = true;
+    
 
 // Only check for storage < Android 13
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    DeviceInfoPlugin deviceInfo;
+    late  AndroidDeviceInfo androidInfo;
+    try{
+      deviceInfo = DeviceInfoPlugin();
+      androidInfo = await deviceInfo.androidInfo;
+    }
+    catch(e){
+      try{
+           result = await FilePicker.platform.pickFiles(
+              allowMultiple: false,
+              type: FileType.video,
+              allowedExtensions: []);
+         }
+         catch(e){
+          debugPrint('some is not right $e');
+         }
+    }
+   
+      print('ioss device');
     if (androidInfo.version.sdkInt >= 33) {
       isVideosPermission = await Permission.videos.status.isGranted;
       isPhotosPermission = await Permission.photos.status.isGranted;
+      
     } else {
+        
+
       //isStoragePermission = await Permission.storage.status.isGranted;
       //isStoragePermission = await Permission.storage.request().isGranted;
       if (await Permission.storage.request().isGranted) {
         if (Platform.isIOS) {
-          result = await FilePicker.platform.pickFiles(
+         try{
+           result = await FilePicker.platform.pickFiles(
               allowMultiple: false,
               type: FileType.video,
               allowedExtensions: []);
+         }
+         catch(e){
+          debugPrint('some is not right $e');
+         }
         } else {
           result = await FilePicker.platform.pickFiles(
             allowMultiple: false,

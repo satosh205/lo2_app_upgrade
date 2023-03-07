@@ -105,9 +105,15 @@ class _ViewResumeState extends State<ViewResume> {
                     FilePickerResult? result;
                     if (await Permission.storage.request().isGranted) {
                       if (Platform.isIOS) {
+
+                        // result =
+                        //                   await FilePicker.platform.pickFiles(
+                        //                 allowMultiple: false,
+                        //                 type: FileType.custom,
+                        //               );
                         result = await FilePicker.platform.pickFiles(
                             allowMultiple: false,
-                            type: FileType.media,
+                            type: FileType.custom,
                             allowedExtensions: ['pdf']);
                       } else {
                         result = await FilePicker.platform.pickFiles(
