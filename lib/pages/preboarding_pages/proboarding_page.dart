@@ -12,6 +12,9 @@ import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/resource/images.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
+import '../../utils/utility.dart';
+import '../auth_pages/singularis_login_username_pass.dart';
+
 class PreBoardingPage extends StatefulWidget {
   @override
   _PreBoardingPageState createState() => _PreBoardingPageState();
@@ -71,17 +74,23 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
             _dots(index),
             SizedBox(height: 30,),
             TapWidget(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    NextPageRoute(
-                      SignUpScreen()
-                      
-                    //   ChooseLanguage(
-                    //   showEdulystLogo: true,
-                    // )
-                    
-                    ));
+              onTap: () async{
+                print('getCurrentLocale======${await Utility.getCurrentLocale()}');
+                if(await Utility.getCurrentLocale() == 'en-IN'){
+                  Navigator.push(
+                      context,
+                      NextPageRoute(
+                          SignUpScreen()
+                        //   ChooseLanguage(
+                        //   showEdulystLogo: true,
+                        // )
+                      ));
+                }else{
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SingularisLogin()));
+                }
               },
               /*child: Image.asset(
                 "assets/images/next.png",

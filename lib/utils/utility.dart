@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -79,6 +80,24 @@ class Utility {
       return false;
     }
     return false;
+  }
+
+  static Future<String?> getCurrentLocale() async {
+    String? _currentLocale;
+    try {
+      final currentLocale = await Devicelocale.currentLocale;
+      print((currentLocale != null)
+          ? currentLocale
+          : "Unable to get currentLocale");
+
+      _currentLocale = currentLocale;
+      return _currentLocale;
+      //setState(() => _currentLocale = currentLocale);
+    } on PlatformException {
+      print("Error obtaining current locale");
+    }
+
+    return '';
   }
 
   var currentLocation;

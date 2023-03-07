@@ -27,6 +27,8 @@ import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/validation.dart';
 
+import '../../utils/utility.dart';
+
 class SingularisLogin extends StatefulWidget {
   @override
   _SingularisLoginState createState() => _SingularisLoginState();
@@ -44,15 +46,25 @@ class _SingularisLoginState extends State<SingularisLogin> {
   bool _autoValidation = true;
   var _isObscure = true;
   List<Menu>? menuList;
+  String? _currentLocal;
 
   @override
   void initState() {
     // _notificationHelper.getFcmToken();
     super.initState();
+    getCountry();
   }
 
   void getBottomNavigationBar() {
     BlocProvider.of<HomeBloc>(context).add((GetBottomNavigationBarEvent()));
+  }
+
+  void getCountry() async{
+    String? value;
+    value = await Utility.getCurrentLocale();
+    this.setState(() {
+      _currentLocal = value;
+    });
   }
 
   void _swayamLoginResponse(SwayamLoginState state) async {
@@ -491,12 +503,13 @@ class _SingularisLoginState extends State<SingularisLogin> {
                             child: Row(
                                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Icon(
+                                  //singh
+                                  _currentLocal == 'en-IN' ? Icon(
                                     Icons.arrow_back_ios_new,
                                     color: Colors.white,
                                     size: 15,
-                                  ),
-                                  InkWell(
+                                  ) : SizedBox(),
+                                  _currentLocal == 'en-IN' ? InkWell(
                                     onTap: () {
                                       Navigator.of(context).pop();
                                     },
@@ -506,7 +519,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
                                           size: 14,
                                           color: ColorConstants.WHITE),
                                     ),
-                                  ),
+                                  ) : SizedBox(),
                                   Expanded(
                                     child: SizedBox(),
                                   ),

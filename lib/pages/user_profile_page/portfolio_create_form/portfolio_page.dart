@@ -93,7 +93,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     topScoringUser();
 
     ///Dynamic Link
-    initDynamicLinks();
+    //initDynamicLinks();
     super.initState();
   }
 
@@ -372,25 +372,6 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   // }
 
   //TODO: Dynamic Link Code Start
-   Future<void> initDynamicLinks() async {
-    dynamicLinks.onLink.listen((dynamicLinkData) {
-      final Uri uri = dynamicLinkData.link;
-      final queryParams = uri.queryParameters;
-
-      if (queryParams.isNotEmpty) {
-        String? productId = queryParams["id"];
-        Navigator.pushNamed(context, dynamicLinkData.link.path,
-            arguments: {"productId": int.parse(productId!)});
-      } else {
-        Navigator.pushNamed(
-          context,
-          dynamicLinkData.link.path,
-        );
-      }
-    }).onError((error) {
-      print(error.message);
-    });
-  }
 
   Future<void> _createDynamicLink(bool short, String link) async {
     setState(() {
@@ -530,7 +511,8 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                       )));
                                               Share.share(shareUrl);*/
 
-                                              _createDynamicLink(true, kNewCoursesPageLink);
+                                              _createDynamicLink(false, kNewCoursesPageLink);
+
                                               //_createDynamicLink(false, kNewCoursesPageLink);
                                               //kNewCoursesPageLink
 

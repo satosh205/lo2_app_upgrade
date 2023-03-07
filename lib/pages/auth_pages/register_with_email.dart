@@ -51,7 +51,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     print(';;;;;;;;');
     if(newPassController.text.isEmpty || confPassController.text.isEmpty){
       Utility.showSnackBar(
-          scaffoldContext: context, message: 'Enter password and conform password.');
+          scaffoldContext: context, message: 'Enter password and confirm password.');
     }else{
       if(newPassController.text.toString().length > 7){
         if(newPassController.text == confPassController.text){
@@ -176,7 +176,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: ScreenWithLoader(
               isLoading: _isLoading,
               body: Container(
-                height: height(context) * 0.9,
+                //height: height(context) * 0.2,
                 child: Form(
                   key: _formKey,
                   child: SingleChildScrollView(
@@ -433,7 +433,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     });
                                   },
                                   decoration: InputDecoration(
-                                    
+
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                       borderSide: BorderSide(
@@ -678,7 +678,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               padding: const EdgeInsets.only(
                                   top: 8.0, left: 16, right: 16),
                               child: Container(
-                                height: height(context) * 0.4,
+                                //height: height(context) * 0.4,
                                 child: TextField(
                                   obscureText: true,
                                   cursorColor: ColorConstants.GRADIENT_RED,
@@ -749,43 +749,46 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ):SizedBox(),
 
                         _codeVerifiedTrue == true ? Padding(
-                          padding: const EdgeInsets.only(left: 18.0, right: 18.0, bottom: 18.0),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Container(
-                                  height: height(context) * 0.06,
-                                  decoration: BoxDecoration(
-                                    //color: Color(0xffe9e9e9),
-                                    borderRadius: BorderRadius.circular(10),
-                                    gradient: emailController.value.text != '' &&
-                                            newPassController.value.text != ''
-                                        ? LinearGradient(colors: [
-                                            ColorConstants.GRADIENT_ORANGE,
-                                            ColorConstants.GRADIENT_RED,
-                                          ])
-                                        : LinearGradient(colors: [
-                                            ColorConstants.UNSELECTED_BUTTON,
-                                            ColorConstants.UNSELECTED_BUTTON,
-                                          ]),
-                                  ),
-                                  child: InkWell(
-                                    onTap: () {
-                                      fieldValidation();
-                                      // sendEmailVerificationCode();
-                                    },
-                                    child: Center(
-                                      child: Text(
-                                        'Sign Up',
-                                        style: Styles.regular(
-                                          size: 16,
-                                          color: ColorConstants.WHITE,
+                          padding: const EdgeInsets.only(left: 18.0, right: 18.0, bottom: 18.0,),
+                          child: Container(
+                            height: height(context) * 0.28,
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    height: height(context) * 0.06,
+                                    decoration: BoxDecoration(
+                                      //color: Color(0xffe9e9e9),
+                                      borderRadius: BorderRadius.circular(10),
+                                      gradient: emailController.value.text != '' &&
+                                              newPassController.value.text != ''
+                                          ? LinearGradient(colors: [
+                                              ColorConstants.GRADIENT_ORANGE,
+                                              ColorConstants.GRADIENT_RED,
+                                            ])
+                                          : LinearGradient(colors: [
+                                              ColorConstants.UNSELECTED_BUTTON,
+                                              ColorConstants.UNSELECTED_BUTTON,
+                                            ]),
+                                    ),
+                                    child: InkWell(
+                                      onTap: () {
+                                        fieldValidation();
+                                        // sendEmailVerificationCode();
+                                      },
+                                      child: Center(
+                                        child: Text(
+                                          'Sign Up',
+                                          style: Styles.regular(
+                                            size: 16,
+                                            color: ColorConstants.WHITE,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ]),
+                                ]),
+                          ),
                         ):SizedBox(),
                       ],
                     ),

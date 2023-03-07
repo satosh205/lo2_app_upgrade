@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -103,10 +104,15 @@ class _DashboardPageState extends State<DashboardPage> {
   CompetitionResponse? competitionResponse, featuredInternshipsResponse;
   DomainListResponse? domainList;
 
+  ///Dynamik Link
+  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
+
+
   @override
   void initState() {
     selectedPage = 0;
     _pageController = PageController(initialPage: selectedPage);
+    initDynamicLinks();
     getDomainList();
     getMyJobList();
     getCompetitionList();
@@ -114,6 +120,31 @@ class _DashboardPageState extends State<DashboardPage> {
     getDasboardList();
     super.initState();
   }
+
+
+  ///Dynamic Link
+  Future<void> initDynamicLinks() async {
+    dynamicLinks.onLink.listen((dynamicLinkData) {
+      final Uri uri = dynamicLinkData.link;
+      final queryParams = uri.queryParameters;
+
+      if (queryParams.isNotEmpty) {
+        /*String? productId = queryParams["id"];
+        Navigator.pushNamed(context, dynamicLinkData.link.path,
+            arguments: {"productId": int.parse(productId!)});*/
+      } else {
+        /*Navigator.pushNamed(
+          context,
+          dynamicLinkData.link.path,
+        );*/
+        //Navigator.of(context).pushNamed(dynamicLinkData.link.path);
+
+      }
+    }).onError((error) {
+      print(error.message);
+    });
+  }
+
 
   ///TODO: get Featured Jobs & Internships
   void getMyJobList() {

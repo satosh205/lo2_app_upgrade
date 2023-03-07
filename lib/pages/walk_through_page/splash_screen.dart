@@ -24,6 +24,7 @@ import 'package:masterg/utils/utility.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../auth_pages/choose_language.dart';
+import '../auth_pages/singularis_login_username_pass.dart';
 import '../preboarding_pages/proboarding_page.dart';
 
 class EntryAnimationPage extends StatefulWidget {
@@ -278,14 +279,17 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
       }
     } else {
       if (APK_DETAILS["enable_boarding_screen"] == "0") {
-        
         await Future.delayed(Duration(seconds: 2));
 
-         Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SignUpScreen()));
-
+        if(await Utility.getCurrentLocale() == 'en-IN'){
+          Navigator.push(context, MaterialPageRoute(
+              builder: (context) => SignUpScreen()));
+        }else{
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => SingularisLogin()));
+        }
 
         // if (APK_DETAILS["package_name"] == 'com.at.perfetti_swayam')
         //   Navigator.pushAndRemoveUntil(
