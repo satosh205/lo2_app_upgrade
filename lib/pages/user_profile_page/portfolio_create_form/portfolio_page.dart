@@ -3090,7 +3090,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
 
           portfolioResponse = portfolioState.response;
 
-          Preference.setString(
+     if('${portfolioState.response?.data.name}' != '')     Preference.setString(
               Preference.FIRST_NAME, '${portfolioState.response?.data.name}');
           // if (portfolioState.response?.data.image.contains(
           //         '${Preference.getString(Preference.PROFILE_IMAGE)}') ==
@@ -3099,7 +3099,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
           //       '${portfolioState.response?.data.image}');
           // }
 
-          Preference.setString(Preference.PROFILE_IMAGE,
+       if('${portfolioState.response?.data.image}' != '')     Preference.setString(Preference.PROFILE_IMAGE,
               '${portfolioState.response?.data.image}');
 
           Preference.setString(Preference.PROFILE_VIDEO,
