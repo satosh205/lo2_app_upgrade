@@ -1,0 +1,204 @@
+
+App Thinning Size Report for All Variants of Runner
+
+Variant: Singularis WOW-22A59BA5-66D9-4E10-B94C-10CCCE552E6D.ipa
+Supported variant descriptors: [device: iPhone9,1, os-version: 12.0], [device: iPhone10,4, os-version: 12.0], [device: iPhone9,3, os-version: 12.0], and [device: iPhone10,1, os-version: 12.0]
+App + On Demand Resources size: 34.9 MB compressed, 78.6 MB uncompressed
+App size: 34.9 MB compressed, 78.6 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-239DBBBC-152C-4FE5-A045-CD85218E8443.ipa
+Supported variant descriptors: [device: iPad11,2, os-version: 13.0], [device: iPad13,5, os-version: 14.0], [device: iPad13,10, os-version: 14.0], [device: iPad13,7, os-version: 14.0], [device: iPad7,3, os-version: 13.0], [device: iPad13,6, os-version: 14.0], [device: iPad8,12, os-version: 14.0], [device: iPad8,8, os-version: 13.0], [device: iPad11,1, os-version: 13.0], [device: iPad8,10, os-version: 14.0], [device: iPad13,11, os-version: 14.0], [device: iPad8,1, os-version: 14.0], [device: iPad11,2, os-version: 14.0], [device: iPad8,3, os-version: 13.0], [device: iPad11,4, os-version: 13.0], [device: iPad8,2, os-version: 13.0], [device: iPad8,7, os-version: 13.0], [device: iPad6,4, os-version: 13.0], [device: iPad8,11, os-version: 13.0], [device: iPad11,3, os-version: 13.0], [device: iPad13,8, os-version: 14.0], [device: iPad8,8, os-version: 14.0], [device: iPad7,4, os-version: 13.0], [device: iPad8,12, os-version: 13.0], [device: iPad7,3, os-version: 14.0], [device: iPad13,1, os-version: 14.0], [device: iPad7,2, os-version: 14.0], [device: iPad8,5, os-version: 14.0], [device: iPad13,2, os-version: 14.0], [device: iPad6,3, os-version: 14.0], [device: iPad8,6, os-version: 14.0], [device: iPad11,1, os-version: 14.0], [device: iPad8,6, os-version: 13.0], [device: iPad8,7, os-version: 14.0], [device: MacFamily20,1, os-version: 14.0], [device: iPad8,4, os-version: 13.0], [device: iPad8,1, os-version: 13.0], [device: iPad7,4, os-version: 14.0], [device: iPad11,3, os-version: 14.0], [device: iPad6,3, os-version: 13.0], [device: iPad11,4, os-version: 14.0], [device: iPad8,10, os-version: 13.0], [device: iPad7,1, os-version: 14.0], [device: iPad7,2, os-version: 13.0], [device: iPad8,11, os-version: 14.0], [device: iPad8,9, os-version: 13.0], [device: iPad8,2, os-version: 14.0], [device: iPad8,3, os-version: 14.0], [device: iPad8,4, os-version: 14.0], [device: iPad8,5, os-version: 13.0], [device: iPad13,4, os-version: 14.0], [device: iPad13,9, os-version: 14.0], [device: iPad8,9, os-version: 14.0], [device: iPad7,1, os-version: 13.0], and [device: iPad6,4, os-version: 14.0]
+App + On Demand Resources size: 32.3 MB compressed, 70.2 MB uncompressed
+App size: 32.3 MB compressed, 70.2 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-349E6243-6503-498C-848B-C87C8DECDDB7.ipa
+Supported variant descriptors: [device: iPhone6,2, os-version: 12.2], [device: iPod9,1, os-version: 12.2], [device: iPhone8,1, os-version: 12.2], [device: iPod7,1, os-version: 12.2], [device: iPhone8,4, os-version: 12.2], [device: iPhone6,1, os-version: 12.2], and [device: iPhone7,2, os-version: 12.2]
+App + On Demand Resources size: 32.2 MB compressed, 70.1 MB uncompressed
+App size: 32.2 MB compressed, 70.1 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-3A80D2A6-8BAA-4851-BF70-0A2DC407AF35.ipa
+Supported variant descriptors: [device: iPhone8,2, os-version: 15.0]
+App + On Demand Resources size: 32.3 MB compressed, 70.2 MB uncompressed
+App size: 32.3 MB compressed, 70.2 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-41EE1C32-AC15-473A-8E1C-948C5D017FD4.ipa
+Supported variant descriptors: [device: iPhone8,1, os-version: 15.0], [device: iPhone8,4, os-version: 15.0], and [device: iPod9,1, os-version: 15.0]
+App + On Demand Resources size: 32.2 MB compressed, 70.1 MB uncompressed
+App size: 32.2 MB compressed, 70.1 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-494CE892-7717-4D17-9DFB-22BAA6A4E015.ipa
+Supported variant descriptors: [device: iPad6,12, os-version: 13.0], [device: iPad5,2, os-version: 14.0], [device: iPad6,8, os-version: 14.0], [device: iPad7,6, os-version: 14.0], [device: iPad7,11, os-version: 13.0], [device: iPad5,1, os-version: 14.0], [device: iPad6,8, os-version: 13.0], [device: iPad11,7, os-version: 14.0], [device: iPad6,7, os-version: 14.0], [device: iPad11,6, os-version: 14.0], [device: iPad6,7, os-version: 13.0], [device: iPad5,1, os-version: 13.0], [device: iPad5,3, os-version: 13.0], [device: iPad5,4, os-version: 14.0], [device: iPad6,11, os-version: 14.0], [device: iPad6,11, os-version: 13.0], [device: iPad7,5, os-version: 14.0], [device: iPad5,2, os-version: 13.0], [device: iPad5,4, os-version: 13.0], [device: iPad7,6, os-version: 13.0], [device: iPad5,3, os-version: 14.0], [device: iPad7,12, os-version: 14.0], [device: iPad7,12, os-version: 13.0], [device: iPad7,11, os-version: 14.0], [device: iPad7,5, os-version: 13.0], and [device: iPad6,12, os-version: 14.0]
+App + On Demand Resources size: 32.3 MB compressed, 70.2 MB uncompressed
+App size: 32.3 MB compressed, 70.2 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-49F3AED2-2C7A-4D62-BA96-086AF731030E.ipa
+Supported variant descriptors: [device: iPhone11,8, os-version: 13.0], [device: iPhone12,1, os-version: 13.0], [device: iPhone12,1, os-version: 14.0], and [device: iPhone11,8, os-version: 14.0]
+App + On Demand Resources size: 32.3 MB compressed, 70.2 MB uncompressed
+App size: 32.3 MB compressed, 70.2 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-51A595AA-6E41-4AF4-856B-3B272C458071.ipa
+Supported variant descriptors: [device: iPad4,7, os-version: 12.2], [device: iPad6,12, os-version: 12.2], [device: iPad6,11, os-version: 12.2], [device: iPad4,5, os-version: 12.2], [device: iPad7,5, os-version: 12.2], [device: iPad7,6, os-version: 12.2], [device: iPad4,6, os-version: 12.2], [device: iPad4,4, os-version: 12.2], [device: iPad4,2, os-version: 12.2], [device: iPad5,3, os-version: 12.2], [device: iPad6,7, os-version: 12.2], [device: iPad5,1, os-version: 12.2], [device: iPad4,3, os-version: 12.2], [device: iPad4,8, os-version: 12.2], [device: iPad5,2, os-version: 12.2], [device: iPad6,8, os-version: 12.2], [device: iPad5,4, os-version: 12.2], [device: iPad4,9, os-version: 12.2], and [device: iPad4,1, os-version: 12.2]
+App + On Demand Resources size: 32.3 MB compressed, 70.2 MB uncompressed
+App size: 32.3 MB compressed, 70.2 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-5CF155AE-0885-4384-8B48-3CD79EED7ECE.ipa
+Supported variant descriptors: [device: iPhone11,4, os-version: 12.2], [device: iPhone11,6, os-version: 12.2], [device: iPhone10,5, os-version: 12.2], [device: iPhone10,3, os-version: 12.2], [device: iPhone11,2, os-version: 12.2], [device: iPhone9,4, os-version: 12.2], [device: iPhone9,2, os-version: 12.2], [device: iPhone10,6, os-version: 12.2], and [device: iPhone10,2, os-version: 12.2]
+App + On Demand Resources size: 32.3 MB compressed, 70.2 MB uncompressed
+App size: 32.3 MB compressed, 70.2 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-6886BBFC-BF80-430D-B235-1147E6273B78.ipa
+Supported variant descriptors: [device: iPod9,1, os-version: 14.0], [device: iPhone8,1, os-version: 13.0], [device: iPod9,1, os-version: 13.0], [device: iPhone8,1, os-version: 14.0], [device: iPhone8,4, os-version: 14.0], and [device: iPhone8,4, os-version: 13.0]
+App + On Demand Resources size: 32.2 MB compressed, 70.1 MB uncompressed
+App size: 32.2 MB compressed, 70.1 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-6F073436-5B9B-4F62-93A0-21EAF8427C82.ipa
+Supported variant descriptors: [device: iPhone8,1, os-version: 12.0], [device: iPhone8,4, os-version: 12.0], [device: iPod7,1, os-version: 12.0], [device: iPhone7,2, os-version: 12.0], [device: iPhone6,2, os-version: 12.0], and [device: iPhone6,1, os-version: 12.0]
+App + On Demand Resources size: 34.9 MB compressed, 78.6 MB uncompressed
+App size: 34.9 MB compressed, 78.6 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-71BFE06A-564F-4E70-A888-808769E97569.ipa
+Supported variant descriptors: [device: iPhone8,2, os-version: 12.0] and [device: iPhone7,1, os-version: 12.0]
+App + On Demand Resources size: 35 MB compressed, 78.6 MB uncompressed
+App size: 35 MB compressed, 78.6 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-87468DCD-8E39-4D75-A539-D65317934A3E.ipa
+Supported variant descriptors: [device: iPhone12,1, os-version: 15.0] and [device: iPhone11,8, os-version: 15.0]
+App + On Demand Resources size: 32.3 MB compressed, 70.2 MB uncompressed
+App size: 32.3 MB compressed, 70.2 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-97EB92E0-698E-4405-9A94-B3D35D96F2FF.ipa
+Supported variant descriptors: [device: iPhone10,4, os-version: 15.0], [device: iPhone12,8, os-version: 15.0], [device: iPhone9,3, os-version: 15.0], [device: iPhone10,1, os-version: 15.0], and [device: iPhone9,1, os-version: 15.0]
+App + On Demand Resources size: 32.2 MB compressed, 70.1 MB uncompressed
+App size: 32.2 MB compressed, 70.1 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-9E9CBCE4-C939-4D17-B174-39871822C56C.ipa
+Supported variant descriptors: [device: iPhone12,3, os-version: 15.0], [device: iPhone9,2, os-version: 15.0], [device: iPhone14,5, os-version: 15.0], [device: iPhone11,2, os-version: 15.0], [device: iPhone11,4, os-version: 15.0], [device: iPhone13,4, os-version: 15.0], [device: iPhone9,4, os-version: 15.0], [device: iPhone14,3, os-version: 15.0], [device: iPhone10,5, os-version: 15.0], [device: iPhone10,6, os-version: 15.0], [device: iPhone14,2, os-version: 15.0], [device: iPhone13,2, os-version: 15.0], [device: iPhone14,4, os-version: 15.0], [device: iPhone10,2, os-version: 15.0], [device: iPhone13,1, os-version: 15.0], [device: iPhone10,3, os-version: 15.0], [device: iPhone11,6, os-version: 15.0], [device: iPhone13,3, os-version: 15.0], and [device: iPhone12,5, os-version: 15.0]
+App + On Demand Resources size: 32.3 MB compressed, 70.2 MB uncompressed
+App size: 32.3 MB compressed, 70.2 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-9F52B163-FB20-47D0-9ADA-F83342104B56.ipa
+Supported variant descriptors: [device: iPhone8,2, os-version: 12.2] and [device: iPhone7,1, os-version: 12.2]
+App + On Demand Resources size: 32.3 MB compressed, 70.2 MB uncompressed
+App size: 32.3 MB compressed, 70.2 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-A38BAAFE-099E-4B18-A465-82D356757B56.ipa
+Supported variant descriptors: [device: iPhone9,1, os-version: 14.0], [device: iPhone10,1, os-version: 13.0], [device: iPhone10,1, os-version: 14.0], [device: iPhone12,8, os-version: 14.0], [device: iPhone10,4, os-version: 13.0], [device: iPhone12,8, os-version: 13.0], [device: iPhone9,1, os-version: 13.0], [device: iPhone9,3, os-version: 14.0], [device: iPhone10,4, os-version: 14.0], and [device: iPhone9,3, os-version: 13.0]
+App + On Demand Resources size: 32.2 MB compressed, 70.1 MB uncompressed
+App size: 32.2 MB compressed, 70.1 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-ABA5598C-B19D-4E4B-B243-8E88D3989946.ipa
+Supported variant descriptors: [device: iPad7,5, os-version: 12.0], [device: iPad4,6, os-version: 12.0], [device: iPad5,2, os-version: 12.0], [device: iPad5,4, os-version: 12.0], [device: iPad4,9, os-version: 12.0], [device: iPad4,1, os-version: 12.0], [device: iPad4,8, os-version: 12.0], [device: iPad6,11, os-version: 12.0], [device: iPad4,3, os-version: 12.0], [device: iPad7,6, os-version: 12.0], [device: iPad5,1, os-version: 12.0], [device: iPad6,7, os-version: 12.0], [device: iPad6,12, os-version: 12.0], [device: iPad4,7, os-version: 12.0], [device: iPad6,8, os-version: 12.0], [device: iPad5,3, os-version: 12.0], [device: iPad4,4, os-version: 12.0], [device: iPad4,2, os-version: 12.0], and [device: iPad4,5, os-version: 12.0]
+App + On Demand Resources size: 35 MB compressed, 78.6 MB uncompressed
+App size: 35 MB compressed, 78.6 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-B114ACA0-DA29-4B3A-A7AA-782912100FA3.ipa
+Supported variant descriptors: [device: iPhone9,3, os-version: 12.2], [device: iPhone10,1, os-version: 12.2], [device: iPhone10,4, os-version: 12.2], and [device: iPhone9,1, os-version: 12.2]
+App + On Demand Resources size: 32.2 MB compressed, 70.1 MB uncompressed
+App size: 32.2 MB compressed, 70.1 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-B13AD13A-E62B-44D8-82E2-3DB8B7C12A99.ipa
+Supported variant descriptors: [device: iPad8,7, os-version: 12.0], [device: iPad6,3, os-version: 12.0], [device: iPad8,5, os-version: 12.0], [device: iPad6,4, os-version: 12.0], [device: iPad8,3, os-version: 12.0], [device: iPad8,4, os-version: 12.0], [device: iPad7,4, os-version: 12.0], [device: iPad8,1, os-version: 12.0], [device: iPad7,1, os-version: 12.0], [device: iPad7,3, os-version: 12.0], [device: iPad8,2, os-version: 12.0], [device: iPad8,6, os-version: 12.0], [device: iPad8,8, os-version: 12.0], and [device: iPad7,2, os-version: 12.0]
+App + On Demand Resources size: 35 MB compressed, 78.6 MB uncompressed
+App size: 35 MB compressed, 78.6 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-BD84044C-C2B8-4835-ABDC-E242F7438430.ipa
+Supported variant descriptors: [device: iPad8,6, os-version: 15.0], [device: iPad13,1, os-version: 15.0], [device: iPad7,4, os-version: 15.0], [device: iPad6,4, os-version: 15.0], [device: iPad13,7, os-version: 15.0], [device: iPad13,6, os-version: 15.0], [device: iPad8,2, os-version: 15.0], [device: iPad7,3, os-version: 15.0], [device: iPad13,10, os-version: 15.0], [device: iPad6,3, os-version: 15.0], [device: iPad8,8, os-version: 15.0], [device: iPad11,4, os-version: 15.0], [device: iPad8,1, os-version: 15.0], [device: iPad8,9, os-version: 15.0], [device: iPad13,4, os-version: 15.0], [device: iPad8,4, os-version: 15.0], [device: iPad7,2, os-version: 15.0], [device: iPad13,8, os-version: 15.0], [device: iPad8,7, os-version: 15.0], [device: iPad13,9, os-version: 15.0], [device: MacFamily20,1, os-version: 15.0], [device: iPad14,1, os-version: 15.0], [device: iPad8,12, os-version: 15.0], [device: iPad8,10, os-version: 15.0], [device: iPad14,2, os-version: 15.0], [device: iPad11,3, os-version: 15.0], [device: iPad13,11, os-version: 15.0], [device: iPad7,1, os-version: 15.0], [device: iPad8,11, os-version: 15.0], [device: iPad13,2, os-version: 15.0], [device: iPad11,2, os-version: 15.0], [device: iPad11,1, os-version: 15.0], [device: iPad13,5, os-version: 15.0], [device: iPad8,3, os-version: 15.0], and [device: iPad8,5, os-version: 15.0]
+App + On Demand Resources size: 32.3 MB compressed, 70.2 MB uncompressed
+App size: 32.3 MB compressed, 70.2 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-BEFA2DCA-71C7-469C-90B9-6328DB32CC91.ipa
+Supported variant descriptors: [device: iPhone10,3, os-version: 14.0], [device: iPhone10,2, os-version: 13.0], [device: iPhone10,3, os-version: 13.0], [device: iPhone11,6, os-version: 14.0], [device: iPhone9,4, os-version: 13.0], [device: iPhone12,3, os-version: 14.0], [device: iPhone10,2, os-version: 14.0], [device: iPhone13,1, os-version: 14.0], [device: iPhone11,4, os-version: 14.0], [device: iPhone12,5, os-version: 14.0], [device: iPhone10,5, os-version: 14.0], [device: iPhone9,4, os-version: 14.0], [device: iPhone9,2, os-version: 13.0], [device: iPhone9,2, os-version: 14.0], [device: iPhone11,2, os-version: 13.0], [device: iPhone10,6, os-version: 14.0], [device: iPhone13,4, os-version: 14.0], [device: iPhone12,5, os-version: 13.0], [device: iPhone11,4, os-version: 13.0], [device: iPhone10,6, os-version: 13.0], [device: iPhone13,3, os-version: 14.0], [device: iPhone12,3, os-version: 13.0], [device: iPhone11,2, os-version: 14.0], [device: iPhone11,6, os-version: 13.0], [device: iPhone13,2, os-version: 14.0], and [device: iPhone10,5, os-version: 13.0]
+App + On Demand Resources size: 32.3 MB compressed, 70.2 MB uncompressed
+App size: 32.3 MB compressed, 70.2 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-C3B85F08-4A37-4C84-B7C0-2B99F2C28B27.ipa
+Supported variant descriptors: [device: iPhone11,8, os-version: 12.2]
+App + On Demand Resources size: 32.3 MB compressed, 70.2 MB uncompressed
+App size: 32.3 MB compressed, 70.2 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-D22C885E-423B-4EDC-8FDB-4A5E18FE25C8.ipa
+Supported variant descriptors: [device: iPad5,1, os-version: 15.0], [device: iPad11,7, os-version: 15.0], [device: iPad12,2, os-version: 15.0], [device: iPad12,1, os-version: 15.0], [device: iPad5,3, os-version: 15.0], [device: iPad7,5, os-version: 15.0], [device: iPad7,12, os-version: 15.0], [device: iPad5,4, os-version: 15.0], [device: iPad6,8, os-version: 15.0], [device: iPad7,6, os-version: 15.0], [device: iPad5,2, os-version: 15.0], [device: iPad6,11, os-version: 15.0], [device: iPad6,7, os-version: 15.0], [device: iPad11,6, os-version: 15.0], [device: iPad7,11, os-version: 15.0], and [device: iPad6,12, os-version: 15.0]
+App + On Demand Resources size: 32.3 MB compressed, 70.2 MB uncompressed
+App size: 32.3 MB compressed, 70.2 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-E1F33591-9A93-40F2-A91E-559AB54CAA77.ipa
+Supported variant descriptors: [device: iPad8,7, os-version: 12.2], [device: iPad8,6, os-version: 12.2], [device: iPad11,4, os-version: 12.2], [device: iPad11,1, os-version: 12.2], [device: iPad7,4, os-version: 12.2], [device: iPad11,2, os-version: 12.2], [device: iPad7,3, os-version: 12.2], [device: iPad8,3, os-version: 12.2], [device: iPad11,3, os-version: 12.2], [device: iPad6,3, os-version: 12.2], [device: iPad7,1, os-version: 12.2], [device: iPad7,2, os-version: 12.2], [device: iPad8,8, os-version: 12.2], [device: iPad6,4, os-version: 12.2], [device: iPad8,2, os-version: 12.2], [device: iPad8,5, os-version: 12.2], [device: iPad8,4, os-version: 12.2], and [device: iPad8,1, os-version: 12.2]
+App + On Demand Resources size: 32.3 MB compressed, 70.2 MB uncompressed
+App size: 32.3 MB compressed, 70.2 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-E387FA20-ED0A-4943-9EE7-072DD02E94A5.ipa
+Supported variant descriptors: [device: iPhone8,2, os-version: 13.0] and [device: iPhone8,2, os-version: 14.0]
+App + On Demand Resources size: 32.3 MB compressed, 70.2 MB uncompressed
+App size: 32.3 MB compressed, 70.2 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-E55B4EA3-41BD-49A0-B00D-86318ABD0FC9.ipa
+Supported variant descriptors: [device: iPhone11,8, os-version: 12.0]
+App + On Demand Resources size: 35 MB compressed, 78.6 MB uncompressed
+App size: 35 MB compressed, 78.6 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-EBC01085-70F7-4877-B37D-E1F690CC81FD.ipa
+Supported variant descriptors: [device: iPhone9,2, os-version: 12.0], [device: iPhone11,2, os-version: 12.0], [device: iPhone11,6, os-version: 12.0], [device: iPhone10,3, os-version: 12.0], [device: iPhone11,4, os-version: 12.0], [device: iPhone10,2, os-version: 12.0], [device: iPhone9,4, os-version: 12.0], [device: iPhone10,5, os-version: 12.0], and [device: iPhone10,6, os-version: 12.0]
+App + On Demand Resources size: 35 MB compressed, 78.6 MB uncompressed
+App size: 35 MB compressed, 78.6 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW.ipa
+Supported variant descriptors: Universal
+App + On Demand Resources size: 35.2 MB compressed, 78.9 MB uncompressed
+App size: 35.2 MB compressed, 78.9 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
