@@ -308,53 +308,63 @@ class _UploadProfileState extends State<UploadProfile> {
     bool isPhotosPermission = true;
 
 // Only check for storage < Android 13
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    if (androidInfo.version.sdkInt >= 33) {
-      isVideosPermission = await Permission.videos.status.isGranted;
-      isPhotosPermission = await Permission.photos.status.isGranted;
-    } else {
-      //isStoragePermission = await Permission.storage.status.isGranted;
-      //isStoragePermission = await Permission.storage.request().isGranted;
-      if (await Permission.storage.request().isGranted) {
-        if (Platform.isIOS) {
+
+    print('ioss device');
+
+    //isStoragePermission = await Permission.storage.status.isGranted;
+    //isStoragePermission = await Permission.storage.request().isGranted;
+    if (await Permission.storage.request().isGranted) {
+      if (Platform.isIOS) {
+        try {
           result = await FilePicker.platform.pickFiles(
               allowMultiple: false,
-              type: FileType.video,
-              allowedExtensions: []);
-        } else {
-          result = await FilePicker.platform.pickFiles(
-            allowMultiple: false,
-            type: FileType.video,
-            //allowedExtensions: ['mp4']
-          );
+              type: FileType.custom,
+              allowedExtensions: ['mov', 'mp4']);
+        } catch (e) {
+          debugPrint('some is not right $e');
         }
-        setState(() {
-          profileLoading = true;
-        });
+      } else {
+        DeviceInfoPlugin deviceInfo;
+        late AndroidDeviceInfo androidInfo;
+        deviceInfo = DeviceInfoPlugin();
+        androidInfo = await deviceInfo.androidInfo;
 
-        if (result != null) {
-          if (File(result.paths[0]!).lengthSync() / 1000000 > 50.0) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('${Strings.of(context)?.imageVideoSizeLarge} 50MB'),
-            ));
-            setState(() {
-              profileLoading = false;
-            });
-            return null;
-          } else {
-            pickedList.add(File(result.paths[0]!));
-          }
-          pickedFile = pickedList.first;
-          print('pickedFile ==== ${pickedFile}');
-        } else {
+        if (androidInfo.version.sdkInt >= 33) {
+          isVideosPermission = await Permission.videos.status.isGranted;
+          isPhotosPermission = await Permission.photos.status.isGranted;
+        }
+        result = await FilePicker.platform.pickFiles(
+          allowMultiple: false,
+          type: FileType.video,
+          //allowedExtensions: ['mp4']
+        );
+      }
+      setState(() {
+        profileLoading = true;
+      });
+
+      if (result != null) {
+        if (File(result.paths[0]!).lengthSync() / 1000000 > 50.0) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('${Strings.of(context)?.imageVideoSizeLarge} 50MB'),
+          ));
           setState(() {
             profileLoading = false;
           });
           return null;
+        } else {
+          pickedList.add(File(result.paths[0]!));
         }
+        pickedFile = pickedList.first;
+        print('pickedFile ==== ${pickedFile}');
+      } else {
+        setState(() {
+          profileLoading = false;
+        });
+        return null;
       }
     }
+
     if (isVideosPermission && isPhotosPermission) {
       // no worries about crash
       print('Your app cresh ========');
