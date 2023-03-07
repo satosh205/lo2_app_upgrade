@@ -1788,7 +1788,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                             size: 14,
                                             color: ColorConstants.BLACK)),
                                     Padding(
-                                      padding: const EdgeInsets.only(top: 6.0),
+                                      padding: const EdgeInsets.only(top: 6.0, right: 5.0),
                                       child: Text(
                                           '${allJobListResponse?.data![index]!.organizedBy}',
                                           style: Styles.regular(
@@ -1981,7 +1981,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                           ?.data![newIndex]!.id,
                                       jobStatus: competitionProvider
                                                   .list[index]?.jobStatus !=
-                                              ''
+                                              null
                                           ? 'Application under process'
                                           : allJobListResponse
                                               ?.data![newIndex]!.jobStatus,
@@ -2000,7 +2000,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                             size: 14,
                                             color: ColorConstants.BLACK)),
                                     Padding(
-                                      padding: const EdgeInsets.only(top: 6.0),
+                                      padding: const EdgeInsets.only(top: 6.0, right: 5.0),
                                       child: Text(
                                           '${allJobListResponse?.data![newIndex]!.organizedBy}',
                                           style: Styles.regular(
@@ -2224,7 +2224,7 @@ class _JobDashboardPageState extends State<JobDashboardPage> {
                                             size: 14,
                                             color: ColorConstants.BLACK)),
                                     Padding(
-                                      padding: const EdgeInsets.only(top: 6.0),
+                                      padding: const EdgeInsets.only(top: 6.0, right: 5.0),
                                       child: Text(
                                           '${allJobListResponse?.data![newIndex]!.organizedBy}',
                                           style: Styles.regular(

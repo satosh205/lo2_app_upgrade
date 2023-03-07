@@ -103,7 +103,7 @@ class _ViewResumeState extends State<ViewResume> {
                 InkWell(
                   onTap: () async {
                     FilePickerResult? result;
-                    if (await Permission.storage.request().isGranted) {
+                    //if (await Permission.storage.request().isGranted) {
                       if (Platform.isIOS) {
 
                         // result =
@@ -143,7 +143,7 @@ class _ViewResumeState extends State<ViewResume> {
                               'It is not a PDF file please try to upload a PDF file.'),
                         ));
                       }
-                    }
+                   // }
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,

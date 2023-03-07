@@ -76,6 +76,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
   bool _emailTrue = false;
   bool _codeVerifiedTrue = false;
   int endTime = 0;
+  String? _currentLocal;
 
 
   @override
@@ -86,7 +87,17 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
     offset = Tween<Offset>(begin: Offset.zero, end: Offset(0.0, 5.0))
         .animate(controller);
     controller.forward();
+    getCountry();
     super.initState();
+  }
+
+
+  void getCountry() async{
+    String? value;
+    value = await Utility.getCurrentLocale();
+    this.setState(() {
+      _currentLocal = value;
+    });
   }
 
 
@@ -212,7 +223,8 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
         case ApiStatus.SUCCESS:
           Log.v("Success ....................");
           codeVerified = true;
-          _codeVerifiedTrue = true;
+          //_codeVerifiedTrue = true; //UnComment Mobile Case
+
           /*if (state.response!.isCompleted == null)
             state.response!.isCompleted = 0;*/
           _isLoading = false;
@@ -488,6 +500,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                 height: 20,
               ),
 
+              Text('${isCodeSent}'),
               ///Email Fields
             widget.loginWithEmail == false ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -610,14 +623,14 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                   .hasMatch(value))
                 return '${Strings.of(context)?.emailAddressError}';
 
-              isCodeSent = true;
+              //isCodeSent = true;
               return null;
             },
           ),
                 ],
-              ) :
+              ) : SizedBox(),
               ///Phone Number Fields
-              Column(
+          /* Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Mobile Number*', style: Styles.regular(size: 12)),
@@ -679,8 +692,8 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                           [ColorConstants.UNSELECTED_BUTTON,
                             ColorConstants.UNSELECTED_BUTTON],
                         ),
-                        /*child:Text("Send Code", style: TextStyle(color:
-                                  isCodeSent == true ? Colors.red: null),),*/
+                        *//*child:Text("Send Code", style: TextStyle(color:
+                                  isCodeSent == true ? Colors.red: null),),*//*
                       ),
                     ),
                     onChanged: (value) {
@@ -705,7 +718,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                     },
                   ),
                 ],
-              ),
+              ),*/
 
               SizedBox(height: 20),
               ///Re-Send Code
@@ -856,7 +869,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                         right: 10,
                         top: 14,
                         //bottom: 14,
-                        child: _codeVerifiedTrue
+                        child: _codeVerifiedTrue == true
                             ? Container(
                           padding: EdgeInsets.all(4),
                           decoration: BoxDecoration(
@@ -1004,7 +1017,8 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
           AlertsWidget.showCustomDialog(
               context: context,
               //title: "${loginState.error}",
-              title: widget.loginWithEmail == true ? "Your mobile number already exists":"Your email already exists",
+              //title: widget.loginWithEmail == true ? "Your mobile number already exists":"Your email already exists",
+              title: loginState.error,
               text: "",
               icon: 'assets/images/circle_alert_fill.svg',
               showCancel: false,
@@ -1048,7 +1062,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
   void saveChanges() {
     if (!_formKey.currentState!.validate()) return;
     if (selectedImage != null) {
-      if(_codeVerifiedTrue == true){
+      //if(_codeVerifiedTrue == true){
         if (checkedValue == true){
           var req = SignUpRequest(
             profilePic: selectedImage,
@@ -1077,7 +1091,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                 // Navigator.pop(context);
               });
         }
-      }else{
+      /*}else{
         AlertsWidget.showCustomDialog(
             context: context,
             title: "Please first verify your otp",
@@ -1088,7 +1102,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
             onOkClick: () async {
               // Navigator.pop(context);
             });
-      }
+      }*/
 
     } else {
       AlertsWidget.showCustomDialog(

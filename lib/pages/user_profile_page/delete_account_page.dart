@@ -16,7 +16,9 @@ import '../../data/api/api_service.dart';
 import '../../data/models/response/auth_response/user_session.dart';
 import '../../local/pref/Preference.dart';
 import '../../utils/Log.dart';
+import '../../utils/utility.dart';
 import '../auth_pages/sign_up_screen.dart';
+import '../auth_pages/singularis_login_username_pass.dart';
 import '../custom_pages/ScreenWithLoader.dart';
 import '../custom_pages/custom_widgets/NextPageRouting.dart';
 
@@ -337,9 +339,18 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
             onOkClick: () async {
               UserSession.clearSession();
               await Hive.deleteFromDisk();
-              Preference.clearPref().then((value) {
-                 Navigator.pushAndRemoveUntil(
-                     context, NextPageRoute(SignUpScreen()), (route) => false);
+              Preference.clearPref().then((value) async{
+                if(await Utility.getCurrentLocale() == 'en-IN'){
+                  Navigator.pushAndRemoveUntil(
+                      context, NextPageRoute(SignUpScreen()), (route) => false);
+
+                }else {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SingularisLogin()));
+                }
+
               });
             });
 

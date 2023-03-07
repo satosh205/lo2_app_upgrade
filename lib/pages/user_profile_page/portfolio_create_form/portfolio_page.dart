@@ -93,7 +93,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
     topScoringUser();
 
     ///Dynamic Link
-    initDynamicLinks();
+    //initDynamicLinks();
     super.initState();
   }
 

@@ -20,6 +20,7 @@ import '../../local/pref/Preference.dart';
 import '../../utils/Strings.dart';
 import '../../utils/Styles.dart';
 import '../../utils/resource/colors.dart';
+import '../../utils/utility.dart';
 import '../auth_pages/choose_language.dart';
 import '../custom_pages/alert_widgets/alerts_widget.dart';
 import '../custom_pages/custom_widgets/NextPageRouting.dart';
@@ -223,17 +224,23 @@ class _AppDrawerState extends State<AppDrawer> {
                       onOkClick: () async {
                         UserSession.clearSession();
                         await Hive.deleteFromDisk();
-                        Preference.clearPref().then((value) {
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              NextPageRoute(
-                               SignUpScreen()
-                              //   ChooseLanguage(
-                              //   showEdulystLogo: true,
-                              // )
-                              
-                              ),
-                                  (route) => false);
+                        Preference.clearPref().then((value) async{
+                          if(await Utility.getCurrentLocale() == 'en-IN'){
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                NextPageRoute(
+                                    SignUpScreen()
+                                  //   ChooseLanguage(
+                                  //   showEdulystLogo: true,
+                                  // )
+                                ), (route) => false);
+                          }else{
+                          Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                          builder: (context) => SingularisLogin()));
+                          }
+
                         });
                       });
                 },

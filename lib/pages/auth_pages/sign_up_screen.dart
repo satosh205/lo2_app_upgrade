@@ -56,6 +56,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
   late String gender = "male";
 
+
   UserData userData = new UserData();
 
   void initHive() async {
@@ -87,6 +88,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       isFocused = phoneFocus.hasFocus;
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
