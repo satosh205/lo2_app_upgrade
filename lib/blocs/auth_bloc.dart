@@ -345,9 +345,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         yield SignUpState(ApiStatus.LOADING);
         final response = await authRepository.signUpCall(request: event.request);
-
-        print('SignUpState===========');
-        print(response);
         if (response.status == 1) {
           yield SignUpState(ApiStatus.SUCCESS, response: response);
         } else {

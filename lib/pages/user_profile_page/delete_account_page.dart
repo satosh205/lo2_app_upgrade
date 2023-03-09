@@ -340,16 +340,12 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
               UserSession.clearSession();
               await Hive.deleteFromDisk();
               Preference.clearPref().then((value) async{
-                if(await Utility.getCurrentLocale() == 'en-IN'){
-                  Navigator.pushAndRemoveUntil(
-                      context, NextPageRoute(SignUpScreen()), (route) => false);
 
-                }else {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SingularisLogin()));
-                }
+                /*Navigator.pushAndRemoveUntil(
+                    context, NextPageRoute(SignUpScreen()), (route) => false);*/
+
+                Navigator.pushAndRemoveUntil(
+                    context, NextPageRoute(SingularisLogin()), (route) => false);
 
               });
             });

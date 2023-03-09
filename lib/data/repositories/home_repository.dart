@@ -1308,9 +1308,9 @@ class HomeRepository {
   }
 
   ///Email
-  Future emailCodeSend({String? email, int? isSignup}) async {
+  Future emailCodeSend({String? email, int? isSignup, int? forgotPass}) async {
     try {
-      final response = await homeProvider.emailSendCode(email: email, isSignup: isSignup);
+      final response = await homeProvider.emailSendCode(email: email, isSignup: isSignup, forgotPass: forgotPass);
       if (response?.body['status'] == 1) {
         return 1;
       } else {

@@ -1,0 +1,15 @@
+
+App Thinning Size Report for All Variants of Runner
+
+Variant: Singularis WOW-6B69B286-FB51-4A9D-8C65-C0F9C96EC3BC.ipa
+Supported variant descriptors: [device: iPhone11,8, os-version: 13.0], [device: iPhone12,1, os-version: 14.0], [device: iPhone11,8, os-version: 14.0], and [device: iPhone12,1, os-version: 13.0]
+App + On Demand Resources size: 32.3 MB compressed, 70.2 MB uncompressed
+App size: 32.3 MB compressed, 70.2 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: Singularis WOW-78D9DF7A-2B79-441C-85C8-A41CD770C3BD.ipa
+Supported variant descriptors: [device: iPhone11,8, os-version: 15.0] and [device: iPhone12,1, os-version: 15.0]
+App + On Demand Resources size: 32.3 MB compressed, 70.2 MB uncompressed
+App size: 32.3 MB compressed, 70.2 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed

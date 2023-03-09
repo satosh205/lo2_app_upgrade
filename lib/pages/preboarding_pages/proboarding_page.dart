@@ -75,22 +75,27 @@ class _PreBoardingPageState extends State<PreBoardingPage> {
             SizedBox(height: 30,),
             TapWidget(
               onTap: () async{
-                print('getCurrentLocale======${await Utility.getCurrentLocale()}');
-                if(await Utility.getCurrentLocale() == 'en-IN'){
-                  Navigator.push(
-                      context,
-                      NextPageRoute(
-                          SignUpScreen()
-                        //   ChooseLanguage(
-                        //   showEdulystLogo: true,
-                        // )
-                      ));
+
+                /*Navigator.push(
+                    context,
+                    NextPageRoute(
+                        SignUpScreen()
+                      //   ChooseLanguage(
+                      //   showEdulystLogo: true,
+                      // )
+                    ));*/
+
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SingularisLogin()));
+
+
+                /*if(await Utility.getCurrentLocale() == 'en-IN'){
+
                 }else{
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SingularisLogin()));
-                }
+
+                }*/
               },
               /*child: Image.asset(
                 "assets/images/next.png",

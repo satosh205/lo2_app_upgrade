@@ -48,13 +48,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   void fieldValidation() {
-    print('fjskdjk');
     if (!_formKey.currentState!.validate()) return;
-
-    print(';;;;;;;;');
     if(newPassController.text.isEmpty || confPassController.text.isEmpty){
       Utility.showSnackBar(
-          scaffoldContext: context, message: 'Enter new password and conform password.');
+          scaffoldContext: context, message: 'Enter new password and confirm password.');
     }else{
       if(newPassController.text.toString().length > 7){
         if(newPassController.text == confPassController.text){
@@ -79,7 +76,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   void sendEmailVerificationCode(String email) {
-    BlocProvider.of<HomeBloc>(context).add(EmailCodeSendEvent(email: email, isSignup: 0));
+    BlocProvider.of<HomeBloc>(context).add(EmailCodeSendEvent(email: email, isSignup: 0, forgotPass: 1));
   }
 
   void verifyOtp(String email, String otp){
@@ -92,7 +89,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   void _handleEmailCodeSendResponse(EmailCodeSendState state) {
-    print('_handlecompetitionListResponse');
+    print('_handlecompetition ListResponse');
     var emailCodeSendState = state;
     setState(() {
       switch (emailCodeSendState.apiState) {
@@ -101,14 +98,15 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           _isLoading = true;
           break;
         case ApiStatus.SUCCESS:
-          Log.v("EmailCodeSend Suuuuuuuus....................");
           isCodeSent = true;
-          _isLoading = false;
           Utility.showSnackBar(scaffoldContext: context, message: 'Verification code sent on your registered email');
           endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
+          Log.v("EmailCodeSend Singh....................");
+          _isLoading = false;
           break;
         case ApiStatus.ERROR:
-          Log.v("Error emailCodeSendState ..........................${emailCodeSendState.error}");
+          Log.v("Error emailCodeSendState..........................${emailCodeSendState.error}");
+          Utility.showSnackBar(scaffoldContext: context, message: emailCodeSendState.error);
           _isLoading = false;
           break;
         case ApiStatus.INITIAL:
@@ -216,7 +214,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 child: ScreenWithLoader(
                   isLoading: _isLoading,
                   body: Container(
-                    height: height(context) * 0.9,
+                    //height: height(context) * 0.9,
                     child: Form(
                       key: _formKey,
                       child: SingleChildScrollView(

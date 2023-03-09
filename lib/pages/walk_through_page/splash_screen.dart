@@ -281,15 +281,15 @@ class _EntryAnimationPageState extends State<EntryAnimationPage> {
       if (APK_DETAILS["enable_boarding_screen"] == "0") {
         await Future.delayed(Duration(seconds: 2));
 
-        if(await Utility.getCurrentLocale() == 'en-IN'){
-          Navigator.push(context, MaterialPageRoute(
-              builder: (context) => SignUpScreen()));
-        }else{
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => SingularisLogin()));
-        }
+       /* Navigator.push(context, MaterialPageRoute(
+            builder: (context) => SignUpScreen()));*/
+
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SingularisLogin()));
+
+
 
         // if (APK_DETAILS["package_name"] == 'com.at.perfetti_swayam')
         //   Navigator.pushAndRemoveUntil(

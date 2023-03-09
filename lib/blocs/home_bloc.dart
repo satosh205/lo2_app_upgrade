@@ -288,8 +288,9 @@ class PasswordUpdateState extends HomeState {
 class EmailCodeSendEvent extends HomeEvent {
   String? email;
   int? isSignup;
+  int? forgotPass;
 
-  EmailCodeSendEvent({this.email, this.isSignup}) : super([email, isSignup]);
+  EmailCodeSendEvent({this.email, this.isSignup, this.forgotPass}) : super([email, isSignup]);
 
   List<Object> get props => throw UnimplementedError();
 }
@@ -2475,7 +2476,7 @@ try {
     else if (event is EmailCodeSendEvent) {
       try {
         yield EmailCodeSendState(ApiStatus.LOADING);
-        final response = await homeRepository.emailCodeSend(email: event.email, isSignup: event.isSignup);
+        final response = await homeRepository.emailCodeSend(email: event.email, isSignup: event.isSignup, forgotPass: event.forgotPass);
         if (response == 1) {
           yield EmailCodeSendState(ApiStatus.SUCCESS);
         } else {

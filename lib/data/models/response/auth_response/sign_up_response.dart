@@ -3,17 +3,17 @@ class SignUpResponse {
     this.status,
     this.data,
     this.error,
-    this.name,
-    this.founded,
-    this.members,
+   // this.name,
+    //this.founded,
+    //this.members,
   });
 
   int? status;
   Data? data;
   List<dynamic>? error;
-  String? name;
-  int? founded;
-  List<String>? members;
+  //String? name;
+  //int? founded;
+  //List<String>? members;
 
   factory SignUpResponse.fromJson(Map<String, dynamic> json) => SignUpResponse(
         status: json["status"] == null ? null : json["status"],
@@ -21,11 +21,9 @@ class SignUpResponse {
         error: json["error"] == null
             ? null
             : List<dynamic>.from(json["error"].map((x) => x)),
-        name: json["name"] == null ? null : json["name"],
-        founded: json["founded"] == null ? null : json["founded"],
-        members: json["members"] == null
-            ? null
-            : List<String>.from(json["members"].map((x) => x)),
+        //name: json["name"] == null ? null : json["name"],
+        //founded: json["founded"] == null ? null : json["founded"],
+        //members: json["members"] == null? null: List<String>.from(json["members"].map((x) => x)),
       );
 
   get message => null;
@@ -34,10 +32,9 @@ class SignUpResponse {
         "status": status == null ? null : status,
         "data": data == null ? null : data!.toJson(),
         "error": error == null ? null : List<dynamic>.from(error!.map((x) => x)),
-        "name": name == null ? null : name,
-        "founded": founded == null ? null : founded,
-        "members":
-            members == null ? null : List<dynamic>.from(members!.map((x) => x)),
+        //"name": name == null ? null : name,
+        //"founded": founded == null ? null : founded,
+        //"members": members == null ? null : List<dynamic>.from(members!.map((x) => x)),
       };
 }
 
@@ -78,7 +75,7 @@ class User {
   String? email;
   String? department;
   String? designation;
-  String? mobileNo;
+  int? mobileNo;
   String? profileImage;
   int? showInterest;
   String? defaultVideoUrlOnCategory;

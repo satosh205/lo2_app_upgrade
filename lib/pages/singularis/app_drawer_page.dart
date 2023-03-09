@@ -225,21 +225,16 @@ class _AppDrawerState extends State<AppDrawer> {
                         UserSession.clearSession();
                         await Hive.deleteFromDisk();
                         Preference.clearPref().then((value) async{
-                          if(await Utility.getCurrentLocale() == 'en-IN'){
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                NextPageRoute(
-                                    SignUpScreen()
-                                  //   ChooseLanguage(
-                                  //   showEdulystLogo: true,
-                                  // )
-                                ), (route) => false);
-                          }else{
-                          Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                          builder: (context) => SingularisLogin()));
-                          }
+                          /*Navigator.pushAndRemoveUntil(
+                              context,
+                              NextPageRoute(
+                                  SignUpScreen()
+                                //   ChooseLanguage(
+                                //   showEdulystLogo: true,
+                                // )
+                              ), (route) => false);*/
+                          Navigator.pushAndRemoveUntil(context,
+                              NextPageRoute(SingularisLogin()), (route) => false);
 
                         });
                       });

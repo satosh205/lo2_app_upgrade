@@ -82,6 +82,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
   @override
   void initState() {
     phoneController.text = widget.phoneNumber ?? '';
+    emailController.text = widget.email ?? '';
     controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 400));
     offset = Tween<Offset>(begin: Offset.zero, end: Offset(0.0, 5.0))
@@ -499,10 +500,60 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
               SizedBox(
                 height: 20,
               ),
-
-              Text('${isCodeSent}'),
               ///Email Fields
-            widget.loginWithEmail == false ? Column(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Email', style: Styles.regular(size: 12)),
+                  SizedBox(
+                    height: 6,
+                  ),
+                  TextFormField(
+                    cursorColor: ColorConstants.GRADIENT_RED,
+                    autofocus: true,
+                    controller: emailController,
+                    readOnly: true,
+                    style: Styles.regular(
+                      color: Color(0xff0E1638),
+                      size: 14,
+                    ),
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(
+                          color: Color(0xffE5E5E5),
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(
+                          color: Color(0xffE5E5E5),
+                          width: 1.5,
+                        ),
+                      ),
+                      hintText: 'example@mail.com',
+                      hintStyle: TextStyle(
+                        color: Color(0xffE5E5E5),
+                      ),
+                      isDense: true,
+                      prefixIconConstraints:
+                      BoxConstraints(minWidth: 0, minHeight: 0),
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              width: 1, color: ColorConstants.WHITE),
+                          borderRadius: BorderRadius.circular(10)),
+                      helperStyle: Styles.regular(
+                          size: 14,
+                          color:
+                          ColorConstants.GREY_3.withOpacity(0.1)),
+                      counterText: "",
+                    ),
+                  ),
+                ],
+              ),
+
+
+          /*  widget.loginWithEmail == false ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Email*', style: Styles.regular(size: 12)),
@@ -577,8 +628,6 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                   [ColorConstants.UNSELECTED_BUTTON,
                     ColorConstants.UNSELECTED_BUTTON],
                 ),
-                /*child:Text("Send Code", style: TextStyle(color:
-                                  isCodeSent == true ? Colors.red: null),),*/
               ),
               hintText: 'example@mail.com',
               hintStyle: TextStyle(
@@ -628,7 +677,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
             },
           ),
                 ],
-              ) : SizedBox(),
+              ) : SizedBox(),*/
               ///Phone Number Fields
           /* Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -692,8 +741,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                           [ColorConstants.UNSELECTED_BUTTON,
                             ColorConstants.UNSELECTED_BUTTON],
                         ),
-                        *//*child:Text("Send Code", style: TextStyle(color:
-                                  isCodeSent == true ? Colors.red: null),),*//*
+
                       ),
                     ),
                     onChanged: (value) {
@@ -1067,8 +1115,10 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
           var req = SignUpRequest(
             profilePic: selectedImage,
             firstName: fullNameController.text.toString(),
-            mobileNo: phoneController.text.toString(),
-            alternateMobileNo: phoneController.text.toString(),
+            //mobileNo: phoneController.text.toString(),
+            mobileNo: '',
+            //alternateMobileNo: phoneController.text.toString(),
+            alternateMobileNo: '',
             emailAddress: widget.loginWithEmail != true ? emailController.text.toString() : widget.email,
             username: emailController.text.toString(),
             firmName: '',
@@ -1231,7 +1281,6 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () async {
-                    print('Camera on click');
                     final cameras = await availableCameras();
                     // Get a specific camera from the list of available cameras.
                     final firstCamera = cameras.first;

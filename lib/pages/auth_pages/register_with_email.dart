@@ -45,10 +45,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void fieldValidation() {
-    print('fjskdjk');
     if (!_formKey.currentState!.validate()) return;
 
-    print(';;;;;;;;');
     if(newPassController.text.isEmpty || confPassController.text.isEmpty){
       Utility.showSnackBar(
           scaffoldContext: context, message: 'Enter password and confirm password.');

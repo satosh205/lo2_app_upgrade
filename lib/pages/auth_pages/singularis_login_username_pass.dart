@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive/hive.dart';
 import 'package:masterg/blocs/auth_bloc.dart';
 import 'package:masterg/blocs/home_bloc.dart';
 import 'package:masterg/data/api/api_service.dart';
@@ -26,7 +27,7 @@ import 'package:masterg/utils/config.dart';
 import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/validation.dart';
-
+import 'package:path_provider/path_provider.dart';
 import '../../utils/utility.dart';
 
 class SingularisLogin extends StatefulWidget {
@@ -46,13 +47,25 @@ class _SingularisLoginState extends State<SingularisLogin> {
   bool _autoValidation = true;
   var _isObscure = true;
   List<Menu>? menuList;
-  String? _currentLocal;
+  //String? _currentLocal;
+
+
+  void initHive() async {
+    await getApplicationDocumentsDirectory().then((value) {
+      Hive.init(value.path);
+      Hive.openBox(DB.CONTENT);
+      Hive.openBox(DB.ANALYTICS);
+      Hive.openBox(DB.TRAININGS);
+      Hive.openBox('theme');
+    });
+  }
 
   @override
   void initState() {
     // _notificationHelper.getFcmToken();
     super.initState();
-    getCountry();
+    initHive();
+    //getCountry();
   }
 
   void getBottomNavigationBar() {
@@ -63,7 +76,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
     String? value;
     value = await Utility.getCurrentLocale();
     this.setState(() {
-      _currentLocal = value;
+      //_currentLocal = value;
     });
   }
 
@@ -503,23 +516,22 @@ class _SingularisLoginState extends State<SingularisLogin> {
                             child: Row(
                                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  //singh
-                                  _currentLocal == 'en-IN' ? Icon(
+                                  Icon(
                                     Icons.arrow_back_ios_new,
                                     color: Colors.white,
                                     size: 15,
-                                  ) : SizedBox(),
-                                  _currentLocal == 'en-IN' ? InkWell(
+                                  ),
+                                  InkWell(
                                     onTap: () {
                                       Navigator.of(context).pop();
                                     },
-                                    child: Text(
-                                      '${Strings.of(context)?.changePhoneNumber}',
+                                    child: Text('Login with Mobile',
                                       style: Styles.regular(
-                                          size: 14,
+                                          size: 12,
                                           color: ColorConstants.WHITE),
                                     ),
-                                  ) : SizedBox(),
+                                  ),
+                                  //'${Strings.of(context)?.changePhoneNumber}',
                                   Expanded(
                                     child: SizedBox(),
                                   ),

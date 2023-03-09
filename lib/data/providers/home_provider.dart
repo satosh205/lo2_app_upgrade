@@ -1866,13 +1866,13 @@ class HomeProvider {
     return null;
   }
 
-  ///Email
-  Future<ApiResponse?> emailSendCode({String? email, int? isSignup}) async {
+  ///code send on Email
+  Future<ApiResponse?> emailSendCode({String? email, int? isSignup, int? forgotPass}) async {
     Utility.hideKeyboard();
     try {
       final response = await api.dio.post(
         ApiConstants.SEND_EMAIL_CODE,
-        data: {"email": email, "is_signup": isSignup},
+        data: {"email": email, "is_signup": isSignup, "forgot_pass": forgotPass ?? 0},
         options: Options(
           method: 'POST',
           contentType: "application/json",
