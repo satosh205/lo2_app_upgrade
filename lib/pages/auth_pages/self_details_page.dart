@@ -1125,7 +1125,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
   void saveChanges() {
     if (!_formKey.currentState!.validate()) return;
     if (selectedImage != null) {
-      //if(_codeVerifiedTrue == true){
+      ///if(_codeVerifiedTrue == true){
         if (checkedValue == true){
           var req = SignUpRequest(
             profilePic: selectedImage,
