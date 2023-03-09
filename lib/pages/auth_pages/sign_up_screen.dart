@@ -132,9 +132,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       key: _formKey,
       child: ListView(
         // crossAxisAlignment: CrossAxisAlignment.start,
-        physics: isFocused
-            ? BouncingScrollPhysics()
-            : NeverScrollableScrollPhysics(),
+        //physics: isFocused ? BouncingScrollPhysics() : NeverScrollableScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         //mainAxisAlignment: MainAxisAlignment.center,
         // mainAxisSize: MainAxisSize.min,
         children: [
@@ -232,6 +231,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           color: ColorConstants.WHITE,
                           size: 14,
                         ),*/
+
+                        cursorColor: ColorConstants.WHITE,
+                        autofocus: false,
+                        focusNode: phoneFocus,
+                        controller: phoneController,
+                        keyboardType: TextInputType.number,
+                        style: Styles.bold(
+                          color: ColorConstants.WHITE,
+                          size: 14,
+                        ),
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                         ],
@@ -259,17 +268,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           isDense: true,
                           prefixIconConstraints:
                               BoxConstraints(minWidth: 0, minHeight: 0),
-                          // prefixIcon: Padding(
-                          //   padding: const EdgeInsets.only(left: 8.0),
-                          //   child: Text(
-                          //     "+91 ",
-                          //     style: Styles.regular(
-                          //       color: ColorConstants.WHITE,
-                          //       size: 14,
-                          //     ),
-                          //   ),
-                            
-                          // ),
+                          prefixIcon: SizedBox(
+                            width: 70,
+                            child: InkWell(
+                              onTap: (){
+                                Utility.showSnackBar(scaffoldContext: context, message: 'Mobile login available only for Indian users');
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "+91 ",
+                                      style: Styles.regular(
+                                        color: ColorConstants.WHITE,
+                                        size: 14,
+                                      ),
+                                    ),
+                                    Image.asset('assets/images/in_flag.png', width: 20,),
+                                  ],
+                                ),
+
+                              ),
+                            ),
+                          ),
                           border: OutlineInputBorder(
                               borderSide: BorderSide(
                                   width: 0.7, color: ColorConstants.WHITE),

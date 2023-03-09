@@ -512,7 +512,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                     cursorColor: ColorConstants.GRADIENT_RED,
                     autofocus: true,
                     controller: emailController,
-                    readOnly: true,
+                    readOnly: widget.loginWithEmail ?? true,
                     style: Styles.regular(
                       color: Color(0xff0E1638),
                       size: 14,
@@ -548,6 +548,21 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
                           ColorConstants.GREY_3.withOpacity(0.1)),
                       counterText: "",
                     ),
+
+                    validator: (value) {
+                      if (value == '') return 'Email is required';
+                      int index = value?.length as int;
+
+                      if (value![index - 1] == '.')
+                        return '${Strings.of(context)?.emailAddressError}';
+
+                      if (!RegExp(
+                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value))
+                        return '${Strings.of(context)?.emailAddressError}';
+
+                      return null;
+                    },
                   ),
                 ],
               ),
@@ -1115,10 +1130,8 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
           var req = SignUpRequest(
             profilePic: selectedImage,
             firstName: fullNameController.text.toString(),
-            //mobileNo: phoneController.text.toString(),
-            mobileNo: '',
-            //alternateMobileNo: phoneController.text.toString(),
-            alternateMobileNo: '',
+            mobileNo: phoneController.text.toString(),
+            alternateMobileNo: phoneController.text.toString(),
             emailAddress: widget.loginWithEmail != true ? emailController.text.toString() : widget.email,
             username: emailController.text.toString(),
             firmName: '',
