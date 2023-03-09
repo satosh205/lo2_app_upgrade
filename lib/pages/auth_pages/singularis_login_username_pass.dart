@@ -528,7 +528,8 @@ class _SingularisLoginState extends State<SingularisLogin> {
                                       Navigator.push(context, MaterialPageRoute(
                                           builder: (context) => SignUpScreen()));
                                     },
-                                    child: Text('Login with Mobile',
+                                    child: Text(
+                                      'Login with Mobile',
                                       style: Styles.regular(
                                           size: 12,
                                           color: ColorConstants.WHITE),
