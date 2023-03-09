@@ -2774,4 +2774,31 @@ class HomeProvider {
     }
     return null;
   }
+
+
+  Future<ApiResponse?> getZoomOpenUrl(
+      int contentId) async {
+    try {
+      Map<String, dynamic> data = Map();
+      data['content_id'] = contentId;
+
+      final response = await api.dio.post(ApiConstants.GET_OPEN_URL,
+          data: FormData.fromMap(data),
+          options: Options(
+              method: 'POST',
+              headers: {
+                "Authorization": "Bearer ${UserSession.userToken}",
+                ApiConstants.API_KEY: ApiConstants.API_KEY_VALUE
+              },
+              contentType: "application/json",
+              responseType: ResponseType.json // or ResponseType.JSON
+              ));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+       return ApiResponse.success(response);
+      }
+    } catch (e) {
+      // return ApiResponse.failure(e, message: e.response.data["message"]);
+    }
+    return null;
+  }
 }

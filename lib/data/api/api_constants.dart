@@ -154,4 +154,5 @@ class ApiConstants {
   static const  DOMAIN_LIST = '/api/getDomain';
   static const  JOB_DOMAIN_DETAIL = '/api/job-domain-detail/';
   static const  PASSWORD_UPDATE = '/api/password-update/';
+  static const  GET_OPEN_URL = '/api/add-participant';
 }

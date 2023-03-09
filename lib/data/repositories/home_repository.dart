@@ -71,6 +71,7 @@ import 'package:masterg/data/models/response/home_response/user_info_response.da
 import 'package:masterg/data/models/response/home_response/user_jobs_list_response.dart';
 import 'package:masterg/data/models/response/home_response/user_profile_response.dart';
 import 'package:masterg/data/models/response/home_response/user_program_subscribe_reponse.dart';
+import 'package:masterg/data/models/response/home_response/zoom_open_url_response.dart';
 import 'package:masterg/data/providers/home_provider.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/singularis/competition/competition_navigation/competition_my_activity.dart';
@@ -1578,5 +1579,30 @@ class HomeRepository {
           message:
               response.body == null ? "Something went wrong:" : response.body);
     }
+  }
+  Future<ZoomOpenUrlResponse?> getZoomOpenUrl(
+      int contentId) async {
+  
+ final response = await homeProvider.getZoomOpenUrl(
+       contentId);
+       try{
+
+        if(response?.body != null){
+            ZoomOpenUrlResponse resp = ZoomOpenUrlResponse.fromJson(response?.body);
+      return resp;
+        }
+        else {
+          print('response is null ');
+          return ZoomOpenUrlResponse();
+        }
+    
+
+       }
+        catch(e, stacktrace){
+    print(stacktrace);
+ print(e);
+   }
+ 
+  
   }
 }
