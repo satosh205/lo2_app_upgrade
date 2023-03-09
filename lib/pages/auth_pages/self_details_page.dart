@@ -500,6 +500,7 @@ class _SelfDetailsPageState extends State<SelfDetailsPage>
               SizedBox(
                 height: 20,
               ),
+
               ///Email Fields
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
