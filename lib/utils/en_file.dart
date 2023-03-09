@@ -263,7 +263,7 @@ const EN_TEXT = {
   'change_phone_number': 'Go back',
   'select_categories': 'Select Categories',
   'select_atleast_category': 'Select atleast 1 Category',
-  'enter_full_name': 'Enter your first name',
+  'enter_full_name': 'Enter your full name',
   'choose_image': 'Choose Image',
   'choose_image_description':
       'Choose from gallery or camera to upload your profile picture',

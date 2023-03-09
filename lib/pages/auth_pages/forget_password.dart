@@ -647,7 +647,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                           ),
                                         ),
                                         fillColor: Color(0xffE5E5E5),
-                                        hintText: 'New password',
+                                        hintText: 'Enter New password',
                                         hintStyle: TextStyle(
                                           color: Color(0xffE5E5E5),
                                         ),
@@ -749,7 +749,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                           ),
                                         ),
                                         fillColor: Color(0xffE5E5E5),
-                                        hintText: 'Confirm Password',
+                                        hintText: 'Enter Confirm Password',
                                         hintStyle: TextStyle(
                                           color: Color(0xffE5E5E5),
                                         ),

@@ -605,7 +605,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       ),
                                     ),
                                     fillColor: Color(0xffE5E5E5),
-                                    hintText: 'password',
+                                    hintText: 'Enter password',
                                     hintStyle: TextStyle(
                                       color: Color(0xffE5E5E5),
                                     ),
@@ -707,7 +707,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       ),
                                     ),
                                     fillColor: Color(0xffE5E5E5),
-                                    hintText: 'Confirm Password',
+                                    hintText: 'Enter Confirm Password',
                                     hintStyle: TextStyle(
                                       color: Color(0xffE5E5E5),
                                     ),
