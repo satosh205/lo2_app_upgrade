@@ -2587,7 +2587,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   }
 
   Widget getExperience(List<CommonProfession>? experience, context) {
-    experience?.sort((a, b) => a.endDate.compareTo(a.endDate));
+    experience?.sort((a, b) => a.endDate.compareTo(b.endDate));
     return Container(
       color: Colors.white,
       child: Column(

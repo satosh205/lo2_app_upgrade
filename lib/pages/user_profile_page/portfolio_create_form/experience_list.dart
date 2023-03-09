@@ -52,7 +52,7 @@ class _ExperienceListState extends State<ExperienceList> {
   @override
   void initState() {
     experience = widget.experience;
-    experience?.sort((a, b) => a.endDate.compareTo(a.endDate));
+    experience?.sort((a, b) => a.endDate.compareTo(b.endDate));
 
     super.initState();
   }
@@ -419,7 +419,7 @@ class _ExperienceListState extends State<ExperienceList> {
         case ApiStatus.SUCCESS:
           Log.v("PortfolioState Success....................");
           experience = portfolioState.response?.data.experience;
-          experience?.sort((a, b) => a.endDate.compareTo(a.endDate));
+          experience?.sort((a, b) => a.endDate.compareTo(b.endDate));
           isExperienceLoading = false;
 
           setState(() {});

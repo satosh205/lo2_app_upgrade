@@ -215,26 +215,28 @@ class _CompetitionSessionState extends State<CompetitionSession> {
                         child: GestureDetector(
                             onTap: () {
                               //open session
-                              BlocProvider.of<HomeBloc>(context)
-                                      .add(ZoomOpenUrlEvent(contentId: widget.data?.id));
-                              
+                              BlocProvider.of<HomeBloc>(context).add(
+                                  ZoomOpenUrlEvent(contentId: widget.data?.id));
+
                               if (now.isAfter(startDate.add(Duration(
                                   minutes: int.parse(
                                       '${widget.data?.duration}'))))) {
-                                        return;
+                                return;
                                 // ScaffoldMessenger.of(context)
                                 //     .showSnackBar(SnackBar(
                                 //   content: Text(
                                 //       '${widget.data?.contentTypeLabel} ended'),
                                 // ));
-                              } else if (now.isAfter(startDate.subtract(Duration(minutes: 15)))) {
+                              } else if (now.isAfter(
+                                  startDate.subtract(Duration(minutes: 15)))) {
                                 if ('${widget.data?.zoomUrl}' != '')
                                   launchUrl(
                                       Uri.parse('${widget.data?.zoomUrl}'));
                                 else {
                                   //make api call for url
-                                      BlocProvider.of<HomeBloc>(context)
-                                      .add(ZoomOpenUrlEvent(contentId: widget.data?.id));
+                                  BlocProvider.of<HomeBloc>(context).add(
+                                      ZoomOpenUrlEvent(
+                                          contentId: widget.data?.id));
                                 }
                               } else
                                 ScaffoldMessenger.of(context)
@@ -248,17 +250,21 @@ class _CompetitionSessionState extends State<CompetitionSession> {
                               width: MediaQuery.of(context).size.width,
                               padding: const EdgeInsets.all(10.0),
                               margin: const EdgeInsets.all(20.0),
-                              decoration:  BoxDecoration(
-                                  color:  now.isAfter(startDate.add(Duration(
-                                  minutes: int.parse(
-                                      '${widget.data?.duration}')))) ?Color(0xff0E1638).withOpacity(0.3):   Color(0xff0E1638),
+                              decoration: BoxDecoration(
+                                  color: now.isAfter(startDate.add(Duration(
+                                          minutes: int.parse(
+                                              '${widget.data?.duration}'))))
+                                      ? Color(0xff0E1638).withOpacity(0.3)
+                                      : Color(0xff0E1638),
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(21))),
                               child: Center(
                                 child: Text(
-                            now.isAfter(startDate.add(Duration(
-                                  minutes: int.parse(
-                                      '${widget.data?.duration}'))))  ? 'Concluded'   :   'Join',
+                                  now.isAfter(startDate.add(Duration(
+                                          minutes: int.parse(
+                                              '${widget.data?.duration}'))))
+                                      ? 'Concluded'
+                                      : 'Join',
                                   style: Styles.semibold(
                                       size: 14, color: ColorConstants.WHITE),
                                   textAlign: TextAlign.center,
@@ -272,48 +278,42 @@ class _CompetitionSessionState extends State<CompetitionSession> {
   }
 
   void handleOpenUrlState(ZoomOpenUrlState state) {
-      switch (state.apiState) {
-        case ApiStatus.LOADING:
-          Log.v("Zoom Open Url Loading....................");
-          isLoading = true;
-          setState(() {
-            
-          });
-          break;
-        case ApiStatus.SUCCESS:
-          Log.v("Zoom Open Url Success....................");
-          isLoading = false;
-          setState(() {});
-          if (state.response?.status == 0) {
-              if (widget.data?.openUrl != '')
+    switch (state.apiState) {
+      case ApiStatus.LOADING:
+        Log.v("Zoom Open Url Loading....................");
+        isLoading = true;
+        setState(() {});
+        break;
+      case ApiStatus.SUCCESS:
+        Log.v("Zoom Open Url Success....................");
+        isLoading = false;
+        setState(() {});
+        if (state.response?.status == 0) {
+          if (widget.data?.openUrl != '')
             launchUrl(Uri.parse('${widget.data?.openUrl}'));
-            else  if (widget.data?.zoomUrl != '')
+          else if (widget.data?.zoomUrl != '')
             launchUrl(Uri.parse('${widget.data?.zoomUrl}'));
-          
-       else      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('${state.response?.error?.first}'),
-            ));
-          } else if (state.response?.data?.list?.joinUrl != '')
-            launchUrl(Uri.parse('${state.response?.data?.list?.joinUrl}'));
-          else if (widget.data?.openUrl != '')
-            launchUrl(Uri.parse('${widget.data?.openUrl}'));
           else
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content:
-                  Text('${widget.data?.contentTypeLabel} not started yet!'),
+              content: Text('${state.response?.error?.first}'),
             ));
-          break;
+        } else if (state.response?.data?.list?.joinUrl != '')
+          launchUrl(Uri.parse('${state.response?.data?.list?.joinUrl}'));
+        else if (widget.data?.openUrl != '')
+          launchUrl(Uri.parse('${widget.data?.openUrl}'));
+        else
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('${widget.data?.contentTypeLabel} not started yet!'),
+          ));
+        break;
 
-        case ApiStatus.ERROR:
-          isLoading = false;
-          setState(() {
-            
-          });
-          Log.v("Zoom open url Error..........................");
-          break;
-        case ApiStatus.INITIAL:
-          break;
-      }
-   
+      case ApiStatus.ERROR:
+        isLoading = false;
+        setState(() {});
+        Log.v("Zoom open url Error..........................");
+        break;
+      case ApiStatus.INITIAL:
+        break;
+    }
   }
 }
