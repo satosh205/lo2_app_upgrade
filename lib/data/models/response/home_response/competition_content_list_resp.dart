@@ -121,7 +121,9 @@ class CompetitionContent {
         this.activityStatus,
         this.presenterImage,
         this.baseFileUrl,
+        this.openUrl
     });
+
 
     dynamic image;
     int? id;
@@ -178,6 +180,7 @@ class CompetitionContent {
     String? passingMarks;
     String? mode;
     String? zoomUrl;
+    String? openUrl;
     String? zoomPasskey;
     dynamic venue;
     String? isJoined;
@@ -259,6 +262,7 @@ class CompetitionContent {
         activityStatus: json['activity_status'],
         presenterImage: json['presenter_image'],
         baseFileUrl: json['base_file_url'],
+        openUrl: json['open_url']
 
 
         
@@ -329,7 +333,8 @@ class CompetitionContent {
         "content_type_label" : contentTypeLabel,
         "difficulty_level" : difficultyLevel,
         'activity_status' : activityStatus,
-        'base_file_url' : baseFileUrl
+        'base_file_url' : baseFileUrl,
+        'open_url' : openUrl
     };
 }
 
