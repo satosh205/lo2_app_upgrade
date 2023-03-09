@@ -218,8 +218,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: const EdgeInsets.all(16.0),
                   child: Stack(
                     children: [
-                      IntlPhoneField(
-                    dropdownTextStyle: TextStyle(color: ColorConstants.WHITE),
+                      //IntlPhoneField(
+                      TextFormField(
+                    /*dropdownTextStyle: TextStyle(color: ColorConstants.WHITE),
                         initialCountryCode: 'IN',
                         dropdownIcon: Icon(Icons.arrow_drop_down,color: ColorConstants.WHITE,),
                         cursorColor: ColorConstants.WHITE,
@@ -230,7 +231,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         style: Styles.bold(
                           color: ColorConstants.WHITE,
                           size: 14,
-                        ),
+                        ),*/
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                         ],

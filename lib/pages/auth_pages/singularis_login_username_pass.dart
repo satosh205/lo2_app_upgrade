@@ -525,8 +525,10 @@ class _SingularisLoginState extends State<SingularisLogin> {
                                   InkWell(
                                     onTap: () {
                                       //Navigator.of(context).pop();
-                                      Navigator.push(context, MaterialPageRoute(
-                                          builder: (context) => SignUpScreen()));
+                                      /*Navigator.push(context, MaterialPageRoute(
+                                          builder: (context) => SignUpScreen()));*/
+                                      Navigator.pushReplacement(
+                                          context, NextPageRoute(SignUpScreen()));
                                     },
                                     child: Text(
                                       'Login with Mobile',
