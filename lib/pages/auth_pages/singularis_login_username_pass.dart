@@ -14,6 +14,7 @@ import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/main.dart';
 import 'package:masterg/pages/auth_pages/forget_password.dart';
 import 'package:masterg/pages/auth_pages/register_with_email.dart';
+import 'package:masterg/pages/auth_pages/sign_up_screen.dart';
 import 'package:masterg/pages/auth_pages/terms_and_condition_page.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/custom_pages/TapWidget.dart';
@@ -523,7 +524,9 @@ class _SingularisLoginState extends State<SingularisLogin> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      Navigator.of(context).pop();
+                                      //Navigator.of(context).pop();
+                                      Navigator.push(context, MaterialPageRoute(
+                                          builder: (context) => SignUpScreen()));
                                     },
                                     child: Text('Login with Mobile',
                                       style: Styles.regular(

@@ -718,7 +718,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                   padding: const EdgeInsets.only(
                                       top: 8.0, left: 16, right: 16),
                                   child: Container(
-                                    height: height(context) * 0.4,
+                                    //height: height(context) * 0.3,
                                     child: TextField(
                                       obscureText: true,
                                       cursorColor: ColorConstants.GRADIENT_RED,
@@ -790,42 +790,45 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
                             _codeVerifiedTrue == true ? Padding(
                               padding: const EdgeInsets.only(left: 18.0, right: 18.0, bottom: 18.0),
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Container(
-                                      height: height(context) * 0.06,
-                                      decoration: BoxDecoration(
-                                        //color: Color(0xffe9e9e9),
-                                        borderRadius: BorderRadius.circular(10),
-                                        gradient: emailController.value.text != '' &&
-                                            newPassController.value.text != ''
-                                            ? LinearGradient(colors: [
-                                          ColorConstants.GRADIENT_ORANGE,
-                                          ColorConstants.GRADIENT_RED,
-                                        ])
-                                            : LinearGradient(colors: [
-                                          ColorConstants.UNSELECTED_BUTTON,
-                                          ColorConstants.UNSELECTED_BUTTON,
-                                        ]),
-                                      ),
-                                      child: InkWell(
-                                        onTap: () {
-                                          fieldValidation();
-                                          // sendEmailVerificationCode();
-                                        },
-                                        child: Center(
-                                          child: Text(
-                                            'Back to Login',
-                                            style: Styles.regular(
-                                              size: 16,
-                                              color: ColorConstants.WHITE,
+                              child: Container(
+                                height: height(context) * 0.28,
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Container(
+                                        height: height(context) * 0.06,
+                                        decoration: BoxDecoration(
+                                          //color: Color(0xffe9e9e9),
+                                          borderRadius: BorderRadius.circular(10),
+                                          gradient: emailController.value.text != '' &&
+                                              newPassController.value.text != ''
+                                              ? LinearGradient(colors: [
+                                            ColorConstants.GRADIENT_ORANGE,
+                                            ColorConstants.GRADIENT_RED,
+                                          ])
+                                              : LinearGradient(colors: [
+                                            ColorConstants.UNSELECTED_BUTTON,
+                                            ColorConstants.UNSELECTED_BUTTON,
+                                          ]),
+                                        ),
+                                        child: InkWell(
+                                          onTap: () {
+                                            fieldValidation();
+                                            // sendEmailVerificationCode();
+                                          },
+                                          child: Center(
+                                            child: Text(
+                                              'Back to Login',
+                                              style: Styles.regular(
+                                                size: 16,
+                                                color: ColorConstants.WHITE,
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ]),
+                                    ]),
+                              ),
                             ):SizedBox(),
                           ],
                         ),
