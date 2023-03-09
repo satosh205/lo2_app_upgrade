@@ -572,9 +572,11 @@ class _MyClassesState extends State<MyClasses> {
                                                               .list![index]
                                                               .contentType!
                                                               .toLowerCase() ==
-                                                          "zoomclass")
-                                                    launchUrl(Uri.parse(
+                                                          "zoomclass"){
+                                                            launchUrl(Uri.parse(
                                                         '${listClassModel.list![index].url}'));
+                                                          }
+                                                    
                                                   else
                                                     ScaffoldMessenger.of(
                                                             context)

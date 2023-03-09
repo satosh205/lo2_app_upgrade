@@ -646,7 +646,7 @@ class _AddExperienceState extends State<AddExperience> {
                                                   data['employment_type'] =
                                                       employmentType;
                                                   data['currently_work_here'] =
-                                                      isclicked;
+                                                      isclicked == true ? 'on' : 'off';
 
                                                   addExperience(data);
                                                 } catch (e) {

@@ -513,7 +513,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         Spacer(),
                                         IconButton(
                                             onPressed: () async {
-                                              /*String shareUrl =
+                                              String shareUrl =
                                                   '${baseUrl.split('/portfolio').first}/' +
                                                       'portfolio-detail?user_id=${Preference.getInt(Preference.USER_ID)}';
                                               print(shareUrl);
@@ -528,7 +528,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                                         content: Text(
                                                             "Profile link copied"),
                                                       )));
-                                              Share.share(shareUrl);*/
+                                              Share.share(shareUrl);
 
                                               _createDynamicLink(
                                                   true, kNewCoursesPageLink);
@@ -1759,23 +1759,23 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                         'Competitions',
                                         style: Styles.bold(size: 16),
                                       ),
-                                      Spacer(),
-                                      if (isPortfolioLoading == false &&
-                                          competition?.data.length != 0)
-                                        IconButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        CompetitionListPortfolio(
-                                                            competitionList:
-                                                                competition
-                                                                    ?.data)));
-                                          },
-                                          icon: Icon(
-                                              Icons.arrow_forward_ios_outlined),
-                                        ),
+                                      // Spacer(),
+                                      // if (isPortfolioLoading == false &&
+                                      //     competition?.data.length != 0)
+                                      //   IconButton(
+                                      //     onPressed: () {
+                                      //       // Navigator.push(
+                                      //       //     context,
+                                      //       //     MaterialPageRoute(
+                                      //       //         builder: (context) =>
+                                      //       //             CompetitionListPortfolio(
+                                      //       //                 competitionList:
+                                      //       //                     competition
+                                      //       //                         ?.data)));
+                                      //     },
+                                      //     icon: Icon(
+                                      //         Icons.arrow_forward_ios_outlined),
+                                      //   ),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 4),
@@ -2587,7 +2587,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
   }
 
   Widget getExperience(List<CommonProfession>? experience, context) {
-    experience?.sort((a, b) => a.endDate.compareTo(a.endDate));
+    experience?.sort((a, b) => a.endDate.compareTo(b.endDate));
     return Container(
       color: Colors.white,
       child: Column(
@@ -3400,7 +3400,7 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
           )
         : InkWell(
             onTap: () {
-              Navigator.pop(context, '/g-competitions');
+              // Navigator.pop(context, '/g-competitions');
               // Navigator.push(context, NextPageRoute(Scaffold(body: Competetion(fromDasboard: true,),)));
             },
             child: Container(

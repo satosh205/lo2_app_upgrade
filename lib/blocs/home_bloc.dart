@@ -71,6 +71,7 @@ import 'package:masterg/data/models/response/home_response/user_analytics_respon
 import 'package:masterg/data/models/response/home_response/user_jobs_list_response.dart';
 import 'package:masterg/data/models/response/home_response/user_profile_response.dart';
 import 'package:masterg/data/models/response/home_response/user_program_subscribe_reponse.dart';
+import 'package:masterg/data/models/response/home_response/zoom_open_url_response.dart';
 import 'package:masterg/data/repositories/home_repository.dart';
 import 'package:masterg/pages/user_profile_page/model/MasterBrand.dart';
 import 'package:masterg/utils/Log.dart';
@@ -1675,6 +1676,13 @@ class TopScoringUserState extends HomeState {
   TopScoringUserState(this.state, {this.response, this.error});
 }
 
+class ZoomOpenUrlState extends HomeState {
+  ApiStatus state;
+  ApiStatus get apiState => state;
+  ZoomOpenUrlResponse? response;
+  ZoomOpenUrlState(this.state, {this.response});
+}
+
 class PortfolioState extends HomeState {
   ApiStatus state;
 
@@ -1722,6 +1730,13 @@ class TopScoringUserEvent extends HomeEvent {
 
   TopScoringUserEvent({this.userId}) : super([userId]);
 
+  List<Object> get props => throw UnimplementedError();
+}
+
+
+class ZoomOpenUrlEvent extends HomeEvent {
+  int? contentId;
+  ZoomOpenUrlEvent({this.contentId}) : super([contentId]);
   List<Object> get props => throw UnimplementedError();
 }
 
@@ -1998,7 +2013,20 @@ try {
         }
       } catch (e) {}
    
-    } else if (event is CompetitionContentListEvent) {
+    }
+    else if (event is ZoomOpenUrlEvent) {
+      try {
+        yield ZoomOpenUrlState(ApiStatus.LOADING);
+        final response = await homeRepository.getZoomOpenUrl(event.contentId!);
+        print('the opne url 1');
+         yield ZoomOpenUrlState(ApiStatus.SUCCESS, response: response);
+      } catch (e, stacktrace) {
+        print(stacktrace);
+      }
+   
+    }
+    
+     else if (event is CompetitionContentListEvent) {
      try {
         yield CompetitionContentListState(ApiStatus.LOADING);
         final response =
