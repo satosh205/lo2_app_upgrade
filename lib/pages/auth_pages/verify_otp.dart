@@ -1,6 +1,7 @@
 import 'dart:io';
 
 //import 'package:device_info_plus/device_info_plus.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -61,19 +62,16 @@ class _VerifyOtpState extends State<VerifyOtp> {
   String otpCode = '';
 
   Future<Null> _getId() async {
-  //var deviceInfo = DeviceInfoPlugin();
-  /*if (Platform.isIOS) { // import 'dart:io'
+  var deviceInfo = DeviceInfoPlugin();
+  if (Platform.isIOS) { // import 'dart:io'
     var iosDeviceInfo = await deviceInfo.iosInfo;
    deviceId =  iosDeviceInfo.identifierForVendor; // unique ID on iOS
   } else if(Platform.isAndroid) {
     var androidDeviceInfo = await deviceInfo.androidInfo;
    //deviceId = androidDeviceInfo.androidId; // unique ID on Android
    deviceId = androidDeviceInfo.id; // unique ID on Android
-  }*/
-
-  setState(() {
-    
-  });
+  }
+  //setState(() {});
 }
 
 

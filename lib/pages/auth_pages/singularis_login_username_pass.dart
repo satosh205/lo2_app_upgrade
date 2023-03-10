@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -48,6 +49,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
   bool _autoValidation = true;
   var _isObscure = true;
   List<Menu>? menuList;
+  String? deviceId;
   //String? _currentLocal;
 
 
@@ -66,7 +68,26 @@ class _SingularisLoginState extends State<SingularisLogin> {
     // _notificationHelper.getFcmToken();
     super.initState();
     initHive();
+    _getId();
     //getCountry();
+  }
+
+
+  Future<Null> _getId() async {
+    var deviceInfo = DeviceInfoPlugin();
+    if (Platform.isIOS) { // import 'dart:io'
+      var iosDeviceInfo = await deviceInfo.iosInfo;
+      deviceId =  iosDeviceInfo.identifierForVendor; // unique ID on iOS
+    } else if(Platform.isAndroid) {
+      var androidDeviceInfo = await deviceInfo.androidInfo;
+      //deviceId = androidDeviceInfo.androidId; // unique ID on Android
+      deviceId = androidDeviceInfo.id; // unique ID on Android
+    }
+    //setState(() {});
+
+    print('GCM & FCM----------------');
+    print(UserSession.firebaseToken);
+    print(deviceId);
   }
 
   void getBottomNavigationBar() {
@@ -439,17 +460,12 @@ class _SingularisLoginState extends State<SingularisLogin> {
                                 BlocProvider.of<AuthBloc>(context).add(
                                     PvmSwayamLogin(
                                         request: SwayamLoginRequest(
-                                            deviceToken:
-                                                UserSession.firebaseToken,
-                                            device_id: "31232131231231",
-                                            deviceType:
-                                                Platform.isAndroid ? "1" : "2",
-                                            userName: _emailController.text
-                                                .toString()
-                                                .trim(),
-                                            password: _passController.text
-                                                .toString()
-                                                .trim())));
+                                            deviceToken: UserSession.firebaseToken,
+                                            device_id: deviceId,
+                                            deviceType: Platform.isAndroid ? "1" : "2",
+                                            userName: _emailController.text.toString().trim(),
+                                            password: _passController.text.toString().trim())));
+                              //working...
                             },
                             child: Container(
                                 margin: EdgeInsets.symmetric(vertical: 12),

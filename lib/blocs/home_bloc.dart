@@ -291,7 +291,7 @@ class EmailCodeSendEvent extends HomeEvent {
   int? isSignup;
   int? forgotPass;
 
-  EmailCodeSendEvent({this.email, this.isSignup, this.forgotPass}) : super([email, isSignup]);
+  EmailCodeSendEvent({this.email, this.isSignup, this.forgotPass}) : super([email, isSignup, forgotPass]);
 
   List<Object> get props => throw UnimplementedError();
 }
