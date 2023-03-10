@@ -55,7 +55,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
   bool resendFlag = false;
   List<Menu>? menuList;
   bool isFocused = false;
-  //NotificationHelper? _notificationHelper;
+  NotificationHelper? _notificationHelper;
   ///Add New code for OTP AutoFill
   late OTPTextEditController otpController;
   late OTPInteractor _otpInteractor;
@@ -81,11 +81,11 @@ class _VerifyOtpState extends State<VerifyOtp> {
      focusNode.addListener(_onFocusChange);
     _getId();
 
-    ///Add New code for OTP AutoFill
-      //_notificationHelper = NotificationHelper.getInstance(context);
-    //_notificationHelper?.setFcm();
-    //_notificationHelper?.getFcmToken();
+    _notificationHelper = NotificationHelper.getInstance(context);
+    _notificationHelper?.setFcm();
+    _notificationHelper?.getFcmToken();
 
+    ///Add New code for OTP AutoFill
     _otpInteractor = OTPInteractor();
     _otpInteractor.getAppSignature()
     //ignore: avoid_print
