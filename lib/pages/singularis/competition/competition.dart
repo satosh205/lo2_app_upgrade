@@ -1210,7 +1210,7 @@ class _CompetetionState extends State<Competetion> {
                       width: 2,
                     ),
                     Text(
-                      '$date}',
+                      '$date',
                     // '${Utility.ordinal(date.day)} ${listOfMonths[start.month - 1]}',
                       style: Styles.regular(size: 12, color: Color(0xff5A5F73)),
                     )

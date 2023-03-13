@@ -15,6 +15,7 @@ import 'package:masterg/data/providers/assignment_detail_provider.dart';
 import 'package:masterg/pages/ghome/widget/read_more.dart';
 import 'package:masterg/pages/singularis/competition/competition_navigation/competition_notes.dart';
 import 'package:masterg/pages/singularis/competition/competition_navigation/competition_session.dart';
+import 'package:masterg/pages/singularis/competition/competition_navigation/competition_video.dart';
 import 'package:masterg/pages/singularis/competition/competition_navigation/competition_youtube.dart';
 import 'package:masterg/pages/training_pages/assessment_page.dart';
 import 'package:masterg/pages/training_pages/assignment_detail_page.dart';
@@ -558,6 +559,19 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
           ));
           return;
         }
+        if(cardType == CardType.video){
+          Navigator.push(
+              context,
+              PageTransition(
+                  duration: Duration(milliseconds: 300),
+                  reverseDuration: Duration(milliseconds: 300),
+                  type: PageTransitionType.bottomToTop,
+                  child: CompetitionVideoPlayer(
+                    id: data.id!,
+                    videoUrl: data.content!,
+                  )));
+          
+        }
         if (cardType == CardType.youtube) {
           Navigator.push(
               context,
@@ -667,9 +681,9 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
             Row(
               children: [
                 Text(
-                    cardType == CardType.note
+                 cardType == CardType.note
                         ? '${data.pageCount ?? ''} pages'
-                        : cardType == CardType.video
+                        : cardType == CardType.video || cardType == CardType.youtube 
                             ? '${data.duration ?? data.expectedDuration} mins'
                             : '${data.difficultyLevel?.capital()}',
                     style: Styles.regular(
