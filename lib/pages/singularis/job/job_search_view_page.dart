@@ -47,7 +47,6 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
   ];
 
   late List<String> filteredSearchHistory;
-
   late String selectedTerm = 'Search Skills...';
 
   List<String> filterSearchTerms({
