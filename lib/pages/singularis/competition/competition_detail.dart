@@ -285,23 +285,23 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                         shrinkWrap: true,
                         itemCount: contentList?.data?.list?.length,
                         itemBuilder: (context, index) {
-                          // return Text('nice');
 
                           bool isLocked = index != 0;
 
                           bool isTick = false;
 
-                          // if(!empty($competitionVal['per_completion']) && in_array($competitionVal['content_type'], array('assignment','assessment')) && $competitionVal['overall_score'] >= $competitionVal['per_completion']){
-                          //                            $tick = "fa fa-check";
-                          //                        }elseif(!empty($competitionVal['per_completion']) && !empty($competitionVal['completion_percentage']) && $competitionVal['completion_percentage'] >= $competitionVal['per_completion']){
-                          //                            $tick = "fa fa-check";
-                          //                        }
-                          //                        if($competitionVal['activity_status'] == 2){
-                          //                            $tick = "fa fa-check";
-                          //  }
+                              // if(!empty($competitionVal['per_completion']) && in_array($competitionVal['content_type'], array('assignment','assessment')) && $competitionVal['overall_score'] >= $competitionVal['per_completion']){ 
+                              //                        $tick = "fa fa-check";
+                              //                    }elseif(!empty($competitionVal['per_completion']) && !empty($competitionVal['completion_percentage']) && $competitionVal['completion_percentage'] >= $competitionVal['per_completion']){ 
+                              //                        $tick = "fa fa-check";
+                              //                    }
+                              //                    if($competitionVal['activity_status'] == 2){
+                              //                        $tick = "fa fa-check";
+                              //                    }
+
                           if (contentList?.data?.list?[index]
-                                      ?.completionPercentage !=
-                                  null &&
+                                      ?.perCompletion !=
+                                  0.0 &&
                               (contentList?.data?.list?[index]?.contentType ==
                                       'assignment' ||
                                   contentList
@@ -310,11 +310,13 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                               double.parse(
                                       '${contentList?.data?.list?[index]?.overallScore ?? 0}') >=
                                   double.parse(
-                                      '${contentList?.data?.list?[index]?.perCompletion}')) {
+                                      '${contentList?.data?.list?[index]?.perCompletion ?? 0}')) {
                             isTick = true;
                           } else if (contentList?.data?.list?[index]
+                                      ?.perCompletion !=
+                                  0.0 && contentList?.data?.list?[index]
                                       ?.completionPercentage !=
-                                  null &&
+                                  0.0 &&
                               double.parse(
                                       '${contentList?.data?.list?[index]?.completionPercentage}') >=
                                   double.parse(
@@ -329,19 +331,25 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                           if (index != 0) {
                             CompetitionContent? data =
                                 contentList?.data?.list?[index - 1];
-                            if (data?.completionPercentage != null &&
-                                (data?.contentType == 'assignment' ||
-                                    data?.contentType == 'assessment') &&
-                                double.parse('${data?.overallScore ?? 0}') >=
-                                    double.parse('${data?.perCompletion}')) {
-                              isLocked = false;
-                            } else if (data?.completionPercentage != null &&
-                                double.parse('${data?.completionPercentage}') >=
-                                    double.parse('${data?.perCompletion}')) {
-                              isLocked = false;
-                            }
-                            if (data?.activityStatus == 2) {
-                              isLocked = false;
+
+                            if (data?.activityStatus != 0) {
+                              if (data?.perCompletion != 0.0 &&
+                                  (data?.contentType == 'assignment' ||
+                                      data?.contentType == 'assessment') &&
+                                  double.parse('${data?.overallScore ?? 0}') >=
+                                      double.parse('${data?.perCompletion}')) {
+                                isLocked = false;
+                              } else if (data?.perCompletion != 0.0 &&
+                                  (data?.completionPercentage != null ||
+                                      data?.completionPercentage != 0.0) &&
+                                  double.parse(
+                                          '${data?.completionPercentage}') >=
+                                      double.parse('${data?.perCompletion}')) {
+                                isLocked = false;
+                              }
+                              if (data?.activityStatus == 2) {
+                                isLocked = false;
+                              }
                             }
                           }
                           return competitionCard(
@@ -516,8 +524,8 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                           isLocked == true
                               ? 'assets/images/lock_content.svg'
                               : 'assets/images/circular_border.svg',
-                          width: 18,
-                          height: 18,
+                          width:22,
+                          height: 22,
                         ),
                   if (!isLast)
                     Container(
@@ -552,15 +560,15 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
     String startDate = '${data.startDate?.split(' ').first}';
     DateTime start = DateFormat("yyyy-MM-dd").parse(startDate);
     return InkWell(
-      onTap: () {
+      onTap: () async {
         if (isLocked == true) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text('Content Locked!'),
           ));
           return;
         }
-        if(cardType == CardType.video){
-          Navigator.push(
+        if (cardType == CardType.video) {
+          await Navigator.push(
               context,
               PageTransition(
                   duration: Duration(milliseconds: 300),
@@ -570,10 +578,9 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                     id: data.id!,
                     videoUrl: data.content!,
                   )));
-          
         }
         if (cardType == CardType.youtube) {
-          Navigator.push(
+          await Navigator.push(
               context,
               PageTransition(
                   duration: Duration(milliseconds: 300),
@@ -584,7 +591,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                     videoUrl: data.content,
                   )));
         } else if (cardType == CardType.note) {
-          Navigator.push(
+          await Navigator.push(
               context,
               PageTransition(
                   duration: Duration(milliseconds: 300),
@@ -595,7 +602,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                     notesUrl: data.content,
                   )));
         } else if (cardType == CardType.assignment)
-          Navigator.push(
+          await Navigator.push(
               context,
               PageTransition(
                   duration: Duration(milliseconds: 300),
@@ -622,7 +629,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                           fromCompletiton: true, id: data.programContentId),
                       child: AssessmentDetailPage(fromCompetition: true))));
         } else if (cardType == CardType.session) {
-          Navigator.push(
+          await Navigator.push(
               context,
               PageTransition(
                   duration: Duration(milliseconds: 300),
@@ -632,12 +639,13 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                     data: data,
                   )));
         }
+        getCompetitionContentList();
       },
       child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('${data.contentTypeLabel ?? ''}',
+            Text('${data.contentTypeLabel ?? ''} $isLocked',
                 style: Styles.regular(size: 12, color: ColorConstants.GREY_3)),
             if (cardType != CardType.session) ...[
               SizedBox(height: 8),
@@ -681,9 +689,10 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
             Row(
               children: [
                 Text(
-                 cardType == CardType.note
+                    cardType == CardType.note
                         ? '${data.pageCount ?? ''} pages'
-                        : cardType == CardType.video || cardType == CardType.youtube 
+                        : cardType == CardType.video ||
+                                cardType == CardType.youtube
                             ? '${data.duration ?? data.expectedDuration} mins'
                             : '${data.difficultyLevel?.capital()}',
                     style: Styles.regular(
