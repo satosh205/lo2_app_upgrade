@@ -364,14 +364,14 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
 
                   Divider(),
                   InkWell(
-                    onTap: () {
-                      _attachFile();
-                      bool disbaleUpload =
-                      assignmentDetailProvider?.assignment?.score == null
-                          ? false
-                          : true;
+                    onTap: ()async {
+                  await    _attachFile();
+                      // bool disbaleUpload =
+                      // assignmentDetailProvider?.assignment?.score == null
+                      //     ? false
+                      //     : true;
 
-                      if (!disbaleUpload)
+                      // if (!disbaleUpload)
                         AlertsWidget.showCustomDialog(
                             context: context,
                             title: "Upload Assignment!",
@@ -1074,7 +1074,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
     });
   }
 
-  void _attachFile() async {
+  Future<void> _attachFile() async {
     if (await Permission.storage.request().isGranted) {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
           type: FileType.custom,
@@ -1084,6 +1084,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
           file = File(result.files.first.path!);
         });
       }
+      return ;
     }
   }
 

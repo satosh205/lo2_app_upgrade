@@ -645,7 +645,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('${data.contentTypeLabel ?? ''} $isLocked',
+            Text('${data.contentTypeLabel ?? ''}',
                 style: Styles.regular(size: 12, color: ColorConstants.GREY_3)),
             if (cardType != CardType.session) ...[
               SizedBox(height: 8),
@@ -748,16 +748,19 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                   children: [
                     TextSpan(text: 'Report: ', style: Styles.regular(size: 12)),
                     TextSpan(
-                        text: cardType == CardType.assignment
-                            ? '${data.marks}'
-                            : '${data.score}',
-                        style: Styles.bold(
+                        text: cardType == CardType.assignment || cardType == CardType.assessment
+                            ? '${data.overallScore}'
+                            : '${data.completionPercentage}',
+                           style: Styles.bold(
                             size: 12, color: ColorConstants.GRADIENT_RED)),
                     TextSpan(
                         text: cardType == CardType.assignment
-                            ? '/${data.passingMarks} Score'
-                            : '/${data.maximumMarks} Score',
-                        style: Styles.regular(size: 12)),
+                            ? ' / ${data.marks} Score'
+                            : ' / ${data.maximumMarks} Score',
+                               style: Styles.bold(
+                            size: 12),
+                    )
+                   
                   ],
                 ),
               ),
