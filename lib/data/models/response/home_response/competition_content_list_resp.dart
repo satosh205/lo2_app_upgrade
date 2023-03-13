@@ -142,7 +142,7 @@ class CompetitionContent {
     String? startDate;
     dynamic perCompletion;
     dynamic completionPercentage;
-    dynamic activityStatus;
+    int? activityStatus;
 
 
     int? userId;

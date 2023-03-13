@@ -22,6 +22,7 @@ class CompetitionMyAcitivityCard extends StatefulWidget {
   final String? conductedBy;
   final String? activityStatus;
   final int? rank;
+  final bool? verticalView;
 
   const CompetitionMyAcitivityCard(
       {Key? key,
@@ -36,7 +37,9 @@ class CompetitionMyAcitivityCard extends StatefulWidget {
       this.difficulty,
       this.conductedBy,
       this.activityStatus,
-      this.rank})
+      this.rank,
+      this.verticalView = false
+      })
       : super(key: key);
 
   @override
@@ -50,7 +53,8 @@ class _CompetitionMyAcitivityCardState
   Widget build(BuildContext context) {
     // double percent = widget.doneAct/ widget.totalAct ;
     double percent =
-        double.parse('${widget.doneAct}') / double.parse('${widget.totalAct}');
+        (double.parse('${widget.doneAct}') / double.parse('${widget.totalAct}')) * 100;
+        double progressBarWidth = widget.verticalView  == true ? 0.65 : 0.45;
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -69,7 +73,7 @@ class _CompetitionMyAcitivityCardState
       child: Container(
         width: width(context) * 0.8,
         height: height(context) * 0.12,
-        margin: EdgeInsets.symmetric(vertical: 17, horizontal: 6),
+        margin: EdgeInsets.symmetric(vertical: 12, horizontal: 6),
         padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
@@ -123,7 +127,7 @@ class _CompetitionMyAcitivityCardState
                   Spacer(),
                   Container(
                     height: 6,
-                    width: MediaQuery.of(context).size.width * 0.45,
+                    width:  MediaQuery.of(context).size.width * progressBarWidth,
                     decoration: BoxDecoration(
                         color: ColorConstants.GREY,
                         borderRadius: BorderRadius.circular(10)),
@@ -132,7 +136,7 @@ class _CompetitionMyAcitivityCardState
                         Container(
                           height: 10,
                           width: MediaQuery.of(context).size.width *
-                              0.45 *
+                           progressBarWidth *
                               (percent / 100),
                           decoration: BoxDecoration(
                               color: ColorConstants.PROGESSBAR_TEAL,

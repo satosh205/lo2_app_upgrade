@@ -110,15 +110,16 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                       style: Styles.regular(
                           color: ColorConstants.GREY_2, size: 12)),
                   Text('Level: '),
-                  Text('Easy'),
+                                   Text('${assessmentDetailProvider.assessmentResponse?.data!.instruction!.details!.difficultyLevel}'.capital()),
+
                 ],
               ),
               SizedBox(height: 8),
-              Text(
+        Text(
                 '${assessmentDetailProvider.assessmentResponse?.data!.instruction!.details!.description}', style: Styles.regular(
-                  size: 14,  color: Color(0xff5A5F73)),),
+                  size: 14, color: ColorConstants.BLACK ),),
 
-              Padding(
+                  if(!widget.fromCompetition)  Padding(
                 padding: const EdgeInsets.only(right: 60),
                 child: Wrap(
                   children: List.generate(
@@ -487,5 +488,11 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
         ),
       ),
     );
+  }
+}
+
+extension on String {
+  String capital() {
+    return this[0].toUpperCase() + this.substring(1);
   }
 }

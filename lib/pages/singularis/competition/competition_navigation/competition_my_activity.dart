@@ -3,6 +3,7 @@ import 'package:masterg/data/models/response/auth_response/competition_my_activi
 import 'package:masterg/data/models/response/home_response/portfolio_competition_response.dart';
 import 'package:masterg/pages/singularis/competition/competition_my_activity.dart';
 import 'package:masterg/utils/Styles.dart';
+import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 
 class CompetitionMyActivity extends StatefulWidget {
@@ -36,7 +37,10 @@ class _CompetitionMyActivityState extends State<CompetitionMyActivity> {
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 6),
         child: SingleChildScrollView(
-          child: Column(children: [
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
             ListView.builder(
                 shrinkWrap: true,
                 itemCount: widget.myActivity?.data.length,
@@ -55,33 +59,38 @@ class _CompetitionMyActivityState extends State<CompetitionMyActivity> {
                     difficulty: widget.myActivity?.data[index].competitionLevel,
                     conductedBy: widget.myActivity?.data[index].organizedBy,
                     activityStatus: widget.myActivity?.data[index].activityStatus ?? '',
+                    verticalView: true,
                    
                     
                   );
                 }),
-        
                 //competed list
-            ListView.builder(
-                shrinkWrap: true,
-                itemCount: widget.completedCompetition?.data.length,
-                physics: BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return CompetitionMyAcitivityCard(
-                    image: widget.completedCompetition?.data[index].pImage,
-                    title: widget.completedCompetition?.data[index].pName,
-                    totalAct:
-                        widget.completedCompetition?.data[index].totalActivities,
-                    doneAct: widget.completedCompetition?.data[index].completedActivity,
-                     id: widget.completedCompetition?.data[index].pId,
-                    score: int.parse('${widget.completedCompetition?.data[index].gScore}'),
-                    desc: widget.completedCompetition?.data[index].desc,
-                    date: widget.completedCompetition?.data[index].startDate,
-                    difficulty: widget.completedCompetition?.data[index].competitionLevel,
-                    conductedBy: widget.completedCompetition?.data[index].organizedBy,
-                     activityStatus: null,
-                      rank: widget.completedCompetition?.data[index].rank,
-                  );
-                })
+            Transform.translate(
+              offset: Offset(0.0,-height(context) * 0.042),
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: widget.completedCompetition?.data.length,
+                  physics: BouncingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return CompetitionMyAcitivityCard(
+                      image: widget.completedCompetition?.data[index].pImage,
+                      title: widget.completedCompetition?.data[index].pName,
+                      totalAct:
+                          widget.completedCompetition?.data[index].totalActivities,
+                      doneAct: widget.completedCompetition?.data[index].completedActivity,
+                       id: widget.completedCompetition?.data[index].pId,
+                      score: int.parse('${widget.completedCompetition?.data[index].gScore}'),
+                      desc: widget.completedCompetition?.data[index].desc,
+                      date: widget.completedCompetition?.data[index].startDate,
+                      difficulty: widget.completedCompetition?.data[index].competitionLevel,
+                      conductedBy: widget.completedCompetition?.data[index].organizedBy,
+                       activityStatus: null,
+                        rank: widget.completedCompetition?.data[index].rank,
+                      verticalView: true,
+            
+                    );
+                  }),
+            )
           ]),
         ),
       ),

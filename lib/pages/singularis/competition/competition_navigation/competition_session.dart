@@ -215,20 +215,18 @@ class _CompetitionSessionState extends State<CompetitionSession> {
                         child: GestureDetector(
                             onTap: () {
                               //open session
-                              BlocProvider.of<HomeBloc>(context).add(
-                                  ZoomOpenUrlEvent(contentId: widget.data?.id));
+                             
 
                               if (now.isAfter(startDate.add(Duration(
                                   minutes: int.parse(
                                       '${widget.data?.duration}'))))) {
+                                      
                                 return;
-                                // ScaffoldMessenger.of(context)
-                                //     .showSnackBar(SnackBar(
-                                //   content: Text(
-                                //       '${widget.data?.contentTypeLabel} ended'),
-                                // ));
+                               
                               } else if (now.isAfter(
                                   startDate.subtract(Duration(minutes: 15)))) {
+                                       
+
                                 if ('${widget.data?.zoomUrl}' != '')
                                   launchUrl(
                                       Uri.parse('${widget.data?.zoomUrl}'));
@@ -238,12 +236,7 @@ class _CompetitionSessionState extends State<CompetitionSession> {
                                       ZoomOpenUrlEvent(
                                           contentId: widget.data?.id));
                                 }
-                              } else
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
-                                  content: Text(
-                                      '${widget.data?.contentTypeLabel} starts in ${startDate.subtract(Duration(minutes: 15)).difference(now).inMinutes} mins'),
-                                ));
+                              } 
                             },
                             child: Container(
                               height: MediaQuery.of(context).size.height * 0.06,
@@ -253,7 +246,8 @@ class _CompetitionSessionState extends State<CompetitionSession> {
                               decoration: BoxDecoration(
                                   color: now.isAfter(startDate.add(Duration(
                                           minutes: int.parse(
-                                              '${widget.data?.duration}'))))
+                                              '${widget.data?.duration}')))) || now.isAfter(
+                                  startDate.subtract(Duration(minutes: 15))) == false
                                       ? Color(0xff0E1638).withOpacity(0.3)
                                       : Color(0xff0E1638),
                                   borderRadius:
@@ -289,17 +283,17 @@ class _CompetitionSessionState extends State<CompetitionSession> {
         isLoading = false;
         setState(() {});
         if (state.response?.status == 0) {
-          if (widget.data?.openUrl != '')
+          if (widget.data?.openUrl != null)
             launchUrl(Uri.parse('${widget.data?.openUrl}'));
-          else if (widget.data?.zoomUrl != '')
+          else if (widget.data?.zoomUrl != null)
             launchUrl(Uri.parse('${widget.data?.zoomUrl}'));
           else
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text('${state.response?.error?.first}'),
             ));
-        } else if (state.response?.data?.list?.joinUrl != '')
+        } else if (state.response?.data?.list?.joinUrl != null)
           launchUrl(Uri.parse('${state.response?.data?.list?.joinUrl}'));
-        else if (widget.data?.openUrl != '')
+        else if (widget.data?.openUrl != null)
           launchUrl(Uri.parse('${widget.data?.openUrl}'));
         else
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
