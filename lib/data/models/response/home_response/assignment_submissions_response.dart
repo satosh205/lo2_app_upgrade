@@ -119,6 +119,7 @@ class SubmissionDetails {
   int? isPassed;
   String? userNotes;
   String? teacherNotes;
+  String? teacherFile;
   int? reviewStatus;
   String? file;
   int? createdAt;
@@ -137,7 +138,9 @@ class SubmissionDetails {
       this.file,
       this.createdAt,
       this.title,
-      this.updatedAt});
+      this.updatedAt,
+      this.teacherFile
+      });
 
   SubmissionDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -152,6 +155,7 @@ class SubmissionDetails {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     title = json['title'];
+    teacherFile = json['teacher_file'];
   }
 
   Map<String, dynamic> toJson() {
@@ -168,6 +172,7 @@ class SubmissionDetails {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['title'] = this.title;
+    data['teacher_file'] = this.teacherFile;
     return data;
   }
 }

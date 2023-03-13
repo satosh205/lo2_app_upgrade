@@ -33,7 +33,10 @@ class AssignmentDetailPage extends StatefulWidget {
   final int? id;
   final bool fromCompetition;
   final String difficultyLevel;
-  AssignmentDetailPage({required this.id, this.fromCompetition = false, this.difficultyLevel = 'Easy'});
+  AssignmentDetailPage(
+      {required this.id,
+      this.fromCompetition = false,
+      this.difficultyLevel = 'Easy'});
   @override
   _AssignmentDetailPageState createState() => _AssignmentDetailPageState();
 }
@@ -196,8 +199,8 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListView(
-            // mainAxisAlignment: MainAxisAlignment.start,
-            // crossAxisAlignment: CrossAxisAlignment.start,
+              // mainAxisAlignment: MainAxisAlignment.start,
+              // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (widget.fromCompetition) ...[
                   // Center(
@@ -223,13 +226,13 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                     children: [
                       Text(
                         'Submit Before: ',
-                        style: Styles.regular(
-                            size: 12, color: Color(0xff5A5F73)),
+                        style:
+                            Styles.regular(size: 12, color: Color(0xff5A5F73)),
                       ),
                       Text(
                         '${Utility.convertDateFromMillis(assignmentDetailProvider!.assignment!.endDate!, Strings.REQUIRED_DATE_DD_MMM_YYYY)}',
-                        style: Styles.semibold(
-                            size: 12, color: Color(0xff0E1638)),
+                        style:
+                            Styles.semibold(size: 12, color: Color(0xff0E1638)),
                       ),
                     ],
                   ),
@@ -239,7 +242,8 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                       '${assignmentDetailProvider?.assignment?.maximumMarks} Marks ',),
+                        '${assignmentDetailProvider?.assignment?.maximumMarks} Marks ',
+                      ),
                       Text('• ',
                           style: Styles.regular(
                               color: ColorConstants.GREY_2, size: 12)),
@@ -269,9 +273,8 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                                   ColorConstants.GRADIENT_RED
                                 ]).createShader(bounds);
                           },
-                          child:   Text('Assignment file',
-                              style: Styles.bold(
-                              )),),
+                          child: Text('Assignment file', style: Styles.bold()),
+                        ),
                         Row(
                           children: [
                             InkWell(
@@ -281,7 +284,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                                     .request()
                                     .isGranted) {
                                   var tempDir =
-                                  await getApplicationDocumentsDirectory();
+                                      await getApplicationDocumentsDirectory();
 
                                   String localPath = (tempDir.path) +
                                       Platform.pathSeparator +
@@ -304,7 +307,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                                   Utility.showSnackBar(
                                       scaffoldContext: context,
                                       message:
-                                      "Please enable storage permission");
+                                          "Please enable storage permission");
                                 }
                               },
                               child: ShaderMask(
@@ -320,12 +323,12 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                                 },
                                 child: SvgPicture.asset(
                                   'assets/images/download_icon.svg',
-
                                   height: 22,
                                   width: 22,
                                   allowDrawingOutsideViewBox: true,
                                 ),
-                              ),),
+                              ),
+                            ),
                             _size(width: 20),
                             InkWell(
                               onTap: () {
@@ -337,8 +340,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                                           ?.assignment!.file!,
                                     )));
                               },
-                              child:
-                              ShaderMask(
+                              child: ShaderMask(
                                 blendMode: BlendMode.srcIn,
                                 shaderCallback: (Rect bounds) {
                                   return LinearGradient(
@@ -348,43 +350,46 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                                         ColorConstants.GRADIENT_ORANGE,
                                         ColorConstants.GRADIENT_RED
                                       ]).createShader(bounds);
-                                },child: SvgPicture.asset(
-                                'assets/images/view_icon.svg',
-
-                                height: 22,
-                                width: 22,
-                                allowDrawingOutsideViewBox: true,
+                                },
+                                child: SvgPicture.asset(
+                                  'assets/images/view_icon.svg',
+                                  height: 22,
+                                  width: 22,
+                                  allowDrawingOutsideViewBox: true,
+                                ),
                               ),
-                              ),)
+                            )
                           ],
                         ),
                       ]),
                   // SizedBox(height: 8),
+                  SizedBox(height: 10),
+
                   _buildListBody(),
 
-                  SizedBox(height: height(context) * 0.15,),
+                  // SizedBox(height: height(context) * 0.15,),
 
                   Divider(),
                   InkWell(
-                    onTap: ()async {
-                  await    _attachFile();
+                    onTap: () async {
+                      await _attachFile();
                       // bool disbaleUpload =
                       // assignmentDetailProvider?.assignment?.score == null
                       //     ? false
                       //     : true;
 
                       // if (!disbaleUpload)
-                        AlertsWidget.showCustomDialog(
-                            context: context,
-                            title: "Upload Assignment!",
-                            text: "",
-                            icon: 'assets/images/circle_alert_fill.svg',
-                            showCancel: true,
-                            oKText: "Upload",
-                            onOkClick: () async {
-                              // Navigator.pop(context);
-                              _submitAssignment();
-                            });
+                      AlertsWidget.showCustomDialog(
+                          context: context,
+                          title: "Upload Assignment!",
+                          text: "",
+                          icon: 'assets/images/circle_alert_fill.svg',
+                          showCancel: true,
+                          oKText: "Upload",
+                          onOkClick: () async {
+                            // Navigator.pop(context);
+                            _submitAssignment();
+                          });
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -428,7 +433,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
   _buildListBody() {
     return Container(
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.3,
+        height: MediaQuery.of(context).size.height * 0.55,
         child: _isLoading
             ? Center(
                 child: CustomProgressIndicator(true, ColorConstants.WHITE),
@@ -436,164 +441,223 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
             : _attempts!.isNotEmpty
                 ? Container(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.3,
+                    height: MediaQuery.of(context).size.height * 0.55,
                     child: ListView.builder(
                         itemCount: _attempts?.length,
+                        // shrinkWrap: true,
                         itemBuilder: (BuildContext context, int currentIndex) =>
                             Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                              padding: const EdgeInsets.symmetric(vertical: 0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.5,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            '${_attempts![currentIndex].file!.split('/').last}',
-                                            overflow: TextOverflow.fade,
-                                            maxLines: 2,
-                                            softWrap: true,
-                                            style: Styles.regular(size: 14)),
-                                        Text(
-                                            '${Utility.convertDateFromMillis(_attempts![currentIndex].createdAt!, Strings.REQUIRED_DATE_DD_MMM_YYYY_HH_MM__SS)}',
-                                            style: Styles.regular(
-                                                size: 10,
-                                                color: ColorConstants.GREY_3))
-                                      ],
-                                    ),
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                  Divider(),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.5,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                                '${_attempts![currentIndex].file!.split('/').last}',
+                                                overflow: TextOverflow.fade,
+                                                maxLines: 2,
+                                                softWrap: true,
+                                                style:
+                                                    Styles.regular(size: 14)),
+                                            Text(
+                                                '${Utility.convertDateFromMillis(_attempts![currentIndex].createdAt!, Strings.REQUIRED_DATE_DD_MMM_YYYY_HH_MM__SS)}',
+                                                style: Styles.regular(
+                                                    size: 10,
+                                                    color:
+                                                        ColorConstants.GREY_3))
+                                          ],
+                                        ),
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
                                         children: [
-                                          InkWell(
-                                            onTap: () async {
-                                              print('List View Click');
-                                              download(_attempts![currentIndex]
-                                                  .file);
-                                              // _downloadSubmission(
-                                              //    );
-                                            },
-                                            child: ShaderMask(
-                                blendMode: BlendMode.srcIn,
-                                shaderCallback: (Rect bounds) {
-                                  return LinearGradient(
-                                      begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight,
-                                      colors: <Color>[
-                                        ColorConstants.GRADIENT_ORANGE,
-                                        ColorConstants.GRADIENT_RED
-                                      ]).createShader(bounds);
-                                },
-                                          child:  SvgPicture.asset(
-                                              'assets/images/download_icon.svg',
-                                              
-                                              height: 25,
-                                              width: 25,
-                                            
-                                              allowDrawingOutsideViewBox: true,
-                                            ),
-                                          ),),
-                                          SizedBox(width: 20),
-                                          InkWell(
-                                            onTap: () {
-                                              Navigator.push(
-                                                  context,
-                                                  NextPageRoute(FullContentPage(
-                                                    contentType: "1",
-                                                    resourcePath:
-                                                        _attempts![currentIndex]
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              InkWell(
+                                                onTap: () async {
+                                                  print('List View Click');
+                                                  download(
+                                                      _attempts![currentIndex]
+                                                          .file);
+                                                  // _downloadSubmission(
+                                                  //    );
+                                                },
+                                                child: ShaderMask(
+                                                  blendMode: BlendMode.srcIn,
+                                                  shaderCallback:
+                                                      (Rect bounds) {
+                                                    return LinearGradient(
+                                                        begin: Alignment
+                                                            .centerLeft,
+                                                        end: Alignment
+                                                            .centerRight,
+                                                        colors: <Color>[
+                                                          ColorConstants
+                                                              .GRADIENT_ORANGE,
+                                                          ColorConstants
+                                                              .GRADIENT_RED
+                                                        ]).createShader(bounds);
+                                                  },
+                                                  child: SvgPicture.asset(
+                                                    'assets/images/download_icon.svg',
+                                                    height: 25,
+                                                    width: 25,
+                                                    allowDrawingOutsideViewBox:
+                                                        true,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(width: 20),
+                                              InkWell(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      NextPageRoute(
+                                                          FullContentPage(
+                                                        contentType: "1",
+                                                        resourcePath: _attempts![
+                                                                currentIndex]
                                                             .file,
-                                                  )));
-                                            },
-                                            child:ShaderMask(
-                                blendMode: BlendMode.srcIn,
-                                shaderCallback: (Rect bounds) {
-                                  return LinearGradient(
-                                      begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight,
-                                      colors: <Color>[
-                                        ColorConstants.GRADIENT_ORANGE,
-                                        ColorConstants.GRADIENT_RED
-                                      ]).createShader(bounds);
-                                },
-                                          child:   SvgPicture.asset(
-                                              'assets/images/view_icon.svg',
-                                              
-                                              height: 22,
-                                              width: 22,
-                                              allowDrawingOutsideViewBox: true,
-                                            ),
-                                          ),)
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Container(
-                                            child: data
-                                                        ?.submissionDetails![
-                                                            currentIndex]
-                                                        .reviewStatus ==
-                                                    0
-                                                ? Text(
-                                                    "Under Review",
-                                                  )
-                                                : Text(
-                                                    data?.isGraded == 0
-                                                        ? "Non Graded "
-                                                        : "${data?.submissionDetails![currentIndex].marksObtained ?? 0}/${assignmentDetailProvider?.assignments.maximumMarks}",
+                                                      )));
+                                                },
+                                                child: ShaderMask(
+                                                  blendMode: BlendMode.srcIn,
+                                                  shaderCallback:
+                                                      (Rect bounds) {
+                                                    return LinearGradient(
+                                                        begin: Alignment
+                                                            .centerLeft,
+                                                        end: Alignment
+                                                            .centerRight,
+                                                        colors: <Color>[
+                                                          ColorConstants
+                                                              .GRADIENT_ORANGE,
+                                                          ColorConstants
+                                                              .GRADIENT_RED
+                                                        ]).createShader(bounds);
+                                                  },
+                                                  child: SvgPicture.asset(
+                                                    'assets/images/view_icon.svg',
+                                                    height: 22,
+                                                    width: 22,
+                                                    allowDrawingOutsideViewBox:
+                                                        true,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Container(
+                                                child: data
+                                                            ?.submissionDetails![
+                                                                currentIndex]
+                                                            .reviewStatus ==
+                                                        0
+                                                    ? Text(
+                                                        "Under Review",
+                                                      )
+                                                    : Text(
+                                                        data?.isGraded == 0
+                                                            ? "Non Graded "
+                                                            : "${data?.submissionDetails![currentIndex].marksObtained ?? 0}/${assignmentDetailProvider?.assignment?.maximumMarks}",
 
-                                                    // : _attempts![currentIndex]
-                                                    //                 .reviewStatus ==
-                                                    //             1 &&
-                                                    //         _attempts![currentIndex]
-                                                    //                 .isPassed ==
-                                                    //             1
-                                                    //     ? "Congratulations you passed!"
-                                                    //     : _attempts![currentIndex]
-                                                    //                     .reviewStatus ==
-                                                    //                 1 &&
-                                                    //             _attempts![currentIndex]
-                                                    //                     .isPassed ==
-                                                    //                 0
-                                                    //         ? "Sorry, you failed."
-                                                    //         : "Under Review",
-                                                    maxLines: 2,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    softWrap: true,
-                                                    style: Styles.bold(
-                                                        size: 12,
-                                                        color:
-                                                            data?.isGraded == 0
+                                                        // : _attempts![currentIndex]
+                                                        //                 .reviewStatus ==
+                                                        //             1 &&
+                                                        //         _attempts![currentIndex]
+                                                        //                 .isPassed ==
+                                                        //             1
+                                                        //     ? "Congratulations you passed!"
+                                                        //     : _attempts![currentIndex]
+                                                        //                     .reviewStatus ==
+                                                        //                 1 &&
+                                                        //             _attempts![currentIndex]
+                                                        //                     .isPassed ==
+                                                        //                 0
+                                                        //         ? "Sorry, you failed."
+                                                        //         : "Under Review",
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        softWrap: true,
+                                                        style: Styles.bold(
+                                                            size: 12,
+                                                            color: data?.isGraded ==
+                                                                    0
                                                                 ? ColorConstants
                                                                     .BLACK
                                                                 : ColorConstants
                                                                     .GREEN),
-                                                  ),
-                                          ),
-                                          SizedBox(width: 6),
-                                          SvgPicture.asset(
-                                            'assets/images/info.svg',
-                                            height: 14,
-                                            width: 14,
-                                            allowDrawingOutsideViewBox: true,
+                                                      ),
+                                              ),
+                                              SizedBox(width: 6),
+                                              SvgPicture.asset(
+                                                'assets/images/info.svg',
+                                                height: 14,
+                                                width: 14,
+                                                allowDrawingOutsideViewBox:
+                                                    true,
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
                                     ],
                                   ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  if ('${_attempts![currentIndex].teacherNotes}' !=
+                                      '')
+                                    InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              NextPageRoute(FullContentPage(
+                                                contentType: "1",
+                                                resourcePath:
+                                                    _attempts![currentIndex]
+                                                        .teacherFile,
+                                              )));
+                                        },
+                                        child: Text(
+                                          'Reviewed File.pdf',
+                                          style: Styles.regular(
+                                              size: 14,
+                                              color: Color(0xff4EBBEB)),
+                                        )),
+                                  if (_attempts![currentIndex].teacherNotes !=
+                                      null)
+                                    SizedBox(
+                                      height: 4,
+                                    ),
+                                  if (_attempts![currentIndex].teacherNotes !=
+                                      null)
+                                    Text(
+                                      '${_attempts![currentIndex].teacherNotes}',
+                                      style: Styles.textItalic(
+                                          size: 14, color: Color(0xff5A5F73)),
+                                    ),
                                 ],
                               ),
                             )),
@@ -657,7 +721,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                               size: 14, color: ColorConstants.BLACK),
                         )
                       : Text(
-                          '${assignmentDetailProvider.assignments.maximumMarks  ?? ''} Marks',
+                          '${assignmentDetailProvider.assignments.maximumMarks ?? ''} Marks',
                           style: Styles.bold(
                               size: 14, color: ColorConstants.BLACK),
                         ),
@@ -861,10 +925,10 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                               padding: EdgeInsets.all(5),
                               width: MediaQuery.of(context).size.width * 0.65,
                               decoration: BoxDecoration(
-                                 gradient: LinearGradient(colors: [
-                  ColorConstants.GRADIENT_ORANGE,
-                  ColorConstants.GRADIENT_RED,
-                ]),
+                                  gradient: LinearGradient(colors: [
+                                    ColorConstants.GRADIENT_ORANGE,
+                                    ColorConstants.GRADIENT_RED,
+                                  ]),
                                   color: disbaleUpload
                                       ? ColorConstants.GREY_4
                                       : ColorConstants().primaryColor(),
@@ -935,10 +999,10 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                         width: MediaQuery.of(context).size.width * 0.65,
                         padding: EdgeInsets.all(5),
                         decoration: BoxDecoration(
-                           gradient: LinearGradient(colors: [
-                  ColorConstants.GRADIENT_ORANGE,
-                  ColorConstants.GRADIENT_RED,
-                ]),
+                            gradient: LinearGradient(colors: [
+                              ColorConstants.GRADIENT_ORANGE,
+                              ColorConstants.GRADIENT_RED,
+                            ]),
                             color: disbaleUpload
                                 ? ColorConstants.GREY_4
                                 : ColorConstants().primaryColor(),
@@ -1086,7 +1150,7 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
           file = File(result.files.first.path!);
         });
       }
-      return ;
+      return;
     }
   }
 
