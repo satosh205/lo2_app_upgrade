@@ -615,6 +615,7 @@ class _CompetitionDetailState extends State<CompetitionDetail> {
                       child: AssignmentDetailPage(
                         id: data.id,
                         fromCompetition: true,
+                        difficultyLevel:'${data.difficultyLevel?.capital()}',
                       ))));
         else if (cardType == CardType.assessment) {
           Navigator.push(

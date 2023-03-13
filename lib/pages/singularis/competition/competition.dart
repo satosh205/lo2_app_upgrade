@@ -74,7 +74,15 @@ class _CompetetionState extends State<Competetion> {
     super.initState();
   }
 
-   List<String> listOfMonths = [
+   @override
+  void didChangeDependencies() {
+    print('didChangeDependencies');
+    print(Theme.of(context));           // OK
+    super.didChangeDependencies();
+  }
+
+
+  List<String> listOfMonths = [
     "January",
     "February",
     "March",
@@ -877,8 +885,9 @@ class _CompetetionState extends State<Competetion> {
                                                         milliseconds: 350),
                                                     type: PageTransitionType
                                                         .bottomToTop,
-                                                    child:
-                                                        CompetitionFilter(domainList: domainList,)));
+                                                    child: CompetitionFilter(
+                                                      domainList: domainList,
+                                                    )));
                                             // if (selectedIdList.length == 0 &&
                                             //     selectedDifficulty != '') {
                                             //   getCompetitionList(true,
@@ -922,7 +931,13 @@ class _CompetetionState extends State<Competetion> {
                                                                   competition:
                                                                       competitionResponse
                                                                               ?.data?[
-                                                                          index])));
+                                                                          index]))).then(
+                                                      (value) {
+                                                    topScoringUser();
+                                                    getCompetitionList(
+                                                        false, '');
+                                                    getDomainList();
+                                                  });
                                                 },
                                                 child: renderCompetitionCard(
                                                     '${competitionResponse?.data![index]?.image ?? ''}',
@@ -1008,8 +1023,11 @@ class _CompetetionState extends State<Competetion> {
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {
-                                                        String startDate = '${popularCompetitionResponse?.data![index]?.startDate?.split(' ').first}';
-    DateTime start = DateFormat("yyyy-MM-dd").parse(startDate);
+                                                String startDate =
+                                                    '${popularCompetitionResponse?.data![index]?.startDate?.split(' ').first}';
+                                                DateTime start =
+                                                    DateFormat("yyyy-MM-dd")
+                                                        .parse(startDate);
                                                 return InkWell(
                                                     onTap: () {
                                                       Navigator.push(
@@ -1020,15 +1038,22 @@ class _CompetetionState extends State<Competetion> {
                                                                   CompetitionDetail(
                                                                       competition:
                                                                           popularCompetitionResponse
-                                                                              ?.data?[index])));
+                                                                              ?.data?[index]))).then(
+                                                          (value) {
+                                                        topScoringUser();
+                                                        getCompetitionList(
+                                                            false, '');
+                                                        getDomainList();
+                                                      });
                                                     },
                                                     child: renderActivityCard(
-                                                        '${popularCompetitionResponse?.data![index]?.image}',
-                                                        '${popularCompetitionResponse?.data![index]?.name}',
-                                                        '',
-                                                        '${popularCompetitionResponse?.data![index]?.competitionLevel ?? "Easy"}',
-                                                        '${popularCompetitionResponse?.data![index]?.gScore}',
-                                                       '${Utility.ordinal(start.day)} ${listOfMonths[start.month - 1]}',));
+                                                      '${popularCompetitionResponse?.data![index]?.image}',
+                                                      '${popularCompetitionResponse?.data![index]?.name}',
+                                                      '',
+                                                      '${popularCompetitionResponse?.data![index]?.competitionLevel ?? "Easy"}',
+                                                      '${popularCompetitionResponse?.data![index]?.gScore}',
+                                                      '${Utility.ordinal(start.day)} ${listOfMonths[start.month - 1]}',
+                                                    ));
                                               })
                                           : Center(child: Text('')),
                                 ),
@@ -1065,7 +1090,13 @@ class _CompetetionState extends State<Competetion> {
                                                                   competition:
                                                                       competitionResponse
                                                                               ?.data?[
-                                                                          index])));
+                                                                          index]))).then(
+                                                      (value) {
+                                                    topScoringUser();
+                                                    getCompetitionList(
+                                                        false, '');
+                                                    getDomainList();
+                                                  });
                                                 },
                                                 child: renderCompetitionCard(
                                                     '${competitionResponse?.data![index]?.image ?? ''}',
@@ -1118,7 +1149,6 @@ class _CompetetionState extends State<Competetion> {
 
   renderActivityCard(String competitionImg, String name, String companyName,
       String difficulty, String gScore, String date) {
-        
     return Container(
       width: MediaQuery.of(context).size.width * 0.7,
       margin: EdgeInsets.only(bottom: 20, left: 0, right: 20),
@@ -1211,7 +1241,7 @@ class _CompetetionState extends State<Competetion> {
                     ),
                     Text(
                       '$date',
-                    // '${Utility.ordinal(date.day)} ${listOfMonths[start.month - 1]}',
+                      // '${Utility.ordinal(date.day)} ${listOfMonths[start.month - 1]}',
                       style: Styles.regular(size: 12, color: Color(0xff5A5F73)),
                     )
                   ],
@@ -1379,7 +1409,8 @@ class _CompetetionState extends State<Competetion> {
           SizedBox(
             width: 10,
           ),
-          Text(title, style: Styles.regular(size: 15, color: Color(0xff0E1638))),
+          Text(title,
+              style: Styles.regular(size: 15, color: Color(0xff0E1638))),
           Text(value, style: Styles.semibold(size: 14)),
         ]),
       ),

@@ -32,7 +32,8 @@ import 'package:provider/provider.dart';
 class AssignmentDetailPage extends StatefulWidget {
   final int? id;
   final bool fromCompetition;
-  AssignmentDetailPage({required this.id, this.fromCompetition = false});
+  final String difficultyLevel;
+  AssignmentDetailPage({required this.id, this.fromCompetition = false, this.difficultyLevel = 'Easy'});
   @override
   _AssignmentDetailPageState createState() => _AssignmentDetailPageState();
 }
@@ -237,12 +238,13 @@ class _AssignmentDetailPageState extends State<AssignmentDetailPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('100 marks '),
+                      Text(
+                       '${assignmentDetailProvider?.assignment?.maximumMarks} Marks ',),
                       Text('• ',
                           style: Styles.regular(
                               color: ColorConstants.GREY_2, size: 12)),
                       Text('Level: '),
-                      Text('Easy'),
+                      Text('${widget.difficultyLevel}'),
                     ],
                   ),
                   SizedBox(height: 8),
