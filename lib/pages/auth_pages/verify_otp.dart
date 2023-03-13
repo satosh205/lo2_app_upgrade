@@ -31,6 +31,8 @@ import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/utility.dart';
 import 'package:otp_autofill/otp_autofill.dart';
 import 'package:pinput/pinput.dart';
+
+import '../../utils/notification_helper.dart';
 //import 'package:otp_text_field/otp_field.dart';
 
 class VerifyOtp extends StatefulWidget {
@@ -79,12 +81,10 @@ class _VerifyOtpState extends State<VerifyOtp> {
   void initState() {
     super.initState();
      focusNode.addListener(_onFocusChange);
-    _getId();
-
-    _notificationHelper = NotificationHelper.getInstance(context);
+    /*_notificationHelper = NotificationHelper.getInstance(context);
     _notificationHelper?.setFcm();
     _notificationHelper?.getFcmToken();
-
+    _getId();*/
     ///Add New code for OTP AutoFill
     _otpInteractor = OTPInteractor();
     _otpInteractor.getAppSignature()

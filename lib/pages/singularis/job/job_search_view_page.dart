@@ -169,9 +169,7 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
                     height: 30,
                   )
                 : SizedBox(),
-            allJobListResponse?.data != null
-                ?
-                // renderJobList()
+            allJobListResponse?.data != null ?
                 MultiProvider(providers: [
                     ChangeNotifierProvider<CompetitionResponseProvider>(
                       create: (context) =>
@@ -294,7 +292,7 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
 
   Widget renderJobList() {
     return Consumer<CompetitionResponseProvider>(
-        builder: (context, competitionProvider, child) => ListView.builder(
+        builder: (context, competitionProvider, child) => competitionProvider.list.length != 0 ? ListView.builder(
             // itemCount: allJobListResponse?.data!.length,
             itemCount: competitionProvider.list.length,
             shrinkWrap: true,
@@ -469,7 +467,11 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
               );
 
               return Text('data');
-            }));
+            }):
+        Padding(
+          padding: const EdgeInsets.only(top: 200.0),
+          child: Image.asset('assets/images/no_jobs.png'),
+        ));
   }
 
   void jobApply(int jobId, int? isApplied) {

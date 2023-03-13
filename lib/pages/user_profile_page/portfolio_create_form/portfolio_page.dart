@@ -837,14 +837,14 @@ class _NewPortfolioPageState extends State<NewPortfolioPage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        InkWell(
+                                        Preference.getString(Preference.PHONE) != '0' ? InkWell(
                                           onTap: () async {
                                             await launch(
                                                 "tel:${Preference.getString(Preference.PHONE)}");
                                           },
                                           child: SvgPicture.asset(
                                               'assets/images/call.svg'),
-                                        ),
+                                        ) : Icon(Icons.call, color: ColorConstants.GREY_6,),
                                         SizedBox(width: 14),
                                         InkWell(
                                           onTap: () async {

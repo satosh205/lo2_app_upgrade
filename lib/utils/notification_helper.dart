@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,7 @@ class NotificationHelper {
   static NotificationHelper? _notificationHelper;
   static FirebaseMessaging? _firebaseMessaging;
   static BuildContext? buildContext;
+  static bool _notificationsEnabled = false;
   FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
 
   static getInstance(BuildContext context) {
@@ -45,7 +47,7 @@ class NotificationHelper {
     Preference.setString(Preference.FIREBASE_TOKEN, token!);
   }
 
-  void setFcm() {
+  /*void setFcm() {
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     final android = AndroidInitializationSettings('@mipmap/ic_launcher_masterg');
     final iOS = IOSInitializationSettings();
@@ -86,6 +88,46 @@ class NotificationHelper {
     //   onResume: _onResume,
     //   onMessage: _onMessage,
     // );
+  }*/
+
+  Future<void> setFcm() async {
+    if (Platform.isIOS || Platform.isMacOS) {
+      await flutterLocalNotificationsPlugin
+          ?.resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin>()
+          ?.requestPermissions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+      await flutterLocalNotificationsPlugin
+          ?.resolvePlatformSpecificImplementation<
+          MacOSFlutterLocalNotificationsPlugin>()
+          ?.requestPermissions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+    } else if (Platform.isAndroid) {
+      final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
+      flutterLocalNotificationsPlugin?.resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>();
+
+      final bool? granted = await androidImplementation?.requestPermission();
+      _notificationsEnabled = granted ?? false;
+    }
+  }
+
+
+  Future<void> _isAndroidPermissionGranted() async {
+    if (Platform.isAndroid) {
+      final bool granted = await flutterLocalNotificationsPlugin
+          ?.resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+          ?.areNotificationsEnabled() ??
+          false;
+      _notificationsEnabled = granted;
+    }
   }
 
   static Future<dynamic> myBackgroundMessageHandler(
@@ -113,7 +155,7 @@ class NotificationHelper {
   //   return null;
   // }
 
-  Future<dynamic> _shownotification(RemoteMessage message) async {
+  /*Future<dynamic> _shownotification(RemoteMessage message) async {
     print("object");
     final android = AndroidNotificationDetails(
         'com.perfetti', 'perfetti', 
@@ -129,6 +171,25 @@ class NotificationHelper {
         message.notification?.title,
         message.notification?.body,
         platform,
+        payload: json);
+  }*/
+
+  Future<void> _showNotification(RemoteMessage message) async {
+    const AndroidNotificationDetails androidNotificationDetails =
+    AndroidNotificationDetails('com.singulariswow', 'singulariswow',
+        channelDescription: 'your channel description',
+        importance: Importance.max,
+        priority: Priority.high,
+        ticker: 'ticker');
+    const NotificationDetails notificationDetails =
+    NotificationDetails(android: androidNotificationDetails);
+    final json = jsonEncode(message.data);
+    var id = DateTime.now().millisecondsSinceEpoch.toString();
+    await flutterLocalNotificationsPlugin?.show(
+        int.parse(id.substring(id.length - 6)), // notification id
+        message.notification?.title,
+        message.notification?.body,
+        notificationDetails,
         payload: json);
   }
 

@@ -81,7 +81,7 @@ class User {
   String? email;
   String? department;
   String? designation;
-  String? mobileNo;
+  int? mobileNo;
   String? profileImage;
   String? categoryIds;
   String? defaultVideoUrlOnCategory;

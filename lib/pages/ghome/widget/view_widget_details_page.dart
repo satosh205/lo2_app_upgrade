@@ -10,6 +10,7 @@ import 'package:masterg/data/providers/video_player_provider.dart';
 import 'package:masterg/local/pref/Preference.dart';
 import 'package:masterg/pages/custom_pages/ScreenWithLoader.dart';
 import 'package:masterg/pages/ghome/video_player_screen.dart';
+import 'package:masterg/pages/training_pages/youtube_player.dart';
 import 'package:masterg/utils/Log.dart';
 import 'package:masterg/utils/Strings.dart';
 import 'package:masterg/utils/Styles.dart';
@@ -17,7 +18,9 @@ import 'package:masterg/utils/resource/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+late YoutubePlayerController _ytController;
 class ViewWidgetDetailsPage extends StatefulWidget {
   late int currentIndex;
   final List<JoyContentListElement>? joyContentList;
@@ -49,6 +52,7 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
     super.initState();
     joyContentListResponse = widget.joyContentList;
     _isJoyContentListLoading = false;
+    _ytController = YoutubePlayerController(initialVideoId: '');
   }
 
   void _handleJoyContentListResponse(JoyContentListState state, JoyContentListModel list) {
@@ -167,6 +171,16 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
                   scrollDirection: Axis.vertical,
                   //physics: BouncingScrollPhysics(),
                   itemBuilder: (BuildContext context, int index) {
+                    if(joyContentListResponse.list?[index].youtubeUrl != ""){
+                      //_ytController = joyContentListResponse.list?[index].youtubeUrl;
+                      _ytController = YoutubePlayerController(
+                          flags: YoutubePlayerFlags(
+                            autoPlay: true,
+                            loop: true,
+                          ),
+                          initialVideoId:
+                          '${YoutubePlayer.convertUrlToId('${joyContentListResponse.list?[index].youtubeUrl}')}');
+                    }
                     return Container(
                         child: Stack(
                           children: <Widget>[
@@ -221,9 +235,27 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
                                                       //     () {}
                                                     ),
                                                   )
-                                                      : Container(
-                                                    height: 370,
-                                                  ),
+                                                  : joyContentListResponse.list?[index].youtubeUrl != "" ?
+                                                   YoutubePlayer(
+                                                    controller: _ytController,
+                                                    showVideoProgressIndicator: false,
+                                                    bottomActions: [
+                                                      CurrentPosition(),
+                                                      RemainingDuration(),
+                                                      ProgressBar(
+                                                        isExpanded: true,
+                                                        colors: ProgressBarColors(
+                                                            handleColor: ColorConstants
+                                                                .PRIMARY_COLOR,
+                                                            bufferedColor:
+                                                            ColorConstants.BG_GREY,
+                                                            backgroundColor:
+                                                            ColorConstants
+                                                                .PRIMARY_COLOR
+                                                                .withOpacity(0.3)),
+                                                      ),
+                                                    ],
+                                                  ) :Container()
                                                 ),
                                               ]),
                                             ],
@@ -417,6 +449,7 @@ class _ViewWidgetDetailsPageState extends State<ViewWidgetDetailsPage> {
                   },
                 ),
               ),
+
 
               /*body: JoyContentBlankPage(),*/
             ),

@@ -111,6 +111,7 @@ class JoyContentListElement extends ChangeNotifier {
     this.userSubmittedFile,
     this.userSubmittedMultipleFile,
     this.resourceType,
+    this.youtubeUrl,
   });
 
   int? id;
@@ -148,6 +149,7 @@ class JoyContentListElement extends ChangeNotifier {
   String? userSubmittedFile;
   List<dynamic>? userSubmittedMultipleFile;
   String? resourceType;
+  String? youtubeUrl;
 
   factory JoyContentListElement.fromJson(Map<String, dynamic> json) =>
       JoyContentListElement(
@@ -186,10 +188,9 @@ class JoyContentListElement extends ChangeNotifier {
         userLiked: json["user_liked"],
         isAttempt: json["is_attempt"],
         userSubmittedFile: json["user_submitted_file"],
-        userSubmittedMultipleFile: List<dynamic>.from(
-            json["user_submitted_multiple_file"].map((x) => x)),
-        resourceType:
-            json["resource_type"] == null ? null : json["resource_type"],
+        userSubmittedMultipleFile: List<dynamic>.from(json["user_submitted_multiple_file"].map((x) => x)),
+        resourceType: json["resource_type"] == null ? null : json["resource_type"],
+        youtubeUrl: json["youtube_url"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -231,6 +232,7 @@ class JoyContentListElement extends ChangeNotifier {
         "user_submitted_multiple_file":
             List<dynamic>.from(userSubmittedMultipleFile!.map((x) => x)),
         "resource_type": resourceType == null ? null : resourceType,
+        "youtube_url": youtubeUrl == null ? null : youtubeUrl,
       };
 }
 

@@ -30,6 +30,7 @@ import 'package:masterg/utils/constant.dart';
 import 'package:masterg/utils/resource/colors.dart';
 import 'package:masterg/utils/validation.dart';
 import 'package:path_provider/path_provider.dart';
+import '../../utils/notification_helper.dart';
 import '../../utils/utility.dart';
 
 class SingularisLogin extends StatefulWidget {
@@ -50,6 +51,7 @@ class _SingularisLoginState extends State<SingularisLogin> {
   var _isObscure = true;
   List<Menu>? menuList;
   String? deviceId;
+  NotificationHelper? _notificationHelper;
   //String? _currentLocal;
 
 
@@ -68,6 +70,9 @@ class _SingularisLoginState extends State<SingularisLogin> {
     // _notificationHelper.getFcmToken();
     super.initState();
     initHive();
+    _notificationHelper = NotificationHelper.getInstance(context);
+    _notificationHelper?.setFcm();
+    _notificationHelper?.getFcmToken();
     _getId();
     //getCountry();
   }
