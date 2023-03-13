@@ -132,7 +132,9 @@ class _VerifyOtpState extends State<VerifyOtp> {
         case ApiStatus.SUCCESS:
           Log.v("Success....................");
           print('=================OTP');
-          // Navigator.of(context).pop();
+          //Navigator.of(context).pop();
+          Utility.showSnackBar(
+              scaffoldContext: context, message: 'OTP Sent n Your Registered Mobile Number');
           _isLoading = false;
           break;
 

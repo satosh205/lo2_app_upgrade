@@ -436,7 +436,7 @@ class _JobSearchViewPageState extends State<JobSearchViewPage> {
                                 child: GradientText(
                                   competitionProvider.list[index]?.jobStatus !=
                                           null
-                                      ? 'Applied'
+                                      ? 'Apply'
                                       : 'Applied',
                                   style: Styles.bold(size: competitionProvider.list[index]?.jobStatus ==
                                       null ? 12 : 11),
